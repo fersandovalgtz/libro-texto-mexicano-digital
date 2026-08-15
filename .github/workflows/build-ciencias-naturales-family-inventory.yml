@@ -1,0 +1,42 @@
+name: build-ciencias-naturales-family-inventory
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ciencias-naturales-family-inventory.yml'
+      - 'scripts/build_ciencias_naturales_family_inventory.py'
+      - 'data/catalog/conaliteg_title_cores.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build Ciencias Naturales family inventory
+        run: python3 scripts/build_ciencias_naturales_family_inventory.py
+      - name: Publish family inventory race-safely
+        run: |
+          set -euo pipefail
+          cp data/catalog/ciencias_naturales_family_inventory.csv /tmp/ciencias_naturales_family_inventory.csv
+          cp data/catalog/ciencias_naturales_family_inventory.md /tmp/ciencias_naturales_family_inventory.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/catalog
+            cp /tmp/ciencias_naturales_family_inventory.csv data/catalog/
+            cp /tmp/ciencias_naturales_family_inventory.md data/catalog/
+            git add data/catalog/ciencias_naturales_family_inventory.csv data/catalog/ciencias_naturales_family_inventory.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish complete Ciencias Naturales family inventory'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
