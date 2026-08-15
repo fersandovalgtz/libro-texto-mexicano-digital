@@ -1,0 +1,75 @@
+{
+  "readiness_version": "SEMB03_READINESS_0.1",
+  "stage": "WAITING_HUMAN_REFERENCE",
+  "infrastructure_checks": [
+    {
+      "check": "sample_n_480",
+      "status": "PASS",
+      "detail": "n=480"
+    },
+    {
+      "check": "sample_unique_ids",
+      "status": "PASS",
+      "detail": "sample_id unique"
+    },
+    {
+      "check": "sample_unique_fragments",
+      "status": "PASS",
+      "detail": "fragment_id unique"
+    },
+    {
+      "check": "roles_320_160",
+      "status": "PASS",
+      "detail": "{'development': 320, 'locked_validation': 160}"
+    },
+    {
+      "check": "generations_balanced",
+      "status": "PASS",
+      "detail": "{'1972': 120, '1988': 120, '1993': 120, '2014': 120}"
+    },
+    {
+      "check": "template_blinded_fields",
+      "status": "PASS",
+      "detail": "forbidden_present=[]"
+    },
+    {
+      "check": "template_n_480",
+      "status": "PASS",
+      "detail": "n=480"
+    },
+    {
+      "check": "opaque_sample_ids",
+      "status": "PASS",
+      "detail": "all IDs opaque"
+    },
+    {
+      "check": "template_matches_master",
+      "status": "PASS",
+      "detail": "same 480 IDs"
+    },
+    {
+      "check": "reliability_n_120",
+      "status": "PASS",
+      "detail": "n=120"
+    },
+    {
+      "check": "reliability_subset_of_master",
+      "status": "PASS",
+      "detail": "all reliability IDs valid"
+    },
+    {
+      "check": "criteria_frozen",
+      "status": "PASS",
+      "detail": "SEMB03_ACCEPTANCE_0.1"
+    }
+  ],
+  "later_stage_artifacts": {
+    "human_reference_consensus": false,
+    "development_result": false,
+    "model_lock": false,
+    "locked_validation_result": false,
+    "production_manifest": false
+  },
+  "human_blocker": "A genuine human reference is required before model development.",
+  "safe_to_open_locked_validation": false
+}
