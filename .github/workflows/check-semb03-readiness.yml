@@ -10,6 +10,17 @@ on:
       - 'data/validation/semb03_human_reference_annotation_template.csv'
       - 'data/validation/semb03_reliability_subset.csv'
       - 'data/validation/semb03_acceptance_criteria.json'
+      - 'data/validation/semb03_synthetic_stress_cases.csv'
+      - 'data/validation/short_residual_validation_sample.csv'
+      - 'data/validation/short_residual_annotation_template.csv'
+      - 'data/derived/semb02_synthetic_stress_result.json'
+      - 'data/derived/semb03_sample_coverage.md'
+      - 'data/derived/semb03_sample_token_coverage.csv'
+      - 'data/derived/fragseg_layout_proxy_audit.md'
+      - 'data/derived/fragment_manifest_fragtype03_shadow.csv'
+      - 'data/derived/research_integrity_manifest.json'
+      - 'data/derived/semb03_gate_synthetic_development.json'
+      - 'data/derived/semb03_label_heads_synthetic_development.json'
 
 permissions:
   contents: write
@@ -23,14 +34,23 @@ jobs:
           fetch-depth: 0
       - name: Check staged SEMB 0.3 readiness
         run: python3 scripts/check_semb03_readiness.py
-      - name: Publish readiness report
+      - name: Publish readiness report race-safely
         run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-readiness
+          mkdir -p /tmp/ltmd-readiness
+          cp data/derived/semb03_readiness_report.json /tmp/ltmd-readiness/
+          cp data/derived/semb03_readiness_report.md /tmp/ltmd-readiness/
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/derived/semb03_readiness_report.json data/derived/semb03_readiness_report.md
-          if git diff --cached --quiet; then
-            echo 'No readiness changes.'
-          else
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-readiness/* data/derived/
+            git add data/derived/semb03_readiness_report.json data/derived/semb03_readiness_report.md
+            if git diff --cached --quiet; then exit 0; fi
             git commit -m 'Publish SEMB 0.3 readiness report'
-            git push
-          fi
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
