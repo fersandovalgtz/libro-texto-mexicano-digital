@@ -1,0 +1,24 @@
+name: Evaluate SEMB scoring alternatives
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/evaluate-semantic-scoring-alternatives.yml'
+      - 'tests/evaluate_semantic_scoring_alternatives.py'
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      TOKENIZERS_PARALLELISM: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned semantic runtime
+        run: python3 -m pip install --disable-pip-version-check 'sentence-transformers==5.6.1'
+      - name: Compare scoring functions on synthetic held-out cases
+        run: python3 tests/evaluate_semantic_scoring_alternatives.py
