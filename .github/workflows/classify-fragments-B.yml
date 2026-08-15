@@ -1,0 +1,138 @@
+name: Classify fragments — semantic classifier B
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: fragment-classifier-B-main
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  classify:
+    strategy:
+      fail-fast: false
+      matrix:
+        generation: ['1972','1988','1993','2014']
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OMP_THREAD_LIMIT: '1'
+      TOKENIZERS_PARALLELISM: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify frozen inputs
+        run: |
+          python3 - <<'PY'
+          import csv
+          ps=list(csv.DictReader(open('data/derived/page_structure.csv',encoding='utf-8')))
+          fm=list(csv.DictReader(open('data/derived/fragment_manifest.csv',encoding='utf-8')))
+          assert len(ps)==759 and all(r['classifier_version']=='PAGESTRUCT_0.2' for r in ps)
+          assert fm and all(r['segmenter_version']=='FRAGSEG_0.2' for r in fm)
+          print('frozen inputs verified; fragments',len(fm))
+          PY
+      - name: Install pinned semantic runtime and OCR
+        run: |
+          python3 -m pip install --disable-pip-version-check 'sentence-transformers==5.6.1'
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+          tesseract --version | head -1 | grep -F 'tesseract 5.3.4'
+          python3 - <<'PY'
+          import sentence_transformers
+          assert sentence_transformers.__version__=='5.6.1', sentence_transformers.__version__
+          print('sentence-transformers',sentence_transformers.__version__)
+          PY
+      - name: Reconstruct, hash-verify and classify generation semantically
+        run: |
+          python3 scripts/classify_fragments_B.py \
+            --generation '${{ matrix.generation }}' \
+            --out 'data/derived/fragment_labels_B_${{ matrix.generation }}.csv'
+      - name: Validate B shard
+        run: |
+          python3 - <<'PY'
+          import csv,os
+          gen=os.environ['GEN']
+          labels=list(csv.DictReader(open(f'data/derived/fragment_labels_B_{gen}.csv',encoding='utf-8')))
+          manifest=[r for r in csv.DictReader(open('data/derived/fragment_manifest.csv',encoding='utf-8')) if r['catalog_generation']==gen]
+          assert len(labels)==len(manifest),(gen,len(labels),len(manifest))
+          assert {r['fragment_id'] for r in labels}=={r['fragment_id'] for r in manifest}
+          assert all(r['semantic_rules_version']=='SEMB_0.1' for r in labels)
+          assert all(r['semantic_model']=='sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2' for r in labels)
+          assert all(r['semantic_model_revision']=='f16484b452bc5449a3ad85665709a2648b51d735' for r in labels)
+          mh={r['fragment_id']:r['text_sha256'] for r in manifest}
+          assert all(r['text_sha256']==mh[r['fragment_id']] for r in labels)
+          print(gen,'rows',len(labels),'uncertain',sum(int(r['uncertain_B']) for r in labels),'truncation risk',sum(int(r['truncation_risk_B']) for r in labels))
+          PY
+        env:
+          GEN: '${{ matrix.generation }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: labels-B-${{ matrix.generation }}
+          path: data/derived/fragment_labels_B_${{ matrix.generation }}.csv
+          retention-days: 7
+
+  combine:
+    needs: classify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: labels-B-*
+          path: shards
+          merge-multiple: true
+      - name: Combine labels and build semantic summary
+        run: |
+          python3 - <<'PY'
+          import csv
+          from pathlib import Path
+          gens=['1972','1988','1993','2014']
+          manifest=list(csv.DictReader(open('data/derived/fragment_manifest.csv',encoding='utf-8')))
+          rows=[]
+          for g in gens: rows.extend(list(csv.DictReader(open(f'shards/fragment_labels_B_{g}.csv',encoding='utf-8'))))
+          assert len(rows)==len(manifest)
+          assert {r['fragment_id'] for r in rows}=={r['fragment_id'] for r in manifest}
+          out=Path('data/derived');out.mkdir(parents=True,exist_ok=True)
+          fields=list(rows[0].keys())
+          with (out/'fragment_labels_B.csv').open('w',encoding='utf-8',newline='') as f:
+              w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+          action_cols=[c for c in fields if c.startswith('action_') and c.endswith('_B') and c not in {'action_top_score_B','action_second_score_B','action_margin_B','action_label_count_B'}]
+          pos_cols=[c for c in fields if c.startswith('position_') and c.endswith('_B') and c not in {'position_top_score_B','position_second_score_B','position_margin_B','position_label_count_B'}]
+          summary=[]
+          for gen in gens+['ALL']:
+              rs=rows if gen=='ALL' else [r for r in rows if r['catalog_generation']==gen]
+              d={
+                  'catalog_generation':gen,'fragment_count':len(rs),
+                  'uncertain_B':sum(int(r['uncertain_B']) for r in rs),
+                  'uncertain_rate_B':round(sum(int(r['uncertain_B']) for r in rs)/len(rs),6),
+                  'truncation_risk_B':sum(int(r['truncation_risk_B']) for r in rs),
+                  'no_action_label_B':sum(int(r['action_label_count_B'])==0 for r in rs),
+                  'no_position_label_B':sum(int(r['position_label_count_B'])==0 for r in rs),
+              }
+              for c in action_cols+pos_cols:d[c]=sum(int(r[c]) for r in rs)
+              summary.append(d)
+          with (out/'fragment_labels_B_summary.csv').open('w',encoding='utf-8',newline='') as f:
+              w=csv.DictWriter(f,fieldnames=list(summary[0].keys()));w.writeheader();w.writerows(summary)
+          print((out/'fragment_labels_B_summary.csv').read_text(encoding='utf-8'))
+          PY
+      - name: Publish B labels race-safely
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/semB-derived
+          cp data/derived/fragment_labels_B.csv /tmp/semB-derived/
+          cp data/derived/fragment_labels_B_summary.csv /tmp/semB-derived/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/semB-derived/* data/derived/
+          git add data/derived/fragment_labels_B.csv data/derived/fragment_labels_B_summary.csv
+          if git diff --cached --quiet; then
+            echo 'No semantic label changes.'
+          else
+            git commit -m 'data: publish semantic pedagogical labels B 0.1'
+            git push origin HEAD:main
+          fi
