@@ -1,0 +1,47 @@
+name: Gate and trigger SEMB 0.2 corpus classification
+
+on:
+  push:
+    paths:
+      - '.github/SEMB_B02_CORPUS_ONE_SHOT_TRIGGER'
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read locked validation result
+        id: gate
+        run: |
+          python3 - <<'PY'
+          import json,os,sys
+          d=json.load(open('data/derived/semantic_B02_validation_result.json',encoding='utf-8'))
+          assert d['validation_version']=='VALIDATION_B02_LOCKED_0.1'
+          assert d['semantic_version']=='SEMB_0.2'
+          assert d['corpus_accessed'] is False and d['ruleA_accessed'] is False
+          passed=bool(d['passed'])
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write(f"passed={'true' if passed else 'false'}\n")
+          print('VALIDATION_B02 passed =',passed)
+          print('action_metrics =',d['action_metrics'])
+          print('position_metrics =',d['position_metrics'])
+          print('negative_correct =',d['negative_correct'],'/',d['negative_n'])
+          if not passed:
+              print('Corpus classification remains BLOCKED.')
+          PY
+      - name: Dispatch validated corpus classifier
+        if: steps.gate.outputs.passed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run classify-fragments-B02.yml --ref main
+          echo 'Dispatched classify-fragments-B02.yml after passed locked validation.'
+      - name: Enforce blocked state after failed validation
+        if: steps.gate.outputs.passed != 'true'
+        run: |
+          echo 'VALIDATION_B02 did not pass. No corpus workflow was dispatched.'
+          exit 1
