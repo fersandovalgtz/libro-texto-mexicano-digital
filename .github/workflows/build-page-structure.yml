@@ -38,7 +38,7 @@ jobs:
           assert len(rows)==759, len(rows)
           allowed={'textual','mixed_text_image','visual_only','front_matter','toc_or_navigation','bibliography_or_credits','unknown'}
           assert set(r['primary_structure'] for r in rows) <= allowed
-          assert all(r['classifier_version']=='PAGESTRUCT_0.1' for r in rows)
+          assert all(r['classifier_version']=='PAGESTRUCT_0.2' for r in rows)
           known_visual={
               'LTMD-CN5-G2014-VP068',
               'LTMD-CN5-G2014-VP078',
@@ -50,9 +50,11 @@ jobs:
           assert all(v=='visual_only' for v in got.values()), got
           unknown=sum(r['primary_structure']=='unknown' for r in rows)
           assert unknown/len(rows) <= 0.10, unknown
+          dense_end=[r for r in rows if r['classification_rule']=='END_ZONE_DENSE_UNCERTAIN']
           print('validated rows:', len(rows))
           print('known visual controls:', got)
           print('unknown:', unknown, f'({unknown/len(rows):.2%})')
+          print('dense end-zone uncertain:', [(r['page_id'],r['recognized_words'],r['mean_word_confidence']) for r in dense_end])
           PY
           cat data/derived/page_structure_summary.csv
       - name: Publish non-substitutive derived datasets
@@ -63,7 +65,7 @@ jobs:
           if git diff --cached --quiet; then
             echo 'No derived changes to commit.'
           else
-            git commit -m 'data: publish structural page classification 0.1'
+            git commit -m 'data: publish structural page classification 0.2'
             git pull --rebase origin main
             git push origin HEAD:main
           fi
