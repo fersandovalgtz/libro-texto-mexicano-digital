@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.4`.
 
-Commit observado: `e6d587aa5f2cc5899cf4d73fa441d90f7fdc148f`.
+Commit observado: `6fa05a81ead44c812dee4f8c5812cbb2467b0f70`.
 
 Archivos críticos verificados: **102**. Artefactos derivados adicionales presentes: **14**.
 
@@ -110,7 +110,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/classify_cn46_page_structure.py` — 5338 bytes — `d542f9495a1b90f1b5b5311896f8aa765616951cce7536ac98795625148e91ad`
 - `scripts/segment_cn46_fragments.py` — 9455 bytes — `973d93dcf7ddf60796a689d988ecdca0f6ffbdb6befba3158f876af0d72ff4a7`
 - `scripts/combine_cn46_fragment_shards.py` — 5352 bytes — `ea2a9e8ea5522173ef64780f4ef78224bb86dbc27879c2828b6246864faf7714`
-- `scripts/verify_methods_article_claims.py` — 4740 bytes — `75163c5534a8d94833058bacf73d02a8b84f6d8486bf8877cc0ac95a07018774`
+- `scripts/verify_methods_article_claims.py` — 8938 bytes — `883b49f21320f2472a7222ee6e6801f543ce04b6effbcd89d1e0bd6abdfd0d0c`
 
 ## Artefactos derivados adicionales presentes
 - `data/derived/semb02_synthetic_stress_result.json` — `c0296ac6271dfba02b4a5bf890db5e5f6c8c986206a86faa87c5791594bd19a8`
