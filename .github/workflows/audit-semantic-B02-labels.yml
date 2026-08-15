@@ -1,0 +1,37 @@
+name: Audit validated SEMB 0.2 labels
+
+on:
+  push:
+    paths:
+      - 'data/derived/fragment_labels_B.csv'
+
+concurrency:
+  group: semb02-audit-main
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit B labels without source text
+        run: python3 scripts/audit_semantic_B02_labels.py
+      - name: Publish B audit race-safely
+        run: |
+          set -euo pipefail
+          cp data/derived/fragment_labels_B_audit.csv /tmp/fragment_labels_B_audit.csv
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/fragment_labels_B_audit.csv data/derived/
+          git add data/derived/fragment_labels_B_audit.csv
+          if git diff --cached --quiet; then
+            echo 'No B audit changes.'
+          else
+            git commit -m 'data: publish SEMB 0.2 label audit'
+            git push origin HEAD:main
+          fi
