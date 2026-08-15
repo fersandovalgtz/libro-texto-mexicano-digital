@@ -110,9 +110,11 @@ La regla queda congelada así:
 
 La corrección está implementada en `scripts/extract_region_from_tsv.py` y cubierta por `tests/test_extract_region_from_tsv.py`.
 
-## 2026-08-15 — La segunda revisión humana debe ser independiente
+## 2026-08-15 — La segunda revisión humana debe ser independiente [SUPERSEDED]
 
 Una doble lectura de la referencia por el mismo operador puede detectar errores materiales pero **no cuenta como segunda revisión**. Las métricas CER/WER permanecen provisionales hasta que otra revisión humana independiente verifique región, orden de lectura, caracteres, cifras, palabras y correspondencia con la imagen.
+
+**Estado:** regla histórica, superseded por la decisión posterior `Proyecto sin revisión humana` del 15-ago-2026. No constituye un requisito vigente.
 
 ## 2026-08-15 — Material textual de validación en Drive privado
 
@@ -133,14 +135,26 @@ Se registró un incidente previo en el que tres JPEG fueron subidos como artifac
 
 El procedimiento optimizado para pequeños lotes empaqueta imagen fuente + TXT/TSV productivo **dentro de un bundle cifrado**, mientras el artifact público contiene únicamente ciphertext y un manifiesto técnico no textual.
 
-## 2026-08-15 — No automatizar el libro de códigos antes de validación humana
+## 2026-08-15 — No automatizar el libro de códigos antes de validación humana [SUPERSEDED]
 
 Las categorías de `CODEBOOK_0_1.md` fueron definidas antes del análisis masivo. No se diseñarán reglas o modelos que asignen definitivamente acciones pedagógicas o posiciones del alumno hasta codificar y revisar manualmente 25 fragmentos por generación.
 
 Se preregistró un pool de 100 páginas y un protocolo de selección/codificación humana.
+
+**Estado:** regla histórica, superseded por la decisión posterior `Proyecto sin revisión humana` del 15-ago-2026. No constituye un requisito vigente.
 
 ## 2026-08-15 — Doble registro metodológico: Notion + GitHub
 
 Se establece una bitácora técnica detallada en Notion como registro narrativo acumulativo del procedimiento. GitHub mantiene la infraestructura ejecutable y Notion conserva la secuencia de decisiones, intentos fallidos, configuraciones, límites interpretativos y cambios de criterio.
 
 Todo hallazgo que modifique el método debe reflejarse en ambos sistemas antes de considerarse cerrado.
+
+## 2026-08-15 — Proyecto sin revisión humana
+
+El proyecto no realizará segunda revisión humana de referencias OCR, doble codificación humana, adjudicación humana de desacuerdos ni validación manual del libro de códigos como condición de avance. Esta decisión supersede expresamente las dos reglas históricas marcadas arriba como `[SUPERSEDED]`.
+
+Las 48 posiciones CER/WER se interpretan como diagnóstico contra una **referencia de operador de una sola pasada**, no como gold standard humano independiente. Su función es caracterizar fallos OCR por generación/layout y detectar páginas visuales o problemáticas.
+
+La anotación pedagógica se realizará mediante triangulación computacional: especificación A con reglas/rasgos transparentes; especificación B con estrategia semántica independiente; medición de acuerdo/desacuerdo; bandera `uncertain`; análisis de sensibilidad; y conservación de versiones, parámetros y trazabilidad. No habrá corrección manual de desacuerdos para fabricar una etiqueta final adjudicada.
+
+Documento detallado asociado: `docs/DECISION_NO_HUMAN_REVIEW_2026-08-15.md`.
