@@ -1,0 +1,5 @@
+relationship_version,catalog_generation_a,book_a,viewer_key_a,relationship_type,catalog_generation_b,book_b,viewer_key_b,compared_source_assets,sha256_identical_assets,identity_rate,interpretive_limit
+CN2018_2019_ASSET_IDENTITY_0.1,2018,LTMD-CN3-G2018,H2018P3CNA,catalog_entry_aliases_same_asset_bytes,2019,LTMD-CN3-G2019,H2019P3CNA,153,153,1.000000,"Byte identity proves shared digital assets, not independent bibliographic dating."
+CN2018_2019_ASSET_IDENTITY_0.1,2018,LTMD-CN4-G2018,H2018P4CNA,catalog_entry_aliases_same_asset_bytes,2019,LTMD-CN4-G2019,H2019P4CNA,161,161,1.000000,"Byte identity proves shared digital assets, not independent bibliographic dating."
+CN2018_2019_ASSET_IDENTITY_0.1,2018,LTMD-CN5-G2018,H2018P5CNA,catalog_entry_aliases_same_asset_bytes,2019,LTMD-CN5-G2019,H2019P5CNA,161,161,1.000000,"Byte identity proves shared digital assets, not independent bibliographic dating."
+CN2018_2019_ASSET_IDENTITY_0.1,2018,LTMD-CN6-G2018,H2018P6CNA,catalog_entry_aliases_same_asset_bytes,2019,LTMD-CN6-G2019,H2019P6CNA,177,177,1.000000,"Byte identity proves shared digital assets, not independent bibliographic dating."
