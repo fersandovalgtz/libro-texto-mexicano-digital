@@ -1,0 +1,42 @@
+name: build-full-cn-technical-inventory
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-full-cn-technical-inventory.yml'
+      - 'scripts/build_full_cn_technical_inventory.py'
+      - 'data/catalog/ciencias_naturales_family_inventory.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build full CN technical inventory
+        run: python3 scripts/build_full_cn_technical_inventory.py
+      - name: Publish technical inventory race-safely
+        run: |
+          set -euo pipefail
+          cp data/catalog/ciencias_naturales_technical_inventory.csv /tmp/ciencias_naturales_technical_inventory.csv
+          cp data/catalog/ciencias_naturales_technical_inventory.md /tmp/ciencias_naturales_technical_inventory.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/catalog
+            cp /tmp/ciencias_naturales_technical_inventory.csv data/catalog/
+            cp /tmp/ciencias_naturales_technical_inventory.md data/catalog/
+            git add data/catalog/ciencias_naturales_technical_inventory.csv data/catalog/ciencias_naturales_technical_inventory.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish full Ciencias Naturales technical inventory'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
