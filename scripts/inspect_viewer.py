@@ -2,9 +2,9 @@
 """Inspect CONALITEG viewer pages without downloading book assets.
 
 Reads data/book_inventory.csv, fetches each viewer HTML page, and records
-candidate linked resources (scripts, styles, iframes, embeds, images and URLs
-that look like PDF/page/image endpoints). The goal is to discover the actual
-resource architecture before designing ingestion.
+candidate linked resources (scripts, styles, forms, iframes, embeds, images and
+URLs that look like PDF/page/image endpoints). The goal is to discover the
+actual resource architecture before designing ingestion.
 
 This script does NOT download book PDFs or page images.
 """
@@ -35,42 +35,56 @@ class ResourceParser(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
-        for key in ("src", "href", "data", "poster"):
+        for key in ("src", "href", "data", "poster", "action"):
             value = attrs.get(key)
             if value:
                 self.resources.add(urljoin(self.base_url, value))
+
+        srcset = attrs.get("srcset")
+        if srcset:
+            for candidate in srcset.split(","):
+                value = candidate.strip().split(" ", 1)[0]
+                if value:
+                    self.resources.add(urljoin(self.base_url, value))
 
     def handle_data(self, data):
         for match in RESOURCE_RE.findall(data):
             self.resources.add(urljoin(self.base_url, match))
 
 
-def fetch_html(url: str, timeout: int = 30) -> str:
+def fetch_html(url: str, timeout: int = 30) -> tuple[str, dict]:
     req = Request(url, headers={"User-Agent": USER_AGENT})
     with urlopen(req, timeout=timeout) as response:
         charset = response.headers.get_content_charset() or "utf-8"
-        return response.read().decode(charset, errors="replace")
+        body = response.read().decode(charset, errors="replace")
+        meta = {
+            "http_status": getattr(response, "status", None),
+            "final_url": response.geturl(),
+            "content_type": response.headers.get("Content-Type", ""),
+        }
+        return body, meta
 
 
 def inspect(url: str) -> dict:
-    html = fetch_html(url)
+    html, response_meta = fetch_html(url)
     parser = ResourceParser(url)
     parser.feed(html)
 
-    inline_candidates = {
-        urljoin(url, match)
-        for match in RESOURCE_RE.findall(html)
-    }
+    inline_candidates = {urljoin(url, match) for match in RESOURCE_RE.findall(html)}
     resources = sorted(parser.resources | inline_candidates)
 
     interesting = [
         item
         for item in resources
-        if any(token in item.lower() for token in ("pdf", "page", "jpg", "jpeg", "png", "viewer", "book", "libro"))
+        if any(
+            token in item.lower()
+            for token in ("pdf", "page", "pag", "jpg", "jpeg", "png", "viewer", "book", "libro")
+        )
     ]
 
     return {
         "viewer_url": url,
+        **response_meta,
         "html_bytes": len(html.encode("utf-8")),
         "resource_count": len(resources),
         "resources": resources,
