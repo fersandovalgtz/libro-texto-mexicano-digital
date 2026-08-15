@@ -1,0 +1,43 @@
+name: audit-fragseg-layout-proxy
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-fragseg-layout-proxy.yml'
+      - 'scripts/audit_fragseg_layout_proxy.py'
+      - 'scripts/segment_fragments.py'
+      - 'data/derived/fragment_manifest.csv'
+      - 'data/derived/page_structure.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install pinned OCR runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+          tesseract --version | head -1 | grep -F 'tesseract 5.3.4'
+      - name: Reconstruct sampled pages and derive layout proxies
+        run: python3 scripts/audit_fragseg_layout_proxy.py
+      - name: Publish layout audit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/derived/fragseg_layout_proxy_sample.csv \
+                  data/derived/fragseg_layout_proxy_summary.csv \
+                  data/derived/fragseg_layout_proxy_audit.md
+          if git diff --cached --quiet; then
+            echo 'No layout audit changes.'
+          else
+            git commit -m 'Publish FRAGSEG layout proxy audit'
+            git push
+          fi
