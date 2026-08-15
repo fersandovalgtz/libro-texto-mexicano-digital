@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.5`.
 
-Commit observado: `99a82934c3e7254e83fd67a4c9f82d8cd91cd6a4`.
+Commit observado: `5cbb58fe1b666249d2bc2ad9fad4460da653e802`.
 
 Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
@@ -13,7 +13,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 
 ## Archivos críticos
 
-- `README.md` — 17576 bytes — `1709c5624c98f1ee700cc5bff1c4c5f7795d7b95f443cdc9e56ad67eccf9930b`
+- `README.md` — 13027 bytes — `3e2014326e055b209ffd88d95b1206fe5566b9169e776d3f686b3b88ce8889f4`
 - `CITATION.cff` — 509 bytes — `5e7fcc182da9eafa35d85ee5b2428359d50dda53933564a570cde8cee2ef781a`
 - `data/book_inventory.csv` — 3003 bytes — `4b9ae106d4b3ed2e1b30203e46d46f6280e1c3f6b22b62791beaab1e677446c4`
 - `data/derived/page_structure.csv` — 107957 bytes — `9528558068ac52b45f05fa9c75b9336a8150d57bf2b3a9a9225b816ed68e82ad`
