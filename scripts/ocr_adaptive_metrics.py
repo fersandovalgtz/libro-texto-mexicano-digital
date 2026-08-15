@@ -1,15 +1,10 @@
 #!/usr/bin/env python3
-"""Adaptive OCR benchmark for the LTMD pilot.
+"""Metadata-only OCR metrics for the LTMD pilot.
 
-Downloads source JPEGs only to a temporary directory, runs Tesseract with a
-short sequence of page-segmentation modes, and writes metrics only. No source
-image or OCR transcription is persisted.
+Downloads source JPEGs only to a temporary directory, runs Tesseract, and writes
+page-level metrics only. No source image or OCR transcription is persisted.
 
-Strategy:
-- try PSM 6 (single uniform text block) first;
-- if it times out or returns no words, try PSM 11 (sparse text);
-- if still empty, classify the page provisionally as `no_text_detected`;
-- timeout/failure is kept distinct from a valid zero-text result.
+The script supports either the preregistered QC sample or the full manifest.
 """
 from __future__ import annotations
 
@@ -18,7 +13,7 @@ from pathlib import Path
 from urllib.request import Request, urlopen
 from concurrent.futures import ThreadPoolExecutor
 
-UA = "LibroTextoMexicanoDigital/0.1 adaptive OCR benchmark"
+UA = "LibroTextoMexicanoDigital/0.1 OCR metrics"
 FIELDS = [
     "page_id","book_id","catalog_generation","viewer_page","qc_slot",
     "source_bytes","attempts","selected_psm","recognized_words","ocr_chars",
@@ -81,22 +76,19 @@ def process(row: dict[str,str], tempdir: Path, lang: str, modes: list[int], time
                 attempts.append(f"psm{psm}:error")
                 errors.append(f"psm{psm} {type(exc).__name__}: {exc}")
         if selected is not None and last_metrics:
-            ocr_class="text_detected"
-            status="ok"
+            ocr_class="text_detected"; status="ok"
         elif last_metrics is not None:
-            ocr_class="no_text_detected"
-            status="ok"
+            ocr_class="no_text_detected"; status="ok"
         else:
-            ocr_class="unresolved"
-            status="error"
+            ocr_class="unresolved"; status="error"
             last_metrics={"recognized_words":"","ocr_chars":"","mean_word_confidence":"","median_word_confidence":"","low_confidence_word_rate":""}
         return {"page_id":row["page_id"],"book_id":row["book_id"],"catalog_generation":row["catalog_generation"],
-            "viewer_page":row["viewer_page"],"qc_slot":row["qc_slot"],"source_bytes":size,
+            "viewer_page":row["viewer_page"],"qc_slot":row.get("qc_slot", ""),"source_bytes":size,
             "attempts":";".join(attempts),"selected_psm":selected or "",**last_metrics,
             "ocr_class":ocr_class,"ocr_status":status,"error":" | ".join(errors)}
     except Exception as exc:
         return {"page_id":row["page_id"],"book_id":row["book_id"],"catalog_generation":row["catalog_generation"],
-            "viewer_page":row["viewer_page"],"qc_slot":row["qc_slot"],"source_bytes":"","attempts":";".join(attempts),
+            "viewer_page":row["viewer_page"],"qc_slot":row.get("qc_slot", ""),"source_bytes":"","attempts":";".join(attempts),
             "selected_psm":"","recognized_words":"","ocr_chars":"","mean_word_confidence":"","median_word_confidence":"",
             "low_confidence_word_rate":"","ocr_class":"unresolved","ocr_status":"error","error":f"{type(exc).__name__}: {exc}"}
     finally:
@@ -107,24 +99,28 @@ def main():
     ap.add_argument("--manifest",default="data/derived/page_manifest.csv")
     ap.add_argument("--output",default="data/derived/ocr_adaptive_metrics.csv")
     ap.add_argument("--lang",default="spa")
-    ap.add_argument("--modes",default="6,11")
-    ap.add_argument("--timeout",type=int,default=25)
-    ap.add_argument("--workers",type=int,default=4)
+    ap.add_argument("--modes",default="3")
+    ap.add_argument("--timeout",type=int,default=60)
+    ap.add_argument("--workers",type=int,default=2)
     ap.add_argument("--slots",default="q1_1,q4_2")
+    ap.add_argument("--all-pages",action="store_true",help="Process every row in the page manifest instead of only QC candidates")
     args=ap.parse_args()
     modes=[int(x) for x in args.modes.split(',') if x.strip()]
     slots={x.strip() for x in args.slots.split(',') if x.strip()}
     with Path(args.manifest).open(encoding="utf-8",newline="") as fh:
-        selected=[r for r in csv.DictReader(fh) if r["qc_positional_candidate"]=="yes" and (not slots or r["qc_slot"] in slots)]
-    with tempfile.TemporaryDirectory(prefix="ltmd-adapt-") as tmp:
+        source=list(csv.DictReader(fh))
+    if args.all_pages:
+        selected=source
+    else:
+        selected=[r for r in source if r["qc_positional_candidate"]=="yes" and (not slots or r["qc_slot"] in slots)]
+    with tempfile.TemporaryDirectory(prefix="ltmd-ocr-") as tmp:
         td=Path(tmp)
         with ThreadPoolExecutor(max_workers=args.workers) as pool:
             rows=list(pool.map(lambda r: process(r,td,args.lang,modes,args.timeout),selected))
     out=Path(args.output); out.parent.mkdir(parents=True,exist_ok=True)
     with out.open('w',encoding='utf-8',newline='') as fh:
         w=csv.DictWriter(fh,fieldnames=FIELDS); w.writeheader(); w.writerows(rows)
-    print(f"Adaptive OCR: {len(rows)} pages")
-    for r in rows:
-        print(r['page_id'],r['attempts'],r['selected_psm'],r['recognized_words'],r['mean_word_confidence'],r['ocr_class'],r['ocr_status'])
+    print(f"OCR metrics: {len(rows)} pages")
+    print('text_detected=',sum(r['ocr_class']=='text_detected' for r in rows),'no_text_detected=',sum(r['ocr_class']=='no_text_detected' for r in rows),'unresolved=',sum(r['ocr_class']=='unresolved' for r in rows))
 
 if __name__=='__main__': main()
