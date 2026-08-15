@@ -1,0 +1,131 @@
+name: Classify fragments — rule classifier A
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: fragment-classifier-A-main
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  classify:
+    strategy:
+      fail-fast: false
+      matrix:
+        generation: ['1972','1988','1993','2014']
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      OMP_THREAD_LIMIT: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify frozen inputs
+        run: |
+          python3 - <<'PY'
+          import csv
+          ps=list(csv.DictReader(open('data/derived/page_structure.csv',encoding='utf-8')))
+          fm=list(csv.DictReader(open('data/derived/fragment_manifest.csv',encoding='utf-8')))
+          assert len(ps)==759
+          assert all(r['classifier_version']=='PAGESTRUCT_0.2' for r in ps)
+          assert fm and all(r['segmenter_version']=='FRAGSEG_0.2' for r in fm)
+          print('PAGESTRUCT 0.2 + FRAGSEG 0.2 verified; fragments',len(fm))
+          PY
+      - name: Install exact OCR family
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+          tesseract --version | head -1 | grep -F 'tesseract 5.3.4'
+      - name: Reconstruct, hash-verify and classify generation
+        run: |
+          python3 scripts/classify_fragments_A.py \
+            --generation '${{ matrix.generation }}' \
+            --out 'data/derived/fragment_labels_A_${{ matrix.generation }}.csv'
+      - name: Validate label shard
+        run: |
+          python3 - <<'PY'
+          import csv, os
+          gen=os.environ['GEN']
+          labels=list(csv.DictReader(open(f'data/derived/fragment_labels_A_{gen}.csv',encoding='utf-8')))
+          manifest=[r for r in csv.DictReader(open('data/derived/fragment_manifest.csv',encoding='utf-8')) if r['catalog_generation']==gen]
+          assert len(labels)==len(manifest),(gen,len(labels),len(manifest))
+          assert len({r['fragment_id'] for r in labels})==len(labels)
+          assert {r['fragment_id'] for r in labels}=={r['fragment_id'] for r in manifest}
+          assert all(r['ruleset_version']=='RULEA_0.1' for r in labels)
+          mh={r['fragment_id']:r['text_sha256'] for r in manifest}
+          assert all(r['text_sha256']==mh[r['fragment_id']] for r in labels)
+          print(gen,'labels',len(labels),'uncertain',sum(int(r['uncertain_A']) for r in labels))
+          PY
+        env:
+          GEN: '${{ matrix.generation }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: labels-A-${{ matrix.generation }}
+          path: data/derived/fragment_labels_A_${{ matrix.generation }}.csv
+          retention-days: 7
+
+  combine:
+    needs: classify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: labels-A-*
+          path: shards
+          merge-multiple: true
+      - name: Combine labels and build summary
+        run: |
+          python3 - <<'PY'
+          import csv
+          from collections import Counter,defaultdict
+          from pathlib import Path
+          gens=['1972','1988','1993','2014']
+          manifest=list(csv.DictReader(open('data/derived/fragment_manifest.csv',encoding='utf-8')))
+          assert manifest and all(r['segmenter_version']=='FRAGSEG_0.2' for r in manifest)
+          rows=[]
+          for g in gens:
+              rows.extend(list(csv.DictReader(open(f'shards/fragment_labels_A_{g}.csv',encoding='utf-8'))))
+          assert len(rows)==len(manifest)
+          assert {r['fragment_id'] for r in rows}=={r['fragment_id'] for r in manifest}
+          fields=list(rows[0].keys())
+          out=Path('data/derived');out.mkdir(parents=True,exist_ok=True)
+          with (out/'fragment_labels_A.csv').open('w',encoding='utf-8',newline='') as f:
+              w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+          action_cols=[c for c in fields if c.startswith('action_')]
+          pos_cols=[c for c in fields if c.startswith('position_')]
+          summary=[]
+          for gen in gens+['ALL']:
+              rs=rows if gen=='ALL' else [r for r in rows if r['catalog_generation']==gen]
+              d={'catalog_generation':gen,'fragment_count':len(rs),'uncertain_A':sum(int(r['uncertain_A']) for r in rs),'uncertain_rate':round(sum(int(r['uncertain_A']) for r in rs)/len(rs),6)}
+              for c in action_cols+pos_cols:d[c]=sum(int(r[c]) for r in rs)
+              types=Counter(t for r in rs for t in r['type_A'].split(';') if t)
+              for t in ['expository','instruction','question','activity','experiment','project','assessment','heading','other']:
+                  d['type_'+t]=types[t]
+              summary.append(d)
+          sfields=list(summary[0].keys())
+          with (out/'fragment_labels_A_summary.csv').open('w',encoding='utf-8',newline='') as f:
+              w=csv.DictWriter(f,fieldnames=sfields);w.writeheader();w.writerows(summary)
+          print((out/'fragment_labels_A_summary.csv').read_text(encoding='utf-8'))
+          PY
+      - name: Publish A labels race-safely
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ruleA-derived
+          cp data/derived/fragment_labels_A.csv /tmp/ruleA-derived/
+          cp data/derived/fragment_labels_A_summary.csv /tmp/ruleA-derived/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/ruleA-derived/* data/derived/
+          git add data/derived/fragment_labels_A.csv data/derived/fragment_labels_A_summary.csv
+          if git diff --cached --quiet; then
+            echo 'No label changes to commit.'
+          else
+            git commit -m 'data: publish pedagogical rule labels A 0.1'
+            git push origin HEAD:main
+          fi
