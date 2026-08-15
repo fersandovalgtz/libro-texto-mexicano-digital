@@ -1,0 +1,25 @@
+name: Test SEMB synthetic boundaries
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/test-semantic-classifier-B.yml'
+      - 'tests/test_semantic_classifier_B.py'
+      - 'scripts/classify_fragments_B.py'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      TOKENIZERS_PARALLELISM: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned semantic runtime
+        run: python3 -m pip install --disable-pip-version-check 'sentence-transformers==5.6.1'
+      - name: Run synthetic semantic preflight
+        run: python3 tests/test_semantic_classifier_B.py
