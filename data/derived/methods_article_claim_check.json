@@ -1,0 +1,108 @@
+{
+  "claim_check_version": "METHODS_ARTICLE_CLAIMS_0.1",
+  "article": "docs/METHODS_ARTICLE_DRAFT_0_1.md",
+  "passed": true,
+  "failures": [],
+  "claims": {
+    "page_structure_n": {
+      "value": 759,
+      "required_text": [
+        "759 páginas",
+        "759 imágenes"
+      ]
+    },
+    "fragment_n": {
+      "value": 9594,
+      "required_text": [
+        "9,594 fragmentos"
+      ]
+    },
+    "old_eligible_n": {
+      "value": 5037,
+      "required_text": [
+        "5,037"
+      ]
+    },
+    "shadow_eligible_n": {
+      "value": 7429,
+      "required_text": [
+        "7,429"
+      ]
+    },
+    "shadow_gain_n": {
+      "value": 2392,
+      "required_text": [
+        "2,392"
+      ]
+    },
+    "sample_n": {
+      "value": 480,
+      "required_text": [
+        "480 fragmentos",
+        "480 casos"
+      ]
+    },
+    "development_n": {
+      "value": 320,
+      "required_text": [
+        "320 casos de desarrollo",
+        "320 casos"
+      ]
+    },
+    "locked_n": {
+      "value": 160,
+      "required_text": [
+        "160 casos de validación",
+        "160 casos"
+      ]
+    },
+    "reliability_n": {
+      "value": 120,
+      "required_text": [
+        "120 casos"
+      ]
+    },
+    "sample_pages": {
+      "value": 312,
+      "required_text": [
+        "312 páginas"
+      ]
+    },
+    "locked_pages": {
+      "value": 138,
+      "required_text": [
+        "138"
+      ]
+    },
+    "semb02_uncertainty_rate": {
+      "value": 0.994893,
+      "required_text": [
+        "99.49%"
+      ]
+    },
+    "stress_n": {
+      "value": 105,
+      "required_text": [
+        "105 casos"
+      ]
+    },
+    "stress_gate_balanced_accuracy": {
+      "value": 0.5258838383838383,
+      "required_text": [
+        "0.526"
+      ]
+    },
+    "stress_gate_sensitivity": {
+      "value": 0.5972222222222222,
+      "required_text": [
+        "0.597"
+      ]
+    },
+    "stress_gate_specificity": {
+      "value": 0.45454545454545453,
+      "required_text": [
+        "0.455"
+      ]
+    }
+  }
+}
