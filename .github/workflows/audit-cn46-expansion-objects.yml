@@ -1,0 +1,51 @@
+name: audit-cn46-expansion-objects
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-cn46-expansion-objects.yml'
+      - 'scripts/audit_cn46_expansion_objects.py'
+      - 'data/expansion/cn46_viewer_candidates.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install pinned OCR runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+          tesseract --version | head -1
+      - name: Audit viewer manifests, assets, and ephemeral front matter
+        run: python3 scripts/audit_cn46_expansion_objects.py
+      - name: Publish expansion audit race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-cn46-audit
+          mkdir -p /tmp/ltmd-cn46-audit
+          cp data/expansion/cn46_inventory_preliminary.csv /tmp/ltmd-cn46-audit/
+          cp data/expansion/cn46_asset_audit.csv /tmp/ltmd-cn46-audit/
+          cp data/expansion/cn46_frontmatter_audit.csv /tmp/ltmd-cn46-audit/
+          cp data/expansion/cn46_object_audit_report.md /tmp/ltmd-cn46-audit/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/expansion
+            cp /tmp/ltmd-cn46-audit/* data/expansion/
+            git add data/expansion/cn46_inventory_preliminary.csv data/expansion/cn46_asset_audit.csv data/expansion/cn46_frontmatter_audit.csv data/expansion/cn46_object_audit_report.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish CN4/CN6 object audit'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
