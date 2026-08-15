@@ -1,0 +1,57 @@
+name: Build LTMD historical comparison 0.1
+
+on:
+  push:
+    paths:
+      - 'data/derived/classifier_AB_agreement_summary.csv'
+
+concurrency:
+  group: historical-comparison-main
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify required derived layers
+        run: |
+          python3 - <<'PY'
+          import csv,json
+          man=list(csv.DictReader(open('data/derived/fragment_manifest.csv',encoding='utf-8')))
+          a=list(csv.DictReader(open('data/derived/fragment_labels_A.csv',encoding='utf-8')))
+          b=list(csv.DictReader(open('data/derived/fragment_labels_B.csv',encoding='utf-8')))
+          agr=list(csv.DictReader(open('data/derived/classifier_AB_fragment_agreement.csv',encoding='utf-8')))
+          val=json.load(open('data/derived/semantic_B02_validation_result.json',encoding='utf-8'))
+          assert val['passed'] is True
+          assert len(man)==len(a)==len(b)==len(agr)==9594
+          print('all frozen derived layers verified')
+          PY
+      - name: Build integrated dataset and historical tables
+        run: python3 scripts/build_historical_comparison.py
+      - name: Publish comparison outputs race-safely
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/histcomp
+          for f in \
+            fragment_analysis_dataset.csv \
+            historical_action_prevalence.csv \
+            historical_position_prevalence.csv \
+            historical_action_composition.csv \
+            historical_position_composition.csv \
+            historical_transitions.csv \
+            historical_family_prevalence.csv \
+            historical_comparison_summary.md; do
+              cp "data/derived/$f" /tmp/histcomp/
+          done
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/histcomp/* data/derived/
+          git add data/derived/fragment_analysis_dataset.csv data/derived/historical_action_prevalence.csv data/derived/historical_position_prevalence.csv data/derived/historical_action_composition.csv data/derived/historical_position_composition.csv data/derived/historical_transitions.csv data/derived/historical_family_prevalence.csv data/derived/historical_comparison_summary.md
+          git commit -m 'data: publish preregistered LTMD historical comparison 0.1'
+          git push origin HEAD:main
