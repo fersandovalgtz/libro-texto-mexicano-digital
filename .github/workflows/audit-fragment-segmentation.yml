@@ -1,0 +1,43 @@
+name: Audit fragment segmentation metadata
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-fragment-segmentation.yml'
+      - 'scripts/audit_fragment_manifest.py'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run metadata-only audit
+        run: python3 scripts/audit_fragment_manifest.py
+      - name: Show audit summaries
+        run: |
+          head -30 data/derived/fragment_segmentation_audit.csv
+          python3 - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('data/derived/fragment_page_density_audit.csv',encoding='utf-8')))
+          for g in ['1972','1988','1993','2014']:
+              rs=[r for r in rows if r['catalog_generation']==g]
+              counts=sorted(int(r['fragment_count']) for r in rs)
+              mean=sum(counts)/len(counts)
+              print(g,'pages',len(rs),'mean fragments/page',round(mean,2),'min',min(counts),'max',max(counts))
+          PY
+      - name: Publish audit derivatives
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/derived/fragment_segmentation_audit.csv data/derived/fragment_page_density_audit.csv
+          if git diff --cached --quiet; then
+            echo 'No audit changes.'
+          else
+            git commit -m 'data: publish fragment segmentation audit 0.1'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
