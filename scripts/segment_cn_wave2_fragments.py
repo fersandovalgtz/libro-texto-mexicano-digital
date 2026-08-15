@@ -107,6 +107,8 @@ def main():
     fields=['fragment_id','page_id','book_id','catalog_generation','grade','viewer_page','fragment_sequence','candidate_type','token_count','char_count','question_mark_count','imperative_signal_count','material_signal','project_signal','experiment_signal','assessment_signal','activity_signal','text_sha256','segmenter_version','source_structure_class','classification_certainty','uncertain_boundary']
     with out.open('w',encoding='utf-8',newline='') as f:w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(allfrags)
     with fail.open('w',encoding='utf-8',newline='') as f:w=csv.writer(f);w.writerow(['page_id','book_id','status','fragment_count']);w.writerows(failures)
-    print(f'{args.book_id}: eligible_pages={len(structure)} fragments={len(allfrags)} failures={len(failures)}')
+    fatal=[x for x in failures if x[2]!='ok']
+    print(f'{args.book_id}: eligible_pages={len(structure)} fragments={len(allfrags)} empty_pages={len(failures)-len(fatal)} fatal_failures={len(fatal)}')
+    if fatal:raise SystemExit(f'{args.book_id}: {len(fatal)} source/OCR execution failures; refusing shard publication')
 
 if __name__=='__main__':main()
