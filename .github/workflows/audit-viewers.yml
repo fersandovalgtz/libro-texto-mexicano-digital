@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/audit-viewers.yml'
       - 'scripts/inspect_viewer.py'
+      - 'scripts/probe_viewer_architecture.py'
       - 'data/book_inventory.csv'
 
 permissions:
@@ -30,13 +31,22 @@ jobs:
       - name: Inspect official viewers
         run: python scripts/inspect_viewer.py
 
-      - name: Show audit result
-        run: cat data/derived/viewer_inspection.json
+      - name: Probe dynamic architecture
+        run: python scripts/probe_viewer_architecture.py
 
-      - name: Upload audit artifact
+      - name: Show audit result
+        run: |
+          echo '=== viewer_inspection.json ==='
+          cat data/derived/viewer_inspection.json
+          echo '=== viewer_architecture_probe.json ==='
+          cat data/derived/viewer_architecture_probe.json
+
+      - name: Upload audit artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: viewer-inspection
-          path: data/derived/viewer_inspection.json
+          name: viewer-audit
+          path: |
+            data/derived/viewer_inspection.json
+            data/derived/viewer_architecture_probe.json
           if-no-files-found: error
           retention-days: 30
