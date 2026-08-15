@@ -7,9 +7,13 @@ from pathlib import Path
 
 OUT=Path('data/derived/research_integrity_manifest.json')
 REPORT=Path('data/derived/research_integrity_manifest.md')
-VERSION='LTMD_INTEGRITY_0.1'
+VERSION='LTMD_INTEGRITY_0.2'
+
+# Required artifacts define the frozen methodological state or the reproducible
+# corpus/model infrastructure. A missing critical artifact makes the manifest fail.
 CRITICAL=[
  'README.md',
+ 'data/book_inventory.csv',
  'data/derived/page_structure.csv',
  'data/derived/fragment_manifest.csv',
  'data/derived/fragment_manifest_fragtype03_shadow.csv',
@@ -22,27 +26,53 @@ CRITICAL=[
  'data/validation/semb03_human_reference_annotation_template.csv',
  'data/validation/semb03_reliability_subset.csv',
  'data/validation/semb03_acceptance_criteria.json',
+ 'data/validation/semb03_candidate_grid.json',
+ 'data/validation/semb03_synthetic_stress_cases.csv',
+ 'data/validation/short_residual_validation_sample.csv',
+ 'data/validation/short_residual_annotation_template.csv',
  'docs/CODEBOOK_0_1.md',
  'docs/SEMB03_HUMAN_ANNOTATION_PROTOCOL_0_1.md',
  'docs/SEMB03_ACCEPTANCE_CRITERIA_0_1.md',
+ 'docs/SEMB03_CANDIDATE_ARCHITECTURES_0_1.md',
  'docs/SEMB03_STAGE_GATES_0_1.md',
  'docs/SHORT_RESIDUAL_VALIDATION_PROTOCOL_0_1.md',
  'docs/HISTORICAL_ANALYSIS_PLAN_0_2.md',
+ 'docs/METHODS_SNAPSHOT_2026-08-15.md',
+ 'docs/AUTOMATED_WORK_CEILING_0_1.md',
+ 'docs/CURRICULAR_SOURCE_AUDIT_2026-08-15.md',
  'scripts/segment_fragments.py',
  'scripts/semantic_classifier_B02_core.py',
  'scripts/classify_fragments_B02.py',
  'scripts/sample_semb03_human_reference.py',
+ 'scripts/validate_semb03_annotations.py',
+ 'scripts/evaluate_semb03_human_reliability.py',
+ 'scripts/build_semb03_consensus_draft.py',
  'scripts/check_semb03_readiness.py',
  'scripts/lock_semb03_model.py',
- 'scripts/evaluate_semb03_locked_validation.py'
+ 'scripts/evaluate_semb03_locked_validation.py',
+ 'scripts/build_semb03_synthetic_stress.py',
+ 'scripts/evaluate_semb02_synthetic_stress.py',
+ 'scripts/develop_semb03_gate_synthetic.py',
+ 'scripts/develop_semb03_label_heads_synthetic.py',
+ 'scripts/audit_fragseg_layout_proxy.py',
+ 'scripts/audit_semb03_sample_coverage.py',
+ 'scripts/build_fragtype03_shadow.py',
+ 'scripts/sample_short_residual_validation.py',
+ 'scripts/audit_frontmatter_bibliography.py',
+ 'scripts/selftest_semb03_infrastructure.py'
 ]
+
+# Derived diagnostics are reproducible and important, but may appear only after
+# their workflow has run. Presence and hash are recorded when available.
 OPTIONAL=[
  'data/derived/semb02_synthetic_stress_result.json',
- 'data/validation/semb03_synthetic_stress_cases.csv',
  'data/derived/semb03_sample_coverage.csv',
+ 'data/derived/semb03_sample_token_coverage.csv',
  'data/derived/fragseg_layout_proxy_summary.csv',
- 'data/validation/short_residual_validation_sample.csv',
- 'data/validation/short_residual_annotation_template.csv'
+ 'data/derived/frontmatter_bibliographic_audit.csv',
+ 'data/derived/semb03_gate_synthetic_development.json',
+ 'data/derived/semb03_label_heads_synthetic_development.json',
+ 'data/derived/semb03_readiness_report.json'
 ]
 
 def sha(p):
@@ -67,8 +97,8 @@ def main():
         if p.exists():files.append({'path':name,'bytes':p.stat().st_size,'sha256':sha(p),'required':False})
     manifest={'integrity_version':VERSION,'generated_utc':datetime.now(timezone.utc).isoformat(),'git_head':head(),'critical_count':len(CRITICAL),'optional_present_count':sum(not x['required'] for x in files),'files':files}
     OUT.parent.mkdir(parents=True,exist_ok=True);json.dump(manifest,OUT.open('w',encoding='utf-8'),ensure_ascii=False,indent=2)
-    lines=['# Manifiesto de integridad científica LTMD','',f'Versión: `{VERSION}`.','',f'Commit observado: `{manifest["git_head"]}`.','',f'Archivos críticos verificados: **{len(CRITICAL)}**. Artefactos opcionales presentes: **{manifest["optional_present_count"]}**.','',
-           'Cada entrada conserva tamaño y SHA-256. El propósito es detectar cambios posteriores en corpus congelado, protocolos, criterios y código crítico. El manifiesto no impide cambios legítimos: obliga a que una modificación produzca una nueva huella auditable.','',
+    lines=['# Manifiesto de integridad científica LTMD','',f'Versión: `{VERSION}`.','',f'Commit observado: `{manifest["git_head"]}`.','',f'Archivos críticos verificados: **{len(CRITICAL)}**. Artefactos derivados adicionales presentes: **{manifest["optional_present_count"]}**.','',
+           'Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; una desaparición de un artefacto crítico hace fallar el workflow.','',
            '## Archivos críticos']
     for x in files:
         if x['required']:lines.append(f"- `{x['path']}` — {x['bytes']} bytes — `{x['sha256']}`")
