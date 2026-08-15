@@ -1,0 +1,36 @@
+name: check-semb03-readiness
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/check-semb03-readiness.yml'
+      - 'scripts/check_semb03_readiness.py'
+      - 'data/validation/semb03_human_reference_sample.csv'
+      - 'data/validation/semb03_human_reference_annotation_template.csv'
+      - 'data/validation/semb03_reliability_subset.csv'
+      - 'data/validation/semb03_acceptance_criteria.json'
+
+permissions:
+  contents: write
+
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check staged SEMB 0.3 readiness
+        run: python3 scripts/check_semb03_readiness.py
+      - name: Publish readiness report
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/derived/semb03_readiness_report.json data/derived/semb03_readiness_report.md
+          if git diff --cached --quiet; then
+            echo 'No readiness changes.'
+          else
+            git commit -m 'Publish SEMB 0.3 readiness report'
+            git push
+          fi
