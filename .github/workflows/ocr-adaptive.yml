@@ -1,0 +1,39 @@
+name: Adaptive OCR benchmark
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/ocr_adaptive_metrics.py'
+      - 'scripts/build_page_manifest.py'
+      - 'data/book_inventory.csv'
+      - '.github/workflows/ocr-adaptive.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Spanish Tesseract model
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: Build page manifest
+        run: python scripts/build_page_manifest.py
+      - name: Run adaptive OCR benchmark
+        run: python scripts/ocr_adaptive_metrics.py --slots q1_1,q4_2 --modes 6,11 --timeout 25 --workers 4
+      - name: Show metrics
+        run: cat data/derived/ocr_adaptive_metrics.csv
+      - name: Upload metrics only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ocr-adaptive-metrics
+          path: data/derived/ocr_adaptive_metrics.csv
+          retention-days: 30
