@@ -1,0 +1,34 @@
+name: audit-semb03-sample-coverage
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-semb03-sample-coverage.yml'
+      - 'scripts/audit_semb03_sample_coverage.py'
+      - 'data/derived/fragment_manifest.csv'
+      - 'data/validation/semb03_human_reference_sample.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Audit sample coverage and freeze poststratification weights
+        run: python3 scripts/audit_semb03_sample_coverage.py
+      - name: Publish coverage audit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/derived/semb03_sample_coverage.csv data/derived/semb03_sample_coverage.md
+          if git diff --cached --quiet; then
+            echo 'No coverage changes.'
+          else
+            git commit -m 'Publish SEMB 0.3 sample coverage audit'
+            git push
+          fi
