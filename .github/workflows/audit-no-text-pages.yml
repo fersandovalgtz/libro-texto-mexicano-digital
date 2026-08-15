@@ -1,0 +1,50 @@
+name: Audit baseline no-text pages
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-no-text-pages.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      OMP_THREAD_LIMIT: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install OCR and image dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+          python -m pip install --quiet pillow
+      - name: Audit 61 baseline no-text pages
+        run: python scripts/audit_no_text_pages.py --workers 2 --timeout 45
+      - name: Summarize audit
+        run: |
+          python - <<'PY'
+          import csv
+          from collections import Counter, defaultdict
+          rows=list(csv.DictReader(open('data/derived/no_text_page_audit.csv',encoding='utf-8')))
+          print('TOTAL',len(rows))
+          print('CLASSES',Counter(r['audit_class'] for r in rows))
+          by=defaultdict(Counter)
+          for r in rows:
+              by[r['catalog_generation']][r['audit_class']]+=1
+          for g in sorted(by):
+              print(g,dict(by[g]))
+          print('RECOVERED_WORDS',sum(int(r['max_fallback_words'] or 0) for r in rows if r['audit_class']=='recovered_by_fallback'))
+          PY
+      - name: Upload metrics only
+        uses: actions/upload-artifact@v4
+        with:
+          name: no-text-page-audit
+          path: data/derived/no_text_page_audit.csv
+          retention-days: 30
