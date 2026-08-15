@@ -1,0 +1,526 @@
+{
+  "version": "CN46_DISCOVERY_0.1",
+  "catalog_url": "https://historico.conaliteg.gob.mx/libros_2023.js",
+  "catalog_http_status": 200,
+  "catalog_final_url": "https://historico.conaliteg.gob.mx/libros_2023.js",
+  "catalog_content_type": "text/javascript",
+  "catalog_bytes": 34386,
+  "target_generations": [
+    "1972",
+    "1988",
+    "1993",
+    "2014"
+  ],
+  "target_grades": [
+    "4",
+    "6"
+  ],
+  "candidate_n": 63,
+  "verified_title_n": 9,
+  "rows": [
+    {
+      "catalog_generation": "1972",
+      "grade": "4",
+      "viewer_key": "H1972P4CI077",
+      "source_url": "https://historico.conaliteg.gob.mx/H1972P4CI077.htm",
+      "viewer_title": "CIENCIAS NATURALES Grado 4° Generación 1972 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "verified_title"
+    },
+    {
+      "catalog_generation": "1972",
+      "grade": "4",
+      "viewer_key": "H1972P4CI078",
+      "source_url": "https://historico.conaliteg.gob.mx/H1972P4CI078.htm",
+      "viewer_title": "CIENCIAS SOCIALES Grado 4° Generación 1972 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1972",
+      "grade": "4",
+      "viewer_key": "H1972P4ES080",
+      "source_url": "https://historico.conaliteg.gob.mx/H1972P4ES080.htm",
+      "viewer_title": "ESPAÑOL EJERCICIOS Grado 4° Generación 1972 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1972",
+      "grade": "4",
+      "viewer_key": "H1972P4ES081",
+      "source_url": "https://historico.conaliteg.gob.mx/H1972P4ES081.htm",
+      "viewer_title": "ESPAÑOL LECTURAS Grado 4° Generación 1972 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1972",
+      "grade": "4",
+      "viewer_key": "H1972P4ES082",
+      "source_url": "https://historico.conaliteg.gob.mx/H1972P4ES082.htm",
+      "viewer_title": "ESPAÑOL EJERCICIOS Y LECTURAS Grado 4° Generación 1972 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1972",
+      "grade": "4",
+      "viewer_key": "H1972P4MA083",
+      "source_url": "https://historico.conaliteg.gob.mx/H1972P4MA083.htm",
+      "viewer_title": "MATEMÁTICAS Grado 4° Generación 1972 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1972",
+      "grade": "6",
+      "viewer_key": "H1972P6CI090",
+      "source_url": "https://historico.conaliteg.gob.mx/H1972P6CI090.htm",
+      "viewer_title": "CIENCIAS NATURALES Grado 6° Generación 1972 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "verified_title"
+    },
+    {
+      "catalog_generation": "1972",
+      "grade": "6",
+      "viewer_key": "H1972P6CI091",
+      "source_url": "https://historico.conaliteg.gob.mx/H1972P6CI091.htm",
+      "viewer_title": "CIENCIAS SOCIALES Grado 6° Generación 1972 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1972",
+      "grade": "6",
+      "viewer_key": "H1972P6ES092",
+      "source_url": "https://historico.conaliteg.gob.mx/H1972P6ES092.htm",
+      "viewer_title": "ESPAÑOL EJERCICIOS Grado 6° Generación 1972 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1972",
+      "grade": "6",
+      "viewer_key": "H1972P6ES093",
+      "source_url": "https://historico.conaliteg.gob.mx/H1972P6ES093.htm",
+      "viewer_title": "ESPAÑOL LECTURAS Grado 6° Generación 1972 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1972",
+      "grade": "6",
+      "viewer_key": "H1972P6MA094",
+      "source_url": "https://historico.conaliteg.gob.mx/H1972P6MA094.htm",
+      "viewer_title": "MATEMÁTICAS Grado 6° Generación 1972 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1988",
+      "grade": "4",
+      "viewer_key": "H1988P4CI119",
+      "source_url": "https://historico.conaliteg.gob.mx/H1988P4CI119.htm",
+      "viewer_title": "CIENCIAS NATURALES Grado 4° Generación 1988 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "verified_title"
+    },
+    {
+      "catalog_generation": "1988",
+      "grade": "4",
+      "viewer_key": "H1988P4CI120",
+      "source_url": "https://historico.conaliteg.gob.mx/H1988P4CI120.htm",
+      "viewer_title": "CIENCIAS SOCIALES Grado 4° Generación 1988 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1988",
+      "grade": "4",
+      "viewer_key": "H1988P4ES121",
+      "source_url": "https://historico.conaliteg.gob.mx/H1988P4ES121.htm",
+      "viewer_title": "ESPAÑOL, EJERCICIOS Y LECTURAS Grado 4° Generación 1988 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1988",
+      "grade": "4",
+      "viewer_key": "H1988P4MA122",
+      "source_url": "https://historico.conaliteg.gob.mx/H1988P4MA122.htm",
+      "viewer_title": "MATEMÁTICAS Grado 4° Generación 1988 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1988",
+      "grade": "6",
+      "viewer_key": "H1988P6CI128",
+      "source_url": "https://historico.conaliteg.gob.mx/H1988P6CI128.htm",
+      "viewer_title": "CIENCIAS NATURALES Grado 6° Generación 1988 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "verified_title"
+    },
+    {
+      "catalog_generation": "1988",
+      "grade": "6",
+      "viewer_key": "H1988P6CI130",
+      "source_url": "https://historico.conaliteg.gob.mx/H1988P6CI130.htm",
+      "viewer_title": "CIENCIAS SOCIALES Grado 6° Generación 1988 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1988",
+      "grade": "6",
+      "viewer_key": "H1988P6ES131",
+      "source_url": "https://historico.conaliteg.gob.mx/H1988P6ES131.htm",
+      "viewer_title": "ESPAÑOL EJERCICIOS Grado 6° Generación 1988 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1988",
+      "grade": "6",
+      "viewer_key": "H1988P6ES132",
+      "source_url": "https://historico.conaliteg.gob.mx/H1988P6ES132.htm",
+      "viewer_title": "ESPAN?OL LECTURAS Grado 6° Generación 1988 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1988",
+      "grade": "6",
+      "viewer_key": "H1988P6MA134",
+      "source_url": "https://historico.conaliteg.gob.mx/H1988P6MA134.htm",
+      "viewer_title": "MATEMÁTICAS Grado 6° Generación 1988 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "4",
+      "viewer_key": "H1993P4CI191",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P4CI191.htm",
+      "viewer_title": "Ciencias Naturales Grado 4° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "verified_title"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "4",
+      "viewer_key": "H1993P4CI192",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P4CI192.htm",
+      "viewer_title": "Conoce nuestra constitución Grado 4° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "4",
+      "viewer_key": "H1993P4ES193",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P4ES193.htm",
+      "viewer_title": "Español Grado 4° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "4",
+      "viewer_key": "H1993P4ES194",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P4ES194.htm",
+      "viewer_title": "Español Lecturas Grado 4° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "4",
+      "viewer_key": "H1993P4ES195",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P4ES195.htm",
+      "viewer_title": "Español Lecturas Grado 4° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "4",
+      "viewer_key": "H1993P4GE196",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P4GE196.htm",
+      "viewer_title": "Geografía Grado 4° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "4",
+      "viewer_key": "H1993P4GE197",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P4GE197.htm",
+      "viewer_title": "Atlas de México Grado 4° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "4",
+      "viewer_key": "H1993P4HI198",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P4HI198.htm",
+      "viewer_title": "Historia Grado 4° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "4",
+      "viewer_key": "H1993P4MA199",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P4MA199.htm",
+      "viewer_title": "Matemáticas Grado 4° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6CI209",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6CI209.htm",
+      "viewer_title": "Ciencias Naturales y desarrollo humano Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "verified_title"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6CI210",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6CI210.htm",
+      "viewer_title": "Ciencias Naturales Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "verified_title"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6ES211",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6ES211.htm",
+      "viewer_title": "Español Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6ES212",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6ES212.htm",
+      "viewer_title": "Español Lecturas Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6GE213",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6GE213.htm",
+      "viewer_title": "Geografía Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6HI214",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6HI214.htm",
+      "viewer_title": "Historia Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6HI215",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6HI215.htm",
+      "viewer_title": "MONOGRAFÍA ESTATAL AGUASCALIENTES Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6HI216",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6HI216.htm",
+      "viewer_title": "MONOGRAFÍA ESTATAL BAJA CALIFORNIA Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6HI217",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6HI217.htm",
+      "viewer_title": "MONOGRAFÍA ESTATAL BAJA CALIFORNIA SUR Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6HI218",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6HI218.htm",
+      "viewer_title": "MONOGRAFÍA ESTATAL COAHUILA Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6HI219",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6HI219.htm",
+      "viewer_title": "MONOGRAFÍA ESTATAL COLIMA Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6HI220",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6HI220.htm",
+      "viewer_title": "MONOGRAFÍA ESTATAL CAMPECHE Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6HI221",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6HI221.htm",
+      "viewer_title": "MONOGRAFÍA ESTATAL CHIAPAS Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "1993",
+      "grade": "6",
+      "viewer_key": "H1993P6HI222",
+      "source_url": "https://historico.conaliteg.gob.mx/H1993P6HI222.htm",
+      "viewer_title": "MONOGRAFÍA ESTATAL CHIHUAHUA Grado 6° Generación 1993 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "4",
+      "viewer_key": "H2014P4AMA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P4AMA.htm",
+      "viewer_title": "Atlas de México Grado 4° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "4",
+      "viewer_key": "H2014P4CCA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P4CCA.htm",
+      "viewer_title": "Conoce nuestra Constitución Grado 4° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "4",
+      "viewer_key": "H2014P4CNA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P4CNA.htm",
+      "viewer_title": "Ciencias Naturales Grado 4° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "verified_title"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "4",
+      "viewer_key": "H2014P4DMA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P4DMA.htm",
+      "viewer_title": "Desafíos matemáticos. Libro para el alumno Grado 4° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "4",
+      "viewer_key": "H2014P4DMM",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P4DMM.htm",
+      "viewer_title": "Desafíos matemáticos. Libro para el maestro Grado 4° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "4",
+      "viewer_key": "H2014P4EAA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P4EAA.htm",
+      "viewer_title": "Educación Artística Grado 4° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "4",
+      "viewer_key": "H2014P4ESA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P4ESA.htm",
+      "viewer_title": "Español Grado 4° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "4",
+      "viewer_key": "H2014P4FCA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P4FCA.htm",
+      "viewer_title": "Formación Cívica y Ética Grado 4° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "4",
+      "viewer_key": "H2014P4GEA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P4GEA.htm",
+      "viewer_title": "Geografía Grado 4° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "4",
+      "viewer_key": "H2014P4HIA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P4HIA.htm",
+      "viewer_title": "Historia Grado 4° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "4",
+      "viewer_key": "H2014P4LEA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P4LEA.htm",
+      "viewer_title": "Español. Libro de lectura Grado 4° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "6",
+      "viewer_key": "H2014P6CNA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P6CNA.htm",
+      "viewer_title": "Ciencias Naturales Grado 6° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "verified_title"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "6",
+      "viewer_key": "H2014P6DMA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P6DMA.htm",
+      "viewer_title": "Desafíos matemáticos. Libro para el alumno Grado 6° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "6",
+      "viewer_key": "H2014P6DMM",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P6DMM.htm",
+      "viewer_title": "Desafíos matemáticos. Libro para el maestro Grado 6° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "6",
+      "viewer_key": "H2014P6EAA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P6EAA.htm",
+      "viewer_title": "Educación Artística Grado 6° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "6",
+      "viewer_key": "H2014P6ESA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P6ESA.htm",
+      "viewer_title": "Español Grado 6° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "6",
+      "viewer_key": "H2014P6FCA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P6FCA.htm",
+      "viewer_title": "Formación Cívica y Ética Grado 6° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "6",
+      "viewer_key": "H2014P6GEA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P6GEA.htm",
+      "viewer_title": "Geografía Grado 6° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "6",
+      "viewer_key": "H2014P6HIA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P6HIA.htm",
+      "viewer_title": "Historia Grado 6° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    },
+    {
+      "catalog_generation": "2014",
+      "grade": "6",
+      "viewer_key": "H2014P6LEA",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P6LEA.htm",
+      "viewer_title": "Español. Libro de lectura Grado 6° Generación 2014 .: Comisión Nacional de Libros de Texto Gratuitos :.",
+      "verification_status": "reachable_unconfirmed"
+    }
+  ]
+}
