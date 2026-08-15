@@ -1,5 +1,5 @@
 {
-  "readiness_version": "SEMB03_READINESS_0.2",
+  "readiness_version": "SEMB03_READINESS_0.3",
   "stage": "WAITING_HUMAN_REFERENCE",
   "infrastructure_checks": [
     {
@@ -61,6 +61,16 @@
       "check": "criteria_frozen",
       "status": "PASS",
       "detail": "SEMB03_ACCEPTANCE_0.1"
+    },
+    {
+      "check": "candidate_grid_frozen",
+      "status": "PASS",
+      "detail": "SEMB03_CANDIDATES_0.1"
+    },
+    {
+      "check": "development_grouped_by_page",
+      "status": "PASS",
+      "detail": "{'method': 'GroupKFold', 'n_splits': 5, 'group': 'page_id'}"
     }
   ],
   "prehuman_modules": {
@@ -74,12 +84,15 @@
     "fragtype_shadow": true,
     "short_residual_sample": true,
     "short_residual_blind_template": true,
+    "acceptance_criteria": true,
+    "candidate_grid": true,
+    "frontmatter_bibliographic_audit": true,
     "research_integrity_manifest": true,
     "synthetic_gate_candidate": true,
-    "synthetic_label_head_candidate": false
+    "synthetic_label_head_candidate": true
   },
-  "prehuman_modules_present": 12,
-  "prehuman_modules_total": 13,
+  "prehuman_modules_present": 16,
+  "prehuman_modules_total": 16,
   "later_stage_artifacts": {
     "human_reference_consensus": false,
     "development_result": false,

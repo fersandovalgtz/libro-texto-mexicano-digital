@@ -1,9 +1,9 @@
 # Estado de preparación SEMB 0.3
 
-Versión: `SEMB03_READINESS_0.2`.
+Versión: `SEMB03_READINESS_0.3`.
 
 **Etapa actual: `WAITING_HUMAN_REFERENCE`.**
-**Módulos prehumanos materializados: 12/13.**
+**Módulos prehumanos materializados: 16/16.**
 
 La infraestructura se verifica sin usar salidas A/B ni resultados históricos como función de selección.
 
@@ -20,6 +20,8 @@ La infraestructura se verifica sin usar salidas A/B ni resultados históricos co
 - PASS — `reliability_n_120`: n=120
 - PASS — `reliability_subset_of_master`: all reliability IDs valid
 - PASS — `criteria_frozen`: SEMB03_ACCEPTANCE_0.1
+- PASS — `candidate_grid_frozen`: SEMB03_CANDIDATES_0.1
+- PASS — `development_grouped_by_page`: {'method': 'GroupKFold', 'n_splits': 5, 'group': 'page_id'}
 
 ## Módulos prehumanos
 - ✅ `uncertainty_diagnostic`
@@ -32,9 +34,12 @@ La infraestructura se verifica sin usar salidas A/B ni resultados históricos co
 - ✅ `fragtype_shadow`
 - ✅ `short_residual_sample`
 - ✅ `short_residual_blind_template`
+- ✅ `acceptance_criteria`
+- ✅ `candidate_grid`
+- ✅ `frontmatter_bibliographic_audit`
 - ✅ `research_integrity_manifest`
 - ✅ `synthetic_gate_candidate`
-- ⬜ `synthetic_label_head_candidate`
+- ✅ `synthetic_label_head_candidate`
 
 ## Artefactos de etapas posteriores
 - `human_reference_consensus`: ausente
@@ -44,4 +49,4 @@ La infraestructura se verifica sin usar salidas A/B ni resultados históricos co
 - `production_manifest`: ausente
 
 ## Lectura
-Mientras la etapa sea `WAITING_HUMAN_REFERENCE`, puede completarse infraestructura, pruebas sintéticas y candidatos provisionales. Ningún candidato sintético puede saltar directamente a producción. La validación bloqueada sólo es segura después de existir `model_lock`.
+Si todos los módulos prehumanos están presentes y la etapa continúa en `WAITING_HUMAN_REFERENCE`, el bloqueo restante es epistemológico y deliberado: se necesita referencia humana real para desarrollar un modelo validable. Ningún candidato sintético puede saltar directamente a producción. La validación bloqueada sólo es segura después de existir `model_lock`.
