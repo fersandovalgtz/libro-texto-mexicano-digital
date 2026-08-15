@@ -1,0 +1,44 @@
+name: normalize-conaliteg-catalog-titles
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/normalize-conaliteg-catalog-titles.yml'
+      - 'scripts/normalize_conaliteg_catalog_titles.py'
+      - 'data/catalog/conaliteg_historical_title_inventory.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Normalize core titles conservatively
+        run: python3 scripts/normalize_conaliteg_catalog_titles.py
+      - name: Publish title-core layer race-safely
+        run: |
+          set -euo pipefail
+          cp data/catalog/conaliteg_title_cores.csv /tmp/conaliteg_title_cores.csv
+          cp data/catalog/conaliteg_title_core_summary.csv /tmp/conaliteg_title_core_summary.csv
+          cp data/catalog/conaliteg_title_core_summary.md /tmp/conaliteg_title_core_summary.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/catalog
+            cp /tmp/conaliteg_title_cores.csv data/catalog/
+            cp /tmp/conaliteg_title_core_summary.csv data/catalog/
+            cp /tmp/conaliteg_title_core_summary.md data/catalog/
+            git add data/catalog/conaliteg_title_cores.csv data/catalog/conaliteg_title_core_summary.csv data/catalog/conaliteg_title_core_summary.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish CONALITEG normalized title-core layer'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
