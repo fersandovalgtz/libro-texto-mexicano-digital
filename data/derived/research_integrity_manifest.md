@@ -1,14 +1,18 @@
 # Manifiesto de integridad científica LTMD
 
-Versión: `LTMD_INTEGRITY_0.4`.
+Versión: `LTMD_INTEGRITY_0.5`.
 
-Commit observado: `962d27f51d330db2cd0f29932a3ef3dc81b944e5`.
+Commit observado: `97f32da9d7735d8a47d918759219faf0d93813bd`.
 
-Archivos críticos verificados: **102**. Artefactos derivados adicionales presentes: **14**.
+Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
-Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; una desaparición de un artefacto crítico hace fallar el workflow.
+Archivos críticos presentes: **149/149**.
+Artefactos opcionales presentes: **9**.
+
+Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; la desaparición de un artefacto crítico hace fallar el workflow.
 
 ## Archivos críticos
+
 - `README.md` — 17576 bytes — `1709c5624c98f1ee700cc5bff1c4c5f7795d7b95f443cdc9e56ad67eccf9930b`
 - `CITATION.cff` — 509 bytes — `5e7fcc182da9eafa35d85ee5b2428359d50dda53933564a570cde8cee2ef781a`
 - `data/book_inventory.csv` — 3003 bytes — `4b9ae106d4b3ed2e1b30203e46d46f6280e1c3f6b22b62791beaab1e677446c4`
@@ -20,6 +24,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `data/derived/fragment_labels_B_summary.csv` — 1268 bytes — `c829b19308f11e47fc3c4f4d6d06c63b09c721cdc62f060e5acc4e1fde17a68d`
 - `data/derived/semb02_uncertainty_diagnostic.md` — 2169 bytes — `f212fff8768b93c796cf4a76554996192f5dea7368b55b04fb8b263cb7ee3b1d`
 - `data/derived/fragseg_heading_candidate_audit.md` — 1681 bytes — `b85aa3be35a1494b858b1e9f3cd413c930acdfb15e36893838b3a383892fd512`
+- `data/derived/semb02_synthetic_stress_result.json` — 1160 bytes — `c0296ac6271dfba02b4a5bf890db5e5f6c8c986206a86faa87c5791594bd19a8`
 - `data/derived/methods_article_claim_check.json` — 1492 bytes — `c220e6ddf6b978c9965176e3f8f7022384609d2a6b8b5d5a255ce2a9adb7ced2`
 - `data/validation/semb03_human_reference_sample.csv` — 95043 bytes — `1c0206237f19f0fe7efecf99775f3d806f9656113b43b3a73d1fd859f19f3c1e`
 - `data/validation/semb03_human_reference_annotation_template.csv` — 14039 bytes — `929373205e0907b6645cca7f6a96a85d71010ad5203b544d8d5164c51067215f`
@@ -37,12 +42,14 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `docs/SHORT_RESIDUAL_VALIDATION_PROTOCOL_0_1.md` — 2343 bytes — `c94984d3e7f288db6db7acc94ea8d89321b92a9645f61d6887cfbebd9b4cb781`
 - `docs/HISTORICAL_ANALYSIS_PLAN_0_2.md` — 4596 bytes — `a304d9caa2d757d9be1861387ae2ce5583b824ddfd63ce6be4c331d4aed483f5`
 - `docs/METHODS_SNAPSHOT_2026-08-15.md` — 9794 bytes — `613021e6c0e044021fbbb4c78ee076addb5ee7c789cbfaa95170f511a7bb3f59`
+- `docs/PROJECT_STATUS_2026-08-15.md` — 12733 bytes — `8a350bc436061ba5d32fb0c4a287bdce5c261fba3fdceccc52e04418c24cb770`
 - `docs/AUTOMATED_WORK_CEILING_0_1.md` — 3847 bytes — `afead629c21209d80007bc789a61258d44aef41c577923a77c11d694ad9b4f8f`
 - `docs/CURRICULAR_SOURCE_AUDIT_2026-08-15.md` — 3917 bytes — `deb9674cbeef4c73d4d1ba2b41910ab60a9bcae266a45659aadcc800c1007a45`
 - `docs/PRIMARY_SOURCE_REGISTER_0_1.md` — 7827 bytes — `70ab1709fdd09bfeec2982a25bff429f59ad001e3e6337b3593f0223b27b9dea`
 - `docs/CURRICULAR_CONTEXT_0_2.md` — 7986 bytes — `c9b63efb8cc820fb3a69a37e081973a4ddb2ae24da1db8ed8802119e520e551b`
 - `docs/ARTICLE_OUTLINE_PILOT_0_2.md` — 9353 bytes — `fad0437d018e8d6c607fcf29c820285296b7e72460ededc9fd25e1e70472c479`
 - `docs/METHODS_ARTICLE_DRAFT_0_1.md` — 31306 bytes — `3323c8d8c61dcc9d13ae5a0c5197e8b60b15960620d44a8a27a0dbfa6ea79d32`
+- `docs/METHODS_ARTICLE_DRAFT_0_2.md` — 25280 bytes — `19addc345813bfff754161b1182d6a03f723f457165c54afe8a2fd00eff33021`
 - `docs/PUBLICATION_STRATEGY_0_1.md` — 4143 bytes — `787980a07f53726c41a6e7cddcf1fbcd6d3860c13b7d4c6ee01924c986641831`
 - `docs/CORPUS_EXPANSION_PLAN_0_1.md` — 5031 bytes — `f7a3f339f146e26f93edea0fb0cb05cae7b845f88cbb810f3de485fbb63d4e8b`
 - `docs/RELEASE_CHECKLIST_0_1.md` — 4266 bytes — `c3dee45e217e9b5e126a6e6ae27b5f7e879c20311ea81a0e94e301b8542a1ac7`
@@ -51,12 +58,21 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `docs/RIGHTS_AND_REUSE_0_1.md` — 5057 bytes — `1ac573dd82f40beabaf5efee9b81746686e623f9064dd3008f59120136929585`
 - `docs/CN6_1993_DOCUMENT_RELATION_0_1.md` — 4675 bytes — `7702b3093451f314054d56facff1b866b71cce3d05532081aa38b2a961996358`
 - `docs/DOCUMENT_DEPENDENCE_ANALYSIS_PLAN_0_1.md` — 5049 bytes — `2d61952391994e3901167540bb82e51e9d9e36020282a4eea41f8e8d03005716`
+- `docs/CN_WAVE2_COMPLETION_2026-08-15.md` — 3795 bytes — `0936250d7458010c61cc5d4784dfa7620d296acdd41f8146b72dcf8f9c5c620a`
 - `data/catalog/conaliteg_historical_viewer_keys.csv` — 29697 bytes — `4df281992a90e18edc414e952e8fe96c0971e5466be07fba3018d86dacba20ec`
 - `data/catalog/conaliteg_historical_catalog_snapshot.csv` — 357 bytes — `44d914015455db39f2b8c73a2913efbee2c298f0034300d3bdb643dc9084adda`
 - `data/catalog/conaliteg_historical_title_inventory.csv` — 168140 bytes — `fdb2f40059d01d441ecfa8360beac176826c6a6d71e9ffa741438fe737a8b5a3`
 - `data/catalog/conaliteg_title_cores.csv` — 110530 bytes — `9f765c1a57fe95ba73be077cf12a2e41bd331cbf1cd08243b49e2992b034b9fb`
 - `data/catalog/conaliteg_title_core_summary.csv` — 27334 bytes — `f5deee788763fa17e5a49520f47e06e1dab99c6bc2898056f93d842c7b7a953a`
 - `data/catalog/conaliteg_duplicate_title_groups.csv` — 2747 bytes — `aad167c614cff9409f398d64207cd2c6fc51ffb6f9991fe6883d8d6731bd1c9c`
+- `data/catalog/ciencias_naturales_family_inventory.csv` — 7738 bytes — `bd6b0920910f8fb81569e18952aecf968eb66e2de790d42898dfb0c787ffa384`
+- `data/catalog/ciencias_naturales_family_asset_readiness.csv` — 9758 bytes — `2ab7da88b2ffb9eaee7283b50cafce769ae161d49ad80b33a2ac3ed0c6d2f6a4`
+- `data/catalog/ciencias_naturales_family_asset_readiness.md` — 1766 bytes — `f3a43f7d919d93e2a098377455746676fbcbe9817e58748d595e178baaf2e378`
+- `data/catalog/cn2018_2019_asset_identity.csv` — 247843 bytes — `55d49cdf50964def2049ece0fcf79c6cee5794395d822e377147c58ee6e47998`
+- `data/catalog/cn2018_2019_asset_identity.md` — 921 bytes — `27b5e2bc97eccda5e5186e6f8a055201dc0facfe7d00b08db44b78fd37e5df02`
+- `data/catalog/cn2018_2019_catalog_alias_relationships.csv` — 1138 bytes — `32c60f1c2158e84e0bfd2edeb71c4ce76c7e4915cbeb49ba08c6f904dd40931c`
+- `data/catalog/cn2008_internal_unserved_audit.csv` — 1690 bytes — `2039120e94df2a9f20ba00781fe5a986f4cf79c446e8727ae704ee15c697cf5b`
+- `data/catalog/cn2008_internal_unserved_audit.md` — 987 bytes — `67b741716174b1b7165b5c08458766f746f93fb1ff94563b4e4c3b6c930ffb0b`
 - `data/expansion/cn46_viewer_candidates.csv` — 54026 bytes — `f12a9806a1958e2c70554a9af92ab5d6ea1b1eabd70e8a5cb61f0e0f8993a137`
 - `data/expansion/cn46_inventory_preliminary.csv` — 3572 bytes — `fe377f7865429f333ee765ca4065921c17a269239927ba4f7b569d8f90f0d8ea`
 - `data/expansion/cn46_page_manifest.csv` — 530203 bytes — `6ec1c4d02238ba0615b926e66f9eb7fd30844356452b5132aa3eb755ee961be9`
@@ -65,11 +81,35 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `data/expansion/cn46_ocr_summary.csv` — 679 bytes — `b9b6d1a31b3dfed263e81af073427cef5cdf7d6f3dc8543119a636fd34bd7506`
 - `data/expansion/cn46_page_structure.csv` — 288361 bytes — `be15fad52c19a7424d1f35e502ca0397c3ca9cae632344ba6a8779bec02057b4`
 - `data/expansion/cn46_page_structure_summary.csv` — 502 bytes — `5ee292fce8da69942396ae7dd4631cce655d93f6eab93f971f53f3d820985181`
+- `data/expansion/cn46_fragment_manifest.csv` — 4194043 bytes — `815d71c50e4a71bf17358c5080e84dc4c976502f0420a0ebd05ad9c2ceae354b`
+- `data/expansion/cn46_fragment_manifest_summary.csv` — 923 bytes — `e2135f2032514bbe08c86272326ce92531987d835982153ee6fe09cba2a8d74c`
+- `data/expansion/cn46_fragment_sequence_gap_audit.csv` — 3307 bytes — `fd8f51b540690d1bd27cc4e04b9fd60154187fbde92b4544cef95bc570931db2`
+- `data/expansion/cn46_fragment_manifest_report.md` — 1694 bytes — `006a223d44e2881b7daef359c842c2aeca84599473887657ffd32d733c6fcf2f`
 - `data/expansion/document_relationships_0_1.csv` — 1281 bytes — `7aad7dfb790b8a64fdd90ea0c95fd426cda97f62ad5046bc37598f79cbbe7ccd`
 - `data/expansion/document_clusters_0_1.csv` — 943 bytes — `ba96bd48aeca1014279aa2b00b5f52c4b6056f7a6302d88e330593ff3099fc61`
 - `data/expansion/cn6_1993_document_relation.csv` — 1083 bytes — `4d8d2461d0ebb6361531013a7710f12e65398bf17cafb3d94b48960dca83e341`
 - `data/expansion/cn4_1972_1988_page_differences.csv` — 5709 bytes — `03da4337912467b5d56a3a1b3ca406ed129df3199ab2a64018788e5a11dc667a`
 - `data/expansion/cn4_1972_1988_changed_page_similarity.csv` — 5779 bytes — `eda8138d693f5d8da1bcc8731bcee57cfb8e73b3ee13c2f468f65f21dc154a58`
+- `data/expansion/cn4_1972_1988_fragment_reuse.csv` — 542834 bytes — `e214cb55ac2708c8b2943ebdb774a27db88ed42825aa425f91e3a0d42c483e01`
+- `data/expansion/cn46_exact_page_overlap.csv` — 3698 bytes — `dbb4fc99b3b0fffb50cc98785bc3436bff987ad6ddd0f2c1ecdb9484b7c303af`
+- `data/expansion/cn46_exact_fragment_overlap.csv` — 3726 bytes — `ae5aef4d1c7e9ab575ca5d79cd5d3eb519f5ba1804e9a60afb8fff74cbe68b2a`
+- `data/expansion/cn46_fragment_unique_content_map.csv` — 4144164 bytes — `713fc4efd19635dd823919e5d646abbcfbb15a2051d7036ee1702f7508091625`
+- `data/expansion/cn46_unique_content_units.csv` — 2668447 bytes — `fa6e94636058acac575100c98be2de854aa55193202fe46d1e90e02900a70bb8`
+- `data/expansion/cn46_unique_content_summary.csv` — 808 bytes — `0a7133cbd38d3c4c5ecf6855089c8b7c66d7a4a723e3806e0e4d694051ee7c0a`
+- `data/expansion/cn46_unique_content_report.md` — 1623 bytes — `038798cb73e8d93726609ff128e0442304003586da19793249063c1d029b7ce7`
+- `data/expansion/cn_wave2_ingestion_queue.csv` — 3270 bytes — `084b1c097242faf9e1e304ba61fc6a8fdae3ec06b1d9659ecbccccc6154ae022`
+- `data/expansion/cn_wave2_ingestion_queue.md` — 1886 bytes — `f9d1a2abb05bfe454eebee708b0e19b7cda4c2415d5837c0c690add630da6ea5`
+- `data/expansion/cn_wave2_page_manifest.csv` — 861662 bytes — `e8a0ca813c0caefc063560fab22bc244cccb1cfa31159b85df294a5ca4502baf`
+- `data/expansion/cn_wave2_ocr_page_metrics.csv` — 461364 bytes — `6281a7e14206a894433f03f3c383d1e6a9b75052fb3b7043fde531c57df5d6b0`
+- `data/expansion/cn_wave2_ocr_summary.csv` — 1346 bytes — `2f9613f6a6bec424bcaec70d6c68a86df7434f2edb2ecc41d16d0f91ec73879d`
+- `data/expansion/cn_wave2_ocr_report.md` — 2140 bytes — `a9aa170b1adede52dee4f4a5c9b400eca697aebde09c02c81e8f08687dc5115b`
+- `data/expansion/cn_wave2_page_structure.csv` — 495354 bytes — `683db3505839bba8250a5275219a091924f3d4962cd8e9b8b6a7864b9b19e43d`
+- `data/expansion/cn_wave2_page_structure_summary.csv` — 871 bytes — `1a6d7daffcf9223d9dea794348f69955e025f7b9177ac342bff4d0815185ee09`
+- `data/expansion/cn_wave2_page_structure_report.md` — 560 bytes — `e5a010b5df2a67bb621a905fb709220a456a250b770825551f699031278e2989`
+- `data/expansion/cn_wave2_fragment_manifest.csv` — 8016665 bytes — `7b2a254763a8a8e0c7b56cd4518fe3e7f865fbef08a181d569388d2b91727e99`
+- `data/expansion/cn_wave2_fragment_manifest_summary.csv` — 1687 bytes — `f74386f5a79075412189ea43c484ff06c943149837156c49dc598c42da3e3cbd`
+- `data/expansion/cn_wave2_fragment_sequence_gaps.csv` — 3905 bytes — `ec1ddc4094aed830c0002a31f6c3b792b4a4135a8845a4ec74f2fbeb55410663`
+- `data/expansion/cn_wave2_fragment_manifest_report.md` — 963 bytes — `f6f442d23adbdb01aea1067fd6003e36a7b489484024a15b92291f417e01b386`
 - `scripts/segment_fragments.py` — 10424 bytes — `beea7cc504f5144245977e5d99a91b67f16ecb2811632fa9c04af428437b18c1`
 - `scripts/semantic_classifier_B02_core.py` — 8292 bytes — `151b470d9b14c159e17d8e91266395d8f8c1ff2fdb0eb2fdb155319e6013da6c`
 - `scripts/classify_fragments_B02.py` — 7015 bytes — `675888b0ebccd53f2b0429386576a4d3ead346270eea905d6f3933f05f44999e`
@@ -111,9 +151,20 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/segment_cn46_fragments.py` — 9455 bytes — `973d93dcf7ddf60796a689d988ecdca0f6ffbdb6befba3158f876af0d72ff4a7`
 - `scripts/combine_cn46_fragment_shards.py` — 5352 bytes — `ea2a9e8ea5522173ef64780f4ef78224bb86dbc27879c2828b6246864faf7714`
 - `scripts/verify_methods_article_claims.py` — 9470 bytes — `f886e1fba2b3042f6164fdd64c341a98f7da58624adbe34ac13b2ceed4e07b64`
+- `scripts/segment_cn_wave2_fragments.py` — 8712 bytes — `833acc710ffcc1a518a4c31b901f23206c938b0f28b36870722182d211a8cc92`
+- `scripts/combine_cn_wave2_fragment_shards.py` — 5690 bytes — `5d9914d1396516bacb205d2689d67b40961330ff4c2ef9b138ff07cd96906799`
+- `.github/workflows/build-cn-family-asset-readiness.yml` — 1289 bytes — `9f849567d1af61b49ea08891877c3fb89000d84a898a3a55380cec8d6c7fcd6c`
+- `.github/workflows/audit-cn2018-2019-asset-identity.yml` — 1197 bytes — `ed9a464df21e4a704140e6643175a470c992a1081fce0ba157f6df4d4634fb65`
+- `.github/workflows/audit-cn2008-internal-unserved.yml` — 1085 bytes — `4b607dde654b60d9233a59ef20eca04b3faa1151aac4a71afa0815fcfa4f8da3`
+- `.github/workflows/build-cn-wave2-ingestion.yml` — 1132 bytes — `5d656fd1033fbf06531c3efed24412f5723e239c27d2949e6cd3b56e23fa950e`
+- `.github/workflows/ocr-cn-wave2.yml` — 4335 bytes — `772b70b60251b0d1c43bf37ce077643e51992b5a0f6098ebb1ca964cf658416b`
+- `.github/workflows/page-structure-cn-wave2.yml` — 4264 bytes — `fb35a12c09139a6b5f88a79cfef5bce036fde7d7c6adf26cc62b8a4941ccc8b4`
+- `.github/workflows/recover-page-structure-cn-wave2.yml` — 2306 bytes — `a38e9ed6f7248e7dc427b61b2f96d4d1888945d8d3c2e126de66c7ebe6a138ad`
+- `.github/workflows/fragment-cn-wave2.yml` — 5081 bytes — `dee30622d3e74d59ffb93d50d1334fd13635925e106e65990df41799bcc35048`
+- `.github/workflows/verify-methods-article-claims.yml` — 2241 bytes — `8061b92a3c89c67396c545cf4fefcebe61273590969614a06f902b388d777bfc`
 
 ## Artefactos derivados adicionales presentes
-- `data/derived/semb02_synthetic_stress_result.json` — `c0296ac6271dfba02b4a5bf890db5e5f6c8c986206a86faa87c5791594bd19a8`
+
 - `data/derived/semb03_sample_coverage.csv` — `6cdea905d802d8ecd817e28805b7eed24841c36a600341706fbd3ed1d1373bd8`
 - `data/derived/semb03_sample_token_coverage.csv` — `2309e4b5bb0db4d994a534f5a9169f53f217d4915e0b93d0a154e2ad8d95f0d2`
 - `data/derived/fragseg_layout_proxy_summary.csv` — `b5185b7356289e9a35e4cb99c1c70ccd76e3b10ce235599579a2aaa41c1606d1`
@@ -122,8 +173,11 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `data/derived/semb03_label_heads_synthetic_development.json` — `7ac6f22a2f9fa3b89f8814f03c17539dcf3e5b3ce812e5638b0653457030b107`
 - `data/derived/semb03_readiness_report.json` — `fed739b72317f9943839744cd63ac776a1d13fc838bcf48bffee911acecd5e33`
 - `data/derived/catalog_search_architecture_probe.json` — `2e0b712de0be2f8e2d288fc1801227e2a578934b1684d6c9f3953ac7b042770e`
-- `data/catalog/ciencias_naturales_family_inventory.csv` — `bd6b0920910f8fb81569e18952aecf968eb66e2de790d42898dfb0c787ffa384`
-- `data/expansion/cn46_exact_page_overlap.csv` — `dbb4fc99b3b0fffb50cc98785bc3436bff987ad6ddd0f2c1ecdb9484b7c303af`
 - `data/expansion/cn46_no_text_visual_proxies.csv` — `57df19506750abb2ea7fd0a4fefff3f43149418d78e9e67cfef22a5ffaae132b`
-- `data/expansion/cn46_fragment_manifest.csv` — `815d71c50e4a71bf17358c5080e84dc4c976502f0420a0ebd05ad9c2ceae354b`
-- `data/expansion/cn46_fragment_manifest_summary.csv` — `e2135f2032514bbe08c86272326ce92531987d835982153ee6fe09cba2a8d74c`
+
+## Artefactos opcionales aún ausentes
+
+- `data/validation/semb03_human_reference_consensus.csv`
+- `data/validation/semb03_locked_validation_reference.csv`
+- `data/derived/semb03_model_lock.json`
+- `data/derived/semb03_locked_validation_result.json`

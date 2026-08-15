@@ -1,9 +1,18 @@
 {
-  "integrity_version": "LTMD_INTEGRITY_0.4",
-  "generated_utc": "2026-08-15T22:32:19.497625+00:00",
-  "git_head": "962d27f51d330db2cd0f29932a3ef3dc81b944e5",
-  "critical_count": 102,
-  "optional_present_count": 14,
+  "integrity_version": "LTMD_INTEGRITY_0.5",
+  "generated_utc": "2026-08-15T22:37:18.237685+00:00",
+  "git_head": "97f32da9d7735d8a47d918759219faf0d93813bd",
+  "scope": "CN5 pilot + closed CN4/CN6 expansion + closed Ciencias Naturales Wave 2 + strict-family asset readiness + document-dependence/unique-content evidence + prehuman SEMB 0.3 infrastructure + methods article 0.2",
+  "critical_count": 149,
+  "critical_present_count": 149,
+  "missing_critical": [],
+  "optional_present_count": 9,
+  "optional_missing": [
+    "data/validation/semb03_human_reference_consensus.csv",
+    "data/validation/semb03_locked_validation_reference.csv",
+    "data/derived/semb03_model_lock.json",
+    "data/derived/semb03_locked_validation_result.json"
+  ],
   "files": [
     {
       "path": "README.md",
@@ -69,6 +78,12 @@
       "path": "data/derived/fragseg_heading_candidate_audit.md",
       "bytes": 1681,
       "sha256": "b85aa3be35a1494b858b1e9f3cd413c930acdfb15e36893838b3a383892fd512",
+      "required": true
+    },
+    {
+      "path": "data/derived/semb02_synthetic_stress_result.json",
+      "bytes": 1160,
+      "sha256": "c0296ac6271dfba02b4a5bf890db5e5f6c8c986206a86faa87c5791594bd19a8",
       "required": true
     },
     {
@@ -174,6 +189,12 @@
       "required": true
     },
     {
+      "path": "docs/PROJECT_STATUS_2026-08-15.md",
+      "bytes": 12733,
+      "sha256": "8a350bc436061ba5d32fb0c4a287bdce5c261fba3fdceccc52e04418c24cb770",
+      "required": true
+    },
+    {
       "path": "docs/AUTOMATED_WORK_CEILING_0_1.md",
       "bytes": 3847,
       "sha256": "afead629c21209d80007bc789a61258d44aef41c577923a77c11d694ad9b4f8f",
@@ -207,6 +228,12 @@
       "path": "docs/METHODS_ARTICLE_DRAFT_0_1.md",
       "bytes": 31306,
       "sha256": "3323c8d8c61dcc9d13ae5a0c5197e8b60b15960620d44a8a27a0dbfa6ea79d32",
+      "required": true
+    },
+    {
+      "path": "docs/METHODS_ARTICLE_DRAFT_0_2.md",
+      "bytes": 25280,
+      "sha256": "19addc345813bfff754161b1182d6a03f723f457165c54afe8a2fd00eff33021",
       "required": true
     },
     {
@@ -258,6 +285,12 @@
       "required": true
     },
     {
+      "path": "docs/CN_WAVE2_COMPLETION_2026-08-15.md",
+      "bytes": 3795,
+      "sha256": "0936250d7458010c61cc5d4784dfa7620d296acdd41f8146b72dcf8f9c5c620a",
+      "required": true
+    },
+    {
       "path": "data/catalog/conaliteg_historical_viewer_keys.csv",
       "bytes": 29697,
       "sha256": "4df281992a90e18edc414e952e8fe96c0971e5466be07fba3018d86dacba20ec",
@@ -291,6 +324,54 @@
       "path": "data/catalog/conaliteg_duplicate_title_groups.csv",
       "bytes": 2747,
       "sha256": "aad167c614cff9409f398d64207cd2c6fc51ffb6f9991fe6883d8d6731bd1c9c",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ciencias_naturales_family_inventory.csv",
+      "bytes": 7738,
+      "sha256": "bd6b0920910f8fb81569e18952aecf968eb66e2de790d42898dfb0c787ffa384",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ciencias_naturales_family_asset_readiness.csv",
+      "bytes": 9758,
+      "sha256": "2ab7da88b2ffb9eaee7283b50cafce769ae161d49ad80b33a2ac3ed0c6d2f6a4",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ciencias_naturales_family_asset_readiness.md",
+      "bytes": 1766,
+      "sha256": "f3a43f7d919d93e2a098377455746676fbcbe9817e58748d595e178baaf2e378",
+      "required": true
+    },
+    {
+      "path": "data/catalog/cn2018_2019_asset_identity.csv",
+      "bytes": 247843,
+      "sha256": "55d49cdf50964def2049ece0fcf79c6cee5794395d822e377147c58ee6e47998",
+      "required": true
+    },
+    {
+      "path": "data/catalog/cn2018_2019_asset_identity.md",
+      "bytes": 921,
+      "sha256": "27b5e2bc97eccda5e5186e6f8a055201dc0facfe7d00b08db44b78fd37e5df02",
+      "required": true
+    },
+    {
+      "path": "data/catalog/cn2018_2019_catalog_alias_relationships.csv",
+      "bytes": 1138,
+      "sha256": "32c60f1c2158e84e0bfd2edeb71c4ce76c7e4915cbeb49ba08c6f904dd40931c",
+      "required": true
+    },
+    {
+      "path": "data/catalog/cn2008_internal_unserved_audit.csv",
+      "bytes": 1690,
+      "sha256": "2039120e94df2a9f20ba00781fe5a986f4cf79c446e8727ae704ee15c697cf5b",
+      "required": true
+    },
+    {
+      "path": "data/catalog/cn2008_internal_unserved_audit.md",
+      "bytes": 987,
+      "sha256": "67b741716174b1b7165b5c08458766f746f93fb1ff94563b4e4c3b6c930ffb0b",
       "required": true
     },
     {
@@ -342,6 +423,30 @@
       "required": true
     },
     {
+      "path": "data/expansion/cn46_fragment_manifest.csv",
+      "bytes": 4194043,
+      "sha256": "815d71c50e4a71bf17358c5080e84dc4c976502f0420a0ebd05ad9c2ceae354b",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn46_fragment_manifest_summary.csv",
+      "bytes": 923,
+      "sha256": "e2135f2032514bbe08c86272326ce92531987d835982153ee6fe09cba2a8d74c",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn46_fragment_sequence_gap_audit.csv",
+      "bytes": 3307,
+      "sha256": "fd8f51b540690d1bd27cc4e04b9fd60154187fbde92b4544cef95bc570931db2",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn46_fragment_manifest_report.md",
+      "bytes": 1694,
+      "sha256": "006a223d44e2881b7daef359c842c2aeca84599473887657ffd32d733c6fcf2f",
+      "required": true
+    },
+    {
       "path": "data/expansion/document_relationships_0_1.csv",
       "bytes": 1281,
       "sha256": "7aad7dfb790b8a64fdd90ea0c95fd426cda97f62ad5046bc37598f79cbbe7ccd",
@@ -369,6 +474,126 @@
       "path": "data/expansion/cn4_1972_1988_changed_page_similarity.csv",
       "bytes": 5779,
       "sha256": "eda8138d693f5d8da1bcc8731bcee57cfb8e73b3ee13c2f468f65f21dc154a58",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn4_1972_1988_fragment_reuse.csv",
+      "bytes": 542834,
+      "sha256": "e214cb55ac2708c8b2943ebdb774a27db88ed42825aa425f91e3a0d42c483e01",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn46_exact_page_overlap.csv",
+      "bytes": 3698,
+      "sha256": "dbb4fc99b3b0fffb50cc98785bc3436bff987ad6ddd0f2c1ecdb9484b7c303af",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn46_exact_fragment_overlap.csv",
+      "bytes": 3726,
+      "sha256": "ae5aef4d1c7e9ab575ca5d79cd5d3eb519f5ba1804e9a60afb8fff74cbe68b2a",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn46_fragment_unique_content_map.csv",
+      "bytes": 4144164,
+      "sha256": "713fc4efd19635dd823919e5d646abbcfbb15a2051d7036ee1702f7508091625",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn46_unique_content_units.csv",
+      "bytes": 2668447,
+      "sha256": "fa6e94636058acac575100c98be2de854aa55193202fe46d1e90e02900a70bb8",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn46_unique_content_summary.csv",
+      "bytes": 808,
+      "sha256": "0a7133cbd38d3c4c5ecf6855089c8b7c66d7a4a723e3806e0e4d694051ee7c0a",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn46_unique_content_report.md",
+      "bytes": 1623,
+      "sha256": "038798cb73e8d93726609ff128e0442304003586da19793249063c1d029b7ce7",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn_wave2_ingestion_queue.csv",
+      "bytes": 3270,
+      "sha256": "084b1c097242faf9e1e304ba61fc6a8fdae3ec06b1d9659ecbccccc6154ae022",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn_wave2_ingestion_queue.md",
+      "bytes": 1886,
+      "sha256": "f9d1a2abb05bfe454eebee708b0e19b7cda4c2415d5837c0c690add630da6ea5",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn_wave2_page_manifest.csv",
+      "bytes": 861662,
+      "sha256": "e8a0ca813c0caefc063560fab22bc244cccb1cfa31159b85df294a5ca4502baf",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn_wave2_ocr_page_metrics.csv",
+      "bytes": 461364,
+      "sha256": "6281a7e14206a894433f03f3c383d1e6a9b75052fb3b7043fde531c57df5d6b0",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn_wave2_ocr_summary.csv",
+      "bytes": 1346,
+      "sha256": "2f9613f6a6bec424bcaec70d6c68a86df7434f2edb2ecc41d16d0f91ec73879d",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn_wave2_ocr_report.md",
+      "bytes": 2140,
+      "sha256": "a9aa170b1adede52dee4f4a5c9b400eca697aebde09c02c81e8f08687dc5115b",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn_wave2_page_structure.csv",
+      "bytes": 495354,
+      "sha256": "683db3505839bba8250a5275219a091924f3d4962cd8e9b8b6a7864b9b19e43d",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn_wave2_page_structure_summary.csv",
+      "bytes": 871,
+      "sha256": "1a6d7daffcf9223d9dea794348f69955e025f7b9177ac342bff4d0815185ee09",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn_wave2_page_structure_report.md",
+      "bytes": 560,
+      "sha256": "e5a010b5df2a67bb621a905fb709220a456a250b770825551f699031278e2989",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn_wave2_fragment_manifest.csv",
+      "bytes": 8016665,
+      "sha256": "7b2a254763a8a8e0c7b56cd4518fe3e7f865fbef08a181d569388d2b91727e99",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn_wave2_fragment_manifest_summary.csv",
+      "bytes": 1687,
+      "sha256": "f74386f5a79075412189ea43c484ff06c943149837156c49dc598c42da3e3cbd",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn_wave2_fragment_sequence_gaps.csv",
+      "bytes": 3905,
+      "sha256": "ec1ddc4094aed830c0002a31f6c3b792b4a4135a8845a4ec74f2fbeb55410663",
+      "required": true
+    },
+    {
+      "path": "data/expansion/cn_wave2_fragment_manifest_report.md",
+      "bytes": 963,
+      "sha256": "f6f442d23adbdb01aea1067fd6003e36a7b489484024a15b92291f417e01b386",
       "required": true
     },
     {
@@ -618,10 +843,70 @@
       "required": true
     },
     {
-      "path": "data/derived/semb02_synthetic_stress_result.json",
-      "bytes": 1160,
-      "sha256": "c0296ac6271dfba02b4a5bf890db5e5f6c8c986206a86faa87c5791594bd19a8",
-      "required": false
+      "path": "scripts/segment_cn_wave2_fragments.py",
+      "bytes": 8712,
+      "sha256": "833acc710ffcc1a518a4c31b901f23206c938b0f28b36870722182d211a8cc92",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_cn_wave2_fragment_shards.py",
+      "bytes": 5690,
+      "sha256": "5d9914d1396516bacb205d2689d67b40961330ff4c2ef9b138ff07cd96906799",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-cn-family-asset-readiness.yml",
+      "bytes": 1289,
+      "sha256": "9f849567d1af61b49ea08891877c3fb89000d84a898a3a55380cec8d6c7fcd6c",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/audit-cn2018-2019-asset-identity.yml",
+      "bytes": 1197,
+      "sha256": "ed9a464df21e4a704140e6643175a470c992a1081fce0ba157f6df4d4634fb65",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/audit-cn2008-internal-unserved.yml",
+      "bytes": 1085,
+      "sha256": "4b607dde654b60d9233a59ef20eca04b3faa1151aac4a71afa0815fcfa4f8da3",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-cn-wave2-ingestion.yml",
+      "bytes": 1132,
+      "sha256": "5d656fd1033fbf06531c3efed24412f5723e239c27d2949e6cd3b56e23fa950e",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/ocr-cn-wave2.yml",
+      "bytes": 4335,
+      "sha256": "772b70b60251b0d1c43bf37ce077643e51992b5a0f6098ebb1ca964cf658416b",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/page-structure-cn-wave2.yml",
+      "bytes": 4264,
+      "sha256": "fb35a12c09139a6b5f88a79cfef5bce036fde7d7c6adf26cc62b8a4941ccc8b4",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/recover-page-structure-cn-wave2.yml",
+      "bytes": 2306,
+      "sha256": "a38e9ed6f7248e7dc427b61b2f96d4d1888945d8d3c2e126de66c7ebe6a138ad",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/fragment-cn-wave2.yml",
+      "bytes": 5081,
+      "sha256": "dee30622d3e74d59ffb93d50d1334fd13635925e106e65990df41799bcc35048",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/verify-methods-article-claims.yml",
+      "bytes": 2241,
+      "sha256": "8061b92a3c89c67396c545cf4fefcebe61273590969614a06f902b388d777bfc",
+      "required": true
     },
     {
       "path": "data/derived/semb03_sample_coverage.csv",
@@ -672,33 +957,9 @@
       "required": false
     },
     {
-      "path": "data/catalog/ciencias_naturales_family_inventory.csv",
-      "bytes": 7738,
-      "sha256": "bd6b0920910f8fb81569e18952aecf968eb66e2de790d42898dfb0c787ffa384",
-      "required": false
-    },
-    {
-      "path": "data/expansion/cn46_exact_page_overlap.csv",
-      "bytes": 3698,
-      "sha256": "dbb4fc99b3b0fffb50cc98785bc3436bff987ad6ddd0f2c1ecdb9484b7c303af",
-      "required": false
-    },
-    {
       "path": "data/expansion/cn46_no_text_visual_proxies.csv",
       "bytes": 1341,
       "sha256": "57df19506750abb2ea7fd0a4fefff3f43149418d78e9e67cfef22a5ffaae132b",
-      "required": false
-    },
-    {
-      "path": "data/expansion/cn46_fragment_manifest.csv",
-      "bytes": 4194043,
-      "sha256": "815d71c50e4a71bf17358c5080e84dc4c976502f0420a0ebd05ad9c2ceae354b",
-      "required": false
-    },
-    {
-      "path": "data/expansion/cn46_fragment_manifest_summary.csv",
-      "bytes": 923,
-      "sha256": "e2135f2032514bbe08c86272326ce92531987d835982153ee6fe09cba2a8d74c",
       "required": false
     }
   ]
