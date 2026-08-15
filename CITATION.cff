@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "Si utiliza este proyecto, cite la versión archivada correspondiente. La referencia definitiva se añadirá en la primera liberación estable."
+title: "Libro de Texto Mexicano Digital"
+type: software
+authors:
+  - family-names: "Sandoval Gutiérrez"
+    given-names: "Fernando"
+repository-code: "https://github.com/fersandovalgtz/libro-texto-mexicano-digital"
+abstract: "Infraestructura de investigación para el análisis histórico y computacional de libros de texto mexicanos."
