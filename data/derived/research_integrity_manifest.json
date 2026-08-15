@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.4",
-  "generated_utc": "2026-08-15T21:35:26.290718+00:00",
-  "git_head": "c18b53b5cdb6c30076d6ea662beaa98d9e189ed4",
+  "generated_utc": "2026-08-15T21:36:38.417527+00:00",
+  "git_head": "a222d5d402b5f67b551ede71cf3f491af15e1681",
   "critical_count": 102,
   "optional_present_count": 14,
   "files": [
