@@ -3,12 +3,17 @@
 
 Never reads LTMD corpus, FRAGSEG manifest, RULEA outputs, or RULEA patterns.
 Chooses scoring method and actionness threshold using only preregistered dev data.
+Also writes a machine-readable synthetic development result so the selected
+configuration does not depend on ephemeral CI logs.
 """
+import json
+from pathlib import Path
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
 MODEL='intfloat/multilingual-e5-small'
 REV='fd1525a9fd15316a2d503bf26ab031a61d056e98'
+RESULT_PATH=Path('data/derived/semantic_B02_development_result.json')
 
 ACTION_ANCHORS={
 'observe':['observación visual detallada','examinar propiedades con atención','mirar cambios y objetos cuidadosamente'],
@@ -104,13 +109,22 @@ def scores(q,e,avg,method):
     if method=='max_anchor': return (q[:,None,None,:]*e[None,:,:,:]).sum(axis=-1).max(axis=-1)
     raise ValueError(method)
 
-def metrics(labels,s,expected):
+def metrics(labels,s,expected,verbose=True):
     top1=top3=0;ranks=[];worst=0
+    details=[]
     for i,exp in enumerate(expected):
         order=np.argsort(-s[i]);rank=int(np.where(order==labels.index(exp))[0][0])+1
         ranks.append(rank);worst=max(worst,rank);top1+=rank==1;top3+=rank<=3
-        print(f'  expected={exp:20s} rank={rank:2d} expected_score={float(s[i,labels.index(exp)]):.6f} top={labels[int(order[0])]:20s} top_score={float(s[i,order[0]]):.6f} margin={float(s[i,order[0]]-s[i,order[1]]):.6f}')
-    return {'top1':top1,'top3':top3,'mean_rank':float(np.mean(ranks)),'worst':worst}
+        detail={
+            'expected':exp,'rank':rank,'expected_score':round(float(s[i,labels.index(exp)]),6),
+            'top_label':labels[int(order[0])],'top_score':round(float(s[i,order[0]]),6),
+            'top_margin':round(float(s[i,order[0]]-s[i,order[1]]),6),
+        }
+        details.append(detail)
+        if verbose:
+            print(f"  expected={exp:20s} rank={rank:2d} expected_score={detail['expected_score']:.6f} top={detail['top_label']:20s} top_score={detail['top_score']:.6f} margin={detail['top_margin']:.6f}")
+    summary={'top1':top1,'top3':top3,'mean_rank':float(np.mean(ranks)),'worst':worst}
+    return summary,details
 
 def balanced_accuracy(pos_margins,neg_margins,threshold):
     tp=sum(x>=threshold for x in pos_margins);fn=len(pos_margins)-tp
@@ -123,15 +137,15 @@ def main():
     al,ae,aavg=build(model,ACTION_ANCHORS)
     pl,pe,pavg=build(model,POSITION_ANCHORS)
     aq=embed(model,list(ACTION_DEV.values()));pq=embed(model,list(POSITION_DEV.values()))
-    method_results={}
+    method_results={}; method_details={}
     for method in ['average_anchor','max_anchor']:
         print('## METHOD',method,'ACTIONS')
-        am=metrics(al,scores(aq,ae,aavg,method),list(ACTION_DEV))
+        am,ad=metrics(al,scores(aq,ae,aavg,method),list(ACTION_DEV))
         print('ACTION SUMMARY',am)
         print('## METHOD',method,'POSITIONS')
-        pm=metrics(pl,scores(pq,pe,pavg,method),list(POSITION_DEV))
+        pm,pd=metrics(pl,scores(pq,pe,pavg,method),list(POSITION_DEV))
         print('POSITION SUMMARY',pm)
-        method_results[method]=(am,pm)
+        method_results[method]=(am,pm); method_details[method]={'actions':ad,'positions':pd}
     def key(m):
         a,p=method_results[m]
         return (a['top1']+p['top1'],a['top3']+p['top3'],-(a['mean_rank']+p['mean_rank']),-(a['worst']+p['worst']),1 if m=='max_anchor' else 0)
@@ -145,13 +159,40 @@ def main():
     pm=gate_margin(posq);nm=gate_margin(negq)
     print('POS_GATE_MARGINS',','.join(f'{x:.6f}' for x in pm))
     print('NEG_GATE_MARGINS',','.join(f'{x:.6f}' for x in nm))
-    candidates=[]
+    candidates=[]; gate_rows=[]
     for th in [0.00,0.02,0.04,0.06]:
         ba,sens,spec,tp,tn=balanced_accuracy(pm,nm,th)
         candidates.append((ba,spec,th,sens,tp,tn))
+        gate_rows.append({'threshold':th,'balanced_accuracy':ba,'sensitivity':sens,'specificity':spec,'tp':tp,'tn':tn})
         print('GATE',th,'balanced_accuracy',round(ba,6),'sensitivity',round(sens,6),'specificity',round(spec,6),'tp',tp,'tn',tn)
-    # lexicographic: BA, specificity, then higher threshold
     best=max(candidates,key=lambda x:(x[0],x[1],x[2]))
     print('CHOSEN_GATE_THRESHOLD',best[2],'balanced_accuracy',best[0],'sensitivity',best[3],'specificity',best[1])
+
+    result={
+        'development_version':'SEMB02_DEV_0.1',
+        'model':MODEL,'model_revision':REV,'e5_prefix':'query: ',
+        'selected_method':chosen,
+        'selection_key':list(key(chosen)),
+        'method_metrics':{m:{'actions':method_results[m][0],'positions':method_results[m][1]} for m in method_results},
+        'selected_method_details':method_details[chosen],
+        'action_gate':{
+            'selected_threshold':best[2],
+            'balanced_accuracy':best[0],
+            'sensitivity':best[3],
+            'specificity':best[1],
+            'positive_margins':[round(float(x),6) for x in pm],
+            'negative_margins':[round(float(x),6) for x in nm],
+            'grid':gate_rows,
+        },
+        'fixed_multilabel_band':0.02,
+        'fixed_uncertainty_top_margin':0.01,
+        'fixed_uncertainty_gate_buffer':0.02,
+        'max_action_labels':3,
+        'max_position_labels':2,
+        'validation_B02_opened':False,
+    }
+    RESULT_PATH.parent.mkdir(parents=True,exist_ok=True)
+    RESULT_PATH.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    print('WROTE_RESULT',RESULT_PATH)
 
 if __name__=='__main__': main()
