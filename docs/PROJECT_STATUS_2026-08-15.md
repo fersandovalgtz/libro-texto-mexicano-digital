@@ -10,7 +10,8 @@ LTMD dejó de ser únicamente un piloto de quinto grado. Actualmente posee:
 2. una **infraestructura SEMB 0.3 prehumana** cerrada y bloqueada correctamente;
 3. una **expansión CN4/CN6** técnicamente completa hasta FRAGSEG, sin clasificación semántica productiva;
 4. un **catálogo maestro reproducible** de los visores históricos de primaria;
-5. una estrategia de publicación y release separada de la narrativa histórica final.
+5. una **auditoría de activos de la familia estricta Ciencias Naturales** con 35/37 visores completamente resueltos y sólo tres posiciones internas no servidas en dos objetos 2008;
+6. una estrategia de publicación y release separada de la narrativa histórica final.
 
 La principal frontera pendiente para inferencias semánticas históricas es epistemológica: referencia humana y validación de constructo.
 
@@ -112,10 +113,10 @@ Nueve objetos adicionales de cuarto y sexto grados en 1972, 1988, 1993 y 2014, i
 - `question_candidate`: 3,711;
 - `expository_candidate`: 3,183;
 - `instruction_candidate`: 2,906;
-- `activity_candidate`: 622;
-- `experiment_candidate`: 101;
-- `project_candidate`: 41;
-- `assessment_candidate`: 20;
+- `activity_candidate`: 427;
+- `experiment_candidate`: 234;
+- `project_candidate`: 87;
+- `assessment_candidate`: 36;
 - 34 páginas presentan huecos legítimos de secuencia por descarte de 40 candidatos de 0 tokens; no se renumeraron IDs.
 
 ## 7. Dependencia documental — hallazgos técnicos
@@ -138,6 +139,17 @@ Interpretación técnica: `massive_page_reuse_with_localized_revision`.
 
 Interpretación: `replacement_within_same_catalog_generation`.
 
+### Ciencias Naturales 2018 ↔ 2019
+
+Los cuatro visores estrictos de 2018 no sirven sus JPEG bajo la clave 2018. La auditoría de enrutamiento identificó las claves 2019 del mismo grado y una segunda auditoría comparó los **652 pares de activos** con las huellas ya persistidas de 2019:
+
+- URL servida: 652/652 coincide con la URL fuente 2019;
+- SHA-256: 652/652 idéntico;
+- tamaño: 652/652 idéntico;
+- grados 3º, 4º, 5º y 6º: 100% de identidad byte a byte.
+
+Interpretación técnica: las entradas 2018 se conservan como registros institucionales distintos del catálogo, pero se modelan como `catalog_entry_aliases_same_asset_bytes` respecto de 2019. No constituyen observaciones de contenido independientes en la vista de contenido único y esta relación no convierte “2018” en año bibliográfico.
+
 ### Señal adicional
 
 CN6/1988 y el objeto temprano CN6/1993 comparten 173 hashes textuales exactos. Se registra como señal de auditoría documental, no como conclusión curricular.
@@ -157,19 +169,27 @@ No se elimina ninguna ocurrencia. `content_unit_id` permite alternar entre:
 - `unique-content view`;
 - `revision view`.
 
-## 9. Familia completa Ciencias Naturales
+## 9. Familia completa Ciencias Naturales — readiness de activos
 
 Inventario estricto:
 
 - 37 visores;
 - 6,616 posiciones declaradas;
-- 12 objetos estrictos ya cubiertos por piloto/expansión actual;
-- 25 objetos pendientes de auditoría integral;
-- 4,207 posiciones declaradas en esos 25 pendientes.
+- **35/37 visores (94.6%) con resolución completa de activos**;
+- `full_direct`: 31;
+- `full_alias_same_bytes`: 4;
+- `partial_internal_unserved`: 2;
+- `not_resolved`: 0;
+- sólo **3 posiciones internas no servidas** persisten en toda la familia auditada.
 
-La primera auditoría masiva de esos 25 objetos identificó que 18 siguen directamente el patrón de activos conocido. Las anomalías se concentran en algunos objetos 2008 y en los cuatro objetos 2018, cuya ruta de activos requiere resolución separada antes de declararlos `corpus_ready`.
+Los dos objetos parciales son:
 
-No se clasifica una ausencia como pérdida de fuente hasta agotar la auditoría de enrutamiento.
+- `LTMD-CN3-G2008`: VP94;
+- `LTMD-CN4-G2008`: VP76 y VP96.
+
+Cada posición objetivo permaneció no servida después de cinco intentos, mientras las páginas inmediatamente anterior y posterior reprodujeron sus SHA-256 persistidos. Se clasifican como `internal_unserved_position_observed`, no como “páginas faltantes del libro”: una conclusión bibliográfica requeriría cotejo independiente.
+
+La generación 2018 queda completamente resuelta mediante alias byte-idénticos a 2019 y no se vuelve a procesar como contenido independiente.
 
 ## 10. Publicación
 
@@ -202,15 +222,16 @@ Ejemplos ya registrados de fallos útiles:
 - combine B02 fallido y recuperación de shards;
 - cardinalidad CN4/CN6 manual errónea rechazada antes de publicar;
 - FRAGSEG combine demasiado estricto respecto a gaps de secuencia, corregido sin renumerar IDs;
-- auditoría de los 25 visores CN detecta anomalías de ruta 2008/2018 en vez de declarar falsamente el corpus completo.
+- auditoría familiar detectó primero las anomalías 2008/2018 y luego las resolvió por evidencia, sin declarar falsamente corpus completo;
+- las URLs 2008 incorrectamente inferidas en una capa de diagnóstico fueron sustituidas por los identificadores reales `CI263` y `CI268` antes de interpretar sus 404.
 
 ## 13. Qué puede seguir haciéndose sin humanos
 
 Permitido y científicamente útil:
 
-- resolver enrutamiento de activos 2008/2018;
-- completar auditoría/hash de los 25 visores restantes de Ciencias Naturales;
-- OCR, PAGESTRUCT y FRAGSEG técnico de los objetos que superen procedencia;
+- llevar a OCR, PAGESTRUCT y FRAGSEG los **19 objetos nuevos `full_direct`** que aún no forman parte del piloto/CN4-CN6;
+- procesar los activos 2019 una sola vez y representar 2018 por alias de procedencia, evitando duplicación computacional y estadística;
+- decidir una política técnica explícita para los dos objetos 2008 parciales sin rellenar sus tres huecos;
 - ampliar documentación bibliográfica y curricular;
 - analizar dependencia documental y contenido duplicado por hashes;
 - terminar artículo metodológico, release, licencias y reproducibilidad;
@@ -225,4 +246,4 @@ Bloqueado deliberadamente:
 
 ## 14. Diagnóstico
 
-LTMD ya dispone de suficiente ingeniería para demostrar que el problema central no es extraer más texto. La siguiente mejora epistemológica de la capa semántica depende de referencia humana real. Mientras esa referencia se obtiene, la expansión documental/técnica sigue produciendo conocimiento valioso sobre edición, reutilización, dependencia y arquitectura del propio archivo escolar mexicano.
+LTMD ya dispone de suficiente ingeniería para demostrar que el problema central no es extraer más texto. La capa documental de *Ciencias Naturales* está casi completamente resuelta a nivel de activos: 35/37 visores completos y sólo tres posiciones internas no servidas en dos objetos 2008. La siguiente mejora epistemológica de la capa semántica depende de referencia humana real. Mientras esa referencia se obtiene, la expansión técnica puede industrializarse sobre los objetos `full_direct` sin contaminar SEMB 0.3.
