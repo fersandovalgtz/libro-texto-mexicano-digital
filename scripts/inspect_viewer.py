@@ -93,7 +93,9 @@ def main() -> None:
         for row in csv.DictReader(fh):
             record = {
                 "book_id": row["book_id"],
-                "generation": row["generation"],
+                "catalog_generation": row["catalog_generation"],
+                "edition_year": row.get("edition_year", ""),
+                "edition_year_status": row.get("edition_year_status", ""),
                 "source_url": row["source_url"],
             }
             try:
