@@ -1,0 +1,53 @@
+name: recover-cn46-fragments
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/recover-cn46-fragments.yml'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download nine valid shards from originating FRAGSEG run
+        uses: actions/download-artifact@v4
+        with:
+          pattern: frag-*
+          path: data/work/cn46_fragments
+          merge-multiple: true
+          run-id: 31907834202
+          github-token: ${{ github.token }}
+      - name: Combine with sequence-gap-aware integrity checks
+        run: python3 scripts/combine_cn46_fragment_shards.py --input-dir data/work/cn46_fragments
+      - name: Publish recovered FRAGSEG layer race-safely
+        run: |
+          set -euo pipefail
+          cp data/expansion/cn46_fragment_manifest.csv /tmp/cn46_fragment_manifest.csv
+          cp data/expansion/cn46_fragment_manifest_summary.csv /tmp/cn46_fragment_manifest_summary.csv
+          cp data/expansion/cn46_fragment_manifest_report.md /tmp/cn46_fragment_manifest_report.md
+          cp data/expansion/cn46_fragment_sequence_gap_audit.csv /tmp/cn46_fragment_sequence_gap_audit.csv
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/expansion
+            cp /tmp/cn46_fragment_manifest.csv data/expansion/
+            cp /tmp/cn46_fragment_manifest_summary.csv data/expansion/
+            cp /tmp/cn46_fragment_manifest_report.md data/expansion/
+            cp /tmp/cn46_fragment_sequence_gap_audit.csv data/expansion/
+            git add data/expansion/cn46_fragment_manifest.csv data/expansion/cn46_fragment_manifest_summary.csv data/expansion/cn46_fragment_manifest_report.md data/expansion/cn46_fragment_sequence_gap_audit.csv
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish recovered CN4/CN6 FRAGSEG layer'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
