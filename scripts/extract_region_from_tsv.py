@@ -11,6 +11,12 @@ This script implements the alignment rule preregistered in
 - Selected words are reconstructed in Tesseract's TSV reading order, with words
   separated by spaces and OCR lines separated by newlines.
 
+Important parser rule: Tesseract TSV is tab-delimited text, not quoted CSV.
+OCR tokens may legitimately begin with a double quote (for example,
+`"mantenerla`). Therefore `csv.DictReader` must use `quoting=csv.QUOTE_NONE`;
+otherwise an unmatched OCR quote can absorb subsequent TSV rows and corrupt the
+regional hypothesis.
+
 The resulting text is PRIVATE WORKING DATA. Do not commit output files to the
 public repository. This script contains no source text itself.
 """
@@ -48,7 +54,7 @@ def word_rows(rows: Iterable[dict[str, str]]) -> list[dict[str, str]]:
 
 def extract(tsv_path: Path, box: tuple[float, float, float, float]) -> str:
     with tsv_path.open(encoding='utf-8', newline='') as fh:
-        rows = list(csv.DictReader(fh, delimiter='\t'))
+        rows = list(csv.DictReader(fh, delimiter='\t', quoting=csv.QUOTE_NONE))
 
     selected = [r for r in word_rows(rows) if inside_center(r, box)]
     # Tesseract TSV is already emitted in reading order. The tuple below also
