@@ -1,0 +1,41 @@
+name: Build supplementary OCR stress sample
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ocr-stress-sample.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build deterministic 12-page fallback stress sample
+        run: python scripts/build_ocr_stress_sample.py
+      - name: Validate sample
+        run: |
+          python - <<'PY'
+          import csv
+          from collections import Counter
+          rows=list(csv.DictReader(open('data/samples/ocr_cer_wer_stress_sample.csv',encoding='utf-8')))
+          assert len(rows)==12
+          assert Counter(r['catalog_generation'] for r in rows)==Counter({'1972':3,'1988':3,'1993':3,'2014':3})
+          assert all(r['selected_psm'] in {'6','11'} for r in rows)
+          primary={r['page_id'] for r in csv.DictReader(open('data/samples/ocr_cer_wer_page_sample.csv',encoding='utf-8'))}
+          assert not any(r['page_id'] in primary for r in rows)
+          print('Validated 12-page supplementary OCR stress sample')
+          PY
+      - name: Commit metadata-only stress sample
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/samples/ocr_cer_wer_stress_sample.csv
+          git commit -m "qa: add supplementary OCR stress sample"
+          git push
