@@ -1,0 +1,9 @@
+audit_version,catalog_generation,candidate_type,n,height_ratio_median,height_ratio_mean,height_ratio_ge_1_2_pct,bbox_width_ratio_median,uppercase_ratio_median,uppercase_ge_0_8_pct,top_ratio_median,terminal_punctuation_pct
+FRAGSEG_LAYOUT_PROXY_0.1,1972,heading_candidate,20,1.0,1.0149,5.0,0.4007,0.02,0.0,0.5725,70.0
+FRAGSEG_LAYOUT_PROXY_0.1,1972,expository_candidate,20,1.0,0.9967,0.0,0.8299,0.013,0.0,0.4668,85.0
+FRAGSEG_LAYOUT_PROXY_0.1,1988,heading_candidate,20,1.0,1.0232,5.0,0.5694,0.0182,0.0,0.7221,60.0
+FRAGSEG_LAYOUT_PROXY_0.1,1988,expository_candidate,20,1.0,0.986,0.0,0.8493,0.0127,0.0,0.6465,100.0
+FRAGSEG_LAYOUT_PROXY_0.1,1993,heading_candidate,20,1.0,1.3611,25.0,0.5088,0.0155,5.0,0.3641,40.0
+FRAGSEG_LAYOUT_PROXY_0.1,1993,expository_candidate,20,1.0,1.1315,10.0,0.6531,0.0101,0.0,0.4282,85.0
+FRAGSEG_LAYOUT_PROXY_0.1,2014,heading_candidate,20,0.9375,1.0225,15.0,0.2203,0.0305,0.0,0.4863,50.0
+FRAGSEG_LAYOUT_PROXY_0.1,2014,expository_candidate,20,1.0,1.0583,10.0,0.3999,0.0142,0.0,0.4056,80.0
