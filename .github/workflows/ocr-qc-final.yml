@@ -1,0 +1,51 @@
+name: Stable 40-page OCR QC benchmark
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/ocr-qc-final.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    env:
+      OMP_THREAD_LIMIT: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Spanish Tesseract model
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: Build page manifest
+        run: python scripts/build_page_manifest.py
+      - name: Run preregistered 40-page benchmark with stable concurrency
+        run: python scripts/ocr_adaptive_metrics.py --slots '' --modes 3 --timeout 60 --workers 2 --output data/derived/ocr_qc_40_metrics.csv
+      - name: Summarize metrics
+        run: |
+          python - <<'PY'
+          import csv, statistics
+          from collections import defaultdict
+          rows=list(csv.DictReader(open('data/derived/ocr_qc_40_metrics.csv',encoding='utf-8')))
+          groups=defaultdict(list)
+          for r in rows: groups[r['catalog_generation']].append(r)
+          print('generation,n,resolved,text,no_text,unresolved,mean_conf_text')
+          for g in sorted(groups):
+              rs=groups[g]
+              text=[r for r in rs if r['ocr_class']=='text_detected']
+              conf=[float(r['mean_word_confidence']) for r in text if r['mean_word_confidence']]
+              print(g,len(rs),sum(r['ocr_status']=='ok' for r in rs),len(text),sum(r['ocr_class']=='no_text_detected' for r in rs),sum(r['ocr_class']=='unresolved' for r in rs),f'{statistics.mean(conf):.2f}' if conf else '')
+          PY
+      - name: Upload metrics only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ocr-qc-40-metrics
+          path: data/derived/ocr_qc_40_metrics.csv
+          retention-days: 30
