@@ -1,0 +1,42 @@
+name: Audit CONALITEG viewers
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-viewers.yml'
+      - 'scripts/inspect_viewer.py'
+      - 'data/book_inventory.csv'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate inventory
+        run: python scripts/validate_inventory.py
+
+      - name: Inspect official viewers
+        run: python scripts/inspect_viewer.py
+
+      - name: Show audit result
+        run: cat data/derived/viewer_inspection.json
+
+      - name: Upload audit artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: viewer-inspection
+          path: data/derived/viewer_inspection.json
+          if-no-files-found: error
+          retention-days: 30
