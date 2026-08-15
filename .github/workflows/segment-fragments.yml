@@ -6,6 +6,10 @@ on:
     paths:
       - '.github/workflows/segment-fragments.yml'
 
+concurrency:
+  group: fragment-segmentation-main
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -21,6 +25,15 @@ jobs:
       OMP_THREAD_LIMIT: '1'
     steps:
       - uses: actions/checkout@v4
+      - name: Verify PAGESTRUCT 0.2 input
+        run: |
+          python3 - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('data/derived/page_structure.csv',encoding='utf-8')))
+          assert len(rows)==759
+          assert all(r['classifier_version']=='PAGESTRUCT_0.2' for r in rows)
+          print('PAGESTRUCT 0.2 verified')
+          PY
       - name: Install exact OCR family
         run: |
           sudo apt-get update -qq
@@ -28,7 +41,7 @@ jobs:
           tesseract --version | head -1 | grep -F 'tesseract 5.3.4'
       - name: Segment generation
         run: |
-          python3 scripts/segment_fragments.py \
+          python3 scripts/segment_fragments_v02.py \
             --generation '${{ matrix.generation }}' \
             --out 'data/derived/fragment_manifest_${{ matrix.generation }}.csv'
       - name: Validate shard
@@ -45,7 +58,7 @@ jobs:
           assert len({r['fragment_id'] for r in rows})==len(rows)
           assert all(r['catalog_generation']==gen for r in rows)
           assert all(r['source_structure_class'] in {'textual','mixed_text_image'} for r in rows)
-          assert all(r['segmenter_version']=='FRAGSEG_0.1' for r in rows)
+          assert all(r['segmenter_version']=='FRAGSEG_0.2' for r in rows)
           print('generation',gen,'fragments',len(rows),'failures',len(fails))
           PY
         env:
@@ -69,24 +82,28 @@ jobs:
           pattern: fragment-shard-*
           path: shards
           merge-multiple: true
-      - name: Combine and validate
+      - name: Combine and validate against current PAGESTRUCT 0.2
         run: |
           python3 - <<'PY'
           import csv
           from collections import Counter, defaultdict
           from pathlib import Path
           gens=['1972','1988','1993','2014']
+          structure=list(csv.DictReader(open('data/derived/page_structure.csv',encoding='utf-8')))
+          eligible={r['page_id'] for r in structure if r['primary_structure'] in {'textual','mixed_text_image'}}
+          assert all(r['classifier_version']=='PAGESTRUCT_0.2' for r in structure)
           manifests=[]; failures=[]
           for g in gens:
-              mp=Path(f'shards/fragment_manifest_{g}.csv')
-              fp=Path(f'shards/fragment_manifest_{g}_failures.csv')
-              manifests.extend(list(csv.DictReader(mp.open(encoding='utf-8'))))
-              failures.extend(list(csv.DictReader(fp.open(encoding='utf-8'))))
+              manifests.extend(list(csv.DictReader(open(f'shards/fragment_manifest_{g}.csv',encoding='utf-8'))))
+              failures.extend(list(csv.DictReader(open(f'shards/fragment_manifest_{g}_failures.csv',encoding='utf-8'))))
           assert len({r['fragment_id'] for r in manifests})==len(manifests)
+          assert all(r['segmenter_version']=='FRAGSEG_0.2' for r in manifests)
           pages=defaultdict(set); type_counts=defaultdict(Counter)
           for r in manifests:
-              pages[r['catalog_generation']].add(r['page_id'])
-              type_counts[r['catalog_generation']][r['candidate_type']]+=1
+              pages[r['catalog_generation']].add(r['page_id']); type_counts[r['catalog_generation']][r['candidate_type']]+=1
+          segmented={r['page_id'] for r in manifests}; failed={r['page_id'] for r in failures}
+          assert segmented | failed == eligible, (len(segmented),len(failed),len(eligible),len((segmented|failed)^eligible))
+          assert not (segmented & failed)
           out=Path('data/derived'); out.mkdir(parents=True,exist_ok=True)
           fields=list(manifests[0].keys())
           with (out/'fragment_manifest.csv').open('w',encoding='utf-8',newline='') as f:
@@ -100,23 +117,30 @@ jobs:
               for g in gens:
                   row={'catalog_generation':g,'segmented_pages':len(pages[g]),'fragment_count':sum(type_counts[g].values())}
                   row.update({t:type_counts[g][t] for t in all_types}); w.writerow(row)
-              row={'catalog_generation':'ALL','segmented_pages':sum(len(pages[g]) for g in gens),'fragment_count':len(manifests)}
+              row={'catalog_generation':'ALL','segmented_pages':len(segmented),'fragment_count':len(manifests)}
               total=Counter(); [total.update(type_counts[g]) for g in gens]
               row.update({t:total[t] for t in all_types}); w.writerow(row)
-          failure_rate=len(failures)/641
-          print('fragments',len(manifests),'segmented_pages',sum(len(pages[g]) for g in gens),'failures',len(failures),'failure_rate',failure_rate)
+          failure_rate=len(failed)/len(eligible)
+          print('eligible_pages',len(eligible),'fragments',len(manifests),'segmented_pages',len(segmented),'failures',len(failed),'failure_rate',failure_rate)
           print((out/'fragment_segmentation_summary.csv').read_text(encoding='utf-8'))
           assert failure_rate <= 0.05, f'excessive failure rate {failure_rate:.2%}'
           PY
-      - name: Publish derived fragment metadata
+      - name: Publish FRAGSEG 0.2 derived metadata race-safely
         run: |
+          set -euo pipefail
+          mkdir -p /tmp/frag-derived
+          cp data/derived/fragment_manifest.csv /tmp/frag-derived/
+          cp data/derived/fragment_segmentation_failures.csv /tmp/frag-derived/
+          cp data/derived/fragment_segmentation_summary.csv /tmp/frag-derived/
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/frag-derived/* data/derived/
           git add data/derived/fragment_manifest.csv data/derived/fragment_segmentation_failures.csv data/derived/fragment_segmentation_summary.csv
           if git diff --cached --quiet; then
             echo 'No derived changes to commit.'
           else
-            git commit -m 'data: publish fragment segmentation 0.1'
-            git pull --rebase origin main
+            git commit -m 'data: publish fragment segmentation 0.2'
             git push origin HEAD:main
           fi
