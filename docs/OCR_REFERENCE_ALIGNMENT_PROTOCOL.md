@@ -136,13 +136,9 @@ La puntuación se mantiene inicialmente. Si se decide reportar una segunda métr
 
 ## Almacenamiento privado
 
-El trabajo textual se mantiene en Google Drive en:
+El trabajo textual se mantiene en una **hoja privada de Google Drive** dedicada al proyecto. La ubicación/ID exactos se conservan únicamente en la bitácora privada de Notion y no se publican en este repositorio.
 
-**LTMD — referencia humana OCR (privada)**
-
-ID: `1hSrWI6OIqzPmuif2AjencToWSVLZPdtY0V5SRfe6WOg`
-
-Pestañas:
+Pestañas de trabajo:
 
 - `CER_WER_Primary_48`
 - `Stress_12`
