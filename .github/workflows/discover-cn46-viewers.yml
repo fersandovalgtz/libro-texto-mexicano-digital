@@ -1,0 +1,41 @@
+name: discover-cn46-viewers
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/discover-cn46-viewers.yml'
+      - 'scripts/discover_cn46_viewers.py'
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Discover CN4/CN6 viewers from CONALITEG catalog source
+        run: python3 scripts/discover_cn46_viewers.py
+      - name: Publish discovery race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-cn46
+          mkdir -p /tmp/ltmd-cn46
+          cp -r data/expansion/. /tmp/ltmd-cn46/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/expansion
+            cp -r /tmp/ltmd-cn46/. data/expansion/
+            git add data/expansion/cn46_viewer_candidates.csv data/expansion/cn46_discovery_report.md data/expansion/cn46_discovery_metadata.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish CN4/CN6 viewer discovery'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
