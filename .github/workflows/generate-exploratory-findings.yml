@@ -1,0 +1,38 @@
+name: Generate LTMD exploratory findings 0.1
+
+on:
+  push:
+    paths:
+      - '.github/EXPLORATORY_FINDINGS_ONE_SHOT_TRIGGER'
+
+permissions:
+  contents: write
+
+jobs:
+  findings:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify preregistered historical derivatives
+        run: |
+          test -f data/derived/historical_transitions.csv
+          test -f data/derived/classifier_AB_category_agreement.csv
+          test -f docs/EXPLORATORY_FINDINGS_SPEC_0_1.md
+      - name: Generate exploratory layer without source text
+        run: python3 scripts/generate_exploratory_findings.py
+      - name: Publish exploratory derivatives race-safely
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/explore
+          cp data/derived/exploratory_robust_transitions.csv /tmp/explore/
+          cp data/derived/exploratory_method_sensitive_transitions.csv /tmp/explore/
+          cp data/derived/exploratory_category_stability.csv /tmp/explore/
+          cp data/derived/exploratory_historical_findings.md /tmp/explore/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/explore/* data/derived/
+          git add data/derived/exploratory_robust_transitions.csv data/derived/exploratory_method_sensitive_transitions.csv data/derived/exploratory_category_stability.csv data/derived/exploratory_historical_findings.md
+          git commit -m 'data: publish exploratory LTMD historical findings 0.1'
+          git push origin HEAD:main
