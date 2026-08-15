@@ -1,0 +1,106 @@
+case_id,suite_version,focus,text,expected_actionable,expected_action_labels,expected_position_labels,difficulty
+SYN-405C348FB3A600F5,SEMB03_SYNTH_STRESS_0.1,action,Observa con atención las hojas y registra los cambios que notes.,1,observe,,clear
+SYN-1607AFF65F107DE3,SEMB03_SYNTH_STRESS_0.1,action,Examina la muestra durante dos minutos y señala lo que puedes ver.,1,observe,,clear
+SYN-CD25E81FE1975043,SEMB03_SYNTH_STRESS_0.1,action,Mira ambos recipientes y anota cualquier cambio visible.,1,observe,,clear
+SYN-00550A9905F6079E,SEMB03_SYNTH_STRESS_0.1,action,Describe con tus palabras las características del animal de la imagen.,1,describe,,clear
+SYN-7DA8E3B253F17C60,SEMB03_SYNTH_STRESS_0.1,action,Escribe cómo es la superficie de cada roca.,1,describe,,clear
+SYN-000B5FA486670590,SEMB03_SYNTH_STRESS_0.1,action,Di qué cambios observaste durante el proceso.,1,describe,,clear
+SYN-5A9511451E22A54F,SEMB03_SYNTH_STRESS_0.1,action,Menciona dos funciones del sistema respiratorio estudiadas anteriormente.,1,recall,,clear
+SYN-3ECC42CE6D0F967B,SEMB03_SYNTH_STRESS_0.1,action,Recuerda qué significa evaporación y escríbelo en una oración.,1,recall,,clear
+SYN-D4730FB1E2331EE1,SEMB03_SYNTH_STRESS_0.1,action,Anota el nombre de los tres estados físicos de la materia.,1,recall,,clear
+SYN-DB30241B6B8ABB72,SEMB03_SYNTH_STRESS_0.1,action,Explica por qué se forman gotas en la parte exterior del vaso frío.,1,explain,,clear
+SYN-9DDE03316334AF6A,SEMB03_SYNTH_STRESS_0.1,action,Justifica por qué la sombra cambia de tamaño durante el día.,1,explain,,clear
+SYN-75954AFF1AA90E42,SEMB03_SYNTH_STRESS_0.1,action,¿Por qué una planta puede marchitarse si no recibe agua? Explica tu respuesta.,1,explain,,clear
+SYN-56ACA9B980D9BD54,SEMB03_SYNTH_STRESS_0.1,action,Compara las dos imágenes y escribe una semejanza y una diferencia.,1,compare,,clear
+SYN-99CEAF5E95BA6BD5,SEMB03_SYNTH_STRESS_0.1,action,Contrasta las propiedades del agua líquida y del hielo.,1,compare,,clear
+SYN-16FB9A92C67FD123,SEMB03_SYNTH_STRESS_0.1,action,Establece en qué se parecen y en qué se diferencian ambos ecosistemas.,1,compare,,clear
+SYN-895B283C16176F9E,SEMB03_SYNTH_STRESS_0.1,action,Clasifica los objetos según sean conductores o aislantes.,1,classify,,clear
+SYN-166961676F93CE13,SEMB03_SYNTH_STRESS_0.1,action,Agrupa los animales de acuerdo con el tipo de alimentación.,1,classify,,clear
+SYN-446EA56A306A03DC,SEMB03_SYNTH_STRESS_0.1,action,Organiza los materiales en categorías según su origen.,1,classify,,clear
+SYN-2E94CE57F8BE9A7B,SEMB03_SYNTH_STRESS_0.1,action,Mide la longitud de la mesa con una cinta y registra el resultado.,1,measure,,clear
+SYN-021779E7BDCD856A,SEMB03_SYNTH_STRESS_0.1,action,Obtén la temperatura del agua con el termómetro y anótala.,1,measure,,clear
+SYN-D5FCFC1C7A10F387,SEMB03_SYNTH_STRESS_0.1,action,Mide durante un minuto cuántos latidos percibes.,1,measure,,clear
+SYN-C57274B26F08277D,SEMB03_SYNTH_STRESS_0.1,action,Realiza una prueba cambiando la cantidad de luz y observa qué ocurre.,1,experiment,,clear
+SYN-4C9A70CD3F7FC0DF,SEMB03_SYNTH_STRESS_0.1,action,Modifica una sola condición del montaje y registra el resultado del experimento.,1,experiment,,clear
+SYN-4159B73C233984C6,SEMB03_SYNTH_STRESS_0.1,action,Pon a prueba la hipótesis variando la temperatura y comparando los resultados.,1,experiment,,clear
+SYN-7C123C8E53F6AE3A,SEMB03_SYNTH_STRESS_0.1,action,Investiga en dos fuentes confiables cómo se produce la electricidad en tu localidad.,1,investigate,,clear
+SYN-AA36E820212EBF90,SEMB03_SYNTH_STRESS_0.1,action,Busca evidencia para responder qué animales polinizan las plantas de tu región.,1,investigate,,clear
+SYN-ACC1C26610DFB712,SEMB03_SYNTH_STRESS_0.1,action,Consulta varias fuentes y reúne información sobre el consumo de agua en casa.,1,investigate,,clear
+SYN-1FAC4B1F28147956,SEMB03_SYNTH_STRESS_0.1,action,Predice qué sucederá si colocas el recipiente al sol antes de hacer la prueba.,1,predict,,clear
+SYN-9D54528F91CD21FE,SEMB03_SYNTH_STRESS_0.1,action,"Antes de observar, anticipa cuál objeto caerá primero y escribe tu predicción.",1,predict,,clear
+SYN-FE00E5A1139933C6,SEMB03_SYNTH_STRESS_0.1,action,Di qué resultado esperas obtener antes de realizar el experimento.,1,predict,,clear
+SYN-AE7C5D66F7AD69D3,SEMB03_SYNTH_STRESS_0.1,action,Infiere a partir de los datos qué material conserva mejor el calor.,1,infer,,clear
+SYN-7C0A28D3F34885A0,SEMB03_SYNTH_STRESS_0.1,action,"Con los resultados de la tabla, deduce qué factor influyó más.",1,infer,,clear
+SYN-191BFEA6A375656B,SEMB03_SYNTH_STRESS_0.1,action,Concluye qué ocurrió basándote únicamente en las evidencias registradas.,1,infer,,clear
+SYN-5012EFC79D3CC7E1,SEMB03_SYNTH_STRESS_0.1,action,Discute con tu equipo cuál explicación está mejor sustentada.,1,discuss,,clear
+SYN-C5348214E2F031C0,SEMB03_SYNTH_STRESS_0.1,action,Debatan sus argumentos y lleguen a una conclusión común.,1,discuss,,clear
+SYN-9FC155B586512F12,SEMB03_SYNTH_STRESS_0.1,action,Intercambia puntos de vista con tus compañeros sobre las dos propuestas.,1,discuss,,clear
+SYN-9C7DD71368294633,SEMB03_SYNTH_STRESS_0.1,action,Resuelve el problema y muestra el procedimiento que utilizaste.,1,solve,,clear
+SYN-80D5474B90A53736,SEMB03_SYNTH_STRESS_0.1,action,Calcula cuánta agua se necesita en total y explica cómo obtuviste la respuesta.,1,solve,,clear
+SYN-7E080F4F0EE3DE78,SEMB03_SYNTH_STRESS_0.1,action,Encuentra una solución al problema usando los datos de la tabla.,1,solve,,clear
+SYN-BED968A4F83CA402,SEMB03_SYNTH_STRESS_0.1,action,Diseña un cartel que explique cómo prevenir enfermedades respiratorias.,1,create,,clear
+SYN-7FA14A49998345C3,SEMB03_SYNTH_STRESS_0.1,action,Construye un modelo sencillo del ciclo del agua.,1,create,,clear
+SYN-9118FCE658163D98,SEMB03_SYNTH_STRESS_0.1,action,Elabora una representación que muestre las relaciones de la cadena alimentaria.,1,create,,clear
+SYN-0415876F501C7232,SEMB03_SYNTH_STRESS_0.1,action,Elige cuál de las tres alternativas es más adecuada y justifica tu decisión.,1,decide,,clear
+SYN-BECD354887BCA9AD,SEMB03_SYNTH_STRESS_0.1,action,Decide qué material conviene utilizar después de valorar ventajas y desventajas.,1,decide,,clear
+SYN-4796C0AECC1AD85F,SEMB03_SYNTH_STRESS_0.1,action,Escoge la opción más segura con base en la información disponible.,1,decide,,clear
+SYN-FD1FFA4503D1D431,SEMB03_SYNTH_STRESS_0.1,action,Organicen una acción para reducir el desperdicio de agua en la escuela.,1,act_on_environment,,clear
+SYN-30083B23BFC09F01,SEMB03_SYNTH_STRESS_0.1,action,Aplica durante una semana una medida de prevención en tu hogar y registra su efecto.,1,act_on_environment,,clear
+SYN-AE07E53F46EC9916,SEMB03_SYNTH_STRESS_0.1,action,Realiza con tu grupo una acción de cuidado del entorno de la comunidad.,1,act_on_environment,,clear
+SYN-D540C539695F04FC,SEMB03_SYNTH_STRESS_0.1,gate_negative,La evaporación ocurre cuando el agua líquida pasa al estado gaseoso.,0,,receiver,stress
+SYN-4FE1870B7848E706,SEMB03_SYNTH_STRESS_0.1,gate_negative,Los mamíferos alimentan a sus crías con leche.,0,,receiver,stress
+SYN-4E347DD91A09DB22,SEMB03_SYNTH_STRESS_0.1,gate_negative,En una cadena alimentaria la energía pasa de unos organismos a otros.,0,,receiver,stress
+SYN-F2620A7A0CA989F5,SEMB03_SYNTH_STRESS_0.1,gate_negative,La temperatura es una medida relacionada con el estado térmico de un cuerpo.,0,,receiver,stress
+SYN-525256C46D02E749,SEMB03_SYNTH_STRESS_0.1,gate_negative,Un termómetro permite medir la temperatura.,0,,receiver,stress
+SYN-6237679CD35AC43A,SEMB03_SYNTH_STRESS_0.1,gate_negative,La observación es importante en el trabajo científico.,0,,receiver,stress
+SYN-32905BE3AFEAE804,SEMB03_SYNTH_STRESS_0.1,gate_negative,La clasificación permite organizar objetos de acuerdo con criterios.,0,,receiver,stress
+SYN-D968D91CC113C90E,SEMB03_SYNTH_STRESS_0.1,gate_negative,La experimentación puede ayudar a contrastar explicaciones.,0,,receiver,stress
+SYN-226B4C5E334FF065,SEMB03_SYNTH_STRESS_0.1,gate_negative,Investigar implica buscar y valorar información de diversas fuentes.,0,,receiver,stress
+SYN-00164427F8F5FE1B,SEMB03_SYNTH_STRESS_0.1,gate_negative,Una predicción anticipa un resultado antes de observarlo.,0,,receiver,stress
+SYN-ADEEB5FB68E4A967,SEMB03_SYNTH_STRESS_0.1,gate_negative,Inferir significa obtener una conclusión a partir de indicios o datos.,0,,receiver,stress
+SYN-BD2F0B184C8C9CF6,SEMB03_SYNTH_STRESS_0.1,gate_negative,La discusión científica permite contrastar ideas.,0,,receiver,stress
+SYN-A4C52A738E8A0168,SEMB03_SYNTH_STRESS_0.1,gate_negative,Resolver problemas es una actividad frecuente en ciencias.,0,,receiver,stress
+SYN-09C73D5A0B026D38,SEMB03_SYNTH_STRESS_0.1,gate_negative,Crear modelos ayuda a representar fenómenos que no pueden verse directamente.,0,,receiver,stress
+SYN-78A287CC72D545FD,SEMB03_SYNTH_STRESS_0.1,gate_negative,Tomar decisiones informadas requiere valorar alternativas.,0,,receiver,stress
+SYN-8592A5276C3D3765,SEMB03_SYNTH_STRESS_0.1,gate_negative,El cuidado del ambiente incluye acciones individuales y colectivas.,0,,receiver,stress
+SYN-6D8E19D90F15420C,SEMB03_SYNTH_STRESS_0.1,gate_negative,La palabra «observa» aparece con frecuencia en las instrucciones escolares.,0,,receiver,stress
+SYN-77991414A4AEA6C6,SEMB03_SYNTH_STRESS_0.1,gate_negative,"El maestro dijo: «compara los resultados», y después explicó el procedimiento.",0,,receiver,stress
+SYN-1ED5102135D12EE7,SEMB03_SYNTH_STRESS_0.1,gate_negative,En el ejemplo anterior se pidió a los alumnos que midieran la longitud.,0,,receiver,stress
+SYN-81EFDD348D02D826,SEMB03_SYNTH_STRESS_0.1,gate_negative,El recuadro titulado «Investiga» forma parte del diseño de la página.,0,,receiver,stress
+SYN-CF5AEC626F36E479,SEMB03_SYNTH_STRESS_0.1,gate_negative,"La sección de experimentos contiene materiales, procedimientos y resultados.",0,,receiver,stress
+SYN-CB89B9494BBF6A60,SEMB03_SYNTH_STRESS_0.1,gate_negative,Las preguntas del capítulo permiten recordar conceptos estudiados.,0,,receiver,stress
+SYN-AFC0DD4096E3FFD2,SEMB03_SYNTH_STRESS_0.1,gate_negative,La imagen muestra a varios alumnos discutiendo alrededor de una mesa.,0,,receiver,stress
+SYN-67C2F9D362377A40,SEMB03_SYNTH_STRESS_0.1,gate_negative,El texto explica cómo decidir entre distintas fuentes de energía.,0,,receiver,stress
+SYN-C29D6195E8AF909D,SEMB03_SYNTH_STRESS_0.1,gate_negative,La comunidad realizó una campaña para cuidar el agua el año pasado.,0,,receiver,stress
+SYN-F0759B54CA8BDD34,SEMB03_SYNTH_STRESS_0.1,gate_negative,Los científicos compararon las muestras y publicaron sus resultados.,0,,receiver,stress
+SYN-6DBAA80E39DDFE84,SEMB03_SYNTH_STRESS_0.1,gate_negative,La niña midió la temperatura antes de iniciar la actividad.,0,,receiver,stress
+SYN-6EE565B1EC885737,SEMB03_SYNTH_STRESS_0.1,gate_negative,El investigador predijo el resultado con base en trabajos previos.,0,,receiver,stress
+SYN-A89893F0B453240F,SEMB03_SYNTH_STRESS_0.1,gate_negative,El grupo construyó un modelo que después fue exhibido en la escuela.,0,,receiver,stress
+SYN-BBC61C6ACCF70AF0,SEMB03_SYNTH_STRESS_0.1,gate_negative,La tabla describe los valores obtenidos durante el experimento.,0,,receiver,stress
+SYN-49AF5F6281E29940,SEMB03_SYNTH_STRESS_0.1,position,La fotosíntesis transforma energía luminosa en energía química.,0,,receiver,clear
+SYN-C7CD3EF5736726AB,SEMB03_SYNTH_STRESS_0.1,position,Los pulmones forman parte del aparato respiratorio.,0,,receiver,clear
+SYN-2C5716AD8DE24C19,SEMB03_SYNTH_STRESS_0.1,position,"El agua puede encontrarse en estado sólido, líquido o gaseoso.",0,,receiver,clear
+SYN-08877058DEC8B3F2,SEMB03_SYNTH_STRESS_0.1,position,"Sigue los pasos indicados: coloca el papel, agrega agua y espera cinco minutos.",1,,instruction_follower,clear
+SYN-6F02FD093FE176BB,SEMB03_SYNTH_STRESS_0.1,position,Realiza el procedimiento exactamente en el orden señalado en el recuadro.,1,,instruction_follower,clear
+SYN-45EA29356A5430AF,SEMB03_SYNTH_STRESS_0.1,position,Completa la actividad siguiendo cada instrucción sin cambiar el procedimiento.,1,,instruction_follower,clear
+SYN-D018FDF41A468E7B,SEMB03_SYNTH_STRESS_0.1,position,Observa durante cinco minutos el comportamiento de las hormigas y registra lo que veas.,1,,observer,clear
+SYN-2831EEA6A1B7042C,SEMB03_SYNTH_STRESS_0.1,position,Examina la superficie con la lupa y anota tus observaciones.,1,,observer,clear
+SYN-386D3898616B558A,SEMB03_SYNTH_STRESS_0.1,position,Mira sistemáticamente los cambios del recipiente cada minuto.,1,,observer,clear
+SYN-4F9EB8640EF3D264,SEMB03_SYNTH_STRESS_0.1,position,"Elige una variable, modifícala y compara el resultado con el montaje de control.",1,,experimenter,clear
+SYN-87859003E8276B37,SEMB03_SYNTH_STRESS_0.1,position,Pon a prueba tu hipótesis manipulando una condición del experimento.,1,,experimenter,clear
+SYN-C4FF660248FFA3EE,SEMB03_SYNTH_STRESS_0.1,position,Cambia la cantidad de luz y registra cómo responde la planta.,1,,experimenter,clear
+SYN-A79172AD42EB171A,SEMB03_SYNTH_STRESS_0.1,position,Formula una pregunta y busca evidencias en distintas fuentes para responderla.,1,,investigator,clear
+SYN-354267999BDB0802,SEMB03_SYNTH_STRESS_0.1,position,Investiga qué explicación está mejor respaldada y documenta las fuentes consultadas.,1,,investigator,clear
+SYN-670BA62A6D02FD01,SEMB03_SYNTH_STRESS_0.1,position,Reúne información de varias fuentes y decide qué evidencia es pertinente.,1,,investigator,clear
+SYN-C22E7193225E0B27,SEMB03_SYNTH_STRESS_0.1,position,Explica la relación entre los datos de la tabla y la conclusión propuesta.,1,,reasoner,clear
+SYN-45C589A0087C5295,SEMB03_SYNTH_STRESS_0.1,position,Usa la evidencia para inferir qué causa explica mejor el resultado.,1,,reasoner,clear
+SYN-F62F2C723B240522,SEMB03_SYNTH_STRESS_0.1,position,Compara los casos y construye una respuesta razonada.,1,,reasoner,clear
+SYN-A462E052E43E3633,SEMB03_SYNTH_STRESS_0.1,position,"En equipo, discutan las evidencias y construyan una explicación compartida.",1,,collaborator,clear
+SYN-1421AA6FA4BE9F68,SEMB03_SYNTH_STRESS_0.1,position,Trabaja con tus compañeros para comparar argumentos y acordar una conclusión.,1,,collaborator,clear
+SYN-FABC9382EE579465,SEMB03_SYNTH_STRESS_0.1,position,Colaboren para elaborar una respuesta conjunta a partir de las ideas de todos.,1,,collaborator,clear
+SYN-958C487D75AD7A40,SEMB03_SYNTH_STRESS_0.1,position,Valora las alternativas y decide cuál solución conviene aplicar.,1,,decision_maker,clear
+SYN-4CEE88B282E337EF,SEMB03_SYNTH_STRESS_0.1,position,Elige una opción después de comparar sus riesgos y beneficios.,1,,decision_maker,clear
+SYN-5E435921214E5BF2,SEMB03_SYNTH_STRESS_0.1,position,Toma una decisión informada usando los datos disponibles.,1,,decision_maker,clear
+SYN-5BDEF47158C75350,SEMB03_SYNTH_STRESS_0.1,position,Organiza con tu grupo una acción para reducir residuos en la escuela.,1,,community_agent,clear
+SYN-2E74DBE1E31F2FBC,SEMB03_SYNTH_STRESS_0.1,position,Aplica en tu comunidad una medida de cuidado del agua y evalúa su resultado.,1,,community_agent,clear
+SYN-8FBA36DB20D59FA7,SEMB03_SYNTH_STRESS_0.1,position,Participa en una acción colectiva para mejorar el entorno cercano.,1,,community_agent,clear

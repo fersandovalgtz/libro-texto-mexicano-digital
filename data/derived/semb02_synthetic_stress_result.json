@@ -1,0 +1,44 @@
+{
+  "evaluation_version": "SEMB02_SYNTH_STRESS_EVAL_0.1",
+  "suite_version": "SEMB03_SYNTH_STRESS_0.1",
+  "semantic_version": "SEMB_0.2",
+  "n_cases": 105,
+  "gate": {
+    "tp": 43,
+    "tn": 15,
+    "fp": 18,
+    "fn": 29,
+    "sensitivity": 0.5972222222222222,
+    "specificity": 0.45454545454545453,
+    "balanced_accuracy": 0.5258838383838383
+  },
+  "action_focus": {
+    "n": 48,
+    "top1_accuracy": 0.75,
+    "final_label_inclusion_rate": 0.5416666666666666,
+    "uncertain_rate": 0.9583333333333334
+  },
+  "position_focus": {
+    "n": 27,
+    "top1_accuracy": 0.6296296296296297,
+    "final_label_inclusion_rate": 0.7037037037037037,
+    "uncertain_rate": 0.5185185185185185
+  },
+  "negative_stress": {
+    "n": 30,
+    "false_positive_rate": 0.5333333333333333,
+    "certain_false_positive_rate": 0.13333333333333333
+  },
+  "positive_gate": {
+    "n": 72,
+    "miss_rate": 0.4027777777777778,
+    "uncertain_or_missed_rate": 0.9444444444444444
+  },
+  "gate_margin_quantiles": {
+    "0.1": -0.017518997192382812,
+    "0.25": -0.005968928337097168,
+    "0.5": 0.0020238757133483887,
+    "0.75": 0.01052480936050415,
+    "0.9": 0.018909275531768806
+  }
+}
