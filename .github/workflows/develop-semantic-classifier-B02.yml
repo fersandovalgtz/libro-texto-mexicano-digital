@@ -25,7 +25,22 @@ jobs:
       - name: Install pinned semantic runtime
         run: python3 -m pip install --disable-pip-version-check 'sentence-transformers==5.6.1'
       - name: Select SEMB 0.2 configuration on synthetic development set
-        run: python3 tests/develop_semantic_classifier_B02.py
+        run: |
+          set +e
+          python3 tests/develop_semantic_classifier_B02.py > development.log 2>&1
+          rc=$?
+          cat development.log
+          echo "$rc" > development_exit_code.txt
+          exit $rc
+      - name: Upload development diagnostic log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semb02-development-diagnostic
+          path: |
+            development.log
+            development_exit_code.txt
+          retention-days: 2
       - name: Validate machine-readable development result
         run: |
           python3 - <<'PY'
