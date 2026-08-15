@@ -2,6 +2,9 @@ name: fragment-cn-wave2
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/fragment-cn-wave2.yml'
   workflow_run:
     workflows: ['page-structure-cn-wave2']
     types: [completed]
@@ -12,28 +15,36 @@ permissions:
 
 jobs:
   preflight:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Verify Wave 2 PAGESTRUCT
+      - id: check
+        name: Verify Wave 2 PAGESTRUCT and idempotence
         run: |
           python3 - <<'PY'
-          import csv
+          import csv, os
+          from pathlib import Path
           s=list(csv.DictReader(open('data/expansion/cn_wave2_page_structure.csv',encoding='utf-8')))
           q=list(csv.DictReader(open('data/expansion/cn_wave2_ingestion_queue.csv',encoding='utf-8')))
           assert len(s)==3177, len(s)
           assert len({r['book_id'] for r in s})==19
           assert {r['book_id'] for r in s}=={r['book_id'] for r in q}
           eligible=sum(r['primary_structure'] in {'textual','mixed_text_image'} for r in s)
-          assert eligible>0
-          print('FRAGSEG preflight OK: 3177 PAGESTRUCT rows; eligible=',eligible)
+          assert eligible==2528, eligible
+          report=Path('data/expansion/cn_wave2_fragment_manifest_report.md')
+          already=report.exists() and 'FRAGSEG_CN_WAVE2_0.1' in report.read_text(encoding='utf-8')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write(f"should_run={'false' if already else 'true'}\n")
+          print('FRAGSEG preflight OK: 3177 PAGESTRUCT rows; eligible=',eligible,'already_complete=',already)
           PY
 
   segment:
     needs: preflight
+    if: needs.preflight.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -84,6 +95,7 @@ jobs:
 
   combine:
     needs: [preflight, segment]
+    if: needs.preflight.outputs.should_run == 'true' && needs.segment.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
