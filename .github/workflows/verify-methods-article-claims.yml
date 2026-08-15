@@ -1,0 +1,46 @@
+name: verify-methods-article-claims
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/verify-methods-article-claims.yml'
+      - 'scripts/verify_methods_article_claims.py'
+      - 'docs/METHODS_ARTICLE_DRAFT_0_1.md'
+      - 'data/derived/page_structure.csv'
+      - 'data/derived/fragment_manifest.csv'
+      - 'data/derived/fragment_manifest_fragtype03_shadow.csv'
+      - 'data/derived/fragment_labels_B_summary.csv'
+      - 'data/derived/semb02_synthetic_stress_result.json'
+      - 'data/validation/semb03_human_reference_sample.csv'
+      - 'data/validation/semb03_reliability_subset.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify headline claims against frozen data
+        run: python3 scripts/verify_methods_article_claims.py
+      - name: Publish claim check race-safely
+        run: |
+          set -euo pipefail
+          cp data/derived/methods_article_claim_check.json /tmp/methods_article_claim_check.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/methods_article_claim_check.json data/derived/methods_article_claim_check.json
+            git add data/derived/methods_article_claim_check.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish methods article claim verification'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
