@@ -13,6 +13,7 @@ import hashlib
 import re
 import subprocess
 import tempfile
+import time
 import unicodedata
 import urllib.request
 from collections import defaultdict
@@ -166,11 +167,33 @@ def run_tesseract(img: Path, outbase: Path, psm: str):
     return cp.returncode == 0 and outbase.with_suffix(".tsv").exists()
 
 
+def download_with_retry(url: str, dest: Path, attempts: int = 3):
+    """Download a source JPEG with bounded retries for transient disconnects.
+
+    This is transport resilience only: it does not alter source URL, bytes after a
+    successful response, OCR parameters, segmentation rules, or derived IDs.
+    """
+    last = None
+    for attempt in range(1, attempts + 1):
+        try:
+            urllib.request.urlretrieve(url, dest)
+            return
+        except Exception as exc:
+            last = exc
+            try:
+                dest.unlink(missing_ok=True)
+            except Exception:
+                pass
+            if attempt < attempts:
+                time.sleep(2 * attempt)
+    raise last
+
+
 def process_page(r, temp: Path):
     gen=r["catalog_generation"]; p=int(r["viewer_page"]); psm=r["selected_psm"] or "3"
     img=temp/f"{gen}_{p:03d}.jpg"; outbase=temp/f"{gen}_{p:03d}"
     url=f"https://historico.conaliteg.gob.mx/c/{SOURCE_CODES[gen]}/{p:03d}.jpg"
-    urllib.request.urlretrieve(url,img)
+    download_with_retry(url,img)
     if not run_tesseract(img,outbase,psm):
         return [], "ocr_failed"
     rows=read_tsv(outbase.with_suffix('.tsv'))
