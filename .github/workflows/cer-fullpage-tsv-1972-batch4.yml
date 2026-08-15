@@ -1,0 +1,109 @@
+name: Full-page TSV — 1972 CER batch 4
+
+on:
+  push:
+    paths:
+      - '.github/workflows/cer-fullpage-tsv-1972-batch4.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-24.04
+    env:
+      OMP_THREAD_LIMIT: '1'
+    steps:
+      - name: Install exact production OCR
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa python3-pil
+          tesseract --version | head -1 | tee tesseract-version.txt
+          grep -F 'tesseract 5.3.4' tesseract-version.txt
+      - name: Write transient public transport certificate
+        shell: bash
+        run: |
+          cat > cert.pem <<'PEM'
+          -----BEGIN CERTIFICATE-----
+          MIIEgzCCAuugAwIBAgIUVo+fAOv+JwdyxVhONh0eIzgzq7YwDQYJKoZIhvcNAQEL
+          BQAwUTEoMCYGA1UEAwwfTFRNRCBDRVIgdHJhbnNpZW50IHRyYW5zcG9ydCB2MzEl
+          MCMGA1UECgwcTGlicm8gVGV4dG8gTWV4aWNhbm8gRGlnaXRhbDAeFw0yNjA4MTUx
+          NTQwMzdaFw0yNjA4MTcxNTQwMzdaMFExKDAmBgNVBAMMH0xUTUQgQ0VSIHRyYW5z
+          aWVudCB0cmFuc3BvcnQgdjMxJTAjBgNVBAoMHExpYnJvIFRleHRvIE1leGljYW5v
+          IERpZ2l0YWwwggGiMA0GCSqGSIb3DQEBAQUAA4IBjwAwggGKAoIBgQDJyG9Tqx8i
+          vUBSFfZWypLziYI4IqUcA3fC9RgkIJyv+lSmGAILcPPfLPMtaMbAN20U7HDwafgj
+          zu/i20fu9T8e6MGdYkAWvUPaOt6eUZx4dwxwGxphtMxEo5XelFN/BuidAgR4L7Og
+          J/aclR3+FfZP9h/zu1PIxNziV4MYdHXOUaCSE+CzJHuw/5fP43yD9+sGmgMLpfzK
+          WTBlVGXl1/FYX0jYBE10do7El+z3iIA5n+CDRVUkYYqJJF/xRsfejQT+KB0YvCqd
+          IAya3lTzKcqcOkgHj5fJTWN7J3HSZqf7dY4Za7DfAmYT9P5b9Y5ot39wxZx4+qfL
+          MY2HNAPm4secOaK7qc0mmfkGHYOBjJx6Fo7L/qfGdcLiASczJY95rDFneSjNS1VK
+          ytu9QMCJLff5n46AYRrGIlyxFl0KF6uaI+wUDskOjzozWHNfSvmDvkds6Jv3sfqK
+          xz9oiVBIOc10rjegxMChjgyl5tDiwHacX8IDwFEKarnTOOPnrkleI7cCAwEAAaNT
+          MFEwHQYDVR0OBBYEFHcfrR1ghcQ93iHeY1/9ilqFGbqDMB8GA1UdIwQYMBaAFHcf
+          rR1ghcQ93iHeY1/9ilqFGbqDMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQEL
+          BQADggGBABxYFCNSdvOKG0QaPQAtbxo0FqomfONmR3NYVBuFzSji3c/56bAA8Njt
+          5cbtYsJ2QGq9I4YvlCDs3jzDCl+Dw5/PrNLljO7cd4iV10CXvGmCGVon+i6q0jW+
+          05sRsXy5yt/v8WNyPTLDbjVi6K9WxtKCAdHXdO2IlU5BMeUklNAw2HUW9LRlyFlz
+          ShOFv67yKrhSRfXN5qILqP4fe6h3ZFWw0aAQrCkwQVhRAjtug8hG5hBTSysts7nH
+          NrD99krqW3oub8LhtAqIbPCRFSiLpjV2l+BZs2+wA2+AYTK4zGUyhnu2OYRV42/w
+          6l3N9RW1mfYB9zvTL9wwUsj3JAH09t3SyzrqPhBgQqG7I28W/7BXgFpubztH7Sy8
+          X1sGHi8aepJaGwJfaSruGyV3XFZfa2h8iVhBN+Xr5XYlj9HDfyj9JYFXd9uOpjO6
+          RMNYd/6dnebltiW1lqM0gxNYzybNOA+QU3ImDFh0AVYPr6bzKn8B3JXVE4wqmplm
+          hI9tQU1bWA==
+          -----END CERTIFICATE-----
+          PEM
+      - name: Full-page OCR and TSV
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p private_work
+          curl -fsSL --retry 3 --connect-timeout 15 --max-time 90 'https://historico.conaliteg.gob.mx/c/H1972P5CI084/189.jpg' -o private_work/q3_3.jpg
+          curl -fsSL --retry 3 --connect-timeout 15 --max-time 90 'https://historico.conaliteg.gob.mx/c/H1972P5CI084/215.jpg' -o private_work/q4_1.jpg
+          curl -fsSL --retry 3 --connect-timeout 15 --max-time 90 'https://historico.conaliteg.gob.mx/c/H1972P5CI084/246.jpg' -o private_work/q4_2.jpg
+          python3 - <<'PY'
+          from PIL import Image
+          for n in ('q3_3','q4_1','q4_2'):
+              with Image.open(f'private_work/{n}.jpg') as im: assert im.size==(670,993)
+          PY
+          for n in q3_3 q4_1 q4_2; do
+            tesseract "private_work/${n}.jpg" "private_work/${n}" -l spa --psm 3 txt tsv >/dev/null 2>"private_work/${n}.stderr"
+          done
+      - name: Package, encrypt and destroy private OCR
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          specs=[
+            ('LTMD-CER-1972-Q3_3','q3_3','LTMD-CN5-G1972-VP189',[45,35,625,935],'crop_block'),
+            ('LTMD-CER-1972-Q4_1','q4_1','LTMD-CN5-G1972-VP215',[55,60,220,945],'crop_block'),
+            ('LTMD-CER-1972-Q4_2','q4_2','LTMD-CN5-G1972-VP246',None,'full_page_exclusion_diagnostic'),
+          ]
+          ver=Path('tesseract-version.txt').read_text().strip()
+          private=[]; public=[]
+          for sid,n,pid,crop,scope in specs:
+              src=Path(f'private_work/{n}.jpg').read_bytes(); sha=hashlib.sha256(src).hexdigest()
+              txt=Path(f'private_work/{n}.txt').read_text(encoding='utf-8')
+              tsv=Path(f'private_work/{n}.tsv').read_text(encoding='utf-8')
+              private.append({'sample_id':sid,'page_id':pid,'scope':scope,'crop_px':crop,'selected_psm':3,'tesseract_version':ver,'source_sha256':sha,'full_page_text_private':txt,'full_page_tsv_private':tsv})
+              public.append({'sample_id':sid,'page_id':pid,'scope':scope,'crop_px':crop,'selected_psm':3,'tesseract_version':ver,'source_sha256':sha,'full_page_text_chars':len(txt),'tsv_chars':len(tsv)})
+          Path('private.json').write_text(json.dumps(private,ensure_ascii=False),encoding='utf-8')
+          Path('manifest.json').write_text(json.dumps({'alignment_rule':'full-page OCR + TSV word-center selection for evaluable crop blocks; q4_2 retained as non-text exclusion diagnostic','samples':public},ensure_ascii=False,indent=2),encoding='utf-8')
+          PY
+          openssl cms -encrypt -binary -aes256 -in private.json -outform DER -out payload.p7m cert.pem
+          sha256sum payload.p7m > ciphertext.sha256
+          rm -rf private_work private.json cert.pem tesseract-version.txt
+      - name: Upload ciphertext and non-text manifest only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-cer-1972-batch4-fullpage-tsv-encrypted
+          path: |
+            payload.p7m
+            manifest.json
+            ciphertext.sha256
+          retention-days: 1
+          if-no-files-found: error
