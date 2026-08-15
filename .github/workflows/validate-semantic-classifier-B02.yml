@@ -1,0 +1,84 @@
+name: Validate SEMB 0.2 — locked one-shot B02
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/validate-semantic-classifier-B02.yml'
+
+concurrency:
+  group: semb02-locked-validation
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      TOKENIZERS_PARALLELISM: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify frozen development selection and unopened validation
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('data/derived/semantic_B02_development_result.json',encoding='utf-8'))
+          assert d['development_version']=='SEMB02_DEV_0.1'
+          assert d['model']=='intfloat/multilingual-e5-small'
+          assert d['model_revision']=='fd1525a9fd15316a2d503bf26ab031a61d056e98'
+          assert d['selected_method']=='max_anchor'
+          assert float(d['action_gate']['selected_threshold'])==0.0
+          assert d['validation_B02_opened'] is False
+          print('Frozen synthetic development selection verified. Opening VALIDATION_B02 once.')
+          PY
+      - name: Install pinned semantic runtime
+        run: python3 -m pip install --disable-pip-version-check 'sentence-transformers==5.6.1'
+      - name: Execute locked validation and capture result
+        run: |
+          set +e
+          python3 tests/validate_semantic_classifier_B02.py > validation_B02.log 2>&1
+          rc=$?
+          echo "$rc" > validation_B02_exit_code.txt
+          cat validation_B02.log
+          test -f data/derived/semantic_B02_validation_result.json || { echo 'Validation result JSON missing'; exit 99; }
+          exit 0
+      - name: Upload immutable validation diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-B02-locked-diagnostic
+          path: |
+            validation_B02.log
+            validation_B02_exit_code.txt
+            data/derived/semantic_B02_validation_result.json
+          retention-days: 30
+      - name: Publish validation result regardless of pass/fail
+        run: |
+          set -euo pipefail
+          cp data/derived/semantic_B02_validation_result.json /tmp/semantic_B02_validation_result.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/semantic_B02_validation_result.json data/derived/
+          git add data/derived/semantic_B02_validation_result.json
+          if git diff --cached --quiet; then
+            echo 'Validation result already identical.'
+          else
+            git commit -m 'data: publish locked VALIDATION_B02 result'
+            git push origin HEAD:main
+          fi
+      - name: Enforce frozen acceptance criteria
+        run: |
+          python3 - <<'PY'
+          import json,sys
+          d=json.load(open('data/derived/semantic_B02_validation_result.json',encoding='utf-8'))
+          print('VALIDATION_B02 passed =',d['passed'])
+          print('checks =',d['checks'])
+          if not d['passed']:
+              sys.exit('VALIDATION_B02 FAILED. SEMB 0.2 is blocked from corpus execution.')
+          print('VALIDATION_B02 PASSED. SEMB 0.2 may proceed to frozen corpus.')
+          PY
