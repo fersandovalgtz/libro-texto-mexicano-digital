@@ -1,0 +1,50 @@
+name: Build pilot page manifest
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-page-manifest.yml'
+      - 'scripts/build_page_manifest.py'
+      - 'scripts/verify_manifest_sample.py'
+      - 'data/book_inventory.csv'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate inventory
+        run: python scripts/validate_inventory.py
+
+      - name: Build metadata-only page manifest
+        run: python scripts/build_page_manifest.py
+
+      - name: Verify preregistered QC asset headers
+        run: python scripts/verify_manifest_sample.py
+
+      - name: Summarize files
+        run: |
+          wc -l data/derived/page_manifest.csv
+          cat data/derived/qc_sample_probe.csv
+
+      - name: Upload derived metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: pilot-page-manifest
+          path: |
+            data/derived/page_manifest.csv
+            data/derived/qc_sample_probe.csv
+          if-no-files-found: error
+          retention-days: 30
