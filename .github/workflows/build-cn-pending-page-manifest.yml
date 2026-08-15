@@ -1,0 +1,47 @@
+name: build-cn-pending-page-manifest
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-cn-pending-page-manifest.yml'
+      - 'scripts/build_cn_pending_page_manifest.py'
+      - 'data/catalog/ciencias_naturales_technical_inventory.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  manifest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Probe and hash every declared page position
+        run: python3 scripts/build_cn_pending_page_manifest.py
+      - name: Publish pending-family manifest race-safely
+        if: always()
+        run: |
+          set -euo pipefail
+          test -f data/catalog/ciencias_naturales_pending_page_manifest.csv
+          cp data/catalog/ciencias_naturales_pending_page_manifest.csv /tmp/cn_pending_manifest.csv
+          cp data/catalog/ciencias_naturales_pending_page_manifest_summary.csv /tmp/cn_pending_summary.csv
+          cp data/catalog/ciencias_naturales_pending_page_manifest.md /tmp/cn_pending_report.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/catalog
+            cp /tmp/cn_pending_manifest.csv data/catalog/ciencias_naturales_pending_page_manifest.csv
+            cp /tmp/cn_pending_summary.csv data/catalog/ciencias_naturales_pending_page_manifest_summary.csv
+            cp /tmp/cn_pending_report.md data/catalog/ciencias_naturales_pending_page_manifest.md
+            git add data/catalog/ciencias_naturales_pending_page_manifest.csv data/catalog/ciencias_naturales_pending_page_manifest_summary.csv data/catalog/ciencias_naturales_pending_page_manifest.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish complete SHA audit for pending Ciencias Naturales viewers'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
