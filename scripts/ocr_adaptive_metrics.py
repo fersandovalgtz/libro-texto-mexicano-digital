@@ -5,6 +5,7 @@ Downloads source JPEGs only to a temporary directory, runs Tesseract, and writes
 page-level metrics only. No source image or OCR transcription is persisted.
 
 The script supports either the preregistered QC sample or the full manifest.
+Rows marked `terminal_synthetic` are never sent to OCR.
 """
 from __future__ import annotations
 
@@ -15,7 +16,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 UA = "LibroTextoMexicanoDigital/0.1 OCR metrics"
 FIELDS = [
-    "page_id","book_id","catalog_generation","viewer_page","qc_slot",
+    "page_id","book_id","catalog_generation","viewer_page","qc_slot","asset_status",
     "source_bytes","attempts","selected_psm","recognized_words","ocr_chars",
     "mean_word_confidence","median_word_confidence","low_confidence_word_rate",
     "ocr_class","ocr_status","error"
@@ -59,6 +60,11 @@ def run_tesseract(image: Path, lang: str, psm: int, timeout: int) -> dict:
 def process(row: dict[str,str], tempdir: Path, lang: str, modes: list[int], timeout: int) -> dict:
     image=tempdir/f"{row['page_id']}.jpg"
     attempts=[]; errors=[]
+    base={
+        "page_id":row["page_id"],"book_id":row["book_id"],
+        "catalog_generation":row["catalog_generation"],"viewer_page":row["viewer_page"],
+        "qc_slot":row.get("qc_slot", ""),"asset_status":row.get("asset_status","source_jpeg"),
+    }
     try:
         size=download(row["source_asset_url"],image)
         last_metrics=None; selected=None
@@ -82,15 +88,14 @@ def process(row: dict[str,str], tempdir: Path, lang: str, modes: list[int], time
         else:
             ocr_class="unresolved"; status="error"
             last_metrics={"recognized_words":"","ocr_chars":"","mean_word_confidence":"","median_word_confidence":"","low_confidence_word_rate":""}
-        return {"page_id":row["page_id"],"book_id":row["book_id"],"catalog_generation":row["catalog_generation"],
-            "viewer_page":row["viewer_page"],"qc_slot":row.get("qc_slot", ""),"source_bytes":size,
-            "attempts":";".join(attempts),"selected_psm":selected or "",**last_metrics,
-            "ocr_class":ocr_class,"ocr_status":status,"error":" | ".join(errors)}
+        return {**base,"source_bytes":size,"attempts":";".join(attempts),
+            "selected_psm":selected or "",**last_metrics,"ocr_class":ocr_class,
+            "ocr_status":status,"error":" | ".join(errors)}
     except Exception as exc:
-        return {"page_id":row["page_id"],"book_id":row["book_id"],"catalog_generation":row["catalog_generation"],
-            "viewer_page":row["viewer_page"],"qc_slot":row.get("qc_slot", ""),"source_bytes":"","attempts":";".join(attempts),
-            "selected_psm":"","recognized_words":"","ocr_chars":"","mean_word_confidence":"","median_word_confidence":"",
-            "low_confidence_word_rate":"","ocr_class":"unresolved","ocr_status":"error","error":f"{type(exc).__name__}: {exc}"}
+        return {**base,"source_bytes":"","attempts":";".join(attempts),"selected_psm":"",
+            "recognized_words":"","ocr_chars":"","mean_word_confidence":"","median_word_confidence":"",
+            "low_confidence_word_rate":"","ocr_class":"unresolved","ocr_status":"error",
+            "error":f"{type(exc).__name__}: {exc}"}
     finally:
         image.unlink(missing_ok=True)
 
@@ -103,24 +108,31 @@ def main():
     ap.add_argument("--timeout",type=int,default=60)
     ap.add_argument("--workers",type=int,default=2)
     ap.add_argument("--slots",default="q1_1,q4_2")
-    ap.add_argument("--all-pages",action="store_true",help="Process every row in the page manifest instead of only QC candidates")
+    ap.add_argument("--all-pages",action="store_true",help="Process every source-JPEG row in the page manifest instead of only QC candidates")
     args=ap.parse_args()
-    modes=[int(x) for x in args.modes.split(',') if x.strip()]
-    slots={x.strip() for x in args.slots.split(',') if x.strip()}
+    modes=[int(x) for x in args.modes.split(",") if x.strip()]
+    slots={x.strip() for x in args.slots.split(",") if x.strip()}
     with Path(args.manifest).open(encoding="utf-8",newline="") as fh:
         source=list(csv.DictReader(fh))
+    source_assets=[
+        r for r in source
+        if r.get("asset_status","source_jpeg")!="terminal_synthetic"
+        and (r.get("source_asset_url") or "").strip()
+    ]
     if args.all_pages:
-        selected=source
+        selected=source_assets
     else:
-        selected=[r for r in source if r["qc_positional_candidate"]=="yes" and (not slots or r["qc_slot"] in slots)]
+        selected=[r for r in source_assets if r["qc_positional_candidate"]=="yes" and (not slots or r["qc_slot"] in slots)]
     with tempfile.TemporaryDirectory(prefix="ltmd-ocr-") as tmp:
         td=Path(tmp)
         with ThreadPoolExecutor(max_workers=args.workers) as pool:
             rows=list(pool.map(lambda r: process(r,td,args.lang,modes,args.timeout),selected))
     out=Path(args.output); out.parent.mkdir(parents=True,exist_ok=True)
-    with out.open('w',encoding='utf-8',newline='') as fh:
+    with out.open("w",encoding="utf-8",newline="") as fh:
         w=csv.DictWriter(fh,fieldnames=FIELDS); w.writeheader(); w.writerows(rows)
-    print(f"OCR metrics: {len(rows)} pages")
-    print('text_detected=',sum(r['ocr_class']=='text_detected' for r in rows),'no_text_detected=',sum(r['ocr_class']=='no_text_detected' for r in rows),'unresolved=',sum(r['ocr_class']=='unresolved' for r in rows))
+    print(f"OCR metrics: {len(rows)} source assets")
+    print("text_detected=",sum(r["ocr_class"]=="text_detected" for r in rows),
+          "no_text_detected=",sum(r["ocr_class"]=="no_text_detected" for r in rows),
+          "unresolved=",sum(r["ocr_class"]=="unresolved" for r in rows))
 
-if __name__=='__main__': main()
+if __name__=="__main__": main()
