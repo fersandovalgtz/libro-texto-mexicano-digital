@@ -1,0 +1,35 @@
+name: test-semb03-infrastructure
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/test-semb03-infrastructure.yml'
+      - 'scripts/validate_semb03_annotations.py'
+      - 'scripts/build_semb03_consensus_draft.py'
+      - 'scripts/lock_semb03_model.py'
+      - 'scripts/evaluate_semb03_locked_validation.py'
+      - 'scripts/check_semb03_readiness.py'
+      - 'scripts/selftest_semb03_infrastructure.py'
+      - 'data/validation/semb03_human_reference_sample.csv'
+      - 'data/validation/semb03_acceptance_criteria.json'
+      - 'data/validation/semb03_candidate_grid.json'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile SEMB 0.3 infrastructure scripts
+        run: |
+          python3 -m py_compile \
+            scripts/validate_semb03_annotations.py \
+            scripts/build_semb03_consensus_draft.py \
+            scripts/lock_semb03_model.py \
+            scripts/evaluate_semb03_locked_validation.py \
+            scripts/check_semb03_readiness.py \
+            scripts/selftest_semb03_infrastructure.py
+      - name: Run fake-data stage-gate self-test
+        run: python3 scripts/selftest_semb03_infrastructure.py
+      - name: Run public readiness invariants
+        run: python3 scripts/check_semb03_readiness.py
