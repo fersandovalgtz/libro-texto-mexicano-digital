@@ -1,0 +1,42 @@
+name: Resolve public viewer metadata
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/resolve-manifest.yml'
+      - 'scripts/resolve_viewer_manifest.py'
+      - 'data/book_inventory.csv'
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate inventory
+        run: python scripts/validate_inventory.py
+
+      - name: Resolve public metadata
+        run: python scripts/resolve_viewer_manifest.py
+
+      - name: Show result
+        run: cat data/derived/resolved_viewer_manifest.json
+
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: resolved-viewer-metadata
+          path: data/derived/resolved_viewer_manifest.json
+          if-no-files-found: error
+          retention-days: 30
