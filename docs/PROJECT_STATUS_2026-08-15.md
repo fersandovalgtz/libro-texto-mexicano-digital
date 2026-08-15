@@ -4,16 +4,16 @@ Fecha de corte: 2026-08-15
 
 ## 1. Estado general
 
-LTMD dejó de ser únicamente un piloto de quinto grado. Actualmente posee:
+LTMD dejó de ser únicamente un piloto de quinto grado. A este corte posee cuatro capas claramente diferenciadas:
 
 1. un **piloto CN5** completo desde procedencia hasta una primera capa semántica exploratoria;
 2. una **infraestructura SEMB 0.3 prehumana** cerrada y bloqueada correctamente;
-3. una **expansión CN4/CN6** técnicamente completa hasta FRAGSEG, sin clasificación semántica productiva;
-4. un **catálogo maestro reproducible** de los visores históricos de primaria;
-5. una **auditoría de activos de la familia estricta Ciencias Naturales** con 35/37 visores completamente resueltos y sólo tres posiciones internas no servidas en dos objetos 2008;
-6. una estrategia de publicación y release separada de la narrativa histórica final.
+3. dos expansiones técnicas de la familia *Ciencias Naturales* cerradas hasta FRAGSEG: **CN4/CN6** y **Ola 2**;
+4. una **auditoría de activos de la familia estricta Ciencias Naturales** con 35/37 visores completamente resueltos y sólo tres posiciones internas no servidas en dos objetos 2008.
 
-La principal frontera pendiente para inferencias semánticas históricas es epistemológica: referencia humana y validación de constructo.
+El corpus técnico materializa **64,856 ocurrencias de fragmento**: 9,594 del piloto CN5, 19,067 de CN4/CN6 y 36,195 de Ola 2. Esta suma no equivale a 64,856 observaciones históricas independientes; LTMD representa explícitamente aliases, reutilización, revisiones y contenido repetido.
+
+La principal frontera pendiente para inferencias semánticas históricas continúa siendo epistemológica: referencia humana y validación de constructo. Las expansiones están `corpus_ready`, no `semantic_ready`.
 
 ## 2. Piloto CN5 — consolidado
 
@@ -28,9 +28,9 @@ Corpus: *Ciencias Naturales*, quinto grado, generaciones CONALITEG 1972, 1988, 1
 - RULEA 0.1 aplicado;
 - SEMB 0.2 aplicado;
 - comparación A/B y primera capa histórica reproducible;
-- resultados históricos SEMB 0.2: **exploratorios**, no finales.
+- resultados históricos SEMB 0.2: **exploratorios, no finales**.
 
-SEMB 0.2 produjo 99.49% de incertidumbre global y sólo 49 fragmentos simultáneamente ciertos en acción y posición. Una batería sintética independiente confirmó que el gate no transporta adecuadamente al lenguaje escolar diverso.
+SEMB 0.2 produjo 99.49% de incertidumbre global y sólo 49 fragmentos simultáneamente ciertos en acción y posición. Una batería sintética independiente de 105 casos produjo balanced accuracy 0.526 para el gate, con sensibilidad 0.597 y especificidad 0.455. El resultado se conserva como evidencia metodológica negativa, no como motivo para bajar umbrales observando la historia.
 
 ## 3. SEMB 0.3 — infraestructura prehumana cerrada
 
@@ -38,6 +38,7 @@ SEMB 0.2 produjo 99.49% de incertidumbre global y sólo 49 fragmentos simultáne
 - 320 `development`;
 - 160 `locked_validation`;
 - 120 doble codificación para fiabilidad;
+- 312 páginas cubiertas en la muestra y 138 en validación bloqueada;
 - IDs opacos y plantilla ciega;
 - criterios `SEMB03_ACCEPTANCE_0.1` congelados antes de humanos;
 - grid `SEMB03_CANDIDATES_0.1` congelado;
@@ -46,19 +47,20 @@ SEMB 0.2 produjo 99.49% de incertidumbre global y sólo 49 fragmentos simultáne
 - evaluador de una sola apertura;
 - consenso automático sólo para coincidencias exactas;
 - desacuerdos requieren adjudicación humana;
-- readiness: 16/16 módulos prehumanos materializados;
 - etapa: `WAITING_HUMAN_REFERENCE`.
 
-Candidatos sintéticos (no productivos): gate logístico BA 0.631; cabezal híbrido acciones 79.2% top-1; posiciones 77.8% top-1.
+Los candidatos sintéticos siguen siendo no productivos. No se proyectan sobre las expansiones del corpus.
 
 ## 4. Corrección de FRAGSEG
 
-`heading_candidate` se retiró como interpretación tipográfica. `FRAGTYPE_0.3_SHADOW` conserva límites/IDs/hashes y lo reinterpreta como unidad breve residual.
+`heading_candidate` se retiró como interpretación tipográfica. `FRAGTYPE_0.3_SHADOW` conserva límites, IDs y hashes y lo reinterpreta como unidad breve residual.
 
 - elegibles originales SEMB: 5,037;
 - elegibles shadow: 7,429;
 - recuperables potenciales: 2,392 (+47.5%);
 - muestra suplementaria: 160 unidades breves, 100 desarrollo + 60 validación.
+
+La Ola 2 ya emplea la nomenclatura conservadora `short_residual_candidate`.
 
 ## 5. Catálogo maestro CONALITEG
 
@@ -83,7 +85,6 @@ Nueve objetos adicionales de cuarto y sexto grados en 1972, 1988, 1993 y 2014, i
 - 1,888 JPEG reales;
 - 9 terminales sintéticos;
 - 1,888/1,888 JPEG con SHA-256 verificado;
-- 245,141,456 bytes fuente recorridos;
 - no se persisten imágenes fuente.
 
 ### OCR
@@ -91,8 +92,7 @@ Nueve objetos adicionales de cuarto y sexto grados en 1972, 1988, 1993 y 2014, i
 - 1,888 páginas procesadas;
 - 1,880 con texto detectable (99.58%);
 - 8 `no_text_detected`;
-- 0 `unresolved`;
-- las 8 páginas sin texto muestran contenido visual sustantivo bajo proxies no semánticos.
+- 0 `unresolved`.
 
 ### PAGESTRUCT
 
@@ -117,9 +117,54 @@ Nueve objetos adicionales de cuarto y sexto grados en 1972, 1988, 1993 y 2014, i
 - `experiment_candidate`: 234;
 - `project_candidate`: 87;
 - `assessment_candidate`: 36;
-- 34 páginas presentan huecos legítimos de secuencia por descarte de 40 candidatos de 0 tokens; no se renumeraron IDs.
+- 34 páginas presentan huecos legítimos por descarte de 40 candidatos de 0 tokens; no se renumeraron IDs.
 
-## 7. Dependencia documental — hallazgos técnicos
+## 7. Ciencias Naturales Ola 2 — corpus técnico cerrado
+
+La Ola 2 congeló exclusivamente objetos `full_direct` no pertenecientes al piloto ni a CN4/CN6. Excluyó los cuatro aliases 2018 y los dos objetos 2008 parciales.
+
+### Cobertura
+
+- 19 libros;
+- 3,177 JPEG fuente;
+- 3,177/3,177 SHA-256 verificados antes del OCR.
+
+### OCR
+
+- 3,164/3,177 páginas con texto detectable (99.59%);
+- 13 `no_text_detected`;
+- 0 `unresolved`.
+
+### PAGESTRUCT
+
+- `textual`: 1,459;
+- `mixed_text_image`: 1,069;
+- `visual_only`: 300;
+- `toc_or_navigation`: 118;
+- `bibliography_or_credits`: 80;
+- `front_matter`: 1;
+- `unknown`: 150;
+- elegibles para FRAGSEG: 2,528 páginas.
+
+### FRAGSEG
+
+- 36,195 fragmentos;
+- 36,195 IDs únicos;
+- 2,528/2,528 páginas elegibles con al menos un fragmento;
+- `short_residual_candidate`: 18,423;
+- `question_candidate`: 5,990;
+- `expository_candidate`: 4,897;
+- `instruction_candidate`: 4,720;
+- `activity_candidate`: 1,096;
+- `experiment_candidate`: 446;
+- `project_candidate`: 432;
+- `assessment_candidate`: 191;
+- 80 páginas con huecos legítimos, correspondientes a 97 slots de cero tokens descartados;
+- el texto completo no se persiste.
+
+PAGESTRUCT necesitó una recuperación de infraestructura para CN3/2019: se reconstruyó sólo el shard detenido y se reutilizaron los otros 18 artifacts válidos. FRAGSEG quedó idempotente para impedir reprocesamiento accidental una vez materializado `FRAGSEG_CN_WAVE2_0.1`.
+
+## 8. Dependencia documental — hallazgos técnicos
 
 ### CN4 1972 ↔ 1988
 
@@ -133,28 +178,21 @@ Interpretación técnica: `massive_page_reuse_with_localized_revision`.
 
 ### CN6 dentro de generación 1993
 
-- objeto temprano: *Ciencias Naturales*, familia históricamente asociada con primera edición 1994;
-- objeto de reemplazo: *Ciencias Naturales y desarrollo humano*, página legal recupera primera edición 1999;
-- ambos permanecen como objetos distintos dentro de `catalog_generation=1993`.
+Se conservan dos objetos distintos dentro de `catalog_generation=1993`, uno temprano de *Ciencias Naturales* y otro de reemplazo, *Ciencias Naturales y desarrollo humano*. La generación de catálogo no se convierte en año bibliográfico.
 
 Interpretación: `replacement_within_same_catalog_generation`.
 
 ### Ciencias Naturales 2018 ↔ 2019
 
-Los cuatro visores estrictos de 2018 no sirven sus JPEG bajo la clave 2018. La auditoría de enrutamiento identificó las claves 2019 del mismo grado y una segunda auditoría comparó los **652 pares de activos** con las huellas ya persistidas de 2019:
+Los cuatro visores estrictos de 2018 no sirven sus JPEG bajo la clave 2018. La auditoría de enrutamiento identificó las claves 2019 del mismo grado y comparó **652 pares de activos**:
 
-- URL servida: 652/652 coincide con la URL fuente 2019;
 - SHA-256: 652/652 idéntico;
 - tamaño: 652/652 idéntico;
 - grados 3º, 4º, 5º y 6º: 100% de identidad byte a byte.
 
-Interpretación técnica: las entradas 2018 se conservan como registros institucionales distintos del catálogo, pero se modelan como `catalog_entry_aliases_same_asset_bytes` respecto de 2019. No constituyen observaciones de contenido independientes en la vista de contenido único y esta relación no convierte “2018” en año bibliográfico.
+Las entradas 2018 se conservan como registros institucionales distintos, pero se modelan como `catalog_entry_aliases_same_asset_bytes` respecto de 2019. No constituyen contenido independiente en la vista de contenido único.
 
-### Señal adicional
-
-CN6/1988 y el objeto temprano CN6/1993 comparten 173 hashes textuales exactos. Se registra como señal de auditoría documental, no como conclusión curricular.
-
-## 8. Vista reversible de contenido único
+## 9. Vista reversible de contenido único
 
 Sobre los 19,067 fragmentos CN4/CN6:
 
@@ -163,13 +201,11 @@ Sobre los 19,067 fragmentos CN4/CN6:
 - 1,731 unidades aparecen en dos o más libros;
 - ratio global de unidades únicas / ocurrencias: 84.7%.
 
-No se elimina ninguna ocurrencia. `content_unit_id` permite alternar entre:
+No se elimina ninguna ocurrencia. `content_unit_id` permite alternar entre `object view`, `unique-content view` y `revision view`.
 
-- `object view`;
-- `unique-content view`;
-- `revision view`.
+La misma lógica de dependencia deberá gobernar cualquier integración posterior de Ola 2 antes de hacer inferencia histórica agregada.
 
-## 9. Familia completa Ciencias Naturales — readiness de activos
+## 10. Familia completa Ciencias Naturales — readiness de activos
 
 Inventario estricto:
 
@@ -180,30 +216,23 @@ Inventario estricto:
 - `full_alias_same_bytes`: 4;
 - `partial_internal_unserved`: 2;
 - `not_resolved`: 0;
-- sólo **3 posiciones internas no servidas** persisten en toda la familia auditada.
+- sólo **3 posiciones internas no servidas** persisten.
 
-Los dos objetos parciales son:
+Los dos objetos parciales son `LTMD-CN3-G2008` (VP94) y `LTMD-CN4-G2008` (VP76 y VP96). Cada posición objetivo permaneció no servida después de cinco intentos, mientras las páginas anterior y posterior reprodujeron sus SHA-256 persistidos. Se clasifican como `internal_unserved_position_observed`, no como “páginas faltantes del libro”.
 
-- `LTMD-CN3-G2008`: VP94;
-- `LTMD-CN4-G2008`: VP76 y VP96.
+## 11. Publicación metodológica
 
-Cada posición objetivo permaneció no servida después de cinco intentos, mientras las páginas inmediatamente anterior y posterior reprodujeron sus SHA-256 persistidos. Se clasifican como `internal_unserved_position_observed`, no como “páginas faltantes del libro”: una conclusión bibliográfica requeriría cotejo independiente.
+Existe ahora:
 
-La generación 2018 queda completamente resuelta mediante alias byte-idénticos a 2019 y no se vuelve a procesar como contenido independiente.
-
-## 10. Publicación
-
-Existe:
-
-- `METHODS_ARTICLE_DRAFT_0_1.md`;
-- esqueleto actualizado del artículo histórico;
-- verificación ejecutable de cifras del artículo metodológico;
+- `METHODS_ARTICLE_DRAFT_0_1.md`, preservado como primera formulación;
+- `METHODS_ARTICLE_DRAFT_0_2.md`, reescrito para la infraestructura escalada;
+- verificación ejecutable de cifras del artículo contra artefactos congelados;
 - estrategia de dos productos: artículo método/recurso + artículo histórico posterior a SEMB 0.3;
 - checklist de primera release científica.
 
 El artículo metodológico puede avanzar antes de SEMB 0.3. El artículo histórico no debe convertir resultados SEMB 0.2 en conclusiones finales.
 
-## 11. Derechos
+## 12. Derechos
 
 Política conservadora vigente:
 
@@ -213,37 +242,43 @@ Política conservadora vigente:
 - publicar metadatos, hashes, métricas, código y derivados no sustitutivos;
 - licenciar por separado código/derivados LTMD respecto de materiales fuente.
 
-## 12. Integridad
+## 13. Integridad y fallos útiles
 
-`LTMD_INTEGRITY_0.4` amplió el manifiesto a catálogo, artículo y expansión. Los workflows fallan ante cardinalidades, hashes o invariantes inesperadas en vez de corregirlas silenciosamente.
+El corte de integridad vigente antes de esta actualización era `LTMD_INTEGRITY_0.4`; el siguiente corte debe incorporar explícitamente la auditoría familiar, aliases 2018/2019, evidencia 2008 y Ola 2 cerrada. Los workflows fallan ante cardinalidades, hashes o invariantes inesperadas en vez de corregirlas silenciosamente.
 
-Ejemplos ya registrados de fallos útiles:
+Ejemplos registrados:
 
-- combine B02 fallido y recuperación de shards;
+- combine B02 fallido y recuperación de shards válidos;
 - cardinalidad CN4/CN6 manual errónea rechazada antes de publicar;
-- FRAGSEG combine demasiado estricto respecto a gaps de secuencia, corregido sin renumerar IDs;
-- auditoría familiar detectó primero las anomalías 2008/2018 y luego las resolvió por evidencia, sin declarar falsamente corpus completo;
-- las URLs 2008 incorrectamente inferidas en una capa de diagnóstico fueron sustituidas por los identificadores reales `CI263` y `CI268` antes de interpretar sus 404.
+- FRAGSEG corregido respecto a gaps de secuencia sin renumerar IDs;
+- anomalías 2008/2018 resueltas sólo cuando apareció evidencia específica;
+- URLs 2008 inicialmente inferidas se sustituyeron por `CI263` y `CI268` antes de interpretar respuestas;
+- runner PAGESTRUCT Ola 2 detenido: recuperación sólo del shard CN3/2019;
+- verificador del artículo 0.2 rechazó inicialmente confundir 1,897 posiciones CN4/CN6 con 1,888 JPEG reales, forzando a representar ambas cardinalidades por separado.
 
-## 13. Qué puede seguir haciéndose sin humanos
+Estos fallos forman parte del registro metodológico del proyecto.
 
-Permitido y científicamente útil:
+## 14. Qué puede seguir haciéndose sin humanos
 
-- llevar a OCR, PAGESTRUCT y FRAGSEG los **19 objetos nuevos `full_direct`** que aún no forman parte del piloto/CN4-CN6;
-- procesar los activos 2019 una sola vez y representar 2018 por alias de procedencia, evitando duplicación computacional y estadística;
-- decidir una política técnica explícita para los dos objetos 2008 parciales sin rellenar sus tres huecos;
-- ampliar documentación bibliográfica y curricular;
-- analizar dependencia documental y contenido duplicado por hashes;
-- terminar artículo metodológico, release, licencias y reproducibilidad;
-- preparar otras familias disciplinares sólo hasta capas técnicas.
+La ola que antes figuraba como pendiente **ya está terminada**. Sin humanos todavía puede avanzarse en:
 
-Bloqueado deliberadamente:
+- consolidar `LTMD_INTEGRITY_0.5`;
+- sincronizar README, índice metodológico y documentación de release;
+- ampliar documentación bibliográfica y curricular sin inventar metadatos;
+- extender análisis de dependencia documental y contenido duplicado por hashes;
+- preparar otras familias disciplinares hasta capas técnicas equivalentes;
+- terminar el artículo metodológico y preparar una release científica reproducible.
+
+Sigue bloqueado deliberadamente:
 
 - usar candidatos sintéticos SEMB 0.3 como etiquetas históricas;
 - recalibrar modelos mirando diferencias temporales;
+- clasificar productivamente Ola 2 con Rule A, SEMB 0.2 o SEMB 0.3 para producir una narrativa histórica;
 - producir conclusiones semánticas finales sin referencia humana;
 - abrir los 160 `locked_validation` antes de `model_lock`.
 
-## 14. Diagnóstico
+## 15. Diagnóstico
 
-LTMD ya dispone de suficiente ingeniería para demostrar que el problema central no es extraer más texto. La capa documental de *Ciencias Naturales* está casi completamente resuelta a nivel de activos: 35/37 visores completos y sólo tres posiciones internas no servidas en dos objetos 2008. La siguiente mejora epistemológica de la capa semántica depende de referencia humana real. Mientras esa referencia se obtiene, la expansión técnica puede industrializarse sobre los objetos `full_direct` sin contaminar SEMB 0.3.
+LTMD ya posee una infraestructura de corpus de escala sustancial dentro de *Ciencias Naturales*: activos auditados, procedencia criptográfica, OCR técnico, clasificación estructural, segmentación, representación de dependencia documental y 64,856 ocurrencias de fragmento. El cuello de botella ya no es extracción de texto.
+
+El próximo salto científico depende de dos tareas distintas que no deben mezclarse: **cerrar la reproducibilidad documental de este corte** y **obtener referencia humana para SEMB 0.3**. La primera puede completarse ahora; la segunda seguirá gobernando cuándo es legítimo reabrir la inferencia semántica histórica.
