@@ -96,6 +96,20 @@ Las métricas obtenidas previamente mediante `crop → OCR` quedan como calibrac
 
 La lógica reproducible está en `scripts/extract_region_from_tsv.py` y la justificación en `docs/OCR_REGION_ALIGNMENT_ADDENDUM_2026-08-15.md`.
 
+## 2026-08-15 — Tesseract TSV se parsea con quoting desactivado
+
+Durante la validación de 1988, visor 155, Tesseract produjo un token que comienza con una comilla doble literal (`"mantenerla`). El extractor regional utilizaba `csv.DictReader` con el comportamiento CSV por defecto. Como Tesseract TSV es texto separado por tabuladores y **no un archivo CSV con campos entrecomillados**, una comilla OCR no balanceada podía interpretarse erróneamente como inicio de campo citado y absorber filas posteriores del TSV.
+
+La regla queda congelada así:
+
+- todo TSV de Tesseract se lee con `delimiter='\t'` y `quoting=csv.QUOTE_NONE`;
+- una comilla producida por OCR se trata como parte literal del token;
+- no se corrigen ni eliminan comillas antes de reconstruir la hipótesis regional;
+- el cambio es de **parsing**, no de reconocimiento OCR, por lo que cualquier métrica afectada debe recalcularse desde el TSV original;
+- se añadió una prueba de regresión que verifica que un token con comilla inicial no absorba las filas siguientes.
+
+La corrección está implementada en `scripts/extract_region_from_tsv.py` y cubierta por `tests/test_extract_region_from_tsv.py`.
+
 ## 2026-08-15 — La segunda revisión humana debe ser independiente
 
 Una doble lectura de la referencia por el mismo operador puede detectar errores materiales pero **no cuenta como segunda revisión**. Las métricas CER/WER permanecen provisionales hasta que otra revisión humana independiente verifique región, orden de lectura, caracteres, cifras, palabras y correspondencia con la imagen.
