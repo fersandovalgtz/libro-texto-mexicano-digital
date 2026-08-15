@@ -2,6 +2,7 @@
 data/raw/
 working/
 downloads/
+private/
 *.pdf
 *.tif
 *.tiff
