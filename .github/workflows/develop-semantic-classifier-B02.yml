@@ -1,0 +1,24 @@
+name: Develop SEMB 0.2 synthetically
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/develop-semantic-classifier-B02.yml'
+      - 'tests/develop_semantic_classifier_B02.py'
+
+permissions:
+  contents: read
+
+jobs:
+  develop:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      TOKENIZERS_PARALLELISM: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned semantic runtime
+        run: python3 -m pip install --disable-pip-version-check 'sentence-transformers==5.6.1'
+      - name: Select SEMB 0.2 configuration on synthetic development set
+        run: python3 tests/develop_semantic_classifier_B02.py
