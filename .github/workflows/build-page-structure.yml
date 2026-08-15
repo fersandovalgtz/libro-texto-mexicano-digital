@@ -8,6 +8,10 @@ on:
       - 'scripts/extract_structural_keyword_flags.py'
       - 'scripts/classify_page_structure.py'
 
+concurrency:
+  group: page-structure-main
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -39,33 +43,36 @@ jobs:
           allowed={'textual','mixed_text_image','visual_only','front_matter','toc_or_navigation','bibliography_or_credits','unknown'}
           assert set(r['primary_structure'] for r in rows) <= allowed
           assert all(r['classifier_version']=='PAGESTRUCT_0.2' for r in rows)
-          known_visual={
-              'LTMD-CN5-G2014-VP068',
-              'LTMD-CN5-G2014-VP078',
-              'LTMD-CN5-G2014-VP094',
-              'LTMD-CN5-G2014-VP118',
-          }
+          known_visual={'LTMD-CN5-G2014-VP068','LTMD-CN5-G2014-VP078','LTMD-CN5-G2014-VP094','LTMD-CN5-G2014-VP118'}
           got={r['page_id']:r['primary_structure'] for r in rows if r['page_id'] in known_visual}
-          assert set(got)==known_visual, got
-          assert all(v=='visual_only' for v in got.values()), got
+          assert set(got)==known_visual and all(v=='visual_only' for v in got.values()), got
           unknown=sum(r['primary_structure']=='unknown' for r in rows)
           assert unknown/len(rows) <= 0.10, unknown
           dense_end=[r for r in rows if r['classification_rule']=='END_ZONE_DENSE_UNCERTAIN']
-          print('validated rows:', len(rows))
-          print('known visual controls:', got)
-          print('unknown:', unknown, f'({unknown/len(rows):.2%})')
-          print('dense end-zone uncertain:', [(r['page_id'],r['recognized_words'],r['mean_word_confidence']) for r in dense_end])
+          print('validated rows:',len(rows))
+          print('known visual controls:',got)
+          print('unknown:',unknown,f'({unknown/len(rows):.2%})')
+          print('dense end-zone uncertain:',[(r['page_id'],r['recognized_words'],r['mean_word_confidence']) for r in dense_end])
           PY
           cat data/derived/page_structure_summary.csv
-      - name: Publish non-substitutive derived datasets
+      - name: Publish validated derived datasets from latest main
         run: |
+          set -euo pipefail
+          mkdir -p /tmp/page-structure-derived
+          cp data/derived/structural_keyword_flags.csv /tmp/page-structure-derived/
+          cp data/derived/page_structure.csv /tmp/page-structure-derived/
+          cp data/derived/page_structure_summary.csv /tmp/page-structure-derived/
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/page-structure-derived/structural_keyword_flags.csv data/derived/
+          cp /tmp/page-structure-derived/page_structure.csv data/derived/
+          cp /tmp/page-structure-derived/page_structure_summary.csv data/derived/
           git add data/derived/structural_keyword_flags.csv data/derived/page_structure.csv data/derived/page_structure_summary.csv
           if git diff --cached --quiet; then
             echo 'No derived changes to commit.'
           else
             git commit -m 'data: publish structural page classification 0.2'
-            git pull --rebase origin main
             git push origin HEAD:main
           fi
