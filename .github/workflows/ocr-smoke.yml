@@ -1,0 +1,40 @@
+name: OCR smoke test
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/ocr-smoke.yml'
+      - 'scripts/build_page_manifest.py'
+      - 'scripts/ocr_sample_metrics.py'
+      - 'data/book_inventory.csv'
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Spanish Tesseract model
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: Build page manifest
+        run: python scripts/build_page_manifest.py
+      - name: Run 8-page OCR smoke test
+        run: python scripts/ocr_sample_metrics.py --lang spa --psm 3 --workers 4 --slots q1_1,q4_2 --output data/derived/ocr_smoke_metrics.csv
+      - name: Show metrics
+        run: cat data/derived/ocr_smoke_metrics.csv
+      - name: Upload metrics only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ocr-smoke-metrics
+          path: data/derived/ocr_smoke_metrics.csv
+          if-no-files-found: error
+          retention-days: 30
