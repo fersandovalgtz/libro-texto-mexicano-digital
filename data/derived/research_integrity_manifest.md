@@ -2,9 +2,9 @@
 
 Versión: `LTMD_INTEGRITY_0.4`.
 
-Commit observado: `45d048b942380c6dfea0fd9e762b834fa4dc136c`.
+Commit observado: `a5aab18a46e559a2fae56f3bd59738b41584b899`.
 
-Archivos críticos verificados: **102**. Artefactos derivados adicionales presentes: **12**.
+Archivos críticos verificados: **102**. Artefactos derivados adicionales presentes: **14**.
 
 Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; una desaparición de un artefacto crítico hace fallar el workflow.
 
@@ -125,3 +125,5 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `data/catalog/ciencias_naturales_family_inventory.csv` — `bd6b0920910f8fb81569e18952aecf968eb66e2de790d42898dfb0c787ffa384`
 - `data/expansion/cn46_exact_page_overlap.csv` — `dbb4fc99b3b0fffb50cc98785bc3436bff987ad6ddd0f2c1ecdb9484b7c303af`
 - `data/expansion/cn46_no_text_visual_proxies.csv` — `57df19506750abb2ea7fd0a4fefff3f43149418d78e9e67cfef22a5ffaae132b`
+- `data/expansion/cn46_fragment_manifest.csv` — `815d71c50e4a71bf17358c5080e84dc4c976502f0420a0ebd05ad9c2ceae354b`
+- `data/expansion/cn46_fragment_manifest_summary.csv` — `e2135f2032514bbe08c86272326ce92531987d835982153ee6fe09cba2a8d74c`

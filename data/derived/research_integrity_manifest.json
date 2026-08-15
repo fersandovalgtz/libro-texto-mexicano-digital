@@ -1,9 +1,9 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.4",
-  "generated_utc": "2026-08-15T20:58:28.488747+00:00",
-  "git_head": "45d048b942380c6dfea0fd9e762b834fa4dc136c",
+  "generated_utc": "2026-08-15T20:59:37.785497+00:00",
+  "git_head": "a5aab18a46e559a2fae56f3bd59738b41584b899",
   "critical_count": 102,
-  "optional_present_count": 12,
+  "optional_present_count": 14,
   "files": [
     {
       "path": "README.md",
@@ -687,6 +687,18 @@
       "path": "data/expansion/cn46_no_text_visual_proxies.csv",
       "bytes": 1341,
       "sha256": "57df19506750abb2ea7fd0a4fefff3f43149418d78e9e67cfef22a5ffaae132b",
+      "required": false
+    },
+    {
+      "path": "data/expansion/cn46_fragment_manifest.csv",
+      "bytes": 4194043,
+      "sha256": "815d71c50e4a71bf17358c5080e84dc4c976502f0420a0ebd05ad9c2ceae354b",
+      "required": false
+    },
+    {
+      "path": "data/expansion/cn46_fragment_manifest_summary.csv",
+      "bytes": 923,
+      "sha256": "e2135f2032514bbe08c86272326ce92531987d835982153ee6fe09cba2a8d74c",
       "required": false
     }
   ]
