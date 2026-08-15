@@ -39,13 +39,18 @@
 - [x] Preregistrar tratamiento de páginas `visual_only` sin sustituir la muestra.
 - [x] Completar técnicamente **12/12 posiciones de 1972**: 11 textuales + 1 visual-only.
 - [x] Versionar perfil provisional 1972 y dataset derivado sin texto fuente.
+- [x] Completar técnicamente **12/12 posiciones de 1988**.
+- [x] Versionar perfil provisional 1988 y dataset derivado sin texto fuente.
+- [x] Corregir el parser de TSV para tratar comillas OCR como literales (`csv.QUOTE_NONE`) y añadir prueba de regresión.
 - [ ] Revisar humanamente de forma independiente las 12 posiciones de 1972 y congelar referencias.
-- [ ] Completar técnicamente las 12 posiciones de 1988.
+- [ ] Revisar humanamente de forma independiente las 12 posiciones de 1988 y congelar referencias.
 - [ ] Completar técnicamente las 12 posiciones de 1993.
 - [ ] Completar técnicamente las 12 posiciones de 2014.
 - [ ] Completar segunda revisión humana de las 48 posiciones.
 - [ ] Calcular CER/WER definitivo global, por generación, front matter y body-only.
 - [ ] Decidir si alguna generación/layout requiere preprocesamiento específico para análisis léxico fino.
+
+**Avance técnico de la muestra primaria:** **24/48 = 50 %** de posiciones procesadas provisionalmente (1972 + 1988). Este porcentaje no equivale a validación científica final: falta la revisión humana independiente.
 
 ### Validación del libro de códigos — infraestructura completada; revisión humana pendiente
 - [x] Preregistrar `CODEBOOK_0_1.md` antes del análisis masivo.
@@ -84,7 +89,7 @@ El piloto sólo pasa a escalamiento si cumple simultáneamente:
 1. acceso reproducible al corpus — **cumplido**;
 2. cobertura técnica suficiente de extracción — **cumplido**;
 3. gobernanza jurídica suficiente para publicar metadatos y derivados — **provisionalmente cumplido para derivados, pendiente de cerrar issue jurídico**;
-4. OCR utilizable, medido con CER/WER y no sólo confianza interna — **validación técnica de 1972 completada; faltan tres generaciones y revisión humana**;
+4. OCR utilizable, medido con CER/WER y no sólo confianza interna — **24/48 posiciones técnicamente medidas; faltan 1993, 2014 y revisión humana independiente**;
 5. libro de códigos estable después de validación humana — **pendiente**;
 6. trazabilidad completa entre fuente y dato derivado — **en construcción**;
 7. comparación historiográfica que produzca conocimiento adicional al catálogo original — **pendiente**;
