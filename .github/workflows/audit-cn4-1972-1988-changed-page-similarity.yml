@@ -1,0 +1,48 @@
+name: audit-cn4-1972-1988-changed-page-similarity
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-cn4-1972-1988-changed-page-similarity.yml'
+      - 'scripts/audit_cn4_1972_1988_changed_page_similarity.py'
+      - 'data/expansion/cn46_page_manifest.csv'
+      - 'data/expansion/cn4_1972_1988_page_differences.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install OCR runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: Compare changed-page OCR similarity
+        run: python3 scripts/audit_cn4_1972_1988_changed_page_similarity.py
+      - name: Publish similarity metrics race-safely
+        run: |
+          set -euo pipefail
+          cp data/expansion/cn4_1972_1988_changed_page_similarity.csv /tmp/cn4_changed_similarity.csv
+          cp data/expansion/cn4_1972_1988_changed_page_similarity.md /tmp/cn4_changed_similarity.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/expansion
+            cp /tmp/cn4_changed_similarity.csv data/expansion/cn4_1972_1988_changed_page_similarity.csv
+            cp /tmp/cn4_changed_similarity.md data/expansion/cn4_1972_1988_changed_page_similarity.md
+            git add data/expansion/cn4_1972_1988_changed_page_similarity.csv data/expansion/cn4_1972_1988_changed_page_similarity.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish CN4 1972-1988 changed-page similarity audit'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
