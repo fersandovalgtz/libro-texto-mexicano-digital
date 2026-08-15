@@ -104,10 +104,12 @@ def main() -> None:
     ap.add_argument("--lang",default="spa")
     ap.add_argument("--psm",type=int,default=3)
     ap.add_argument("--workers",type=int,default=4)
+    ap.add_argument("--slots",default="",help="Optional comma-separated qc_slot filter, e.g. q1_1,q4_2")
     args=ap.parse_args()
 
+    allowed={s.strip() for s in args.slots.split(",") if s.strip()}
     with Path(args.manifest).open(encoding="utf-8",newline="") as fh:
-        selected=[r for r in csv.DictReader(fh) if r["qc_positional_candidate"]=="yes"]
+        selected=[r for r in csv.DictReader(fh) if r["qc_positional_candidate"]=="yes" and (not allowed or r["qc_slot"] in allowed)]
 
     with tempfile.TemporaryDirectory(prefix="ltmd-ocr-") as tmp:
         tempdir=Path(tmp)
