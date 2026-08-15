@@ -6,7 +6,7 @@ book page images. It resolves:
 
 - viewer key and exact page count from `claves.json`;
 - same-origin JavaScript modules referenced by the viewer controller;
-- the functions that create/load book pages;
+- the functions that create/load book pages and numeric file padding;
 - string literals used by those functions to construct image paths.
 
 The result is sufficient to design a page manifest before OCR begins.
@@ -23,7 +23,7 @@ from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 
 USER_AGENT = "LibroTextoMexicanoDigital/0.1 viewer metadata resolver"
-FUNCTIONS = ("addPage", "loadPage", "loadSmallPage", "loadLargePage")
+FUNCTIONS = ("addPage", "loadPage", "loadSmallPage", "loadLargePage", "pad")
 JS_LITERAL_RE = re.compile(r"(['\"])([^'\"]+?\.js(?:\?[^'\"]*)?)\1", re.IGNORECASE)
 
 
