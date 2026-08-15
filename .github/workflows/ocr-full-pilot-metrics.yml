@@ -28,8 +28,8 @@ jobs:
         run: python scripts/validate_inventory.py
       - name: Build page manifest
         run: python scripts/build_page_manifest.py
-      - name: Process all pilot pages — metrics only
-        run: python scripts/ocr_adaptive_metrics.py --all-pages --modes 3 --timeout 60 --workers 2 --output data/derived/ocr_full_pilot_metrics.csv
+      - name: Process all source assets — adaptive metrics only
+        run: python scripts/ocr_adaptive_metrics.py --all-pages --modes 3,11,6 --fallback-min-words 5 --timeout 60 --workers 2 --output data/derived/ocr_full_pilot_metrics.csv
       - name: Produce aggregate summary
         run: |
           python - <<'PY'
@@ -38,20 +38,35 @@ jobs:
           rows=list(csv.DictReader(open('data/derived/ocr_full_pilot_metrics.csv',encoding='utf-8')))
           groups=defaultdict(list)
           for r in rows: groups[r['catalog_generation']].append(r)
-          fields=['catalog_generation','pages','text_pages','no_text_pages','unresolved_pages','recognized_words','recognized_chars','mean_text_page_confidence','mean_low_confidence_rate']
+          fields=['catalog_generation','source_assets','text_pages','no_text_pages','unresolved_pages','psm3_pages','psm11_pages','psm6_pages','recognized_words','recognized_chars','mean_text_page_confidence','mean_low_confidence_rate']
           with open('data/derived/ocr_full_pilot_summary.csv','w',encoding='utf-8',newline='') as fh:
             w=csv.DictWriter(fh,fieldnames=fields); w.writeheader()
             for g in sorted(groups):
               rs=groups[g]; text=[r for r in rs if r['ocr_class']=='text_detected']
               conf=[float(r['mean_word_confidence']) for r in text if r['mean_word_confidence']]
               low=[float(r['low_confidence_word_rate']) for r in text if r['low_confidence_word_rate']]
-              row={'catalog_generation':g,'pages':len(rs),'text_pages':len(text),'no_text_pages':sum(r['ocr_class']=='no_text_detected' for r in rs),'unresolved_pages':sum(r['ocr_class']=='unresolved' for r in rs),'recognized_words':sum(int(r['recognized_words'] or 0) for r in rs),'recognized_chars':sum(int(r['ocr_chars'] or 0) for r in rs),'mean_text_page_confidence':f'{statistics.mean(conf):.2f}' if conf else '', 'mean_low_confidence_rate':f'{statistics.mean(low):.4f}' if low else ''}
+              row={
+                'catalog_generation':g,
+                'source_assets':len(rs),
+                'text_pages':len(text),
+                'no_text_pages':sum(r['ocr_class']=='no_text_detected' for r in rs),
+                'unresolved_pages':sum(r['ocr_class']=='unresolved' for r in rs),
+                'psm3_pages':sum(r['selected_psm']=='3' for r in rs),
+                'psm11_pages':sum(r['selected_psm']=='11' for r in rs),
+                'psm6_pages':sum(r['selected_psm']=='6' for r in rs),
+                'recognized_words':sum(int(r['recognized_words'] or 0) for r in rs),
+                'recognized_chars':sum(int(r['ocr_chars'] or 0) for r in rs),
+                'mean_text_page_confidence':f'{statistics.mean(conf):.2f}' if conf else '',
+                'mean_low_confidence_rate':f'{statistics.mean(low):.4f}' if low else '',
+              }
               w.writerow(row); print(row)
+          print('TOTAL',len(rows),'TEXT',sum(r['ocr_class']=='text_detected' for r in rows),'NO_TEXT',sum(r['ocr_class']=='no_text_detected' for r in rows),'UNRESOLVED',sum(r['ocr_class']=='unresolved' for r in rows))
+          print('SELECTED_PSM',{m:sum(r['selected_psm']==m for r in rows) for m in ('3','11','6')})
           PY
       - name: Upload derived metrics only
         uses: actions/upload-artifact@v4
         with:
-          name: ocr-full-pilot-metrics
+          name: ocr-full-pilot-metrics-adaptive
           path: |
             data/derived/ocr_full_pilot_metrics.csv
             data/derived/ocr_full_pilot_summary.csv
