@@ -1,0 +1,44 @@
+name: sample-semb03-reliability-subset
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/sample-semb03-reliability-subset.yml'
+      - 'scripts/sample_semb03_reliability_subset.py'
+      - 'data/validation/semb03_human_reference_sample.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build blinded reliability subset
+        run: python3 scripts/sample_semb03_reliability_subset.py
+      - name: Verify subset
+        run: |
+          python3 - <<'PY'
+          import csv
+          p='data/validation/semb03_reliability_subset.csv'
+          r=list(csv.DictReader(open(p,encoding='utf-8')))
+          assert len(r)==120
+          assert len({x['sample_id'] for x in r})==120
+          assert set(r[0])=={'sample_id','reliability_sample_version'}
+          print('verified',len(r))
+          PY
+      - name: Publish subset
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/validation/semb03_reliability_subset.csv
+          if git diff --cached --quiet; then
+            echo 'No reliability sample changes.'
+          else
+            git commit -m 'Publish SEMB 0.3 reliability subset'
+            git push
+          fi
