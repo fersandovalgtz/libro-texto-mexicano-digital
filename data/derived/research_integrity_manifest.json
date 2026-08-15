@@ -1,14 +1,14 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.1",
-  "generated_utc": "2026-08-15T20:07:13.813161+00:00",
-  "git_head": "0c237eaf65e5fe2d5099f285626caf73ee7772d2",
+  "generated_utc": "2026-08-15T20:09:31.256113+00:00",
+  "git_head": "cf7d10f51c6fc7680a2c2c1cd6a544b36cc7cca8",
   "critical_count": 26,
   "optional_present_count": 6,
   "files": [
     {
       "path": "README.md",
-      "bytes": 8990,
-      "sha256": "7d4e0f3c9c03bdcb9d03eaff614ec3efee9f01b9611ef5388ed7b6d9f9cc6298",
+      "bytes": 12618,
+      "sha256": "dc375e2b6b0078821b85f7c369705c6acd3e8c7d5dfd331eca1e1a5b825cbef2",
       "required": true
     },
     {

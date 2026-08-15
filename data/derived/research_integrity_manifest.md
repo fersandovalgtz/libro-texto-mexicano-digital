@@ -2,14 +2,14 @@
 
 Versión: `LTMD_INTEGRITY_0.1`.
 
-Commit observado: `0c237eaf65e5fe2d5099f285626caf73ee7772d2`.
+Commit observado: `cf7d10f51c6fc7680a2c2c1cd6a544b36cc7cca8`.
 
 Archivos críticos verificados: **26**. Artefactos opcionales presentes: **6**.
 
 Cada entrada conserva tamaño y SHA-256. El propósito es detectar cambios posteriores en corpus congelado, protocolos, criterios y código crítico. El manifiesto no impide cambios legítimos: obliga a que una modificación produzca una nueva huella auditable.
 
 ## Archivos críticos
-- `README.md` — 8990 bytes — `7d4e0f3c9c03bdcb9d03eaff614ec3efee9f01b9611ef5388ed7b6d9f9cc6298`
+- `README.md` — 12618 bytes — `dc375e2b6b0078821b85f7c369705c6acd3e8c7d5dfd331eca1e1a5b825cbef2`
 - `data/derived/page_structure.csv` — 107957 bytes — `9528558068ac52b45f05fa9c75b9336a8150d57bf2b3a9a9225b816ed68e82ad`
 - `data/derived/fragment_manifest.csv` — 1977631 bytes — `9773c45a79eac76d63829d60f1475c8a958573139ac8555c06d44f3b132b05ab`
 - `data/derived/fragment_manifest_fragtype03_shadow.csv` — 2589067 bytes — `0e9c5cb09b18384c6c7ba767dfbc308a7eaa444585540f48e05b0258df2fa150`
