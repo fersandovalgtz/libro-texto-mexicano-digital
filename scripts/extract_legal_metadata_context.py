@@ -56,7 +56,7 @@ def main():
             if ('edición' in low or 'edicion' in low or 'reimpresión' in low or 'reimpresion' in low) and line not in edition: edition.append(line)
             if 'isbn' in low and line not in isbn: isbn.append(line)
             if any(k in low for k in ('derechos','copyright','impreso','secretaría de educación pública','secretaria de educacion publica')) and line not in rights: rights.append(line)
-          outrows.append({'book_id':r['book_id'],'catalog_generation':r['catalog_generation'],'viewer_page':r['viewer_page'],'source_filename':r['source_filename'],'years':'|'.join(sorted(set(YEAR_RE.findall(text)))),'edition_context':' || '.join(edition[:6]),'isbn_context':' || '.join(isbn[:4]),'rights_context':' || '.join(rights[:6]),'ocr_status':'ok','error':''})
+          outrows.append({'book_id':r['book_id'],'catalog_generation':r['catalog_generation'],'viewer_page':r['viewer_page'],'source_filename':r['source_filename'],'years':'|'.join(sorted(set(YEAR_RE.findall(text)))),'edition_context':' || '.join(edition[:10]),'isbn_context':' || '.join(isbn[:4]),'rights_context':' || '.join(rights[:8]),'ocr_status':'ok','error':''})
         except Exception as e:
           outrows.append({'book_id':r['book_id'],'catalog_generation':r['catalog_generation'],'viewer_page':r['viewer_page'],'source_filename':r['source_filename'],'years':'','edition_context':'','isbn_context':'','rights_context':'','ocr_status':'error','error':f'{type(e).__name__}: {e}'})
         finally: img.unlink(missing_ok=True)
