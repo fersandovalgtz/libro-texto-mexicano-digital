@@ -34,14 +34,23 @@ jobs:
           assert set(t[0])=={'sample_id','annotator_id','annotation_round','is_typographic_heading','is_semantic_unit','actionable','functional_class','confidence','note'}
           print('verified supplemental sample')
           PY
-      - name: Publish supplemental manifests
+      - name: Publish supplemental manifests race-safely
         run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-short-residual
+          mkdir -p /tmp/ltmd-short-residual
+          cp data/validation/short_residual_validation_sample.csv /tmp/ltmd-short-residual/
+          cp data/validation/short_residual_annotation_template.csv /tmp/ltmd-short-residual/
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/validation/short_residual_validation_sample.csv data/validation/short_residual_annotation_template.csv
-          if git diff --cached --quiet; then
-            echo 'No supplemental sample changes.'
-          else
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-short-residual/* data/validation/
+            git add data/validation/short_residual_validation_sample.csv data/validation/short_residual_annotation_template.csv
+            if git diff --cached --quiet; then exit 0; fi
             git commit -m 'Publish short residual validation sample'
-            git push
-          fi
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
