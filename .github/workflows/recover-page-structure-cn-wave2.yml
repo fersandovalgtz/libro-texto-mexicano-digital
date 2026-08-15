@@ -1,0 +1,52 @@
+name: recover-page-structure-cn-wave2
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/recover-page-structure-cn-wave2.yml'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Install Spanish OCR runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: Rebuild only stalled CN3 2019 structural shard
+        run: python3 scripts/extract_cn_wave2_structural_flags_book.py --book-id LTMD-CN3-G2019 --output-dir data/work/cn_wave2_structkw
+      - name: Download valid structural shards from original run
+        uses: actions/download-artifact@v4
+        with:
+          pattern: structkw-*
+          path: data/work/original_structkw
+          merge-multiple: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 31910439847
+      - name: Assemble 19 shards, preferring recovered CN3 2019
+        run: |
+          mkdir -p data/work/combined_structkw
+          cp data/work/original_structkw/structkw_*.csv data/work/combined_structkw/ || true
+          cp data/work/cn_wave2_structkw/structkw_cn3-g2019.csv data/work/combined_structkw/structkw_cn3-g2019.csv
+          test "$(find data/work/combined_structkw -maxdepth 1 -name 'structkw_*.csv' | wc -l)" -eq 19
+          python3 scripts/combine_cn_wave2_structural_flags.py --input-dir data/work/combined_structkw
+          python3 scripts/classify_cn_wave2_page_structure.py
+      - name: Publish recovered PAGESTRUCT Wave 2 race-safely
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/expansion/cn_wave2_structural_keyword_flags.csv data/expansion/cn_wave2_page_structure.csv data/expansion/cn_wave2_page_structure_summary.csv data/expansion/cn_wave2_page_structure_report.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Publish recovered Ciencias Naturales Wave 2 PAGESTRUCT'
+          git pull --rebase origin main
+          git push origin HEAD:main
