@@ -1,0 +1,42 @@
+name: analyze-catalog-title-duplicates
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/analyze-catalog-title-duplicates.yml'
+      - 'scripts/analyze_catalog_title_duplicates.py'
+      - 'data/catalog/conaliteg_historical_title_inventory.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Analyze repeated normalized titles
+        run: python3 scripts/analyze_catalog_title_duplicates.py
+      - name: Publish duplicate-title groups race-safely
+        run: |
+          set -euo pipefail
+          cp data/catalog/conaliteg_duplicate_title_groups.csv /tmp/conaliteg_duplicate_title_groups.csv
+          cp data/catalog/conaliteg_duplicate_title_groups.md /tmp/conaliteg_duplicate_title_groups.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/catalog
+            cp /tmp/conaliteg_duplicate_title_groups.csv data/catalog/
+            cp /tmp/conaliteg_duplicate_title_groups.md data/catalog/
+            git add data/catalog/conaliteg_duplicate_title_groups.csv data/catalog/conaliteg_duplicate_title_groups.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish CONALITEG duplicate-title groups'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
