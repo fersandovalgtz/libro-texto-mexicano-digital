@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.4`.
 
-Commit observado: `002b94b0970efeda74df1c6bf9cde0b4fafbcc40`.
+Commit observado: `6c9c9189e4abb7fc1c9592a1cafe6290a423dc8d`.
 
 Archivos críticos verificados: **102**. Artefactos derivados adicionales presentes: **14**.
 
@@ -20,7 +20,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `data/derived/fragment_labels_B_summary.csv` — 1268 bytes — `c829b19308f11e47fc3c4f4d6d06c63b09c721cdc62f060e5acc4e1fde17a68d`
 - `data/derived/semb02_uncertainty_diagnostic.md` — 2169 bytes — `f212fff8768b93c796cf4a76554996192f5dea7368b55b04fb8b263cb7ee3b1d`
 - `data/derived/fragseg_heading_candidate_audit.md` — 1681 bytes — `b85aa3be35a1494b858b1e9f3cd413c930acdfb15e36893838b3a383892fd512`
-- `data/derived/methods_article_claim_check.json` — 2001 bytes — `bc2c8a5df45bdf41393a2a7cbf9ecf296f3e41afde2a5affd77fdabb264faca8`
+- `data/derived/methods_article_claim_check.json` — 1492 bytes — `c220e6ddf6b978c9965176e3f8f7022384609d2a6b8b5d5a255ce2a9adb7ced2`
 - `data/validation/semb03_human_reference_sample.csv` — 95043 bytes — `1c0206237f19f0fe7efecf99775f3d806f9656113b43b3a73d1fd859f19f3c1e`
 - `data/validation/semb03_human_reference_annotation_template.csv` — 14039 bytes — `929373205e0907b6645cca7f6a96a85d71010ad5203b544d8d5164c51067215f`
 - `data/validation/semb03_reliability_subset.csv` — 6278 bytes — `d9398f5dcb4178b90658a0e76e5f9e884f19911179e4397945a9a0fc43b07fe3`
