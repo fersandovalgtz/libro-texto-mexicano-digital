@@ -1,0 +1,6 @@
+catalog_generation,fragment_count,uncertain_B,uncertain_rate_B,truncation_risk_B,zero_action_B,zero_position_B,action_observe_B,action_describe_B,action_recall_B,action_explain_B,action_compare_B,action_classify_B,action_measure_B,action_experiment_B,action_investigate_B,action_predict_B,action_infer_B,action_discuss_B,action_solve_B,action_create_B,action_decide_B,action_act_on_environment_B,position_receiver_B,position_instruction_follower_B,position_observer_B,position_experimenter_B,position_investigator_B,position_reasoner_B,position_collaborator_B,position_decision_maker_B,position_community_agent_B
+1972,2809,2794,0.99466,0,1804,1012,307,256,102,305,103,70,84,282,157,207,60,101,315,71,178,173,324,213,450,742,557,230,347,412,237
+1988,1631,1624,0.995708,0,1100,658,147,121,77,117,48,62,55,149,91,94,39,45,157,62,102,108,207,110,212,390,305,111,191,240,130
+1993,2513,2498,0.994031,0,1803,1256,195,171,92,139,81,65,65,213,118,67,48,71,221,60,186,197,315,92,215,579,287,126,278,329,217
+2014,2641,2629,0.995456,0,2100,1631,144,99,66,81,38,50,51,177,95,60,24,36,167,51,125,187,349,48,208,359,282,104,212,198,186
+ALL,9594,9545,0.994893,0,6807,4557,793,647,337,642,270,247,255,821,461,428,171,253,860,244,591,665,1195,463,1085,2070,1431,571,1028,1179,770
