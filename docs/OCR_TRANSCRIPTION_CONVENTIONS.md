@@ -1,7 +1,7 @@
 # Convenciones de transcripción y normalización OCR — piloto 0.1
 
 **Fecha de congelación:** 15 de agosto de 2026  
-**Momento metodológico:** antes de calcular el primer CER/WER contra referencia humana.
+**Momento metodológico:** antes de calcular el primer CER/WER definitivo contra referencia humana.
 
 ## Propósito
 
@@ -19,7 +19,7 @@ Cada registro usa:
 - `reference_scope = crop_block` cuando se evalúa un rectángulo continuo;
 - `crop_x0`, `crop_y0`, `crop_x1`, `crop_y1` como coordenadas normalizadas en `[0,1]` cuando existe recorte.
 
-La región se fija **antes** de leer el resultado OCR correspondiente.
+La región se fija **antes** de aceptar como definitivo el resultado OCR correspondiente.
 
 ### 1.1 Elementos fuera de la región
 
@@ -73,7 +73,7 @@ Si un carácter o palabra no puede resolverse razonablemente por inspección vis
 
 ## 3. Segunda revisión
 
-Toda referencia humana debe pasar una segunda lectura antes de que su CER/WER sea considerado definitivo.
+Toda referencia humana debe pasar una segunda lectura **independiente** antes de que su CER/WER sea considerado definitivo. Una doble inspección por el mismo operador puede detectar errores materiales, pero no sustituye esta revisión independiente.
 
 La segunda revisión comprueba:
 
@@ -158,6 +158,25 @@ Se calcularán ambas familias para cada registro validado:
 
 Los resultados de la muestra primaria de 48 páginas y del suplemento de estrés de 12 páginas se reportan por separado.
 
+### 8.1 Estratificación preregistrada del reporte primario
+
+La muestra primaria contiene, por diseño, dos tipos de material con funciones distintas:
+
+- **front matter:** página legal + índice, 2 páginas por generación = 8 registros;
+- **cuerpo del libro:** 10 páginas posicionales por generación = 40 registros.
+
+Se reportarán como mínimo:
+
+1. resultado primario total de las 48 páginas;
+2. resultado por generación;
+3. resultado de `front matter`;
+4. resultado **body-only** de las 40 páginas corporales;
+5. resultado body-only por generación.
+
+La **decisión de viabilidad para el análisis pedagógico automático** se apoyará principalmente en las 40 páginas del cuerpo, porque las páginas legales e índices no constituyen la unidad sustantiva de análisis pedagógico y tienen estructuras de layout diferentes. Esto no implica borrar sus resultados: permanecen como prueba explícita de robustez documental y de front matter.
+
+Esta estratificación se fija antes de disponer de resultados validados de las cuatro generaciones.
+
 ## 9. Umbrales exploratorios
 
 Los siguientes cortes son criterios internos iniciales para `CER lexical`, no estándares universales:
@@ -171,15 +190,21 @@ WER se reportará conjuntamente y no se reducirá a un único umbral hasta obser
 
 ## 10. Primer lote congelado — 1972
 
-Antes de producir métricas se fijaron las siguientes regiones de trabajo sobre imágenes de 670×993 px:
+Antes de producir métricas definitivas se fijaron las siguientes regiones de trabajo sobre imágenes de 670×993 px:
 
 | muestra | página visor | región px | región normalizada aprox. | razón |
 |---|---:|---|---|---|
-| `LTMD-CER-1972-LEGAL` | 4 | `(100,139)-(576,395)` | `(0.149254,0.139980)-(0.859701,0.397784)` | bloque continuo de créditos ≈120 palabras; evita extender la referencia a toda la página legal |
+| `LTMD-CER-1972-LEGAL` | 4 | `(100,139)-(576,380)` | `(0.149254,0.139980)-(0.859701,0.382679)` | bloque continuo de créditos ≈120 palabras; evita extender la referencia a toda la página legal |
 | `LTMD-CER-1972-TOC` | 7 | `(35,20)-(635,950)` | `(0.052239,0.020141)-(0.947761,0.956697)` | título + las 23 entradas del índice; excluye márgenes vacíos |
 | `LTMD-CER-1972-Q1_1` | 26 | `(28,22)-(635,135)` | `(0.041791,0.022155)-(0.947761,0.135952)` | todo el bloque textual de la página; excluye ilustraciones y folio 26 |
 
-Estas regiones no se modificarán por observar un resultado OCR desfavorable. Cualquier corrección por error material de coordenadas se documentará como desviación del protocolo.
+### 10.1 Corrección material de frontera del recorte legal
+
+La primera preregistración operativa había usado `y1=395` (`0.397784`). Una inspección ampliada mostró que esa frontera alcanzaba píxeles de la línea siguiente, que no formaba parte del fragmento de referencia. **Antes de aceptar una métrica definitiva**, la frontera se corrigió visualmente a `y1=380` (`0.382679`), que termina después de “Secretaría de Agricultura.” sin incorporar la siguiente línea.
+
+La corrección se documenta como desviación material del primer recorte y no se oculta. No se realizó para mejorar un CER/WER ya validado: responde a la regla previa de que referencia e hipótesis deben contener exactamente el mismo bloque textual.
+
+Las otras dos regiones permanecen sin cambios.
 
 ## 11. Gobernanza
 
