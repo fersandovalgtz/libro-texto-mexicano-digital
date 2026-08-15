@@ -1,0 +1,6 @@
+catalog_generation,fragment_count,uncertain_A,uncertain_rate,action_observe,action_describe,action_recall,action_explain,action_compare,action_classify,action_measure,action_experiment,action_investigate,action_predict,action_infer,action_discuss,action_solve,action_create,action_decide,action_act_on_environment,position_receiver,position_instruction_follower,position_observer,position_experimenter,position_investigator,position_reasoner,position_collaborator,position_decision_maker,position_community_agent,type_expository,type_instruction,type_question,type_activity,type_experiment,type_project,type_assessment,type_heading,type_other
+1972,2809,25,0.0089,54,1,9,103,21,5,10,0,11,0,3,22,7,12,1,0,443,337,54,0,11,134,22,1,0,443,430,1058,19,0,0,0,856,20
+1988,1631,7,0.004292,18,0,6,36,5,1,9,3,9,0,0,6,2,12,0,1,274,188,18,3,9,43,6,0,1,274,229,541,9,3,0,0,569,14
+1993,2513,37,0.014723,50,3,9,19,19,2,7,2,18,1,1,23,6,42,10,2,472,388,50,2,18,44,23,10,2,472,511,294,69,2,4,0,1176,20
+2014,2641,74,0.02802,35,5,5,28,13,2,7,9,46,0,2,10,8,22,4,8,315,232,35,9,46,51,10,4,8,315,360,286,106,9,41,14,1536,16
+ALL,9594,143,0.014905,157,9,29,186,58,10,33,14,84,1,6,61,23,88,15,11,1504,1145,157,14,84,272,61,15,11,1504,1530,2179,203,14,45,14,4137,70
