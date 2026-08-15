@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit FRAGSEG manifest using derived metadata only.
+"""Audit FRAGSEG 0.2 manifest using derived metadata only.
 
 No OCR/source text is read. Produces reproducible size/density/uncertainty summaries.
 """
@@ -13,7 +13,7 @@ from pathlib import Path
 SRC = Path('data/derived/fragment_manifest.csv')
 OUT = Path('data/derived/fragment_segmentation_audit.csv')
 PAGE_OUT = Path('data/derived/fragment_page_density_audit.csv')
-VERSION = 'FRAGAUDIT_0.1'
+VERSION = 'FRAGAUDIT_0.2'
 
 
 def quantile(xs, q):
@@ -59,6 +59,8 @@ def summarize(rows, gen, ctype):
 def main():
     rows=list(csv.DictReader(SRC.open(encoding='utf-8')))
     assert rows, 'empty manifest'
+    assert len(rows)==9594, len(rows)
+    assert all(r['segmenter_version']=='FRAGSEG_0.2' for r in rows)
     assert len({r['fragment_id'] for r in rows})==len(rows)
     groups=defaultdict(list)
     for r in rows:
@@ -73,6 +75,7 @@ def main():
 
     bypage=defaultdict(list)
     for r in rows: bypage[r['page_id']].append(r)
+    assert len(bypage)==639, len(bypage)
     page_rows=[]
     for pid,rs in sorted(bypage.items()):
         toks=sum(int(r['token_count']) for r in rs)
