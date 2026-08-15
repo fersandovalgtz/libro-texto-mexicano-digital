@@ -29,22 +29,29 @@ FIELDS = (
 )
 
 
-def download(url: str, target: Path, timeout: int = 30) -> int:
-    req = Request(url, headers={"User-Agent": USER_AGENT})
+def download(url: str, target: Path, timeout: int = 20) -> int:
+    req = Request(url, headers={"User-Agent": USER_AGENT, "Connection": "close"})
     with urlopen(req, timeout=timeout) as response, target.open("wb") as fh:
+        expected_header = response.headers.get("Content-Length")
+        expected = int(expected_header) if expected_header and expected_header.isdigit() else None
         total = 0
-        while True:
-            chunk = response.read(65536)
+        while expected is None or total < expected:
+            remaining = 65536 if expected is None else min(65536, expected - total)
+            if remaining <= 0:
+                break
+            chunk = response.read(remaining)
             if not chunk:
                 break
             fh.write(chunk)
             total += len(chunk)
+        if expected is not None and total != expected:
+            raise IOError(f"incomplete JPEG: read {total} of {expected} bytes")
     return total
 
 
 def tesseract_metrics(image: Path, lang: str, psm: int) -> dict:
     cmd = ["tesseract", str(image), "stdout", "-l", lang, "--psm", str(psm), "tsv"]
-    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=90)
     if proc.returncode != 0:
         raise RuntimeError(proc.stderr.strip() or f"tesseract exit {proc.returncode}")
 
