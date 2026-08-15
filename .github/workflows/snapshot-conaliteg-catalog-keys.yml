@@ -1,0 +1,43 @@
+name: snapshot-conaliteg-catalog-keys
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/snapshot-conaliteg-catalog-keys.yml'
+      - 'scripts/snapshot_conaliteg_catalog_keys.py'
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Snapshot public catalog keys
+        run: python3 scripts/snapshot_conaliteg_catalog_keys.py
+      - name: Publish snapshot race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-catalog-snapshot
+          mkdir -p /tmp/ltmd-catalog-snapshot
+          cp data/catalog/conaliteg_historical_viewer_keys.csv /tmp/ltmd-catalog-snapshot/
+          cp data/catalog/conaliteg_historical_catalog_snapshot.csv /tmp/ltmd-catalog-snapshot/
+          cp data/catalog/conaliteg_historical_catalog_snapshot.md /tmp/ltmd-catalog-snapshot/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/catalog
+            cp /tmp/ltmd-catalog-snapshot/* data/catalog/
+            git add data/catalog/conaliteg_historical_viewer_keys.csv data/catalog/conaliteg_historical_catalog_snapshot.csv data/catalog/conaliteg_historical_catalog_snapshot.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish CONALITEG historical catalog key snapshot'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
