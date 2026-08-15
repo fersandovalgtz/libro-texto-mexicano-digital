@@ -1,0 +1,49 @@
+name: audit-frontmatter-bibliography
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-frontmatter-bibliography.yml'
+      - 'scripts/audit_frontmatter_bibliography.py'
+      - 'scripts/segment_fragments.py'
+      - 'data/derived/page_structure.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install pinned OCR runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+          tesseract --version | head -1 | grep -F 'tesseract 5.3.4'
+      - name: Audit front matter without persisting OCR
+        run: python3 scripts/audit_frontmatter_bibliography.py
+      - name: Publish bibliographic audit race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-frontmatter
+          mkdir -p /tmp/ltmd-frontmatter
+          cp data/derived/frontmatter_bibliographic_audit.csv /tmp/ltmd-frontmatter/
+          cp data/derived/frontmatter_bibliographic_audit.md /tmp/ltmd-frontmatter/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-frontmatter/* data/derived/
+            git add data/derived/frontmatter_bibliographic_audit.csv data/derived/frontmatter_bibliographic_audit.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish front-matter bibliographic audit'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
