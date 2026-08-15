@@ -33,11 +33,19 @@
 - [x] Alcanzar **757/759 = 99.74 %** de activos con texto aceptado, 2 `no_text_detected`, 0 `unresolved`.
 
 ### Validación de exactitud — frente activo
-- [x] Preregistrar 48 páginas para CER/WER.
-- [x] Preparar evaluador CER/WER.
-- [ ] Completar transcripción/referencia humana.
-- [ ] Calcular CER/WER global y por generación.
-- [ ] Decidir si alguna generación requiere preprocesamiento específico para análisis léxico fino.
+- [x] Preregistrar 48 páginas primarias para CER/WER.
+- [x] Preparar evaluador CER/WER con familias léxica y ortográfica.
+- [x] Corregir alineación a `full-page OCR → TSV → región por centro de bounding box`.
+- [x] Preregistrar tratamiento de páginas `visual_only` sin sustituir la muestra.
+- [x] Completar técnicamente **12/12 posiciones de 1972**: 11 textuales + 1 visual-only.
+- [x] Versionar perfil provisional 1972 y dataset derivado sin texto fuente.
+- [ ] Revisar humanamente de forma independiente las 12 posiciones de 1972 y congelar referencias.
+- [ ] Completar técnicamente las 12 posiciones de 1988.
+- [ ] Completar técnicamente las 12 posiciones de 1993.
+- [ ] Completar técnicamente las 12 posiciones de 2014.
+- [ ] Completar segunda revisión humana de las 48 posiciones.
+- [ ] Calcular CER/WER definitivo global, por generación, front matter y body-only.
+- [ ] Decidir si alguna generación/layout requiere preprocesamiento específico para análisis léxico fino.
 
 ### Validación del libro de códigos — infraestructura completada; revisión humana pendiente
 - [x] Preregistrar `CODEBOOK_0_1.md` antes del análisis masivo.
@@ -76,7 +84,7 @@ El piloto sólo pasa a escalamiento si cumple simultáneamente:
 1. acceso reproducible al corpus — **cumplido**;
 2. cobertura técnica suficiente de extracción — **cumplido**;
 3. gobernanza jurídica suficiente para publicar metadatos y derivados — **provisionalmente cumplido para derivados, pendiente de cerrar issue jurídico**;
-4. OCR utilizable, medido con CER/WER y no sólo confianza interna — **pendiente**;
+4. OCR utilizable, medido con CER/WER y no sólo confianza interna — **validación técnica de 1972 completada; faltan tres generaciones y revisión humana**;
 5. libro de códigos estable después de validación humana — **pendiente**;
 6. trazabilidad completa entre fuente y dato derivado — **en construcción**;
 7. comparación historiográfica que produzca conocimiento adicional al catálogo original — **pendiente**;
