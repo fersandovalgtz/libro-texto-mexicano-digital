@@ -1,0 +1,58 @@
+name: Full pilot OCR metrics
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/ocr-full-pilot-metrics.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      OMP_THREAD_LIMIT: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Spanish Tesseract model
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: Validate inventory
+        run: python scripts/validate_inventory.py
+      - name: Build page manifest
+        run: python scripts/build_page_manifest.py
+      - name: Process all pilot pages — metrics only
+        run: python scripts/ocr_adaptive_metrics.py --all-pages --modes 3 --timeout 60 --workers 2 --output data/derived/ocr_full_pilot_metrics.csv
+      - name: Produce aggregate summary
+        run: |
+          python - <<'PY'
+          import csv,statistics
+          from collections import defaultdict
+          rows=list(csv.DictReader(open('data/derived/ocr_full_pilot_metrics.csv',encoding='utf-8')))
+          groups=defaultdict(list)
+          for r in rows: groups[r['catalog_generation']].append(r)
+          fields=['catalog_generation','pages','text_pages','no_text_pages','unresolved_pages','recognized_words','recognized_chars','mean_text_page_confidence','mean_low_confidence_rate']
+          with open('data/derived/ocr_full_pilot_summary.csv','w',encoding='utf-8',newline='') as fh:
+            w=csv.DictWriter(fh,fieldnames=fields); w.writeheader()
+            for g in sorted(groups):
+              rs=groups[g]; text=[r for r in rs if r['ocr_class']=='text_detected']
+              conf=[float(r['mean_word_confidence']) for r in text if r['mean_word_confidence']]
+              low=[float(r['low_confidence_word_rate']) for r in text if r['low_confidence_word_rate']]
+              row={'catalog_generation':g,'pages':len(rs),'text_pages':len(text),'no_text_pages':sum(r['ocr_class']=='no_text_detected' for r in rs),'unresolved_pages':sum(r['ocr_class']=='unresolved' for r in rs),'recognized_words':sum(int(r['recognized_words'] or 0) for r in rs),'recognized_chars':sum(int(r['ocr_chars'] or 0) for r in rs),'mean_text_page_confidence':f'{statistics.mean(conf):.2f}' if conf else '', 'mean_low_confidence_rate':f'{statistics.mean(low):.4f}' if low else ''}
+              w.writerow(row); print(row)
+          PY
+      - name: Upload derived metrics only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ocr-full-pilot-metrics
+          path: |
+            data/derived/ocr_full_pilot_metrics.csv
+            data/derived/ocr_full_pilot_summary.csv
+          retention-days: 30
