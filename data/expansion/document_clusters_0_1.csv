@@ -1,0 +1,5 @@
+cluster_version,document_cluster_id,book_id,cluster_role,relation_type,analysis_note
+LTMD_DOCCLUSTER_0.1,DOCcluster-CN4-continuity-72-88,LTMD-CN4-G1972,base_object,localized_revision,"188/214 aligned pages are byte-identical with G1988; preserve as provenance-bearing base object."
+LTMD_DOCCLUSTER_0.1,DOCcluster-CN4-continuity-72-88,LTMD-CN4-G1988,revised_object,localized_revision,"Massive reuse plus 26 changed aligned pages; do not treat as independent replicate without dependence handling."
+LTMD_DOCCLUSTER_0.1,DOCcluster-CN6-reform-1990s,LTMD-CN6-G1993-CN,early_reform_object,replacement_within_generation,"Historically supported family beginning 1994; retained separately within catalog_generation 1993."
+LTMD_DOCCLUSTER_0.1,DOCcluster-CN6-reform-1990s,LTMD-CN6-G1993-DH,replacement_mature_reform_object,replacement_within_generation,"Legal-page OCR and contemporary documentation support first edition 1999 and replacement relation."
