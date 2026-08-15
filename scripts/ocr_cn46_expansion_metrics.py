@@ -47,26 +47,22 @@ def run_ocr(image,psm):
     low=sum(c<60 for c in confs)/len(confs) if confs else 1.0
     return {'recognized_words':len(words),'ocr_chars':sum(len(w) for w in words),'mean_word_confidence':f'{statistics.mean(confs):.2f}' if confs else '','median_word_confidence':f'{statistics.median(confs):.2f}' if confs else '','low_confidence_word_rate':f'{low:.4f}'}
 
-def score(m):
-    return (int(m['recognized_words']),float(m['mean_word_confidence'] or 0))
+def score(m):return (int(m['recognized_words']),float(m['mean_word_confidence'] or 0))
 
 def process(row,tmp):
     image=tmp/f"{row['page_id']}.jpg";attempts=[];errors=[]
     base={'ocr_version':VERSION,'page_id':row['page_id'],'book_id':row['book_id'],'catalog_generation':row['catalog_generation'],'grade':row['grade'],'viewer_page':row['viewer_page'],'asset_status':row['asset_status']}
     empty={'recognized_words':'','ocr_chars':'','mean_word_confidence':'','median_word_confidence':'','low_confidence_word_rate':''}
     try:
-        size=download_verify(row,image)
-        baseline=None
-        try:
-            baseline=run_ocr(image,3);attempts.append(f"psm3:ok:{baseline['recognized_words']}")
+        size=download_verify(row,image);baseline=None
+        try:baseline=run_ocr(image,3);attempts.append(f"psm3:ok:{baseline['recognized_words']}")
         except subprocess.TimeoutExpired:attempts.append('psm3:timeout');errors.append(f'psm3 timeout>{TIMEOUT}s')
         except Exception as e:attempts.append('psm3:error');errors.append(f'psm3 {type(e).__name__}: {e}')
         if baseline and int(baseline['recognized_words'])>0:
             return {**base,'source_bytes':size,'source_sha256_verified':1,'attempts':';'.join(attempts),'selected_psm':3,**baseline,'ocr_class':'text_detected','ocr_status':'ok','error':' | '.join(errors)}
         fallback=[]
         for psm in (11,6):
-            try:
-                m=run_ocr(image,psm);attempts.append(f"psm{psm}:ok:{m['recognized_words']}");fallback.append((psm,m))
+            try:m=run_ocr(image,psm);attempts.append(f"psm{psm}:ok:{m['recognized_words']}");fallback.append((psm,m))
             except subprocess.TimeoutExpired:attempts.append(f'psm{psm}:timeout');errors.append(f'psm{psm} timeout>{TIMEOUT}s')
             except Exception as e:attempts.append(f'psm{psm}:error');errors.append(f'psm{psm} {type(e).__name__}: {e}')
         valid=[x for x in fallback if int(x[1]['recognized_words'])>=FALLBACK_MIN_WORDS]
@@ -98,12 +94,13 @@ def main():
         summary.append({'ocr_version':VERSION,'book_id':bid,'catalog_generation':rr[0]['catalog_generation'],'grade':rr[0]['grade'],'source_pages':len(rr),'sha_verified':sum(str(r['source_sha256_verified'])=='1' for r in rr),'text_detected':sum(r['ocr_class']=='text_detected' for r in rr),'no_text_detected':sum(r['ocr_class']=='no_text_detected' for r in rr),'unresolved':sum(r['ocr_class']=='unresolved' for r in rr),'psm3':sum(str(r['selected_psm'])=='3' for r in rr),'psm11':sum(str(r['selected_psm'])=='11' for r in rr),'psm6':sum(str(r['selected_psm'])=='6' for r in rr)})
     with SUMMARY.open('w',encoding='utf-8',newline='') as f:
         w=csv.DictWriter(f,fieldnames=list(summary[0]));w.writeheader();w.writerows(summary)
-    total=len(rows);text=sum(r['ocr_class']=='text_detected' for r in rows);unres=sum(r['ocr_class']=='unresolved' for r in rows)
-    lines=['# OCR técnico — expansión CN4/CN6','',f'Versión: `{VERSION}`. Todas las páginas se reconstruyen temporalmente y su SHA-256 se verifica antes del OCR.','',f'- JPEG procesados: **{total:,}**.\n- SHA-256 verificados: **{sum(str(r["source_sha256_verified"])=="1" for r in rows):,}**.\n- Texto detectado: **{text:,}/{total:,} ({100*text/total:.2f}%)**.\n- No-text: **{sum(r["ocr_class"]=="no_text_detected" for r in rows)}**.\n- Unresolved: **{unres}**.','', '## Por objeto']
+    total=len(rows);text=sum(r['ocr_class']=='text_detected' for r in rows);unres=sum(r['ocr_class']=='unresolved' for r in rows);verified=sum(str(r['source_sha256_verified'])=='1' for r in rows)
+    lines=['# OCR técnico — expansión CN4/CN6','',f'Versión: `{VERSION}`. Todas las páginas se reconstruyen temporalmente y su SHA-256 se verifica antes del OCR.','',f'- JPEG procesados: **{total:,}**.\n- SHA-256 verificados: **{verified:,}**.\n- Texto detectado: **{text:,}/{total:,} ({100*text/total:.2f}%)**.\n- No-text: **{sum(r["ocr_class"]=="no_text_detected" for r in rows)}**.\n- Unresolved: **{unres}**.','', '## Por objeto']
     for s in summary:lines.append(f"- `{s['book_id']}`: {s['text_detected']}/{s['source_pages']} text; no-text={s['no_text_detected']}; unresolved={s['unresolved']}; psm3={s['psm3']}, psm11={s['psm11']}, psm6={s['psm6']}.")
-    lines+=['','## Restricción','`text_detected` mide cobertura técnica, no exactitud CER/WER. El OCR íntegro no se persiste. Esta expansión permanece `corpus_ready`/técnica y no adquiere estatus `semantic_ready` por completar OCR.']
+    lines+=['','## Restricción','`text_detected` mide cobertura técnica, no exactitud CER/WER. El OCR íntegro no se persiste. Páginas `no_text_detected` o `unresolved` se conservan como diagnósticos y no se sustituyen silenciosamente. Esta expansión permanece técnica y no adquiere estatus `semantic_ready` por completar OCR.']
     REPORT.write_text('\n'.join(lines)+'\n',encoding='utf-8')
     print(REPORT.read_text(encoding='utf-8'))
-    if unres:raise SystemExit(f'{unres} unresolved pages; metrics published only if workflow policy chooses to preserve diagnostic')
+    # Hash/provenance failures are fatal; legitimate OCR non-text/unresolved rows are reportable.
+    if verified!=total:raise SystemExit(f'provenance failure: only {verified}/{total} source hashes verified')
 
 if __name__=='__main__':main()
