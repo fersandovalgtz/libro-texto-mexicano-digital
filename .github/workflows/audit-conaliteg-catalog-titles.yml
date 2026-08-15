@@ -1,0 +1,43 @@
+name: audit-conaliteg-catalog-titles
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-conaliteg-catalog-titles.yml'
+      - 'scripts/audit_conaliteg_catalog_titles.py'
+      - 'data/catalog/conaliteg_historical_viewer_keys.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Audit all viewer landing-page titles
+        run: python3 scripts/audit_conaliteg_catalog_titles.py
+      - name: Publish title inventory race-safely
+        run: |
+          set -euo pipefail
+          cp data/catalog/conaliteg_historical_title_inventory.csv /tmp/conaliteg_historical_title_inventory.csv
+          cp data/catalog/conaliteg_historical_title_inventory.md /tmp/conaliteg_historical_title_inventory.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/catalog
+            cp /tmp/conaliteg_historical_title_inventory.csv data/catalog/
+            cp /tmp/conaliteg_historical_title_inventory.md data/catalog/
+            git add data/catalog/conaliteg_historical_title_inventory.csv data/catalog/conaliteg_historical_title_inventory.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish CONALITEG historical title inventory'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
