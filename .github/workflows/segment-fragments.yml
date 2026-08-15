@@ -5,6 +5,8 @@ on:
   push:
     paths:
       - '.github/workflows/segment-fragments.yml'
+      - 'scripts/segment_fragments.py'
+      - 'scripts/segment_fragments_v02.py'
 
 concurrency:
   group: fragment-segmentation-main
@@ -120,10 +122,11 @@ jobs:
               row={'catalog_generation':'ALL','segmented_pages':len(segmented),'fragment_count':len(manifests)}
               total=Counter(); [total.update(type_counts[g]) for g in gens]
               row.update({t:total[t] for t in all_types}); w.writerow(row)
-          failure_rate=len(failed)/len(eligible)
-          print('eligible_pages',len(eligible),'fragments',len(manifests),'segmented_pages',len(segmented),'failures',len(failed),'failure_rate',failure_rate)
+          print('eligible_pages',len(eligible),'fragments',len(manifests),'segmented_pages',len(segmented),'failures',len(failed))
           print((out/'fragment_segmentation_summary.csv').read_text(encoding='utf-8'))
-          assert failure_rate <= 0.05, f'excessive failure rate {failure_rate:.2%}'
+          assert len(eligible)==639, len(eligible)
+          assert not failed, f'FRAGSEG 0.2 requires complete coverage after retries: {sorted(failed)}'
+          assert len(segmented)==639, len(segmented)
           PY
       - name: Publish FRAGSEG 0.2 derived metadata race-safely
         run: |
@@ -141,6 +144,6 @@ jobs:
           if git diff --cached --quiet; then
             echo 'No derived changes to commit.'
           else
-            git commit -m 'data: publish fragment segmentation 0.2'
+            git commit -m 'data: publish fragment segmentation 0.2 complete coverage'
             git push origin HEAD:main
           fi
