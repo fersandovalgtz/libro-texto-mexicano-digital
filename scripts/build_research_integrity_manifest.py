@@ -7,7 +7,7 @@ from pathlib import Path
 
 OUT=Path('data/derived/research_integrity_manifest.json')
 REPORT=Path('data/derived/research_integrity_manifest.md')
-VERSION='LTMD_INTEGRITY_0.2'
+VERSION='LTMD_INTEGRITY_0.3'
 
 # Required artifacts define the frozen methodological state or the reproducible
 # corpus/model infrastructure. A missing critical artifact makes the manifest fail.
@@ -40,6 +40,11 @@ CRITICAL=[
  'docs/METHODS_SNAPSHOT_2026-08-15.md',
  'docs/AUTOMATED_WORK_CEILING_0_1.md',
  'docs/CURRICULAR_SOURCE_AUDIT_2026-08-15.md',
+ 'docs/PRIMARY_SOURCE_REGISTER_0_1.md',
+ 'docs/CURRICULAR_CONTEXT_0_2.md',
+ 'docs/ARTICLE_OUTLINE_PILOT_0_2.md',
+ 'docs/PUBLICATION_STRATEGY_0_1.md',
+ 'docs/CORPUS_EXPANSION_PLAN_0_1.md',
  'scripts/segment_fragments.py',
  'scripts/semantic_classifier_B02_core.py',
  'scripts/classify_fragments_B02.py',
@@ -59,7 +64,8 @@ CRITICAL=[
  'scripts/build_fragtype03_shadow.py',
  'scripts/sample_short_residual_validation.py',
  'scripts/audit_frontmatter_bibliography.py',
- 'scripts/selftest_semb03_infrastructure.py'
+ 'scripts/selftest_semb03_infrastructure.py',
+ 'scripts/probe_catalog_search_architecture.py'
 ]
 
 # Derived diagnostics are reproducible and important, but may appear only after
@@ -72,7 +78,8 @@ OPTIONAL=[
  'data/derived/frontmatter_bibliographic_audit.csv',
  'data/derived/semb03_gate_synthetic_development.json',
  'data/derived/semb03_label_heads_synthetic_development.json',
- 'data/derived/semb03_readiness_report.json'
+ 'data/derived/semb03_readiness_report.json',
+ 'data/derived/catalog_search_architecture_probe.json'
 ]
 
 def sha(p):
