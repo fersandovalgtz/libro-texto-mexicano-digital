@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.4",
-  "generated_utc": "2026-08-15T22:31:45.081448+00:00",
-  "git_head": "6c9c9189e4abb7fc1c9592a1cafe6290a423dc8d",
+  "generated_utc": "2026-08-15T22:32:19.497625+00:00",
+  "git_head": "962d27f51d330db2cd0f29932a3ef3dc81b944e5",
   "critical_count": 102,
   "optional_present_count": 14,
   "files": [
@@ -169,8 +169,8 @@
     },
     {
       "path": "docs/METHODS_SNAPSHOT_2026-08-15.md",
-      "bytes": 7221,
-      "sha256": "cb5f3c7db0151dd337ce24788f0ba6d48aa5f527b9f81d866454499d6df06d71",
+      "bytes": 9794,
+      "sha256": "613021e6c0e044021fbbb4c78ee076addb5ee7c789cbfaa95170f511a7bb3f59",
       "required": true
     },
     {

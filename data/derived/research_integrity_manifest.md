@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.4`.
 
-Commit observado: `6c9c9189e4abb7fc1c9592a1cafe6290a423dc8d`.
+Commit observado: `962d27f51d330db2cd0f29932a3ef3dc81b944e5`.
 
 Archivos críticos verificados: **102**. Artefactos derivados adicionales presentes: **14**.
 
@@ -36,7 +36,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `docs/SEMB03_STAGE_GATES_0_1.md` — 2696 bytes — `dc36c7d02be88c5f82f5f9a68e53d2fd3bbe473e39f6cd7d79d31a3e46f324a2`
 - `docs/SHORT_RESIDUAL_VALIDATION_PROTOCOL_0_1.md` — 2343 bytes — `c94984d3e7f288db6db7acc94ea8d89321b92a9645f61d6887cfbebd9b4cb781`
 - `docs/HISTORICAL_ANALYSIS_PLAN_0_2.md` — 4596 bytes — `a304d9caa2d757d9be1861387ae2ce5583b824ddfd63ce6be4c331d4aed483f5`
-- `docs/METHODS_SNAPSHOT_2026-08-15.md` — 7221 bytes — `cb5f3c7db0151dd337ce24788f0ba6d48aa5f527b9f81d866454499d6df06d71`
+- `docs/METHODS_SNAPSHOT_2026-08-15.md` — 9794 bytes — `613021e6c0e044021fbbb4c78ee076addb5ee7c789cbfaa95170f511a7bb3f59`
 - `docs/AUTOMATED_WORK_CEILING_0_1.md` — 3847 bytes — `afead629c21209d80007bc789a61258d44aef41c577923a77c11d694ad9b4f8f`
 - `docs/CURRICULAR_SOURCE_AUDIT_2026-08-15.md` — 3917 bytes — `deb9674cbeef4c73d4d1ba2b41910ab60a9bcae266a45659aadcc800c1007a45`
 - `docs/PRIMARY_SOURCE_REGISTER_0_1.md` — 7827 bytes — `70ab1709fdd09bfeec2982a25bff429f59ad001e3e6337b3593f0223b27b9dea`
