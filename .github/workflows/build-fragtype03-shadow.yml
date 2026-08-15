@@ -1,0 +1,45 @@
+name: build-fragtype03-shadow
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-fragtype03-shadow.yml'
+      - 'scripts/build_fragtype03_shadow.py'
+      - 'data/derived/fragment_manifest.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build non-destructive FRAGTYPE shadow layer
+        run: python3 scripts/build_fragtype03_shadow.py
+      - name: Verify invariants
+        run: |
+          python3 - <<'PY'
+          import csv
+          a=list(csv.DictReader(open('data/derived/fragment_manifest.csv',encoding='utf-8')))
+          b=list(csv.DictReader(open('data/derived/fragment_manifest_fragtype03_shadow.csv',encoding='utf-8')))
+          assert len(a)==len(b)==9594
+          for x,y in zip(a,b):
+              assert x['fragment_id']==y['fragment_id'] and x['text_sha256']==y['text_sha256']
+              assert x['page_id']==y['page_id'] and x['token_count']==y['token_count']
+          print('frozen boundaries and hashes preserved')
+          PY
+      - name: Publish shadow layer
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/derived/fragment_manifest_fragtype03_shadow.csv data/derived/fragtype03_shadow_summary.md
+          if git diff --cached --quiet; then
+            echo 'No shadow changes.'
+          else
+            git commit -m 'Publish FRAGTYPE 0.3 shadow layer'
+            git push
+          fi
