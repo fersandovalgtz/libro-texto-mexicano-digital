@@ -17,8 +17,11 @@ INV=Path('data/expansion/cn46_inventory_preliminary.csv')
 OUT=Path('data/expansion/cn46_page_manifest.csv')
 SUMMARY=Path('data/expansion/cn46_page_manifest_summary.csv')
 REPORT=Path('data/expansion/cn46_page_manifest_report.md')
-VERSION='CN46_PAGE_MANIFEST_0.1'
+VERSION='CN46_PAGE_MANIFEST_0.2'
 UA='LibroTextoMexicanoDigital/0.1 CN46 page manifest hash audit'
+EXPECTED_VIEWER_POSITIONS=1897
+EXPECTED_SOURCE_JPEGS=1888
+EXPECTED_TERMINALS=9
 
 FIELDS=(
     'manifest_version','page_id','book_id','catalog_generation','grade','viewer_key',
@@ -61,6 +64,10 @@ def fetch_hash(url,max_attempts=3):
 def main():
     books=list(csv.DictReader(INV.open(encoding='utf-8',newline='')))
     if len(books)!=9:raise SystemExit(f'expected 9 audited expansion objects, found {len(books)}')
+    declared=sum(int(b['page_count']) for b in books)
+    audited_assets=sum(int(b['source_asset_count']) for b in books)
+    if (declared,audited_assets)!=(EXPECTED_VIEWER_POSITIONS,EXPECTED_SOURCE_JPEGS):
+        raise SystemExit(f'inventory totals drifted: declared={declared} assets={audited_assets}')
     rows=[];jobs={}
     with ThreadPoolExecutor(max_workers=6) as ex:
         for b in books:
@@ -90,14 +97,11 @@ def main():
     rows.sort(key=lambda r:(r['book_id'],int(r['viewer_page'])))
     failures=[r for r in rows if r['asset_status']=='source_jpeg' and not r['sha256']]
     source=[r for r in rows if r['asset_status']=='source_jpeg'];terminal=[r for r in rows if r['asset_status']=='terminal_synthetic']
-    if len(rows)!=1888 or len(source)!=1879 or len(terminal)!=9:
+    if len(rows)!=EXPECTED_VIEWER_POSITIONS or len(source)!=EXPECTED_SOURCE_JPEGS or len(terminal)!=EXPECTED_TERMINALS:
         raise SystemExit(f'invariant failure viewer={len(rows)} source={len(source)} terminal={len(terminal)}')
     if failures:raise SystemExit(f'{len(failures)} source assets could not be hashed; refusing incomplete manifest')
     if len({r['page_id'] for r in rows})!=len(rows):raise SystemExit('duplicate page_id')
-    if len({r['sha256'] for r in source})!=len(source):
-        # Duplicate bytes are not necessarily invalid, but must be explicit rather than hidden.
-        duplicate_hashes=len(source)-len({r['sha256'] for r in source})
-    else:duplicate_hashes=0
+    duplicate_hashes=len(source)-len({r['sha256'] for r in source})
     OUT.parent.mkdir(parents=True,exist_ok=True)
     with OUT.open('w',encoding='utf-8',newline='') as f:
         w=csv.DictWriter(f,fieldnames=FIELDS);w.writeheader();w.writerows(rows)
@@ -110,7 +114,7 @@ def main():
     total_bytes=sum(int(r['byte_size']) for r in source)
     lines=['# Manifiesto de páginas — expansión CN4/CN6','',f'Versión: `{VERSION}`.','',f'- Posiciones de visor: **{len(rows):,}**.\n- JPEG fuente verificados y hasheados: **{len(source):,}**.\n- Posiciones terminales sintéticas: **{len(terminal)}**.\n- Bytes fuente recorridos para SHA-256: **{total_bytes:,}**.\n- Hashes repetidos entre páginas: **{duplicate_hashes}**.','', '## Por objeto']
     for s in summary:lines.append(f"- `{s['book_id']}`: visor={s['viewer_positions']}; JPEG={s['source_jpegs']}; bytes={int(s['total_source_bytes']):,}; hashes únicos={s['unique_source_hashes']}.")
-    lines+=['','## Regla de procedencia','El manifiesto conserva URL, tamaño y SHA-256 de cada activo, pero no redistribuye el JPEG. Una etapa posterior debe reconstruir temporalmente el activo y comprobar el hash antes de producir OCR o derivados.']
+    lines+=['','## Regla de procedencia','El manifiesto conserva URL, tamaño y SHA-256 de cada activo, pero no redistribuye el JPEG. Una etapa posterior debe reconstruir temporalmente el activo y comprobar el hash antes de producir OCR o derivados.','', '## Corrección de cardinalidad','La versión 0.1 del script contenía una aserción manual errónea (1,888 posiciones / 1,879 activos). El inventario auditado suma 1,897 posiciones / 1,888 activos; el workflow 0.1 falló antes de publicar, por lo que no existe un manifiesto incorrecto versionado.']
     REPORT.write_text('\n'.join(lines)+'\n',encoding='utf-8')
     print(REPORT.read_text(encoding='utf-8'))
 
