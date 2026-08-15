@@ -41,28 +41,89 @@ El corpus fuente real del piloto contiene **759 JPEG**.
 
 Los timeouts del benchmark inicial con cuatro procesos no se interpretan como evidencia de mala legibilidad ni como falla específica de la generación 1993.
 
-Un control serial demostró que las mismas páginas podían procesarse correctamente. La configuración estable provisional queda:
-- Tesseract en español;
-- `psm 3`;
+Un control serial demostró que las mismas páginas podían procesarse correctamente. La configuración estable queda:
+- Tesseract 5.3.4 en español en el runner productivo;
 - `OMP_THREAD_LIMIT=1`;
 - dos procesos concurrentes;
-- timeout de 60 s en el barrido integral.
+- timeout de 60 s.
 
-El barrido de 759 JPEG produjo texto en 698 activos (91.96 %) y ninguna imagen real quedó `unresolved`.
+## 2026-08-15 — OCR adaptativo 0.1
+
+El barrido basal con `psm 3` detectó texto en 698 de 759 JPEG y dejó 61 casos con cero palabras. La auditoría posterior mostró que **59 de esas 61 páginas eran falsos negativos del modo basal**.
+
+La regla adaptativa queda:
+1. `psm 3` basal;
+2. si produce cero palabras o falla, ejecutar `psm 11` y `psm 6`;
+3. aceptar un fallback sólo si produce al menos 5 palabras;
+4. si ambos son aceptables, elegir el de mayor conteo.
+
+Segundo barrido integral: **757/759 páginas con texto (99.74 %), 2 `no_text_detected`, 0 `unresolved`**. Modos elegidos: psm3=698; psm11=7; psm6=52.
+
+Los dos casos restantes pertenecen a 2014: visor 157 es objetivamente blanco y visor 102 es predominantemente visual/texto marginal de calidad insuficiente.
 
 ## 2026-08-15 — La confianza interna de Tesseract no es una medida de exactitud científica
 
 Las métricas de confianza se utilizan sólo para triage y diagnóstico. La exactitud textual debe establecerse mediante CER/WER contra referencia humana preregistrada.
+
+## 2026-08-15 — Dos familias CER/WER
+
+Antes de consolidar resultados se fijaron dos familias:
+
+- **ortográfica:** conserva mayúsculas, acentos y puntuación lingüística después de neutralizar artefactos de layout;
+- **léxica:** además aplica `casefold` y neutraliza puntuación/símbolos como separadores, conservando letras, diacríticos y números.
+
+La familia **léxica** es el criterio principal para decidir viabilidad del análisis histórico-computacional. La ortográfica funciona como control de fidelidad editorial.
+
+La muestra primaria se reportará también estratificada en:
+- front matter: legal + índice = 8 páginas;
+- cuerpo del libro: 40 páginas posicionales.
+
+La viabilidad pedagógica se juzgará principalmente sobre las 40 páginas corporales, sin borrar ni ocultar los resultados del front matter.
+
+## 2026-08-15 — La hipótesis CER/WER debe proceder del OCR de página completa
+
+**Corrección metodológica crítica.** El primer lote experimental ejecutó Tesseract directamente sobre recortes humanos. Esto no reproduce el pipeline real, que procesa la página completa.
+
+A partir de esta decisión:
+1. la imagen completa se procesa con el `selected_psm` del pipeline adaptativo;
+2. se conserva TSV privado de página completa;
+3. la región humana se fija independientemente del OCR;
+4. una palabra TSV se incluye en la hipótesis regional si el **centro geométrico de su bounding box** cae dentro de la región;
+5. se reconstruye la hipótesis regional en el orden TSV;
+6. se normaliza y calcula CER/WER.
+
+Las métricas obtenidas previamente mediante `crop → OCR` quedan como calibración histórica y están **superseded para agregados científicos**.
+
+La lógica reproducible está en `scripts/extract_region_from_tsv.py` y la justificación en `docs/OCR_REGION_ALIGNMENT_ADDENDUM_2026-08-15.md`.
+
+## 2026-08-15 — La segunda revisión humana debe ser independiente
+
+Una doble lectura de la referencia por el mismo operador puede detectar errores materiales pero **no cuenta como segunda revisión**. Las métricas CER/WER permanecen provisionales hasta que otra revisión humana independiente verifique región, orden de lectura, caracteres, cifras, palabras y correspondencia con la imagen.
+
+## 2026-08-15 — Material textual de validación en Drive privado
+
+GitHub no alojará referencias humanas ni hipótesis OCR legibles. La hoja privada `LTMD — referencia humana OCR privada` en Google Drive conserva:
+- regiones;
+- transcripciones humanas;
+- hipótesis regionales del pipeline;
+- estados de revisión;
+- métricas de validación.
+
+Notion conserva estados, métricas y narrativa metodológica, **no el texto fuente**.
+
+## 2026-08-15 — Transporte cifrado para datos privados generados en CI
+
+Cuando sea indispensable recuperar desde el runner datos privados para validación, sólo se admitirán artifacts que contengan **ciphertext**, nunca imágenes/OCR legibles. La clave privada permanece local y se destruye después de sincronizar Drive/Notion.
+
+Se registró un incidente previo en el que tres JPEG fueron subidos como artifact efímero de un día. Ese mecanismo fue retirado y no debe repetirse.
+
+El procedimiento optimizado para pequeños lotes empaqueta imagen fuente + TXT/TSV productivo **dentro de un bundle cifrado**, mientras el artifact público contiene únicamente ciphertext y un manifiesto técnico no textual.
 
 ## 2026-08-15 — No automatizar el libro de códigos antes de validación humana
 
 Las categorías de `CODEBOOK_0_1.md` fueron definidas antes del análisis masivo. No se diseñarán reglas o modelos que asignen definitivamente acciones pedagógicas o posiciones del alumno hasta codificar y revisar manualmente 25 fragmentos por generación.
 
 Se preregistró un pool de 100 páginas y un protocolo de selección/codificación humana.
-
-## 2026-08-15 — Las páginas `no_text_detected` no equivalen automáticamente a errores OCR
-
-Las 61 páginas que produjeron cero palabras bajo `psm 3` deben auditarse antes de clasificarse. Se ejecutará fallback OCR (`psm 11`, `psm 6`) y métricas visuales. Sólo después se distinguirán falsos negativos de páginas de baja señal o alta complejidad visual.
 
 ## 2026-08-15 — Doble registro metodológico: Notion + GitHub
 
