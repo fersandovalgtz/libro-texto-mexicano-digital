@@ -42,6 +42,13 @@ VOCAB = {
         r"\bprimera edicion\b", r"\bsegunda edicion\b", r"\btercera edicion\b",
         r"\bcoordinacion\b", r"\bsecretaria de educacion publica\b",
         r"\bimpreso en mexico\b",
+        # PAGESTRUCT 0.2: explicit image/production-credit phrases. These are
+        # deliberately specific rather than generic words such as fotografia.
+        r"\bcreditos iconograficos\b", r"\bcreditos fotograficos\b",
+        r"\bcreditos de imagenes\b", r"\bfuentes de (?:las )?imagenes\b",
+        r"\bfuentes de imagen\b", r"\bimagen de portada\b",
+        r"\bfotografia de portada\b", r"\bilustracion de portada\b",
+        r"\bagradecimientos\b", r"\bcolofon\b",
     ],
 }
 
@@ -114,7 +121,7 @@ def main():
                 "toc_navigation_score": scores["toc_navigation"],
                 "bibliography_credits_score": scores["bibliography_credits"],
                 "matched_category_count": sum(1 for v in scores.values() if v > 0),
-                "scanner_version": "STRUCTKW_0.1",
+                "scanner_version": "STRUCTKW_0.2",
             })
             try:
                 img.unlink(missing_ok=True)
