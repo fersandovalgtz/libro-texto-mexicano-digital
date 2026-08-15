@@ -4,241 +4,289 @@ Infraestructura abierta de investigación para estudiar longitudinalmente los li
 
 ## Estado actual
 
-**Infraestructura histórico-computacional en expansión — piloto CN5 congelado y auditable; catálogo histórico indexado; CN4/CN6 convertido en corpus técnico; SEMB 0.3 permanece correctamente bloqueado a la espera de referencia humana.**
+**LTMD es ya una infraestructura histórico-computacional de corpus a escala sustancial dentro de la familia *Ciencias Naturales*. Las capas técnicas están reproduciblemente materializadas; la inferencia semántica histórica permanece deliberadamente bloqueada hasta completar la referencia humana de SEMB 0.3.**
 
-LTMD ya opera en tres escalas diferenciadas:
+El corte del **15 de agosto de 2026** contiene:
 
-1. **piloto semántico CN5** — Ciencias Naturales de quinto grado en generaciones 1972, 1988, 1993 y 2014;
-2. **expansión técnica CN4/CN6** — nueve objetos adicionales auditados en esas generaciones, sin clasificación semántica productiva;
-3. **catálogo maestro** — snapshot reproducible de los 542 visores históricos actualmente expuestos por el catálogo público, con 542 títulos recuperables y 191 familias de título nuclear normalizadas.
+- **piloto CN5**: 759 imágenes reales y 9,594 fragmentos, con Rule A, SEMB 0.2 y análisis A/B exploratorio;
+- **expansión CN4/CN6**: 1,897 posiciones declaradas, 1,888 JPEG reales y 19,067 fragmentos;
+- **Ciencias Naturales Ola 2**: 19 libros, 3,177 JPEG fuente y 36,195 fragmentos;
+- **64,856 ocurrencias técnicas de fragmento** en las tres capas anteriores;
+- **catálogo maestro reproducible**: 542 visores históricos indexados, 542 títulos recuperados y 191 familias normalizadas de título nuclear;
+- **familia estricta Ciencias Naturales**: 37 visores, de los cuales 35/37 tienen resolución completa de activos.
 
-La separación entre estas escalas es deliberada: que un objeto sea técnicamente procesable (`corpus_ready`) no lo convierte automáticamente en `semantic_ready`.
+`corpus_ready` **no equivale** a `semantic_ready`. Las 64,856 ocurrencias tampoco equivalen a 64,856 observaciones históricas independientes: LTMD representa explícitamente reutilización, revisión, reemplazo y aliases documentales.
 
 ## Pregunta general
 
 ¿Cómo se transforman, a través del tiempo, el currículo, el lenguaje pedagógico, las actividades escolares, los valores, las representaciones sociales y los recursos visuales presentes en los libros de texto mexicanos?
 
+## Arquitectura científica
+
+```text
+catálogo institucional
+        ↓
+identidad documental / viewer_key / book_id
+        ↓
+resolución de activos + SHA-256
+        ↓
+OCR temporal
+        ↓
+PAGESTRUCT
+        ↓
+FRAGSEG
+        ↓
+metadatos y hashes
+        ↓
+validación humana de constructo
+        ↓
+clasificación validada
+        ↓
+análisis histórico
+```
+
+Para dependencia documental se mantienen tres vistas reversibles:
+
+- **object view** — cada ocurrencia dentro del objeto que la contiene;
+- **unique-content view** — contenido idéntico agrupado sin borrar procedencia;
+- **revision view** — continuidad, sustitución y revisión entre objetos.
+
+## Familia estricta *Ciencias Naturales*
+
+El inventario estricto contiene **37 visores** en nueve generaciones del catálogo:
+
+- `full_direct`: **31**;
+- `full_alias_same_bytes`: **4**;
+- `partial_internal_unserved`: **2**;
+- `not_resolved`: **0**.
+
+En total, **35/37 visores (94.6%)** tienen resolución completa de activos.
+
+### 2018 → 2019: alias demostrado por bytes
+
+Los cuatro visores 2018 de 3º, 4º, 5º y 6º no sirven sus JPEG bajo la clave 2018. La auditoría de enrutamiento encontró los activos 2019 correspondientes y comparó **652 pares**:
+
+- SHA-256 idéntico: **652/652**;
+- tamaño idéntico: **652/652**.
+
+Las entradas 2018 se conservan como registros institucionales distintos, pero el contenido digital se modela como `catalog_entry_aliases_same_asset_bytes` y no se reprocesa como observación independiente.
+
+### 2008: tres posiciones internas no servidas
+
+Dos objetos 2008 conservan únicamente **tres posiciones internas** que el recurso público no sirve. Cada posición falló cinco intentos, mientras las posiciones adyacentes reprodujeron sus SHA-256 conocidos. LTMD registra el hecho como `internal_unserved_position_observed`; no lo interpreta como “página faltante del libro” sin cotejo bibliográfico externo.
+
 ## Piloto CN5
 
-El corpus piloto está formado por **Ciencias Naturales de quinto grado** en cuatro generaciones del Catálogo Histórico de CONALITEG: **1972, 1988, 1993 y 2014**. `catalog_generation` se mantiene separada del año bibliográfico del ejemplar concreto.
+El piloto está formado por *Ciencias Naturales* de quinto grado en generaciones del catálogo **1972, 1988, 1993 y 2014**. `catalog_generation` se mantiene separada de año de edición, copyright e ISBN.
 
-La arquitectura de los visores fue reconstruida y auditada. De 763 posiciones declaradas, cuatro son terminales sintéticos sin JPEG; el corpus fuente real contiene **759 imágenes**. El pipeline OCR adaptativo obtiene texto técnicamente detectable en **757/759 (99.74%)** sin publicar transcripciones extensas.
+- 763 posiciones de visor;
+- **759 JPEG reales**;
+- 4 terminales sintéticos;
+- OCR con texto detectable: **757/759**;
+- PAGESTRUCT: **759 páginas**;
+- FRAGSEG: **9,594 fragmentos**.
 
-PAGESTRUCT y FRAGSEG producen un manifiesto congelado de **9,594 fragmentos** con identificadores y SHA-256 reproducibles. Existen un clasificador de reglas (A), SEMB 0.2 (B), comparación A/B y una primera capa histórica que se conserva como **exploratoria** mientras no exista validación humana suficiente.
+Es la única capa que actualmente llega a Rule A, SEMB 0.2, comparación A/B y una primera historia exploratoria.
 
-## SEMB 0.2: diagnóstico, no resultado definitivo
+## SEMB 0.2: resultado metodológico negativo
 
-SEMB 0.2 fue desarrollado y bloqueado antes de acceder al corpus histórico. Al aplicarse a los 9,594 fragmentos produjo **99.49% de incertidumbre global**. Entre los **5,037 fragmentos elegibles** del diseño original, sólo 49 satisfacen simultáneamente las reglas de certeza de acción y posición.
+SEMB 0.2 produjo **99.49% de incertidumbre global**. En una batería sintética independiente de **105 casos**, su gate obtuvo:
 
-Una batería posterior de **105 casos sintéticos en español**, independiente del corpus histórico y aplicada al SEMB 0.2 ya congelado, confirmó un problema estructural del gate: balanced accuracy 0.526, sensibilidad 0.597 y especificidad 0.455; en negativos de estrés la tasa de falsos positivos es 53.3%. Por ello **no se corrigió SEMB 0.2 bajando umbrales a posteriori**.
+- balanced accuracy: **0.526**;
+- sensibilidad: **0.597**;
+- especificidad: **0.455**.
 
-## SEMB 0.3: protocolo prehumano congelado
+El proyecto no corrigió esta limitación bajando umbrales después de observar las diferencias históricas. SEMB 0.2 se conserva como evidencia reproducible de una operacionalización insuficiente.
 
-Se materializó una referencia humana futura de **480 fragmentos**: 120 por generación, divididos por hash en **320 `development`** y **160 `locked_validation`**. Los IDs visibles son opacos y no revelan generación, página, tipo de fragmento ni rol de análisis. Un subconjunto de **120 casos** está reservado para doble codificación interanotador.
+## SEMB 0.3: validación humana preregistrada
 
-Antes de observar una sola anotación humana se congelaron:
+La infraestructura prehumana contiene **480 casos**:
 
-- criterios cuantitativos de fiabilidad, desempeño, cobertura e incertidumbre;
-- un grid cerrado de arquitecturas candidatas;
-- validación cruzada `GroupKFold` por página durante desarrollo;
-- prohibición de usar generación, Rule A, resultados históricos o SEMB 0.2 como features/objetivo de ajuste;
-- validador de archivos de anotación y cálculo de fiabilidad;
-- consenso automático únicamente para coincidencias exactas y cola de adjudicación humana para desacuerdos;
-- bloqueo criptográfico del modelo antes de abrir validación;
-- evaluador de validación de **una sola apertura**, que se niega a correr sin `model_lock` y se niega a reemplazar una evaluación ya existente.
+- 320 `development`;
+- 160 `locked_validation`;
+- 120 casos reservados para doble codificación de fiabilidad;
+- 312 páginas cubiertas por la muestra;
+- 138 páginas representadas en validación bloqueada.
 
-El readiness automático registra **16/16 módulos prehumanos materializados** y mantiene la etapa `WAITING_HUMAN_REFERENCE`.
+Los criterios de aceptación, arquitecturas candidatas, stage gates y reglas de apertura quedaron congelados antes de observar anotaciones humanas. La etapa actual es:
 
-## Candidatos sintéticos de SEMB 0.3
+**`WAITING_HUMAN_REFERENCE`**
 
-El material sintético funciona únicamente como **desarrollo provisional prehumano**. Un simple cambio del threshold del gate casi no ayuda (balanced accuracy 0.537), mientras una cabeza logística sobre rasgos de similitud semántica llega a **0.631** en validación cruzada sintética. Para acciones, el híbrido anchor + centroide alcanza **79.2% top-1**; para posiciones, **77.8%**.
+Las expansiones CN4/CN6 y Ola 2 no se clasifican productivamente con SEMB 0.2 ni con candidatos SEMB 0.3 para producir narrativa histórica.
 
-Estos candidatos se etiquetan `PROVISIONAL_SYNTHETIC_ONLY`: **no son SEMB 0.3 validado** y no pueden saltar directamente a producción.
+## Corrección de FRAGSEG y unidades breves
 
-## Corrección metodológica de unidades breves
+La etiqueta residual `heading_candidate` del piloto resultó demasiado interpretativa. `FRAGTYPE_0.3_SHADOW` conserva límites, IDs y hashes y reinterpreta esas unidades como `short_residual_candidate`.
 
-FRAGSEG 0.2 denominó `heading_candidate` a una categoría residual de unidades breves sin evidencia tipográfica suficiente. Una auditoría de layout sobre 160 fragmentos no encontró una firma consistente de encabezado.
-
-Por ello existe `FRAGTYPE_0.3_SHADOW`, una capa **no destructiva** que conserva límites, IDs y hashes y renombra esas unidades como `short_residual_candidate`. Si la elegibilidad semántica se separa de la etiqueta residual, el universo potencial de fragmentos de ≥4 tokens pasa de **5,037 a 7,429 (+2,392; +47.5%)**.
-
-No se incorporan automáticamente esos casos al análisis: una muestra suplementaria ciega de **160 unidades breves residuales** —100 desarrollo + 60 validación bloqueada— decidirá posteriormente la política final.
-
-## Catálogo maestro reproducible
-
-LTMD ya no depende de búsquedas manuales en la interfaz. El Catálogo Histórico carga un archivo público `libros_2023.js`; el proyecto conserva un snapshot con SHA-256 y extrae de manera reproducible los identificadores de visor sin ejecutar JavaScript remoto.
-
-Estado actual del índice:
-
-- **542 claves de visor** detectadas;
-- **542/542 visores alcanzables**;
-- **542/542 títulos HTML recuperados**;
-- **191 familias de título nuclear** tras normalización conservadora de capitalización/diacríticos;
-- **8 grupos de títulos repetidos** que se conservan como colas de auditoría, nunca como instrucciones automáticas de deduplicación.
-
-La familia de título nuclear **Ciencias Naturales** contiene **37 visores** en nueve generaciones. El piloto CN5 y la expansión CN4/CN6 actual cubren **12/37** de esos visores de título estricto; materiales históricamente relacionados con títulos distintos, como *Ciencias Naturales y desarrollo humano*, se modelan por relación documental y no se fuerzan dentro de la familia nominal.
+El universo potencial de fragmentos de ≥4 tokens pasa de **5,037 a 7,429 (+2,392; +47.5%)**, pero esos casos no se incorporan automáticamente a la inferencia. Existe una muestra ciega específica para validar la política final.
 
 ## Expansión CN4/CN6
 
-Se descubrieron y auditaron **nueve objetos** de Ciencias Naturales de cuarto y sexto grados en las generaciones 1972, 1988, 1993 y 2014. La generación 1993 contiene dos objetos distintos de sexto grado, por lo que la expansión usa `book_id` y `viewer_key` como identidad documental y no supone un único libro por generación.
+Nueve objetos adicionales fueron auditados y procesados técnicamente.
 
-### Procedencia y activos
+### Procedencia y OCR
 
-- posiciones declaradas por los nueve visores: **1,897**;
+- posiciones declaradas: **1,897**;
 - JPEG fuente reales: **1,888**;
 - terminales sintéticos: **9**;
-- los **1,888 JPEG** fueron recorridos y verificados mediante SHA-256;
-- el manifiesto de páginas persiste URL, tamaño, hash y procedencia, pero no redistribuye las imágenes fuente.
+- SHA-256 verificados: **1,888/1,888**;
+- texto detectado: **1,880/1,888 (99.58%)**;
+- `no_text_detected`: 8;
+- `unresolved`: 0.
 
-### OCR técnico
+### PAGESTRUCT
 
-Todas las fuentes se reconstruyen temporalmente y deben coincidir con su SHA-256 antes de OCR:
+- `textual`: 877;
+- `mixed_text_image`: 682;
+- `visual_only`: 153;
+- `toc_or_navigation`: 36;
+- `bibliography_or_credits`: 30;
+- `front_matter`: 2;
+- `unknown`: 108;
+- páginas elegibles para FRAGSEG: **1,559**.
 
-- **1,888/1,888** fuentes verificadas;
-- **1,880/1,888 (99.58%)** con texto detectado;
-- **8** páginas `no_text_detected`;
-- **0** páginas `unresolved`.
+### FRAGSEG
 
-Las ocho páginas sin texto OCR fueron auditadas mediante proxies visuales y las ocho muestran contenido visual sustantivo; ninguna se clasificó como casi vacía. `text_detected` mide cobertura técnica, no exactitud CER/WER.
+**19,067 fragmentos**, distribuidos en:
 
-### PAGESTRUCT CN4/CN6
+- 8,483 `short_residual_candidate`;
+- 3,711 `question_candidate`;
+- 3,183 `expository_candidate`;
+- 2,906 `instruction_candidate`;
+- 427 `activity_candidate`;
+- 234 `experiment_candidate`;
+- 87 `project_candidate`;
+- 36 `assessment_candidate`.
 
-La capa estructural se adaptó para agrupar por `book_id` y verificar el hash de cada imagen reconstruida:
+Treinta y cuatro páginas conservan huecos legítimos de secuencia por 40 candidatos de cero tokens descartados; los IDs no se renumeran.
 
-- `textual`: **877**;
-- `mixed_text_image`: **682**;
-- `visual_only`: **153**;
-- `toc_or_navigation`: **36**;
-- `bibliography_or_credits`: **30**;
-- `front_matter`: **2**;
-- `unknown`: **108**.
+## Ciencias Naturales Ola 2
 
-Las clases `textual` + `mixed_text_image` producen **1,559 páginas elegibles** para FRAGSEG. La expansión usa desde su primera versión el nombre `short_residual_candidate` y no repite el constructo problemático `heading_candidate`.
+La Ola 2 incorporó exclusivamente objetos `full_direct` no procesados previamente. Excluye aliases 2018 y los dos objetos 2008 parciales.
 
-## Dependencia documental: una nueva dimensión de LTMD
+### Activos y OCR
 
-La expansión demostró que `catalog_generation` **no puede usarse como sustituto automático de edición, año ni independencia documental**.
+- **19 libros**;
+- **3,177 JPEG**;
+- SHA-256 verificados: **3,177/3,177**;
+- texto detectado: **3,164/3,177 (99.59%)**;
+- `no_text_detected`: 13;
+- `unresolved`: 0.
 
-### CN4: generación 1972 ↔ 1988
+### PAGESTRUCT
 
-Los dos objetos tienen 214 páginas fuente alineables. **188/214 (87.9%) son byte-idénticas y ocupan la misma posición**. Las 26 páginas restantes se concentran en 1–5, 96–99 y el bloque final 192–214. En esas páginas cambiadas, la mediana de similitud secuencial del OCR normalizado es sólo **0.305**: hay reutilización masiva acompañada por revisión localizada, no una simple copia íntegra ni dos observaciones independientes.
+- `textual`: 1,459;
+- `mixed_text_image`: 1,069;
+- `visual_only`: 300;
+- `toc_or_navigation`: 118;
+- `bibliography_or_credits`: 80;
+- `front_matter`: 1;
+- `unknown`: 150;
+- páginas elegibles para FRAGSEG: **2,528**.
 
-### CN6 dentro de la generación 1993
+### FRAGSEG
 
-El catálogo contiene simultáneamente:
+**36,195 fragmentos**, con 36,195 IDs únicos y cobertura de 2,528/2,528 páginas elegibles:
 
-- `LTMD-CN6-G1993-CN` — *Ciencias Naturales*, objeto temprano de la reforma, históricamente asociado con primera edición 1994 y reimpresiones posteriores;
-- `LTMD-CN6-G1993-DH` — *Ciencias Naturales y desarrollo humano*, cuya página legal recupera **primera edición 1999** y cuya relación histórica es de reemplazo del objeto anterior.
+- 18,423 `short_residual_candidate`;
+- 5,990 `question_candidate`;
+- 4,897 `expository_candidate`;
+- 4,720 `instruction_candidate`;
+- 1,096 `activity_candidate`;
+- 446 `experiment_candidate`;
+- 432 `project_candidate`;
+- 191 `assessment_candidate`.
 
-Ambos se conservan. LTMD modela ahora `catalog_generation + edition_year + document_role + viewer_key` y mantiene clusters de dependencia documental. La deduplicación es una vista analítica reversible, nunca una operación que borra procedencia.
+Ochenta páginas conservan huecos legítimos correspondientes a 97 slots de cero tokens descartados.
 
-## Bibliografía y contexto curricular
+## Dependencia documental
 
-El inventario distingue sistemáticamente generación de catálogo, edición y copyright. En el piloto CN5:
+LTMD no supone independencia por `catalog_generation`.
 
-- 1972: año de edición no verificado; señal de copyright 1972 sin convertirla en `edition_year`;
-- 1988: año de edición no verificado; copyright SEP 1977 e ISBN 968-29-0758-6;
-- generación 1993: **primera edición 1998**, ISBN 970-18-1599-8, verificada en página legal;
-- 2014: **tercera edición revisada 2014**, ISBN 978-607-514-722-2, verificada en página legal.
+### CN4 1972 ↔ 1988
 
-Las afirmaciones de contexto se separan por nivel de evidencia: objeto primario, norma oficial, fuente institucional retrospectiva e historiografía especializada.
+De 214 páginas alineables, **188/214 (87.9%) son byte-idénticas** en la misma posición. Las diferencias están localizadas y el corpus se interpreta como reutilización masiva con revisión localizada, no como dos libros completamente independientes.
+
+### Vista de contenido único CN4/CN6
+
+Las 19,067 ocurrencias CN4/CN6 corresponden a:
+
+- **16,155 unidades textuales únicas**;
+- 1,857 unidades que aparecen más de una vez;
+- 1,731 unidades que aparecen en dos o más libros;
+- ratio unidades únicas / ocurrencias: **84.7%**.
+
+La deduplicación es una vista analítica reversible; nunca elimina las ocurrencias originales ni su procedencia.
+
+## Catálogo maestro reproducible
+
+El snapshot institucional indexado contiene:
+
+- **542 claves de visor**;
+- **542/542 visores alcanzables**;
+- **542/542 títulos recuperados**;
+- **191 familias de título nuclear**;
+- 8 grupos de títulos repetidos conservados como colas de auditoría.
+
+La identidad documental se fundamenta en `book_id` + `viewer_key`; `catalog_generation` no se usa automáticamente como `edition_year`.
 
 ## Derechos y reutilización
 
-Este repositorio **no redistribuye indiscriminadamente PDF, imágenes, OCR completo ni otros materiales originales de CONALITEG**. Los originales se documentan mediante identificadores, URL de procedencia, tamaños y hashes. Cuando una etapa necesita texto o imagen, el material se reconstruye temporalmente, se verifica contra SHA-256 y se elimina al concluir la tarea.
+El repositorio **no redistribuye indiscriminadamente PDF, imágenes ni OCR íntegro de las obras fuente**. Conserva identificadores, URLs de procedencia, tamaños, SHA-256, código, métricas y derivados no sustitutivos.
 
-GitHub aloja principalmente código reproducible, esquemas, registros de procedencia, documentación metodológica, datos derivados no sustitutivos, hashes, validaciones y resultados reproducibles. Código y derivados propios se licenciarán separadamente de los derechos de los materiales fuente.
+Cuando una etapa necesita contenido fuente, éste se reconstruye temporalmente, se verifica contra el hash persistido y se elimina después del procesamiento. Código y derivados propios se distinguen jurídicamente de los materiales fuente.
 
-## Arquitectura
+Véase [`docs/RIGHTS_AND_REUSE_0_1.md`](docs/RIGHTS_AND_REUSE_0_1.md).
 
-`catálogo → visor → manifiesto de páginas + SHA → OCR temporal → PAGESTRUCT → FRAGSEG → metadatos/hashes → clasificación validada → análisis histórico`
+## Reproducibilidad e integridad científica
 
-SEMB 0.3 añade:
+El corte vigente es **`LTMD_INTEGRITY_0.5`**.
 
-`muestra ciega → fiabilidad humana → desarrollo 320 con GroupKFold por página → model lock → validación única 160 → producción → reconstrucción histórica`
+El manifiesto criptográfico conserva tamaño y SHA-256 de todos los artefactos declarados críticos. En el corte previo a la actualización visible del README verificó:
 
-La expansión añade explícitamente:
+- **149/149 artefactos críticos presentes**;
+- `missing_critical=[]`;
+- 9 artefactos opcionales ya presentes;
+- cuatro productos humanos futuros legítimamente ausentes: consenso SEMB 0.3, referencia de validación bloqueada, `model_lock` y resultado de validación bloqueada.
 
-`book_id + edition_year + document_role + document_cluster_id → object view / unique-content view / revision view`
+La actualización del README y del índice metodológico vuelve a disparar el manifiesto; el corte final debe conservar cero ausencias.
+
+Archivos:
+
+- [`data/derived/research_integrity_manifest.json`](data/derived/research_integrity_manifest.json)
+- [`data/derived/research_integrity_manifest.md`](data/derived/research_integrity_manifest.md)
 
 ## Publicación científica
 
-El proyecto separa dos productos para evitar que un solo artículo mezcle infraestructura con resultados semánticos todavía no validados:
+LTMD separa dos productos:
 
-1. **artículo de método/recurso digital**, cuyo primer borrador ya existe en `docs/METHODS_ARTICLE_DRAFT_0_1.md` y puede avanzar con corpus, procedencia, OCR, segmentación, resultados negativos y diseño de validación;
-2. **artículo histórico-educativo**, reservado hasta que SEMB 0.3 supere la referencia humana bloqueada y se reconstruyan las tendencias.
+1. **artículo de método/recurso digital** — actualmente en [`docs/METHODS_ARTICLE_DRAFT_0_2.md`](docs/METHODS_ARTICLE_DRAFT_0_2.md);
+2. **artículo histórico-educativo** — bloqueado hasta superar SEMB 0.3 y reconstruir la inferencia bajo unidades documentales defendibles.
 
-Las cifras centrales del borrador metodológico se verifican automáticamente contra los datos mediante CI para impedir desalineación entre manuscrito y repositorio.
+Las cifras principales del manuscrito metodológico se recomputan automáticamente desde los artefactos congelados mediante [`scripts/verify_methods_article_claims.py`](scripts/verify_methods_article_claims.py) y CI.
 
-## Integridad científica
+## Documentación central
 
-`LTMD_INTEGRITY_0.4` controla actualmente **102 artefactos críticos** mediante tamaño y SHA-256, además de derivados reproducibles adicionales. El manifiesto cubre el piloto, protocolos SEMB, artículo metodológico, catálogo maestro, expansión CN4/CN6, relaciones documentales, OCR y PAGESTRUCT.
+La entrada recomendada es el **[Índice maestro de método](docs/METHOD_INDEX.md)**.
 
-## Documentos centrales
+Documentos clave:
 
-- `docs/METHODS_ARTICLE_DRAFT_0_1.md` — primer borrador real del artículo metodológico;
-- `docs/METHODS_SNAPSHOT_2026-08-15.md` — instantánea metodológica del piloto;
-- `docs/PRIMARY_SOURCE_REGISTER_0_1.md` — jerarquía y pendientes de fuentes históricas;
-- `docs/CURRICULAR_CONTEXT_0_2.md` — contexto curricular con niveles de evidencia;
-- `docs/SEMB03_ACCEPTANCE_CRITERIA_0_1.md` — criterios congelados de aceptación;
-- `docs/SEMB03_CANDIDATE_ARCHITECTURES_0_1.md` — espacio cerrado de arquitecturas;
-- `docs/SEMB03_STAGE_GATES_0_1.md` — puertas desarrollo→lock→validación→producción;
-- `docs/DOCUMENT_DEPENDENCE_ANALYSIS_PLAN_0_1.md` — reglas preregistradas para reutilización, revisión y reemplazo documental;
-- `docs/CN6_1993_DOCUMENT_RELATION_0_1.md` — relación entre los dos objetos de sexto en la generación 1993;
-- `docs/RIGHTS_AND_REUSE_0_1.md` — política conservadora de fuentes y derivados;
-- `docs/PUBLICATION_STRATEGY_0_1.md` — separación artículo de método / artículo histórico;
-- `docs/CORPUS_EXPANSION_PLAN_0_1.md` — estrategia de escalamiento;
-- `docs/RELEASE_CHECKLIST_0_1.md` — requisitos para primera release científica estable;
-- `data/catalog/conaliteg_historical_title_inventory.csv` — inventario maestro de 542 visores/títulos;
-- `data/catalog/conaliteg_title_cores.csv` — normalización documental de familias;
-- `data/catalog/ciencias_naturales_family_inventory.csv` — familia estricta Ciencias Naturales;
-- `data/expansion/cn46_page_manifest.csv` — manifiesto SHA-256 de 1,897 posiciones / 1,888 JPEG;
-- `data/expansion/cn46_ocr_page_metrics.csv` — métricas OCR sin transcripción;
-- `data/expansion/cn46_page_structure.csv` — PAGESTRUCT de expansión;
-- `data/derived/research_integrity_manifest.json` — manifiesto criptográfico global.
+- [`docs/PROJECT_STATUS_2026-08-15.md`](docs/PROJECT_STATUS_2026-08-15.md) — estado consolidado;
+- [`docs/METHODS_SNAPSHOT_2026-08-15.md`](docs/METHODS_SNAPSHOT_2026-08-15.md) — instantánea metodológica escalada;
+- [`docs/METHODS_ARTICLE_DRAFT_0_2.md`](docs/METHODS_ARTICLE_DRAFT_0_2.md) — manuscrito metodológico vigente;
+- [`docs/SEMB03_HUMAN_ANNOTATION_PROTOCOL_0_1.md`](docs/SEMB03_HUMAN_ANNOTATION_PROTOCOL_0_1.md) — referencia humana;
+- [`docs/SEMB03_ACCEPTANCE_CRITERIA_0_1.md`](docs/SEMB03_ACCEPTANCE_CRITERIA_0_1.md) — criterios congelados;
+- [`docs/SEMB03_STAGE_GATES_0_1.md`](docs/SEMB03_STAGE_GATES_0_1.md) — gates semánticos;
+- [`docs/DOCUMENT_DEPENDENCE_ANALYSIS_PLAN_0_1.md`](docs/DOCUMENT_DEPENDENCE_ANALYSIS_PLAN_0_1.md) — dependencia documental;
+- [`docs/CN_WAVE2_COMPLETION_2026-08-15.md`](docs/CN_WAVE2_COMPLETION_2026-08-15.md) — cierre de Ola 2;
+- [`docs/RELEASE_CHECKLIST_0_1.md`](docs/RELEASE_CHECKLIST_0_1.md) — release científica.
 
-## Avance
+## Regla epistemológica del proyecto
 
-### Piloto CN5 / validación semántica
+LTMD privilegia una regla sencilla: **una cifra reproducible no es automáticamente una afirmación válida**. Cada salto —fuente, identidad documental, OCR, estructura, fragmentación, clasificación e inferencia— debe conservar evidencia suficiente para ser auditado independientemente.
 
-- [x] Delimitar y auditar el corpus fuente.
-- [x] OCR adaptativo: 757/759 páginas con texto detectable.
-- [x] PAGESTRUCT y FRAGSEG: 9,594 fragmentos.
-- [x] Clasificador A y SEMB 0.2; comparación A/B e historia exploratoria.
-- [x] Diagnosticar el colapso de certeza de SEMB 0.2.
-- [x] Construir stress test sintético independiente del corpus histórico.
-- [x] Auditar y corregir conceptualmente `heading_candidate` sin alterar fragmentos.
-- [x] Crear FRAGTYPE 0.3 shadow y cuantificar 2,392 unidades potencialmente recuperables.
-- [x] Preregistrar 480 casos humanos = 320 desarrollo + 160 validación bloqueada.
-- [x] Preregistrar 120 casos de fiabilidad y 160 unidades breves suplementarias.
-- [x] Congelar criterios, grid, GroupKFold, model lock y evaluación única.
-- [ ] Obtener doble codificación humana y superar el gate de fiabilidad.
-- [ ] Completar/adjudicar la referencia humana de desarrollo.
-- [ ] Desarrollar, bloquear y validar SEMB 0.3.
-- [ ] Reconstruir la historia semántica sólo si supera los criterios congelados.
+Por ello el proyecto conserva también resultados negativos, aliases, posiciones no servidas, revisiones, huecos legítimos de secuencia y fallos de infraestructura: forman parte de la trazabilidad del corpus.
 
-### Catálogo y expansión
+## Citación
 
-- [x] Congelar snapshot del catálogo histórico y 542 claves de visor.
-- [x] Recuperar 542/542 títulos y normalizarlos en 191 familias.
-- [x] Delimitar los 37 visores de la familia estricta Ciencias Naturales.
-- [x] Descubrir y auditar nueve objetos CN4/CN6.
-- [x] Construir manifiesto SHA-256 de 1,888 JPEG de expansión.
-- [x] Ejecutar OCR técnico: 1,880/1,888 con texto; 0 unresolved.
-- [x] Auditar las 8 páginas sin texto como contenido visual.
-- [x] Ejecutar PAGESTRUCT sobre 1,888 páginas.
-- [x] Detectar y modelar dependencia documental CN4 1972↔1988 y CN6 1993→1999.
-- [ ] Finalizar FRAGSEG técnico CN4/CN6 y publicar manifiesto combinado.
-- [ ] Incorporar progresivamente los 25 visores restantes de la familia estricta Ciencias Naturales.
-- [ ] No ejecutar clasificación semántica productiva sobre la expansión hasta disponer de un modelo validado apropiado.
-
-## Estado epistemológico
-
-La infraestructura prehumana de SEMB 0.3 está completa. El límite restante para resultados semánticos históricos no es de ingeniería, sino de **validez de constructo y referencia humana**. La expansión técnica puede continuar —inventario, procedencia, OCR, estructura, segmentación y relaciones documentales— sin violar ese bloqueo.
-
-## Autoría y citación
-
-Proyecto dirigido por **Fernando Sandoval Gutiérrez**. `CITATION.cff` está presente; la versión archivada, DOI de release y licencias finales se formalizarán al cerrar una liberación científica estable.
-
-## Licencias y derechos
-
-Los derechos sobre los materiales fuente permanecen con sus respectivos titulares. La licencia del código y de los datos derivados propios de LTMD se definirá de forma separada antes de la primera release estable.
+Para trabajos académicos debe utilizarse la metadata versionada en [`CITATION.cff`](CITATION.cff) y, cuando se cite una release, la versión/DOI correspondiente a ese corte científico. No debe citarse una versión móvil de `main` como sustituto de una release congelada cuando exista una versión depositada.
