@@ -54,11 +54,19 @@
 - [x] Publicar `fragment_manifest.csv` sin texto fuente y validar trazabilidad `book_id → page_id → fragment_id` mediante IDs y SHA-256.
 - [x] Ejecutar **FRAGAUDIT_0.2**: mediana 9 tokens, máximo 158, 0 fragmentos >250 tokens; máximo de densidad 2014 reducido 113→64 fragmentos/página.
 - [x] Preregistrar e implementar **RULEA_0.1** con reglas/rasgos transparentes.
-- [x] Ejecutar pruebas sintéticas de fronteras RULEA; primera prueba detectó ausencia de infinitivos, se corrigió de forma general y la segunda prueba terminó SUCCESS.
-- [ ] Ejecutar **RULEA_0.1** sobre los 9,594 fragmentos — **run activo 31901557150**, con SHA-256 obligatorio por fragmento.
+- [x] Ejecutar pruebas sintéticas RULEA; el primer test detectó ausencia de infinitivos, se corrigió de forma general y el segundo terminó SUCCESS.
+- [x] Ejecutar **RULEA_0.1** sobre **9,594/9,594 fragmentos**, con SHA-256 coincidente en todos los casos y sin texto publicado.
+- [x] Ejecutar **RULEA_AUDIT_0.1**: invariantes lógicas en cero, uncertainty global 1.49 %; RULEA queda congelado y no se ampliará post hoc.
 - [x] Preregistrar e implementar **SEMB_0.1** como estrategia semántica independiente de A.
-- [ ] Ejecutar clasificador semántico B sólo después de cerrar A.
-- [ ] Calcular acuerdo/desacuerdo A/B por categoría.
+- [x] Ejecutar preflight sintético SEMB 0.1 y **rechazarlo antes del corpus**: top-1 de acciones 3/16; prototipos colapsados (similitud media acciones ≈0.945, posiciones ≈0.959).
+- [x] Comprobar que nearest-prototype y centrado no rescatan SEMB 0.1; conservarlo como versión FAILED PRE-CORPUS.
+- [x] Abrir **SEMB_0.2** con `intfloat/multilingual-e5-small`, prototipos cortos, separación desarrollo/validación y `VALIDATION_B02` bloqueada antes de pruebas.
+- [x] Preregistrar criterios de aceptación SEMB 0.2 y regla automática de selección de configuración sintética.
+- [ ] Completar desarrollo sintético SEMB 0.2 — **run activo 31902136502**; todavía sin abrir VALIDATION_B02.
+- [ ] Ejecutar VALIDATION_B02 una sola vez; sólo si pasa, permitir ejecución sobre LTMD.
+- [x] Preregistrar acuerdo computacional A/B (`CLASSIFIER_AGREEMENT_SPEC_0_1.md`) antes de resultados B.
+- [ ] Ejecutar B sobre corpus sólo después de superar su validación sintética.
+- [ ] Calcular acuerdo/desacuerdo A/B por categoría y fragmento.
 - [ ] Crear/propagar bandera `uncertain` para casos sin evidencia suficiente o con desacuerdo relevante.
 - [ ] Ejecutar análisis de sensibilidad por umbral, generación, longitud y layout.
 
@@ -67,8 +75,10 @@
 - [x] Construir manifiesto de 9,594 fragmentos sin texto fuente.
 - [x] Mantener texto sólo de forma efímera durante OCR/reconstrucción; verificar identidad mediante SHA-256.
 - [x] Publicar sólo metadatos, hashes, métricas y etiquetas derivadas no sustitutivas.
+- [x] Publicar primera capa de etiquetas pedagógicas A y auditoría derivada.
 - [ ] Construir dataset integrado:
   `book → page → fragment → tipo → acciones → posición del alumno → estabilidad → procedencia`.
+- [ ] Integrar etiquetas B sólo si SEMB supera validación pre-corpus.
 - [ ] Generar estadísticas pedagógicas por generación después de triangulación A/B.
 
 ## Fase 2 — prueba historiográfica computacional
@@ -93,10 +103,11 @@ Comienza cuando exista etiquetado A/B con trazabilidad completa y estabilidad co
 4. diagnóstico OCR suficiente para conocer limitaciones por layout y generación — **cumplido en 48/48 posiciones diagnósticas**;
 5. clasificación estructural reproducible — **cumplida: PAGESTRUCT_0.2, 759/759**;
 6. segmentación computacional reproducible — **cumplida: FRAGSEG_0.2, 639/639, 9,594 fragmentos, 0 fallos**;
-7. estabilidad de categorías bajo al menos dos especificaciones computacionales — **en construcción: A activo, B preregistrado**;
-8. trazabilidad completa entre fuente y dato derivado — **cumplida hasta nivel fragmento; pendiente integrar etiquetas A/B**;
-9. comparación historiográfica que produzca conocimiento adicional al catálogo original — **pendiente**;
-10. costo técnico razonable para ampliar el corpus — **por evaluar al cierre del piloto**.
+7. primera especificación pedagógica reproducible — **cumplida: RULEA_0.1, 9,594/9,594, auditada**;
+8. estabilidad bajo segunda especificación independiente — **pendiente: SEMB 0.1 rechazado; SEMB 0.2 en desarrollo sintético**;
+9. trazabilidad completa entre fuente y dato derivado — **cumplida hasta etiquetas A; pendiente integrar B/estabilidad**;
+10. comparación historiográfica que produzca conocimiento adicional al catálogo original — **pendiente**;
+11. costo técnico razonable para ampliar el corpus — **por evaluar al cierre del piloto**.
 
 ## Fase 3 — escalamiento controlado
 
