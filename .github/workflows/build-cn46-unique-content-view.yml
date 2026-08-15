@@ -1,0 +1,46 @@
+name: build-cn46-unique-content-view
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-cn46-unique-content-view.yml'
+      - 'scripts/build_cn46_unique_content_view.py'
+      - 'data/expansion/cn46_fragment_manifest.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build reversible unique-content metadata
+        run: python3 scripts/build_cn46_unique_content_view.py
+      - name: Publish unique-content view race-safely
+        run: |
+          set -euo pipefail
+          cp data/expansion/cn46_unique_content_units.csv /tmp/cn46_unique_content_units.csv
+          cp data/expansion/cn46_fragment_unique_content_map.csv /tmp/cn46_fragment_unique_content_map.csv
+          cp data/expansion/cn46_unique_content_summary.csv /tmp/cn46_unique_content_summary.csv
+          cp data/expansion/cn46_unique_content_report.md /tmp/cn46_unique_content_report.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/expansion
+            cp /tmp/cn46_unique_content_units.csv data/expansion/
+            cp /tmp/cn46_fragment_unique_content_map.csv data/expansion/
+            cp /tmp/cn46_unique_content_summary.csv data/expansion/
+            cp /tmp/cn46_unique_content_report.md data/expansion/
+            git add data/expansion/cn46_unique_content_units.csv data/expansion/cn46_fragment_unique_content_map.csv data/expansion/cn46_unique_content_summary.csv data/expansion/cn46_unique_content_report.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish CN4/CN6 reversible unique-content view'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
