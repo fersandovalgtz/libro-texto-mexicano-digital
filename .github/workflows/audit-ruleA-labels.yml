@@ -1,0 +1,41 @@
+name: Audit RULEA labels
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-ruleA-labels.yml'
+      - 'scripts/audit_ruleA_labels.py'
+
+concurrency:
+  group: ruleA-audit-main
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run RULEA metadata-only audit
+        run: python3 scripts/audit_ruleA_labels.py
+      - name: Show audit
+        run: cat data/derived/fragment_labels_A_audit.csv
+      - name: Publish audit race-safely
+        run: |
+          set -euo pipefail
+          cp data/derived/fragment_labels_A_audit.csv /tmp/fragment_labels_A_audit.csv
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/fragment_labels_A_audit.csv data/derived/
+          git add data/derived/fragment_labels_A_audit.csv
+          if git diff --cached --quiet; then
+            echo 'No audit changes.'
+          else
+            git commit -m 'data: publish RULEA label audit 0.1'
+            git push origin HEAD:main
+          fi
