@@ -1,0 +1,5 @@
+generation,fragment_n,heading_candidate_n,heading_candidate_pct,heading_lt4_n,heading_lt4_pct_of_heading,heading_4to12_n,heading_4to12_pct_of_heading,heading_token_median,heading_token_p75,heading_char_median,heading_char_p75,page_n,pages_with_heading_candidate_n,pages_with_heading_candidate_pct,median_page_heading_fraction,audit_version
+1972,2809,856,30.4735,348,40.6542,508,59.3458,5.0,9.0,29.0,53.0,209,198,94.7368,0.3,FRAGSEG_HEADING_AUDIT_0.1
+1988,1631,569,34.8866,258,45.3427,311,54.6573,4.0,9.0,25.0,50.0,152,146,96.0526,0.3333,FRAGSEG_HEADING_AUDIT_0.1
+1993,2513,1176,46.7967,456,38.7755,720,61.2245,5.0,8.0,28.0,46.0,155,152,98.0645,0.4545,FRAGSEG_HEADING_AUDIT_0.1
+2014,2641,1536,58.1598,683,44.4661,853,55.5339,4.0,7.0,24.0,43.0,123,123,100.0,0.5849,FRAGSEG_HEADING_AUDIT_0.1
