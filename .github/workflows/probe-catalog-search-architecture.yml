@@ -1,0 +1,41 @@
+name: probe-catalog-search-architecture
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/probe-catalog-search-architecture.yml'
+      - 'scripts/probe_catalog_search_architecture.py'
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Probe public catalog search architecture
+        run: python3 scripts/probe_catalog_search_architecture.py
+      - name: Publish probe race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-catalog-probe
+          mkdir -p /tmp/ltmd-catalog-probe
+          cp data/derived/catalog_search_architecture_probe.json /tmp/ltmd-catalog-probe/
+          cp data/derived/catalog_search_architecture_probe.md /tmp/ltmd-catalog-probe/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-catalog-probe/* data/derived/
+            git add data/derived/catalog_search_architecture_probe.json data/derived/catalog_search_architecture_probe.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish CONALITEG catalog architecture probe'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
