@@ -18,32 +18,40 @@
 - [x] Construir manifiesto reproducible.
 - [x] Distinguir 763 páginas estructurales de visor y 759 JPEG fuente reales.
 
-### Extracción/OCR — viabilidad demostrada
+### Extracción/OCR — cobertura técnica completada
 - [x] Determinar resolución por generación.
 - [x] Diagnosticar timeouts de Tesseract como problema de concurrencia.
-- [x] Fijar configuración estable: español, `psm 3`, `OMP_THREAD_LIMIT=1`, dos procesos.
+- [x] Fijar concurrencia estable: `OMP_THREAD_LIMIT=1`, dos procesos.
 - [x] Ejecutar benchmark estable de 40 páginas.
-- [x] Procesar técnicamente los 759 JPEG sin persistir OCR completo.
-- [x] Alcanzar texto detectado en 91.96 % de los activos.
-- [ ] Auditar las 61 páginas sin texto basal mediante fallback OCR + métricas visuales.
+- [x] Procesar los 759 JPEG sin persistir OCR completo.
+- [x] Auditar las 61 páginas que `psm 3` dejó sin texto.
+- [x] Identificar 59 falsos negativos recuperables por segmentación alternativa.
+- [x] Identificar 2014 visor 157 como página completamente blanca.
+- [x] Diagnosticar 2014 visor 102 como página visual/texto marginal no aceptable bajo el umbral.
+- [x] Congelar la regla OCR 0.1: `psm 3 → psm 11/6`, fallback válido con ≥5 palabras.
+- [x] Reejecutar los 759 activos de extremo a extremo con la regla congelada.
+- [x] Alcanzar **757/759 = 99.74 %** de activos con texto aceptado, 2 `no_text_detected`, 0 `unresolved`.
 
-### Validación de calidad — en preparación
+### Validación de exactitud — frente activo
 - [x] Preregistrar 48 páginas para CER/WER.
 - [x] Preparar evaluador CER/WER.
 - [ ] Completar transcripción/referencia humana.
 - [ ] Calcular CER/WER global y por generación.
-- [ ] Decidir si alguna generación requiere preprocesamiento específico.
+- [ ] Decidir si alguna generación requiere preprocesamiento específico para análisis léxico fino.
 
-### Validación del libro de códigos — en preparación
+### Validación del libro de códigos — infraestructura completada; revisión humana pendiente
 - [x] Preregistrar `CODEBOOK_0_1.md` antes del análisis masivo.
 - [x] Preregistrar pool de 100 páginas, 25 por generación.
 - [x] Fijar protocolo de selección/codificación humana.
-- [ ] Inventariar tipos funcionales en el pool.
+- [x] Crear en Notion la base estructurada de validación.
+- [x] Cargar 100/100 páginas candidatas: 25 por generación, todas en estado `Pendiente`.
+- [ ] Inventariar manualmente tipos funcionales en el pool.
 - [ ] Seleccionar 25 fragmentos por generación.
 - [ ] Codificar manualmente los 100 fragmentos.
+- [ ] Realizar segunda revisión.
 - [ ] Revisar desacuerdos y estabilizar `CODEBOOK_0_2.md` si procede.
 
-### Dataset analítico — pendiente
+### Dataset analítico — pendiente de validación humana
 - [ ] Diseñar reglas/modelos de segmentación después de la validación humana.
 - [ ] Segmentar libro → página → fragmento.
 - [ ] Generar dataset derivado sin publicar texto fuente extenso.
@@ -65,13 +73,14 @@ Sólo comienza cuando la validación humana permita interpretar las categorías.
 
 El piloto sólo pasa a escalamiento si cumple simultáneamente:
 
-1. acceso reproducible al corpus;
-2. gobernanza jurídica suficiente para publicar metadatos y derivados;
-3. OCR utilizable, medido con CER/WER y no sólo confianza interna;
-4. libro de códigos estable después de validación humana;
-5. trazabilidad completa entre fuente y dato derivado;
-6. comparación historiográfica que produzca conocimiento adicional al catálogo original;
-7. costo técnico/humano razonable para ampliar el corpus.
+1. acceso reproducible al corpus — **cumplido**;
+2. cobertura técnica suficiente de extracción — **cumplido**;
+3. gobernanza jurídica suficiente para publicar metadatos y derivados — **provisionalmente cumplido para derivados, pendiente de cerrar issue jurídico**;
+4. OCR utilizable, medido con CER/WER y no sólo confianza interna — **pendiente**;
+5. libro de códigos estable después de validación humana — **pendiente**;
+6. trazabilidad completa entre fuente y dato derivado — **en construcción**;
+7. comparación historiográfica que produzca conocimiento adicional al catálogo original — **pendiente**;
+8. costo técnico/humano razonable para ampliar el corpus — **por evaluar al cierre del piloto**.
 
 ## Fase 3 — escalamiento controlado
 
