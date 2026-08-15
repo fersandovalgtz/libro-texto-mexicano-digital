@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.3`.
 
-Commit observado: `fabdbc36a91cc42b86e1e8e655286d68ae88f656`.
+Commit observado: `75d377927f9c60cbf9e61cd02cc92b9396c82e53`.
 
 Archivos críticos verificados: **54**. Artefactos derivados adicionales presentes: **9**.
 
