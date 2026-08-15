@@ -10,7 +10,7 @@ from pathlib import Path
 REQUIRED_COLUMNS = {
     "book_id",
     "title",
-    "generation",
+    "catalog_generation",
     "grade",
     "subject_or_field",
     "source_url",
@@ -18,6 +18,11 @@ REQUIRED_COLUMNS = {
     "access_date",
     "rights_note",
     "availability_status",
+}
+
+ALLOWED_EDITION_YEAR_STATUS_PREFIXES = {
+    "verified",
+    "unverified",
 }
 
 
@@ -48,6 +53,27 @@ def validate_inventory(path: Path) -> list[str]:
             for field in REQUIRED_COLUMNS - {"book_id"}:
                 if not (row.get(field) or "").strip():
                     errors.append(f"Línea {line_number}: campo obligatorio vacío: {field}")
+
+            generation = (row.get("catalog_generation") or "").strip()
+            if generation and not generation.isdigit():
+                errors.append(
+                    f"Línea {line_number}: catalog_generation debe ser numérica: {generation}"
+                )
+
+            edition_year = (row.get("edition_year") or "").strip()
+            if edition_year and (not edition_year.isdigit() or len(edition_year) != 4):
+                errors.append(
+                    f"Línea {line_number}: edition_year debe ser YYYY o quedar vacío: {edition_year}"
+                )
+
+            year_status = (row.get("edition_year_status") or "").strip()
+            if year_status and not any(
+                year_status.startswith(prefix)
+                for prefix in ALLOWED_EDITION_YEAR_STATUS_PREFIXES
+            ):
+                errors.append(
+                    f"Línea {line_number}: edition_year_status no reconocido: {year_status}"
+                )
 
     return errors
 
