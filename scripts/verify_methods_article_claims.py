@@ -22,6 +22,9 @@ def rows(path):
 def present(article, variants):
     return any(v in article for v in variants)
 
+def truthy(v):
+    return str(v).strip().lower() in {'1','true','yes'}
+
 def main():
     article=ARTICLE.read_text(encoding='utf-8')
 
@@ -33,7 +36,8 @@ def main():
     bsum=rows('data/derived/fragment_labels_B_summary.csv')
     stress=json.load(open('data/derived/semb02_synthetic_stress_result.json',encoding='utf-8'))
 
-    cn46_pages=rows('data/expansion/cn46_page_manifest.csv')
+    cn46_positions=rows('data/expansion/cn46_page_manifest.csv')
+    cn46_ocr=rows('data/expansion/cn46_ocr_page_metrics.csv')
     cn46_frag=rows('data/expansion/cn46_fragment_manifest.csv')
     wave2_pages=rows('data/expansion/cn_wave2_page_manifest.csv')
     wave2_ocr=rows('data/expansion/cn_wave2_ocr_page_metrics.csv')
@@ -45,7 +49,7 @@ def main():
     allb=next(r for r in bsum if r['catalog_generation']=='ALL')
     old_eligible=sum(r['candidate_type']!='heading_candidate' and int(r['token_count'])>=4 for r in pilot_frag)
     if shadow and 'semantic_eligible_shadow' in shadow[0]:
-        new_eligible=sum(str(r['semantic_eligible_shadow']).strip().lower() in {'1','true','yes'} for r in shadow)
+        new_eligible=sum(truthy(r['semantic_eligible_shadow']) for r in shadow)
     else:
         new_eligible=sum(int(r['token_count'])>=4 for r in shadow)
 
@@ -54,9 +58,10 @@ def main():
     sample_pages=len({r['page_id'] for r in sample})
     locked_pages=len({r['page_id'] for r in sample if r['analysis_role']=='locked_validation'})
 
+    cn46_real_manifest=sum(r['asset_status']=='source_jpeg' for r in cn46_positions)
     wave2_text=sum(r['ocr_class']=='text_detected' for r in wave2_ocr)
     wave2_unresolved=sum(r['ocr_class']=='unresolved' or r['ocr_status']!='ok' for r in wave2_ocr)
-    wave2_sha=sum(str(r['source_sha256_verified']).strip().lower() in {'1','true','yes'} for r in wave2_ocr)
+    wave2_sha=sum(truthy(r['source_sha256_verified']) for r in wave2_ocr)
     wave2_eligible=sum(r['primary_structure'] in {'textual','mixed_text_image'} for r in wave2_struct)
     total_frag=len(pilot_frag)+len(cn46_frag)+len(wave2_frag)
 
@@ -65,13 +70,15 @@ def main():
     }}
     full_resolved=readiness_counts['full_direct']+readiness_counts['full_alias_same_bytes']
     internal_unserved=sum(int(r['internal_unserved_positions']) for r in readiness)
-    alias_sha_ok=sum(str(r['sha256_identity']).strip().lower() in {'1','true','yes'} for r in alias_identity)
-    alias_bytes_ok=sum(str(r['byte_size_identity']).strip().lower() in {'1','true','yes'} for r in alias_identity)
+    alias_sha_ok=sum(truthy(r['sha256_identity']) for r in alias_identity)
+    alias_bytes_ok=sum(truthy(r['byte_size_identity']) for r in alias_identity)
 
     values={
       'pilot_pages':len(pilot_pages),
       'pilot_fragments':len(pilot_frag),
-      'cn46_pages':len(cn46_pages),
+      'cn46_declared_positions':len(cn46_positions),
+      'cn46_real_jpegs_manifest':cn46_real_manifest,
+      'cn46_ocr_rows':len(cn46_ocr),
       'cn46_fragments':len(cn46_frag),
       'wave2_pages':len(wave2_pages),
       'wave2_ocr_rows':len(wave2_ocr),
@@ -110,7 +117,8 @@ def main():
 
     expected={
       'pilot_pages':759,'pilot_fragments':9594,
-      'cn46_pages':1888,'cn46_fragments':19067,
+      'cn46_declared_positions':1897,'cn46_real_jpegs_manifest':1888,
+      'cn46_ocr_rows':1888,'cn46_fragments':19067,
       'wave2_pages':3177,'wave2_ocr_rows':3177,'wave2_sha_verified':3177,
       'wave2_text_detected':3164,'wave2_unresolved':0,'wave2_struct_rows':3177,
       'wave2_eligible_pages':2528,'wave2_fragments':36195,
@@ -127,7 +135,8 @@ def main():
     required_text={
       'pilot_pages':['759 imágenes','759 páginas'],
       'pilot_fragments':['9,594 fragmentos'],
-      'cn46_pages':['1,888 páginas'],
+      'cn46_declared_positions':['1,897 posiciones declaradas'],
+      'cn46_real_jpegs_manifest':['1,888 JPEG reales','1,888 páginas'],
       'cn46_fragments':['19,067'],
       'wave2_pages':['3,177 páginas','3,177 JPEG'],
       'wave2_text_detected':['3,164'],
@@ -143,7 +152,7 @@ def main():
       'old_eligible':['5,037'],
       'shadow_eligible':['7,429'],
       'shadow_gain':['2,392'],
-      'sample_n':['480 casos'],
+      'sample_n':['480 fragmentos','480 casos'],
       'development_n':['320 casos de desarrollo'],
       'locked_n':['160 casos de validación'],
       'reliability_n':['120 casos'],
@@ -160,6 +169,8 @@ def main():
     for k,v in expected.items():
         if values[k]!=v:
             failures.append(f'{k}: data={values[k]}, expected={v}')
+    if values['cn46_real_jpegs_manifest'] != values['cn46_ocr_rows']:
+        failures.append('CN46 real-JPEG manifest count and OCR-row count diverge')
     if round(values['semb02_uncertainty_rate'],6)!=0.994893:
         failures.append('SEMB 0.2 uncertainty changed')
     if round(values['stress_gate_balanced_accuracy'],3)!=0.526:
