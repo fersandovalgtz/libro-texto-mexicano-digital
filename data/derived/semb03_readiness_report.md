@@ -1,12 +1,13 @@
 # Estado de preparación SEMB 0.3
 
-Versión: `SEMB03_READINESS_0.1`.
+Versión: `SEMB03_READINESS_0.2`.
 
 **Etapa actual: `WAITING_HUMAN_REFERENCE`.**
+**Módulos prehumanos materializados: 12/13.**
 
-La infraestructura pública previa a referencia humana se verifica sin abrir salidas A/B ni resultados históricos.
+La infraestructura se verifica sin usar salidas A/B ni resultados históricos como función de selección.
 
-## Controles
+## Controles estructurales
 - PASS — `sample_n_480`: n=480
 - PASS — `sample_unique_ids`: sample_id unique
 - PASS — `sample_unique_fragments`: fragment_id unique
@@ -20,6 +21,21 @@ La infraestructura pública previa a referencia humana se verifica sin abrir sal
 - PASS — `reliability_subset_of_master`: all reliability IDs valid
 - PASS — `criteria_frozen`: SEMB03_ACCEPTANCE_0.1
 
+## Módulos prehumanos
+- ✅ `uncertainty_diagnostic`
+- ✅ `synthetic_stress_suite`
+- ✅ `synthetic_stress_result`
+- ✅ `sample_coverage_audit`
+- ✅ `sample_token_coverage`
+- ✅ `heading_construct_audit`
+- ✅ `layout_proxy_audit`
+- ✅ `fragtype_shadow`
+- ✅ `short_residual_sample`
+- ✅ `short_residual_blind_template`
+- ✅ `research_integrity_manifest`
+- ✅ `synthetic_gate_candidate`
+- ⬜ `synthetic_label_head_candidate`
+
 ## Artefactos de etapas posteriores
 - `human_reference_consensus`: ausente
 - `development_result`: ausente
@@ -28,4 +44,4 @@ La infraestructura pública previa a referencia humana se verifica sin abrir sal
 - `production_manifest`: ausente
 
 ## Lectura
-Mientras la etapa sea `WAITING_HUMAN_REFERENCE`, el bloqueo es deliberado: puede ampliarse la infraestructura y las pruebas sintéticas, pero no debe fabricarse una referencia humana ni abrirse la validación bloqueada.
+Mientras la etapa sea `WAITING_HUMAN_REFERENCE`, puede completarse infraestructura, pruebas sintéticas y candidatos provisionales. Ningún candidato sintético puede saltar directamente a producción. La validación bloqueada sólo es segura después de existir `model_lock`.

@@ -1,5 +1,5 @@
 {
-  "readiness_version": "SEMB03_READINESS_0.1",
+  "readiness_version": "SEMB03_READINESS_0.2",
   "stage": "WAITING_HUMAN_REFERENCE",
   "infrastructure_checks": [
     {
@@ -63,6 +63,23 @@
       "detail": "SEMB03_ACCEPTANCE_0.1"
     }
   ],
+  "prehuman_modules": {
+    "uncertainty_diagnostic": true,
+    "synthetic_stress_suite": true,
+    "synthetic_stress_result": true,
+    "sample_coverage_audit": true,
+    "sample_token_coverage": true,
+    "heading_construct_audit": true,
+    "layout_proxy_audit": true,
+    "fragtype_shadow": true,
+    "short_residual_sample": true,
+    "short_residual_blind_template": true,
+    "research_integrity_manifest": true,
+    "synthetic_gate_candidate": true,
+    "synthetic_label_head_candidate": false
+  },
+  "prehuman_modules_present": 12,
+  "prehuman_modules_total": 13,
   "later_stage_artifacts": {
     "human_reference_consensus": false,
     "development_result": false,
@@ -70,6 +87,6 @@
     "locked_validation_result": false,
     "production_manifest": false
   },
-  "human_blocker": "A genuine human reference is required before model development.",
+  "human_blocker": "A genuine human reference is required before validated model development.",
   "safe_to_open_locked_validation": false
 }
