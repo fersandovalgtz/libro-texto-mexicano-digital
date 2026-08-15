@@ -123,16 +123,14 @@ Si un elemento no puede representarse razonablemente en texto lineal, documentar
 
 ## Normalización antes de CER/WER
 
-La rutina base del proyecto:
+La rutina base del proyecto se define en `docs/OCR_TRANSCRIPTION_CONVENTIONS.md` y en `scripts/evaluate_ocr_cer_wer.py`.
 
-1. normalización Unicode NFC;
-2. CRLF/CR → LF;
-3. todos los espacios/saltos de línea → un espacio;
-4. trim inicial/final.
+Se reportan dos familias:
 
-Por defecto se **preserva mayúscula/minúscula**. Una evaluación adicional con `casefold` puede reportarse como sensibilidad, pero no sustituye la métrica principal.
+- **ortográfica**: normaliza artefactos de layout, pero conserva mayúsculas/minúsculas, diacríticos y puntuación lingüísticamente significativa;
+- **léxica**: además aplica `casefold` y neutraliza puntuación/símbolos, conservando letras, marcas diacríticas y números.
 
-La puntuación se mantiene inicialmente. Si se decide reportar una segunda métrica sin puntuación, deberá etiquetarse explícitamente y nunca reemplazar silenciosamente la versión principal.
+La familia **léxica** es la principal para valorar viabilidad analítica; la ortográfica se conserva como medida más estricta de fidelidad de superficie.
 
 ## Almacenamiento privado
 
@@ -180,6 +178,47 @@ No es necesario publicar los textos para reproducir la estructura del análisis 
 
 **No deben combinarse automáticamente en una única media**, porque el suplemento de estrés sobrerrepresenta deliberadamente casos difíciles.
 
+## Aclaración de alineación con el pipeline de producción — 15 de agosto de 2026
+
+La expresión `crop_block` **define la región de evaluación**, pero **no autoriza a recortar la imagen antes de ejecutar OCR** cuando el pipeline que se pretende validar procesa la página completa.
+
+Para que CER/WER mida el comportamiento real del pipeline 0.1, el procedimiento obligatorio es:
+
+1. ejecutar Tesseract sobre la **imagen completa** con la configuración de producción correspondiente;
+2. generar salida TSV con cajas delimitadoras por palabra;
+3. cuando `reference_scope=full_page`, usar la salida de página completa;
+4. cuando `reference_scope=crop_block`, seleccionar de la salida TSV las palabras cuya **coordenada central de la caja** caiga dentro del rectángulo preregistrado;
+5. conservar el orden de lectura de TSV (`page/block/par/line/word`) al reconstruir la hipótesis regional;
+6. comparar esa hipótesis con la referencia del mismo rectángulo.
+
+Regla geométrica para una palabra TSV con caja `(left, top, width, height)`:
+
+`cx = left + width/2`
+
+`cy = top + height/2`
+
+La palabra pertenece a la región si:
+
+`x0 <= cx <= x1` y `y0 <= cy <= y1`
+
+usando coordenadas en píxeles equivalentes al rectángulo normalizado almacenado.
+
+### Razón
+
+OCR sobre un recorte puede cambiar segmentación, orden de lectura y reconocimiento respecto del OCR de página completa. Por tanto, **`crop → OCR` puede producir una estimación artificialmente optimista o simplemente distinta** de la calidad del pipeline real.
+
+### Tratamiento de corridas anteriores
+
+Los valores obtenidos mediante `crop → OCR` se conservan únicamente como **calibración técnica histórica** y deben marcarse como `superseded` cuando exista una corrida equivalente de **OCR de página completa + extracción TSV regional**. No se mezclan ambas familias en medias ni inferencias.
+
+### Integridad de la referencia
+
+Una transcripción visual preparada por IA puede servir como borrador de trabajo, pero **no cuenta como referencia humana validada**. La cadena científica es:
+
+`imagen fuente → borrador visual → revisión humana independiente → referencia congelada → CER/WER final`.
+
+Hasta la revisión independiente, las métricas se consideran **provisionales**, aun cuando la hipótesis OCR sea pipeline-aligned.
+
 ## Decisión metodológica
 
-El requisito de alineación por `full_page`/`crop_block` queda fijado **antes de cualquier transcripción humana** y se considera parte de la especificación del piloto 0.1.
+El requisito de alineación por `full_page`/`crop_block` y, para `crop_block`, la extracción desde **OCR de página completa + TSV**, queda fijado como parte de la especificación del piloto 0.1. Cualquier excepción futura deberá documentarse explícitamente como cambio de versión del protocolo.
