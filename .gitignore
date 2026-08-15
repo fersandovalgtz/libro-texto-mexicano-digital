@@ -1,0 +1,24 @@
+# Archivos fuente o copias de trabajo grandes / no redistribuibles
+data/raw/
+working/
+downloads/
+*.pdf
+*.tif
+*.tiff
+*.jp2
+*.zip
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# Entornos y secretos
+.env
+.env.*
+!.env.example
