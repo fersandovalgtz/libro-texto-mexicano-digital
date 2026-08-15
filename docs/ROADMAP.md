@@ -8,7 +8,7 @@
 - [x] Seleccionar corpus piloto.
 - [x] Crear repositorio independiente y reglas de gobernanza.
 
-## Fase 1 — piloto 0.1 — en curso avanzado
+## Fase 1 — piloto 0.1/0.2 — en curso avanzado
 
 ### Corpus e infraestructura — completado
 - [x] Fijar Ciencias Naturales, quinto grado, como corpus inicial.
@@ -23,60 +23,64 @@
 - [x] Diagnosticar timeouts de Tesseract como problema de concurrencia.
 - [x] Fijar concurrencia estable: `OMP_THREAD_LIMIT=1`, dos procesos.
 - [x] Ejecutar benchmark estable de 40 páginas.
-- [x] Procesar los 759 JPEG sin persistir OCR completo.
+- [x] Procesar los 759 JPEG sin persistir OCR completo en GitHub.
 - [x] Auditar las 61 páginas que `psm 3` dejó sin texto.
 - [x] Identificar 59 falsos negativos recuperables por segmentación alternativa.
-- [x] Identificar 2014 visor 157 como página completamente blanca.
-- [x] Diagnosticar 2014 visor 102 como página visual/texto marginal no aceptable bajo el umbral.
-- [x] Congelar la regla OCR 0.1: `psm 3 → psm 11/6`, fallback válido con ≥5 palabras.
-- [x] Reejecutar los 759 activos de extremo a extremo con la regla congelada.
-- [x] Alcanzar **757/759 = 99.74 %** de activos con texto aceptado, 2 `no_text_detected`, 0 `unresolved`.
+- [x] Congelar OCR adaptativo 0.1: `psm 3 → psm 11/6`, fallback válido con ≥5 palabras.
+- [x] Reejecutar los 759 activos de extremo a extremo.
+- [x] Alcanzar 757/759 activos con texto aceptado por el motor, 2 `no_text_detected`, 0 `unresolved`.
+- [x] Demostrar mediante la muestra CER/WER que `text_detected` no equivale necesariamente a página textual: existen páginas fotográficas `visual_only` con falsos positivos OCR.
 
-### Validación de exactitud — frente activo
-- [x] Preregistrar 48 páginas primarias para CER/WER.
-- [x] Preparar evaluador CER/WER con familias léxica y ortográfica.
+### Diagnóstico CER/WER — muestra primaria completada
+- [x] Preregistrar 48 posiciones primarias.
+- [x] Preparar evaluador CER/WER léxico y ortográfico.
 - [x] Corregir alineación a `full-page OCR → TSV → región por centro de bounding box`.
-- [x] Preregistrar tratamiento de páginas `visual_only` sin sustituir la muestra.
-- [x] Completar técnicamente **12/12 posiciones de 1972**: 11 textuales + 1 visual-only.
-- [x] Versionar perfil provisional 1972 y dataset derivado sin texto fuente.
-- [x] Completar técnicamente **12/12 posiciones de 1988**.
-- [x] Versionar perfil provisional 1988 y dataset derivado sin texto fuente.
-- [x] Corregir el parser de TSV para tratar comillas OCR como literales (`csv.QUOTE_NONE`) y añadir prueba de regresión.
-- [ ] Revisar humanamente de forma independiente las 12 posiciones de 1972 y congelar referencias.
-- [ ] Revisar humanamente de forma independiente las 12 posiciones de 1988 y congelar referencias.
-- [ ] Completar técnicamente las 12 posiciones de 1993.
-- [ ] Completar técnicamente las 12 posiciones de 2014.
-- [ ] Completar segunda revisión humana de las 48 posiciones.
-- [ ] Calcular CER/WER definitivo global, por generación, front matter y body-only.
-- [ ] Decidir si alguna generación/layout requiere preprocesamiento específico para análisis léxico fino.
+- [x] Corregir parser TSV con `csv.QUOTE_NONE`.
+- [x] Preregistrar tratamiento `visual_only` sin sustitución de muestra.
+- [x] Completar 12/12 posiciones de 1972.
+- [x] Completar 12/12 posiciones de 1988.
+- [x] Completar 12/12 posiciones de 1993.
+- [x] Completar 12/12 posiciones de 2014.
+- [x] Alcanzar **48/48 = 100 %** de posiciones primarias técnicamente trabajadas.
+- [x] Mantener referencias e hipótesis OCR legibles en Drive privado, no en GitHub.
+- [x] Registrar páginas `visual_only` separadamente del denominador CER/WER textual.
+- [x] Eliminar la segunda revisión humana como requisito del proyecto.
+- [ ] Recalcular y congelar el resumen de **operator-reference CER/WER** global, por generación, front matter y body-only.
+- [ ] Versionar una tabla derivada única de las 48 posiciones sin texto fuente.
+- [ ] Identificar layouts que requieran tratamiento diferencial o exclusión explícita en análisis léxico fino.
 
-**Avance técnico de la muestra primaria:** **24/48 = 50 %** de posiciones procesadas provisionalmente (1972 + 1988). Este porcentaje no equivale a validación científica final: falta la revisión humana independiente.
+**Estado:** las métricas de las 48 posiciones son diagnósticas respecto de una **referencia de operador de una sola pasada**, no un gold standard humano independiente.
 
-### Validación del libro de códigos — infraestructura completada; revisión humana pendiente
-- [x] Preregistrar `CODEBOOK_0_1.md` antes del análisis masivo.
-- [x] Preregistrar pool de 100 páginas, 25 por generación.
-- [x] Fijar protocolo de selección/codificación humana.
-- [x] Crear en Notion la base estructurada de validación.
-- [x] Cargar 100/100 páginas candidatas: 25 por generación, todas en estado `Pendiente`.
-- [ ] Inventariar manualmente tipos funcionales en el pool.
-- [ ] Seleccionar 25 fragmentos por generación.
-- [ ] Codificar manualmente los 100 fragmentos.
-- [ ] Realizar segunda revisión.
-- [ ] Revisar desacuerdos y estabilizar `CODEBOOK_0_2.md` si procede.
-
-### Dataset analítico — pendiente de validación humana
-- [ ] Diseñar reglas/modelos de segmentación después de la validación humana.
-- [ ] Segmentar libro → página → fragmento.
-- [ ] Generar dataset derivado sin publicar texto fuente extenso.
+### Protocolo de anotación computacional 0.2 — activo
+- [x] Conservar `CODEBOOK_0_1.md` como preregistro histórico.
+- [x] Crear `COMPUTATIONAL_ANNOTATION_PROTOCOL_0_2.md`.
+- [x] Sustituir doble codificación/adjudicación humana por triangulación computacional reproducible.
+- [ ] Clasificar automáticamente las 759 páginas en `textual`, `mixed_text_image`, `visual_only`, `front_matter`, `toc_or_navigation`, `bibliography_or_credits` o `unknown`.
+- [ ] Construir reglas para detectar y excluir falsos positivos OCR sobre fotografías/ilustraciones.
+- [ ] Segmentar páginas textuales/mixtas en fragmentos funcionales.
 - [ ] Validar trazabilidad `book_id → page_id → fragment_id`.
+- [ ] Implementar clasificador multietiqueta A basado en reglas/rasgos transparentes.
+- [ ] Implementar clasificador multietiqueta B basado en una estrategia semántica computacional independiente.
+- [ ] Calcular acuerdo/desacuerdo A/B por categoría.
+- [ ] Crear bandera `uncertain` para casos sin evidencia suficiente o con desacuerdo relevante.
+- [ ] Ejecutar análisis de sensibilidad por umbral, generación, longitud y layout.
 
-## Fase 2 — prueba historiográfica
+### Dataset analítico — siguiente producto
+- [ ] Construir dataset:
+  `book → page → fragment → tipo → acciones → posición del alumno → contenido → estabilidad → procedencia`.
+- [ ] Mantener texto de trabajo en capa privada cuando sea necesario por gobernanza jurídica.
+- [ ] Publicar en GitHub sólo derivados no sustitutivos y trazables.
+- [ ] Generar estadísticas por generación y tipo de página.
 
-Sólo comienza cuando la validación humana permita interpretar las categorías.
+## Fase 2 — prueba historiográfica computacional
+
+Comienza cuando exista un dataset de fragmentos con trazabilidad completa y estabilidad computacional suficiente. **No depende de revisión humana.**
 
 - [ ] Cuantificar tipos de actividad y acciones pedagógicas por generación.
 - [ ] Comparar posiciones atribuidas al alumno.
 - [ ] Examinar continuidad/ruptura 1972–1988–1993/1998–2014.
+- [ ] Separar resultados body-only de front matter/layout complejo.
+- [ ] Excluir o modelar separadamente casos `uncertain` y `visual_only`.
 - [ ] Contrastar resultados computacionales con contexto curricular e historiografía.
 - [ ] Formular al menos una hipótesis/artículo derivado del piloto.
 - [ ] Construir una comparación reproducible completa.
@@ -84,16 +88,17 @@ Sólo comienza cuando la validación humana permita interpretar las categorías.
 
 ## Puerta de decisión del piloto
 
-El piloto sólo pasa a escalamiento si cumple simultáneamente:
+El piloto pasa a escalamiento si cumple simultáneamente:
 
 1. acceso reproducible al corpus — **cumplido**;
 2. cobertura técnica suficiente de extracción — **cumplido**;
-3. gobernanza jurídica suficiente para publicar metadatos y derivados — **provisionalmente cumplido para derivados, pendiente de cerrar issue jurídico**;
-4. OCR utilizable, medido con CER/WER y no sólo confianza interna — **24/48 posiciones técnicamente medidas; faltan 1993, 2014 y revisión humana independiente**;
-5. libro de códigos estable después de validación humana — **pendiente**;
-6. trazabilidad completa entre fuente y dato derivado — **en construcción**;
-7. comparación historiográfica que produzca conocimiento adicional al catálogo original — **pendiente**;
-8. costo técnico/humano razonable para ampliar el corpus — **por evaluar al cierre del piloto**.
+3. gobernanza jurídica suficiente para publicar metadatos y derivados — **provisionalmente cumplido para derivados; issue jurídico sigue abierto**;
+4. diagnóstico OCR suficiente para conocer limitaciones por layout y generación — **48/48 posiciones primarias completadas**;
+5. clasificación/segmentación computacional reproducible — **pendiente**;
+6. estabilidad de categorías bajo al menos dos especificaciones computacionales — **pendiente**;
+7. trazabilidad completa entre fuente y dato derivado — **en construcción**;
+8. comparación historiográfica que produzca conocimiento adicional al catálogo original — **pendiente**;
+9. costo técnico razonable para ampliar el corpus — **por evaluar al cierre del piloto**.
 
 ## Fase 3 — escalamiento controlado
 
