@@ -1,0 +1,32 @@
+name: audit-cn2018-2019-asset-identity
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-cn2018-2019-asset-identity.yml'
+      - 'scripts/audit_cn2018_2019_asset_identity.py'
+      - 'data/catalog/ciencias_naturales_asset_routing_anomalies.csv'
+      - 'data/catalog/ciencias_naturales_pending_page_manifest.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Compare 2018 alias bytes with persisted 2019 hashes
+        run: python3 scripts/audit_cn2018_2019_asset_identity.py
+      - name: Publish identity audit race-safely
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/catalog/cn2018_2019_asset_identity.csv data/catalog/cn2018_2019_catalog_alias_relationships.csv data/catalog/cn2018_2019_asset_identity.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Publish CN 2018-2019 byte identity audit'
+          git pull --rebase origin main
+          git push origin HEAD:main
