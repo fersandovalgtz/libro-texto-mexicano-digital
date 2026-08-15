@@ -1,0 +1,7 @@
+group,n,uncertain_any_n,uncertain_any_pct,uncertain_action_n,uncertain_action_pct,uncertain_position_n,uncertain_position_pct,both_certain_n,both_certain_pct,skipped_n,skipped_pct,gate_below_threshold_n,gate_below_threshold_pct,gate_buffer_n,gate_buffer_pct,action_top_margin_n,action_top_margin_pct,action_certain_rule_n,action_certain_rule_pct,position_top_margin_n,position_top_margin_pct,position_certain_rule_n,position_certain_rule_pct,zero_action_n,zero_action_pct,zero_position_n,zero_position_pct,diagnostic_version
+<4,2165,2165,100.0,2165,100.0,2165,100.0,0,0.0,2165,100.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,2165,100.0,2165,100.0,SEMB02_UNCERTAINTY_DIAG_0.1
+4-12,4294,4274,99.5342,4232,98.5561,3752,87.3777,20,0.4658,2392,55.7056,938,21.8444,759,17.6758,143,3.3302,62,1.4439,1360,31.6721,542,12.6223,3330,77.5501,2392,55.7056,SEMB02_UNCERTAINTY_DIAG_0.1
+13-30,2304,2285,99.1753,2232,96.875,1771,76.8663,19,0.8247,0,0.0,979,42.4913,1069,46.3976,184,7.9861,72,3.125,1771,76.8663,533,23.1337,979,42.4913,0,0.0,SEMB02_UNCERTAINTY_DIAG_0.1
+31-60,653,645,98.7749,634,97.0904,503,77.0291,8,1.2251,0,0.0,265,40.5819,317,48.5452,52,7.9632,19,2.9096,503,77.0291,150,22.9709,265,40.5819,0,0.0,SEMB02_UNCERTAINTY_DIAG_0.1
+61-120,177,175,98.8701,171,96.6102,134,75.7062,2,1.1299,0,0.0,68,38.4181,95,53.6723,8,4.5198,6,3.3898,134,75.7062,43,24.2938,68,38.4181,0,0.0,SEMB02_UNCERTAINTY_DIAG_0.1
+>120,1,1,100.0,1,100.0,1,100.0,0,0.0,0,0.0,0,0.0,1,100.0,0,0.0,0,0.0,1,100.0,0,0.0,0,0.0,0,0.0,SEMB02_UNCERTAINTY_DIAG_0.1
