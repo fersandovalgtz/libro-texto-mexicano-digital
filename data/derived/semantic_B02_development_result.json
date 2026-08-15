@@ -1,0 +1,41 @@
+{
+  "development_version": "SEMB02_DEV_0.1",
+  "model": "intfloat/multilingual-e5-small",
+  "model_revision": "fd1525a9fd15316a2d503bf26ab031a61d056e98",
+  "e5_prefix": "query: ",
+  "selected_method": "max_anchor",
+  "selection_key": [24, 25, -2.111111111111111, -3, 1],
+  "method_metrics": {
+    "average_anchor": {
+      "actions": {"top1": 15, "top3": 16, "mean_rank": 1.125, "worst": 3},
+      "positions": {"top1": 9, "top3": 9, "mean_rank": 1.0, "worst": 1}
+    },
+    "max_anchor": {
+      "actions": {"top1": 16, "top3": 16, "mean_rank": 1.0, "worst": 1},
+      "positions": {"top1": 8, "top3": 9, "mean_rank": 1.1111111111111112, "worst": 2}
+    }
+  },
+  "action_gate": {
+    "selected_threshold": 0.0,
+    "balanced_accuracy": 0.6875,
+    "sensitivity": 0.625,
+    "specificity": 0.75,
+    "positive_margins": [0.012293, -0.006539, -0.039828, 0.002135, 0.00332, 0.000845, -0.003672, 0.007157, 0.022573, 0.01567, -0.020875, -0.0016, 0.019805, -0.001899, 0.011358, 0.014853],
+    "negative_margins": [-0.006806, 0.035812, 0.032497, -0.009578, -0.019584, -0.001888, -0.005489, -0.002459],
+    "grid": [
+      {"threshold": 0.0, "balanced_accuracy": 0.6875, "sensitivity": 0.625, "specificity": 0.75, "tp": 10, "tn": 6},
+      {"threshold": 0.02, "balanced_accuracy": 0.40625, "sensitivity": 0.0625, "specificity": 0.75, "tp": 1, "tn": 6},
+      {"threshold": 0.04, "balanced_accuracy": 0.5, "sensitivity": 0.0, "specificity": 1.0, "tp": 0, "tn": 8},
+      {"threshold": 0.06, "balanced_accuracy": 0.5, "sensitivity": 0.0, "specificity": 1.0, "tp": 0, "tn": 8}
+    ]
+  },
+  "fixed_multilabel_band": 0.02,
+  "fixed_uncertainty_top_margin": 0.01,
+  "fixed_uncertainty_gate_buffer": 0.02,
+  "max_action_labels": 3,
+  "max_position_labels": 2,
+  "validation_B02_opened": false,
+  "source_run_id": 31902452662,
+  "source_artifact_id": 9251466156,
+  "materialization_note": "Exact values transcribed from the synthetic-only development diagnostic artifact after JSON serialization failed on numpy.int64. No corpus or RULEA outputs were accessed; scientific selection was unchanged."
+}
