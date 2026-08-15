@@ -1,0 +1,132 @@
+name: Encrypted private OCR transport — 1972 CER batch 1
+
+on:
+  push:
+    paths:
+      - '.github/workflows/cer-private-transport-1972-batch1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  encrypt-ocr:
+    runs-on: ubuntu-24.04
+    env:
+      OMP_THREAD_LIMIT: '1'
+    steps:
+      - name: Install exact OCR dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa python3-pil
+          tesseract --version | head -1
+          tesseract --version | head -1 | grep -F 'tesseract 5.3.4'
+
+      - name: Write transient public transport certificate
+        shell: bash
+        run: |
+          cat > public-cert.pem <<'PEM'
+          -----BEGIN CERTIFICATE-----
+          MIIEfTCCAuWgAwIBAgIUZYBSGVWeigS0R9fB1+xhvgJ8sXowDQYJKoZIhvcNAQEL
+          BQAwTjElMCMGA1UEAwwcTFRNRCBDRVIgdHJhbnNpZW50IHRyYW5zcG9ydDElMCMG
+          A1UECgwcTGlicm8gVGV4dG8gTWV4aWNhbm8gRGlnaXRhbDAeFw0yNjA4MTUxNTI5
+          MzBaFw0yNjA4MTcxNTI5MzBaME4xJTAjBgNVBAMMHExUTUQgQ0VSIHRyYW5zaWVu
+          dCB0cmFuc3BvcnQxJTAjBgNVBAoMHExpYnJvIFRleHRvIE1leGljYW5vIERpZ2l0
+          YWwwggGiMA0GCSqGSIb3DQEBAQUAA4IBjwAwggGKAoIBgQCjs7t2jNOTCRd0mmdb
+          NzBE3XDeOxuHNJJ18nSyIvWNDhfMIt0kZrJ8XSXvsKBnGpzyg5lZfvN6pEgYJGuq
+          1+EXeTe1oi7Hm6K1wzd+gypI/jtqTVdrhnfk5K6G+CpJK249Qq3Ic+z4Lr5PBmqI
+          A0+iiKlC/mM+o6kRl6+EKSVkEgrfG6jd2axJDeHhkfeY9IUFc+yEIz3AlolIu9JJ
+          hIKVDZfvNxt6YDP97jxODOxZ0TEvfUXR75cL0xNA2yE7CHoR6WXCswgcY/Up72wZ
+          gBFlZPQWZmAJGJFoL+tBIsGahcKfrHkFW2B9eyfoh5fCgocux6m0EqpyDibwHKZL
+          mdhDWa8M4FwsakxHhiz9FXLEPNXWkoQgRYVJXYmRiw91I1glzDtpjVtFnlx84Ugo
+          OfKZ4u7EtV2CpOOlanCKbhtd7noVfXyn4mmWKPa+YX4oknZBHJIG0C9M5TARHdF1
+          J3I2AByS+gs+WRopvI1ilYIsdXOpfAf+0amiCFUDpmQhXd0CAwEAAaNTMFEwHQYD
+          VR0OBBYEFBmEFMwm44c6l1jyjG/ClVAakZ3PMB8GA1UdIwQYMBaAFBmEFMwm44c6
+          l1jyjG/ClVAakZ3PMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggGB
+          AAgryB4y2qBt/vt1ApeA1mkth0+4evUAni/otYa7617OjsIgU78jG04SkzKXy4Lk
+          FKlp82Lf8vtN9/jl4jOtFJpYRKThXkIsOAbFM9hD2fdq3WjM4UHI7VVC60bFaurb
+          YRdBeM5pPg+EQzMYU5YLz6CacAXP8YrjLrsvK+Z5kugN4v/h9vUJiRGLw3peJ9iF
+          elSYlO4Sdl2jG2nmedSqlRZ02ptbp4nzQFzg3jxvSLdXWVqRJfOmckW3Matkc7Qr
+          b/4WvU/ntWy0vd3LDJrh+yJ3COm26vk//4Pksh/6cUCxy3CzVF7CEAmcNvNkO9RG
+          XKv5m1Tae7xskD3uXkKX3sIpsxSfZoSF1+A5/k/Cua2diXn2trEEQUnaGNfKCulD
+          KDld2DRf9siumbPs6jlTgWD8pUoXEKYEaGuu3N2ZVqwMc4Lxco7LOUadOfw0aoJg
+          D++ZRhKhUl0j+tiRcc0a95dRByQ92JQwblKLTpMs9Yahxlxc0mDMqJuOKHlHc/2s
+          aw==
+          -----END CERTIFICATE-----
+          PEM
+          openssl x509 -in public-cert.pem -noout -fingerprint -sha256 -dates
+
+      - name: Download, crop and OCR in runner-local temporary storage
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p private_work
+          curl -fsSL --retry 3 --connect-timeout 15 --max-time 90 \
+            'https://historico.conaliteg.gob.mx/c/H1972P5CI084/004.jpg' -o private_work/legal.jpg
+          curl -fsSL --retry 3 --connect-timeout 15 --max-time 90 \
+            'https://historico.conaliteg.gob.mx/c/H1972P5CI084/007.jpg' -o private_work/toc.jpg
+          curl -fsSL --retry 3 --connect-timeout 15 --max-time 90 \
+            'https://historico.conaliteg.gob.mx/c/H1972P5CI084/026.jpg' -o private_work/q1.jpg
+          python3 - <<'PY'
+          from PIL import Image
+          specs={
+            'legal':(100,139,576,380),
+            'toc':(35,20,635,950),
+            'q1':(28,22,635,135),
+          }
+          for name,box in specs.items():
+              im=Image.open(f'private_work/{name}.jpg')
+              assert im.size==(670,993), (name,im.size)
+              im.crop(box).save(f'private_work/{name}_crop.png')
+          PY
+          for name in legal toc q1; do
+            tesseract "private_work/${name}_crop.png" "private_work/${name}_ocr" -l spa --psm 3 >/dev/null 2>"private_work/${name}_tesseract.stderr"
+          done
+
+      - name: Build private payload and public manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,subprocess
+          from pathlib import Path
+          samples=[
+            ('LTMD-CER-1972-LEGAL','legal','LTMD-CN5-G1972-VP004',[100,139,576,380]),
+            ('LTMD-CER-1972-TOC','toc','LTMD-CN5-G1972-VP007',[35,20,635,950]),
+            ('LTMD-CER-1972-Q1_1','q1','LTMD-CN5-G1972-VP026',[28,22,635,135]),
+          ]
+          version=subprocess.check_output(['tesseract','--version'],text=True).splitlines()[0]
+          private=[]; public=[]
+          for sample_id,name,page_id,box in samples:
+              source=Path(f'private_work/{name}.jpg').read_bytes()
+              text=Path(f'private_work/{name}_ocr.txt').read_text(encoding='utf-8')
+              stderr=Path(f'private_work/{name}_tesseract.stderr').read_text(encoding='utf-8')
+              sha=hashlib.sha256(source).hexdigest()
+              private.append({'sample_id':sample_id,'page_id':page_id,'crop_px':box,'psm':3,'tesseract_version':version,'source_sha256':sha,'ocr_text_private':text,'tesseract_stderr_private':stderr})
+              public.append({'sample_id':sample_id,'page_id':page_id,'crop_px':box,'psm':3,'tesseract_version':version,'source_sha256':sha,'ocr_text_chars':len(text)})
+          Path('private_payload.json').write_text(json.dumps(private,ensure_ascii=False,indent=2),encoding='utf-8')
+          Path('public_manifest.json').write_text(json.dumps({'transport':'CMS enveloped-data AES-256; RSA recipient cert','certificate_sha256_fingerprint':'29:D9:AA:93:CE:A1:9C:65:20:AD:59:EE:A6:AF:D7:03:6A:74:F2:26:7F:FD:20:14:C7:6A:DB:35:9C:15:E8:BF','samples':public},ensure_ascii=False,indent=2),encoding='utf-8')
+          PY
+
+      - name: Encrypt private OCR payload and destroy readable working data
+        shell: bash
+        run: |
+          set -euo pipefail
+          openssl cms -encrypt -binary -aes256 -in private_payload.json -outform DER -out private_payload.p7m public-cert.pem
+          sha256sum private_payload.p7m > ciphertext.sha256
+          rm -rf private_work private_payload.json public-cert.pem
+          test ! -e private_payload.json
+          test ! -d private_work
+
+      - name: Upload ciphertext and non-text manifest only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-cer-1972-batch1-encrypted-ocr
+          path: |
+            private_payload.p7m
+            public_manifest.json
+            ciphertext.sha256
+          retention-days: 1
+          if-no-files-found: error
