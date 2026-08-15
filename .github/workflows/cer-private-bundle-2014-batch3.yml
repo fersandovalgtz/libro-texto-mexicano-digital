@@ -1,0 +1,90 @@
+name: Encrypted private bundle — 2014 CER batch 3
+on:
+  push:
+    paths: ['.github/workflows/cer-private-bundle-2014-batch3.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bundle:
+    runs-on: ubuntu-24.04
+    env:
+      OMP_THREAD_LIMIT: '1'
+    steps:
+      - name: Install exact production OCR
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa python3-pil
+          tesseract --version | head -1 | tee version.txt
+          grep -F 'tesseract 5.3.4' version.txt
+      - name: Write one-use public certificate
+        run: |
+          cat > cert.pem <<'PEM'
+          -----BEGIN CERTIFICATE-----
+          MIIEgTCCAumgAwIBAgIUFISenTQJuIzqYeltB8ZkXiuwvVMwDQYJKoZIhvcNAQEL
+          BQAwUDEnMCUGA1UEAwweTFRNRCBDRVIgMjAxNCBiYXRjaDMgdHJhbnNwb3J0MSUw
+          IwYDVQQKDBxMaWJybyBUZXh0byBNZXhpY2FubyBEaWdpdGFsMB4XDTI2MDgxNTE3
+          MjcyN1oXDTI2MDgxNzE3MjcyN1owUDEnMCUGA1UEAwweTFRNRCBDRVIgMjAxNCBi
+          YXRjaDMgdHJhbnNwb3J0MSUwIwYDVQQKDBxMaWJybyBUZXh0byBNZXhpY2FubyBE
+          aWdpdGFsMIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAwgmeUVN9PbdQ
+          5I1RnHeb/NaGp8nRPG5Ycvm/yNUXsokzwI1JfI/KSXvcaldqp/IIoVnG59Pr2oIU
+          lx7QTn90jVDcq9p7BVu+eSxHotu44iq4UKrEQBI5vHBKS8eDLzKo3jBB/8YqBXRf
+          fs6PT+2C7kMZZsUkBLV6RIjproG3/0Oi03RiOWzCLJcrc+t+WcrevajjTViQS+Hh
+          4UsHwdeFOvoJrK7iHLOvdYRIXz0YGmAG58QNMiVq2njRAeqwCbEYrXxuagGHEUef
+          RvadTxzrbQAw38PVHmumsJCT99XC3V/emlkgLwvs2W2fdJZ9K4TEShvrRNt62xEV
+          ezmHJ/BuDKt8QNrFCNMvnfCGFigGzuc3GwLEIvZKMYzjJaBiZ66X9kH0vaEuhmRD
+          xaHpL4tm/UwsNmux+K07nPGw54vIhvvkWbWrs/jWA/tI8p/BUMOUpzOamr5Xl4Bq
+          MwJlAhO+zAC4Iva1ltU08T4EiXQtGyJMcRuwlTitE+4jX1sLJCTjAgMBAAGjUzBR
+          MB0GA1UdDgQWBBRtt6wKJBOxvGXEvMviNMZ7qj/vqDAfBgNVHSMEGDAWgBRtt6wK
+          JBOxvGXEvMviNMZ7qj/vqDAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUA
+          A4IBgQBt/0Kc0DbyPqMuNXmn/ohkxNOl7eNCPMGoYIo0pW5Eonz2EyiWl5E5em2q
+          4FV49AiocsKLksNw/8GRjiWA6aOtDACnnAtek4lkH7FzKg8gZv9zmwM8uqjUU3eS
+          mqq09sxss09nSJ3nwTriEKlr1srR2nvP8YX+5enqgyDEUmR5QVPiM7ox5yIWmkAT
+          /bPaaP2VxKcV7bVZSSBuvZ4UFVeb7Z4FyzlshA7LeR1emvI2ob9sAWmXLM1EtV46
+          ZjdL+Xr+9V2ULNn8cCd8VF8x3t9Xe2pAVImmzjwu/3RTSlJUKabOBEYb2vtnnt9H
+          U61IB0W3WMjVP/PaKs3R26aB8HmyDqhYON5nguNI8iCtySyj3cMIXiD0xPdKBDgH
+          hfVNy1r6oPx8Ra/xdXRUaeI6SkI7eRrgWAF8F81R9oqFDNWXI7dSWrqyyobU2h00
+          mAi7Pf3hHRBf12gJEhkKxpVVMCmHmK4J2eR0UPpt7bWEUgjFOwuTs7UTcdRFLO3x
+          KLXfpDs=
+          -----END CERTIFICATE-----
+          PEM
+      - name: Acquire source pages and full-page production OCR
+        run: |
+          set -euo pipefail
+          mkdir -p private_bundle
+          for n in 078 094 109; do curl -fsSL --retry 3 --connect-timeout 15 --max-time 90 "https://historico.conaliteg.gob.mx/c/H2014P5CNA/${n}.jpg" -o "private_bundle/${n}.jpg"; done
+          python3 - <<'PY'
+          from PIL import Image
+          for n in ('078','094','109'):
+              with Image.open(f'private_bundle/{n}.jpg') as im: assert im.size == (969,1276), (n,im.size)
+          PY
+          tesseract private_bundle/078.jpg private_bundle/078 -l spa --psm 6 txt tsv >/dev/null 2>private_bundle/078.stderr
+          tesseract private_bundle/094.jpg private_bundle/094 -l spa --psm 6 txt tsv >/dev/null 2>private_bundle/094.stderr
+          tesseract private_bundle/109.jpg private_bundle/109 -l spa --psm 3 txt tsv >/dev/null 2>private_bundle/109.stderr
+      - name: Write manifests
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          pages=[('LTMD-CER-2014-Q2_3','078','LTMD-CN5-G2014-VP078',6),('LTMD-CER-2014-Q3_1','094','LTMD-CN5-G2014-VP094',6),('LTMD-CER-2014-Q3_2','109','LTMD-CN5-G2014-VP109',3)]
+          ver=Path('version.txt').read_text().strip(); pub=[]
+          for sid,n,pid,psm in pages:
+              b=Path(f'private_bundle/{n}.jpg').read_bytes(); pub.append({'sample_id':sid,'page_id':pid,'viewer_page':int(n),'selected_psm':psm,'tesseract_version':ver,'source_sha256':hashlib.sha256(b).hexdigest(),'source_bytes':len(b)})
+          Path('manifest.json').write_text(json.dumps({'transport':'encrypted private source+OCR bundle','certificate_fingerprint_sha256':'6E:BC:60:6A:23:3A:7D:29:72:92:4E:8B:77:A8:C9:4E:90:A6:0C:E7:F8:1A:A0:C9:1A:03:40:08:1D:2B:AA:F6','pages':pub},indent=2),encoding='utf-8')
+          PY
+      - name: Encrypt and erase plaintext
+        run: |
+          tar -czf private_bundle.tar.gz private_bundle/
+          openssl cms -encrypt -binary -aes256 -in private_bundle.tar.gz -outform DER -out payload.p7m cert.pem
+          sha256sum payload.p7m > ciphertext.sha256
+          rm -rf private_bundle private_bundle.tar.gz cert.pem version.txt
+      - name: Upload ciphertext and manifest only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-cer-2014-batch3-private-bundle-encrypted
+          path: |
+            payload.p7m
+            manifest.json
+            ciphertext.sha256
+          retention-days: 1
