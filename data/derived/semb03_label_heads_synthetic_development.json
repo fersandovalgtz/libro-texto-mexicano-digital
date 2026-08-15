@@ -1,0 +1,50 @@
+{
+  "development_version": "SEMB03_LABEL_HEADS_SYNTH_DEV_0.1",
+  "suite_version": "SEMB03_SYNTH_STRESS_0.1",
+  "semantic_model": "SentenceTransformer",
+  "corpus_accessed": false,
+  "historical_outputs_accessed": false,
+  "human_reference_accessed": false,
+  "actions": {
+    "n": 48,
+    "frozen_anchor_top1": 0.75,
+    "synthetic_centroid_cv_top1": 0.6458333333333334,
+    "hybrid_anchor_centroid_cv_top1": 0.7916666666666666,
+    "full_synthetic_centroid_norms": [
+      0.9999999403953552,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.9999999403953552,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.9999999403953552,
+      1.0
+    ]
+  },
+  "positions": {
+    "n": 27,
+    "frozen_anchor_top1": 0.6296296296296297,
+    "synthetic_centroid_cv_top1": 0.6296296296296297,
+    "hybrid_anchor_centroid_cv_top1": 0.7777777777777778,
+    "full_synthetic_centroid_norms": [
+      1.0,
+      1.0,
+      0.9999999403953552,
+      0.9999999403953552,
+      0.9999999403953552,
+      1.0,
+      1.0,
+      1.0,
+      0.9999999403953552
+    ]
+  },
+  "status": "PROVISIONAL_SYNTHETIC_ONLY"
+}
