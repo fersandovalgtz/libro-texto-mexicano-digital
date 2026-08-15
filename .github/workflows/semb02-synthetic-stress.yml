@@ -29,16 +29,34 @@ jobs:
         run: python3 -m pip install --disable-pip-version-check 'sentence-transformers==5.6.1'
       - name: Evaluate frozen SEMB 0.2 without historical outputs
         run: python3 scripts/evaluate_semb02_synthetic_stress.py
-      - name: Publish stress suite and diagnostic
+      - name: Publish stress suite and diagnostic race-safely
         run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-stress
+          mkdir -p /tmp/ltmd-stress/validation /tmp/ltmd-stress/derived
+          cp data/validation/semb03_synthetic_stress_cases.csv /tmp/ltmd-stress/validation/
+          cp data/derived/semb02_synthetic_stress_result.json /tmp/ltmd-stress/derived/
+          cp data/derived/semb02_synthetic_stress_result.md /tmp/ltmd-stress/derived/
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/validation/semb03_synthetic_stress_cases.csv \
-                  data/derived/semb02_synthetic_stress_result.json \
-                  data/derived/semb02_synthetic_stress_result.md
-          if git diff --cached --quiet; then
-            echo 'No stress-test changes.'
-          else
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-stress/validation/* data/validation/
+            cp /tmp/ltmd-stress/derived/* data/derived/
+            git add data/validation/semb03_synthetic_stress_cases.csv \
+                    data/derived/semb02_synthetic_stress_result.json \
+                    data/derived/semb02_synthetic_stress_result.md
+            if git diff --cached --quiet; then
+              echo 'Stress-test outputs already current.'
+              exit 0
+            fi
             git commit -m 'Publish SEMB synthetic stress diagnostic'
-            git push
-          fi
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Concurrent update detected; retrying publication ($attempt/3)."
+            sleep $((attempt * 2))
+          done
+          echo 'Could not publish stress outputs after 3 attempts.' >&2
+          exit 1
