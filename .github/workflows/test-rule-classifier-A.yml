@@ -1,0 +1,20 @@
+name: Test RULEA synthetic boundaries
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/test-rule-classifier-A.yml'
+      - 'scripts/classify_fragments_A.py'
+      - 'tests/test_rule_classifier_A.py'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run synthetic decision-boundary tests
+        run: python3 tests/test_rule_classifier_A.py
