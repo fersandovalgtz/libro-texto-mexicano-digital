@@ -1,0 +1,2 @@
+snapshot_version,source_url,fetched_utc,http_status,content_type,source_bytes,source_sha256,unique_viewer_keys,generation_count,grade_code_count
+CONALITEG_KEY_SNAPSHOT_0.1,https://historico.conaliteg.gob.mx/libros_2023.js,2026-08-15T20:44:21.833887+00:00,200,text/javascript,34386,c28200d8398efec430811cc1c618c9e3b9f1a6882fba55844b929d5cc8ef9639,542,11,6
