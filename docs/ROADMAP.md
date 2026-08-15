@@ -47,7 +47,7 @@
 - [x] Eliminar la segunda revisión humana como requisito del proyecto.
 - [ ] Recalcular y congelar el resumen de **operator-reference CER/WER** global, por generación, front matter y body-only.
 - [ ] Versionar una tabla derivada única de las 48 posiciones sin texto fuente.
-- [ ] Identificar layouts que requieran tratamiento diferencial o exclusión explícita en análisis léxico fino.
+- [x] Identificar que layouts visuales/fallback requieren exclusión explícita del análisis léxico fino mediante clasificación estructural.
 
 **Estado:** las métricas de las 48 posiciones son diagnósticas respecto de una **referencia de operador de una sola pasada**, no un gold standard humano independiente.
 
@@ -55,9 +55,10 @@
 - [x] Conservar `CODEBOOK_0_1.md` como preregistro histórico.
 - [x] Crear `COMPUTATIONAL_ANNOTATION_PROTOCOL_0_2.md`.
 - [x] Sustituir doble codificación/adjudicación humana por triangulación computacional reproducible.
-- [ ] Clasificar automáticamente las 759 páginas en `textual`, `mixed_text_image`, `visual_only`, `front_matter`, `toc_or_navigation`, `bibliography_or_credits` o `unknown`.
-- [ ] Construir reglas para detectar y excluir falsos positivos OCR sobre fotografías/ilustraciones.
-- [ ] Segmentar páginas textuales/mixtas en fragmentos funcionales.
+- [x] Clasificar automáticamente las 759 páginas en `textual`, `mixed_text_image`, `visual_only`, `front_matter`, `toc_or_navigation`, `bibliography_or_credits` o `unknown` mediante `PAGESTRUCT_0.1`.
+- [x] Construir reglas para detectar y excluir falsos positivos OCR sobre fotografías/ilustraciones.
+- [x] Validar controles visual-only conocidos y mantener `unknown` en 22/759 = 2.90 %.
+- [ ] Segmentar páginas textuales/mixtas en fragmentos funcionales — **FRAGSEG_0.1 en ejecución sobre 641 páginas elegibles**.
 - [ ] Validar trazabilidad `book_id → page_id → fragment_id`.
 - [ ] Implementar clasificador multietiqueta A basado en reglas/rasgos transparentes.
 - [ ] Implementar clasificador multietiqueta B basado en una estrategia semántica computacional independiente.
@@ -65,10 +66,14 @@
 - [ ] Crear bandera `uncertain` para casos sin evidencia suficiente o con desacuerdo relevante.
 - [ ] Ejecutar análisis de sensibilidad por umbral, generación, longitud y layout.
 
+**PAGESTRUCT_0.1 congelado:** 759 páginas = 496 textual, 145 mixed_text_image, 60 visual_only, 1 front_matter, 20 toc_or_navigation, 15 bibliography_or_credits y 22 unknown. El análisis body-only inicial se restringe a 641 páginas textual/mixtas.
+
 ### Dataset analítico — siguiente producto
 - [ ] Construir dataset:
   `book → page → fragment → tipo → acciones → posición del alumno → contenido → estabilidad → procedencia`.
-- [ ] Mantener texto de trabajo en capa privada cuando sea necesario por gobernanza jurídica.
+- [x] Fijar especificación `FRAGMENT_SEGMENTATION_SPEC_0_1.md`.
+- [ ] Publicar `fragment_manifest.csv` sin texto fuente.
+- [ ] Mantener texto de trabajo sólo de manera efímera/privada cuando sea necesario para clasificación computacional.
 - [ ] Publicar en GitHub sólo derivados no sustitutivos y trazables.
 - [ ] Generar estadísticas por generación y tipo de página.
 
@@ -94,11 +99,12 @@ El piloto pasa a escalamiento si cumple simultáneamente:
 2. cobertura técnica suficiente de extracción — **cumplido**;
 3. gobernanza jurídica suficiente para publicar metadatos y derivados — **provisionalmente cumplido para derivados; issue jurídico sigue abierto**;
 4. diagnóstico OCR suficiente para conocer limitaciones por layout y generación — **48/48 posiciones primarias completadas**;
-5. clasificación/segmentación computacional reproducible — **pendiente**;
-6. estabilidad de categorías bajo al menos dos especificaciones computacionales — **pendiente**;
-7. trazabilidad completa entre fuente y dato derivado — **en construcción**;
-8. comparación historiográfica que produzca conocimiento adicional al catálogo original — **pendiente**;
-9. costo técnico razonable para ampliar el corpus — **por evaluar al cierre del piloto**.
+5. clasificación estructural reproducible — **cumplida: PAGESTRUCT_0.1, 759/759**;
+6. segmentación computacional reproducible — **en ejecución**;
+7. estabilidad de categorías bajo al menos dos especificaciones computacionales — **pendiente**;
+8. trazabilidad completa entre fuente y dato derivado — **en construcción**;
+9. comparación historiográfica que produzca conocimiento adicional al catálogo original — **pendiente**;
+10. costo técnico razonable para ampliar el corpus — **por evaluar al cierre del piloto**.
 
 ## Fase 3 — escalamiento controlado
 
