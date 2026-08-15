@@ -1,0 +1,47 @@
+name: sample-semb03-human-reference
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/sample-semb03-human-reference.yml'
+      - 'scripts/sample_semb03_human_reference.py'
+      - 'data/derived/fragment_manifest.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build deterministic human-reference sample
+        run: python3 scripts/sample_semb03_human_reference.py
+      - name: Verify sample invariants
+        run: |
+          python3 - <<'PY'
+          import csv
+          from collections import Counter
+          p='data/validation/semb03_human_reference_sample.csv'
+          r=list(csv.DictReader(open(p,encoding='utf-8')))
+          assert len(r)==480
+          assert len({x['fragment_id'] for x in r})==480
+          assert Counter(x['catalog_generation'] for x in r)==Counter({'1972':120,'1988':120,'1993':120,'2014':120})
+          assert Counter(x['analysis_role'] for x in r)==Counter({'development':320,'locked_validation':160})
+          print('verified',len(r))
+          PY
+      - name: Publish sample manifests
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/validation/semb03_human_reference_sample.csv \
+                  data/validation/semb03_human_reference_annotation_template.csv
+          if git diff --cached --quiet; then
+            echo 'No sample changes to publish.'
+          else
+            git commit -m 'Publish SEMB 0.3 human reference sample'
+            git push
+          fi
