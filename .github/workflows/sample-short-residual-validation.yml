@@ -1,0 +1,47 @@
+name: sample-short-residual-validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/sample-short-residual-validation.yml'
+      - 'scripts/sample_short_residual_validation.py'
+      - 'data/derived/fragment_manifest.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build supplemental blinded sample
+        run: python3 scripts/sample_short_residual_validation.py
+      - name: Verify sample invariants
+        run: |
+          python3 - <<'PY'
+          import csv,re
+          m=list(csv.DictReader(open('data/validation/short_residual_validation_sample.csv',encoding='utf-8')))
+          t=list(csv.DictReader(open('data/validation/short_residual_annotation_template.csv',encoding='utf-8')))
+          assert len(m)==len(t)==160
+          assert len({r['sample_id'] for r in m})==160
+          assert all(re.fullmatch(r'SR03-[0-9A-F]{16}',r['sample_id']) for r in t)
+          assert sum(r['analysis_role']=='development' for r in m)==100
+          assert sum(r['analysis_role']=='locked_validation' for r in m)==60
+          assert set(t[0])=={'sample_id','annotator_id','annotation_round','is_typographic_heading','is_semantic_unit','actionable','functional_class','confidence','note'}
+          print('verified supplemental sample')
+          PY
+      - name: Publish supplemental manifests
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/validation/short_residual_validation_sample.csv data/validation/short_residual_annotation_template.csv
+          if git diff --cached --quiet; then
+            echo 'No supplemental sample changes.'
+          else
+            git commit -m 'Publish short residual validation sample'
+            git push
+          fi
