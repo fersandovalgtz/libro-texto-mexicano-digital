@@ -1,0 +1,38 @@
+name: Diagnose hard OCR page 102
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/diagnose-hard-page-102.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      OMP_THREAD_LIMIT: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+          python -m pip install --quiet pillow
+      - name: Diagnose page 102 without persisting OCR text
+        run: |
+          python scripts/diagnose_hard_ocr_page.py \
+            --page-id LTMD-CN5-G2014-VP102 \
+            --url https://historico.conaliteg.gob.mx/c/H2014P5CNA/102.jpg
+      - name: Upload metrics only
+        uses: actions/upload-artifact@v4
+        with:
+          name: hard-page-102-diagnostic
+          path: data/derived/hard_page_ocr_diagnostic.csv
+          retention-days: 30
