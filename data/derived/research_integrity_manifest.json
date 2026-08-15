@@ -1,9 +1,9 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.1",
-  "generated_utc": "2026-08-15T19:57:52.907644+00:00",
-  "git_head": "15794da633e25be018701874c28c811f92e87bd4",
+  "generated_utc": "2026-08-15T20:03:55.858612+00:00",
+  "git_head": "975ccdbe5ab013bcaacb1b9214baefbb2130a3b1",
   "critical_count": 26,
-  "optional_present_count": 3,
+  "optional_present_count": 6,
   "files": [
     {
       "path": "README.md",
@@ -145,8 +145,8 @@
     },
     {
       "path": "scripts/check_semb03_readiness.py",
-      "bytes": 5327,
-      "sha256": "3711461b043317c551bdfc531eb6314d2198ef0b2bf422f533ddac091bc2c887",
+      "bytes": 6687,
+      "sha256": "16aefda60bdf358e788cc52fed2caa26bcdd5903d020d926a313f4299340f479",
       "required": true
     },
     {
@@ -157,14 +157,32 @@
     },
     {
       "path": "scripts/evaluate_semb03_locked_validation.py",
-      "bytes": 5476,
-      "sha256": "cf1e72eac925688efaca43ee90261d89b081da320b23f5d14e704da26669cfcc",
+      "bytes": 8047,
+      "sha256": "e38b665103491d1dd682d6e0de39e107b4108d97c0e3c52a9b429e0b0510c6b5",
       "required": true
+    },
+    {
+      "path": "data/derived/semb02_synthetic_stress_result.json",
+      "bytes": 1160,
+      "sha256": "c0296ac6271dfba02b4a5bf890db5e5f6c8c986206a86faa87c5791594bd19a8",
+      "required": false
+    },
+    {
+      "path": "data/validation/semb03_synthetic_stress_cases.csv",
+      "bytes": 15261,
+      "sha256": "7295424e7c3a199756090f63b76d9d69fba1323ac87856e5c6d29cd3ab183a42",
+      "required": false
     },
     {
       "path": "data/derived/semb03_sample_coverage.csv",
       "bytes": 2102,
-      "sha256": "02d676cecd084b3ac6a8ae16f15d5bc5ebeb97f112abadb6de4cbe0781687f7a",
+      "sha256": "6cdea905d802d8ecd817e28805b7eed24841c36a600341706fbd3ed1d1373bd8",
+      "required": false
+    },
+    {
+      "path": "data/derived/fragseg_layout_proxy_summary.csv",
+      "bytes": 1015,
+      "sha256": "b5185b7356289e9a35e4cb99c1c70ccd76e3b10ce235599579a2aaa41c1606d1",
       "required": false
     },
     {

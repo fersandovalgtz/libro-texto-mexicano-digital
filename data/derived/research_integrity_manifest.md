@@ -2,9 +2,9 @@
 
 Versión: `LTMD_INTEGRITY_0.1`.
 
-Commit observado: `15794da633e25be018701874c28c811f92e87bd4`.
+Commit observado: `975ccdbe5ab013bcaacb1b9214baefbb2130a3b1`.
 
-Archivos críticos verificados: **26**. Artefactos opcionales presentes: **3**.
+Archivos críticos verificados: **26**. Artefactos opcionales presentes: **6**.
 
 Cada entrada conserva tamaño y SHA-256. El propósito es detectar cambios posteriores en corpus congelado, protocolos, criterios y código crítico. El manifiesto no impide cambios legítimos: obliga a que una modificación produzca una nueva huella auditable.
 
@@ -32,11 +32,14 @@ Cada entrada conserva tamaño y SHA-256. El propósito es detectar cambios poste
 - `scripts/semantic_classifier_B02_core.py` — 8292 bytes — `151b470d9b14c159e17d8e91266395d8f8c1ff2fdb0eb2fdb155319e6013da6c`
 - `scripts/classify_fragments_B02.py` — 7015 bytes — `675888b0ebccd53f2b0429386576a4d3ead346270eea905d6f3933f05f44999e`
 - `scripts/sample_semb03_human_reference.py` — 4631 bytes — `2db6341992db9f2399e4bc8c8dacebfdfe960ed5f07ef9734328af5d42de6e1d`
-- `scripts/check_semb03_readiness.py` — 5327 bytes — `3711461b043317c551bdfc531eb6314d2198ef0b2bf422f533ddac091bc2c887`
+- `scripts/check_semb03_readiness.py` — 6687 bytes — `16aefda60bdf358e788cc52fed2caa26bcdd5903d020d926a313f4299340f479`
 - `scripts/lock_semb03_model.py` — 2927 bytes — `77622aa5bf28c3665d484680e4f24696b19d73ef8be6a5fd2c7c5f342971a51a`
-- `scripts/evaluate_semb03_locked_validation.py` — 5476 bytes — `cf1e72eac925688efaca43ee90261d89b081da320b23f5d14e704da26669cfcc`
+- `scripts/evaluate_semb03_locked_validation.py` — 8047 bytes — `e38b665103491d1dd682d6e0de39e107b4108d97c0e3c52a9b429e0b0510c6b5`
 
 ## Artefactos derivados adicionales presentes
-- `data/derived/semb03_sample_coverage.csv` — `02d676cecd084b3ac6a8ae16f15d5bc5ebeb97f112abadb6de4cbe0781687f7a`
+- `data/derived/semb02_synthetic_stress_result.json` — `c0296ac6271dfba02b4a5bf890db5e5f6c8c986206a86faa87c5791594bd19a8`
+- `data/validation/semb03_synthetic_stress_cases.csv` — `7295424e7c3a199756090f63b76d9d69fba1323ac87856e5c6d29cd3ab183a42`
+- `data/derived/semb03_sample_coverage.csv` — `6cdea905d802d8ecd817e28805b7eed24841c36a600341706fbd3ed1d1373bd8`
+- `data/derived/fragseg_layout_proxy_summary.csv` — `b5185b7356289e9a35e4cb99c1c70ccd76e3b10ce235599579a2aaa41c1606d1`
 - `data/validation/short_residual_validation_sample.csv` — `0ae68828cd5009017a4b40638a1b4855167ab606e1d85976f2ea74db134f6245`
 - `data/validation/short_residual_annotation_template.csv` — `7d1bdf0060c50539a334bfeada131d7db08fe71a644f2f6d1c8c0ea532b1975f`
