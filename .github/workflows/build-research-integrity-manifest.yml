@@ -49,7 +49,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Build integrity manifest
-        run: python3 scripts/build_research_integrity_manifest.py
+        run: python3 scripts/build_research_integrity_manifest_v05.py
       - name: Publish integrity manifest race-safely
         run: |
           set -euo pipefail
