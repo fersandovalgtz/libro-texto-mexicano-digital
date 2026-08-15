@@ -104,8 +104,8 @@ jobs:
           out=Path('data/derived'); fields=list(rows[0].keys())
           with (out/'fragment_labels_B.csv').open('w',encoding='utf-8',newline='') as f:
               w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
-          action_cols=[c for c in fields if c.startswith('action_') and c.endswith('_B') and c not in {'action_gate_margin_B','action_gate_threshold_B','action_top_score_B','action_second_score_B','action_margin_B','action_label_count_B'}]
-          pos_cols=[c for c in fields if c.startswith('position_') and c.endswith('_B') and c not in {'position_top_score_B','position_second_score_B','position_margin_B','position_label_count_B'}]
+          action_cols=[c for c in fields if c.startswith('action_') and c.endswith('_B') and c not in {'action_labels_B','action_gate_margin_B','action_gate_threshold_B','action_top_score_B','action_second_score_B','action_margin_B','action_label_count_B'}]
+          pos_cols=[c for c in fields if c.startswith('position_') and c.endswith('_B') and c not in {'position_labels_B','position_top_score_B','position_second_score_B','position_margin_B','position_label_count_B'}]
           summary=[]
           for gen in gens+['ALL']:
               rs=rows if gen=='ALL' else [r for r in rows if r['catalog_generation']==gen]
