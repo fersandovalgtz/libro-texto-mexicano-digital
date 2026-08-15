@@ -2,11 +2,11 @@
 
 Versión: `LTMD_INTEGRITY_0.5`.
 
-Commit observado: `8ef683d77155863530f2fe28841ec07ed9a3027e`.
+Commit observado: `2e748a4669cd386592c56aca230982ce13d54aff`.
 
 Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
-Archivos críticos presentes: **149/149**.
+Archivos críticos presentes: **150/150**.
 Artefactos opcionales presentes: **9**.
 
 Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; la desaparición de un artefacto crítico hace fallar el workflow.
@@ -162,6 +162,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `.github/workflows/recover-page-structure-cn-wave2.yml` — 2306 bytes — `a38e9ed6f7248e7dc427b61b2f96d4d1888945d8d3c2e126de66c7ebe6a138ad`
 - `.github/workflows/fragment-cn-wave2.yml` — 5081 bytes — `dee30622d3e74d59ffb93d50d1334fd13635925e106e65990df41799bcc35048`
 - `.github/workflows/verify-methods-article-claims.yml` — 2241 bytes — `8061b92a3c89c67396c545cf4fefcebe61273590969614a06f902b388d777bfc`
+- `docs/METHOD_INDEX.md` — 6915 bytes — `e9cfd491d0e795e20e067769144c4134670af5a7c4330bb1f4d635ffdc596528`
 
 ## Artefactos derivados adicionales presentes
 
