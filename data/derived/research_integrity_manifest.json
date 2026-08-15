@@ -1,14 +1,20 @@
 {
-  "integrity_version": "LTMD_INTEGRITY_0.1",
-  "generated_utc": "2026-08-15T20:09:31.256113+00:00",
-  "git_head": "cf7d10f51c6fc7680a2c2c1cd6a544b36cc7cca8",
-  "critical_count": 26,
-  "optional_present_count": 6,
+  "integrity_version": "LTMD_INTEGRITY_0.2",
+  "generated_utc": "2026-08-15T20:09:55.730511+00:00",
+  "git_head": "8d13cbf5cb6e6bf5343b683f734b76d5fca65b36",
+  "critical_count": 48,
+  "optional_present_count": 8,
   "files": [
     {
       "path": "README.md",
       "bytes": 12618,
       "sha256": "dc375e2b6b0078821b85f7c369705c6acd3e8c7d5dfd331eca1e1a5b825cbef2",
+      "required": true
+    },
+    {
+      "path": "data/book_inventory.csv",
+      "bytes": 3003,
+      "sha256": "4b9ae106d4b3ed2e1b30203e46d46f6280e1c3f6b22b62791beaab1e677446c4",
       "required": true
     },
     {
@@ -84,6 +90,30 @@
       "required": true
     },
     {
+      "path": "data/validation/semb03_candidate_grid.json",
+      "bytes": 2108,
+      "sha256": "0bd03cd0c488530c9f7b9f56ad8050d141bbfa82b1ae60b53dd5755f19afa4ae",
+      "required": true
+    },
+    {
+      "path": "data/validation/semb03_synthetic_stress_cases.csv",
+      "bytes": 15261,
+      "sha256": "7295424e7c3a199756090f63b76d9d69fba1323ac87856e5c6d29cd3ab183a42",
+      "required": true
+    },
+    {
+      "path": "data/validation/short_residual_validation_sample.csv",
+      "bytes": 29803,
+      "sha256": "0ae68828cd5009017a4b40638a1b4855167ab606e1d85976f2ea74db134f6245",
+      "required": true
+    },
+    {
+      "path": "data/validation/short_residual_annotation_template.csv",
+      "bytes": 5085,
+      "sha256": "7d1bdf0060c50539a334bfeada131d7db08fe71a644f2f6d1c8c0ea532b1975f",
+      "required": true
+    },
+    {
       "path": "docs/CODEBOOK_0_1.md",
       "bytes": 7193,
       "sha256": "8ff2c6e474f0e01b88223d7085e5cd20dd09724b74672dca4ff47fbbb1a0c635",
@@ -102,6 +132,12 @@
       "required": true
     },
     {
+      "path": "docs/SEMB03_CANDIDATE_ARCHITECTURES_0_1.md",
+      "bytes": 6250,
+      "sha256": "d60c5dcf8d7b00f5800eda474e78b2edbf7c6e68f6e874e69a69ec39dc161898",
+      "required": true
+    },
+    {
       "path": "docs/SEMB03_STAGE_GATES_0_1.md",
       "bytes": 2696,
       "sha256": "dc36c7d02be88c5f82f5f9a68e53d2fd3bbe473e39f6cd7d79d31a3e46f324a2",
@@ -117,6 +153,24 @@
       "path": "docs/HISTORICAL_ANALYSIS_PLAN_0_2.md",
       "bytes": 4596,
       "sha256": "a304d9caa2d757d9be1861387ae2ce5583b824ddfd63ce6be4c331d4aed483f5",
+      "required": true
+    },
+    {
+      "path": "docs/METHODS_SNAPSHOT_2026-08-15.md",
+      "bytes": 7221,
+      "sha256": "cb5f3c7db0151dd337ce24788f0ba6d48aa5f527b9f81d866454499d6df06d71",
+      "required": true
+    },
+    {
+      "path": "docs/AUTOMATED_WORK_CEILING_0_1.md",
+      "bytes": 3847,
+      "sha256": "afead629c21209d80007bc789a61258d44aef41c577923a77c11d694ad9b4f8f",
+      "required": true
+    },
+    {
+      "path": "docs/CURRICULAR_SOURCE_AUDIT_2026-08-15.md",
+      "bytes": 3917,
+      "sha256": "deb9674cbeef4c73d4d1ba2b41910ab60a9bcae266a45659aadcc800c1007a45",
       "required": true
     },
     {
@@ -144,6 +198,24 @@
       "required": true
     },
     {
+      "path": "scripts/validate_semb03_annotations.py",
+      "bytes": 3765,
+      "sha256": "6c4feb2428277cda567da30ec420bc0fc8584aa9ed48b73dc56ab0ba4a87653f",
+      "required": true
+    },
+    {
+      "path": "scripts/evaluate_semb03_human_reliability.py",
+      "bytes": 2372,
+      "sha256": "d4e8720c12398e62efe9bb6eaa76a830896c2c65dd4de8a660b29d231b489b7f",
+      "required": true
+    },
+    {
+      "path": "scripts/build_semb03_consensus_draft.py",
+      "bytes": 3541,
+      "sha256": "33c66da4ad4755057a8e7986a7cfe3ca07178764f27def787c5b9706aabed642",
+      "required": true
+    },
+    {
       "path": "scripts/check_semb03_readiness.py",
       "bytes": 6687,
       "sha256": "16aefda60bdf358e788cc52fed2caa26bcdd5903d020d926a313f4299340f479",
@@ -162,15 +234,69 @@
       "required": true
     },
     {
+      "path": "scripts/build_semb03_synthetic_stress.py",
+      "bytes": 10036,
+      "sha256": "d3f29eae719d6596ab4aa983d46c1470cf1afd46613c456ae3196fef1f3f189f",
+      "required": true
+    },
+    {
+      "path": "scripts/evaluate_semb02_synthetic_stress.py",
+      "bytes": 6284,
+      "sha256": "08ea78f4b5f61873298b09f3fbe2b523b9152206ac18549556828c79b7cd8209",
+      "required": true
+    },
+    {
+      "path": "scripts/develop_semb03_gate_synthetic.py",
+      "bytes": 6140,
+      "sha256": "9405a258435567d33742ebafb090ddff3fabf9b00c96dbde8392dda3e6c6d6d2",
+      "required": true
+    },
+    {
+      "path": "scripts/develop_semb03_label_heads_synthetic.py",
+      "bytes": 4916,
+      "sha256": "834ac1cdfb04c48b2a094f6f318eb1f314a8d9ba9526c8d5175c87433b0a047e",
+      "required": true
+    },
+    {
+      "path": "scripts/audit_fragseg_layout_proxy.py",
+      "bytes": 8719,
+      "sha256": "5f6addc0ff2c7c85738da1a5bcf82d9dd98557ea79a535bf827df08ad80017e7",
+      "required": true
+    },
+    {
+      "path": "scripts/audit_semb03_sample_coverage.py",
+      "bytes": 6576,
+      "sha256": "901825a93e46c9f658d067b364ba432585df61e13ff0ac361866bb2fd74070c4",
+      "required": true
+    },
+    {
+      "path": "scripts/build_fragtype03_shadow.py",
+      "bytes": 3396,
+      "sha256": "ba7bc3b5f8091ab19c2bc7116dbb4ab9bf26138e392db04eec6cf2a2eb7f6cb4",
+      "required": true
+    },
+    {
+      "path": "scripts/sample_short_residual_validation.py",
+      "bytes": 2973,
+      "sha256": "4b2b7354c195ad854abacb677b2f1280a14f20bbbc6512b4b79a662b59b8920b",
+      "required": true
+    },
+    {
+      "path": "scripts/audit_frontmatter_bibliography.py",
+      "bytes": 6156,
+      "sha256": "a9c1ab048d5a6b1a285baf999edf3cf834e45e5bbfce725a526a5a8870606882",
+      "required": true
+    },
+    {
+      "path": "scripts/selftest_semb03_infrastructure.py",
+      "bytes": 3696,
+      "sha256": "b157e35d6d9f477a7a70b773c88d68585377b60a47ce2afb10d850cdc51b28d1",
+      "required": true
+    },
+    {
       "path": "data/derived/semb02_synthetic_stress_result.json",
       "bytes": 1160,
       "sha256": "c0296ac6271dfba02b4a5bf890db5e5f6c8c986206a86faa87c5791594bd19a8",
-      "required": false
-    },
-    {
-      "path": "data/validation/semb03_synthetic_stress_cases.csv",
-      "bytes": 15261,
-      "sha256": "7295424e7c3a199756090f63b76d9d69fba1323ac87856e5c6d29cd3ab183a42",
       "required": false
     },
     {
@@ -180,21 +306,39 @@
       "required": false
     },
     {
+      "path": "data/derived/semb03_sample_token_coverage.csv",
+      "bytes": 1190,
+      "sha256": "2309e4b5bb0db4d994a534f5a9169f53f217d4915e0b93d0a154e2ad8d95f0d2",
+      "required": false
+    },
+    {
       "path": "data/derived/fragseg_layout_proxy_summary.csv",
       "bytes": 1015,
       "sha256": "b5185b7356289e9a35e4cb99c1c70ccd76e3b10ce235599579a2aaa41c1606d1",
       "required": false
     },
     {
-      "path": "data/validation/short_residual_validation_sample.csv",
-      "bytes": 29803,
-      "sha256": "0ae68828cd5009017a4b40638a1b4855167ab606e1d85976f2ea74db134f6245",
+      "path": "data/derived/frontmatter_bibliographic_audit.csv",
+      "bytes": 2097,
+      "sha256": "fae0068cc6579ffbb75705a2b9e2e1c2c056e809c29601e5f964d21b14202f2c",
       "required": false
     },
     {
-      "path": "data/validation/short_residual_annotation_template.csv",
-      "bytes": 5085,
-      "sha256": "7d1bdf0060c50539a334bfeada131d7db08fe71a644f2f6d1c8c0ea532b1975f",
+      "path": "data/derived/semb03_gate_synthetic_development.json",
+      "bytes": 2624,
+      "sha256": "c9b4a4c054503e2ddd19411588eb8e8264d2c15bcb5c8e4e8c179a6a0931c9c5",
+      "required": false
+    },
+    {
+      "path": "data/derived/semb03_label_heads_synthetic_development.json",
+      "bytes": 1137,
+      "sha256": "7ac6f22a2f9fa3b89f8814f03c17539dcf3e5b3ce812e5638b0653457030b107",
+      "required": false
+    },
+    {
+      "path": "data/derived/semb03_readiness_report.json",
+      "bytes": 2397,
+      "sha256": "4cd1fb9e52b6f1377ecf9924e820d1b261da5a8d0a0059f05a6f6cb735110ff7",
       "required": false
     }
   ]
