@@ -1,108 +1,48 @@
 {
-  "claim_check_version": "METHODS_ARTICLE_CLAIMS_0.1",
-  "article": "docs/METHODS_ARTICLE_DRAFT_0_1.md",
+  "claim_check_version": "METHODS_ARTICLE_CLAIMS_0.2",
+  "article": "docs/METHODS_ARTICLE_DRAFT_0_2.md",
   "passed": true,
   "failures": [],
-  "claims": {
-    "page_structure_n": {
-      "value": 759,
-      "required_text": [
-        "759 páginas",
-        "759 imágenes"
-      ]
-    },
-    "fragment_n": {
-      "value": 9594,
-      "required_text": [
-        "9,594 fragmentos"
-      ]
-    },
-    "old_eligible_n": {
-      "value": 5037,
-      "required_text": [
-        "5,037"
-      ]
-    },
-    "shadow_eligible_n": {
-      "value": 7429,
-      "required_text": [
-        "7,429"
-      ]
-    },
-    "shadow_gain_n": {
-      "value": 2392,
-      "required_text": [
-        "2,392"
-      ]
-    },
-    "sample_n": {
-      "value": 480,
-      "required_text": [
-        "480 fragmentos",
-        "480 casos"
-      ]
-    },
-    "development_n": {
-      "value": 320,
-      "required_text": [
-        "320 casos de desarrollo",
-        "320 casos"
-      ]
-    },
-    "locked_n": {
-      "value": 160,
-      "required_text": [
-        "160 casos de validación",
-        "160 casos"
-      ]
-    },
-    "reliability_n": {
-      "value": 120,
-      "required_text": [
-        "120 casos"
-      ]
-    },
-    "sample_pages": {
-      "value": 312,
-      "required_text": [
-        "312 páginas"
-      ]
-    },
-    "locked_pages": {
-      "value": 138,
-      "required_text": [
-        "138"
-      ]
-    },
-    "semb02_uncertainty_rate": {
-      "value": 0.994893,
-      "required_text": [
-        "99.49%"
-      ]
-    },
-    "stress_n": {
-      "value": 105,
-      "required_text": [
-        "105 casos"
-      ]
-    },
-    "stress_gate_balanced_accuracy": {
-      "value": 0.5258838383838383,
-      "required_text": [
-        "0.526"
-      ]
-    },
-    "stress_gate_sensitivity": {
-      "value": 0.5972222222222222,
-      "required_text": [
-        "0.597"
-      ]
-    },
-    "stress_gate_specificity": {
-      "value": 0.45454545454545453,
-      "required_text": [
-        "0.455"
-      ]
-    }
-  }
+  "values": {
+    "pilot_pages": 759,
+    "pilot_fragments": 9594,
+    "cn46_declared_positions": 1897,
+    "cn46_real_jpegs_manifest": 1888,
+    "cn46_ocr_rows": 1888,
+    "cn46_fragments": 19067,
+    "wave2_pages": 3177,
+    "wave2_ocr_rows": 3177,
+    "wave2_sha_verified": 3177,
+    "wave2_text_detected": 3164,
+    "wave2_unresolved": 0,
+    "wave2_struct_rows": 3177,
+    "wave2_eligible_pages": 2528,
+    "wave2_fragments": 36195,
+    "technical_fragment_occurrences": 64856,
+    "family_viewers": 37,
+    "family_full_resolved": 35,
+    "family_full_direct": 31,
+    "family_alias": 4,
+    "family_partial": 2,
+    "family_not_resolved": 0,
+    "family_internal_unserved_positions": 3,
+    "alias_asset_pairs": 652,
+    "alias_sha_identity": 652,
+    "alias_byte_identity": 652,
+    "old_eligible": 5037,
+    "shadow_eligible": 7429,
+    "shadow_gain": 2392,
+    "sample_n": 480,
+    "development_n": 320,
+    "locked_n": 160,
+    "reliability_n": 120,
+    "sample_pages": 312,
+    "locked_pages": 138,
+    "semb02_uncertainty_rate": 0.994893,
+    "stress_n": 105,
+    "stress_gate_balanced_accuracy": 0.5258838383838383,
+    "stress_gate_sensitivity": 0.5972222222222222,
+    "stress_gate_specificity": 0.45454545454545453
+  },
+  "note": "Checks quantitative infrastructure claims only; does not validate historiographic interpretation."
 }
