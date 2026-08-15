@@ -1,0 +1,29 @@
+name: Audit CER sample technical coverage
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-cer-sample-technical-coverage.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit preregistered 48-page sample
+        run: python scripts/audit_cer_sample_technical_coverage.py
+      - name: Upload metadata-only audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: cer-sample-technical-audit
+          path: |
+            data/derived/cer_sample_technical_profile.csv
+            data/derived/cer_sample_technical_summary.csv
+          retention-days: 30
