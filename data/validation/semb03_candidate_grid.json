@@ -1,0 +1,60 @@
+{
+  "candidate_grid_version": "SEMB03_CANDIDATES_0.1",
+  "frozen_before_human_reference": true,
+  "development_cv": {
+    "method": "GroupKFold",
+    "n_splits": 5,
+    "group": "page_id"
+  },
+  "forbidden_predictive_features": [
+    "catalog_generation",
+    "year",
+    "page_id",
+    "classifier_A_outputs",
+    "SEMB_0.2_corpus_outputs",
+    "historical_comparison_outputs"
+  ],
+  "gate": {
+    "families": ["G0_frozen_B02", "G1_scalar_margin", "G2_logistic_semantic"],
+    "G1_threshold_grid": {"start": -0.05, "stop": 0.05, "step": 0.001},
+    "G2_C": [0.1, 0.5, 1.0, 2.0],
+    "G2_class_weight": "balanced",
+    "G2_features": [
+      "gate_pos_max", "gate_neg_max", "gate_margin",
+      "action_top", "action_second", "action_margin",
+      "position_top", "position_second", "position_margin",
+      "receiver_score", "instruction_follower_score", "reasoner_score"
+    ],
+    "selection": {
+      "sensitivity_min": 0.75,
+      "specificity_min": 0.75,
+      "objective": "balanced_accuracy",
+      "tie_break_1": "maximize_min_sensitivity_specificity",
+      "tie_break_2": "minimize_absolute_threshold_where_applicable"
+    }
+  },
+  "action_head": {
+    "families": ["A0_frozen_anchors", "A1_synthetic_hybrid", "A2_human_hybrid", "A3_triple_hybrid"],
+    "human_centroid_alpha": [0.25, 0.5, 0.75],
+    "triple_weights_anchor_synthetic_human": [[0.5,0.25,0.25],[0.34,0.33,0.33],[0.25,0.25,0.5]],
+    "max_labels": 3,
+    "multilabel_band": [0.0,0.01,0.02,0.03,0.04,0.05],
+    "objective": "macro_f1",
+    "tie_break": "micro_f1"
+  },
+  "position_head": {
+    "families": ["P0_frozen_anchors", "P1_synthetic_hybrid", "P2_human_hybrid", "P3_triple_hybrid"],
+    "human_centroid_alpha": [0.25, 0.5, 0.75],
+    "triple_weights_anchor_synthetic_human": [[0.5,0.25,0.25],[0.34,0.33,0.33],[0.25,0.25,0.5]],
+    "max_labels": 2,
+    "multilabel_band": [0.0,0.01,0.02,0.03,0.04,0.05],
+    "objective": "macro_f1",
+    "tie_break": "micro_f1"
+  },
+  "certainty": {
+    "development_only": true,
+    "certain_actionable_precision_min": 0.8,
+    "max_f1_loss_from_best": 0.03,
+    "coverage_target": 0.7
+  }
+}
