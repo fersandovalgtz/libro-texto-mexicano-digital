@@ -13,13 +13,12 @@ import hashlib
 import re
 import tempfile
 import unicodedata
-import urllib.request
 from collections import Counter
 from pathlib import Path
 
 from segment_fragments import (
     SOURCE_CODES, ELIGIBLE, run_tesseract, read_tsv, reconstruct_paragraphs,
-    sentence_units, merge_units, norm as seg_norm,
+    sentence_units, merge_units, norm as seg_norm, download_with_retry,
 )
 
 STRUCTURE=Path('data/derived/page_structure.csv')
@@ -39,28 +38,27 @@ DIRECTED_TYPES={
     'project_candidate','question_candidate','assessment_candidate'
 }
 
-# Core evidence consists primarily of action/request forms. Every action label is
-# still gated by directed functional context; this prevents an expository sentence
-# such as "se observa un cambio" from being treated as a student instruction.
+# Core evidence consists primarily of explicit request/action forms. Every label is
+# also gated by directed functional context, preventing expository statements such
+# as "se observa un cambio" from becoming student actions.
 CORE_PATTERNS={
-'observe':[r'\bobserva\b',r'\bobserven\b',r'\bobservar\b',r'\bmira\b',r'\bmiren\b',r'\bexamina\b',r'\bexaminen\b',r'\bf[ií]jate\b',r'\bf[ií]jense\b'],
-'describe':[r'\bdescribe\b',r'\bdescriban\b',r'\bcaracteriza\b',r'\bcaractericen\b',r'\banota (?:las )?caracter[ií]sticas\b'],
-'recall':[r'\brecuerda\b',r'\brecuerdas\b',r'\brecuerden\b',r'\bmenciona\b',r'\bmencionen\b',r'\benumera\b',r'\bnombra\b',r'\bqu[eé] sabes\b'],
-'explain':[r'\bexplica\b',r'\bexpliquen\b',r'\bjustifica\b',r'\bjustifiquen\b',r'\bpor qu[eé]\b',r'\ba qu[eé] se debe\b'],
-'compare':[r'\bcompara\b',r'\bcomparen\b'],
-'classify':[r'\bclasifica\b',r'\bclasifiquen\b',r'\bagrupa\b',r'\bagrupen\b',r'\bsepara en\b'],
-'measure':[r'\bmide\b',r'\bmidan\b',r'\bmide[nr]?\b',r'\bregistra (?:la|las) medida'],
-'investigate':[r'\binvestiga\b',r'\binvestiguen\b',r'\bbusca informaci[oó]n\b',r'\bbusquen informaci[oó]n\b',r'\bconsult(?:a|en)\b',r'\bentrevista\b',r'\bencuesta\b',r'\baverigua\b',r'\bindaga\b'],
-'predict':[r'\bpredice\b',r'\bpredigan\b',r'\bqu[eé] crees que (?:ocurrir[aá]|pasar[aá]|suceder[aá])\b',r'\bantes de observar\b'],
-'infer':[r'\binfiere\b',r'\binfieran\b',r'\bconcluye\b',r'\bconcluyan\b',r'\bdeduce\b',r'\bdeduzcan\b',r'\ba partir de (?:los )?(?:resultados|datos|observaciones)\b'],
-'discuss':[r'\bdiscute\b',r'\bdiscutan\b',r'\bcomenten\b',r'\bconversen\b',r'\bdebate\b',r'\bdebatan\b',r'\bcon tus compa[nñ]eros\b'],
-'solve':[r'\bresuelve\b',r'\bresuelvan\b',r'\bencuentra (?:la|una) soluci[oó]n\b'],
-'create':[r'\belabora\b',r'\belaboren\b',r'\bconstruye\b',r'\bconstruyan\b',r'\bdise[nñ]a\b',r'\bdise[nñ]en\b',r'\bdibuja\b',r'\bdibujen\b',r'\bcrea\b',r'\bcreen\b',r'\bprepara\b',r'\bpreparen\b'],
-'decide':[r'\bdecide\b',r'\bdecidan\b',r'\belige\b',r'\belijan\b',r'\bselecciona una alternativa\b',r'\btoma una decisi[oó]n\b',r'\bargumenta tu elecci[oó]n\b'],
+'observe':[r'\bobserva\b',r'\bobserven\b',r'\bobservar\b',r'\bmira\b',r'\bmiren\b',r'\bmirar\b',r'\bexamina\b',r'\bexaminen\b',r'\bexaminar\b',r'\bf[ií]jate\b',r'\bf[ií]jense\b'],
+'describe':[r'\bdescribe\b',r'\bdescriban\b',r'\bdescribir\b',r'\bcaracteriza\b',r'\bcaractericen\b',r'\bcaracterizar\b',r'\banota (?:las )?caracter[ií]sticas\b'],
+'recall':[r'\brecuerda\b',r'\brecuerdas\b',r'\brecuerden\b',r'\brecordar\b',r'\bmenciona\b',r'\bmencionen\b',r'\bmencionar\b',r'\benumera\b',r'\benumerar\b',r'\bnombra\b',r'\bnombrar\b',r'\bqu[eé] sabes\b'],
+'explain':[r'\bexplica\b',r'\bexpliquen\b',r'\bexplicar\b',r'\bjustifica\b',r'\bjustifiquen\b',r'\bjustificar\b',r'\bpor qu[eé]\b',r'\ba qu[eé] se debe\b'],
+'compare':[r'\bcompara\b',r'\bcomparen\b',r'\bcomparar\b'],
+'classify':[r'\bclasifica\b',r'\bclasifiquen\b',r'\bclasificar\b',r'\bagrupa\b',r'\bagrupen\b',r'\bagrupar\b',r'\bsepara en\b',r'\bseparar en\b'],
+'measure':[r'\bmide\b',r'\bmidan\b',r'\bmedir\b',r'\bregistra (?:la|las) medida',r'\bregistrar (?:la|las) medida'],
+'investigate':[r'\binvestiga\b',r'\binvestiguen\b',r'\binvestigar\b',r'\bbusca informaci[oó]n\b',r'\bbusquen informaci[oó]n\b',r'\bbuscar informaci[oó]n\b',r'\bconsult(?:a|en)\b',r'\bconsultar\b',r'\bentrevista\b',r'\bentrevistar\b',r'\bencuesta\b',r'\bencuestar\b',r'\baverigua\b',r'\baveriguar\b',r'\bindaga\b',r'\bindagar\b'],
+'predict':[r'\bpredice\b',r'\bpredigan\b',r'\bpredecir\b',r'\bqu[eé] crees que (?:ocurrir[aá]|pasar[aá]|suceder[aá])\b',r'\bantes de observar\b'],
+'infer':[r'\binfiere\b',r'\binfieran\b',r'\binferir\b',r'\bconcluye\b',r'\bconcluyan\b',r'\bconcluir\b',r'\bdeduce\b',r'\bdeduzcan\b',r'\bdeducir\b',r'\ba partir de (?:los )?(?:resultados|datos|observaciones)\b'],
+'discuss':[r'\bdiscute\b',r'\bdiscutan\b',r'\bdiscutir\b',r'\bcomenten\b',r'\bcomentar\b',r'\bconversen\b',r'\bconversar\b',r'\bdebate\b',r'\bdebatan\b',r'\bdebatir\b',r'\bcon tus compa[nñ]eros\b'],
+'solve':[r'\bresuelve\b',r'\bresuelvan\b',r'\bresolver\b',r'\bencuentra (?:la|una) soluci[oó]n\b',r'\bencontrar (?:la|una) soluci[oó]n\b'],
+'create':[r'\belabora\b',r'\belaboren\b',r'\belaborar\b',r'\bconstruye\b',r'\bconstruyan\b',r'\bconstruir\b',r'\bdise[nñ]a\b',r'\bdise[nñ]en\b',r'\bdise[nñ]ar\b',r'\bdibuja\b',r'\bdibujen\b',r'\bdibujar\b',r'\bcrea\b',r'\bcreen\b',r'\bcrear\b',r'\bprepara\b',r'\bpreparen\b',r'\bpreparar\b'],
+'decide':[r'\bdecide\b',r'\bdecidan\b',r'\bdecidir\b',r'\belige\b',r'\belijan\b',r'\belegir\b',r'\bselecciona una alternativa\b',r'\bseleccionar una alternativa\b',r'\btoma una decisi[oó]n\b',r'\btomar una decisi[oó]n\b',r'\bargumenta tu elecci[oó]n\b'],
 }
 
-# Contextual nouns/phrases are never sufficient outside directed context, and for
-# selected actions they complement rather than replace core evidence.
+# Contextual nouns/phrases are never sufficient outside directed context.
 CONTEXT_PATTERNS={
     'compare':[r'\bsemejanzas?\b',r'\bdiferencias?\b'],
     'measure':[r'\bmedici[oó]n\b',r'\bterm[oó]metro\b',r'\bcron[oó]metro\b',r'\bbalanza\b',r'\bcent[ií]metr(?:o|os)\b'],
@@ -68,12 +66,12 @@ CONTEXT_PATTERNS={
     'create':[r'\bmaqueta\b',r'\bcartel\b',r'\bmodelo\b'],
 }
 
-EXPERIMENT_DIRECT=[r'\bexperimenta\b',r'\bexperimenten\b',r'\brealiza (?:un|el) experimento\b',r'\brealicen (?:un|el) experimento\b']
+EXPERIMENT_DIRECT=[r'\bexperimenta\b',r'\bexperimenten\b',r'\bexperimentar\b',r'\brealiza (?:un|el) experimento\b',r'\brealicen (?:un|el) experimento\b',r'\brealizar (?:un|el) experimento\b']
 EXPERIMENT_CONTEXT=[r'\bexperimento\b',r'\bprocedimiento\b',r'\bhip[oó]tesis\b']
 MATERIAL_TERMS=[r'\bmateriales\b',r'\bnecesitas\b',r'\bvas a necesitar\b']
-MANIPULATION=[r'\bmezcla\b',r'\bmezclen\b',r'\bcoloca\b',r'\bcoloquen\b',r'\bagrega\b',r'\bagreguen\b',r'\bintroduce\b',r'\bintroduzcan\b',r'\bcalienta\b',r'\bcalienten\b',r'\benfr[ií]a\b',r'\bcambia\b',r'\bmanipula\b']
+MANIPULATION=[r'\bmezcla\b',r'\bmezclen\b',r'\bmezclar\b',r'\bcoloca\b',r'\bcoloquen\b',r'\bcolocar\b',r'\bagrega\b',r'\bagreguen\b',r'\bagregar\b',r'\bintroduce\b',r'\bintroduzcan\b',r'\bintroducir\b',r'\bcalienta\b',r'\bcalienten\b',r'\bcalentar\b',r'\benfr[ií]a\b',r'\benfriar\b',r'\bcambia\b',r'\bcambiar\b',r'\bmanipula\b',r'\bmanipular\b']
 COMMUNITY_CONTEXT=[r'\bfamilia\b',r'\bcomunidad\b',r'\bescuela\b',r'\bambiente\b',r'\bmedio ambiente\b',r'\bsalud\b',r'\bprevenci[oó]n\b',r'\bcuidado\b']
-ACTION_OUTWARD=[r'\bprop[oó]n\b',r'\bpropongan\b',r'\brealiza\b',r'\brealicen\b',r'\borganiza\b',r'\borganic(?:en|e)\b',r'\bparticipa\b',r'\bparticipen\b',r'\bpromueve\b',r'\bpromuevan\b',r'\baplica\b',r'\bapliquen\b',r'\bcomparte\b',r'\bcompartan\b']
+ACTION_OUTWARD=[r'\bprop[oó]n\b',r'\bpropongan\b',r'\bproponer\b',r'\brealiza\b',r'\brealicen\b',r'\brealizar\b',r'\borganiza\b',r'\borganic(?:en|e)\b',r'\borganizar\b',r'\bparticipa\b',r'\bparticipen\b',r'\bparticipar\b',r'\bpromueve\b',r'\bpromuevan\b',r'\bpromover\b',r'\baplica\b',r'\bapliquen\b',r'\baplicar\b',r'\bcomparte\b',r'\bcompartan\b',r'\bcompartir\b']
 ASSESS=[r'\bevaluaci[oó]n\b',r'\bautoevaluaci[oó]n\b',r'\bqu[eé] aprend[ií]\b',r'\blo que aprend[ií]\b']
 PROJECT=[r'\bproyecto\b']
 ACTIVITY=[r'\bactividad\b',r'\ben equipo\b',r'\bpor equipos\b',r'\btrabaja en equipo\b']
@@ -139,7 +137,7 @@ def classify_text(text, meta):
 
     types=[]
     if hits(t,ASSESS) or meta['candidate_type']=='assessment_candidate': types.append('assessment')
-    if hits(t,PROJECT) and directed or meta['candidate_type']=='project_candidate': types.append('project')
+    if (hits(t,PROJECT) and directed) or meta['candidate_type']=='project_candidate': types.append('project')
     if acts['experiment']: types.append('experiment')
     if (hits(t,ACTIVITY) and directed) or meta['candidate_type']=='activity_candidate': types.append('activity')
     if meta['candidate_type']=='question_candidate' or '?' in text or '¿' in text: types.append('question')
@@ -161,7 +159,7 @@ def classify_text(text, meta):
 def reconstruct_page_fragments(r,temp):
     gen=r['catalog_generation']; p=int(r['viewer_page']); psm=r['selected_psm'] or '3'
     img=temp/f'{gen}_{p:03d}.jpg'; outbase=temp/f'{gen}_{p:03d}'
-    urllib.request.urlretrieve(f"https://historico.conaliteg.gob.mx/c/{SOURCE_CODES[gen]}/{p:03d}.jpg",img)
+    download_with_retry(f"https://historico.conaliteg.gob.mx/c/{SOURCE_CODES[gen]}/{p:03d}.jpg",img)
     if not run_tesseract(img,outbase,psm): raise RuntimeError(f'OCR failed {r["page_id"]}')
     rows=read_tsv(outbase.with_suffix('.tsv'))
     paras=reconstruct_paragraphs(rows); units=[]
