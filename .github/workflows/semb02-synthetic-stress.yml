@@ -1,0 +1,44 @@
+name: semb02-synthetic-stress
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/semb02-synthetic-stress.yml'
+      - 'scripts/build_semb03_synthetic_stress.py'
+      - 'scripts/evaluate_semb02_synthetic_stress.py'
+      - 'scripts/semantic_classifier_B02_core.py'
+      - 'data/derived/semantic_B02_development_result.json'
+
+permissions:
+  contents: write
+
+jobs:
+  stress:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      TOKENIZERS_PARALLELISM: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build synthetic suite
+        run: python3 scripts/build_semb03_synthetic_stress.py
+      - name: Install pinned semantic runtime
+        run: python3 -m pip install --disable-pip-version-check 'sentence-transformers==5.6.1'
+      - name: Evaluate frozen SEMB 0.2 without historical outputs
+        run: python3 scripts/evaluate_semb02_synthetic_stress.py
+      - name: Publish stress suite and diagnostic
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/validation/semb03_synthetic_stress_cases.csv \
+                  data/derived/semb02_synthetic_stress_result.json \
+                  data/derived/semb02_synthetic_stress_result.md
+          if git diff --cached --quiet; then
+            echo 'No stress-test changes.'
+          else
+            git commit -m 'Publish SEMB synthetic stress diagnostic'
+            git push
+          fi
