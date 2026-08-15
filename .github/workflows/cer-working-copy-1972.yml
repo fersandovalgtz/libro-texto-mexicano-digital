@@ -1,0 +1,35 @@
+name: Prepare ephemeral 1972 CER working-copy pages
+
+on:
+  push:
+    paths:
+      - '.github/workflows/cer-working-copy-1972.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download three preregistered source pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p working
+          curl -fsSL --retry 3 --connect-timeout 15 --max-time 90 \
+            'https://historico.conaliteg.gob.mx/c/H1972P5CI084/004.jpg' -o working/LTMD-CER-1972-LEGAL.jpg
+          curl -fsSL --retry 3 --connect-timeout 15 --max-time 90 \
+            'https://historico.conaliteg.gob.mx/c/H1972P5CI084/007.jpg' -o working/LTMD-CER-1972-TOC.jpg
+          curl -fsSL --retry 3 --connect-timeout 15 --max-time 90 \
+            'https://historico.conaliteg.gob.mx/c/H1972P5CI084/026.jpg' -o working/LTMD-CER-1972-Q1_1.jpg
+          file working/*.jpg
+          sha256sum working/*.jpg > working/SHA256SUMS.txt
+      - name: Upload ephemeral working copy
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-cer-1972-working-copy-3pages
+          path: working/
+          retention-days: 1
+          if-no-files-found: error
