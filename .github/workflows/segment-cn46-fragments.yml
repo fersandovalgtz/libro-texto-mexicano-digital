@@ -1,0 +1,101 @@
+name: segment-cn46-fragments
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/segment-cn46-fragments.yml'
+      - 'scripts/segment_cn46_fragments.py'
+      - 'scripts/combine_cn46_fragment_shards.py'
+      - 'data/expansion/cn46_page_structure.csv'
+      - 'data/expansion/cn46_page_manifest.csv'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  segment:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - book: LTMD-CN4-G1972
+            slug: cn4-g1972
+          - book: LTMD-CN6-G1972
+            slug: cn6-g1972
+          - book: LTMD-CN4-G1988
+            slug: cn4-g1988
+          - book: LTMD-CN6-G1988
+            slug: cn6-g1988
+          - book: LTMD-CN4-G1993
+            slug: cn4-g1993
+          - book: LTMD-CN6-G1993-DH
+            slug: cn6-g1993-dh
+          - book: LTMD-CN6-G1993-CN
+            slug: cn6-g1993-cn
+          - book: LTMD-CN4-G2014
+            slug: cn4-g2014
+          - book: LTMD-CN6-G2014
+            slug: cn6-g2014
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OMP_THREAD_LIMIT: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install OCR runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: Segment one book
+        run: |
+          mkdir -p data/work/cn46_fragments
+          python3 scripts/segment_cn46_fragments.py \
+            --book-id '${{ matrix.book }}' \
+            --out 'data/work/cn46_fragments/fragment_${{ matrix.slug }}.csv'
+      - name: Verify shard is nonempty
+        run: |
+          test $(wc -l < 'data/work/cn46_fragments/fragment_${{ matrix.slug }}.csv') -gt 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frag-${{ matrix.slug }}
+          path: data/work/cn46_fragments/fragment_${{ matrix.slug }}.csv
+          retention-days: 14
+
+  combine:
+    needs: segment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: frag-*
+          path: data/work/cn46_fragments
+          merge-multiple: true
+      - name: Combine and validate fragment shards
+        run: python3 scripts/combine_cn46_fragment_shards.py --input-dir data/work/cn46_fragments
+      - name: Publish FRAGSEG expansion race-safely
+        run: |
+          set -euo pipefail
+          cp data/expansion/cn46_fragment_manifest.csv /tmp/cn46_fragment_manifest.csv
+          cp data/expansion/cn46_fragment_manifest_summary.csv /tmp/cn46_fragment_manifest_summary.csv
+          cp data/expansion/cn46_fragment_manifest_report.md /tmp/cn46_fragment_manifest_report.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/expansion
+            cp /tmp/cn46_fragment_manifest.csv data/expansion/
+            cp /tmp/cn46_fragment_manifest_summary.csv data/expansion/
+            cp /tmp/cn46_fragment_manifest_report.md data/expansion/
+            git add data/expansion/cn46_fragment_manifest.csv data/expansion/cn46_fragment_manifest_summary.csv data/expansion/cn46_fragment_manifest_report.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish hash-verified CN4/CN6 FRAGSEG manifest'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
