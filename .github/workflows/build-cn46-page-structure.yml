@@ -1,0 +1,55 @@
+name: build-cn46-page-structure
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-cn46-page-structure.yml'
+      - 'scripts/extract_cn46_structural_keyword_flags.py'
+      - 'scripts/classify_cn46_page_structure.py'
+      - 'data/expansion/cn46_ocr_page_metrics.csv'
+      - 'data/expansion/cn46_page_manifest.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  structure:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install OCR runtime for ephemeral structural scans
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: Extract book-aware structural keyword signals
+        run: python3 scripts/extract_cn46_structural_keyword_flags.py
+      - name: Classify expansion page structure
+        run: python3 scripts/classify_cn46_page_structure.py
+      - name: Publish PAGESTRUCT expansion race-safely
+        run: |
+          set -euo pipefail
+          cp data/expansion/cn46_structural_keyword_flags.csv /tmp/cn46_structural_keyword_flags.csv
+          cp data/expansion/cn46_page_structure.csv /tmp/cn46_page_structure.csv
+          cp data/expansion/cn46_page_structure_summary.csv /tmp/cn46_page_structure_summary.csv
+          cp data/expansion/cn46_page_structure_report.md /tmp/cn46_page_structure_report.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/expansion
+            cp /tmp/cn46_structural_keyword_flags.csv data/expansion/
+            cp /tmp/cn46_page_structure.csv data/expansion/
+            cp /tmp/cn46_page_structure_summary.csv data/expansion/
+            cp /tmp/cn46_page_structure_report.md data/expansion/
+            git add data/expansion/cn46_structural_keyword_flags.csv data/expansion/cn46_page_structure.csv data/expansion/cn46_page_structure_summary.csv data/expansion/cn46_page_structure_report.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish book-aware CN4/CN6 PAGESTRUCT'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
