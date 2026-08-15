@@ -1,9 +1,9 @@
 {
-  "integrity_version": "LTMD_INTEGRITY_0.2",
-  "generated_utc": "2026-08-15T20:20:14.340996+00:00",
-  "git_head": "a06b8a622b35744c56eda8fa7dddd53eeb8e39f2",
-  "critical_count": 48,
-  "optional_present_count": 8,
+  "integrity_version": "LTMD_INTEGRITY_0.3",
+  "generated_utc": "2026-08-15T20:20:50.946221+00:00",
+  "git_head": "bcbfe7b412ccf87c33630296ae632989f771b646",
+  "critical_count": 54,
+  "optional_present_count": 9,
   "files": [
     {
       "path": "README.md",
@@ -174,6 +174,36 @@
       "required": true
     },
     {
+      "path": "docs/PRIMARY_SOURCE_REGISTER_0_1.md",
+      "bytes": 7827,
+      "sha256": "70ab1709fdd09bfeec2982a25bff429f59ad001e3e6337b3593f0223b27b9dea",
+      "required": true
+    },
+    {
+      "path": "docs/CURRICULAR_CONTEXT_0_2.md",
+      "bytes": 7986,
+      "sha256": "c9b63efb8cc820fb3a69a37e081973a4ddb2ae24da1db8ed8802119e520e551b",
+      "required": true
+    },
+    {
+      "path": "docs/ARTICLE_OUTLINE_PILOT_0_2.md",
+      "bytes": 9353,
+      "sha256": "fad0437d018e8d6c607fcf29c820285296b7e72460ededc9fd25e1e70472c479",
+      "required": true
+    },
+    {
+      "path": "docs/PUBLICATION_STRATEGY_0_1.md",
+      "bytes": 4143,
+      "sha256": "787980a07f53726c41a6e7cddcf1fbcd6d3860c13b7d4c6ee01924c986641831",
+      "required": true
+    },
+    {
+      "path": "docs/CORPUS_EXPANSION_PLAN_0_1.md",
+      "bytes": 5031,
+      "sha256": "f7a3f339f146e26f93edea0fb0cb05cae7b845f88cbb810f3de485fbb63d4e8b",
+      "required": true
+    },
+    {
       "path": "scripts/segment_fragments.py",
       "bytes": 10424,
       "sha256": "beea7cc504f5144245977e5d99a91b67f16ecb2811632fa9c04af428437b18c1",
@@ -294,6 +324,12 @@
       "required": true
     },
     {
+      "path": "scripts/probe_catalog_search_architecture.py",
+      "bytes": 4855,
+      "sha256": "da0302aca929b53ad0b6264f16d320375b73feb572ce2f7e1c0755b4d15e0b14",
+      "required": true
+    },
+    {
       "path": "data/derived/semb02_synthetic_stress_result.json",
       "bytes": 1160,
       "sha256": "c0296ac6271dfba02b4a5bf890db5e5f6c8c986206a86faa87c5791594bd19a8",
@@ -339,6 +375,12 @@
       "path": "data/derived/semb03_readiness_report.json",
       "bytes": 2780,
       "sha256": "fed739b72317f9943839744cd63ac776a1d13fc838bcf48bffee911acecd5e33",
+      "required": false
+    },
+    {
+      "path": "data/derived/catalog_search_architecture_probe.json",
+      "bytes": 33896,
+      "sha256": "2e0b712de0be2f8e2d288fc1801227e2a578934b1684d6c9f3953ac7b042770e",
       "required": false
     }
   ]

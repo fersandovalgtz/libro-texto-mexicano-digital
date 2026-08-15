@@ -1,10 +1,10 @@
 # Manifiesto de integridad científica LTMD
 
-Versión: `LTMD_INTEGRITY_0.2`.
+Versión: `LTMD_INTEGRITY_0.3`.
 
-Commit observado: `a06b8a622b35744c56eda8fa7dddd53eeb8e39f2`.
+Commit observado: `bcbfe7b412ccf87c33630296ae632989f771b646`.
 
-Archivos críticos verificados: **48**. Artefactos derivados adicionales presentes: **8**.
+Archivos críticos verificados: **54**. Artefactos derivados adicionales presentes: **9**.
 
 Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; una desaparición de un artefacto crítico hace fallar el workflow.
 
@@ -37,6 +37,11 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `docs/METHODS_SNAPSHOT_2026-08-15.md` — 7221 bytes — `cb5f3c7db0151dd337ce24788f0ba6d48aa5f527b9f81d866454499d6df06d71`
 - `docs/AUTOMATED_WORK_CEILING_0_1.md` — 3847 bytes — `afead629c21209d80007bc789a61258d44aef41c577923a77c11d694ad9b4f8f`
 - `docs/CURRICULAR_SOURCE_AUDIT_2026-08-15.md` — 3917 bytes — `deb9674cbeef4c73d4d1ba2b41910ab60a9bcae266a45659aadcc800c1007a45`
+- `docs/PRIMARY_SOURCE_REGISTER_0_1.md` — 7827 bytes — `70ab1709fdd09bfeec2982a25bff429f59ad001e3e6337b3593f0223b27b9dea`
+- `docs/CURRICULAR_CONTEXT_0_2.md` — 7986 bytes — `c9b63efb8cc820fb3a69a37e081973a4ddb2ae24da1db8ed8802119e520e551b`
+- `docs/ARTICLE_OUTLINE_PILOT_0_2.md` — 9353 bytes — `fad0437d018e8d6c607fcf29c820285296b7e72460ededc9fd25e1e70472c479`
+- `docs/PUBLICATION_STRATEGY_0_1.md` — 4143 bytes — `787980a07f53726c41a6e7cddcf1fbcd6d3860c13b7d4c6ee01924c986641831`
+- `docs/CORPUS_EXPANSION_PLAN_0_1.md` — 5031 bytes — `f7a3f339f146e26f93edea0fb0cb05cae7b845f88cbb810f3de485fbb63d4e8b`
 - `scripts/segment_fragments.py` — 10424 bytes — `beea7cc504f5144245977e5d99a91b67f16ecb2811632fa9c04af428437b18c1`
 - `scripts/semantic_classifier_B02_core.py` — 8292 bytes — `151b470d9b14c159e17d8e91266395d8f8c1ff2fdb0eb2fdb155319e6013da6c`
 - `scripts/classify_fragments_B02.py` — 7015 bytes — `675888b0ebccd53f2b0429386576a4d3ead346270eea905d6f3933f05f44999e`
@@ -57,6 +62,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/sample_short_residual_validation.py` — 2973 bytes — `4b2b7354c195ad854abacb677b2f1280a14f20bbbc6512b4b79a662b59b8920b`
 - `scripts/audit_frontmatter_bibliography.py` — 6156 bytes — `a9c1ab048d5a6b1a285baf999edf3cf834e45e5bbfce725a526a5a8870606882`
 - `scripts/selftest_semb03_infrastructure.py` — 3696 bytes — `b157e35d6d9f477a7a70b773c88d68585377b60a47ce2afb10d850cdc51b28d1`
+- `scripts/probe_catalog_search_architecture.py` — 4855 bytes — `da0302aca929b53ad0b6264f16d320375b73feb572ce2f7e1c0755b4d15e0b14`
 
 ## Artefactos derivados adicionales presentes
 - `data/derived/semb02_synthetic_stress_result.json` — `c0296ac6271dfba02b4a5bf890db5e5f6c8c986206a86faa87c5791594bd19a8`
@@ -67,3 +73,4 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `data/derived/semb03_gate_synthetic_development.json` — `c9b4a4c054503e2ddd19411588eb8e8264d2c15bcb5c8e4e8c179a6a0931c9c5`
 - `data/derived/semb03_label_heads_synthetic_development.json` — `7ac6f22a2f9fa3b89f8814f03c17539dcf3e5b3ce812e5638b0653457030b107`
 - `data/derived/semb03_readiness_report.json` — `fed739b72317f9943839744cd63ac776a1d13fc838bcf48bffee911acecd5e33`
+- `data/derived/catalog_search_architecture_probe.json` — `2e0b712de0be2f8e2d288fc1801227e2a578934b1684d6c9f3953ac7b042770e`
