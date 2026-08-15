@@ -1,0 +1,47 @@
+{
+  "criteria_version": "SEMB03_ACCEPTANCE_0.1",
+  "frozen_before_human_reference": true,
+  "human_reliability": {
+    "double_coded_n": 120,
+    "actionable_exact_agreement_min": 0.85,
+    "action_multilabel_mean_f1_min": 0.75,
+    "position_multilabel_mean_f1_min": 0.70,
+    "category_positive_union_min_for_floor": 10,
+    "category_f1_floor": 0.50
+  },
+  "locked_validation": {
+    "n": 160,
+    "actionable": {
+      "balanced_accuracy_min": 0.80,
+      "sensitivity_min": 0.75,
+      "specificity_min": 0.75
+    },
+    "actions": {
+      "micro_f1_min": 0.75,
+      "macro_f1_min": 0.60,
+      "macro_min_human_positives": 5,
+      "category_f1_floor": 0.45,
+      "category_floor_min_human_positives": 10
+    },
+    "positions": {
+      "micro_f1_min": 0.70,
+      "macro_f1_min": 0.55,
+      "macro_min_human_positives": 5,
+      "category_f1_floor": 0.40,
+      "category_floor_min_human_positives": 10
+    },
+    "coverage": {
+      "certain_output_rate_min": 0.70,
+      "max_generation_uncertainty_gap_pp": 20.0,
+      "silent_truncation_allowed": false
+    }
+  },
+  "anti_leakage": {
+    "historical_outcomes_may_tune_model": false,
+    "classifier_A_outputs_may_tune_model": false,
+    "classifier_B02_historical_outputs_may_tune_model": false,
+    "locked_validation_may_tune_model": false,
+    "development_reference_may_tune_model": true,
+    "predeclared_synthetic_tests_may_tune_model": true
+  }
+}
