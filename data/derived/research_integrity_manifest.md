@@ -2,14 +2,14 @@
 
 Versión: `LTMD_INTEGRITY_0.4`.
 
-Commit observado: `08bfdbb4e87cb2171962078bf3af8e1e521f6bd7`.
+Commit observado: `b073418b7636787f19dcdf90572c9cd09eeffb14`.
 
 Archivos críticos verificados: **102**. Artefactos derivados adicionales presentes: **12**.
 
 Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; una desaparición de un artefacto crítico hace fallar el workflow.
 
 ## Archivos críticos
-- `README.md` — 12618 bytes — `dc375e2b6b0078821b85f7c369705c6acd3e8c7d5dfd331eca1e1a5b825cbef2`
+- `README.md` — 17576 bytes — `1709c5624c98f1ee700cc5bff1c4c5f7795d7b95f443cdc9e56ad67eccf9930b`
 - `CITATION.cff` — 509 bytes — `5e7fcc182da9eafa35d85ee5b2428359d50dda53933564a570cde8cee2ef781a`
 - `data/book_inventory.csv` — 3003 bytes — `4b9ae106d4b3ed2e1b30203e46d46f6280e1c3f6b22b62791beaab1e677446c4`
 - `data/derived/page_structure.csv` — 107957 bytes — `9528558068ac52b45f05fa9c75b9336a8150d57bf2b3a9a9225b816ed68e82ad`
