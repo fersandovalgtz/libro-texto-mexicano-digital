@@ -1,0 +1,642 @@
+{
+  "validation_version": "VALIDATION_B02_LOCKED_0.1",
+  "semantic_version": "SEMB_0.2",
+  "model": "intfloat/multilingual-e5-small",
+  "model_revision": "fd1525a9fd15316a2d503bf26ab031a61d056e98",
+  "selected_method": "max_anchor",
+  "action_gate_threshold": 0.0,
+  "action_metrics": {
+    "top1": 14,
+    "top3": 15,
+    "worst_rank": 4,
+    "n": 16
+  },
+  "position_metrics": {
+    "top1": 8,
+    "top3": 9,
+    "worst_rank": 3,
+    "n": 9
+  },
+  "negative_correct": 8,
+  "negative_n": 8,
+  "checks": {
+    "actions_top1_ge_12_of_16": true,
+    "actions_top3_ge_15_of_16": true,
+    "actions_worst_rank_le_4": true,
+    "negative_abstain_or_uncertain_ge_7_of_8": true,
+    "positions_top1_ge_7_of_9": true,
+    "positions_top3_eq_9_of_9": true,
+    "positions_worst_rank_le_3": true
+  },
+  "passed": true,
+  "action_cases": [
+    {
+      "expected": "observe",
+      "rank": 1,
+      "expected_score": 0.908054,
+      "top_label": "observe",
+      "top_score": 0.908054,
+      "top3": [
+        {
+          "label": "observe",
+          "score": 0.908054
+        },
+        {
+          "label": "experiment",
+          "score": 0.881966
+        },
+        {
+          "label": "predict",
+          "score": 0.863405
+        }
+      ]
+    },
+    {
+      "expected": "describe",
+      "rank": 1,
+      "expected_score": 0.875971,
+      "top_label": "describe",
+      "top_score": 0.875971,
+      "top3": [
+        {
+          "label": "describe",
+          "score": 0.875971
+        },
+        {
+          "label": "experiment",
+          "score": 0.863699
+        },
+        {
+          "label": "observe",
+          "score": 0.861368
+        }
+      ]
+    },
+    {
+      "expected": "recall",
+      "rank": 1,
+      "expected_score": 0.882789,
+      "top_label": "recall",
+      "top_score": 0.882789,
+      "top3": [
+        {
+          "label": "recall",
+          "score": 0.882789
+        },
+        {
+          "label": "describe",
+          "score": 0.859002
+        },
+        {
+          "label": "compare",
+          "score": 0.853682
+        }
+      ]
+    },
+    {
+      "expected": "explain",
+      "rank": 1,
+      "expected_score": 0.897599,
+      "top_label": "explain",
+      "top_score": 0.897599,
+      "top3": [
+        {
+          "label": "explain",
+          "score": 0.897599
+        },
+        {
+          "label": "experiment",
+          "score": 0.887103
+        },
+        {
+          "label": "observe",
+          "score": 0.869739
+        }
+      ]
+    },
+    {
+      "expected": "compare",
+      "rank": 1,
+      "expected_score": 0.926281,
+      "top_label": "compare",
+      "top_score": 0.926281,
+      "top3": [
+        {
+          "label": "compare",
+          "score": 0.926281
+        },
+        {
+          "label": "decide",
+          "score": 0.870781
+        },
+        {
+          "label": "solve",
+          "score": 0.866541
+        }
+      ]
+    },
+    {
+      "expected": "classify",
+      "rank": 1,
+      "expected_score": 0.906942,
+      "top_label": "classify",
+      "top_score": 0.906942,
+      "top3": [
+        {
+          "label": "classify",
+          "score": 0.906942
+        },
+        {
+          "label": "describe",
+          "score": 0.87159
+        },
+        {
+          "label": "observe",
+          "score": 0.853353
+        }
+      ]
+    },
+    {
+      "expected": "measure",
+      "rank": 4,
+      "expected_score": 0.860673,
+      "top_label": "experiment",
+      "top_score": 0.873795,
+      "top3": [
+        {
+          "label": "experiment",
+          "score": 0.873795
+        },
+        {
+          "label": "decide",
+          "score": 0.863442
+        },
+        {
+          "label": "investigate",
+          "score": 0.86207
+        }
+      ]
+    },
+    {
+      "expected": "experiment",
+      "rank": 1,
+      "expected_score": 0.890362,
+      "top_label": "experiment",
+      "top_score": 0.890362,
+      "top3": [
+        {
+          "label": "experiment",
+          "score": 0.890362
+        },
+        {
+          "label": "observe",
+          "score": 0.874076
+        },
+        {
+          "label": "decide",
+          "score": 0.854169
+        }
+      ]
+    },
+    {
+      "expected": "investigate",
+      "rank": 1,
+      "expected_score": 0.888876,
+      "top_label": "investigate",
+      "top_score": 0.888876,
+      "top3": [
+        {
+          "label": "investigate",
+          "score": 0.888876
+        },
+        {
+          "label": "solve",
+          "score": 0.886306
+        },
+        {
+          "label": "decide",
+          "score": 0.870575
+        }
+      ]
+    },
+    {
+      "expected": "predict",
+      "rank": 1,
+      "expected_score": 0.890507,
+      "top_label": "predict",
+      "top_score": 0.890507,
+      "top3": [
+        {
+          "label": "predict",
+          "score": 0.890507
+        },
+        {
+          "label": "act_on_environment",
+          "score": 0.864853
+        },
+        {
+          "label": "recall",
+          "score": 0.853175
+        }
+      ]
+    },
+    {
+      "expected": "infer",
+      "rank": 1,
+      "expected_score": 0.892487,
+      "top_label": "infer",
+      "top_score": 0.892487,
+      "top3": [
+        {
+          "label": "infer",
+          "score": 0.892487
+        },
+        {
+          "label": "experiment",
+          "score": 0.876097
+        },
+        {
+          "label": "solve",
+          "score": 0.872283
+        }
+      ]
+    },
+    {
+      "expected": "discuss",
+      "rank": 1,
+      "expected_score": 0.866445,
+      "top_label": "discuss",
+      "top_score": 0.866445,
+      "top3": [
+        {
+          "label": "discuss",
+          "score": 0.866445
+        },
+        {
+          "label": "investigate",
+          "score": 0.860938
+        },
+        {
+          "label": "compare",
+          "score": 0.857005
+        }
+      ]
+    },
+    {
+      "expected": "solve",
+      "rank": 1,
+      "expected_score": 0.903534,
+      "top_label": "solve",
+      "top_score": 0.903534,
+      "top3": [
+        {
+          "label": "solve",
+          "score": 0.903534
+        },
+        {
+          "label": "decide",
+          "score": 0.886493
+        },
+        {
+          "label": "investigate",
+          "score": 0.87346
+        }
+      ]
+    },
+    {
+      "expected": "create",
+      "rank": 3,
+      "expected_score": 0.875671,
+      "top_label": "explain",
+      "top_score": 0.903694,
+      "top3": [
+        {
+          "label": "explain",
+          "score": 0.903694
+        },
+        {
+          "label": "experiment",
+          "score": 0.875956
+        },
+        {
+          "label": "create",
+          "score": 0.875671
+        }
+      ]
+    },
+    {
+      "expected": "decide",
+      "rank": 1,
+      "expected_score": 0.916122,
+      "top_label": "decide",
+      "top_score": 0.916122,
+      "top3": [
+        {
+          "label": "decide",
+          "score": 0.916122
+        },
+        {
+          "label": "experiment",
+          "score": 0.868581
+        },
+        {
+          "label": "solve",
+          "score": 0.867963
+        }
+      ]
+    },
+    {
+      "expected": "act_on_environment",
+      "rank": 1,
+      "expected_score": 0.89915,
+      "top_label": "act_on_environment",
+      "top_score": 0.89915,
+      "top3": [
+        {
+          "label": "act_on_environment",
+          "score": 0.89915
+        },
+        {
+          "label": "decide",
+          "score": 0.863459
+        },
+        {
+          "label": "solve",
+          "score": 0.848836
+        }
+      ]
+    }
+  ],
+  "position_cases": [
+    {
+      "expected": "receiver",
+      "rank": 1,
+      "expected_score": 0.884088,
+      "top_label": "receiver",
+      "top_score": 0.884088,
+      "top3": [
+        {
+          "label": "receiver",
+          "score": 0.884088
+        },
+        {
+          "label": "community_agent",
+          "score": 0.87338
+        },
+        {
+          "label": "decision_maker",
+          "score": 0.841325
+        }
+      ]
+    },
+    {
+      "expected": "instruction_follower",
+      "rank": 1,
+      "expected_score": 0.881445,
+      "top_label": "instruction_follower",
+      "top_score": 0.881445,
+      "top3": [
+        {
+          "label": "instruction_follower",
+          "score": 0.881445
+        },
+        {
+          "label": "investigator",
+          "score": 0.852154
+        },
+        {
+          "label": "experimenter",
+          "score": 0.849818
+        }
+      ]
+    },
+    {
+      "expected": "observer",
+      "rank": 1,
+      "expected_score": 0.903149,
+      "top_label": "observer",
+      "top_score": 0.903149,
+      "top3": [
+        {
+          "label": "observer",
+          "score": 0.903149
+        },
+        {
+          "label": "receiver",
+          "score": 0.870732
+        },
+        {
+          "label": "investigator",
+          "score": 0.861108
+        }
+      ]
+    },
+    {
+      "expected": "experimenter",
+      "rank": 1,
+      "expected_score": 0.895328,
+      "top_label": "experimenter",
+      "top_score": 0.895328,
+      "top3": [
+        {
+          "label": "experimenter",
+          "score": 0.895328
+        },
+        {
+          "label": "investigator",
+          "score": 0.857568
+        },
+        {
+          "label": "observer",
+          "score": 0.855028
+        }
+      ]
+    },
+    {
+      "expected": "investigator",
+      "rank": 3,
+      "expected_score": 0.853891,
+      "top_label": "receiver",
+      "top_score": 0.864912,
+      "top3": [
+        {
+          "label": "receiver",
+          "score": 0.864912
+        },
+        {
+          "label": "reasoner",
+          "score": 0.864743
+        },
+        {
+          "label": "investigator",
+          "score": 0.853891
+        }
+      ]
+    },
+    {
+      "expected": "reasoner",
+      "rank": 1,
+      "expected_score": 0.903391,
+      "top_label": "reasoner",
+      "top_score": 0.903391,
+      "top3": [
+        {
+          "label": "reasoner",
+          "score": 0.903391
+        },
+        {
+          "label": "investigator",
+          "score": 0.863015
+        },
+        {
+          "label": "decision_maker",
+          "score": 0.854664
+        }
+      ]
+    },
+    {
+      "expected": "collaborator",
+      "rank": 1,
+      "expected_score": 0.870214,
+      "top_label": "collaborator",
+      "top_score": 0.870214,
+      "top3": [
+        {
+          "label": "collaborator",
+          "score": 0.870214
+        },
+        {
+          "label": "reasoner",
+          "score": 0.850965
+        },
+        {
+          "label": "community_agent",
+          "score": 0.842934
+        }
+      ]
+    },
+    {
+      "expected": "decision_maker",
+      "rank": 1,
+      "expected_score": 0.894684,
+      "top_label": "decision_maker",
+      "top_score": 0.894684,
+      "top3": [
+        {
+          "label": "decision_maker",
+          "score": 0.894684
+        },
+        {
+          "label": "investigator",
+          "score": 0.858462
+        },
+        {
+          "label": "reasoner",
+          "score": 0.853936
+        }
+      ]
+    },
+    {
+      "expected": "community_agent",
+      "rank": 1,
+      "expected_score": 0.866056,
+      "top_label": "community_agent",
+      "top_score": 0.866056,
+      "top3": [
+        {
+          "label": "community_agent",
+          "score": 0.866056
+        },
+        {
+          "label": "collaborator",
+          "score": 0.841502
+        },
+        {
+          "label": "experimenter",
+          "score": 0.830832
+        }
+      ]
+    }
+  ],
+  "negative_cases": [
+    {
+      "text_sha256": "a0a96e308be83019d513ec1dcec0d86a08e872ababa5e2c155fc2c4699065ca5",
+      "label_count": 0,
+      "labels": [],
+      "uncertain": 1,
+      "gate_margin": -0.005328,
+      "correct_abstain_or_uncertain": true
+    },
+    {
+      "text_sha256": "d2ffbc63201f1808fc2f0226f5f67a6cdc0d6693ea5585f671bcac07137a2a84",
+      "label_count": 0,
+      "labels": [],
+      "uncertain": 1,
+      "gate_margin": -0.016803,
+      "correct_abstain_or_uncertain": true
+    },
+    {
+      "text_sha256": "decf4f7adda52f18097a9cb4fd67f0b10b3860887b66d928271937d855560f8b",
+      "label_count": 1,
+      "labels": [
+        "measure"
+      ],
+      "uncertain": 1,
+      "gate_margin": 0.011409,
+      "correct_abstain_or_uncertain": true
+    },
+    {
+      "text_sha256": "aeb9485bdc414e17444ae68ad019e5132f306d812a94e17f4fbd12bdefc25a66",
+      "label_count": 2,
+      "labels": [
+        "compare",
+        "explain"
+      ],
+      "uncertain": 1,
+      "gate_margin": 0.001856,
+      "correct_abstain_or_uncertain": true
+    },
+    {
+      "text_sha256": "e562e6b574fe88e74cc4d481e03319f0b3547642e969e0262b200c2b57abccb3",
+      "label_count": 0,
+      "labels": [],
+      "uncertain": 1,
+      "gate_margin": -0.012295,
+      "correct_abstain_or_uncertain": true
+    },
+    {
+      "text_sha256": "dd9ac908cec4da4f3c6c63975850c079fdeba7d1ca06b0dbdfd2266e7b761418",
+      "label_count": 3,
+      "labels": [
+        "act_on_environment",
+        "classify",
+        "compare"
+      ],
+      "uncertain": 1,
+      "gate_margin": 0.006846,
+      "correct_abstain_or_uncertain": true
+    },
+    {
+      "text_sha256": "61149a6a62af683e14ffaf6d0739662c7e798b0026b435cffa830a9313fff624",
+      "label_count": 0,
+      "labels": [],
+      "uncertain": 1,
+      "gate_margin": -0.019134,
+      "correct_abstain_or_uncertain": true
+    },
+    {
+      "text_sha256": "8d85dfa5accae0a4ace497d4199d0adf41ef080798195e9e537b88a20e0a5ee5",
+      "label_count": 3,
+      "labels": [
+        "observe",
+        "describe",
+        "predict"
+      ],
+      "uncertain": 1,
+      "gate_margin": 0.006395,
+      "correct_abstain_or_uncertain": true
+    }
+  ],
+  "corpus_accessed": false,
+  "ruleA_accessed": false
+}
