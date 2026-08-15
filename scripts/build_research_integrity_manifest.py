@@ -88,7 +88,7 @@ CRITICAL = [
     'data/catalog/ciencias_naturales_family_asset_readiness.md',
     'data/catalog/cn2018_2019_asset_identity.csv',
     'data/catalog/cn2018_2019_asset_identity.md',
-    'data/catalog/cn_catalog_alias_relationships.csv',
+    'data/catalog/cn2018_2019_catalog_alias_relationships.csv',
     'data/catalog/cn2008_internal_unserved_audit.csv',
     'data/catalog/cn2008_internal_unserved_audit.md',
 
@@ -103,13 +103,22 @@ CRITICAL = [
     'data/expansion/cn46_page_structure_summary.csv',
     'data/expansion/cn46_fragment_manifest.csv',
     'data/expansion/cn46_fragment_manifest_summary.csv',
-    'data/expansion/cn46_fragment_sequence_gaps.csv',
+    'data/expansion/cn46_fragment_sequence_gap_audit.csv',
     'data/expansion/cn46_fragment_manifest_report.md',
+
+    # CN4/CN6 document-dependence and reversible unique-content evidence
     'data/expansion/document_relationships_0_1.csv',
     'data/expansion/document_clusters_0_1.csv',
     'data/expansion/cn6_1993_document_relation.csv',
     'data/expansion/cn4_1972_1988_page_differences.csv',
     'data/expansion/cn4_1972_1988_changed_page_similarity.csv',
+    'data/expansion/cn4_1972_1988_fragment_reuse.csv',
+    'data/expansion/cn46_exact_page_overlap.csv',
+    'data/expansion/cn46_exact_fragment_overlap.csv',
+    'data/expansion/cn46_fragment_unique_content_map.csv',
+    'data/expansion/cn46_unique_content_units.csv',
+    'data/expansion/cn46_unique_content_summary.csv',
+    'data/expansion/cn46_unique_content_report.md',
 
     # Ciencias Naturales Wave 2 — frozen queue through FRAGSEG
     'data/expansion/cn_wave2_ingestion_queue.csv',
@@ -197,7 +206,6 @@ OPTIONAL = [
     'data/derived/semb03_label_heads_synthetic_development.json',
     'data/derived/semb03_readiness_report.json',
     'data/derived/catalog_search_architecture_probe.json',
-    'data/expansion/cn46_exact_page_overlap.csv',
     'data/expansion/cn46_no_text_visual_proxies.csv',
     # These become expected only after legitimate human-reference gates.
     'data/validation/semb03_human_reference_consensus.csv',
@@ -257,7 +265,7 @@ def main() -> None:
         'integrity_version': VERSION,
         'generated_utc': datetime.now(timezone.utc).isoformat(),
         'git_head': head(),
-        'scope': 'CN5 pilot + closed CN4/CN6 expansion + closed Ciencias Naturales Wave 2 + strict-family asset readiness + prehuman SEMB 0.3 infrastructure + methods article 0.2',
+        'scope': 'CN5 pilot + closed CN4/CN6 expansion + closed Ciencias Naturales Wave 2 + strict-family asset readiness + document-dependence/unique-content evidence + prehuman SEMB 0.3 infrastructure + methods article 0.2',
         'critical_count': len(CRITICAL),
         'critical_present_count': len(CRITICAL) - len(missing),
         'missing_critical': missing,
@@ -278,7 +286,7 @@ def main() -> None:
         '',
         f'Commit observado: `{manifest["git_head"]}`.',
         '',
-        'Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.',
+        'Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.',
         '',
         f'Archivos críticos presentes: **{manifest["critical_present_count"]}/{manifest["critical_count"]}**.',
         f'Artefactos opcionales presentes: **{manifest["optional_present_count"]}**.',
