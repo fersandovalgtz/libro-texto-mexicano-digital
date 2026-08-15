@@ -39,7 +39,20 @@ jobs:
           allowed={'textual','mixed_text_image','visual_only','front_matter','toc_or_navigation','bibliography_or_credits','unknown'}
           assert set(r['primary_structure'] for r in rows) <= allowed
           assert all(r['classifier_version']=='PAGESTRUCT_0.1' for r in rows)
+          known_visual={
+              'LTMD-CN5-G2014-VP068',
+              'LTMD-CN5-G2014-VP078',
+              'LTMD-CN5-G2014-VP094',
+              'LTMD-CN5-G2014-VP118',
+          }
+          got={r['page_id']:r['primary_structure'] for r in rows if r['page_id'] in known_visual}
+          assert set(got)==known_visual, got
+          assert all(v=='visual_only' for v in got.values()), got
+          unknown=sum(r['primary_structure']=='unknown' for r in rows)
+          assert unknown/len(rows) <= 0.10, unknown
           print('validated rows:', len(rows))
+          print('known visual controls:', got)
+          print('unknown:', unknown, f'({unknown/len(rows):.2%})')
           PY
           cat data/derived/page_structure_summary.csv
       - name: Publish non-substitutive derived datasets
@@ -51,5 +64,6 @@ jobs:
             echo 'No derived changes to commit.'
           else
             git commit -m 'data: publish structural page classification 0.1'
-            git push
+            git pull --rebase origin main
+            git push origin HEAD:main
           fi
