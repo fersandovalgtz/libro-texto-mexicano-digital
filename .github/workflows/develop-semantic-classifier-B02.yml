@@ -7,8 +7,12 @@ on:
       - '.github/workflows/develop-semantic-classifier-B02.yml'
       - 'tests/develop_semantic_classifier_B02.py'
 
+concurrency:
+  group: semb02-development-main
+  cancel-in-progress: true
+
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   develop:
@@ -22,3 +26,33 @@ jobs:
         run: python3 -m pip install --disable-pip-version-check 'sentence-transformers==5.6.1'
       - name: Select SEMB 0.2 configuration on synthetic development set
         run: python3 tests/develop_semantic_classifier_B02.py
+      - name: Validate machine-readable development result
+        run: |
+          python3 - <<'PY'
+          import json
+          p='data/derived/semantic_B02_development_result.json'
+          d=json.load(open(p,encoding='utf-8'))
+          assert d['development_version']=='SEMB02_DEV_0.1'
+          assert d['model']=='intfloat/multilingual-e5-small'
+          assert d['model_revision']=='fd1525a9fd15316a2d503bf26ab031a61d056e98'
+          assert d['selected_method'] in {'average_anchor','max_anchor'}
+          assert d['action_gate']['selected_threshold'] in {0.0,0.02,0.04,0.06}
+          assert d['validation_B02_opened'] is False
+          print(json.dumps(d,ensure_ascii=False,indent=2))
+          PY
+      - name: Publish synthetic-only development result race-safely
+        run: |
+          set -euo pipefail
+          cp data/derived/semantic_B02_development_result.json /tmp/semantic_B02_development_result.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/semantic_B02_development_result.json data/derived/
+          git add data/derived/semantic_B02_development_result.json
+          if git diff --cached --quiet; then
+            echo 'No development-result changes.'
+          else
+            git commit -m 'data: publish SEMB 0.2 synthetic development selection'
+            git push origin HEAD:main
+          fi
