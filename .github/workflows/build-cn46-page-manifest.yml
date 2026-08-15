@@ -1,0 +1,45 @@
+name: build-cn46-page-manifest
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-cn46-page-manifest.yml'
+      - 'scripts/build_cn46_page_manifest.py'
+      - 'data/expansion/cn46_inventory_preliminary.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  manifest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Stream and hash all CN4/CN6 source JPEGs
+        run: python3 scripts/build_cn46_page_manifest.py
+      - name: Publish page manifest race-safely
+        run: |
+          set -euo pipefail
+          cp data/expansion/cn46_page_manifest.csv /tmp/cn46_page_manifest.csv
+          cp data/expansion/cn46_page_manifest_summary.csv /tmp/cn46_page_manifest_summary.csv
+          cp data/expansion/cn46_page_manifest_report.md /tmp/cn46_page_manifest_report.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/expansion
+            cp /tmp/cn46_page_manifest.csv data/expansion/
+            cp /tmp/cn46_page_manifest_summary.csv data/expansion/
+            cp /tmp/cn46_page_manifest_report.md data/expansion/
+            git add data/expansion/cn46_page_manifest.csv data/expansion/cn46_page_manifest_summary.csv data/expansion/cn46_page_manifest_report.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish hashed CN4/CN6 page manifest'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
