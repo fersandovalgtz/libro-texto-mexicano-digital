@@ -1,0 +1,45 @@
+name: diagnose-semb02-uncertainty
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/diagnose-semb02-uncertainty.yml'
+      - 'scripts/diagnose_semb02_uncertainty.py'
+      - 'data/derived/fragment_labels_B.csv'
+      - 'data/derived/fragment_manifest.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run frozen-output uncertainty diagnostic
+        run: python3 scripts/diagnose_semb02_uncertainty.py
+      - name: Verify outputs
+        run: |
+          test -s data/derived/semb02_uncertainty_diagnostic.csv
+          test -s data/derived/semb02_uncertainty_by_candidate_type.csv
+          test -s data/derived/semb02_uncertainty_by_token_bin.csv
+          test -s data/derived/semb02_uncertainty_quantiles.csv
+          test -s data/derived/semb02_uncertainty_diagnostic.md
+      - name: Publish diagnostic outputs
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/derived/semb02_uncertainty_diagnostic.csv \
+                  data/derived/semb02_uncertainty_by_candidate_type.csv \
+                  data/derived/semb02_uncertainty_by_token_bin.csv \
+                  data/derived/semb02_uncertainty_quantiles.csv \
+                  data/derived/semb02_uncertainty_diagnostic.md
+          if git diff --cached --quiet; then
+            echo 'No diagnostic changes to publish.'
+          else
+            git commit -m 'Publish SEMB 0.2 uncertainty diagnostic'
+            git push
+          fi
