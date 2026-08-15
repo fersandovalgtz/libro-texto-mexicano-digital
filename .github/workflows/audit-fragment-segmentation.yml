@@ -7,6 +7,10 @@ on:
       - '.github/workflows/audit-fragment-segmentation.yml'
       - 'scripts/audit_fragment_manifest.py'
 
+concurrency:
+  group: fragment-audit-main
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -27,17 +31,24 @@ jobs:
               rs=[r for r in rows if r['catalog_generation']==g]
               counts=sorted(int(r['fragment_count']) for r in rs)
               mean=sum(counts)/len(counts)
-              print(g,'pages',len(rs),'mean fragments/page',round(mean,2),'min',min(counts),'max',max(counts))
+              maxrow=max(rs,key=lambda r:int(r['fragment_count']))
+              print(g,'pages',len(rs),'mean fragments/page',round(mean,2),'min',min(counts),'max',max(counts),'max_page',maxrow['page_id'])
           PY
-      - name: Publish audit derivatives
+      - name: Publish audit derivatives race-safely
         run: |
+          set -euo pipefail
+          mkdir -p /tmp/fragaudit-derived
+          cp data/derived/fragment_segmentation_audit.csv /tmp/fragaudit-derived/
+          cp data/derived/fragment_page_density_audit.csv /tmp/fragaudit-derived/
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/fragaudit-derived/* data/derived/
           git add data/derived/fragment_segmentation_audit.csv data/derived/fragment_page_density_audit.csv
           if git diff --cached --quiet; then
             echo 'No audit changes.'
           else
-            git commit -m 'data: publish fragment segmentation audit 0.1'
-            git pull --rebase origin main
+            git commit -m 'data: publish fragment segmentation audit 0.2'
             git push origin HEAD:main
           fi
