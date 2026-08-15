@@ -1,0 +1,49 @@
+name: Compare pedagogical classifiers A and B
+
+on:
+  push:
+    paths:
+      - 'data/derived/fragment_labels_B_audit.csv'
+
+concurrency:
+  group: classifier-ab-agreement-main
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify audit and label coverage
+        run: |
+          python3 - <<'PY'
+          import csv
+          aud=list(csv.DictReader(open('data/derived/fragment_labels_B_audit.csv',encoding='utf-8')))
+          allrow=[r for r in aud if r['catalog_generation']=='ALL'][0]
+          assert allrow['audit_version']=='SEMB_AUDIT_0.1'
+          assert int(allrow['fragment_count'])==9594
+          assert int(allrow['action_label_limit_violations'])==0
+          assert int(allrow['position_label_limit_violations'])==0
+          assert int(allrow['labeled_action_below_gate_count'])==0
+          print('SEMB audit verified; A/B comparison allowed.')
+          PY
+      - name: Compute preregistered A/B agreement
+        run: python3 scripts/compare_classifiers_AB.py
+      - name: Publish agreement derivatives race-safely
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ab-derived
+          cp data/derived/classifier_AB_category_agreement.csv /tmp/ab-derived/
+          cp data/derived/classifier_AB_fragment_agreement.csv /tmp/ab-derived/
+          cp data/derived/classifier_AB_agreement_summary.csv /tmp/ab-derived/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/ab-derived/* data/derived/
+          git add data/derived/classifier_AB_category_agreement.csv data/derived/classifier_AB_fragment_agreement.csv data/derived/classifier_AB_agreement_summary.csv
+          git commit -m 'data: publish computational classifier A/B agreement 0.1'
+          git push origin HEAD:main
