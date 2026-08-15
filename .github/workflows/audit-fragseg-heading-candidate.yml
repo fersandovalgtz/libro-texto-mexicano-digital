@@ -1,0 +1,47 @@
+name: audit-fragseg-heading-candidate
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-fragseg-heading-candidate.yml'
+      - 'scripts/audit_fragseg_heading_candidate.py'
+      - 'data/derived/fragment_manifest.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Audit heading_candidate heuristic
+        run: python3 scripts/audit_fragseg_heading_candidate.py
+      - name: Verify outputs
+        run: |
+          python3 - <<'PY'
+          import csv
+          p='data/derived/fragseg_heading_candidate_audit.csv'
+          r=list(csv.DictReader(open(p,encoding='utf-8')))
+          assert len(r)==4
+          assert [x['generation'] for x in r]==['1972','1988','1993','2014']
+          assert all(x['audit_version']=='FRAGSEG_HEADING_AUDIT_0.1' for x in r)
+          print('verified',len(r))
+          PY
+      - name: Publish audit outputs
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/derived/fragseg_heading_candidate_audit.csv \
+                  data/derived/fragseg_heading_candidate_token_profile.csv \
+                  data/derived/fragseg_heading_candidate_page_profile.csv \
+                  data/derived/fragseg_heading_candidate_audit.md
+          if git diff --cached --quiet; then
+            echo 'No audit changes to publish.'
+          else
+            git commit -m 'Publish FRAGSEG heading-candidate audit'
+            git push
+          fi
