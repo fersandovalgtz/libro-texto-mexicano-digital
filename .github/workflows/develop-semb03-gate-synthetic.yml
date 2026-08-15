@@ -1,0 +1,51 @@
+name: develop-semb03-gate-synthetic
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/develop-semb03-gate-synthetic.yml'
+      - 'scripts/develop_semb03_gate_synthetic.py'
+      - 'data/validation/semb03_synthetic_stress_cases.csv'
+      - 'scripts/semantic_classifier_B02_core.py'
+      - 'data/derived/semantic_B02_development_result.json'
+
+permissions:
+  contents: write
+
+jobs:
+  develop:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      TOKENIZERS_PARALLELISM: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify synthetic suite exists and install pinned runtime
+        run: |
+          test -s data/validation/semb03_synthetic_stress_cases.csv
+          python3 -m pip install --disable-pip-version-check 'sentence-transformers==5.6.1'
+      - name: Develop candidate gates with synthetic-only CV
+        run: python3 scripts/develop_semb03_gate_synthetic.py
+      - name: Publish provisional development artifact race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-gate-dev
+          mkdir -p /tmp/ltmd-gate-dev
+          cp data/derived/semb03_gate_synthetic_development.json /tmp/ltmd-gate-dev/
+          cp data/derived/semb03_gate_synthetic_development.md /tmp/ltmd-gate-dev/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-gate-dev/* data/derived/
+            git add data/derived/semb03_gate_synthetic_development.json data/derived/semb03_gate_synthetic_development.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish synthetic-only SEMB 0.3 gate development'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
