@@ -1,0 +1,75 @@
+name: Resume LTMD analytical chain after B02 recovery
+
+on:
+  push:
+    paths:
+      - '.github/workflows/resume-analysis-chain.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  resume:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify recovered B02 corpus layer
+        run: |
+          python3 - <<'PY'
+          import csv
+          b=list(csv.DictReader(open('data/derived/fragment_labels_B.csv',encoding='utf-8')))
+          m=list(csv.DictReader(open('data/derived/fragment_manifest.csv',encoding='utf-8')))
+          assert len(b)==len(m)==9594
+          assert {r['fragment_id'] for r in b}=={r['fragment_id'] for r in m}
+          print('Recovered B02 labels verified:',len(b))
+          PY
+      - name: Audit validated SEMB 0.2 labels
+        run: python3 scripts/audit_semantic_B02_labels.py
+      - name: Verify audit gate
+        run: |
+          python3 - <<'PY'
+          import csv
+          aud=list(csv.DictReader(open('data/derived/fragment_labels_B_audit.csv',encoding='utf-8')))
+          r=[x for x in aud if x['catalog_generation']=='ALL'][0]
+          assert r['audit_version']=='SEMB_AUDIT_0.1'
+          assert int(r['fragment_count'])==9594
+          assert int(r['action_label_limit_violations'])==0
+          assert int(r['position_label_limit_violations'])==0
+          assert int(r['labeled_action_below_gate_count'])==0
+          print('SEMB audit passed')
+          PY
+      - name: Compute preregistered A/B agreement
+        run: python3 scripts/compare_classifiers_AB.py
+      - name: Build preregistered historical comparison
+        run: python3 scripts/build_historical_comparison.py
+      - name: Generate exploratory historical findings
+        run: python3 scripts/generate_exploratory_findings.py
+      - name: Publish complete recovered analytical chain
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            data/derived/fragment_labels_B_audit.csv \
+            data/derived/classifier_AB_category_agreement.csv \
+            data/derived/classifier_AB_fragment_agreement.csv \
+            data/derived/classifier_AB_agreement_summary.csv \
+            data/derived/fragment_analysis_dataset.csv \
+            data/derived/historical_action_prevalence.csv \
+            data/derived/historical_position_prevalence.csv \
+            data/derived/historical_action_composition.csv \
+            data/derived/historical_position_composition.csv \
+            data/derived/historical_transitions.csv \
+            data/derived/historical_family_prevalence.csv \
+            data/derived/historical_comparison_summary.md \
+            data/derived/exploratory_robust_transitions.csv \
+            data/derived/exploratory_method_sensitive_transitions.csv \
+            data/derived/exploratory_category_stability.csv \
+            data/derived/exploratory_historical_findings.md
+          if git diff --cached --quiet; then
+            echo 'No analytical changes to publish.'
+          else
+            git commit -m 'data: materialize LTMD analytical chain through exploratory findings 0.1'
+            git push origin HEAD:main
+          fi
