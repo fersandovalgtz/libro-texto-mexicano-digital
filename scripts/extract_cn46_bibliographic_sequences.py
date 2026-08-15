@@ -6,7 +6,7 @@ bibliographic phrases (primera/segunda/tercera edición, reimpresión, D.R./dere
 reservados, ISBN). OCR text itself is never committed.
 """
 from __future__ import annotations
-import csv,json,re,subprocess,tempfile,unicodedata
+import csv,re,subprocess,tempfile,unicodedata
 from pathlib import Path
 from urllib.request import Request,urlopen
 
@@ -48,13 +48,16 @@ def extract(text):
     t=norm(text)
     rec=[]
     ordmap={'primera':1,'segunda':2,'tercera':3,'cuarta':4,'quinta':5,'sexta':6,'septima':7,'octava':8,'novena':9,'decima':10}
-    # Tight windows reduce accidental years from nearby credits/bibliography.
     for m in re.finditer(r'\b(primera|segunda|tercera|cuarta|quinta|sexta|septima|octava|novena|decima)\s+edici[o0]n\b.{0,45}?\b(19\d{2}|20\d{2})\b',t):
         rec.append(('edition',ordmap[m.group(1)],m.group(2),'explicit_ordinal_edition'))
-    for m in re.finditer(r'\bedici[o0]n\s+revisada\b.{0,45}?\b(19\d{2}|20\d{2})\b',t):rec.append(('edition_revised','',m.group(1),'explicit_revised_edition'))
-    for m in re.finditer(r'\b(primera|segunda|tercera|cuarta|quinta|sexta|septima|octava|novena|decima)\s+reimpresi[o0]n\b.{0,45}?\b(19\d{2}|20\d{2})\b',t):rec.append(('reprint',ordmap[m.group(1)],m.group(2),'explicit_ordinal_reprint'))
-    for m in re.finditer(r'\breimpresi[o0]n\b.{0,35}?\b(19\d{2}|20\d{2})\b',t):rec.append(('reprint','',m.group(1),'explicit_reprint'))
-    for m in re.finditer(r'(?:derechos\s+reservados|d\.?\s*r\.?|copyright)\b.{0,70}?\b(19\d{2}|20\d{2})\b',t):rec.append(('copyright','',m.group(1),'explicit_rights'))
+    for m in re.finditer(r'\bedici[o0]n\s+revisada\b.{0,45}?\b(19\d{2}|20\d{2})\b',t):
+        rec.append(('edition_revised','',m.group(1),'explicit_revised_edition'))
+    for m in re.finditer(r'\b(primera|segunda|tercera|cuarta|quinta|sexta|septima|octava|novena|decima)\s+reimpresi[o0]n\b.{0,45}?\b(19\d{2}|20\d{2})\b',t):
+        rec.append(('reprint',ordmap[m.group(1)],m.group(2),'explicit_ordinal_reprint'))
+    for m in re.finditer(r'\breimpresi[o0]n\b.{0,35}?\b(19\d{2}|20\d{2})\b',t):
+        rec.append(('reprint','',m.group(1),'explicit_reprint'))
+    for m in re.finditer(r'(?:derechos\s+reservados|d\.?\s*r\.?|copyright)\b.{0,70}?\b(19\d{2}|20\d{2})\b',t):
+        rec.append(('copyright','',m.group(1),'explicit_rights'))
     isb=[]
     for m in re.finditer(r'\bisbn\s*[:\-]?\s*([0-9x][0-9x\-\s]{7,24}[0-9x])',t,re.I):
         raw=re.sub(r'\s+',' ',m.group(1)).strip(' .,:;');digits=re.sub(r'[^0-9Xx]','',raw)
@@ -71,13 +74,14 @@ def main():
             for p in range(1,9):
                 img=td/f'{key}_{p}.jpg';stem=td/f'{key}_{p}'
                 try:
-                    img.write_bytes(get(imgurl(key,p)));text=best(img,stem);seq,isb=extract(text)
-                    if seq or isb:
-                        if not seq:rows.append({'audit_version':VERSION,'book_id':bid,'viewer_key':key,'viewer_page':p,'fact_type':'isbn','ordinal':'','year':'','value':x,'evidence_class':'explicit_isbn'}) for x in isb
-                        else:
-                            for typ,ordinal,year,ev in seq:rows.append({'audit_version':VERSION,'book_id':bid,'viewer_key':key,'viewer_page':p,'fact_type':typ,'ordinal':ordinal,'year':year,'value':'','evidence_class':ev})
-                            for x in isb:rows.append({'audit_version':VERSION,'book_id':bid,'viewer_key':key,'viewer_page':p,'fact_type':'isbn','ordinal':'','year':'','value':x,'evidence_class':'explicit_isbn'})
-                except Exception:pass
+                    img.write_bytes(get(imgurl(key,p)))
+                    text=best(img,stem);seq,isb=extract(text)
+                    for typ,ordinal,year,ev in seq:
+                        rows.append({'audit_version':VERSION,'book_id':bid,'viewer_key':key,'viewer_page':p,'fact_type':typ,'ordinal':ordinal,'year':year,'value':'','evidence_class':ev})
+                    for x in isb:
+                        rows.append({'audit_version':VERSION,'book_id':bid,'viewer_key':key,'viewer_page':p,'fact_type':'isbn','ordinal':'','year':'','value':x,'evidence_class':'explicit_isbn'})
+                except Exception:
+                    pass
                 for f in td.iterdir():
                     try:f.unlink()
                     except Exception:pass
