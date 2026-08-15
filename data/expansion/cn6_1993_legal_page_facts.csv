@@ -1,0 +1,7 @@
+audit_version,book_id,viewer_key,viewer_page,title,fact_type,ordinal,year,value,detected_in_best_psm,best_psm
+CN6_1993_LEGAL_AUDIT_0.1,LTMD-CN6-G1993-DH,H1993P6CI209,2,Ciencias Naturales y desarrollo humano,edition,1,1999,explicit_ordinal,1,11
+CN6_1993_LEGAL_AUDIT_0.1,LTMD-CN6-G1993-CN,H1993P6CI210,2,Ciencias Naturales,isbn,,,968-29-6256-0,1,3
+CN6_1993_LEGAL_AUDIT_0.1,LTMD-CN6-G1993-CN,H1993P6CI210,2,Ciencias Naturales,reprint,1,1994,explicit_ordinal_reversed,1,3
+CN6_1993_LEGAL_AUDIT_0.1,LTMD-CN6-G1993-CN,H1993P6CI210,2,Ciencias Naturales,reprint,1,1995,explicit_ordinal,1,3
+CN6_1993_LEGAL_AUDIT_0.1,LTMD-CN6-G1993-CN,H1993P6CI210,2,Ciencias Naturales,reprint,2,1995,explicit_ordinal_reversed,1,3
+CN6_1993_LEGAL_AUDIT_0.1,LTMD-CN6-G1993-CN,H1993P6CI210,2,Ciencias Naturales,reprint,2,1996,explicit_ordinal,1,3
