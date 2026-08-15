@@ -27,6 +27,7 @@ jobs:
           rm -rf /tmp/ltmd-coverage
           mkdir -p /tmp/ltmd-coverage
           cp data/derived/semb03_sample_coverage.csv /tmp/ltmd-coverage/
+          cp data/derived/semb03_sample_token_coverage.csv /tmp/ltmd-coverage/
           cp data/derived/semb03_sample_coverage.md /tmp/ltmd-coverage/
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -34,7 +35,9 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
             cp /tmp/ltmd-coverage/* data/derived/
-            git add data/derived/semb03_sample_coverage.csv data/derived/semb03_sample_coverage.md
+            git add data/derived/semb03_sample_coverage.csv \
+                    data/derived/semb03_sample_token_coverage.csv \
+                    data/derived/semb03_sample_coverage.md
             if git diff --cached --quiet; then exit 0; fi
             git commit -m 'Publish SEMB 0.3 sample coverage audit'
             if git push origin HEAD:main; then exit 0; fi
