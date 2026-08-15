@@ -29,57 +29,51 @@
 - [x] Congelar OCR adaptativo 0.1: `psm 3 → psm 11/6`, fallback válido con ≥5 palabras.
 - [x] Reejecutar los 759 activos de extremo a extremo.
 - [x] Alcanzar 757/759 activos con texto aceptado por el motor, 2 `no_text_detected`, 0 `unresolved`.
-- [x] Demostrar mediante la muestra CER/WER que `text_detected` no equivale necesariamente a página textual: existen páginas fotográficas `visual_only` con falsos positivos OCR.
+- [x] Demostrar que `text_detected` no equivale necesariamente a página textual: existen páginas fotográficas con falsos positivos OCR.
 
 ### Diagnóstico CER/WER — muestra primaria completada
-- [x] Preregistrar 48 posiciones primarias.
+- [x] Preregistrar y trabajar 48/48 posiciones primarias.
 - [x] Preparar evaluador CER/WER léxico y ortográfico.
 - [x] Corregir alineación a `full-page OCR → TSV → región por centro de bounding box`.
 - [x] Corregir parser TSV con `csv.QUOTE_NONE`.
-- [x] Preregistrar tratamiento `visual_only` sin sustitución de muestra.
-- [x] Completar 12/12 posiciones de 1972.
-- [x] Completar 12/12 posiciones de 1988.
-- [x] Completar 12/12 posiciones de 1993.
-- [x] Completar 12/12 posiciones de 2014.
-- [x] Alcanzar **48/48 = 100 %** de posiciones primarias técnicamente trabajadas.
+- [x] Registrar páginas `visual_only` fuera del denominador textual.
 - [x] Mantener referencias e hipótesis OCR legibles en Drive privado, no en GitHub.
-- [x] Registrar páginas `visual_only` separadamente del denominador CER/WER textual.
-- [x] Eliminar la segunda revisión humana como requisito del proyecto.
+- [x] Eliminar la segunda revisión humana como requisito.
 - [ ] Recalcular y congelar el resumen de **operator-reference CER/WER** global, por generación, front matter y body-only.
 - [ ] Versionar una tabla derivada única de las 48 posiciones sin texto fuente.
-- [x] Identificar que layouts visuales/fallback requieren exclusión explícita del análisis léxico fino mediante clasificación estructural.
 
-**Estado:** las métricas de las 48 posiciones son diagnósticas respecto de una **referencia de operador de una sola pasada**, no un gold standard humano independiente.
+**Estado:** CER/WER es diagnóstico respecto de una referencia de operador de una sola pasada; no se presenta como gold standard humano independiente.
 
 ### Protocolo de anotación computacional 0.2 — activo
 - [x] Conservar `CODEBOOK_0_1.md` como preregistro histórico.
 - [x] Crear `COMPUTATIONAL_ANNOTATION_PROTOCOL_0_2.md`.
 - [x] Sustituir doble codificación/adjudicación humana por triangulación computacional reproducible.
-- [x] Clasificar automáticamente las 759 páginas en `textual`, `mixed_text_image`, `visual_only`, `front_matter`, `toc_or_navigation`, `bibliography_or_credits` o `unknown` mediante `PAGESTRUCT_0.1`.
-- [x] Construir reglas para detectar y excluir falsos positivos OCR sobre fotografías/ilustraciones.
-- [x] Validar controles visual-only conocidos y mantener `unknown` en 22/759 = 2.90 %.
-- [ ] Segmentar páginas textuales/mixtas en fragmentos funcionales — **FRAGSEG_0.1 en ejecución sobre 641 páginas elegibles**.
-- [ ] Validar trazabilidad `book_id → page_id → fragment_id`.
-- [ ] Implementar clasificador multietiqueta A basado en reglas/rasgos transparentes.
-- [ ] Implementar clasificador multietiqueta B basado en una estrategia semántica computacional independiente.
+- [x] Congelar **PAGESTRUCT_0.2**: 759/759 páginas = 494 textual, 145 mixed_text_image, 60 visual_only, 1 front_matter, 20 toc_or_navigation, 15 bibliography_or_credits y 24 unknown.
+- [x] Excluir conservadoramente end matter denso no resuelto; body-only elegible = **639 páginas**.
+- [x] Congelar **FRAGSEG_0.2**: **639/639 páginas**, **9,594 fragmentos**, **0 fallos**.
+- [x] Publicar `fragment_manifest.csv` sin texto fuente y validar trazabilidad `book_id → page_id → fragment_id` mediante IDs y SHA-256.
+- [x] Ejecutar **FRAGAUDIT_0.2**: mediana 9 tokens, máximo 158, 0 fragmentos >250 tokens; máximo de densidad 2014 reducido 113→64 fragmentos/página.
+- [x] Preregistrar e implementar **RULEA_0.1** con reglas/rasgos transparentes.
+- [x] Ejecutar pruebas sintéticas de fronteras RULEA; primera prueba detectó ausencia de infinitivos, se corrigió de forma general y la segunda prueba terminó SUCCESS.
+- [ ] Ejecutar **RULEA_0.1** sobre los 9,594 fragmentos — **run activo 31901557150**, con SHA-256 obligatorio por fragmento.
+- [x] Preregistrar e implementar **SEMB_0.1** como estrategia semántica independiente de A.
+- [ ] Ejecutar clasificador semántico B sólo después de cerrar A.
 - [ ] Calcular acuerdo/desacuerdo A/B por categoría.
-- [ ] Crear bandera `uncertain` para casos sin evidencia suficiente o con desacuerdo relevante.
+- [ ] Crear/propagar bandera `uncertain` para casos sin evidencia suficiente o con desacuerdo relevante.
 - [ ] Ejecutar análisis de sensibilidad por umbral, generación, longitud y layout.
 
-**PAGESTRUCT_0.1 congelado:** 759 páginas = 496 textual, 145 mixed_text_image, 60 visual_only, 1 front_matter, 20 toc_or_navigation, 15 bibliography_or_credits y 22 unknown. El análisis body-only inicial se restringe a 641 páginas textual/mixtas.
-
-### Dataset analítico — siguiente producto
-- [ ] Construir dataset:
-  `book → page → fragment → tipo → acciones → posición del alumno → contenido → estabilidad → procedencia`.
+### Dataset analítico — en construcción
 - [x] Fijar especificación `FRAGMENT_SEGMENTATION_SPEC_0_1.md`.
-- [ ] Publicar `fragment_manifest.csv` sin texto fuente.
-- [ ] Mantener texto de trabajo sólo de manera efímera/privada cuando sea necesario para clasificación computacional.
-- [ ] Publicar en GitHub sólo derivados no sustitutivos y trazables.
-- [ ] Generar estadísticas por generación y tipo de página.
+- [x] Construir manifiesto de 9,594 fragmentos sin texto fuente.
+- [x] Mantener texto sólo de forma efímera durante OCR/reconstrucción; verificar identidad mediante SHA-256.
+- [x] Publicar sólo metadatos, hashes, métricas y etiquetas derivadas no sustitutivas.
+- [ ] Construir dataset integrado:
+  `book → page → fragment → tipo → acciones → posición del alumno → estabilidad → procedencia`.
+- [ ] Generar estadísticas pedagógicas por generación después de triangulación A/B.
 
 ## Fase 2 — prueba historiográfica computacional
 
-Comienza cuando exista un dataset de fragmentos con trazabilidad completa y estabilidad computacional suficiente. **No depende de revisión humana.**
+Comienza cuando exista etiquetado A/B con trazabilidad completa y estabilidad computacional suficiente. **No depende de revisión humana.**
 
 - [ ] Cuantificar tipos de actividad y acciones pedagógicas por generación.
 - [ ] Comparar posiciones atribuidas al alumno.
@@ -93,16 +87,14 @@ Comienza cuando exista un dataset de fragmentos con trazabilidad completa y esta
 
 ## Puerta de decisión del piloto
 
-El piloto pasa a escalamiento si cumple simultáneamente:
-
 1. acceso reproducible al corpus — **cumplido**;
 2. cobertura técnica suficiente de extracción — **cumplido**;
 3. gobernanza jurídica suficiente para publicar metadatos y derivados — **provisionalmente cumplido para derivados; issue jurídico sigue abierto**;
-4. diagnóstico OCR suficiente para conocer limitaciones por layout y generación — **48/48 posiciones primarias completadas**;
-5. clasificación estructural reproducible — **cumplida: PAGESTRUCT_0.1, 759/759**;
-6. segmentación computacional reproducible — **en ejecución**;
-7. estabilidad de categorías bajo al menos dos especificaciones computacionales — **pendiente**;
-8. trazabilidad completa entre fuente y dato derivado — **en construcción**;
+4. diagnóstico OCR suficiente para conocer limitaciones por layout y generación — **cumplido en 48/48 posiciones diagnósticas**;
+5. clasificación estructural reproducible — **cumplida: PAGESTRUCT_0.2, 759/759**;
+6. segmentación computacional reproducible — **cumplida: FRAGSEG_0.2, 639/639, 9,594 fragmentos, 0 fallos**;
+7. estabilidad de categorías bajo al menos dos especificaciones computacionales — **en construcción: A activo, B preregistrado**;
+8. trazabilidad completa entre fuente y dato derivado — **cumplida hasta nivel fragmento; pendiente integrar etiquetas A/B**;
 9. comparación historiográfica que produzca conocimiento adicional al catálogo original — **pendiente**;
 10. costo técnico razonable para ampliar el corpus — **por evaluar al cierre del piloto**.
 
