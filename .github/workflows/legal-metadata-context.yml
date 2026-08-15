@@ -1,0 +1,39 @@
+name: Legal-page bibliographic context
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/extract_legal_metadata_context.py'
+      - '.github/workflows/legal-metadata-context.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      OMP_THREAD_LIMIT: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Spanish Tesseract model
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: Build page manifest
+        run: python scripts/build_page_manifest.py
+      - name: Extract compact legal metadata
+        run: python scripts/extract_legal_metadata_context.py
+      - name: Show context
+        run: cat data/derived/legal_metadata_context.csv
+      - name: Upload metadata only
+        uses: actions/upload-artifact@v4
+        with:
+          name: legal-metadata-context
+          path: data/derived/legal_metadata_context.csv
+          retention-days: 30
