@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.2`.
 
-Commit observado: `8d13cbf5cb6e6bf5343b683f734b76d5fca65b36`.
+Commit observado: `cf22a75d309be78dee1e1fbbd3432efbc0bf1260`.
 
 Archivos críticos verificados: **48**. Artefactos derivados adicionales presentes: **8**.
 
@@ -44,7 +44,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/validate_semb03_annotations.py` — 3765 bytes — `6c4feb2428277cda567da30ec420bc0fc8584aa9ed48b73dc56ab0ba4a87653f`
 - `scripts/evaluate_semb03_human_reliability.py` — 2372 bytes — `d4e8720c12398e62efe9bb6eaa76a830896c2c65dd4de8a660b29d231b489b7f`
 - `scripts/build_semb03_consensus_draft.py` — 3541 bytes — `33c66da4ad4755057a8e7986a7cfe3ca07178764f27def787c5b9706aabed642`
-- `scripts/check_semb03_readiness.py` — 6687 bytes — `16aefda60bdf358e788cc52fed2caa26bcdd5903d020d926a313f4299340f479`
+- `scripts/check_semb03_readiness.py` — 7469 bytes — `070f5ab6f356a3f626a88f98ca56a62f7f39ec993cb6c1cb3ac54e32d71d57e3`
 - `scripts/lock_semb03_model.py` — 2927 bytes — `77622aa5bf28c3665d484680e4f24696b19d73ef8be6a5fd2c7c5f342971a51a`
 - `scripts/evaluate_semb03_locked_validation.py` — 8047 bytes — `e38b665103491d1dd682d6e0de39e107b4108d97c0e3c52a9b429e0b0510c6b5`
 - `scripts/build_semb03_synthetic_stress.py` — 10036 bytes — `d3f29eae719d6596ab4aa983d46c1470cf1afd46613c456ae3196fef1f3f189f`
