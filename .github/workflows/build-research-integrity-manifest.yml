@@ -1,0 +1,41 @@
+name: build-research-integrity-manifest
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-research-integrity-manifest.yml'
+      - 'scripts/build_research_integrity_manifest.py'
+
+permissions:
+  contents: write
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build integrity manifest
+        run: python3 scripts/build_research_integrity_manifest.py
+      - name: Publish integrity manifest race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-integrity
+          mkdir -p /tmp/ltmd-integrity
+          cp data/derived/research_integrity_manifest.json /tmp/ltmd-integrity/
+          cp data/derived/research_integrity_manifest.md /tmp/ltmd-integrity/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-integrity/* data/derived/
+            git add data/derived/research_integrity_manifest.json data/derived/research_integrity_manifest.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD research integrity manifest'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
