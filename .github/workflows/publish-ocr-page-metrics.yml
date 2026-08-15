@@ -1,0 +1,55 @@
+name: Publish OCR page metrics
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/publish-ocr-page-metrics.yml'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download validated adaptive OCR artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p /tmp/ltmd-ocr-artifact
+          gh run download 31889772875 \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name ocr-full-pilot-metrics-adaptive \
+            --dir /tmp/ltmd-ocr-artifact
+      - name: Validate and promote page-level metrics
+        run: |
+          test -f /tmp/ltmd-ocr-artifact/ocr_full_pilot_metrics.csv
+          test "$(wc -l < /tmp/ltmd-ocr-artifact/ocr_full_pilot_metrics.csv)" -eq 760
+          python - <<'PY'
+          import csv
+          p='/tmp/ltmd-ocr-artifact/ocr_full_pilot_metrics.csv'
+          rows=list(csv.DictReader(open(p,encoding='utf-8')))
+          assert len(rows)==759, len(rows)
+          assert sum(r['ocr_class']=='text_detected' for r in rows)==757
+          assert sum(r['ocr_class']=='no_text_detected' for r in rows)==2
+          assert sum(r['ocr_class']=='unresolved' for r in rows)==0
+          assert sum(r['selected_psm']=='3' for r in rows)==698
+          assert sum(r['selected_psm']=='11' for r in rows)==7
+          assert sum(r['selected_psm']=='6' for r in rows)==52
+          print('Validated',len(rows),'page metrics')
+          PY
+          cp /tmp/ltmd-ocr-artifact/ocr_full_pilot_metrics.csv data/derived/ocr_page_metrics.csv
+      - name: Commit derived page metrics only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/derived/ocr_page_metrics.csv
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "data: publish adaptive OCR page metrics"
+            git push
+          fi
