@@ -16,6 +16,8 @@ jobs:
   extract:
     runs-on: ubuntu-latest
     timeout-minutes: 12
+    env:
+      OMP_THREAD_LIMIT: '1'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -27,8 +29,8 @@ jobs:
           sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
       - name: Build page manifest
         run: python scripts/build_page_manifest.py
-      - name: Extract derived front-matter candidates
-        run: python scripts/extract_frontmatter_metadata_adaptive.py --pages 8 --modes 6,11 --timeout 20 --workers 8
+      - name: Extract derived front-matter candidates serially
+        run: python scripts/extract_frontmatter_metadata_adaptive.py --pages 6 --modes 3 --timeout 60 --workers 1
       - name: Show derived candidates
         run: cat data/derived/frontmatter_metadata_candidates.csv
       - name: Upload metadata only
