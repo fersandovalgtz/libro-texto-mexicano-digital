@@ -14,7 +14,7 @@ from urllib.request import Request,urlopen
 KEYS=Path('data/catalog/conaliteg_historical_viewer_keys.csv')
 OUT=Path('data/catalog/conaliteg_historical_title_inventory.csv')
 REPORT=Path('data/catalog/conaliteg_historical_title_inventory.md')
-VERSION='CONALITEG_TITLE_AUDIT_0.1'
+VERSION='CONALITEG_TITLE_AUDIT_0.2'
 BASE='https://historico.conaliteg.gob.mx/'
 UA='LibroTextoMexicanoDigital/0.1 title inventory'
 TITLE=re.compile(r'<title[^>]*>(.*?)</title>',re.I|re.S)
@@ -38,9 +38,9 @@ def main():
         for f in as_completed(fut):rows.append(f.result())
     rows.sort(key=lambda r:(int(r['catalog_generation']),int(r['grade_code']),r['viewer_key']))
     OUT.parent.mkdir(parents=True,exist_ok=True)
-    fields=['audit_version','viewer_key','catalog_generation','grade_code','tail_code','occurrences','source_url','http_status','content_type','final_url','viewer_title','reachable','title_present','error']
+    fields=['audit_version','snapshot_version','viewer_key','catalog_generation','grade_code','tail_code','occurrences','source_url','http_status','content_type','final_url','viewer_title','reachable','title_present','error']
     with OUT.open('w',encoding='utf-8',newline='') as f:
-        w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+        w=csv.DictWriter(f,fieldnames=fields,extrasaction='ignore');w.writeheader();w.writerows(rows)
     reachable=sum(int(r['reachable']) for r in rows);titles=sum(int(r['title_present']) for r in rows);bygen=defaultdict(lambda:Counter())
     for r in rows:bygen[r['catalog_generation']].update(total=1,reachable=int(r['reachable']),title=int(r['title_present']))
     title_groups=defaultdict(list)
