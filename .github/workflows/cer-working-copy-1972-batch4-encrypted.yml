@@ -1,0 +1,68 @@
+name: Encrypted working-copy transport — 1972 CER batch 4
+
+on:
+  push:
+    paths:
+      - '.github/workflows/cer-working-copy-1972-batch4-encrypted.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Write transient public transport certificate
+        shell: bash
+        run: |
+          cat > cert.pem <<'PEM'
+          -----BEGIN CERTIFICATE-----
+          MIIEgzCCAuugAwIBAgIUVo+fAOv+JwdyxVhONh0eIzgzq7YwDQYJKoZIhvcNAQEL
+          BQAwUTEoMCYGA1UEAwwfTFRNRCBDRVIgdHJhbnNpZW50IHRyYW5zcG9ydCB2MzEl
+          MCMGA1UECgwcTGlicm8gVGV4dG8gTWV4aWNhbm8gRGlnaXRhbDAeFw0yNjA4MTUx
+          NTQwMzdaFw0yNjA4MTcxNTQwMzdaMFExKDAmBgNVBAMMH0xUTUQgQ0VSIHRyYW5z
+          aWVudCB0cmFuc3BvcnQgdjMxJTAjBgNVBAoMHExpYnJvIFRleHRvIE1leGljYW5v
+          IERpZ2l0YWwwggGiMA0GCSqGSIb3DQEBAQUAA4IBjwAwggGKAoIBgQDJyG9Tqx8i
+          vUBSFfZWypLziYI4IqUcA3fC9RgkIJyv+lSmGAILcPPfLPMtaMbAN20U7HDwafgj
+          zu/i20fu9T8e6MGdYkAWvUPaOt6eUZx4dwxwGxphtMxEo5XelFN/BuidAgR4L7Og
+          J/aclR3+FfZP9h/zu1PIxNziV4MYdHXOUaCSE+CzJHuw/5fP43yD9+sGmgMLpfzK
+          WTBlVGXl1/FYX0jYBE10do7El+z3iIA5n+CDRVUkYYqJJF/xRsfejQT+KB0YvCqd
+          IAya3lTzKcqcOkgHj5fJTWN7J3HSZqf7dY4Za7DfAmYT9P5b9Y5ot39wxZx4+qfL
+          MY2HNAPm4secOaK7qc0mmfkGHYOBjJx6Fo7L/qfGdcLiASczJY95rDFneSjNS1VK
+          ytu9QMCJLff5n46AYRrGIlyxFl0KF6uaI+wUDskOjzozWHNfSvmDvkds6Jv3sfqK
+          xz9oiVBIOc10rjegxMChjgyl5tDiwHacX8IDwFEKarnTOOPnrkleI7cCAwEAAaNT
+          MFEwHQYDVR0OBBYEFHcfrR1ghcQ93iHeY1/9ilqFGbqDMB8GA1UdIwQYMBaAFHcf
+          rR1ghcQ93iHeY1/9ilqFGbqDMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQEL
+          BQADggGBABxYFCNSdvOKG0QaPQAtbxo0FqomfONmR3NYVBuFzSji3c/56bAA8Njt
+          5cbtYsJ2QGq9I4YvlCDs3jzDCl+Dw5/PrNLljO7cd4iV10CXvGmCGVon+i6q0jW+
+          05sRsXy5yt/v8WNyPTLDbjVi6K9WxtKCAdHXdO2IlU5BMeUklNAw2HUW9LRlyFlz
+          ShOFv67yKrhSRfXN5qILqP4fe6h3ZFWw0aAQrCkwQVhRAjtug8hG5hBTSysts7nH
+          NrD99krqW3oub8LhtAqIbPCRFSiLpjV2l+BZs2+wA2+AYTK4zGUyhnu2OYRV42/w
+          6l3N9RW1mfYB9zvTL9wwUsj3JAH09t3SyzrqPhBgQqG7I28W/7BXgFpubztH7Sy8
+          X1sGHi8aepJaGwJfaSruGyV3XFZfa2h8iVhBN+Xr5XYlj9HDfyj9JYFXd9uOpjO6
+          RMNYd/6dnebltiW1lqM0gxNYzybNOA+QU3ImDFh0AVYPr6bzKn8B3JXVE4wqmplm
+          hI9tQU1bWA==
+          -----END CERTIFICATE-----
+          PEM
+      - name: Download pages, hash, encrypt, destroy clear copy
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p work
+          curl -fsSL --retry 3 --connect-timeout 15 --max-time 90 'https://historico.conaliteg.gob.mx/c/H1972P5CI084/189.jpg' -o work/LTMD-CER-1972-Q3_3.jpg
+          curl -fsSL --retry 3 --connect-timeout 15 --max-time 90 'https://historico.conaliteg.gob.mx/c/H1972P5CI084/215.jpg' -o work/LTMD-CER-1972-Q4_1.jpg
+          curl -fsSL --retry 3 --connect-timeout 15 --max-time 90 'https://historico.conaliteg.gob.mx/c/H1972P5CI084/246.jpg' -o work/LTMD-CER-1972-Q4_2.jpg
+          sha256sum work/*.jpg > working-copy.sha256
+          tar -cf working-copy.tar -C work .
+          openssl cms -encrypt -binary -aes256 -in working-copy.tar -outform DER -out working-copy.p7m cert.pem
+          rm -rf work working-copy.tar cert.pem
+      - name: Upload ciphertext and hashes only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-cer-1972-batch4-encrypted-working-copy
+          path: |
+            working-copy.p7m
+            working-copy.sha256
+          retention-days: 1
+          if-no-files-found: error
