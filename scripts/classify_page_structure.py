@@ -13,7 +13,7 @@ METRICS = Path("data/derived/ocr_page_metrics.csv")
 FLAGS = Path("data/derived/structural_keyword_flags.csv")
 OUT = Path("data/derived/page_structure.csv")
 SUMMARY = Path("data/derived/page_structure_summary.csv")
-VERSION = "PAGESTRUCT_0.1"
+VERSION = "PAGESTRUCT_0.2"
 
 
 def fnum(v, default=None):
@@ -57,6 +57,7 @@ def classify(r, k):
     )
     strong_text = words >= 120 and conf >= 75 and low <= 0.25
     moderate_text = words >= 20 and conf >= 60 and low <= 0.40
+    dense_end_uncertain = end_zone and words >= 800 and conf < 85
 
     flags = []
     if front_zone: flags.append("front_zone")
@@ -65,6 +66,7 @@ def classify(r, k):
     if strong_visual_noise: flags.append("visual_noise")
     if strong_text: flags.append("text_rich")
     elif moderate_text: flags.append("text_present")
+    if dense_end_uncertain: flags.append("dense_end_uncertain")
     if fs: flags.append("front_kw")
     if ns: flags.append("nav_kw")
     if bs: flags.append("biblio_credit_kw")
@@ -87,6 +89,13 @@ def classify(r, k):
         primary = "visual_only"
         certainty = "high" if (is_fallback and low >= 0.80) or ocr_class == "no_text_detected" else "medium"
         rule = "OCR_VISUAL_NOISE"
+    # PAGESTRUCT 0.2: an extremely dense, lower-confidence page in the final
+    # 16-page zone is not confidently body text. If no structural keyword has
+    # already resolved it, preserve it as unknown rather than force textual.
+    elif dense_end_uncertain:
+        primary = "unknown"
+        certainty = "medium"
+        rule = "END_ZONE_DENSE_UNCERTAIN"
     elif strong_text:
         primary = "textual"
         certainty = "high"
