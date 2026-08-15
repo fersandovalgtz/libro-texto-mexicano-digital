@@ -1,0 +1,107 @@
+name: ocr-cn-wave2
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/ocr-cn-wave2.yml'
+      - 'scripts/ocr_cn_wave2_book.py'
+      - 'scripts/combine_cn_wave2_ocr.py'
+      - 'data/expansion/cn_wave2_ingestion_queue.csv'
+      - 'data/expansion/cn_wave2_page_manifest.csv'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      queue_sha: ${{ steps.check.outputs.queue_sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        name: Verify frozen Wave 2 cardinality
+        run: |
+          python3 - <<'PY'
+          import csv,hashlib
+          from pathlib import Path
+          q=list(csv.DictReader(open('data/expansion/cn_wave2_ingestion_queue.csv',encoding='utf-8')))
+          p=[r for r in csv.DictReader(open('data/expansion/cn_wave2_page_manifest.csv',encoding='utf-8')) if r['asset_status']=='source_jpeg']
+          assert len(q)==19, len(q)
+          assert len(p)==3177, len(p)
+          assert len({r['book_id'] for r in q})==19
+          assert all(r['sha256'] and r['source_asset_url'] for r in p)
+          print('Wave2 preflight OK: 19 books / 3177 source pages')
+          sha=hashlib.sha256(Path('data/expansion/cn_wave2_ingestion_queue.csv').read_bytes()).hexdigest()
+          with open(__import__('os').environ['GITHUB_OUTPUT'],'a') as f:f.write(f'queue_sha={sha}\n')
+          PY
+
+  ocr:
+    needs: preflight
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - { book_id: LTMD-CN1-G1972, slug: cn1-g1972 }
+          - { book_id: LTMD-CN2-G1972, slug: cn2-g1972 }
+          - { book_id: LTMD-CN3-G1972, slug: cn3-g1972 }
+          - { book_id: LTMD-CN3-G1982, slug: cn3-g1982 }
+          - { book_id: LTMD-CN4-G1982, slug: cn4-g1982 }
+          - { book_id: LTMD-CN5-G1982, slug: cn5-g1982 }
+          - { book_id: LTMD-CN6-G1982, slug: cn6-g1982 }
+          - { book_id: LTMD-CN3-G1988, slug: cn3-g1988 }
+          - { book_id: LTMD-CN3-G1993, slug: cn3-g1993 }
+          - { book_id: LTMD-CN5-G2008, slug: cn5-g2008 }
+          - { book_id: LTMD-CN3-G2011, slug: cn3-g2011 }
+          - { book_id: LTMD-CN4-G2011, slug: cn4-g2011 }
+          - { book_id: LTMD-CN5-G2011, slug: cn5-g2011 }
+          - { book_id: LTMD-CN6-G2011, slug: cn6-g2011 }
+          - { book_id: LTMD-CN3-G2014, slug: cn3-g2014 }
+          - { book_id: LTMD-CN3-G2019, slug: cn3-g2019 }
+          - { book_id: LTMD-CN4-G2019, slug: cn4-g2019 }
+          - { book_id: LTMD-CN5-G2019, slug: cn5-g2019 }
+          - { book_id: LTMD-CN6-G2019, slug: cn6-g2019 }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Spanish OCR runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: OCR one book with source SHA verification
+        run: python3 scripts/ocr_cn_wave2_book.py --book-id '${{ matrix.book_id }}' --output-dir data/work/cn_wave2_ocr
+      - name: Verify shard exists
+        run: test -s 'data/work/cn_wave2_ocr/ocr_${{ matrix.slug }}.csv'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ocr-${{ matrix.slug }}
+          path: data/work/cn_wave2_ocr/ocr_${{ matrix.slug }}.csv
+          if-no-files-found: error
+          retention-days: 7
+
+  combine:
+    needs: [preflight, ocr]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ocr-*
+          path: data/work/cn_wave2_ocr
+          merge-multiple: true
+      - name: Combine and validate 19 OCR shards
+        run: python3 scripts/combine_cn_wave2_ocr.py --input-dir data/work/cn_wave2_ocr
+      - name: Publish Wave 2 OCR race-safely
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/expansion/cn_wave2_ocr_page_metrics.csv data/expansion/cn_wave2_ocr_summary.csv data/expansion/cn_wave2_ocr_report.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Publish Ciencias Naturales Wave 2 OCR metrics'
+          git pull --rebase origin main
+          git push origin HEAD:main
