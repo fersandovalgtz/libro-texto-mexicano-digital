@@ -1,0 +1,5 @@
+catalog_generation,source_assets,text_pages,no_text_pages,text_page_rate,recognized_words,recognized_chars,mean_words_text_page,median_words_text_page,mean_text_page_confidence,median_text_page_confidence,mean_low_confidence_rate
+1972,258,225,33,0.8721,38502,186379,171.12,176.0,93.91,95.21,0.0202
+1988,162,159,3,0.9815,22181,116467,139.50,141.0,91.18,91.77,0.0340
+1993,178,171,7,0.9607,38725,241928,226.46,236.0,89.17,90.62,0.0671
+2014,161,143,18,0.8882,31041,182390,217.07,203.0,90.53,92.24,0.0579
