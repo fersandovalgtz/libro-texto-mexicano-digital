@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""Resolve the public CONALITEG viewer manifest for the pilot corpus.
+"""Resolve public CONALITEG viewer metadata for the pilot corpus.
 
-The script fetches only small controller resources (`x.js` and `claves.json`).
-It does NOT download book page images. For each book in the inventory it:
+The script fetches only small controller/metadata resources. It does NOT fetch
+book page images. It resolves:
 
-1. derives the viewer key from the HTML filename;
-2. reads the corresponding `ag_pages` entry from `claves.json`;
-3. extracts compact function bodies from `x.js` for page creation/loading;
-4. records string templates that appear to construct page-image URLs.
+- viewer key and exact page count from `claves.json`;
+- same-origin JavaScript modules referenced by the viewer controller;
+- the functions that create/load book pages;
+- string literals used by those functions to construct image paths.
 
-This produces metadata needed to build a page manifest before any OCR work.
+The result is sufficient to design a page manifest before OCR begins.
 """
 
 from __future__ import annotations
@@ -22,8 +22,9 @@ from pathlib import Path
 from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 
-USER_AGENT = "LibroTextoMexicanoDigital/0.1 viewer manifest resolver"
+USER_AGENT = "LibroTextoMexicanoDigital/0.1 viewer metadata resolver"
 FUNCTIONS = ("addPage", "loadPage", "loadSmallPage", "loadLargePage")
+JS_LITERAL_RE = re.compile(r"(['\"])([^'\"]+?\.js(?:\?[^'\"]*)?)\1", re.IGNORECASE)
 
 
 def fetch_bytes(url: str, timeout: int = 30) -> bytes:
@@ -33,12 +34,11 @@ def fetch_bytes(url: str, timeout: int = 30) -> bytes:
 
 
 def fetch_text(url: str, timeout: int = 30) -> str:
-    raw = fetch_bytes(url, timeout=timeout)
-    return raw.decode("utf-8", errors="replace")
+    return fetch_bytes(url, timeout=timeout).decode("utf-8", errors="replace")
 
 
 def extract_function(text: str, name: str) -> str | None:
-    """Extract a JS function body using brace balancing."""
+    """Extract a classic JavaScript function body using brace balancing."""
     match = re.search(rf"function\s+{re.escape(name)}\s*\([^)]*\)\s*\{{", text)
     if not match:
         return None
@@ -74,7 +74,7 @@ def urlish_literals(text: str) -> list[str]:
     seen: set[str] = set()
     for _, val in re.findall(r"(['\"])(.*?)\1", text, flags=re.DOTALL):
         low = val.lower()
-        if any(tok in low for tok in (".jpg", ".jpeg", ".png", ".webp", "page", "pag", "large", "small")):
+        if any(tok in low for tok in (".jpg", ".jpeg", ".png", ".webp", "page", "pag", "large", "small", "files/")):
             compact = re.sub(r"\s+", " ", val).strip()
             if compact and compact not in seen:
                 seen.add(compact)
@@ -83,8 +83,36 @@ def urlish_literals(text: str) -> list[str]:
 
 
 def viewer_key(url: str) -> str:
-    name = Path(urlparse(url).path).name
-    return name.rsplit(".", 1)[0]
+    return Path(urlparse(url).path).name.rsplit(".", 1)[0]
+
+
+def discover_same_origin_modules(controller_url: str, controller_text: str) -> list[str]:
+    origin = urlparse(controller_url).netloc
+    modules: list[str] = []
+    seen: set[str] = set()
+    for _, literal in JS_LITERAL_RE.findall(controller_text):
+        candidate = urljoin(controller_url, literal)
+        if urlparse(candidate).netloc == origin and candidate not in seen:
+            seen.add(candidate)
+            modules.append(candidate)
+    return modules
+
+
+def resolve_functions(sources: dict[str, str]) -> dict[str, dict | None]:
+    resolved: dict[str, dict | None] = {}
+    for name in FUNCTIONS:
+        found = None
+        for url, text in sources.items():
+            body = extract_function(text, name)
+            if body:
+                found = {
+                    "source_url": url,
+                    "body": body,
+                    "urlish_literals": urlish_literals(body),
+                }
+                break
+        resolved[name] = found
+    return resolved
 
 
 def main() -> None:
@@ -93,21 +121,28 @@ def main() -> None:
     ap.add_argument("--output", default="data/derived/resolved_viewer_manifest.json")
     args = ap.parse_args()
 
-    inventory = list(csv.DictReader(Path(args.inventory).open(encoding="utf-8", newline="")))
+    with Path(args.inventory).open(encoding="utf-8", newline="") as fh:
+        inventory = list(csv.DictReader(fh))
     if not inventory:
         raise SystemExit("Inventory is empty")
 
     base = inventory[0]["source_url"]
-    x_url = urljoin(base, "x.js")
-    claves_url = urljoin(base, "claves.json")
+    controller_url = urljoin(base, "x.js")
+    manifest_url = urljoin(base, "claves.json")
 
-    x_js = fetch_text(x_url)
-    claves = json.loads(fetch_bytes(claves_url).decode("utf-8-sig"))
+    controller = fetch_text(controller_url)
+    claves = json.loads(fetch_bytes(manifest_url).decode("utf-8-sig"))
 
-    functions = {name: extract_function(x_js, name) for name in FUNCTIONS}
-    function_literals = {
-        name: urlish_literals(body or "") for name, body in functions.items()
-    }
+    module_urls = discover_same_origin_modules(controller_url, controller)
+    source_texts: dict[str, str] = {controller_url: controller}
+    module_errors: list[dict] = []
+    for url in module_urls:
+        try:
+            source_texts[url] = fetch_text(url)
+        except Exception as exc:
+            module_errors.append({"url": url, "error": f"{type(exc).__name__}: {exc}"})
+
+    functions = resolve_functions(source_texts)
 
     books = []
     for row in inventory:
@@ -126,10 +161,11 @@ def main() -> None:
         )
 
     result = {
-        "controller_url": x_url,
-        "manifest_url": claves_url,
-        "controller_functions": functions,
-        "urlish_literals": function_literals,
+        "controller_url": controller_url,
+        "manifest_url": manifest_url,
+        "discovered_module_urls": module_urls,
+        "module_errors": module_errors,
+        "page_loading_functions": functions,
         "books": books,
     }
 
@@ -139,12 +175,19 @@ def main() -> None:
 
     print("=== Manifest entries ===")
     for book in books:
-        print(book["book_id"], book["viewer_key"], "pages=", book["page_count"], "entry=", book["manifest_entry"])
+        print(book["book_id"], book["viewer_key"], "pages=", book["page_count"])
+    print("=== Discovered modules ===")
+    for url in module_urls:
+        print(url)
     print("=== Page-loading functions ===")
-    for name in FUNCTIONS:
+    for name, value in functions.items():
         print(f"--- {name} ---")
-        print(functions[name])
-        print("urlish_literals=", function_literals[name])
+        if value:
+            print("source=", value["source_url"])
+            print(value["body"])
+            print("urlish_literals=", value["urlish_literals"])
+        else:
+            print("NOT FOUND")
     print(f"Wrote {out}")
 
 
