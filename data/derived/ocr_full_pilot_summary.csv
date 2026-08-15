@@ -1,6 +1,6 @@
-catalog_generation,source_assets,text_pages,no_text_pages,unresolved_pages,text_page_rate,psm3_pages,psm11_pages,psm6_pages,recognized_words,recognized_chars,mean_text_page_confidence,mean_low_confidence_rate
-1972,258,258,0,0,1.0000,225,5,28,40543,193303,85.94,0.1315
-1988,162,162,0,0,1.0000,159,0,3,22705,117632,90.14,0.0487
-1993,178,178,0,0,1.0000,171,1,6,39175,243717,87.08,0.0976
-2014,161,159,2,0,0.9876,143,1,15,32807,197332,84.69,0.1395
-TOTAL,759,757,2,0,0.9974,698,7,52,135230,751984,,
+catalog_generation,source_assets,text_pages,no_text_pages,unresolved_pages,text_page_rate,psm3_pages,psm11_pages,psm6_pages,recognized_words_all_metrics,accepted_text_words,mean_text_page_confidence,mean_low_confidence_rate
+1972,258,258,0,0,1.0000,225,5,28,40543,40543,85.94,0.1315
+1988,162,162,0,0,1.0000,159,0,3,22705,22705,90.14,0.0487
+1993,178,178,0,0,1.0000,171,1,6,39175,39175,87.08,0.0976
+2014,161,159,2,0,0.9876,143,1,15,32807,32805,84.69,0.1395
+TOTAL,759,757,2,0,0.9974,698,7,52,135230,135228,,
