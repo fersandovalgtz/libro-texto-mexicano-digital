@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.4",
-  "generated_utc": "2026-08-15T22:26:57.554769+00:00",
-  "git_head": "6fa05a81ead44c812dee4f8c5812cbb2467b0f70",
+  "generated_utc": "2026-08-15T22:30:43.148426+00:00",
+  "git_head": "002b94b0970efeda74df1c6bf9cde0b4fafbcc40",
   "critical_count": 102,
   "optional_present_count": 14,
   "files": [
@@ -613,8 +613,8 @@
     },
     {
       "path": "scripts/verify_methods_article_claims.py",
-      "bytes": 8938,
-      "sha256": "883b49f21320f2472a7222ee6e6801f543ce04b6effbcd89d1e0bd6abdfd0d0c",
+      "bytes": 9470,
+      "sha256": "f886e1fba2b3042f6164fdd64c341a98f7da58624adbe34ac13b2ceed4e07b64",
       "required": true
     },
     {
