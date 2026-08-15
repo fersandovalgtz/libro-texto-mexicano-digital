@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.4`.
 
-Commit observado: `77f56172d0a42379423956ff492a7a14e27caf9d`.
+Commit observado: `45d048b942380c6dfea0fd9e762b834fa4dc136c`.
 
 Archivos críticos verificados: **102**. Artefactos derivados adicionales presentes: **12**.
 
@@ -109,7 +109,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/extract_cn46_structural_keyword_flags.py` — 4507 bytes — `ea71fabde649471ac0a180080b34e86b99632ae901afc9f07727661d4489c1e2`
 - `scripts/classify_cn46_page_structure.py` — 5338 bytes — `d542f9495a1b90f1b5b5311896f8aa765616951cce7536ac98795625148e91ad`
 - `scripts/segment_cn46_fragments.py` — 9455 bytes — `973d93dcf7ddf60796a689d988ecdca0f6ffbdb6befba3158f876af0d72ff4a7`
-- `scripts/combine_cn46_fragment_shards.py` — 3912 bytes — `6800b76f43a5c78fff60460dc177b4c10c294972c3f704ddc8f2f588203ce271`
+- `scripts/combine_cn46_fragment_shards.py` — 5352 bytes — `ea2a9e8ea5522173ef64780f4ef78224bb86dbc27879c2828b6246864faf7714`
 - `scripts/verify_methods_article_claims.py` — 4740 bytes — `75163c5534a8d94833058bacf73d02a8b84f6d8486bf8877cc0ac95a07018774`
 
 ## Artefactos derivados adicionales presentes

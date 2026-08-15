@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.4",
-  "generated_utc": "2026-08-15T20:57:29.042513+00:00",
-  "git_head": "77f56172d0a42379423956ff492a7a14e27caf9d",
+  "generated_utc": "2026-08-15T20:58:28.488747+00:00",
+  "git_head": "45d048b942380c6dfea0fd9e762b834fa4dc136c",
   "critical_count": 102,
   "optional_present_count": 12,
   "files": [
@@ -607,8 +607,8 @@
     },
     {
       "path": "scripts/combine_cn46_fragment_shards.py",
-      "bytes": 3912,
-      "sha256": "6800b76f43a5c78fff60460dc177b4c10c294972c3f704ddc8f2f588203ce271",
+      "bytes": 5352,
+      "sha256": "ea2a9e8ea5522173ef64780f4ef78224bb86dbc27879c2828b6246864faf7714",
       "required": true
     },
     {
