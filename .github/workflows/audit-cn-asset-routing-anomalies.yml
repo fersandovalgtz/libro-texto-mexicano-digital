@@ -1,0 +1,43 @@
+name: audit-cn-asset-routing-anomalies
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-cn-asset-routing-anomalies.yml'
+      - 'scripts/audit_cn_asset_routing_anomalies.py'
+      - 'data/catalog/ciencias_naturales_pending_page_manifest.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Resolve asset-routing anomalies
+        run: python3 scripts/audit_cn_asset_routing_anomalies.py
+      - name: Publish routing audit race-safely
+        run: |
+          set -euo pipefail
+          cp data/catalog/ciencias_naturales_asset_routing_anomalies.csv /tmp/cn_asset_routing.csv
+          cp data/catalog/ciencias_naturales_asset_routing_anomalies.md /tmp/cn_asset_routing.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/catalog
+            cp /tmp/cn_asset_routing.csv data/catalog/ciencias_naturales_asset_routing_anomalies.csv
+            cp /tmp/cn_asset_routing.md data/catalog/ciencias_naturales_asset_routing_anomalies.md
+            git add data/catalog/ciencias_naturales_asset_routing_anomalies.csv data/catalog/ciencias_naturales_asset_routing_anomalies.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish Ciencias Naturales asset-routing anomaly audit'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
