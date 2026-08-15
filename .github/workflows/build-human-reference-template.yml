@@ -1,0 +1,42 @@
+name: Build human OCR reference template
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/build_human_ocr_reference_template.py'
+      - 'data/book_inventory.csv'
+      - '.github/workflows/build-human-reference-template.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate inventory
+        run: python scripts/validate_inventory.py
+      - name: Build page manifest
+        run: python scripts/build_page_manifest.py
+      - name: Build 48-page reference template
+        run: python scripts/build_human_ocr_reference_template.py
+      - name: Verify complete sample
+        run: |
+          python - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('data/derived/ocr_human_reference_template.csv',encoding='utf-8')))
+          assert len(rows)==48, len(rows)
+          assert all(r['page_id'] for r in rows), [r for r in rows if not r['page_id']]
+          print('Complete preregistered reference template:',len(rows),'rows')
+          PY
+      - name: Upload template
+        uses: actions/upload-artifact@v4
+        with:
+          name: ocr-human-reference-template
+          path: data/derived/ocr_human_reference_template.csv
+          retention-days: 30
