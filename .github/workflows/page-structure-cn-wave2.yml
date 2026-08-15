@@ -1,0 +1,105 @@
+name: page-structure-cn-wave2
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['ocr-cn-wave2']
+    types: [completed]
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  preflight:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Verify consolidated Wave 2 OCR
+        run: |
+          python3 - <<'PY'
+          import csv
+          m=list(csv.DictReader(open('data/expansion/cn_wave2_ocr_page_metrics.csv',encoding='utf-8')))
+          q=list(csv.DictReader(open('data/expansion/cn_wave2_ingestion_queue.csv',encoding='utf-8')))
+          assert len(m)==3177, len(m)
+          assert len({r['book_id'] for r in m})==19
+          assert {r['book_id'] for r in m}=={r['book_id'] for r in q}
+          assert all(r['source_sha256_verified']=='1' for r in m)
+          print('PAGESTRUCT preflight OK: 3177 OCR rows / 19 books')
+          PY
+
+  flags:
+    needs: preflight
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - { book_id: LTMD-CN1-G1972, slug: cn1-g1972 }
+          - { book_id: LTMD-CN2-G1972, slug: cn2-g1972 }
+          - { book_id: LTMD-CN3-G1972, slug: cn3-g1972 }
+          - { book_id: LTMD-CN3-G1982, slug: cn3-g1982 }
+          - { book_id: LTMD-CN4-G1982, slug: cn4-g1982 }
+          - { book_id: LTMD-CN5-G1982, slug: cn5-g1982 }
+          - { book_id: LTMD-CN6-G1982, slug: cn6-g1982 }
+          - { book_id: LTMD-CN3-G1988, slug: cn3-g1988 }
+          - { book_id: LTMD-CN3-G1993, slug: cn3-g1993 }
+          - { book_id: LTMD-CN5-G2008, slug: cn5-g2008 }
+          - { book_id: LTMD-CN3-G2011, slug: cn3-g2011 }
+          - { book_id: LTMD-CN4-G2011, slug: cn4-g2011 }
+          - { book_id: LTMD-CN5-G2011, slug: cn5-g2011 }
+          - { book_id: LTMD-CN6-G2011, slug: cn6-g2011 }
+          - { book_id: LTMD-CN3-G2014, slug: cn3-g2014 }
+          - { book_id: LTMD-CN3-G2019, slug: cn3-g2019 }
+          - { book_id: LTMD-CN4-G2019, slug: cn4-g2019 }
+          - { book_id: LTMD-CN5-G2019, slug: cn5-g2019 }
+          - { book_id: LTMD-CN6-G2019, slug: cn6-g2019 }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Install Spanish OCR runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: Extract structural flags for one book
+        run: python3 scripts/extract_cn_wave2_structural_flags_book.py --book-id '${{ matrix.book_id }}' --output-dir data/work/cn_wave2_structkw
+      - name: Verify structural shard
+        run: test -s 'data/work/cn_wave2_structkw/structkw_${{ matrix.slug }}.csv'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: structkw-${{ matrix.slug }}
+          path: data/work/cn_wave2_structkw/structkw_${{ matrix.slug }}.csv
+          if-no-files-found: error
+          retention-days: 7
+
+  combine:
+    needs: [preflight, flags]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: structkw-*
+          path: data/work/cn_wave2_structkw
+          merge-multiple: true
+      - name: Combine structural flags
+        run: python3 scripts/combine_cn_wave2_structural_flags.py --input-dir data/work/cn_wave2_structkw
+      - name: Classify all Wave 2 pages
+        run: python3 scripts/classify_cn_wave2_page_structure.py
+      - name: Publish PAGESTRUCT Wave 2 race-safely
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/expansion/cn_wave2_structural_keyword_flags.csv data/expansion/cn_wave2_page_structure.csv data/expansion/cn_wave2_page_structure_summary.csv data/expansion/cn_wave2_page_structure_report.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Publish Ciencias Naturales Wave 2 PAGESTRUCT'
+          git pull --rebase origin main
+          git push origin HEAD:main
