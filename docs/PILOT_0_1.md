@@ -1,27 +1,33 @@
-# Piloto 0.1 — Ciencias Naturales entre generaciones curriculares
+# Piloto 0.1 — Ciencias Naturales de quinto grado entre generaciones curriculares
 
-## Decisión inicial
+## Decisión del corpus
 
-El primer piloto se concentrará en **Ciencias Naturales de educación primaria**. Antes de fijar un grado específico se hará un inventario de continuidad documental para identificar el grado que esté mejor representado en las generaciones seleccionadas.
+El piloto 0.1 se concentrará en **Ciencias Naturales de quinto grado de educación primaria**. El inventario inicial confirmó continuidad documental en los cuatro cortes seleccionados: generaciones 1972, 1988, 1993 y 2014.
 
 ## Por qué Ciencias Naturales
 
 La propia CONALITEG presenta su catálogo histórico como un recurso que permite observar la evolución de lecturas y estilos de enseñanza en materias como matemáticas, español y ciencias naturales. Ciencias Naturales ofrece además una combinación especialmente útil de texto, imágenes, actividades, preguntas, explicaciones y representaciones de ciencia, salud, ambiente y vida cotidiana.
 
-## Cortes generacionales para el inventario inicial
+## Corpus mínimo verificado
 
-El catálogo histórico organiza los materiales por generaciones. El primer barrido se realizará sobre cuatro cortes que representan momentos suficientemente separados:
+| Generación | Grado | Título | Página oficial |
+|---|---:|---|---|
+| 1972 | 5° | Ciencias Naturales | https://historico.conaliteg.gob.mx/H1972P5CI084.htm |
+| 1988 | 5° | Ciencias Naturales | https://historico.conaliteg.gob.mx/H1988P5CI123.htm |
+| 1993 | 5° | Ciencias Naturales | https://historico.conaliteg.gob.mx/H1993P5CI200.htm |
+| 2014 | 5° | Ciencias Naturales | https://historico.conaliteg.gob.mx/H2014P5CNA.htm |
 
-- generación 1972;
-- generación 1988;
-- generación 1993;
-- generación 2014.
+Las cuatro páginas oficiales fueron verificadas el 15 de agosto de 2026 y presentan navegación por páginas. El siguiente control técnico debe establecer número de páginas, formato real del recurso subyacente, calidad de imagen/texto y estrategia de extracción.
 
-La inclusión de 1960 se evaluará después de comprobar continuidad de asignatura y grado. Los cortes no se consideran equivalentes a una serie anual: son generaciones editoriales/curriculares que deben contextualizarse históricamente.
+## Lógica temporal
+
+Los cortes no se consideran equivalentes a una serie anual. Son **generaciones editoriales/curriculares** y deberán contextualizarse históricamente. El análisis comparará cambios entre generaciones, no inferirá tendencias anuales continuas.
+
+La generación 1972 es especialmente relevante porque corresponde a una reforma que reorganizó primaria por áreas e impulsó un enfoque formativo de las ciencias basado en observación, investigación y experimentación. La generación 1993 coincide con otra renovación curricular de gran alcance. Las generaciones 1988 y 2014 permiten observar, respectivamente, el periodo previo a la reforma de los noventa y una etapa posterior de consolidación/revisión de materiales contemporáneos.
 
 ## Pregunta piloto
 
-¿Cómo cambian entre generaciones curriculares la representación de la ciencia y el ambiente, el papel atribuido al alumno y el tipo de actividad pedagógica propuesta en los libros de Ciencias Naturales de primaria?
+¿Cómo cambian entre generaciones curriculares la representación de la ciencia y el ambiente, el papel atribuido al alumno y el tipo de actividad pedagógica propuesta en los libros de Ciencias Naturales de quinto grado?
 
 ## Tres familias de variables
 
@@ -57,17 +63,6 @@ La inclusión de 1960 se evaluará después de comprobar continuidad de asignatu
 - colaborador;
 - agente comunitario.
 
-## Criterio para fijar el grado
-
-Se elegirá el grado que cumpla mejor, en este orden:
-
-1. presencia en los cuatro cortes generacionales;
-2. libro completo y navegable;
-3. cantidad comparable de páginas y unidades;
-4. calidad suficiente para extracción de texto o OCR;
-5. riqueza de actividades e imágenes;
-6. ausencia de obstáculos técnicos que vuelvan el piloto innecesariamente costoso.
-
 ## Producto mínimo del piloto
 
 - inventario verificable de 4 libros comparables;
@@ -81,6 +76,15 @@ Se elegirá el grado que cumpla mejor, en este orden:
 ## Estado jurídico de trabajo
 
 No se asume permiso para republicar archivos fuente, imágenes ni OCR completo. El procesamiento se realizará sobre copias de trabajo cuando sea técnicamente posible y los productos publicables se limitarán inicialmente a metadatos, código, anotaciones y resultados derivados cuya difusión sea justificable.
+
+## Próximo control técnico
+
+1. determinar la ruta real de cada página/imagen o archivo subyacente;
+2. contar páginas de cada libro;
+3. probar extracción de texto nativo antes de recurrir a OCR;
+4. medir calidad sobre una muestra estratificada de páginas;
+5. definir el esquema página → fragmento → actividad/consigna;
+6. alimentar el primer dataset derivado reproducible.
 
 ## Fuentes institucionales consultadas
 
