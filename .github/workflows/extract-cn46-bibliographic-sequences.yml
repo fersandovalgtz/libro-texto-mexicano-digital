@@ -1,0 +1,47 @@
+name: extract-cn46-bibliographic-sequences
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/extract-cn46-bibliographic-sequences.yml'
+      - 'scripts/extract_cn46_bibliographic_sequences.py'
+      - 'data/expansion/cn46_viewer_candidates.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install pinned OCR runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: Extract strict bibliographic sequences
+        run: python3 scripts/extract_cn46_bibliographic_sequences.py
+      - name: Publish strict bibliography race-safely
+        run: |
+          set -euo pipefail
+          cp data/expansion/cn46_bibliographic_sequences.csv /tmp/cn46_bibliographic_sequences.csv
+          cp data/expansion/cn46_bibliographic_sequences.md /tmp/cn46_bibliographic_sequences.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/expansion
+            cp /tmp/cn46_bibliographic_sequences.csv data/expansion/
+            cp /tmp/cn46_bibliographic_sequences.md data/expansion/
+            git add data/expansion/cn46_bibliographic_sequences.csv data/expansion/cn46_bibliographic_sequences.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish strict CN4/CN6 bibliographic sequences'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
