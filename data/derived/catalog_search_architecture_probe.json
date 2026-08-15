@@ -1,0 +1,960 @@
+{
+  "version": "CONALITEG_CATALOG_PROBE_0.1",
+  "base": "https://historico.conaliteg.gob.mx/",
+  "html": {
+    "status": 200,
+    "bytes": 15505,
+    "content_type": "text/html",
+    "final_url": "https://historico.conaliteg.gob.mx/"
+  },
+  "forms": [],
+  "inputs": [
+    {
+      "tag": "button",
+      "name": "",
+      "id": "",
+      "type": "button",
+      "value": ""
+    },
+    {
+      "tag": "button",
+      "name": "",
+      "id": "",
+      "type": "button",
+      "value": ""
+    },
+    {
+      "tag": "input",
+      "name": "anio",
+      "id": "anio",
+      "type": "number",
+      "value": ""
+    },
+    {
+      "tag": "button",
+      "name": "",
+      "id": "con_curp",
+      "type": "button",
+      "value": ""
+    }
+  ],
+  "inline_handlers": [],
+  "html_signals": [
+    {
+      "line": 5,
+      "text": "<title>Catálogo histórico  de libros de texto gratuitos 1960 - 2020 .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG :.</title>"
+    },
+    {
+      "line": 7,
+      "text": "<meta name=\"description\" content=\"Catálogo histórico  de libros de texto gratuitos 1960 - 2020 .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG :.\" />"
+    },
+    {
+      "line": 8,
+      "text": "<meta name=\"keywords\" content=\"catalogo, historico, libros, primaria,  Secretaria de Educación Pública, SEP, Conaliteg, mexico, Comisión Nacional de Libros de Texto Gratuitos, comision, nacional, libros, texto, gratuitos, catalogo, libros, texto, educacion, primaria, 1960, 1962 1972, 1982, 1988, 1993, 2008, 2011, gobierno, federal, impresión, distribución, secundaria, secretaria de educación pública, sep, gobierno federal, educación, pública, estados unidos mexicanos\" />"
+    },
+    {
+      "line": 12,
+      "text": "<meta property=\"og:title\" content=\"Catálogo histórico  de libros de texto gratuitos 1960 - 2020 .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG :.\" />"
+    },
+    {
+      "line": 13,
+      "text": "<meta property=\"og:url\" content=\"http://historico.conaliteg.gob.mx/\" />"
+    },
+    {
+      "line": 14,
+      "text": "<meta property=\"og:description\" content=\"Catálogo histórico  de libros de texto gratuitos 1960 - 2020 .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG :.\" />"
+    },
+    {
+      "line": 15,
+      "text": "<meta property=\"og:site_name\" content=\"Catálogo histórico  de libros de texto gratuitos 1960 - 2020 .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG :.\" />"
+    },
+    {
+      "line": 16,
+      "text": "<meta property=\"og:image\" content=\"http://historico.conaliteg.gob.mx/tw.jpg\" />"
+    },
+    {
+      "line": 21,
+      "text": "<meta name=\"twitter:title\" content=\"Catálogo histórico  de libros de texto gratuitos 1960 - 2020 .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG :.\" />"
+    },
+    {
+      "line": 22,
+      "text": "<meta name=\"twitter:description\" content=\"Catálogo histórico  de libros de texto gratuitos 1960 - 2020 .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG :.\" />"
+    },
+    {
+      "line": 23,
+      "text": "<meta name=\"twitter:image\" content=\"http://historico.conaliteg.gob.mx/tw.jpg\" />"
+    },
+    {
+      "line": 24,
+      "text": "<meta itemprop=\"name\" content=\"Catálogo histórico  de libros de texto gratuitos 1960 - 2020 .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG :.\" />"
+    },
+    {
+      "line": 25,
+      "text": "<meta itemprop=\"description\" content=\"Catálogo histórico  de libros de texto gratuitos 1960 - 2020 .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG :.\" />"
+    },
+    {
+      "line": 26,
+      "text": "<link type=\"text/plain\" rel=\"author\" href=\"http://historico.conaliteg.gob.mx\" />"
+    },
+    {
+      "line": 32,
+      "text": "<script src=\"libros_2023.js\"></script>"
+    },
+    {
+      "line": 42,
+      "text": "<link rel=\"alternate\" type=\"application/rss+xml\" href=\"/rss.xml\" title=\"Catálogo histórico  de libros de texto gratuitos 1960 - 2020 CONALITEG\">"
+    },
+    {
+      "line": 43,
+      "text": "<link  rel=\"alternate\" type=\"application/atom+xml\"  href=\"/atom.xml\"   title=\"Catálogo histórico  de libros de texto gratuitos 1960 - 2020 CONALITEG\">"
+    },
+    {
+      "line": 50,
+      "text": "<nav class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\"><div class=\"container\"><div class=\"navbar-header\"><button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbarMainCollapse\"><span class=\"sr-only\">Interruptor de Navegación</span><span class=\"icon-bar\"></span><span class=\"icon-bar\"></span><span class=\"icon-bar\"></span></button><a class=\"navbar-brand\" href=\"https://www.gob.mx/\"><img src=\"./i/logoheader.png\" width=\"128\" height=\"50\" alt=\"Página de inicio, Gobierno de México\"></a></div><div class=\"collapse navbar-collapse\" id=\"navbarMainCollapse\"><ul class=\"nav navbar-nav navbar-right\"><li><a href=\"https://www.gob.mx/tramites\">Trámites</a></li><li><a href=\"https://www.gob.mx/gobierno\">Gobierno</a></li><li><a href=\"https://www.gob.mx/busqueda\"><span class=\"sr-only\">Búsqueda</span><i class=\"icon-search\"></i></a></li></ul></div></div></nav>"
+    },
+    {
+      "line": 61,
+      "text": "<li><a href=\"http://libros.conaliteg.gob.mx\"><i class=\"glyphicon glyphicon-book\"></i> Catálogo de libros</a></li>"
+    },
+    {
+      "line": 62,
+      "text": "<li><a href=\"http://www.conaliteg.gob.mx/directorio.php\"><i class=\"glyphicon glyphicon-list\"></i> Directorio</a></li>"
+    },
+    {
+      "line": 72,
+      "text": "<div class=\"header-image\"><a href=\"http://www.gob.mx/conaliteg\"><img class=\"image-size\" alt=\"Comisión Nacional de Libros de Texto Gratuitos CONALITEG\" src=\"./i/logos_sep_conaliteg.png\" /></a></div>"
+    },
+    {
+      "line": 73,
+      "text": "<div class=\"header-text\"><h1 id=\"size-font-title\">Bienvenido a la búsqueda Histórica de Libros de Primaria</h1></div>"
+    },
+    {
+      "line": 79,
+      "text": "<label class=\"col-sm-1 control-label\" for=\"input-search\">"
+    },
+    {
+      "line": 84,
+      "text": "<i class=\"glyphicon glyphicon-search form-control-feedback\"></i>"
+    },
+    {
+      "line": 89,
+      "text": "<span class=\"glyphicon glyphicon-search\"></span> Buscar"
+    },
+    {
+      "line": 95,
+      "text": "<div class=\"row\" id=\"ag_historico\">"
+    },
+    {
+      "line": 99,
+      "text": "<div class=\"generacion-container\">"
+    },
+    {
+      "line": 100,
+      "text": "<div class=\"generacion-item\">"
+    },
+    {
+      "line": 205,
+      "text": "<div class=\"row\" id=\"ag_catalogo_historico\">"
+    },
+    {
+      "line": 215,
+      "text": "<p><strong>Comisión Nacional de Libros de Texto Gratuitos</strong><br>"
+    }
+  ],
+  "html_endpoint_candidates": [
+    "></span> Buscar\n            </button>\n        </div>\n\t</div>\n</div>\n\n<div class="
+  ],
+  "same_origin_scripts": [
+    {
+      "url": "https://historico.conaliteg.gob.mx/js/webfont.js",
+      "status": 200,
+      "bytes": 13188,
+      "content_type": "text/javascript",
+      "final_url": "https://historico.conaliteg.gob.mx/js/webfont.js",
+      "signals": [],
+      "endpoint_candidates": [
+        "__MonotypeAPIScript__",
+        "fast.fonts.net/jsapi"
+      ]
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/jquery.js",
+      "status": 200,
+      "bytes": 87534,
+      "content_type": "text/javascript",
+      "final_url": "https://historico.conaliteg.gob.mx/jquery.js",
+      "signals": [
+        {
+          "line": 2,
+          "text": "!function(e,t){\"use strict\";\"object\"==typeof module&&\"object\"==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error(\"jQuery requires a window with a document\");return t(e)}:t(e)}(\"undefined\"!=typeof window?window:this,function(ie,e){\"use strict\";var oe=[],r=Object.getPrototypeOf,ae=oe.slice,g=oe.flat?function(e){return oe.flat.call(e)}:function(e){return oe.concat.apply([],e)},s=oe.push,se=oe.indexOf,n={},i=n.toString,ue=n.hasOwnProperty,o=ue.toString,a=o.call(Object),le={},v=function(e){return\"function\"==typeof e&&\"number\"!=typeof e.nodeType&&\"function\"!=typeof e.item},y=function(e){return null!=e&&e===e.window},C=ie.document,u={type:!0,src:!0,nonce:!0,noModule:!0};function m(e,t,n){var r,i,o=(n=n||C).createElement(\"script\");if(o.text=e,t)for(r in u)(i=t[r]||t.getAttribute&&t.getAttribute(r))&&o.setAttribute(r,i);n.head.appendChild(o).parentNode.removeChild(o)}function x(e){return null==e?e+\"\":\"object\"==typeof e||\"function\"==typeof e?n[i.call(e)]||\"object\":typeof e}var t=\"3.7.1\",l=/HTML$/i,ce=function(e,t){return new ce.fn.init(e,t)};function c(e){var t=!!e&&\"length\"in e&&e.length,n=x(e);return!v(e)&&!y(e)&&(\"array\"===n||0===t||\"number\"==typeof t&&0<t&&t-1 in e)}function fe(e,t){return e.nodeName&&e.nodeName.toLowerCase()===t.toLowerCase()}ce.fn=ce.prototype={jquery:t,constructor:ce,length:0,toArray:function(){return ae.call(this)},get:function(e){return null==e?ae.call(this):e<0?this[e+this.length]:this[e]},pushStack:function(e){var t=ce.merge(this.constructor(),e);return t.prevObject=this,t},each:function(e){return ce.each(th"
+        }
+      ],
+      "endpoint_candidates": [
+        ")+e.jsonp+",
+        "),0<a.length&&ce.ajax({url:e,type:i||",
+        ")}),ce._evalUrl=function(e,t,n){return ce.ajax({url:e,type:",
+        ")}function Gt(e,t){var n,r,i=ce.ajaxSettings.flatOptions||{};for(n in t)void 0!==t[n]&&((i[n]?e:r||(r={}))[n]=t[n]);return r&&ce.extend(!0,e,r),e}Xt.href=Et.href,ce.extend({active:0,lastModified:{},etag:{},ajaxSettings:{url:Et.href,type:",
+        "+r):!1!==e.jsonp&&(e.url+=(At.test(e.url)?",
+        ",i=ie[r],ie[r]=function(){o=arguments},n.always(function(){void 0===i?ce(ie).removeProp(r):ie[r]=i,e[r]&&(e.jsonpCallback=t.jsonpCallback,Kt.push(r)),o&&v(i)&&i(o[0]),o=i=void 0}),",
+        ":ce.parseXML},flatOptions:{url:!0,context:!0}},ajaxSetup:function(e,t){return t?Gt(Gt(e,ce.ajaxSettings),t):Gt(ce.ajaxSettings,e)},ajaxPrefilter:Ut(Bt),ajaxTransport:Ut(_t),ajax:function(e,t){",
+        "===e.dataTypes[0])return r=e.jsonpCallback=v(e.jsonpCallback)?e.jsonpCallback():e.jsonpCallback,a?e[a]=e[a].replace(Zt,",
+        "==typeof e&&(t=e,e=void 0),t=t||{};var c,f,p,n,d,r,h,g,i,o,v=ce.ajaxSetup({},t),y=v.context||v,m=v.context&&(y.nodeType||y.jquery)?ce(y):ce.event,x=ce.Deferred(),b=ce.Callbacks(",
+        "],function(e,i){ce[i]=function(e,t,n,r){return v(t)&&(r=r||n,n=t,t=void 0),ce.ajax(ce.extend({url:e,type:i,dataType:r,data:t,success:n},ce.isPlainObject(e)&&e))}}),ce.ajaxPrefilter(function(e){var t;for(t in e.headers)"
+      ]
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/bootstrap.js",
+      "status": 200,
+      "bytes": 145402,
+      "content_type": "text/javascript",
+      "final_url": "https://historico.conaliteg.gob.mx/bootstrap.js",
+      "signals": [
+        {
+          "line": 48,
+          "text": "const instanceMap = elementMap.get(element);"
+        },
+        {
+          "line": 59,
+          "text": "get(element, key) {"
+        },
+        {
+          "line": 61,
+          "text": "return elementMap.get(element).get(key) || null;"
+        },
+        {
+          "line": 69,
+          "text": "const instanceMap = elementMap.get(element);"
+        },
+        {
+          "line": 261,
+          "text": "const JQUERY_NO_CONFLICT = $.fn[name];"
+        },
+        {
+          "line": 262,
+          "text": "$.fn[name] = plugin.jQueryInterface;"
+        },
+        {
+          "line": 263,
+          "text": "$.fn[name].Constructor = plugin;"
+        },
+        {
+          "line": 264,
+          "text": "$.fn[name].noConflict = () => {"
+        },
+        {
+          "line": 265,
+          "text": "$.fn[name] = JQUERY_NO_CONFLICT;"
+        },
+        {
+          "line": 509,
+          "text": "jQueryEvent = $.Event(event, args);"
+        },
+        {
+          "line": 538,
+          "text": "get() {"
+        },
+        {
+          "line": 571,
+          "text": "return JSON.parse(decodeURIComponent(value));"
+        },
+        {
+          "line": 637,
+          "text": "const jsonConfig = isElement(element) ? Manipulator.getDataAttribute(element, 'config') : {}; // try to parse"
+        },
+        {
+          "line": 641,
+          "text": "...(typeof jsonConfig === 'object' ? jsonConfig : {}),"
+        },
+        {
+          "line": 707,
+          "text": "return Data.get(getElement(element), this.DATA_KEY);"
+        },
+        {
+          "line": 3456,
+          "text": "_initializeOnDelegatedTarget(event) {"
+        },
+        {
+          "line": 3529,
+          "text": "const context = this._initializeOnDelegatedTarget(event);"
+        },
+        {
+          "line": 3536,
+          "text": "const context = this._initializeOnDelegatedTarget(event);"
+        },
+        {
+          "line": 3541,
+          "text": "const context = this._initializeOnDelegatedTarget(event);"
+        },
+        {
+          "line": 3872,
+          "text": "const observableSection = this._observableSections.get(event.target.hash);"
+        },
+        {
+          "line": 3901,
+          "text": "const targetElement = entry => this._targetLinks.get(`#${entry.target.id}`);"
+        },
+        {
+          "line": 4089,
+          "text": "// Search for active tab on same parent to deactivate it"
+        },
+        {
+          "line": 4110,
+          "text": "this._activate(SelectorEngine.getElementFromSelector(element)); // Search and activate/show the proper section"
+        },
+        {
+          "line": 4132,
+          "text": "this._deactivate(SelectorEngine.getElementFromSelector(element)); // Search and deactivate the shown section too"
+        }
+      ],
+      "endpoint_candidates": [
+        ".data-api"
+      ]
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/libros_2023.js",
+      "status": 200,
+      "bytes": 34386,
+      "content_type": "text/javascript",
+      "final_url": "https://historico.conaliteg.gob.mx/libros_2023.js",
+      "signals": [
+        {
+          "line": 65,
+          "text": "var libros = ["
+        },
+        {
+          "line": 67,
+          "text": "[\"En 1960, los concursos para los libros de sexto grado, fueron declarados desiertos por el jurado y los alumnos, mientras tanto, continuaron trabajando con materiales hechos por editoriales privadas.\",\"H1960P1ES001\",1960,6],"
+        },
+        {
+          "line": 70,
+          "text": "[\"MI LIBRO DE 1ER AÑO\",\"H1960P1ES002\",1960,1],"
+        },
+        {
+          "line": 72,
+          "text": "[\"MI LIBRO DE 2° AÑO\",\"H1960P2ES004\",1960,2],"
+        },
+        {
+          "line": 75,
+          "text": "[\"MI LIBRO DE LENGUA NACIONAL\",\"H1960P3ES007\",1960,3],"
+        },
+        {
+          "line": 77,
+          "text": "[\"MI LIBRO DE GEOGRAFÍA\",\"H1960P3GE009\",1960,3],"
+        },
+        {
+          "line": 78,
+          "text": "[\"MI LIBRO DE HISTORIA Y CIVISMO\",\"H1960P3HI010\",1960,3],"
+        },
+        {
+          "line": 79,
+          "text": "[\"MI LIBRO, SEGUNDA PARTE. ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA\",\"H1960P3MA011\",1960,3],"
+        },
+        {
+          "line": 81,
+          "text": "[\"MI LIBRO DE LENGUA NACIONAL\",\"H1960P4ES013\",1960,4],"
+        },
+        {
+          "line": 84,
+          "text": "[\"MI LIBRO DE GEOGRAFÍA\",\"H1960P4GE016\",1960,4],"
+        },
+        {
+          "line": 85,
+          "text": "[\"MI LIBRO DE HISTORIA Y CIVISMO\",\"H1960P4HI017\",1960,4],"
+        },
+        {
+          "line": 87,
+          "text": "[\"MI LIBRO. SEGUNDA PARTE. ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA.\",\"H1960P4MA019\",1960,4],"
+        },
+        {
+          "line": 89,
+          "text": "[\"MI LIBRO, SEGUNDA PARTE ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA.\",\"H1960P5MA021\",1960,5],"
+        },
+        {
+          "line": 127,
+          "text": "[\"MI LIBRO RECORTABLE PARTE 1\",\"H1982P1ES096\",1982,1],"
+        },
+        {
+          "line": 128,
+          "text": "[\"MI LIBRO RECORTABLE PARTE 2\",\"H1982P1ES097\",1982,1],"
+        },
+        {
+          "line": 129,
+          "text": "[\"MI LIBRO PARTE 2\",\"H1982P1ES098\",1982,1],"
+        },
+        {
+          "line": 130,
+          "text": "[\"MI LIBRO PARTE 1\",\"H1982P1ES099\",1982,1],"
+        },
+        {
+          "line": 131,
+          "text": "[\"MI LIBRO LECTURAS\",\"H1982P2ES100\",1982,2],"
+        },
+        {
+          "line": 132,
+          "text": "[\"MI LIBRO PARTE 2\",\"H1982P2ES101\",1982,2],"
+        },
+        {
+          "line": 133,
+          "text": "[\"MI LIBRO DE SEGUNDO\",\"H1982P2ES102\",1982,2],"
+        },
+        {
+          "line": 139,
+          "text": "[\"MI LIBRO DE 1°, PARTE 1\",\"H1988P1ES108\",1988,1],"
+        },
+        {
+          "line": 140,
+          "text": "[\"MI LIBRO DE 1°, PARTE 2\",\"H1988P1ES109\",1988,1],"
+        },
+        {
+          "line": 141,
+          "text": "[\"MI LIBRO DE 1° RECORTABLE, PARTE 1\",\"H1988P1ES110\",1988,1],"
+        },
+        {
+          "line": 142,
+          "text": "[\"MI LIBRO DE 1°, RECORTABLE PARTE 2\",\"H1988P1ES111\",1988,1],"
+        },
+        {
+          "line": 143,
+          "text": "[\"MI LIBRO DE 2°, PARTE 2\",\"H1988P2CI112\",1988,2],"
+        },
+        {
+          "line": 144,
+          "text": "[\"MI LIBRO DE 2° PARTE 1\",\"H1988P2CI113\",1988,2],"
+        },
+        {
+          "line": 170,
+          "text": "[\"Libro Integrado\",\"H1993P1LI140\",1993,1],"
+        },
+        {
+          "line": 171,
+          "text": "[\"Libro Integrado recortable\",\"H1993P1LI141\",1993,1],"
+        },
+        {
+          "line": 179,
+          "text": "[\"Libro Integrado\",\"H1993P2LI149\",1993,2],"
+        },
+        {
+          "line": 180,
+          "text": "[\"Libro Integrado Recortable\",\"H1993P2LI150\",1993,2],"
+        },
+        {
+          "line": 282,
+          "text": "[\"ESPAÑOL 1er GRADO\",\"H2008P1ES253\",2008,1],"
+        },
+        {
+          "line": 330,
+          "text": "[\"FORMACIÓN CÍVICA Y ÉTICA 2° GRADO\",\"H2011P2CI301\",2011,2],"
+        },
+        {
+          "line": 375,
+          "text": "[\"MI LIBRO DE 1er AÑO\",\"H1966P1ES346\",1962,1],"
+        },
+        {
+          "line": 377,
+          "text": "[\"MI LIBRO DE 2° AÑO\",\"H1966P2ES348\",1962,2],"
+        },
+        {
+          "line": 379,
+          "text": "[\"MI LIBRO DE LENGUA NACIONAL\",\"H1966P3ES350\",1962,3],"
+        },
+        {
+          "line": 382,
+          "text": "[\"MI LIBRO DE GEOGRAFÍA\",\"H1966P3GE353\",1962,3],"
+        },
+        {
+          "line": 383,
+          "text": "[\"MI LIBRO DE HISTORIA Y CIVISMO\",\"H1966P3HI354\",1962,3],"
+        },
+        {
+          "line": 385,
+          "text": "[\"MI LIBRO DE ARITMÉTICA Y GEOMETRÍA, ESTUDIO DE LA NATURALEZA\",\"H1966P3MA356\",1962,3],"
+        },
+        {
+          "line": 386,
+          "text": "[\"MI LIBRO, SEGUNDA PARTE, ARITMÉTICA Y GEOMETRIA, ESTUDIO DE LA NATURALEZA\",\"H1966P3MA357\",1962,3],"
+        },
+        {
+          "line": 387,
+          "text": "[\"MI LIBRO DE LENGUA NACIONAL\",\"H1966P4ES358\",1962,4],"
+        },
+        {
+          "line": 390,
+          "text": "[\"MI LIBRO DE HISTORIA Y CIVISMO\",\"H1966P4HI361\",1962,4],"
+        },
+        {
+          "line": 392,
+          "text": "[\"MI LIBRO DE ARITMÉTICA Y GEOMETRÍA, ESTUDIO DE LA NATURALEZA\",\"H1966P4MA363\",1962,4],"
+        },
+        {
+          "line": 393,
+          "text": "[\"MI LIBRO DE GEOGRAFÍA\",\"H1966P4GE364\",1962,4],"
+        },
+        {
+          "line": 395,
+          "text": "[\"MI LIBRO DE LENGUA NACIONAL\",\"H1966P5ES366\",1962,5],"
+        },
+        {
+          "line": 397,
+          "text": "[\"MI LIBRO DE GEOGRAFÍA\",\"H1966P5GE368\",1962,5],"
+        },
+        {
+          "line": 399,
+          "text": "[\"MI LIBRO DE HISTORIA Y CIVISMO\",\"H1966P5HI370\",1962,5],"
+        },
+        {
+          "line": 401,
+          "text": "[\"MI LIBRO DE ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA\",\"H1966P5MA372\",1962,5],"
+        },
+        {
+          "line": 402,
+          "text": "[\"MI LIBRO, SEGUNDA PARTE. ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA\",\"H1966P5MA373\",1962,5],"
+        },
+        {
+          "line": 404,
+          "text": "[\"MI LIBRO DE ESTUDIO DE LA NATURALEZA\",\"H1966P6CI375\",1962,6],"
+        },
+        {
+          "line": 406,
+          "text": "[\"MI LIBRO DE LENGUA NACIONAL\",\"H1966P6ES377\",1962,6],"
+        },
+        {
+          "line": 409,
+          "text": "[\"MI LIBRO DE HISTORIA Y CIVISMO\",\"H1966P6HI380\",1962,6],"
+        },
+        {
+          "line": 410,
+          "text": "[\"MI LIBRO DE ARITMÉTICA Y GEOMETRÍA\",\"H1966P6MA381\",1962,6],"
+        },
+        {
+          "line": 432,
+          "text": "[\"Material de apoyo a la alfabetización inicial, Tiras recortables y cartel con el alfabeto\",\"H2014P1CAM\",2014,1],"
+        },
+        {
+          "line": 433,
+          "text": "[\"Español. Libro para el alumno\",\"H2014P1ESA\",2014,1],"
+        },
+        {
+          "line": 434,
+          "text": "[\"Español. Libro de lectura\",\"H2014P1LEA\",2014,1],"
+        },
+        {
+          "line": 435,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno\",\"H2014P1DMA\",2014,1],"
+        },
+        {
+          "line": 439,
+          "text": "[\"Español. Libro para el alumno\",\"H2014P2ESA\",2014,2],"
+        },
+        {
+          "line": 440,
+          "text": "[\"Español. Libro de lectura\",\"H2014P2LEA\",2014,2],"
+        },
+        {
+          "line": 441,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno\",\"H2014P2DMA\",2014,2],"
+        },
+        {
+          "line": 446,
+          "text": "[\"Español. Libro de lectura\",\"H2014P3LEA\",2014,3],"
+        },
+        {
+          "line": 482,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno\",\"H2014P3DMA\",2014,3],"
+        },
+        {
+          "line": 484,
+          "text": "[\"Español. Libro de lectura\",\"H2014P4LEA\",2014,4],"
+        },
+        {
+          "line": 485,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno\",\"H2014P4DMA\",2014,4],"
+        },
+        {
+          "line": 494,
+          "text": "[\"Español. Libro de lectura\",\"H2014P5LEA\",2014,5],"
+        },
+        {
+          "line": 495,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno\",\"H2014P5DMA\",2014,5],"
+        },
+        {
+          "line": 503,
+          "text": "[\"Español. Libro de lectura\",\"H2014P6LEA\",2014,6],"
+        },
+        {
+          "line": 504,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno\",\"H2014P6DMA\",2014,6],"
+        },
+        {
+          "line": 510,
+          "text": "[\"Desafíos matemáticos. Libro para el maestro\",\"H2014P1DMM\",2014,1],"
+        },
+        {
+          "line": 511,
+          "text": "[\"Español. Libro para el maestro\",\"H2014P1ESM\",2014,1],"
+        },
+        {
+          "line": 512,
+          "text": "[\"Desafíos matemáticos. Libro para el maestro\",\"H2014P2DMM\",2014,2],"
+        },
+        {
+          "line": 513,
+          "text": "[\"Desafíos matemáticos. Libro para el maestro\",\"H2014P3DMM\",2014,3],"
+        },
+        {
+          "line": 514,
+          "text": "[\"Desafíos matemáticos. Libro para el maestro\",\"H2014P4DMM\",2014,4],"
+        },
+        {
+          "line": 515,
+          "text": "[\"Desafíos matemáticos. Libro para el maestro\",\"H2014P5DMM\",2014,5],"
+        },
+        {
+          "line": 516,
+          "text": "[\"Desafíos matemáticos. Libro para el maestro\",\"H2014P6DMM\",2014,6],"
+        },
+        {
+          "line": 517,
+          "text": "[\"Español. Libro para el maestro\",\"H2014P2ESM\",2014,2],"
+        },
+        {
+          "line": 527,
+          "text": "['Material de apoyo a la alfabetización Inicial. Tiras recortables. ','H2018P1CAM',2018,1],"
+        },
+        {
+          "line": 538,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno.\",\"H2018P3DMA\",2018,3],"
+        },
+        {
+          "line": 542,
+          "text": "[\"Español. Libro de lectura.\",\"H2018P3LEA\",2018,3],"
+        },
+        {
+          "line": 546,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno.\",\"H2018P4DMA\",2018,4],"
+        },
+        {
+          "line": 552,
+          "text": "[\"Español. Libro de lectura.\",\"H2018P4LEA\",2018,4],"
+        },
+        {
+          "line": 555,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno.\",\"H2018P5DMA\",2018,5],"
+        },
+        {
+          "line": 561,
+          "text": "[\"Español. Libro de lectura.\",\"H2018P5LEA\",2018,5],"
+        },
+        {
+          "line": 563,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno.\",\"H2018P6DMA\",2018,6],"
+        },
+        {
+          "line": 569,
+          "text": "[\"Español. Libro de lectura.\",\"H2018P6LEA\",2018,6],"
+        },
+        {
+          "line": 574,
+          "text": "[\"Conocimiento del medio. Primer grado.\",\"H2019P1COA\",2019,1],"
+        },
+        {
+          "line": 575,
+          "text": "[\"Conocimiento del medio. Primer grado. Docente.\",\"H2019P1COM\",2019,1],"
+        },
+        {
+          "line": 577,
+          "text": "[\"Lengua materna. Español lecturas. Primer grado.\",\"H2019P1LEA\",2019,1],"
+        },
+        {
+          "line": 578,
+          "text": "[\"Lengua materna. Español. Primer grado.\",\"H2019P1ESA\",2019,1],"
+        },
+        {
+          "line": 579,
+          "text": "[\"Lengua materna. Español. Primer grado. Docente.\",\"H2019P1ESM\",2019,1],"
+        },
+        {
+          "line": 580,
+          "text": "[\"Matemáticas. Primer grado.\",\"H2019P1MAA\",2019,1],"
+        },
+        {
+          "line": 581,
+          "text": "[\"Matemáticas. Primer grado. Docente.\",\"H2019P1MAM\",2019,1],"
+        },
+        {
+          "line": 582,
+          "text": "[\"Material de apoyo a la alfabetización Inicial. Tiras recortables. PrImer grado \",\"H2019P1CAM\",2019,1],"
+        },
+        {
+          "line": 583,
+          "text": "[\"Conocimiento del medio. Segundo grado.\",\"H2019P2COA\",2019,2],"
+        },
+        {
+          "line": 584,
+          "text": "[\"Conocimiento del medio. Segundo grado. Docente.\",\"H2019P2COM\",2019,2],"
+        },
+        {
+          "line": 586,
+          "text": "[\"Lengua materna. Español lecturas. Segundo grado.\",\"H2019P2LEA\",2019,2],"
+        },
+        {
+          "line": 587,
+          "text": "[\"Lengua materna. Español. Segundo grado.\",\"H2019P2ESA\",2019,2],"
+        },
+        {
+          "line": 588,
+          "text": "[\"Lengua materna. Español. Segundo grado. Docente.\",\"H2019P2ESM\",2019,2],"
+        },
+        {
+          "line": 589,
+          "text": "[\"Matemáticas. Segundo grado.\",\"H2019P2MAA\",2019,2],"
+        },
+        {
+          "line": 590,
+          "text": "[\"Matemáticas. Segundo grado. Docente.\",\"H2019P2MAM\",2019,2],"
+        },
+        {
+          "line": 592,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno\",\"H2019P3DMA\",2019,3],"
+        },
+        {
+          "line": 595,
+          "text": "[\"Español. Libro de lectura\",\"H2019P3LEA\",2019,3],"
+        },
+        {
+          "line": 632,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno\",\"H2019P4DMA\",2019,4],"
+        },
+        {
+          "line": 635,
+          "text": "[\"Español. Libro de lectura\",\"H2019P4LEA\",2019,4],"
+        },
+        {
+          "line": 641,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno\",\"H2019P5DMA\",2019,5],"
+        },
+        {
+          "line": 644,
+          "text": "[\"Español. Libro de lectura\",\"H2019P5LEA\",2019,5],"
+        },
+        {
+          "line": 649,
+          "text": "[\"Desafíos matemáticos. Libro para el alumno\",\"H2019P6DMA\",2019,6],"
+        },
+        {
+          "line": 652,
+          "text": "[\"Español. Libro de lectura\",\"H2019P6LEA\",2019,6],"
+        }
+      ],
+      "endpoint_candidates": []
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/js.js",
+      "status": 200,
+      "bytes": 303,
+      "content_type": "text/javascript",
+      "final_url": "https://historico.conaliteg.gob.mx/js.js",
+      "signals": [],
+      "endpoint_candidates": []
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/js/busqueda_01.js",
+      "status": 200,
+      "bytes": 10801,
+      "content_type": "text/javascript",
+      "final_url": "https://historico.conaliteg.gob.mx/js/busqueda_01.js",
+      "signals": [
+        {
+          "line": 2,
+          "text": "document.getElementById('con_curp').addEventListener('click', buscar_generacion);"
+        },
+        {
+          "line": 4,
+          "text": "document.getElementById('con_curp').addEventListener('click', buscar_generacion);"
+        },
+        {
+          "line": 7,
+          "text": "const generacionLinks = ["
+        },
+        {
+          "line": 21,
+          "text": "generacionLinks.forEach(link => {"
+        },
+        {
+          "line": 24,
+          "text": "mostrar_generacion(link.ano);"
+        },
+        {
+          "line": 29,
+          "text": "mostrar_generacion(link.ano);"
+        },
+        {
+          "line": 35,
+          "text": "var grados_labels =['avoid 0','Primer','Segundo','Tercer','Cuarto','Quinto','Sexto']"
+        },
+        {
+          "line": 38,
+          "text": "// muestra los libros del grado seleccionado"
+        },
+        {
+          "line": 41,
+          "text": "function mostrar_libros(ano, grado) {"
+        },
+        {
+          "line": 48,
+          "text": "// Iterar sobre la lista de libros y filtrar por año y grado"
+        },
+        {
+          "line": 49,
+          "text": "libros.forEach(libro => {"
+        },
+        {
+          "line": 50,
+          "text": "if (libro[2] === ano && libro[3] === grado) {"
+        },
+        {
+          "line": 51,
+          "text": "resultado.push(libro);"
+        },
+        {
+          "line": 58,
+          "text": "resultado.forEach(libro => {"
+        },
+        {
+          "line": 59,
+          "text": "let [titulo, id, ,] = libro;"
+        },
+        {
+          "line": 86,
+          "text": "<strong>Grado:</strong> ${grado}°"
+        },
+        {
+          "line": 104,
+          "text": "let token = `?g=${encodeURIComponent(ano)}&a=${encodeURIComponent(grado)}`;"
+        },
+        {
+          "line": 105,
+          "text": "history.pushState(null, 'Generacion', token);"
+        },
+        {
+          "line": 110,
+          "text": "// muestra menu, explorar por generaciones"
+        },
+        {
+          "line": 153,
+          "text": "mi_link.setAttribute(\"onclick\", \"mostrar_libros(\" + ano + \",\" +  i +\")\");"
+        },
+        {
+          "line": 159,
+          "text": "mi_texto = document.createTextNode(grados_labels[i] + ' Grado');"
+        },
+        {
+          "line": 180,
+          "text": "let mi_texto = document.createTextNode(grados_labels[i] + ' Grado');"
+        },
+        {
+          "line": 188,
+          "text": "mostrar_libros(ano, i);"
+        },
+        {
+          "line": 199,
+          "text": "// muestra los libros del grado seleccionado"
+        },
+        {
+          "line": 203,
+          "text": "function mostrar_generacion(ano)"
+        },
+        {
+          "line": 206,
+          "text": "$(\"#ag_historico\").hide();"
+        },
+        {
+          "line": 208,
+          "text": "mostrar_libros(ano, 1)"
+        },
+        {
+          "line": 215,
+          "text": "// muestra menu, BUSCAR por generaciones"
+        },
+        {
+          "line": 254,
+          "text": "mi_link.setAttribute(\"onclick\", \"mostrar_libros(\" + g[ano][i] + \",\" +  i +\")\");"
+        },
+        {
+          "line": 260,
+          "text": "mi_texto = document.createTextNode(grados_labels[i] + ' Grado');"
+        },
+        {
+          "line": 281,
+          "text": "let mi_texto = document.createTextNode(grados_labels[i] + ' Grado');"
+        },
+        {
+          "line": 289,
+          "text": "mostrar_libros(g[ano][i], i);"
+        },
+        {
+          "line": 301,
+          "text": "// busca generacion"
+        },
+        {
+          "line": 305,
+          "text": "function buscar_generacion()"
+        },
+        {
+          "line": 327,
+          "text": "mostrar_libros(g[ano][1],1);"
+        },
+        {
+          "line": 331,
+          "text": "//  console.log(\"buscar_generacion ano:\" + ano);"
+        },
+        {
+          "line": 333,
+          "text": "$(\"#ag_historico\").hide();"
+        },
+        {
+          "line": 335,
+          "text": "// console.log(\"buscar_generacion()\");"
+        },
+        {
+          "line": 367,
+          "text": "var grado = arr2[1];"
+        },
+        {
+          "line": 369,
+          "text": "mostrar_libros(ano, grado)"
+        },
+        {
+          "line": 377,
+          "text": "$(\"#ag_historico\").show();"
+        },
+        {
+          "line": 389,
+          "text": "// buscar desde formulario"
+        },
+        {
+          "line": 395,
+          "text": "//const mi_forma = document.getElementById('buscar_forma');"
+        },
+        {
+          "line": 397,
+          "text": "//mi_forma.onsubmit = buscar_desde_forma;"
+        },
+        {
+          "line": 401,
+          "text": "function buscar_desde_forma(event)"
+        },
+        {
+          "line": 404,
+          "text": "buscar_generacion();"
+        }
+      ],
+      "endpoint_candidates": [
+        "Generacion",
+        "buscar_forma",
+        "buscar_generacion ano:",
+        "buscar_generacion()"
+      ]
+    }
+  ]
+}
