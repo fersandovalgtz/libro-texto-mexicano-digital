@@ -13,16 +13,18 @@ SAMPLE=Path('data/validation/semb03_human_reference_sample.csv')
 TEMPLATE=Path('data/validation/semb03_human_reference_annotation_template.csv')
 REL=Path('data/validation/semb03_reliability_subset.csv')
 CRIT=Path('data/validation/semb03_acceptance_criteria.json')
+GRID=Path('data/validation/semb03_candidate_grid.json')
 OUT_JSON=Path('data/derived/semb03_readiness_report.json')
 OUT_MD=Path('data/derived/semb03_readiness_report.md')
-VERSION='SEMB03_READINESS_0.2'
+VERSION='SEMB03_READINESS_0.3'
 
 def read_csv(p):
     with p.open(encoding='utf-8',newline='') as f:return list(csv.DictReader(f))
 
 def main():
     checks=[]
-    sample=read_csv(SAMPLE);template=read_csv(TEMPLATE);rel=read_csv(REL);criteria=json.load(CRIT.open(encoding='utf-8'))
+    sample=read_csv(SAMPLE);template=read_csv(TEMPLATE);rel=read_csv(REL)
+    criteria=json.load(CRIT.open(encoding='utf-8'));grid=json.load(GRID.open(encoding='utf-8'))
     def ck(name,ok,detail):
         checks.append({'check':name,'status':'PASS' if ok else 'FAIL','detail':detail})
         if not ok:raise AssertionError(f'{name}: {detail}')
@@ -43,6 +45,8 @@ def main():
     ck('reliability_n_120',len(rel)==120 and len(rel_ids)==120,f'n={len(rel)}')
     ck('reliability_subset_of_master',rel_ids<={r['sample_id'] for r in sample},'all reliability IDs valid')
     ck('criteria_frozen',criteria.get('criteria_version')=='SEMB03_ACCEPTANCE_0.1' and criteria.get('frozen_before_human_reference') is True,criteria.get('criteria_version','missing'))
+    ck('candidate_grid_frozen',grid.get('candidate_grid_version')=='SEMB03_CANDIDATES_0.1' and grid.get('frozen_before_human_reference') is True,grid.get('candidate_grid_version','missing'))
+    ck('development_grouped_by_page',grid.get('development_cv')=={'method':'GroupKFold','n_splits':5,'group':'page_id'},str(grid.get('development_cv')))
 
     prehuman={
       'uncertainty_diagnostic':'data/derived/semb02_uncertainty_diagnostic.md',
@@ -55,6 +59,9 @@ def main():
       'fragtype_shadow':'data/derived/fragment_manifest_fragtype03_shadow.csv',
       'short_residual_sample':'data/validation/short_residual_validation_sample.csv',
       'short_residual_blind_template':'data/validation/short_residual_annotation_template.csv',
+      'acceptance_criteria':'data/validation/semb03_acceptance_criteria.json',
+      'candidate_grid':'data/validation/semb03_candidate_grid.json',
+      'frontmatter_bibliographic_audit':'data/derived/frontmatter_bibliographic_audit.md',
       'research_integrity_manifest':'data/derived/research_integrity_manifest.json',
       'synthetic_gate_candidate':'data/derived/semb03_gate_synthetic_development.json',
       'synthetic_label_head_candidate':'data/derived/semb03_label_heads_synthetic_development.json',
@@ -88,7 +95,7 @@ def main():
     for k,v in prehuman_state.items():lines.append(f"- {'✅' if v else '⬜'} `{k}`")
     lines+=['','## Artefactos de etapas posteriores']
     for k,v in later_state.items():lines.append(f"- `{k}`: {'presente' if v else 'ausente'}")
-    lines+=['','## Lectura','Mientras la etapa sea `WAITING_HUMAN_REFERENCE`, puede completarse infraestructura, pruebas sintéticas y candidatos provisionales. Ningún candidato sintético puede saltar directamente a producción. La validación bloqueada sólo es segura después de existir `model_lock`.']
+    lines+=['','## Lectura','Si todos los módulos prehumanos están presentes y la etapa continúa en `WAITING_HUMAN_REFERENCE`, el bloqueo restante es epistemológico y deliberado: se necesita referencia humana real para desarrollar un modelo validable. Ningún candidato sintético puede saltar directamente a producción. La validación bloqueada sólo es segura después de existir `model_lock`.']
     OUT_MD.write_text('\n'.join(lines)+'\n',encoding='utf-8')
     print(json.dumps(report,ensure_ascii=False))
 
