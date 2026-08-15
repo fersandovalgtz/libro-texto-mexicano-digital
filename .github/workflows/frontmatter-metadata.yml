@@ -1,0 +1,39 @@
+name: Front-matter bibliographic metadata
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/extract_frontmatter_metadata_adaptive.py'
+      - 'scripts/build_page_manifest.py'
+      - 'data/book_inventory.csv'
+      - '.github/workflows/frontmatter-metadata.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Spanish Tesseract model
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: Build page manifest
+        run: python scripts/build_page_manifest.py
+      - name: Extract derived front-matter candidates
+        run: python scripts/extract_frontmatter_metadata_adaptive.py --pages 8 --modes 6,11 --timeout 20 --workers 8
+      - name: Show derived candidates
+        run: cat data/derived/frontmatter_metadata_candidates.csv
+      - name: Upload metadata only
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontmatter-metadata-candidates
+          path: data/derived/frontmatter_metadata_candidates.csv
+          retention-days: 30
