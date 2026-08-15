@@ -1,0 +1,96 @@
+{
+  "development_version": "SEMB03_GATE_SYNTH_DEV_0.1",
+  "synthetic_suite_version": "SEMB03_SYNTH_STRESS_0.1",
+  "n": 105,
+  "positive_n": 72,
+  "negative_n": 33,
+  "corpus_accessed": false,
+  "historical_outputs_accessed": false,
+  "human_reference_accessed": false,
+  "feature_names": [
+    "gate_pos_max",
+    "gate_neg_max",
+    "gate_margin",
+    "action_top",
+    "action_second",
+    "action_margin",
+    "position_top",
+    "position_second",
+    "position_margin",
+    "receiver_score",
+    "instruction_follower_score",
+    "reasoner_score"
+  ],
+  "frozen_B02_gate_cv_equivalent": {
+    "balanced_accuracy": 0.5258838383838383,
+    "sensitivity": 0.5972222222222222,
+    "specificity": 0.45454545454545453
+  },
+  "fold_tuned_margin_cv": {
+    "balanced_accuracy": 0.5372474747474747,
+    "sensitivity": 0.6805555555555556,
+    "specificity": 0.3939393939393939,
+    "fold_thresholds": [
+      -0.003999999999999962,
+      -0.002999999999999961,
+      -0.004999999999999963,
+      -0.003999999999999962,
+      -0.003999999999999962
+    ],
+    "full_synthetic_selected_threshold": -0.003999999999999962
+  },
+  "logistic_semantic_features_cv": {
+    "balanced_accuracy": 0.6306818181818181,
+    "sensitivity": 0.625,
+    "specificity": 0.6363636363636364
+  },
+  "provisional_full_fit": {
+    "standardizer_mean": [
+      0.8296877321742829,
+      0.8280346546854291,
+      0.0016530774888538179,
+      0.8784557092757452,
+      0.8585443723769415,
+      0.01991133689880371,
+      0.8626967992101396,
+      0.8502187921887352,
+      0.012478007021404449,
+      0.8409083048502605,
+      0.8249791048821948,
+      0.8394400993982951
+    ],
+    "standardizer_scale": [
+      0.017715247864791582,
+      0.018339345480814232,
+      0.014885590668568593,
+      0.025846904303579263,
+      0.0190948143158515,
+      0.016756822880358985,
+      0.026867867206565792,
+      0.01948605670118212,
+      0.014560903756606038,
+      0.019081370080491482,
+      0.01751439483147818,
+      0.0230026570149317
+    ],
+    "coef": [
+      0.1296098676723566,
+      0.0018739468730030935,
+      0.1519389343366814,
+      0.22108983386016828,
+      0.5840884070022929,
+      -0.32455842084545067,
+      -0.37823517663323136,
+      -0.7283349904654819,
+      0.27676945065791525,
+      0.714821924562648,
+      -0.17444811751529654,
+      0.34080743807978453
+    ],
+    "intercept": 0.14209300065273148,
+    "C": 0.5,
+    "class_weight": "balanced"
+  },
+  "status": "PROVISIONAL_SYNTHETIC_ONLY",
+  "allowed_next_use": "Evaluate/retune on the 320-case human DEVELOPMENT reference when available; never promote directly to production."
+}
