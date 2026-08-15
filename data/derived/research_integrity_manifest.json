@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.2",
-  "generated_utc": "2026-08-15T20:10:43.024210+00:00",
-  "git_head": "cf22a75d309be78dee1e1fbbd3432efbc0bf1260",
+  "generated_utc": "2026-08-15T20:16:28.794504+00:00",
+  "git_head": "b3eb02e271cdca060bb9d42ba65d09964dbca023",
   "critical_count": 48,
   "optional_present_count": 8,
   "files": [
@@ -337,8 +337,8 @@
     },
     {
       "path": "data/derived/semb03_readiness_report.json",
-      "bytes": 2397,
-      "sha256": "4cd1fb9e52b6f1377ecf9924e820d1b261da5a8d0a0059f05a6f6cb735110ff7",
+      "bytes": 2780,
+      "sha256": "fed739b72317f9943839744cd63ac776a1d13fc838bcf48bffee911acecd5e33",
       "required": false
     }
   ]

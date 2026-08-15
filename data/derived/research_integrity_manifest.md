@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.2`.
 
-Commit observado: `cf22a75d309be78dee1e1fbbd3432efbc0bf1260`.
+Commit observado: `b3eb02e271cdca060bb9d42ba65d09964dbca023`.
 
 Archivos críticos verificados: **48**. Artefactos derivados adicionales presentes: **8**.
 
@@ -66,4 +66,4 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `data/derived/frontmatter_bibliographic_audit.csv` — `fae0068cc6579ffbb75705a2b9e2e1c2c056e809c29601e5f964d21b14202f2c`
 - `data/derived/semb03_gate_synthetic_development.json` — `c9b4a4c054503e2ddd19411588eb8e8264d2c15bcb5c8e4e8c179a6a0931c9c5`
 - `data/derived/semb03_label_heads_synthetic_development.json` — `7ac6f22a2f9fa3b89f8814f03c17539dcf3e5b3ce812e5638b0653457030b107`
-- `data/derived/semb03_readiness_report.json` — `4cd1fb9e52b6f1377ecf9924e820d1b261da5a8d0a0059f05a6f6cb735110ff7`
+- `data/derived/semb03_readiness_report.json` — `fed739b72317f9943839744cd63ac776a1d13fc838bcf48bffee911acecd5e33`
