@@ -1,0 +1,108 @@
+name: fragment-cn-wave2
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['page-structure-cn-wave2']
+    types: [completed]
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  preflight:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Verify Wave 2 PAGESTRUCT
+        run: |
+          python3 - <<'PY'
+          import csv
+          s=list(csv.DictReader(open('data/expansion/cn_wave2_page_structure.csv',encoding='utf-8')))
+          q=list(csv.DictReader(open('data/expansion/cn_wave2_ingestion_queue.csv',encoding='utf-8')))
+          assert len(s)==3177, len(s)
+          assert len({r['book_id'] for r in s})==19
+          assert {r['book_id'] for r in s}=={r['book_id'] for r in q}
+          eligible=sum(r['primary_structure'] in {'textual','mixed_text_image'} for r in s)
+          assert eligible>0
+          print('FRAGSEG preflight OK: 3177 PAGESTRUCT rows; eligible=',eligible)
+          PY
+
+  segment:
+    needs: preflight
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - { book_id: LTMD-CN1-G1972, slug: cn1-g1972 }
+          - { book_id: LTMD-CN2-G1972, slug: cn2-g1972 }
+          - { book_id: LTMD-CN3-G1972, slug: cn3-g1972 }
+          - { book_id: LTMD-CN3-G1982, slug: cn3-g1982 }
+          - { book_id: LTMD-CN4-G1982, slug: cn4-g1982 }
+          - { book_id: LTMD-CN5-G1982, slug: cn5-g1982 }
+          - { book_id: LTMD-CN6-G1982, slug: cn6-g1982 }
+          - { book_id: LTMD-CN3-G1988, slug: cn3-g1988 }
+          - { book_id: LTMD-CN3-G1993, slug: cn3-g1993 }
+          - { book_id: LTMD-CN5-G2008, slug: cn5-g2008 }
+          - { book_id: LTMD-CN3-G2011, slug: cn3-g2011 }
+          - { book_id: LTMD-CN4-G2011, slug: cn4-g2011 }
+          - { book_id: LTMD-CN5-G2011, slug: cn5-g2011 }
+          - { book_id: LTMD-CN6-G2011, slug: cn6-g2011 }
+          - { book_id: LTMD-CN3-G2014, slug: cn3-g2014 }
+          - { book_id: LTMD-CN3-G2019, slug: cn3-g2019 }
+          - { book_id: LTMD-CN4-G2019, slug: cn4-g2019 }
+          - { book_id: LTMD-CN5-G2019, slug: cn5-g2019 }
+          - { book_id: LTMD-CN6-G2019, slug: cn6-g2019 }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Install Spanish OCR runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa
+      - name: Segment one book
+        run: python3 scripts/segment_cn_wave2_fragments.py --book-id '${{ matrix.book_id }}' --output-dir data/work/cn_wave2_fragments
+      - name: Verify fragment outputs
+        run: |
+          test -s 'data/work/cn_wave2_fragments/fragment_${{ matrix.slug }}.csv'
+          test -f 'data/work/cn_wave2_fragments/fragment_${{ matrix.slug }}_failures.csv'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frag-${{ matrix.slug }}
+          path: |
+            data/work/cn_wave2_fragments/fragment_${{ matrix.slug }}.csv
+            data/work/cn_wave2_fragments/fragment_${{ matrix.slug }}_failures.csv
+          if-no-files-found: error
+          retention-days: 7
+
+  combine:
+    needs: [preflight, segment]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: frag-*
+          path: data/work/cn_wave2_fragments
+          merge-multiple: true
+      - name: Combine and audit fragment shards
+        run: python3 scripts/combine_cn_wave2_fragment_shards.py --input-dir data/work/cn_wave2_fragments
+      - name: Publish FRAGSEG Wave 2 race-safely
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/expansion/cn_wave2_fragment_manifest.csv data/expansion/cn_wave2_fragment_manifest_summary.csv data/expansion/cn_wave2_fragment_sequence_gaps.csv data/expansion/cn_wave2_fragment_manifest_report.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Publish Ciencias Naturales Wave 2 FRAGSEG'
+          git pull --rebase origin main
+          git push origin HEAD:main
