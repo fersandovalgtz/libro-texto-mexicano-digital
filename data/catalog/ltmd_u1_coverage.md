@@ -1,6 +1,6 @@
 # LTMD-U1 — tablero maestro de cobertura
 
-Versión: **LTMD_U1_COVERAGE_0.3**  
+Versión: **LTMD_U1_COVERAGE_0.4**  
 Universo operativo U1: **542 visores**.  
 Familias normalizadas de título: **191**.
 
@@ -8,22 +8,22 @@ Familias normalizadas de título: **191**.
 
 - Catálogo censado: **542/542 (100.00%)**.
 - Títulos normalizados: **542/542 (100.00%)**.
-- Activos completamente resueltos: **38/542 (7.01%)**; parciales documentados: **2**.
-- Manifiesto directo: **34/542 (6.27%)**.
-- OCR directo: **34/542 (6.27%)**.
-- PAGESTRUCT directo: **34/542 (6.27%)**.
+- Activos completamente resueltos: **40/542 (7.38%)**; parciales documentados: **0**.
+- Manifiesto directo: **36/542 (6.64%)**.
+- OCR directo: **36/542 (6.64%)**.
+- PAGESTRUCT directo: **36/542 (6.64%)**.
 - FRAGSEG directo: **34/542 (6.27%)**.
 - Cobertura FRAGSEG efectiva: **38/542 (7.01%)**.
 - Dependencia documental auditada: **12/542 (2.21%)**.
 - Cobertura semántica validada: **0/542 (0.00%)**.
 
-Los KPIs se promueven por etapa sólo cuando existe el artefacto final correspondiente. Un visor puede tener activos/OCR/PAGESTRUCT listos sin contar aún como FRAGSEG.
+Los KPIs se promueven por etapa sólo cuando existe el artefacto final correspondiente. Las tres recuperaciones 2008 conservan la anomalía original y la fuente efectiva en un manifiesto reconciliado.
 
 ## Cobertura por dominio operativo
 
 | dominio | visores | % U1 | activos full | FRAGSEG directo | cobertura efectiva | restantes | próxima ola |
 |---|---:|---:|---:|---:|---:|---:|---|
-| ciencias_naturales | 40 | 7.38% | 38 | 34 | 38 | 2 | U1-W1-ciencias_naturales |
+| ciencias_naturales | 40 | 7.38% | 40 | 34 | 38 | 2 | U1-W1-ciencias_naturales |
 | matematicas | 64 | 11.81% | 0 | 0 | 0 | 64 | U1-W2-matematicas |
 | espanol_lengua | 130 | 23.99% | 0 | 0 | 0 | 130 | U1-W3-espanol_lengua |
 | ciencias_sociales | 14 | 2.58% | 0 | 0 | 0 | 14 | U1-W4-ciencias_sociales |
@@ -41,6 +41,7 @@ Los KPIs se promueven por etapa sólo cuando existe el artefacto final correspon
 - `asset_resolved` no significa `ocr_ready`.
 - `fragseg_materialized` no significa `semantic_ready`.
 - Cobertura efectiva por alias conserva identidad documental y evita reprocesar bytes demostrados como idénticos.
+- Recuperación puntual por continuidad criptográfica no equivale a identidad bibliográfica total entre ediciones.
 - La taxonomía de dominios es logística, no una ontología curricular.
 
 ## Archivos
