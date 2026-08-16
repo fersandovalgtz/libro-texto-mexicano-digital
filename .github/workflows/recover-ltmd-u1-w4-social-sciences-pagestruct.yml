@@ -1,0 +1,103 @@
+name: recover-ltmd-u1-w4-social-sciences-pagestruct
+
+on:
+  workflow_run:
+    workflows: ['build-ltmd-u1-w4-social-sciences-pagestruct']
+    types: [completed]
+
+permissions:
+  actions: write
+  contents: write
+
+env:
+  OMP_THREAD_LIMIT: '1'
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    outputs:
+      source_run_id: ${{ steps.inspect.outputs.source_run_id }}
+      source_success: ${{ steps.inspect.outputs.source_success }}
+      missing: ${{ steps.inspect.outputs.missing }}
+      missing_count: ${{ steps.inspect.outputs.missing_count }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: inspect
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_RUN_ID='${{ github.event.workflow_run.id }}'
+          RUN_JSON="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID")"
+          SOURCE_SUCCESS="$(python3 - "$RUN_JSON" <<'PY'
+          import json,sys
+          r=json.loads(sys.argv[1]); assert r['name']=='build-ltmd-u1-w4-social-sciences-pagestruct'; assert r['status']=='completed'; print('1' if r.get('conclusion')=='success' else '0')
+          PY
+          )"
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100" > /tmp/arts.json
+          python3 - /tmp/arts.json <<'PY' > /tmp/missing.json
+          import csv,json,sys
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w4_social_sciences_ocr_summary.csv',encoding='utf-8'))); expected=[r['viewer_key'] for r in rows]; assert len(expected)==14
+          pages=json.load(open(sys.argv[1])); arts=[a for p in pages for a in p.get('artifacts',[])]; prefix='ltmd-u1-w4-social-sciences-structkw-'; present={a['name'][len(prefix):] for a in arts if a['name'].startswith(prefix) and not a.get('expired')}
+          print(json.dumps([k for k in expected if k not in present],separators=(',',':')))
+          PY
+          MISSING="$(cat /tmp/missing.json)"; COUNT="$(python3 -c 'import json,sys;print(len(json.loads(sys.argv[1])))' "$MISSING")"
+          echo "source_run_id=$SOURCE_RUN_ID" >> "$GITHUB_OUTPUT"; echo "source_success=$SOURCE_SUCCESS" >> "$GITHUB_OUTPUT"; echo "missing=$MISSING" >> "$GITHUB_OUTPUT"; echo "missing_count=$COUNT" >> "$GITHUB_OUTPUT"
+
+  recompute:
+    needs: inspect
+    if: needs.inspect.outputs.source_success != '1' && needs.inspect.outputs.missing_count != '0'
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.inspect.outputs.missing) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
+      - run: python3 scripts/extract_ltmd_u1_w4_social_sciences_structural_flags_book.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w4-social-sciences-structkw-recovery-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w4_social_sciences_structkw/*.csv
+          retention-days: 1
+
+  assemble:
+    needs: [inspect,recompute]
+    if: always() && needs.inspect.result == 'success' && needs.inspect.outputs.source_success != '1' && (needs.recompute.result == 'success' || needs.recompute.result == 'skipped')
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN_ID: ${{ needs.inspect.outputs.source_run_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - shell: bash
+        run: |
+          mkdir -p data/work/ltmd_u1_w4_social_sciences_structkw /tmp/source
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern 'ltmd-u1-w4-social-sciences-structkw-*' --dir /tmp/source || true
+          find /tmp/source -type f -name 'structkw_*.csv' -exec cp {} data/work/ltmd_u1_w4_social_sciences_structkw/ \;
+      - if: needs.inspect.outputs.missing_count != '0'
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w4-social-sciences-structkw-recovery-*
+          path: /tmp/recovery
+          merge-multiple: true
+      - if: needs.inspect.outputs.missing_count != '0'
+        run: find /tmp/recovery -type f -name 'structkw_*.csv' -exec cp {} data/work/ltmd_u1_w4_social_sciences_structkw/ \;
+      - run: |
+          python3 scripts/combine_ltmd_u1_w4_social_sciences_structural_flags.py
+          python3 scripts/classify_ltmd_u1_w4_social_sciences_page_structure.py
+      - name: Publish recovered W4 PAGESTRUCT
+        shell: bash
+        run: |
+          mkdir -p /tmp/w4ps
+          cp data/catalog/ltmd_u1_w4_social_sciences_structural_keyword_flags.csv data/catalog/ltmd_u1_w4_social_sciences_page_structure.csv data/catalog/ltmd_u1_w4_social_sciences_page_structure_summary.csv data/catalog/ltmd_u1_w4_social_sciences_page_structure.md /tmp/w4ps/
+          git config user.name 'github-actions[bot]'; git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do git fetch origin main; git reset --hard origin/main; cp /tmp/w4ps/* data/catalog/; git add data/catalog/ltmd_u1_w4_social_sciences_structural_keyword_flags.csv data/catalog/ltmd_u1_w4_social_sciences_page_structure.csv data/catalog/ltmd_u1_w4_social_sciences_page_structure_summary.csv data/catalog/ltmd_u1_w4_social_sciences_page_structure.md; if git diff --cached --quiet; then break; fi; git commit -m 'Publish recovered LTMD-U1 W4 Social Sciences PAGESTRUCT 0.1'; if git push origin HEAD:main; then break; fi; if [ "$attempt" -eq 3 ]; then exit 1; fi; sleep $((attempt*2)); done
+      - name: Dispatch W4 FRAGSEG after recovery
+        run: gh workflow run build-ltmd-u1-w4-social-sciences-fragseg.yml --repo "$GITHUB_REPOSITORY" --ref main
