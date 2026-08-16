@@ -9,7 +9,6 @@ on:
       - completed
   push:
     paths:
-      - '.github/workflows/analyze-ltmd-u1-w5-history-asset-relationships.yml'
       - 'data/catalog/ltmd_u1_w5_history_asset_manifest.csv'
       - 'data/catalog/ltmd_u1_w5_history_asset_summary.csv'
 
@@ -24,6 +23,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Verify asset evidence exists
+        shell: bash
+        run: |
+          test -s data/catalog/ltmd_u1_w5_history_asset_manifest.csv
+          test -s data/catalog/ltmd_u1_w5_history_asset_summary.csv
       - name: Analyze exact asset relationships and source readiness
         run: python3 scripts/analyze_ltmd_u1_w5_history_asset_relationships.py
       - name: Publish W5 source relationships race-safely
