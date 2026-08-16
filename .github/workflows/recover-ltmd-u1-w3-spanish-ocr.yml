@@ -1,0 +1,171 @@
+name: recover-ltmd-u1-w3-spanish-ocr
+
+on:
+  workflow_run:
+    workflows: ['build-ltmd-u1-w3-spanish-ocr']
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: 'Source W3 OCR run to recover/assemble'
+        required: true
+        type: string
+
+permissions:
+  actions: write
+  contents: write
+
+env:
+  OMP_THREAD_LIMIT: '1'
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    outputs:
+      source_run_id: ${{ steps.inspect.outputs.source_run_id }}
+      missing: ${{ steps.inspect.outputs.missing }}
+      missing_count: ${{ steps.inspect.outputs.missing_count }}
+      source_success: ${{ steps.inspect.outputs.source_success }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: inspect
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            SOURCE_RUN_ID='${{ github.event.workflow_run.id }}'
+          else
+            SOURCE_RUN_ID='${{ inputs.source_run_id }}'
+          fi
+          test -n "$SOURCE_RUN_ID"
+          RUN_JSON="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID")"
+          python3 - "$RUN_JSON" <<'PY' > /tmp/run_meta.txt
+          import json,sys
+          r=json.loads(sys.argv[1])
+          assert r['name']=='build-ltmd-u1-w3-spanish-ocr', r['name']
+          assert r['status']=='completed', (r['status'],r.get('conclusion'))
+          print('1' if r.get('conclusion')=='success' else '0')
+          PY
+          SOURCE_SUCCESS="$(cat /tmp/run_meta.txt)"
+
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100" > /tmp/artifact_pages.json
+          python3 - /tmp/artifact_pages.json <<'PY' > /tmp/missing.json
+          import csv,json,sys
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv',encoding='utf-8')))
+          expected=[r['viewer_key'] for r in proc if r['is_canonical_processing_object']=='1']
+          assert len(expected)==114 and len(set(expected))==114, len(expected)
+          pages=json.load(open(sys.argv[1],encoding='utf-8'))
+          arts=[a for page in pages for a in page.get('artifacts',[])]
+          prefix='ltmd-u1-w3-spanish-ocr-'
+          present={a['name'][len(prefix):] for a in arts if a['name'].startswith(prefix) and not a.get('expired')}
+          missing=[k for k in expected if k not in present]
+          extra=present-set(expected)
+          if extra: raise SystemExit(f'unexpected W3 OCR artifacts: {sorted(extra)}')
+          print(json.dumps(missing,separators=(',',':')))
+          PY
+          MISSING="$(cat /tmp/missing.json)"
+          MISSING_COUNT="$(python3 -c 'import json,sys; print(len(json.loads(sys.argv[1])))' "$MISSING")"
+          echo "source_run_id=$SOURCE_RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "source_success=$SOURCE_SUCCESS" >> "$GITHUB_OUTPUT"
+          echo "missing=$MISSING" >> "$GITHUB_OUTPUT"
+          echo "missing_count=$MISSING_COUNT" >> "$GITHUB_OUTPUT"
+          echo "source_success=$SOURCE_SUCCESS missing_count=$MISSING_COUNT"
+
+  recompute:
+    needs: inspect
+    if: needs.inspect.outputs.missing_count != '0'
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.inspect.outputs.missing) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
+      - name: Recompute only missing canonical OCR shard
+        run: python3 scripts/ocr_ltmd_u1_w3_spanish_book.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w3-spanish-ocr-recovery-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w3_spanish_ocr/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  assemble:
+    needs: [inspect, recompute]
+    if: always() && needs.inspect.result == 'success' && (needs.recompute.result == 'success' || needs.recompute.result == 'skipped')
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN_ID: ${{ needs.inspect.outputs.source_run_id }}
+      MISSING_COUNT: ${{ needs.inspect.outputs.missing_count }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download all surviving source OCR artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p data/work/ltmd_u1_w3_spanish_ocr /tmp/source-ocr
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern 'ltmd-u1-w3-spanish-ocr-*' --dir /tmp/source-ocr || true
+          find /tmp/source-ocr -type f -name 'ocr_*.csv' -exec cp {} data/work/ltmd_u1_w3_spanish_ocr/ \;
+      - name: Download current recovery OCR artifacts
+        if: needs.inspect.outputs.missing_count != '0'
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w3-spanish-ocr-recovery-*
+          path: /tmp/recovery-ocr
+          merge-multiple: true
+      - name: Merge recovery shards into canonical input directory
+        if: needs.inspect.outputs.missing_count != '0'
+        shell: bash
+        run: |
+          set -euo pipefail
+          find /tmp/recovery-ocr -type f -name 'ocr_*.csv' -exec cp {} data/work/ltmd_u1_w3_spanish_ocr/ \;
+      - name: Verify exact 114 canonical shard filenames
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import csv,re
+          from pathlib import Path
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv',encoding='utf-8')))
+          expected={r['viewer_key'].lower() for r in proc if r['is_canonical_processing_object']=='1'}
+          files=list(Path('data/work/ltmd_u1_w3_spanish_ocr').glob('ocr_*.csv'))
+          got={p.stem[len('ocr_'):].lower() for p in files}
+          assert len(expected)==114, len(expected)
+          assert len(files)==114, f'expected 114 OCR shard files, got {len(files)}'
+          assert got==expected, f'missing={sorted(expected-got)} extra={sorted(got-expected)}'
+          print('recovery assembly has exact 114/114 canonical OCR shards')
+          PY
+      - name: Combine recovered W3 OCR layer
+        run: python3 scripts/combine_ltmd_u1_w3_spanish_ocr.py
+      - name: Publish recovered W3 OCR metrics race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w3-spanish-ocr-recovered
+          cp data/catalog/ltmd_u1_w3_spanish_ocr_metrics.csv /tmp/ltmd-u1-w3-spanish-ocr-recovered/
+          cp data/catalog/ltmd_u1_w3_spanish_ocr_summary.csv /tmp/ltmd-u1-w3-spanish-ocr-recovered/
+          cp data/catalog/ltmd_u1_w3_spanish_ocr.md /tmp/ltmd-u1-w3-spanish-ocr-recovered/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w3-spanish-ocr-recovered/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_spanish_ocr_metrics.csv data/catalog/ltmd_u1_w3_spanish_ocr_summary.csv data/catalog/ltmd_u1_w3_spanish_ocr.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish recovered LTMD-U1 W3 Spanish OCR 0.1 metrics'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
