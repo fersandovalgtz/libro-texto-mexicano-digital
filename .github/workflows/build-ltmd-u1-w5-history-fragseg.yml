@@ -5,6 +5,11 @@ on:
   workflow_run:
     workflows: ['build-ltmd-u1-w5-history-pagestruct']
     types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/segment_ltmd_u1_w5_history_fragments.py'
+      - '.github/workflows/build-ltmd-u1-w5-history-fragseg.yml'
 
 permissions:
   contents: write
