@@ -1,0 +1,46 @@
+name: build-ltmd-u1-w3-spanish-canonical-page-manifest
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/triggers/ltmd-u1-w3-spanish-canonical-pages.trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify reconciled inputs
+        run: |
+          test -f data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv
+          test -f data/catalog/ltmd_u1_w3_spanish_asset_manifest.csv
+          test -f data/catalog/ltmd_u1_w3_spanish_internal_unserved_audit.csv
+      - name: Build canonical page manifest
+        run: python3 scripts/build_ltmd_u1_w3_spanish_canonical_page_manifest.py
+      - name: Publish manifest race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w3-canonical-pages
+          cp data/catalog/ltmd_u1_w3_spanish_canonical_page_manifest.csv /tmp/w3-canonical-pages/
+          cp data/catalog/ltmd_u1_w3_spanish_canonical_gap_manifest.csv /tmp/w3-canonical-pages/
+          cp data/catalog/ltmd_u1_w3_spanish_canonical_page_manifest.md /tmp/w3-canonical-pages/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w3-canonical-pages/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_spanish_canonical_page_manifest.csv data/catalog/ltmd_u1_w3_spanish_canonical_gap_manifest.csv data/catalog/ltmd_u1_w3_spanish_canonical_page_manifest.md
+            if git diff --cached --quiet; then break; fi
+            git commit -m 'Publish LTMD-U1 W3 Spanish canonical page manifest 0.1'
+            if git push origin HEAD:main; then break; fi
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
+            sleep $((attempt * 2))
+          done
