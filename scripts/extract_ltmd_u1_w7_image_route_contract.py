@@ -16,7 +16,7 @@ from urllib.request import Request, urlopen
 DYNAMIC = Path('data/catalog/ltmd_u1_w7_dynamic_dependencies.json')
 OUT_JSON = Path('data/catalog/ltmd_u1_w7_image_route_contract.json')
 OUT_MD = Path('data/catalog/ltmd_u1_w7_image_route_contract.md')
-VERSION = 'LTMD_U1_W7_IMAGE_ROUTE_CONTRACT_0.1'
+VERSION = 'LTMD_U1_W7_IMAGE_ROUTE_CONTRACT_0.2'
 UA = 'LibroTextoMexicanoDigital/U1-W7 image route contract extractor'
 
 
@@ -31,6 +31,40 @@ def fetch(url: str) -> tuple[bytes, str, int]:
 
 def compact(text: str) -> str:
     return re.sub(r'\s+', ' ', text).strip()
+
+
+def extract_function(lines: list[str], name: str) -> dict[str, object] | None:
+    start = None
+    pattern = re.compile(rf'function\s+{re.escape(name)}\s*\(')
+    for idx, line in enumerate(lines):
+        if pattern.search(line):
+            start = idx
+            break
+    if start is None:
+        return None
+
+    block: list[str] = []
+    depth = 0
+    opened = False
+    end = start
+    for idx in range(start, len(lines)):
+        line = lines[idx]
+        block.append(line)
+        depth += line.count('{')
+        if line.count('{'):
+            opened = True
+        depth -= line.count('}')
+        end = idx
+        if opened and depth <= 0:
+            break
+    snippet = compact('\n'.join(block))
+    return {
+        'name': name,
+        'start_line': start + 1,
+        'end_line': end + 1,
+        'snippet': snippet,
+        'snippet_sha256': hashlib.sha256(snippet.encode('utf-8')).hexdigest(),
+    }
 
 
 def main() -> None:
@@ -49,7 +83,7 @@ def main() -> None:
     relevant: list[dict[str, object]] = []
     for number, line in enumerate(lines, start=1):
         lower = line.lower()
-        if any(token in lower for token in ('ag_page', 'addpage', 'loadpage', '.jpg', 'ag_clave')):
+        if any(token in lower for token in ('ag_page', 'addpage', 'loadpage', '.jpg', 'ag_clave', 'function pad')):
             lo = max(0, number - 3)
             hi = min(len(lines), number + 2)
             snippet = compact('\n'.join(lines[lo:hi]))
@@ -69,8 +103,11 @@ def main() -> None:
         for number, line in enumerate(lines, start=1)
         if '.jpg' in line.lower() or ("attr('src'" in line.lower() and 'ag_clave' in line)
     ]
-
     explicit_route = [row for row in route_statements if 'ag_clave' in row['statement'] and 'ag_page' in row['statement']]
+    pad_function = extract_function(lines, 'pad')
+    addpage_function = extract_function(lines, 'addPage')
+    loadpage_function = extract_function(lines, 'loadPage')
+
     payload = {
         'contract_version': VERSION,
         'policy': 'JavaScript source extraction only; no book-image asset requests.',
@@ -85,6 +122,9 @@ def main() -> None:
         'ag_page_statement_count': len(ag_page_statements),
         'route_statement_count': len(route_statements),
         'explicit_route_statement_count': len(explicit_route),
+        'pad_function': pad_function,
+        'addpage_function': addpage_function,
+        'loadpage_function': loadpage_function,
         'ag_page_statements': ag_page_statements,
         'route_statements': route_statements,
         'explicit_route_statements': explicit_route,
@@ -106,9 +146,15 @@ def main() -> None:
         f'- Sentencias de ruta/imagen: **{len(route_statements)}**.',
         f'- Sentencias explícitas que combinan `ag_clave` + `ag_page`: **{len(explicit_route)}**.',
         '',
-        '## Transformación observada de página',
+        '## Función `pad()` observada',
         '',
     ]
+    if pad_function:
+        md.append(f"- líneas {pad_function['start_line']}–{pad_function['end_line']}: `{pad_function['snippet']}`")
+        md.append(f"- SHA-256 del fragmento: `{pad_function['snippet_sha256']}`.")
+    else:
+        md.append('No se localizó una definición de `pad()` en la fuente observada.')
+    md += ['', '## Transformación observada de página', '']
     for row in ag_page_statements:
         md.append(f"- línea {row['line']}: `{row['statement']}`")
     md += ['', '## Construcción observada de URL', '']
