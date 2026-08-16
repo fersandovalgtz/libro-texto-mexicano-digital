@@ -1,0 +1,74 @@
+name: build-ltmd-u1-w1-1966-fragseg
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w1-1966-fragseg.yml'
+      - 'scripts/segment_ltmd_u1_w1_1966_fragments.py'
+      - 'scripts/combine_ltmd_u1_w1_1966_fragment_shards.py'
+      - 'data/catalog/ltmd_u1_w1_1966_page_structure.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  segment:
+    strategy:
+      fail-fast: false
+      matrix:
+        book_id:
+          - U1-H1966P6CI374
+          - U1-H1966P6CI375
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
+      - name: Segment one W1 1966 book
+        run: python3 scripts/segment_ltmd_u1_w1_1966_fragments.py --book-id '${{ matrix.book_id }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w1-1966-frag-${{ matrix.book_id }}
+          path: data/work/ltmd_u1_w1_1966_fragments/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  combine:
+    needs: segment
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w1-1966-frag-*
+          path: data/work/ltmd_u1_w1_1966_fragments
+          merge-multiple: true
+      - name: Combine W1 1966 FRAGSEG shards
+        run: python3 scripts/combine_ltmd_u1_w1_1966_fragment_shards.py
+      - name: Publish FRAGSEG race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w1-1966-fragseg
+          cp data/catalog/ltmd_u1_w1_1966_fragment_manifest.csv /tmp/ltmd-u1-w1-1966-fragseg/
+          cp data/catalog/ltmd_u1_w1_1966_fragment_manifest_summary.csv /tmp/ltmd-u1-w1-1966-fragseg/
+          cp data/catalog/ltmd_u1_w1_1966_fragment_sequence_gaps.csv /tmp/ltmd-u1-w1-1966-fragseg/
+          cp data/catalog/ltmd_u1_w1_1966_fragment_manifest.md /tmp/ltmd-u1-w1-1966-fragseg/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w1-1966-fragseg/* data/catalog/
+            git add data/catalog/ltmd_u1_w1_1966_fragment_manifest.csv data/catalog/ltmd_u1_w1_1966_fragment_manifest_summary.csv data/catalog/ltmd_u1_w1_1966_fragment_sequence_gaps.csv data/catalog/ltmd_u1_w1_1966_fragment_manifest.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W1 1966 FRAGSEG'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
