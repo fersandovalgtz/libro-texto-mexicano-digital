@@ -1,0 +1,33 @@
+name: test-ltmd-u1-w2-w3-infrastructure
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/test-ltmd-u1-w2-w3-infrastructure.yml'
+      - 'scripts/selftest_ltmd_u1_w2_w3_infrastructure.py'
+      - 'scripts/ocr_ltmd_u1_w2_math_book.py'
+      - 'scripts/combine_ltmd_u1_w2_math_ocr.py'
+      - 'scripts/extract_ltmd_u1_w2_math_structural_flags_book.py'
+      - 'scripts/combine_ltmd_u1_w2_math_structural_flags_v02.py'
+      - 'scripts/classify_ltmd_u1_w2_math_page_structure_v02.py'
+      - 'scripts/segment_ltmd_u1_w2_math_fragments_v02.py'
+      - 'scripts/combine_ltmd_u1_w2_math_fragment_shards_v02.py'
+      - 'scripts/build_ltmd_u1_coverage_w2_current.py'
+      - 'scripts/build_ltmd_u1_w2_completion_report.py'
+      - 'scripts/build_ltmd_u1_w3_*.py'
+      - 'scripts/audit_ltmd_u1_w3_*.py'
+      - 'scripts/probe_ltmd_u1_w3_*.py'
+      - 'scripts/combine_ltmd_u1_w3_*.py'
+      - 'data/catalog/ltmd_u1_w2_math_reconciled_summary.csv'
+      - 'data/catalog/ltmd_u1_w2_math_reconciled_exact_aliases.csv'
+      - 'data/catalog/ltmd_u1_w3_declared_inventory.csv'
+      - 'data/catalog/ltmd_u1_w3_batch_plan.csv'
+      - 'data/catalog/ltmd_u1_w3_viewer_architecture.csv'
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/selftest_ltmd_u1_w2_w3_infrastructure.py
