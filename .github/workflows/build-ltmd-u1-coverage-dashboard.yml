@@ -6,12 +6,16 @@ on:
     paths:
       - '.github/workflows/build-ltmd-u1-coverage-dashboard.yml'
       - 'scripts/build_ltmd_u1_coverage_dashboard.py'
+  workflow_run:
+    workflows: ['build-ltmd-u1-w6-geography-atlas-completion-report']
+    types: [completed]
 
 permissions:
   contents: write
 
 jobs:
   build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -34,7 +38,7 @@ jobs:
             cp /tmp/u1-coverage/* data/catalog/
             git add data/catalog/ltmd_u1_coverage.md data/catalog/ltmd_u1_coverage_summary.csv
             if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Publish LTMD-U1 coverage dashboard 0.6'
+            git commit -m 'Publish LTMD-U1 coverage dashboard 0.7'
             if git push origin HEAD:main; then exit 0; fi
             sleep $((attempt * 2))
           done
