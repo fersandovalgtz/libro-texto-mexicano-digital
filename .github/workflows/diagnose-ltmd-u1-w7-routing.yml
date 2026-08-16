@@ -1,0 +1,51 @@
+name: diagnose-ltmd-u1-w7-routing
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/diagnose-ltmd-u1-w7-routing.yml'
+      - 'scripts/diagnose_ltmd_u1_w7_routing.py'
+      - 'data/catalog/ltmd_u1_w7_declared_inventory.csv'
+      - 'data/catalog/ltmd_u1_w7_civics_ethics_asset_summary.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: diagnose-ltmd-u1-w7-routing
+  cancel-in-progress: false
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Inspect unresolved W7 viewer routing
+        run: python3 scripts/diagnose_ltmd_u1_w7_routing.py
+
+      - name: Publish routing evidence race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w7-routing
+          cp data/catalog/ltmd_u1_w7_routing_diagnostics.json /tmp/ltmd-u1-w7-routing/
+          cp data/catalog/ltmd_u1_w7_routing_diagnostics.md /tmp/ltmd-u1-w7-routing/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w7-routing/ltmd_u1_w7_routing_diagnostics.json data/catalog/
+            cp /tmp/ltmd-u1-w7-routing/ltmd_u1_w7_routing_diagnostics.md data/catalog/
+            git add data/catalog/ltmd_u1_w7_routing_diagnostics.json data/catalog/ltmd_u1_w7_routing_diagnostics.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W7 routing diagnostics'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
