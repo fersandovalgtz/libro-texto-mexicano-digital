@@ -1,0 +1,44 @@
+name: classify-ltmd-u1-w2-math-asset-states
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/classify-ltmd-u1-w2-math-asset-states.yml'
+      - 'scripts/classify_ltmd_u1_w2_math_asset_states.py'
+      - 'data/catalog/ltmd_u1_w2_math_asset_summary.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  classify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Require completed W2 asset summary
+        run: test -f data/catalog/ltmd_u1_w2_math_asset_summary.csv
+      - name: Classify operational asset states
+        run: python3 scripts/classify_ltmd_u1_w2_math_asset_states.py
+      - name: Publish states race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w2-states
+          cp data/catalog/ltmd_u1_w2_math_asset_states.csv /tmp/ltmd-u1-w2-states/
+          cp data/catalog/ltmd_u1_w2_math_asset_states.md /tmp/ltmd-u1-w2-states/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w2-states/* data/catalog/
+            git add data/catalog/ltmd_u1_w2_math_asset_states.csv data/catalog/ltmd_u1_w2_math_asset_states.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W2 mathematics asset states'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
