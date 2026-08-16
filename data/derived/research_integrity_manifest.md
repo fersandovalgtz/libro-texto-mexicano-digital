@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.6`.
 
-Commit observado: `fefffac90b2c09d45cbd7d2a65ee6302650cb6fb`.
+Commit observado: `7b964fc4fe27e48a5d46efb442e1586c94f67380`.
 
 Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
@@ -167,7 +167,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `LICENSE` — 11324 bytes — `50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a`
 - `DATA_LICENSE.md` — 3995 bytes — `d4070d74adb6d83c8b61034e3920e9577d9b566063e870f12ce7f6f50d71b892`
 - `requirements-release.txt` — 319 bytes — `1360a8becccdfa022d3ea3b83643883955eee84c0704dff01ccc8453de6ea827`
-- `docs/METHOD_INDEX.md` — 6188 bytes — `949be1bfa1a783dbfb101864c532461448b566a1454b765557095543af3fd744`
+- `docs/METHOD_INDEX.md` — 8334 bytes — `4124a94ad14276b77e196da95522abcb945545939656dafc0f7cf2dd5cc35b9a`
 - `docs/RELEASE_NOTES_v0.1.0-rc.1.md` — 4523 bytes — `59c0049bb2cb71153023ca58b3af43ff406b88381080c6c310333085af52de87`
 - `docs/REPRODUCIBILITY_ENVIRONMENT_0_1.md` — 3218 bytes — `3831a462437192328ba67dbe72cfc150c948a8aa633e0a290c9dc38386142829`
 - `docs/REPRODUCIBILITY_REPORT_v0.1.0-rc.1.md` — 5664 bytes — `e6322b1ce6a06f4bb192963979e81ffff2fb91a28c694da390eee8ac9d30ba43`
