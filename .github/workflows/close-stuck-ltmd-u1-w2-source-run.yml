@@ -1,4 +1,5 @@
 name: close-stuck-ltmd-u1-w2-source-run
+# Retry after all 64 audit shards reached terminal success.
 
 on:
   workflow_dispatch:
