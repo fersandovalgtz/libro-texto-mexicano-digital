@@ -4,11 +4,14 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: write
   contents: write
 
 jobs:
   build:
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -27,9 +30,11 @@ jobs:
             git reset --hard origin/main
             cp /tmp/LTMD_U1_W2_COMPLETION.md docs/LTMD_U1_W2_COMPLETION.md
             git add docs/LTMD_U1_W2_COMPLETION.md
-            if git diff --cached --quiet; then exit 0; fi
+            if git diff --cached --quiet; then break; fi
             git commit -m 'Publish LTMD-U1 W2 Mathematics completion report'
-            if git push origin HEAD:main; then exit 0; fi
+            if git push origin HEAD:main; then break; fi
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
             sleep $((attempt * 2))
           done
-          exit 1
+      - name: Dispatch W2 post-release integrity checkpoint
+        run: gh workflow run build-ltmd-u1-w2-integrity-checkpoint.yml --repo "$GITHUB_REPOSITORY"
