@@ -1,26 +1,29 @@
 # LTMD-U1 — tablero maestro de cobertura
 
-Versión: **LTMD_U1_COVERAGE_0.2**  
-Universo operativo U1: **542 visores** del snapshot vigente del Catálogo Histórico de CONALITEG.  
+Versión: **LTMD_U1_COVERAGE_0.3**  
+Universo operativo U1: **542 visores**.  
 Familias normalizadas de título: **191**.
 
 ## Estado ejecutivo
 
 - Catálogo censado: **542/542 (100.00%)**.
 - Títulos normalizados: **542/542 (100.00%)**.
-- Activos completamente resueltos y demostrados: **36/542 (6.64%)**; además **2** visores tienen resolución parcial documentada.
-- FRAGSEG directamente materializado: **32/542 (5.90%)**.
-- Cobertura FRAGSEG efectiva, contando aliases byte-idénticos ya representados: **36/542 (6.64%)**.
-- Visores participantes en relaciones de dependencia ya registradas: **12/542 (2.21%)**.
-- Cobertura semántica validada: **0/542 (0.00%)**; SEMB 0.3 continúa bloqueado por referencia humana.
+- Activos completamente resueltos: **38/542 (7.01%)**; parciales documentados: **2**.
+- Manifiesto directo: **34/542 (6.27%)**.
+- OCR directo: **34/542 (6.27%)**.
+- PAGESTRUCT directo: **34/542 (6.27%)**.
+- FRAGSEG directo: **32/542 (5.90%)**.
+- Cobertura FRAGSEG efectiva: **36/542 (6.64%)**.
+- Dependencia documental auditada: **12/542 (2.21%)**.
+- Cobertura semántica validada: **0/542 (0.00%)**.
 
-La cobertura efectiva no elimina ni fusiona visores: los aliases conservan su identidad de catálogo y simplemente evitan reprocesar bytes ya demostrados como idénticos.
+Los KPIs se promueven por etapa sólo cuando existe el artefacto final correspondiente. Un visor puede tener activos/OCR/PAGESTRUCT listos sin contar aún como FRAGSEG.
 
 ## Cobertura por dominio operativo
 
 | dominio | visores | % U1 | activos full | FRAGSEG directo | cobertura efectiva | restantes | próxima ola |
 |---|---:|---:|---:|---:|---:|---:|---|
-| ciencias_naturales | 40 | 7.38% | 36 | 32 | 36 | 4 | U1-W1-ciencias_naturales |
+| ciencias_naturales | 40 | 7.38% | 38 | 32 | 36 | 4 | U1-W1-ciencias_naturales |
 | matematicas | 64 | 11.81% | 0 | 0 | 0 | 64 | U1-W2-matematicas |
 | espanol_lengua | 130 | 23.99% | 0 | 0 | 0 | 130 | U1-W3-espanol_lengua |
 | ciencias_sociales | 14 | 2.58% | 0 | 0 | 0 | 14 | U1-W4-ciencias_sociales |
@@ -32,23 +35,17 @@ La cobertura efectiva no elimina ni fusiona visores: los aliases conservan su id
 | integrados_multiarea | 69 | 12.73% | 0 | 0 | 0 | 69 | U1-W10-integrados_multiarea |
 | otros_no_clasificados | 111 | 20.48% | 0 | 0 | 0 | 111 | U1-W11-otros_revision |
 
-## Regla de olas
-
-La taxonomía es **operativa**, derivada sólo de señales fuertes del título normalizado; no es una ontología curricular ni una clasificación semántica del contenido. Si un título activa más de un dominio —por ejemplo, naturaleza + sociedad— pasa a `integrados_multiarea`. Los títulos sin señal suficientemente fuerte permanecen en `otros_no_clasificados` para revisión controlada.
-
-El orden prioriza terminar Ciencias Naturales y después Matemáticas, Español/Lengua, Ciencias Sociales, Historia, Geografía/Atlas, Cívica/Ética, Artes, Educación Física, materiales integrados y finalmente títulos que requieren revisión operacional. Un alias verificado se considera cubierto efectivamente sin duplicar OCR/FRAGSEG.
-
 ## Límites de lectura
 
 - `cataloged` no significa `asset_resolved`.
 - `asset_resolved` no significa `ocr_ready`.
 - `fragseg_materialized` no significa `semantic_ready`.
-- Una ocurrencia técnica no equivale a una observación histórica independiente.
-- Los estados se derivan conservadoramente de artefactos finales ya materializados; trabajo intermedio no terminado no se cuenta como cobertura de etapa.
+- Cobertura efectiva por alias conserva identidad documental y evita reprocesar bytes demostrados como idénticos.
+- La taxonomía de dominios es logística, no una ontología curricular.
 
 ## Archivos
 
-- `data/catalog/ltmd_u1_coverage.csv` — matriz por visor.
-- `data/catalog/ltmd_u1_coverage_summary.csv` — KPIs por etapa.
-- `data/catalog/ltmd_u1_domain_summary.csv` — cobertura por dominio operativo.
-- `data/catalog/ltmd_u1_wave_queue.csv` — cola ordenada para industrialización.
+- `data/catalog/ltmd_u1_coverage.csv`
+- `data/catalog/ltmd_u1_coverage_summary.csv`
+- `data/catalog/ltmd_u1_domain_summary.csv`
+- `data/catalog/ltmd_u1_wave_queue.csv`

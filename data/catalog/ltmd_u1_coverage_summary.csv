@@ -1,12 +1,12 @@
 coverage_version,stage,viewer_count,universe_viewers,percent,notes
-LTMD_U1_COVERAGE_0.2,cataloged,542,542,100.00,All viewers in frozen U1 catalog snapshot.
-LTMD_U1_COVERAGE_0.2,title_normalized,542,542,100.00,Normalized into 191 title-core families.
-LTMD_U1_COVERAGE_0.2,asset_resolved_full,36,542,6.64,Full source-asset resolution demonstrated; unaudited viewers are not counted.
-LTMD_U1_COVERAGE_0.2,asset_resolved_partial,2,542,0.37,"Known partial source resolution; reported separately, not added to full coverage."
-LTMD_U1_COVERAGE_0.2,page_manifest_ready_direct,32,542,5.90,Conservative count from completed direct corpus objects.
-LTMD_U1_COVERAGE_0.2,ocr_ready_direct,32,542,5.90,Directly materialized OCR technical layer.
-LTMD_U1_COVERAGE_0.2,pagestruct_ready_direct,32,542,5.90,Directly materialized PAGESTRUCT layer.
-LTMD_U1_COVERAGE_0.2,fragseg_materialized_direct,32,542,5.90,Direct viewer objects with completed FRAGSEG.
-LTMD_U1_COVERAGE_0.2,effective_fragseg_coverage,36,542,6.64,Direct FRAGSEG plus verified aliases inheriting byte-identical processed assets.
-LTMD_U1_COVERAGE_0.2,dependence_audited,12,542,2.21,Viewer participates in a currently registered document-dependence relationship.
-LTMD_U1_COVERAGE_0.2,semantic_ready_validated,0,542,0.00,SEMB 0.3 remains WAITING_HUMAN_REFERENCE; no viewer is counted as validated semantic coverage.
+LTMD_U1_COVERAGE_0.3,cataloged,542,542,100.00,All viewers in frozen U1 catalog snapshot.
+LTMD_U1_COVERAGE_0.3,title_normalized,542,542,100.00,Normalized title-core families.
+LTMD_U1_COVERAGE_0.3,asset_resolved_full,38,542,7.01,Full source-asset resolution demonstrated.
+LTMD_U1_COVERAGE_0.3,asset_resolved_partial,2,542,0.37,Known partial source resolution; separate from full coverage.
+LTMD_U1_COVERAGE_0.3,page_manifest_ready_direct,34,542,6.27,Direct page/source manifest materialized.
+LTMD_U1_COVERAGE_0.3,ocr_ready_direct,34,542,6.27,Direct technical OCR layer materialized.
+LTMD_U1_COVERAGE_0.3,pagestruct_ready_direct,34,542,6.27,Direct PAGESTRUCT layer materialized.
+LTMD_U1_COVERAGE_0.3,fragseg_materialized_direct,32,542,5.90,Direct FRAGSEG materialized.
+LTMD_U1_COVERAGE_0.3,effective_fragseg_coverage,36,542,6.64,Direct FRAGSEG plus verified byte-identical aliases.
+LTMD_U1_COVERAGE_0.3,dependence_audited,12,542,2.21,Viewer participates in registered documentary dependence.
+LTMD_U1_COVERAGE_0.3,semantic_ready_validated,0,542,0.00,SEMB 0.3 remains WAITING_HUMAN_REFERENCE.
