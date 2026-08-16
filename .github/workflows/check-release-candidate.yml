@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - '.github/workflows/check-release-candidate.yml'
+      - '.github/RELEASE_PREFLIGHT_TRIGGER'
       - 'VERSION'
       - 'CITATION.cff'
       - 'CHANGELOG.md'
