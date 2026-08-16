@@ -1,0 +1,89 @@
+{
+  "contract_version": "LTMD_U1_W7_ADDPAGE_CONTRACT_0.1",
+  "policy": "Same-origin JavaScript only; no book-image asset requests.",
+  "routing_diagnostic_version": "LTMD_U1_W7_ROUTING_DIAGNOSTICS_0.1",
+  "script_source_count": 5,
+  "sources": [
+    {
+      "url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 87534,
+      "sha256": "39572eb8749061730edbbc2b434b6bcc964a9ce7a9939fc9727e6f5913329fbb",
+      "attempts": 1,
+      "error": ""
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/modernizr.2.5.3.min.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 8547,
+      "sha256": "c17c84e682712bd3e5e3f23ca76cc7eaaaf9879be223a8e2ba92ea8cd40e1ba7",
+      "attempts": 1,
+      "error": ""
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/hash.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 2967,
+      "sha256": "5c56c9d6b31c8de4d43a1099c1a80cbcca39f0a63696a10ef389d9eeaff84887",
+      "attempts": 1,
+      "error": ""
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/js.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 303,
+      "sha256": "6b595aaf4d56a695072eac1a4b02246cc2ae4bcea30ee90166fdc1a60f2fadf0",
+      "attempts": 1,
+      "error": ""
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/x.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 8192,
+      "sha256": "209526b121455c45b743c43f7a269126c2d510cbb77bd6945d5798703ec2cdc3",
+      "attempts": 1,
+      "error": ""
+    }
+  ],
+  "route_hit_count": 3,
+  "addpage_use_count": 1,
+  "addpage_definition_count": 0,
+  "addpage_definitions": [],
+  "route_hits": [
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/x.js",
+      "line": 3,
+      "classification": "route_related",
+      "tokens": [
+        "ag_clave"
+      ],
+      "snippet_sha256": "0fd583d1dc5bb40e5455c769d63e61aeb01bd7ed3e0bd4c6c523f3a0bd734820",
+      "snippet": "let urlActual = new URL(window.location.href); let nombreArchivo = urlActual.pathname.substring(urlActual.pathname.lastIndexOf('/') + 1); let ag_clave = nombreArchivo.substring(0, nombreArchivo.indexOf('.htm')); let ag_pages; fetch('claves.json')"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/x.js",
+      "line": 12,
+      "classification": "route_related",
+      "tokens": [
+        "ag_clave"
+      ],
+      "snippet_sha256": "9adc1086b30d81437e93a0300d47d471865441ffc0de6730cf8c380d1d90eeaf",
+      "snippet": "}) .then(data => { ag_pages = data[ag_clave].ag_pages; }) .catch(error => console.error('Error:', error));"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/x.js",
+      "line": 115,
+      "classification": "call_or_other_use",
+      "tokens": [
+        "addPage"
+      ],
+      "snippet_sha256": "fdbfbbec2d3716930b8fa3e5193307352e2877768e465a7cfce5f7dac8d7d930",
+      "snippet": "for (var i = 0; i < pages.length; i++) addPage(pages[i], $(this)); }"
+    }
+  ]
+}
