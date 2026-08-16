@@ -75,7 +75,7 @@ jobs:
 
   recompute:
     needs: inspect
-    if: needs.inspect.outputs.missing_count != '0'
+    if: needs.inspect.outputs.source_success != '1' && needs.inspect.outputs.missing_count != '0'
     strategy:
       fail-fast: false
       max-parallel: 8
@@ -100,7 +100,7 @@ jobs:
 
   assemble:
     needs: [inspect, recompute]
-    if: always() && needs.inspect.result == 'success' && (needs.recompute.result == 'success' || needs.recompute.result == 'skipped')
+    if: always() && needs.inspect.result == 'success' && needs.inspect.outputs.source_success != '1' && (needs.recompute.result == 'success' || needs.recompute.result == 'skipped')
     runs-on: ubuntu-24.04
     env:
       GH_TOKEN: ${{ github.token }}
@@ -135,7 +135,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import csv,re
+          import csv
           from pathlib import Path
           proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv',encoding='utf-8')))
           expected={r['viewer_key'].lower() for r in proc if r['is_canonical_processing_object']=='1'}
@@ -163,9 +163,11 @@ jobs:
             git reset --hard origin/main
             cp /tmp/ltmd-u1-w3-spanish-ocr-recovered/* data/catalog/
             git add data/catalog/ltmd_u1_w3_spanish_ocr_metrics.csv data/catalog/ltmd_u1_w3_spanish_ocr_summary.csv data/catalog/ltmd_u1_w3_spanish_ocr.md
-            if git diff --cached --quiet; then exit 0; fi
+            if git diff --cached --quiet; then break; fi
             git commit -m 'Publish recovered LTMD-U1 W3 Spanish OCR 0.1 metrics'
-            if git push origin HEAD:main; then exit 0; fi
+            if git push origin HEAD:main; then break; fi
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
             sleep $((attempt * 2))
           done
-          exit 1
+      - name: Continue W3 with PAGESTRUCT after recovered OCR
+        run: gh workflow run build-ltmd-u1-w3-spanish-pagestruct.yml --repo "$GITHUB_REPOSITORY" --ref main
