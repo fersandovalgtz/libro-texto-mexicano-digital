@@ -1,0 +1,47 @@
+name: audit-ltmd-u1-w3-spanish-assets
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  matrix:
+    runs-on: ubuntu-24.04
+    outputs:
+      viewers: ${{ steps.make.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: make
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import csv,json
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_scope.csv',encoding='utf-8')))
+          keys=[r['viewer_key'] for r in rows]
+          assert len(keys)==130 and len(set(keys))==130
+          print('viewers='+json.dumps(keys,separators=(',',':')))
+          PY
+
+  audit:
+    needs: matrix
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.matrix.outputs.viewers) }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit one W3 viewer from institutional ag_clave
+        run: python3 scripts/audit_ltmd_u1_w3_spanish_assets_book.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w3-spanish-assets-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w3_spanish_assets/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+# Combine/reconciliation is intentionally not wired yet. The first W3 asset run
+# remains gated until W2 closes technically and W3's 130-viewer source audit is explicitly opened.
