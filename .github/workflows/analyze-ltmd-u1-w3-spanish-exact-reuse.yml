@@ -2,21 +2,20 @@ name: analyze-ltmd-u1-w3-spanish-exact-reuse
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ['build-ltmd-u1-w3-spanish-fragseg']
-    types: [completed]
   push:
     paths:
       - 'data/catalog/ltmd_u1_w3_spanish_fragment_manifest.csv'
       - 'data/catalog/ltmd_u1_w3_spanish_fragment_manifest_summary.csv'
 
 permissions:
+  actions: write
   contents: write
 
 jobs:
   analyze:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -58,3 +57,5 @@ jobs:
             sleep $((attempt * 2))
           done
           exit 1
+      - name: Dispatch W3 completion report
+        run: gh workflow run build-ltmd-u1-w3-completion-report.yml --repo "$GITHUB_REPOSITORY" --ref main
