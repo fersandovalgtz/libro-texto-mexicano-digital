@@ -1,0 +1,106 @@
+name: build-ltmd-u1-w3-spanish-ocr
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w3-spanish-ocr.yml'
+      - 'scripts/ocr_ltmd_u1_w3_spanish_book.py'
+      - 'scripts/combine_ltmd_u1_w3_spanish_ocr.py'
+      - 'data/catalog/ltmd_u1_w3_spanish_canonical_page_manifest.csv'
+      - 'data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv'
+
+permissions:
+  contents: write
+
+env:
+  OMP_THREAD_LIMIT: '1'
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    outputs:
+      viewers: ${{ steps.make.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: make
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import csv,json
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv',encoding='utf-8')))
+          man=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_canonical_page_manifest.csv',encoding='utf-8')))
+          assert len(proc)==130, len(proc)
+          eligible={r['viewer_key'] for r in proc if r['ocr_identity_eligible']=='1'}
+          canonical=[r['viewer_key'] for r in proc if r['is_canonical_processing_object']=='1']
+          aliases=eligible-set(canonical)
+          assert len(eligible)==130, len(eligible)
+          assert len(canonical)==114 and len(set(canonical))==114, len(canonical)
+          assert len(aliases)==16, len(aliases)
+          assert len(man)==20765, len(man)
+          assert {r['viewer_key'] for r in man}==set(canonical)
+          assert all(r['asset_status']=='source_jpeg' for r in man)
+          gaps=sum(int(r['persistent_internal_source_gaps'] or 0) for r in proc if r['is_canonical_processing_object']=='1')
+          assert gaps==8, gaps
+          print('viewers='+json.dumps(canonical,separators=(',',':')))
+          PY
+
+  ocr:
+    needs: gate
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.gate.outputs.viewers) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
+      - name: OCR one canonical Español/Lengua viewer
+        run: python3 scripts/ocr_ltmd_u1_w3_spanish_book.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w3-spanish-ocr-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w3_spanish_ocr/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  combine:
+    needs: ocr
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w3-spanish-ocr-*
+          path: data/work/ltmd_u1_w3_spanish_ocr
+          merge-multiple: true
+      - name: Combine exact 114-canonical-viewer OCR layer
+        run: python3 scripts/combine_ltmd_u1_w3_spanish_ocr.py
+      - name: Publish W3 OCR 0.1 metrics race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w3-spanish-ocr
+          cp data/catalog/ltmd_u1_w3_spanish_ocr_metrics.csv /tmp/ltmd-u1-w3-spanish-ocr/
+          cp data/catalog/ltmd_u1_w3_spanish_ocr_summary.csv /tmp/ltmd-u1-w3-spanish-ocr/
+          cp data/catalog/ltmd_u1_w3_spanish_ocr.md /tmp/ltmd-u1-w3-spanish-ocr/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w3-spanish-ocr/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_spanish_ocr_metrics.csv data/catalog/ltmd_u1_w3_spanish_ocr_summary.csv data/catalog/ltmd_u1_w3_spanish_ocr.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W3 Spanish OCR 0.1 metrics'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
