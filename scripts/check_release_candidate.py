@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Preflight the LTMD v0.1.0-rc.1 scientific release candidate.
 
-The check deliberately separates technical RC readiness from public-release
-readiness. Missing or malformed code/data licenses are publish blockers, not
-reasons to hide or falsify an otherwise reproducible technical candidate.
+The check separates technical RC readiness from public-release readiness and
+validates the substance and scope of the adopted code/data licenses.
 """
 from __future__ import annotations
 
@@ -13,6 +12,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 VERSION = "0.1.0-rc.1"
+INTEGRITY_VERSION = "LTMD_INTEGRITY_0.6"
+INTEGRITY_CRITICAL_COUNT = 166
 OUT_JSON = Path("data/derived/release_candidate_preflight.json")
 OUT_MD = Path("data/derived/release_candidate_preflight.md")
 
@@ -20,6 +21,8 @@ REQUIRED = [
     "VERSION",
     "CITATION.cff",
     "CHANGELOG.md",
+    "LICENSE",
+    "DATA_LICENSE.md",
     "requirements-release.txt",
     "README.md",
     "docs/RELEASE_NOTES_v0.1.0-rc.1.md",
@@ -63,7 +66,7 @@ def check(condition: bool, code: str, detail: str, checks: list[dict]) -> None:
 
 
 def validate_publish_licenses() -> list[str]:
-    """Return blockers unless the adopted licenses match the preregistered policy."""
+    """Return blockers unless adopted licenses match the release policy."""
     blockers: list[str] = []
 
     license_path = Path("LICENSE")
@@ -114,12 +117,17 @@ def main() -> None:
     if Path("data/derived/research_integrity_manifest.json").exists():
         integrity = json.loads(Path("data/derived/research_integrity_manifest.json").read_text(encoding="utf-8"))
     integrity_ok = (
-        integrity.get("integrity_version") == "LTMD_INTEGRITY_0.5"
+        integrity.get("integrity_version") == INTEGRITY_VERSION
         and integrity.get("critical_count") == integrity.get("critical_present_count")
-        and integrity.get("critical_count") == 150
+        and integrity.get("critical_count") == INTEGRITY_CRITICAL_COUNT
         and integrity.get("missing_critical") == []
     )
-    check(integrity_ok, "integrity_0_5", f"critical={integrity.get('critical_present_count')}/{integrity.get('critical_count')}", checks)
+    check(
+        integrity_ok,
+        "integrity_0_6",
+        f"version={integrity.get('integrity_version')} critical={integrity.get('critical_present_count')}/{integrity.get('critical_count')}",
+        checks,
+    )
 
     claim = {}
     if Path("data/derived/methods_article_claim_check.json").exists():
@@ -130,7 +138,7 @@ def main() -> None:
     check("sentence-transformers==5.6.1" in req, "direct_semantic_dependency_pinned", "sentence-transformers==5.6.1", checks)
 
     rights_matrix = Path("docs/RIGHTS_PUBLICATION_MATRIX_0_2.md").read_text(encoding="utf-8") if Path("docs/RIGHTS_PUBLICATION_MATRIX_0_2.md").exists() else ""
-    check("Apache License 2.0" in rights_matrix and "CC BY 4.0" in rights_matrix, "license_recommendation_documented", "Apache-2.0 + CC BY 4.0 recommendation recorded without applying licenses", checks)
+    check("Apache License 2.0" in rights_matrix and "CC BY 4.0" in rights_matrix, "license_policy_documented", "Apache-2.0 + CC BY 4.0 policy documented", checks)
 
     gitignore = Path(".gitignore").read_text(encoding="utf-8") if Path(".gitignore").exists() else ""
     for entry in ("private/", "data/work/", ".env"):
@@ -143,7 +151,7 @@ def main() -> None:
     ]
     check(not forbidden, "no_forbidden_source_or_work_files_tracked", f"forbidden={forbidden[:20]}", checks)
 
-    # Semantic stage gate must remain closed in this release candidate.
+    # Semantic stage gate must remain closed in this methodological release.
     human_outputs = [
         "data/validation/semb03_human_reference_consensus.csv",
         "data/validation/semb03_locked_validation_reference.csv",
@@ -160,7 +168,7 @@ def main() -> None:
     publish_ready = rc_technical_ready and not publish_blockers
 
     result = {
-        "preflight_version": "LTMD_RELEASE_PREFLIGHT_0.1",
+        "preflight_version": "LTMD_RELEASE_PREFLIGHT_0.2",
         "release_candidate": f"v{VERSION}",
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "git_head": git_head(),
@@ -207,7 +215,7 @@ def main() -> None:
         "",
         "## Interpretación",
         "",
-        "`rc_technical_ready` significa que el corte puede auditarse como candidata metodológica. `publish_ready` exige además licencias materializadas y consistentes con la política preregistrada. El DOI no se exige antes de la publicación real: debe añadirse únicamente después de que Zenodo archive el tag correspondiente.",
+        "`rc_technical_ready` significa que el corte puede auditarse como candidata metodológica. `publish_ready` exige además licencias materializadas y consistentes con la política documentada. El DOI no se exige antes de la publicación real: debe añadirse únicamente después de que Zenodo archive el tag correspondiente.",
     ]
     OUT_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
