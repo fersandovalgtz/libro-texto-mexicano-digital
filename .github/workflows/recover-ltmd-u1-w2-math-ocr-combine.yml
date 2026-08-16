@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  actions: read
+  actions: write
   contents: write
 
 jobs:
@@ -47,15 +47,20 @@ jobs:
           cp data/catalog/ltmd_u1_w2_math_ocr_summary.csv /tmp/ltmd-u1-w2-ocr/
           cp data/catalog/ltmd_u1_w2_math_ocr.md /tmp/ltmd-u1-w2-ocr/
           git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git config user.email '4189828+github-actions[bot]@users.noreply.github.com'
           for attempt in 1 2 3; do
             git fetch origin main
             git reset --hard origin/main
             cp /tmp/ltmd-u1-w2-ocr/* data/catalog/
             git add data/catalog/ltmd_u1_w2_math_ocr_metrics.csv data/catalog/ltmd_u1_w2_math_ocr_summary.csv data/catalog/ltmd_u1_w2_math_ocr.md
-            if git diff --cached --quiet; then exit 0; fi
+            if git diff --cached --quiet; then break; fi
             git commit -m 'Publish recovered LTMD-U1 W2 Mathematics OCR 0.2 metrics'
-            if git push origin HEAD:main; then exit 0; fi
+            if git push origin HEAD:main; then break; fi
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
             sleep $((attempt * 2))
           done
-          exit 1
+      - name: Dispatch W2 PAGESTRUCT explicitly
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh workflow run build-ltmd-u1-w2-math-pagestruct.yml --repo "$GITHUB_REPOSITORY"
