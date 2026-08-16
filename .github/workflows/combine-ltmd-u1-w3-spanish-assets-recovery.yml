@@ -1,0 +1,95 @@
+name: combine-ltmd-u1-w3-spanish-assets-recovery
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: 'Source audit run containing exactly 130 W3 asset artifacts'
+        required: true
+        type: string
+  push:
+    paths:
+      - '.github/triggers/ltmd-u1-w3-spanish-combine.trigger'
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  combine:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Resolve source run id
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            SOURCE_RUN_ID='${{ inputs.source_run_id }}'
+          else
+            SOURCE_RUN_ID="$(tr -d '[:space:]' < .github/triggers/ltmd-u1-w3-spanish-combine.trigger)"
+          fi
+          test -n "$SOURCE_RUN_ID"
+          echo "source_run_id=$SOURCE_RUN_ID" >> "$GITHUB_OUTPUT"
+      - name: Verify source run and exact artifact cardinality
+        env:
+          SOURCE_RUN_ID: ${{ steps.source.outputs.source_run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUN_JSON="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID")"
+          python3 - "$RUN_JSON" <<'PY'
+          import json,sys
+          r=json.loads(sys.argv[1])
+          assert r['name']=='audit-ltmd-u1-w3-spanish-assets', r['name']
+          assert r['status']=='completed', (r['status'],r.get('conclusion'))
+          assert r['conclusion']=='success', r.get('conclusion')
+          PY
+          ART_JSON="$(gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100")"
+          python3 - "$ART_JSON" <<'PY'
+          import json,sys
+          d=json.loads(sys.argv[1]); a=d['artifacts']
+          names=[x['name'] for x in a if x['name'].startswith('ltmd-u1-w3-spanish-assets-')]
+          assert len(names)==130, f'expected 130 W3 asset artifacts, got {len(names)}'
+          assert len(set(names))==130, 'duplicate W3 artifact names'
+          print('verified source run success and 130/130 unique W3 asset artifacts')
+          PY
+      - name: Download only existing W3 asset artifacts
+        env:
+          SOURCE_RUN_ID: ${{ steps.source.outputs.source_run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p data/work/ltmd_u1_w3_spanish_assets
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern 'ltmd-u1-w3-spanish-assets-*' --dir /tmp/w3-assets
+          find /tmp/w3-assets -type f -name 'asset_*.csv' -exec cp {} data/work/ltmd_u1_w3_spanish_assets/ \;
+          count="$(find data/work/ltmd_u1_w3_spanish_assets -maxdepth 1 -type f -name 'asset_*.csv' | wc -l)"
+          test "$count" -eq 130
+      - name: Combine validated 130-shard W3 asset layer
+        run: python3 scripts/combine_ltmd_u1_w3_spanish_asset_shards.py
+      - name: Publish W3 asset audit race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w3-spanish-combine
+          cp data/catalog/ltmd_u1_w3_spanish_asset_manifest.csv /tmp/ltmd-u1-w3-spanish-combine/
+          cp data/catalog/ltmd_u1_w3_spanish_asset_summary.csv /tmp/ltmd-u1-w3-spanish-combine/
+          cp data/catalog/ltmd_u1_w3_spanish_asset_audit.md /tmp/ltmd-u1-w3-spanish-combine/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w3-spanish-combine/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_spanish_asset_manifest.csv data/catalog/ltmd_u1_w3_spanish_asset_summary.csv data/catalog/ltmd_u1_w3_spanish_asset_audit.md
+            if git diff --cached --quiet; then break; fi
+            git commit -m 'Publish LTMD-U1 W3 Spanish asset audit 0.1'
+            if git push origin HEAD:main; then break; fi
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
+            sleep $((attempt * 2))
+          done
