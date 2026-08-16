@@ -1,0 +1,74 @@
+name: test-ltmd-u1-w3-spanish-infrastructure
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/ocr_ltmd_u1_w3_spanish_book.py'
+      - 'scripts/combine_ltmd_u1_w3_spanish_ocr.py'
+      - 'scripts/extract_ltmd_u1_w3_spanish_structural_flags_book.py'
+      - 'scripts/combine_ltmd_u1_w3_spanish_structural_flags.py'
+      - 'scripts/classify_ltmd_u1_w3_spanish_page_structure.py'
+      - 'scripts/segment_ltmd_u1_w3_spanish_fragments.py'
+      - 'scripts/combine_ltmd_u1_w3_spanish_fragment_shards.py'
+      - 'scripts/analyze_ltmd_u1_w3_spanish_exact_reuse.py'
+      - '.github/workflows/build-ltmd-u1-w3-spanish-ocr.yml'
+      - '.github/workflows/recover-ltmd-u1-w3-spanish-ocr.yml'
+      - '.github/workflows/build-ltmd-u1-w3-spanish-pagestruct.yml'
+      - '.github/workflows/build-ltmd-u1-w3-spanish-fragseg.yml'
+      - '.github/workflows/analyze-ltmd-u1-w3-spanish-exact-reuse.yml'
+      - 'data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv'
+      - 'data/catalog/ltmd_u1_w3_spanish_canonical_page_manifest.csv'
+
+jobs:
+  selftest:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile W3 Python infrastructure
+        run: |
+          python3 -m py_compile \
+            scripts/ocr_ltmd_u1_w3_spanish_book.py \
+            scripts/combine_ltmd_u1_w3_spanish_ocr.py \
+            scripts/extract_ltmd_u1_w3_spanish_structural_flags_book.py \
+            scripts/combine_ltmd_u1_w3_spanish_structural_flags.py \
+            scripts/classify_ltmd_u1_w3_spanish_page_structure.py \
+            scripts/segment_ltmd_u1_w3_spanish_fragments.py \
+            scripts/combine_ltmd_u1_w3_spanish_fragment_shards.py \
+            scripts/analyze_ltmd_u1_w3_spanish_exact_reuse.py
+      - name: Validate source-independent W3 topology
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import csv
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv',encoding='utf-8')))
+          man=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_canonical_page_manifest.csv',encoding='utf-8')))
+          assert len(proc)==130, len(proc)
+          keys=[r['viewer_key'] for r in proc]
+          assert len(keys)==len(set(keys))==130
+          eligible={r['viewer_key'] for r in proc if r['ocr_identity_eligible']=='1'}
+          canonical={r['viewer_key'] for r in proc if r['is_canonical_processing_object']=='1'}
+          aliases=eligible-canonical
+          assert len(eligible)==130
+          assert len(canonical)==114
+          assert len(aliases)==16
+          assert sum(r['processing_mode']=='exact_byte_alias' for r in proc)==8
+          assert sum(r['processing_mode']=='route_alias_2018_to_2019' for r in proc)==8
+          assert sum(int(r['persistent_internal_source_gaps'] or 0) for r in proc if r['viewer_key'] in canonical)==8
+          assert len(man)==20765, len(man)
+          assert {r['viewer_key'] for r in man}==canonical
+          assert all(r['asset_status']=='source_jpeg' for r in man)
+          pids=[f"{r['viewer_key']}:{int(r['viewer_page'])}" for r in man]
+          assert len(pids)==len(set(pids))==20765
+          for r in proc:
+              assert r['canonical_processing_viewer_key'] in canonical
+              if r['viewer_key'] in canonical:
+                  assert r['canonical_processing_viewer_key']==r['viewer_key']
+          print('W3 source-independent topology selftest passed: 130 identities / 114 canonicals / 16 aliases / 20,765 pages / 8 gaps')
+          PY
+      - name: Verify no-human-reference boundary is documented
+        shell: bash
+        run: |
+          test -f docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md
+          grep -q 'WAITING_HUMAN_REFERENCE' docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md
+          grep -q 'no demuestra por sí sola equivalencia bibliográfica' docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md
