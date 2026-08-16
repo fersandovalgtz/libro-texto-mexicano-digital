@@ -2,8 +2,8 @@
 """Preflight the LTMD v0.1.0-rc.1 scientific release candidate.
 
 The check deliberately separates technical RC readiness from public-release
-readiness. Missing code/data licenses are publish blockers, not reasons to hide
-or falsify an otherwise reproducible technical candidate.
+readiness. Missing or malformed code/data licenses are publish blockers, not
+reasons to hide or falsify an otherwise reproducible technical candidate.
 """
 from __future__ import annotations
 
@@ -60,6 +60,41 @@ def tracked_files() -> list[str]:
 
 def check(condition: bool, code: str, detail: str, checks: list[dict]) -> None:
     checks.append({"code": code, "passed": bool(condition), "detail": detail})
+
+
+def validate_publish_licenses() -> list[str]:
+    """Return blockers unless the adopted licenses match the preregistered policy."""
+    blockers: list[str] = []
+
+    license_path = Path("LICENSE")
+    if not license_path.exists():
+        blockers.append("code_license_not_selected")
+    else:
+        text = license_path.read_text(encoding="utf-8", errors="replace")
+        if "Apache License" not in text or "Version 2.0, January 2004" not in text:
+            blockers.append("code_license_not_apache_2_0")
+
+    data_path = Path("DATA_LICENSE.md")
+    if not data_path.exists():
+        blockers.append("derived_data_license_not_selected")
+    else:
+        text = data_path.read_text(encoding="utf-8", errors="replace")
+        low = text.lower()
+        cc_ok = "cc by 4.0" in low or "creativecommons.org/licenses/by/4.0" in low
+        source_exclusion = (
+            "conaliteg" in low
+            and "sep" in low
+            and ("no se aplica" in low or "exclu" in low or "does not apply" in low)
+        )
+        scope_ok = "en la medida" in low or "to the extent" in low
+        if not cc_ok:
+            blockers.append("derived_data_license_not_cc_by_4_0")
+        if not source_exclusion:
+            blockers.append("derived_data_license_missing_source_exclusion")
+        if not scope_ok:
+            blockers.append("derived_data_license_missing_rights_scope")
+
+    return blockers
 
 
 def main() -> None:
@@ -121,12 +156,7 @@ def main() -> None:
     technical_failures = [c for c in checks if not c["passed"]]
     rc_technical_ready = not technical_failures
 
-    publish_blockers = []
-    if not Path("LICENSE").exists():
-        publish_blockers.append("code_license_not_selected")
-    if not Path("DATA_LICENSE.md").exists():
-        publish_blockers.append("derived_data_license_not_selected")
-    # A DOI is deliberately not required before the real GitHub/Zenodo release.
+    publish_blockers = validate_publish_licenses()
     publish_ready = rc_technical_ready and not publish_blockers
 
     result = {
@@ -177,7 +207,7 @@ def main() -> None:
         "",
         "## Interpretación",
         "",
-        "`rc_technical_ready` significa que el corte puede auditarse como candidata metodológica. `publish_ready` exige además que las decisiones de licencia ya estén materializadas. El DOI no se exige antes de la publicación real: debe añadirse únicamente después de que Zenodo archive el tag correspondiente.",
+        "`rc_technical_ready` significa que el corte puede auditarse como candidata metodológica. `publish_ready` exige además licencias materializadas y consistentes con la política preregistrada. El DOI no se exige antes de la publicación real: debe añadirse únicamente después de que Zenodo archive el tag correspondiente.",
     ]
     OUT_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
