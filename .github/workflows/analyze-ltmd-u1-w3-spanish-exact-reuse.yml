@@ -1,0 +1,56 @@
+name: analyze-ltmd-u1-w3-spanish-exact-reuse
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'data/catalog/ltmd_u1_w3_spanish_fragment_manifest.csv'
+      - 'data/catalog/ltmd_u1_w3_spanish_fragment_manifest_summary.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Gate exact-reuse analysis
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import csv
+          frags=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_fragment_manifest.csv',encoding='utf-8')))
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv',encoding='utf-8')))
+          assert frags, 'empty W3 fragment manifest'
+          assert len(proc)==130, len(proc)
+          assert {r['segmenter_version'] for r in frags}=={'FRAGSEG_LTMD_U1_W3_SPANISH_0.1'}
+          assert len({r['viewer_key'] for r in frags})==114
+          assert len({r['fragment_id'] for r in frags})==len(frags)
+          PY
+      - name: Build exact-text reuse and document-dependence views
+        run: python3 scripts/analyze_ltmd_u1_w3_spanish_exact_reuse.py
+      - name: Publish W3 exact-reuse products race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w3-spanish-exact-reuse
+          cp data/catalog/ltmd_u1_w3_spanish_exact_content_units.csv /tmp/ltmd-u1-w3-spanish-exact-reuse/
+          cp data/catalog/ltmd_u1_w3_spanish_identity_content_projection.csv /tmp/ltmd-u1-w3-spanish-exact-reuse/
+          cp data/catalog/ltmd_u1_w3_spanish_exact_viewer_overlap.csv /tmp/ltmd-u1-w3-spanish-exact-reuse/
+          cp data/catalog/ltmd_u1_w3_spanish_exact_reuse.md /tmp/ltmd-u1-w3-spanish-exact-reuse/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w3-spanish-exact-reuse/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_spanish_exact_content_units.csv data/catalog/ltmd_u1_w3_spanish_identity_content_projection.csv data/catalog/ltmd_u1_w3_spanish_exact_viewer_overlap.csv data/catalog/ltmd_u1_w3_spanish_exact_reuse.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W3 Spanish exact-reuse analysis'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
