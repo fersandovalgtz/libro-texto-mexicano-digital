@@ -1,12 +1,12 @@
 # Manifiesto de integridad científica LTMD
 
-Versión: `LTMD_INTEGRITY_0.5`.
+Versión: `LTMD_INTEGRITY_0.6`.
 
-Commit observado: `e67e78116b560064949a3cf7c72b4b99a2862e98`.
+Commit observado: `9de58f81ac70bd6dc7aae47d11b44579b11dccc1`.
 
 Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
-Archivos críticos presentes: **150/150**.
+Archivos críticos presentes: **166/166**.
 Artefactos opcionales presentes: **9**.
 
 Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; la desaparición de un artefacto crítico hace fallar el workflow.
@@ -162,7 +162,23 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `.github/workflows/recover-page-structure-cn-wave2.yml` — 2306 bytes — `a38e9ed6f7248e7dc427b61b2f96d4d1888945d8d3c2e126de66c7ebe6a138ad`
 - `.github/workflows/fragment-cn-wave2.yml` — 5081 bytes — `dee30622d3e74d59ffb93d50d1334fd13635925e106e65990df41799bcc35048`
 - `.github/workflows/verify-methods-article-claims.yml` — 2241 bytes — `8061b92a3c89c67396c545cf4fefcebe61273590969614a06f902b388d777bfc`
+- `VERSION` — 11 bytes — `5c9c112fc83af1a2f8c196a676c8f81d1a28aab1ffe9bacd0e8265a150e2e20e`
+- `CHANGELOG.md` — 3578 bytes — `2f862fcaf34240eb74d4613e162b59eb4b5315a5d55b0b958e99b842c59da8d4`
+- `LICENSE` — 11324 bytes — `50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a`
+- `DATA_LICENSE.md` — 3995 bytes — `d4070d74adb6d83c8b61034e3920e9577d9b566063e870f12ce7f6f50d71b892`
+- `requirements-release.txt` — 319 bytes — `1360a8becccdfa022d3ea3b83643883955eee84c0704dff01ccc8453de6ea827`
 - `docs/METHOD_INDEX.md` — 8041 bytes — `703f9f220b2ba2d96656fda4b31a0fdb845b28fbe220e677eee95e3f67a62bb7`
+- `docs/RELEASE_NOTES_v0.1.0-rc.1.md` — 4187 bytes — `3f24a084293f18a506234c535b753184c153dd70ab3a0de245809a0d6a3f7490`
+- `docs/REPRODUCIBILITY_ENVIRONMENT_0_1.md` — 3218 bytes — `3831a462437192328ba67dbe72cfc150c948a8aa633e0a290c9dc38386142829`
+- `docs/REPRODUCIBILITY_REPORT_v0.1.0-rc.1.md` — 5743 bytes — `2bce86d3403065a19b46916cc39f4c1d215a263b8f7d78f96175e7c7f136dca6`
+- `docs/RELEASE_OUTPUTS_0_1.md` — 4079 bytes — `7851bb28627ce2422c7f84e5a1e92046b1a4dbe518e2759a5cb7873789d43184`
+- `docs/RIGHTS_PUBLICATION_MATRIX_0_2.md` — 7881 bytes — `b79e64f94d51b3af1c867636264486aa7a8cb9fdf2fcfddf13e31ca832343583`
+- `docs/LICENSE_DECISION_MEMO_0_1.md` — 7402 bytes — `40af67b139a9e5202f943198f596a568f831ebd92031476820b5924445a9c98a`
+- `scripts/check_release_candidate.py` — 9537 bytes — `4ee536d47a81b2d2943589b7cace1adc2969d3b53995e6cae4769e21ac625cbe`
+- `scripts/build_research_integrity_manifest.py` — 13838 bytes — `c4a8f2f9b884a4ea2c8776329e5829fa3bd6eb9cfea55b5350ff62ee7de2cd1c`
+- `scripts/build_research_integrity_manifest_v06.py` — 1363 bytes — `28468c6873055c7089bce221b98e67d1fbcc3b941aac56a18ed746a329d30069`
+- `.github/workflows/check-release-candidate.yml` — 2151 bytes — `67e3432e7d84b8de084c10ad3c7ada54fecdb874947589c8ebd27ee647178adf`
+- `.github/workflows/build-research-integrity-manifest.yml` — 3161 bytes — `315a740cc7c0e6b175352d4cd1d40f2290f1980cbace43a46646158818913fb6`
 
 ## Artefactos derivados adicionales presentes
 
