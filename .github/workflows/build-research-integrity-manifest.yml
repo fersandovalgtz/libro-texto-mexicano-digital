@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - '.github/workflows/build-research-integrity-manifest.yml'
+      - '.github/workflows/check-release-candidate.yml'
       - '.github/workflows/build-cn-family-asset-readiness.yml'
       - '.github/workflows/audit-cn2018-2019-asset-identity.yml'
       - '.github/workflows/audit-cn2008-internal-unserved.yml'
@@ -14,8 +15,13 @@ on:
       - '.github/workflows/recover-page-structure-cn-wave2.yml'
       - '.github/workflows/fragment-cn-wave2.yml'
       - '.github/workflows/verify-methods-article-claims.yml'
-      - 'README.md'
+      - 'VERSION'
       - 'CITATION.cff'
+      - 'CHANGELOG.md'
+      - 'LICENSE'
+      - 'DATA_LICENSE.md'
+      - 'requirements-release.txt'
+      - 'README.md'
       - 'docs/**'
       - 'scripts/**'
       - 'data/book_inventory.csv'
@@ -43,13 +49,13 @@ permissions:
 
 jobs:
   integrity:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Build integrity manifest
-        run: python3 scripts/build_research_integrity_manifest_v05.py
+        run: python3 scripts/build_research_integrity_manifest_v06.py
       - name: Publish integrity manifest race-safely
         run: |
           set -euo pipefail
