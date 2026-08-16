@@ -1,0 +1,3 @@
+manifest_version,book_id,viewer_key,catalog_generation,grade,viewer_positions,effective_source_jpegs,cryptographically_recovered_positions,terminal_synthetic,unresolved_effective_positions,unique_effective_hashes,asset_layer_ready
+LTMD_U1_W1_2008_PAGE_MANIFEST_0.1,LTMD-CN3-G2008,H2008P3CI263,2008,3,178,178,1,0,0,178,1
+LTMD_U1_W1_2008_PAGE_MANIFEST_0.1,LTMD-CN4-G2008,H2008P4CI268,2008,4,177,177,2,0,0,177,1
