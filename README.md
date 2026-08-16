@@ -4,20 +4,37 @@ Infraestructura abierta de investigación para estudiar longitudinalmente los li
 
 ## Estado actual
 
-**LTMD es una infraestructura histórico-computacional de corpus a escala sustancial dentro de la familia _Ciencias Naturales_. Las capas técnicas están reproduciblemente materializadas; la inferencia semántica histórica permanece deliberadamente bloqueada hasta completar la referencia humana de SEMB 0.3.**
+**LTMD adopta como objetivo de su primera gran fase la cobertura integral del universo histórico disponible en el snapshot U1 del Catálogo Histórico de CONALITEG: 542 visores. Ciencias Naturales funciona como banco de pruebas e inicio del corpus, no como límite del proyecto.**
 
 Corte documental: **15 de agosto de 2026**.
 
-El corpus técnico materializado contiene:
+El corpus técnico materializado hasta ahora contiene:
 
 - **piloto CN5**: 759 imágenes reales y **9,594 fragmentos**;
 - **expansión CN4/CN6**: 1,897 posiciones declaradas, 1,888 JPEG reales y **19,067 fragmentos**;
 - **Ciencias Naturales Ola 2**: 19 libros, 3,177 JPEG fuente y **36,195 fragmentos**;
 - **64,856 ocurrencias técnicas de fragmento** en total;
-- catálogo maestro reproducible: **542 visores**, 542 títulos recuperados y 191 familias normalizadas de título nuclear;
-- familia estricta _Ciencias Naturales_: **37 visores**, con **35/37** completamente resueltos a nivel de activos.
+- catálogo maestro reproducible: **542 visores**, 542 títulos recuperados y 191 familias normalizadas de título nuclear.
 
 `corpus_ready` **no equivale** a `semantic_ready`. Las 64,856 ocurrencias tampoco equivalen a 64,856 observaciones históricas independientes: LTMD representa explícitamente reutilización, revisión, reemplazo, aliases y dependencia documental.
+
+## Objetivo maestro LTMD-U1: 542/542
+
+El universo operativo **LTMD-U1** está fijado en **542 visores únicos**. El tablero ejecutable actual reporta:
+
+- catálogo censado: **542/542 (100.00%)**;
+- títulos normalizados: **542/542 (100.00%)** en 191 familias;
+- activos completamente resueltos con evidencia: **36/542 (6.64%)**, más 2 resoluciones parciales documentadas;
+- FRAGSEG directamente materializado: **32/542 (5.90%)**;
+- cobertura FRAGSEG efectiva, incluyendo cuatro aliases byte-idénticos ya representados: **36/542 (6.64%)**;
+- relaciones documentales registradas: **12/542 (2.21%)**;
+- cobertura semántica humana validada: **0/542**, porque SEMB 0.3 continúa en `WAITING_HUMAN_REFERENCE`.
+
+La meta U1 es alcanzar **542/542 visores técnicamente representados**, mediante procesamiento directo o alias criptográficamente verificado, conservando siempre identidad documental y excepciones. Este objetivo no autoriza a extrapolar el clasificador semántico de Ciencias Naturales a otras áreas sin validación humana propia.
+
+El programa completo está en **[`docs/LTMD_U1_MASTER_PLAN_0_1.md`](docs/LTMD_U1_MASTER_PLAN_0_1.md)** y el tablero vivo en **[`data/catalog/ltmd_u1_coverage.md`](data/catalog/ltmd_u1_coverage.md)**. La cola integral está en `data/catalog/ltmd_u1_wave_queue.csv`.
+
+La primera ola pendiente, **U1-W1**, contiene sólo cuatro visores de Ciencias Naturales/Estudio de la Naturaleza. Después siguen Matemáticas, Español/Lengua, Ciencias Sociales, Historia, Geografía/Atlas, Cívica/Ética, Artes, Educación Física, materiales integrados y títulos que requieren revisión operacional.
 
 ## Release publicada
 
@@ -35,7 +52,7 @@ Antes de crear el tag, el preflight reproducible demostró:
 - fuentes/working files prohibidos rastreados: **0**;
 - gate humano SEMB 0.3: **cerrado correctamente**.
 
-El tag `v0.1.0-rc.1` congela el commit de release verificado; `main` puede continuar evolucionando después de ese corte.
+El tag `v0.1.0-rc.1` congela el commit de release verificado; `main` puede continuar evolucionando después de ese corte. El programa U1 se desarrolla en `main` después de esa release y no modifica retroactivamente el tag.
 
 **El DOI de Zenodo está pendiente hasta que exista un registro real del depósito.** LTMD no anticipa ni inventa identificadores persistentes.
 
@@ -84,9 +101,11 @@ Para dependencia documental se mantienen vistas reversibles: **object view**, **
 
 ## Familia estricta _Ciencias Naturales_
 
-El inventario contiene **37 visores** en nueve generaciones del catálogo: 31 `full_direct`, 4 `full_alias_same_bytes`, 2 `partial_internal_unserved` y 0 `not_resolved`.
+El inventario estricto contiene **37 visores** en nueve generaciones del catálogo: 31 `full_direct`, 4 `full_alias_same_bytes`, 2 `partial_internal_unserved` y 0 `not_resolved`.
 
 Los cuatro visores 2018 de 3º, 4º, 5º y 6º se relacionan con activos 2019 mediante **652/652 pares byte-idénticos**. Dos objetos 2008 conservan tres posiciones internas no servidas; LTMD las registra como hecho técnico sin convertirlas en “página faltante” sin comprobación bibliográfica externa.
+
+La taxonomía operativa U1 identifica además materiales afines como *Estudio de la Naturaleza*. Por eso el dominio operacional `ciencias_naturales` contiene 40 visores, de los cuales 36 están cubiertos efectivamente y cuatro forman U1-W1.
 
 ## Piloto CN5
 
@@ -110,7 +129,7 @@ La infraestructura prehumana contiene **480 casos**: 320 `development`, 160 `loc
 
 Etapa actual: **`WAITING_HUMAN_REFERENCE`**.
 
-Las expansiones CN4/CN6 y Ola 2 no se clasifican productivamente con SEMB 0.2 ni con candidatos SEMB 0.3 para producir narrativa histórica.
+Las expansiones técnicas y el programa U1 no se clasifican productivamente con SEMB 0.2 ni con candidatos SEMB 0.3 para producir narrativa histórica.
 
 ## Unidades breves y FRAGTYPE 0.3
 
@@ -140,7 +159,7 @@ Véanse [`docs/RIGHTS_AND_REUSE_0_1.md`](docs/RIGHTS_AND_REUSE_0_1.md), [`docs/R
 
 ## Reproducibilidad e integridad científica
 
-El corte de release utiliza **`LTMD_INTEGRITY_0.6`**, con **166/166 artefactos críticos presentes**, `missing_critical=[]` y recomputación SHA-256 completa en PASS.
+El corte de release utiliza **`LTMD_INTEGRITY_0.6`**, con **166/166 artefactos críticos presentes**, `missing_critical=[]` y recomputación SHA-256 completa en PASS. El desarrollo posterior de U1 en `main` se versionará en cortes de integridad posteriores y no altera ese tag.
 
 El entorno de referencia es Ubuntu 24.04. `requirements-release.txt` fija la dependencia Python directa de SEMB 0.2 (`sentence-transformers==5.6.1`). Python patch-level y el lock transitivo de wheels permanecen documentados como parcialmente congelados.
 
@@ -155,7 +174,7 @@ La publicación de `v0.1.0-rc.1` se refiere a **publicabilidad del corte metodol
 
 ## Documentación central
 
-La entrada recomendada es el **[Índice maestro de método](docs/METHOD_INDEX.md)**.
+La entrada recomendada es el **[Índice maestro de método](docs/METHOD_INDEX.md)**. Para la expansión integral, consulte el **[Plan Maestro LTMD-U1](docs/LTMD_U1_MASTER_PLAN_0_1.md)**.
 
 ## Regla epistemológica
 
