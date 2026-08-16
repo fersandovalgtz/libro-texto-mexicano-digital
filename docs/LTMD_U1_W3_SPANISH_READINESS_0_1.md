@@ -27,6 +27,12 @@ Por tanto, W3 se tratará operacionalmente como:
 - **4 visores con UI horizontal**;
 - **130 visores bajo el mismo contrato de catálogo**, sujetos todavía a auditoría empírica de JPEG y SHA-256.
 
+## Routing previo
+
+Los 130 visores tienen `ag_clave` institucional individual en el inventario declarado. La auditoría previa encontró **0 claves `ag_clave` reutilizadas por más de un visor**. Esto no descarta dependencia documental ni aliases de contenido: sólo demuestra que no existe una reutilización trivial visible en esa variable de configuración.
+
+El futuro auditor de activos ya está preparado para construir la ruta fuente desde `ag_clave`, no desde una inferencia basada en `viewer_key`, y registra por separado si la UI es estándar u horizontal. El workflow de 130 shards permanece deliberadamente sólo bajo `workflow_dispatch`: **no se ha lanzado ninguna descarga de páginas W3**.
+
 ## Partición industrial
 
 Las 23,894 posiciones se dividieron de forma determinista en **14 batches**, ninguno mezcla generaciones y ninguno supera 2,500 posiciones declaradas. La partición es logística; no altera el denominador W3 ni implica independencia histórica.
