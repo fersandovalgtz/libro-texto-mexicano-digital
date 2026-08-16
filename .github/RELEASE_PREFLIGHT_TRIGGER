@@ -1,0 +1,4 @@
+LTMD release preflight trigger
+release_candidate=v0.1.0-rc.1
+integrity_target=LTMD_INTEGRITY_0.6
+purpose=trigger preflight without mutating the release-critical SHA-256 set
