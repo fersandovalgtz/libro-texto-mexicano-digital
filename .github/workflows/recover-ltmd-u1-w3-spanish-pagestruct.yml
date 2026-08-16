@@ -149,3 +149,5 @@ jobs:
             sleep $((attempt * 2))
           done
           exit 1
+      - name: Continue W3 with FRAGSEG after recovered PAGESTRUCT
+        run: gh workflow run build-ltmd-u1-w3-spanish-fragseg.yml --repo "$GITHUB_REPOSITORY" --ref main
