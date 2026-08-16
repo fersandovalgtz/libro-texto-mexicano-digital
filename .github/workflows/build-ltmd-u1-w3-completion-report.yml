@@ -1,0 +1,41 @@
+name: build-ltmd-u1-w3-completion-report
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'data/catalog/ltmd_u1_w3_spanish_exact_reuse.md'
+      - 'data/catalog/ltmd_u1_w3_spanish_exact_content_units.csv'
+      - 'data/catalog/ltmd_u1_w3_spanish_identity_content_projection.csv'
+      - 'data/catalog/ltmd_u1_w3_spanish_exact_viewer_overlap.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build completion report only from finalized W3 artifacts
+        run: python3 scripts/build_ltmd_u1_w3_completion_report.py
+      - name: Publish W3 completion report race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp docs/LTMD_U1_W3_COMPLETION.md /tmp/LTMD_U1_W3_COMPLETION.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/LTMD_U1_W3_COMPLETION.md docs/LTMD_U1_W3_COMPLETION.md
+            git add docs/LTMD_U1_W3_COMPLETION.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W3 Spanish completion report'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
