@@ -1,0 +1,47 @@
+name: audit-ltmd-u1-w4-social-sciences-architecture
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-ltmd-u1-w4-social-sciences-architecture.yml'
+      - 'scripts/build_ltmd_u1_w4_social_sciences_scope.py'
+      - 'scripts/audit_ltmd_u1_w4_social_sciences_architecture.py'
+      - 'data/catalog/ltmd_u1_wave_queue.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Freeze exact W4 scope
+        run: python3 scripts/build_ltmd_u1_w4_social_sciences_scope.py
+      - name: Audit W4 viewer architecture only
+        run: python3 scripts/audit_ltmd_u1_w4_social_sciences_architecture.py
+      - name: Publish W4 scope and architecture race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-w4
+          cp data/catalog/ltmd_u1_w4_scope.csv /tmp/ltmd-w4/
+          cp data/catalog/ltmd_u1_w4_scope.md /tmp/ltmd-w4/
+          cp data/catalog/ltmd_u1_w4_viewer_architecture.csv /tmp/ltmd-w4/
+          cp data/catalog/ltmd_u1_w4_viewer_architecture.md /tmp/ltmd-w4/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-w4/* data/catalog/
+            git add data/catalog/ltmd_u1_w4_scope.csv data/catalog/ltmd_u1_w4_scope.md data/catalog/ltmd_u1_w4_viewer_architecture.csv data/catalog/ltmd_u1_w4_viewer_architecture.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W4 Social Sciences scope and architecture audit'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
