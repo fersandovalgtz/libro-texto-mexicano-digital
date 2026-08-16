@@ -1,0 +1,70 @@
+name: build-ltmd-u1-w1-2008-ocr
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w1-2008-ocr.yml'
+      - 'scripts/ocr_ltmd_u1_w1_2008_book.py'
+      - 'scripts/combine_ltmd_u1_w1_2008_ocr.py'
+      - 'data/catalog/ltmd_u1_w1_2008_page_manifest.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  ocr:
+    strategy:
+      fail-fast: false
+      matrix:
+        book_id: [LTMD-CN3-G2008, LTMD-CN4-G2008]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
+      - name: OCR one reconciled 2008 book
+        run: python3 scripts/ocr_ltmd_u1_w1_2008_book.py --book-id '${{ matrix.book_id }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w1-2008-ocr-${{ matrix.book_id }}
+          path: data/work/ltmd_u1_w1_2008_ocr/*.csv
+          if-no-files-found: error
+          retention-days: 1
+  combine:
+    needs: ocr
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w1-2008-ocr-*
+          path: data/work/ltmd_u1_w1_2008_ocr
+          merge-multiple: true
+      - name: Combine exact 355-page OCR layer
+        run: python3 scripts/combine_ltmd_u1_w1_2008_ocr.py
+      - name: Publish OCR metrics race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w1-2008-ocr
+          cp data/catalog/ltmd_u1_w1_2008_ocr_metrics.csv /tmp/ltmd-u1-w1-2008-ocr/
+          cp data/catalog/ltmd_u1_w1_2008_ocr_summary.csv /tmp/ltmd-u1-w1-2008-ocr/
+          cp data/catalog/ltmd_u1_w1_2008_ocr.md /tmp/ltmd-u1-w1-2008-ocr/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w1-2008-ocr/* data/catalog/
+            git add data/catalog/ltmd_u1_w1_2008_ocr_metrics.csv data/catalog/ltmd_u1_w1_2008_ocr_summary.csv data/catalog/ltmd_u1_w1_2008_ocr.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W1 2008 OCR metrics'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
