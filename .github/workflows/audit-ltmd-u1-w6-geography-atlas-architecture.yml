@@ -1,0 +1,44 @@
+name: audit-ltmd-u1-w6-geography-atlas-architecture
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-ltmd-u1-w6-geography-atlas-architecture.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Freeze W6 scope
+        run: python3 scripts/build_ltmd_u1_w6_geography_atlas_scope.py
+      - name: Audit W6 viewer architecture
+        run: python3 scripts/audit_ltmd_u1_w6_geography_atlas_architecture.py
+      - name: Publish W6 source-first scope and architecture race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w6-architecture
+          cp data/catalog/ltmd_u1_w6_scope.csv /tmp/w6-architecture/
+          cp data/catalog/ltmd_u1_w6_scope.md /tmp/w6-architecture/
+          cp data/catalog/ltmd_u1_w6_viewer_architecture.csv /tmp/w6-architecture/
+          cp data/catalog/ltmd_u1_w6_viewer_architecture.md /tmp/w6-architecture/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w6-architecture/* data/catalog/
+            git add data/catalog/ltmd_u1_w6_scope.csv data/catalog/ltmd_u1_w6_scope.md data/catalog/ltmd_u1_w6_viewer_architecture.csv data/catalog/ltmd_u1_w6_viewer_architecture.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W6 Geography Atlas scope and architecture'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
