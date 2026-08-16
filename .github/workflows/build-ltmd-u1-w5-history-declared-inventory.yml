@@ -2,8 +2,14 @@ name: build-ltmd-u1-w5-history-declared-inventory
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows:
+      - audit-ltmd-u1-w5-history-architecture
+    types:
+      - completed
   push:
     paths:
+      - '.github/workflows/build-ltmd-u1-w5-history-declared-inventory.yml'
       - 'data/catalog/ltmd_u1_w5_scope.csv'
       - 'data/catalog/ltmd_u1_w5_viewer_architecture.csv'
 
@@ -12,6 +18,7 @@ permissions:
 
 jobs:
   inventory:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
