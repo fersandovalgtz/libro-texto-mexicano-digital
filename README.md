@@ -64,7 +64,7 @@ W5 cubre **18/18 identidades históricas** mediante **15 objetos canónicos**. T
 
 ### U1-W6 — Geografía/Atlas: SOURCE-FIRST ACTIVA
 
-W6 está congelada en **42 visores**. El registro central `claves.json` declara **7,766 posiciones**. Cuarenta y un visores presentan la arquitectura HTML dinámica estándar; `H1993P5GE204` (*Atlas de Geografía Universal*) se conserva como excepción de arquitectura HTML, aunque sí cuenta con declaración en el registro central. Esta ola permanece deliberadamente antes de OCR: primero deben auditarse posición por posición los activos servidos, sus hashes, huecos, terminales, rutas alternativas y posibles relaciones de identidad.
+W6 está congelada en **42 visores**. El registro central `claves.json` declara **6,160 posiciones**. Cuarenta y un visores presentan la arquitectura HTML dinámica estándar; `H1993P5GE204` (*Atlas de Geografía Universal*) se conserva como excepción de arquitectura HTML, aunque sí cuenta con declaración en el registro central. Esta ola permanece deliberadamente antes de OCR: primero deben auditarse posición por posición los activos servidos, sus hashes, huecos, terminales, rutas alternativas y posibles relaciones de identidad.
 
 ## Release publicada
 
