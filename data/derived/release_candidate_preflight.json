@@ -1,14 +1,15 @@
 {
-  "preflight_version": "LTMD_RELEASE_PREFLIGHT_0.2",
+  "preflight_version": "LTMD_RELEASE_PREFLIGHT_0.3",
   "release_candidate": "v0.1.0-rc.1",
-  "generated_utc": "2026-08-16T01:23:10.533357+00:00",
-  "git_head": "39e1dcfe04ec4bdcb77910b63d391a5b9532caa1",
+  "generated_utc": "2026-08-16T01:25:23.089982+00:00",
+  "git_head": "3e12846798ebb7379fba0b34684fbe07ee6b53fd",
   "rc_technical_ready": true,
   "publish_ready": true,
   "technical_failures": [],
   "publish_blockers": [],
   "integrity_version": "LTMD_INTEGRITY_0.6",
   "integrity_critical": "166/166",
+  "integrity_hash_mismatches": [],
   "methods_claim_check_passed": true,
   "checks": [
     {
@@ -37,9 +38,14 @@
       "detail": "CFF explicitly defers DOI until real deposit"
     },
     {
-      "code": "integrity_0_6",
+      "code": "integrity_0_6_metadata",
       "passed": true,
       "detail": "version=LTMD_INTEGRITY_0.6 critical=166/166"
+    },
+    {
+      "code": "integrity_0_6_sha256_recomputed",
+      "passed": true,
+      "detail": "mismatches=[]"
     },
     {
       "code": "methods_claim_check",

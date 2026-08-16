@@ -2,12 +2,13 @@
 
 Candidata: **v0.1.0-rc.1**.
 
-Commit observado: `39e1dcfe04ec4bdcb77910b63d391a5b9532caa1`.
+Commit observado: `3e12846798ebb7379fba0b34684fbe07ee6b53fd`.
 
 RC técnicamente lista: **SÍ**.
 Lista para publicación pública: **SÍ**.
 
 Integridad: **166/166** (`LTMD_INTEGRITY_0.6`).
+SHA-256 críticos recomputados: **PASS**.
 Verificación de cifras del artículo: **PASS**.
 
 ## Controles técnicos
@@ -17,7 +18,8 @@ Verificación de cifras del artículo: **PASS**.
 - [x] `citation_version` — expected 0.1.0-rc.1
 - [x] `citation_date` — expected 2026-08-15
 - [x] `no_invented_doi` — CFF explicitly defers DOI until real deposit
-- [x] `integrity_0_6` — version=LTMD_INTEGRITY_0.6 critical=166/166
+- [x] `integrity_0_6_metadata` — version=LTMD_INTEGRITY_0.6 critical=166/166
+- [x] `integrity_0_6_sha256_recomputed` — mismatches=[]
 - [x] `methods_claim_check` — passed=True
 - [x] `direct_semantic_dependency_pinned` — sentence-transformers==5.6.1
 - [x] `license_policy_documented` — Apache-2.0 + CC BY 4.0 policy documented
@@ -33,4 +35,4 @@ Verificación de cifras del artículo: **PASS**.
 
 ## Interpretación
 
-`rc_technical_ready` significa que el corte puede auditarse como candidata metodológica. `publish_ready` exige además licencias materializadas y consistentes con la política documentada. El DOI no se exige antes de la publicación real: debe añadirse únicamente después de que Zenodo archive el tag correspondiente.
+`rc_technical_ready` significa que el corte puede auditarse como candidata metodológica y que las huellas críticas fueron recomputadas contra el checkout actual. `publish_ready` exige además licencias materializadas y consistentes con la política documentada. El DOI no se exige antes de la publicación real: debe añadirse únicamente después de que Zenodo archive el tag correspondiente.
