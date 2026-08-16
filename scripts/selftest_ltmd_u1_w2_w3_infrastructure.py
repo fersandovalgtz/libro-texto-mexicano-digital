@@ -8,12 +8,12 @@ SCRIPTS=[
 'scripts/extract_ltmd_u1_w2_math_structural_flags_book.py','scripts/combine_ltmd_u1_w2_math_structural_flags_v02.py',
 'scripts/classify_ltmd_u1_w2_math_page_structure_v02.py','scripts/segment_ltmd_u1_w2_math_fragments_v02.py',
 'scripts/combine_ltmd_u1_w2_math_fragment_shards_v02.py','scripts/build_ltmd_u1_coverage_w2_current.py',
-'scripts/build_ltmd_u1_w2_completion_report.py','scripts/build_ltmd_u1_w3_spanish_scope.py',
-'scripts/audit_ltmd_u1_w3_spanish_architecture.py','scripts/build_ltmd_u1_w3_spanish_declared_inventory.py',
-'scripts/build_ltmd_u1_w3_batch_plan.py','scripts/extract_ltmd_u1_w3_architecture_exceptions.py',
-'scripts/probe_ltmd_u1_w3_special_viewers.py','scripts/probe_ltmd_u1_w3_horizontal_contract.py',
-'scripts/audit_ltmd_u1_w3_ag_clave_reuse.py','scripts/audit_ltmd_u1_w3_spanish_assets_book.py',
-'scripts/combine_ltmd_u1_w3_spanish_asset_shards.py']
+'scripts/build_ltmd_u1_w2_completion_report.py','scripts/build_ltmd_u1_w2_integrity_checkpoint.py',
+'scripts/build_ltmd_u1_w3_spanish_scope.py','scripts/audit_ltmd_u1_w3_spanish_architecture.py',
+'scripts/build_ltmd_u1_w3_spanish_declared_inventory.py','scripts/build_ltmd_u1_w3_batch_plan.py',
+'scripts/extract_ltmd_u1_w3_architecture_exceptions.py','scripts/probe_ltmd_u1_w3_special_viewers.py',
+'scripts/probe_ltmd_u1_w3_horizontal_contract.py','scripts/audit_ltmd_u1_w3_ag_clave_reuse.py',
+'scripts/audit_ltmd_u1_w3_spanish_assets_book.py','scripts/combine_ltmd_u1_w3_spanish_asset_shards.py']
 
 def load(path):
  with open(path,encoding='utf-8',newline='') as f:return list(csv.DictReader(f))
