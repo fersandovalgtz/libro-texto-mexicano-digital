@@ -1,10 +1,10 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.8",
-  "generated_utc": "2026-08-16T23:35:49.065178+00:00",
-  "git_head": "9698d0766fcc5600ba4b4e145b732e95ac0b7145",
+  "generated_utc": "2026-08-16T23:36:42.197013+00:00",
+  "git_head": "eda466ca87f58f78b0a2d27e306626a60b69ab22",
   "scope": "CN5 pilot + closed CN4/CN6 expansion + closed Ciencias Naturales Wave 2 + strict-family asset readiness + document-dependence/unique-content evidence + prehuman SEMB 0.3 infrastructure + methods article 0.2",
-  "critical_count": 286,
-  "critical_present_count": 286,
+  "critical_count": 290,
+  "critical_present_count": 290,
   "missing_critical": [],
   "optional_present_count": 18,
   "optional_missing": [
@@ -1689,6 +1689,18 @@
       "required": true
     },
     {
+      "path": "data/catalog/ltmd_u1_w7_addpage_contract.json",
+      "bytes": 3117,
+      "sha256": "edabe9bfe73a17875e805c801d5f006815323c5a58c657398820cff85de63e1b",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w7_addpage_contract.md",
+      "bytes": 848,
+      "sha256": "1babba8db894266a12340c93e26f708895c256e765abe72eb6a74e9a2dfddba2",
+      "required": true
+    },
+    {
       "path": "scripts/validate_ltmd_u1_w7_provenance.py",
       "bytes": 10485,
       "sha256": "930369e7d50e5f4707a4d1cbfe48f70f63a1e14e4f6c1ae11eeb090b5db2dabd",
@@ -1704,6 +1716,12 @@
       "path": "scripts/extract_ltmd_u1_w7_viewer_route_contract.py",
       "bytes": 6626,
       "sha256": "517cc1527c2a2c0f0151d23312af99a36b5e7d15247c7b054421a4a6a40fc0ad",
+      "required": true
+    },
+    {
+      "path": "scripts/inspect_ltmd_u1_w7_addpage_contract.py",
+      "bytes": 6341,
+      "sha256": "ac27da3222b5e9cbfe62e6abf621d5ef5dd8e41fb2152bc4f49bf51e95570099",
       "required": true
     },
     {
@@ -1725,9 +1743,15 @@
       "required": true
     },
     {
+      "path": ".github/workflows/inspect-ltmd-u1-w7-addpage-contract.yml",
+      "bytes": 1800,
+      "sha256": "7bae16ebb550c0a21573cfacf6d89fad88d8b27183fb0f7e9cb66f44e80fbf34",
+      "required": true
+    },
+    {
       "path": "scripts/build_research_integrity_manifest_v08.py",
-      "bytes": 2372,
-      "sha256": "43358e265664f2ede91fbf15287bed558aadc6dc013d424c702ee473b8a43335",
+      "bytes": 2595,
+      "sha256": "8ec9ccf28a2b5e3f13d5cb234ce4b3e6c7d74d3039937b11c5ae4c113fb367e6",
       "required": true
     },
     {

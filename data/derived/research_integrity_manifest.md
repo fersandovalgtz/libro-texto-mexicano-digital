@@ -2,11 +2,11 @@
 
 Versión: `LTMD_INTEGRITY_0.8`.
 
-Commit observado: `9698d0766fcc5600ba4b4e145b732e95ac0b7145`.
+Commit observado: `eda466ca87f58f78b0a2d27e306626a60b69ab22`.
 
 Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
-Archivos críticos presentes: **286/286**.
+Archivos críticos presentes: **290/290**.
 Artefactos opcionales presentes: **18**.
 
 Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; la desaparición de un artefacto crítico hace fallar el workflow.
@@ -292,13 +292,17 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `data/catalog/ltmd_u1_w7_routing_diagnostics.md` — 1022 bytes — `7d6dc4a9025d95a9c47899b971160ef6583d9c47500d8d51aad3b4469371159d`
 - `data/catalog/ltmd_u1_w7_viewer_route_contract.json` — 2604 bytes — `d1ed63bdacac817f88a9b2d52f07215ba397e9ef8fcaacc38f07ca6cbe32e53f`
 - `data/catalog/ltmd_u1_w7_viewer_route_contract.md` — 1520 bytes — `8bb02adc712414a66ffcd22f516d8d310116cffed111de88313f90edfc4c11f5`
+- `data/catalog/ltmd_u1_w7_addpage_contract.json` — 3117 bytes — `edabe9bfe73a17875e805c801d5f006815323c5a58c657398820cff85de63e1b`
+- `data/catalog/ltmd_u1_w7_addpage_contract.md` — 848 bytes — `1babba8db894266a12340c93e26f708895c256e765abe72eb6a74e9a2dfddba2`
 - `scripts/validate_ltmd_u1_w7_provenance.py` — 10485 bytes — `930369e7d50e5f4707a4d1cbfe48f70f63a1e14e4f6c1ae11eeb090b5db2dabd`
 - `scripts/diagnose_ltmd_u1_w7_routing.py` — 8969 bytes — `659967d5ba8931bccbd544d7c70ffa8d252cc961463117fba981b47d34054ee5`
 - `scripts/extract_ltmd_u1_w7_viewer_route_contract.py` — 6626 bytes — `517cc1527c2a2c0f0151d23312af99a36b5e7d15247c7b054421a4a6a40fc0ad`
+- `scripts/inspect_ltmd_u1_w7_addpage_contract.py` — 6341 bytes — `ac27da3222b5e9cbfe62e6abf621d5ef5dd8e41fb2152bc4f49bf51e95570099`
 - `.github/workflows/validate-ltmd-u1-w7-provenance.yml` — 1704 bytes — `d228a5b3215f08fdbb550fffef40dd2bb99c30c7b1c85d6f758d72a1bb4e4aad`
 - `.github/workflows/diagnose-ltmd-u1-w7-routing.yml` — 1810 bytes — `80e1c0e2715a982c8a2cc1f170d84ca2488d81d3728938c08557285a96056f2b`
 - `.github/workflows/extract-ltmd-u1-w7-viewer-route-contract.yml` — 1971 bytes — `73cffe30eb6159dc242103ed24861a5dace33d0a66e689fd6c5e465abcc0b782`
-- `scripts/build_research_integrity_manifest_v08.py` — 2372 bytes — `43358e265664f2ede91fbf15287bed558aadc6dc013d424c702ee473b8a43335`
+- `.github/workflows/inspect-ltmd-u1-w7-addpage-contract.yml` — 1800 bytes — `7bae16ebb550c0a21573cfacf6d89fad88d8b27183fb0f7e9cb66f44e80fbf34`
+- `scripts/build_research_integrity_manifest_v08.py` — 2595 bytes — `8ec9ccf28a2b5e3f13d5cb234ce4b3e6c7d74d3039937b11c5ae4c113fb367e6`
 
 ## Artefactos derivados adicionales presentes
 
