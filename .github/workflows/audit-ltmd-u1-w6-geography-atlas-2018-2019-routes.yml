@@ -1,0 +1,49 @@
+name: audit-ltmd-u1-w6-geography-atlas-2018-2019-routes
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - analyze-ltmd-u1-w6-geography-atlas-asset-relationships
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify W6 source relationship layer exists
+        shell: bash
+        run: |
+          test -s data/catalog/ltmd_u1_w6_geography_atlas_source_readiness.csv
+          test -s data/catalog/ltmd_u1_w6_geography_atlas_asset_manifest.csv
+      - name: Revalidate W6 2018 to 2019 routing byte by byte
+        run: python3 scripts/audit_ltmd_u1_w6_geography_atlas_2018_2019_routes.py
+      - name: Publish W6 2018-2019 route identity race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w6-route
+          cp data/catalog/ltmd_u1_w6_geography_atlas_2018_2019_route_identity.csv /tmp/w6-route/
+          cp data/catalog/ltmd_u1_w6_geography_atlas_2018_2019_route_relationships.csv /tmp/w6-route/
+          cp data/catalog/ltmd_u1_w6_geography_atlas_2018_2019_route_identity.md /tmp/w6-route/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w6-route/* data/catalog/
+            git add data/catalog/ltmd_u1_w6_geography_atlas_2018_2019_route_identity.csv data/catalog/ltmd_u1_w6_geography_atlas_2018_2019_route_relationships.csv data/catalog/ltmd_u1_w6_geography_atlas_2018_2019_route_identity.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W6 Geography Atlas 2018-2019 route identity'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
