@@ -55,11 +55,13 @@ jobs:
           assert r['status']=='completed', (r['status'],r.get('conclusion'))
           assert r['conclusion']=='success', r.get('conclusion')
           PY
-          ART_JSON="$(gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100")"
-          python3 - "$ART_JSON" <<'PY'
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100" > /tmp/w3-artifact-pages.json
+          python3 - /tmp/w3-artifact-pages.json <<'PY'
           import json,sys
-          d=json.loads(sys.argv[1]); a=d['artifacts']
-          names=[x['name'] for x in a if x['name'].startswith('ltmd-u1-w3-spanish-assets-')]
+          with open(sys.argv[1], encoding='utf-8') as f:
+              pages=json.load(f)
+          artifacts=[artifact for page in pages for artifact in page.get('artifacts', [])]
+          names=[x['name'] for x in artifacts if x['name'].startswith('ltmd-u1-w3-spanish-assets-')]
           assert len(names)==130, f'expected 130 W3 asset artifacts, got {len(names)}'
           assert len(set(names))==130, 'duplicate W3 artifact names'
           print('verified source run success and 130/130 unique W3 asset artifacts')
