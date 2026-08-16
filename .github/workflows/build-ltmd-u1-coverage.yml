@@ -1,0 +1,62 @@
+name: build-ltmd-u1-coverage
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-coverage.yml'
+      - 'scripts/build_ltmd_u1_coverage.py'
+      - 'data/catalog/conaliteg_historical_title_inventory.csv'
+      - 'data/catalog/conaliteg_title_cores.csv'
+      - 'data/catalog/ciencias_naturales_family_asset_readiness.csv'
+      - 'data/catalog/cn2018_2019_catalog_alias_relationships.csv'
+      - 'data/book_inventory.csv'
+      - 'data/derived/fragment_manifest.csv'
+      - 'data/derived/fragment_segmentation_summary.csv'
+      - 'data/expansion/cn46_inventory_preliminary.csv'
+      - 'data/expansion/cn46_fragment_manifest_summary.csv'
+      - 'data/expansion/cn_wave2_ingestion_queue.csv'
+      - 'data/expansion/cn_wave2_fragment_manifest_summary.csv'
+      - 'data/expansion/document_relationships_0_1.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  coverage:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build U1 coverage matrix
+        run: python3 scripts/build_ltmd_u1_coverage.py
+      - name: Publish U1 coverage race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1
+          cp data/catalog/ltmd_u1_coverage.csv /tmp/ltmd-u1/
+          cp data/catalog/ltmd_u1_coverage_summary.csv /tmp/ltmd-u1/
+          cp data/catalog/ltmd_u1_domain_summary.csv /tmp/ltmd-u1/
+          cp data/catalog/ltmd_u1_wave_queue.csv /tmp/ltmd-u1/
+          cp data/catalog/ltmd_u1_coverage.md /tmp/ltmd-u1/
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1/* data/catalog/
+            git add \
+              data/catalog/ltmd_u1_coverage.csv \
+              data/catalog/ltmd_u1_coverage_summary.csv \
+              data/catalog/ltmd_u1_domain_summary.csv \
+              data/catalog/ltmd_u1_wave_queue.csv \
+              data/catalog/ltmd_u1_coverage.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 542-viewer coverage dashboard'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
