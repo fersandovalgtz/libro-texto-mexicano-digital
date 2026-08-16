@@ -1,0 +1,47 @@
+name: build-ltmd-u1-w6-geography-atlas-completion-report
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['analyze-ltmd-u1-w6-geography-atlas-exact-reuse']
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify finalized W6 technical artifacts exist
+        run: |
+          test -f data/catalog/ltmd_u1_w6_geography_atlas_exact_content_units.csv
+          test -f data/catalog/ltmd_u1_w6_geography_atlas_exact_viewer_overlap.csv
+          test -f data/catalog/ltmd_u1_w6_geography_atlas_fragment_manifest.csv
+          test -f data/catalog/ltmd_u1_w6_geography_atlas_page_structure.csv
+          test -f data/catalog/ltmd_u1_w6_geography_atlas_ocr_metrics.csv
+          test -f data/catalog/ltmd_u1_w6_h2008p4ge273_gap_recovery.csv
+      - name: Build W6 technical completion report
+        run: python3 scripts/build_ltmd_u1_w6_geography_atlas_completion_report.py
+      - name: Publish W6 completion report race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp docs/LTMD_U1_W6_COMPLETION.md /tmp/LTMD_U1_W6_COMPLETION.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/LTMD_U1_W6_COMPLETION.md docs/LTMD_U1_W6_COMPLETION.md
+            git add docs/LTMD_U1_W6_COMPLETION.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W6 Geography Atlas completion report'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
