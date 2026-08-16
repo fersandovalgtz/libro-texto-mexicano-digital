@@ -11,6 +11,7 @@ on:
       - 'data/catalog/ltmd_u1_w3_spanish_ocr_summary.csv'
 
 permissions:
+  actions: write
   contents: write
 
 env:
@@ -66,6 +67,8 @@ jobs:
   combine:
     needs: flags
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -101,3 +104,5 @@ jobs:
             sleep $((attempt * 2))
           done
           exit 1
+      - name: Dispatch W3 FRAGSEG
+        run: gh workflow run build-ltmd-u1-w3-spanish-fragseg.yml --repo "$GITHUB_REPOSITORY" --ref main
