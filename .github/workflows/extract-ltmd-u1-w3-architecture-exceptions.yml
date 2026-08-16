@@ -1,0 +1,41 @@
+name: extract-ltmd-u1-w3-architecture-exceptions
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/extract-ltmd-u1-w3-architecture-exceptions.yml'
+      - 'scripts/extract_ltmd_u1_w3_architecture_exceptions.py'
+      - 'data/catalog/ltmd_u1_w3_viewer_architecture.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: python3 scripts/extract_ltmd_u1_w3_architecture_exceptions.py
+      - name: Publish W3 exceptions race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w3-ex
+          cp data/catalog/ltmd_u1_w3_architecture_exceptions.csv /tmp/w3-ex/
+          cp data/catalog/ltmd_u1_w3_architecture_exceptions.md /tmp/w3-ex/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w3-ex/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_architecture_exceptions.csv data/catalog/ltmd_u1_w3_architecture_exceptions.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W3 architecture exceptions'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
