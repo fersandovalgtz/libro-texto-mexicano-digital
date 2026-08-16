@@ -1,0 +1,50 @@
+name: inspect-ltmd-u1-w7-dynamic-dependencies
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/inspect-ltmd-u1-w7-dynamic-dependencies.yml'
+      - 'scripts/inspect_ltmd_u1_w7_dynamic_dependencies.py'
+      - 'data/catalog/ltmd_u1_w7_routing_diagnostics.json'
+      - 'data/catalog/ltmd_u1_w7_addpage_contract.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: inspect-ltmd-u1-w7-dynamic-dependencies
+  cancel-in-progress: false
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Inspect W7 dynamic JavaScript dependencies
+        run: python3 scripts/inspect_ltmd_u1_w7_dynamic_dependencies.py
+      - name: Publish dynamic dependency evidence race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-u1-w7-dynamic
+          mkdir -p /tmp/ltmd-u1-w7-dynamic
+          cp data/catalog/ltmd_u1_w7_dynamic_dependencies.json /tmp/ltmd-u1-w7-dynamic/
+          cp data/catalog/ltmd_u1_w7_dynamic_dependencies.md /tmp/ltmd-u1-w7-dynamic/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w7-dynamic/ltmd_u1_w7_dynamic_dependencies.json data/catalog/
+            cp /tmp/ltmd-u1-w7-dynamic/ltmd_u1_w7_dynamic_dependencies.md data/catalog/
+            git add data/catalog/ltmd_u1_w7_dynamic_dependencies.json data/catalog/ltmd_u1_w7_dynamic_dependencies.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W7 dynamic dependency evidence'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
