@@ -1,0 +1,58 @@
+name: reconcile-ltmd-u1-w3-spanish-assets
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/triggers/ltmd-u1-w3-spanish-reconcile.trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify W3 asset diagnostics exist
+        run: |
+          test -f data/catalog/ltmd_u1_w3_spanish_asset_manifest.csv
+          test -f data/catalog/ltmd_u1_w3_spanish_asset_states.csv
+          test -f data/catalog/ltmd_u1_w3_spanish_exact_aliases.csv
+      - name: Re-audit localized internal gaps
+        run: python3 scripts/audit_ltmd_u1_w3_spanish_internal_unserved.py
+      - name: Resolve 2018 anomalies through paired 2019 routes cryptographically
+        run: python3 scripts/audit_ltmd_u1_w3_spanish_2018_2019_routes.py
+      - name: Publish W3 reconciliation evidence race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w3-spanish-reconcile
+          cp data/catalog/ltmd_u1_w3_spanish_internal_unserved_audit.csv /tmp/ltmd-u1-w3-spanish-reconcile/
+          cp data/catalog/ltmd_u1_w3_spanish_internal_unserved_audit.md /tmp/ltmd-u1-w3-spanish-reconcile/
+          cp data/catalog/ltmd_u1_w3_spanish_2018_2019_route_identity.csv /tmp/ltmd-u1-w3-spanish-reconcile/
+          cp data/catalog/ltmd_u1_w3_spanish_2018_2019_route_relationships.csv /tmp/ltmd-u1-w3-spanish-reconcile/
+          cp data/catalog/ltmd_u1_w3_spanish_2018_2019_route_identity.md /tmp/ltmd-u1-w3-spanish-reconcile/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w3-spanish-reconcile/* data/catalog/
+            git add \
+              data/catalog/ltmd_u1_w3_spanish_internal_unserved_audit.csv \
+              data/catalog/ltmd_u1_w3_spanish_internal_unserved_audit.md \
+              data/catalog/ltmd_u1_w3_spanish_2018_2019_route_identity.csv \
+              data/catalog/ltmd_u1_w3_spanish_2018_2019_route_relationships.csv \
+              data/catalog/ltmd_u1_w3_spanish_2018_2019_route_identity.md
+            if git diff --cached --quiet; then break; fi
+            git commit -m 'Publish LTMD-U1 W3 Spanish asset reconciliation evidence'
+            if git push origin HEAD:main; then break; fi
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
+            sleep $((attempt * 2))
+          done
+
+# This workflow resolves only source-layer anomalies. OCR remains closed until a
+# separate reconciled processing inventory is generated from these results.
