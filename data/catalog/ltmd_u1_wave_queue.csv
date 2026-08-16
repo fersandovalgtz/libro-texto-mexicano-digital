@@ -1,4 +1,6 @@
 coverage_version,wave_priority,wave_label,queue_status,operational_domain,viewer_key,catalog_generation,grade_code,title_core,asset_status,effective_fragseg_coverage,coverage_inherited_from_viewer,source_url
+LTMD_U1_COVERAGE_0.3,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1966P6CI374,1966,6,MI CUADERNO DE TRABAJO DE ESTUDIO DE LA NATURALEZA,full_direct_w1_1966,1,,https://historico.conaliteg.gob.mx/H1966P6CI374.htm
+LTMD_U1_COVERAGE_0.3,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1966P6CI375,1966,6,MI LIBRO DE ESTUDIO DE LA NATURALEZA,full_direct_w1_1966,1,,https://historico.conaliteg.gob.mx/H1966P6CI375.htm
 LTMD_U1_COVERAGE_0.3,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1972P1CI058,1972,1,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1972P1CI058.htm
 LTMD_U1_COVERAGE_0.3,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1972P2CI064,1972,2,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1972P2CI064.htm
 LTMD_U1_COVERAGE_0.3,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1972P3CI070,1972,3,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1972P3CI070.htm
@@ -35,8 +37,6 @@ LTMD_U1_COVERAGE_0.3,0,U1-W0-materializado,materialized_direct,ciencias_naturale
 LTMD_U1_COVERAGE_0.3,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2019P4CNA,2019,4,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2019P4CNA.htm
 LTMD_U1_COVERAGE_0.3,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2019P5CNA,2019,5,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2019P5CNA.htm
 LTMD_U1_COVERAGE_0.3,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2019P6CNA,2019,6,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2019P6CNA.htm
-LTMD_U1_COVERAGE_0.3,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H1966P6CI374,1966,6,MI CUADERNO DE TRABAJO DE ESTUDIO DE LA NATURALEZA,full_direct_w1_1966,0,,https://historico.conaliteg.gob.mx/H1966P6CI374.htm
-LTMD_U1_COVERAGE_0.3,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H1966P6CI375,1966,6,MI LIBRO DE ESTUDIO DE LA NATURALEZA,full_direct_w1_1966,0,,https://historico.conaliteg.gob.mx/H1966P6CI375.htm
 LTMD_U1_COVERAGE_0.3,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H2008P3CI263,2008,3,CIENCIAS NATURALES,partial_internal_unserved,0,,https://historico.conaliteg.gob.mx/H2008P3CI263.htm
 LTMD_U1_COVERAGE_0.3,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H2008P4CI268,2008,4,CIENCIAS NATURALES,partial_internal_unserved,0,,https://historico.conaliteg.gob.mx/H2008P4CI268.htm
 LTMD_U1_COVERAGE_0.3,2,U1-W2-matematicas,queued,matematicas,H1972P1MA063,1972,1,MATEMATICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P1MA063.htm

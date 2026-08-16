@@ -1,5 +1,5 @@
 coverage_version,operational_domain,viewer_count,percent_of_u1,asset_resolved_full,fragseg_materialized_direct,effective_fragseg_coverage,remaining_effective,next_wave_priority,next_wave_label
-LTMD_U1_COVERAGE_0.3,ciencias_naturales,40,7.38,38,32,36,4,1,U1-W1-ciencias_naturales
+LTMD_U1_COVERAGE_0.3,ciencias_naturales,40,7.38,38,34,38,2,1,U1-W1-ciencias_naturales
 LTMD_U1_COVERAGE_0.3,matematicas,64,11.81,0,0,0,64,2,U1-W2-matematicas
 LTMD_U1_COVERAGE_0.3,espanol_lengua,130,23.99,0,0,0,130,3,U1-W3-espanol_lengua
 LTMD_U1_COVERAGE_0.3,ciencias_sociales,14,2.58,0,0,0,14,4,U1-W4-ciencias_sociales
