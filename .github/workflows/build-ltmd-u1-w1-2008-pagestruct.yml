@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Require OCR layer
+      - name: Require published OCR layer
         run: test -f data/catalog/ltmd_u1_w1_2008_ocr_metrics.csv
       - name: Install Spanish Tesseract
         run: |
@@ -43,7 +43,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Require OCR layer
+      - name: Require published OCR layer
         run: test -f data/catalog/ltmd_u1_w1_2008_ocr_metrics.csv
       - uses: actions/download-artifact@v4
         with:
