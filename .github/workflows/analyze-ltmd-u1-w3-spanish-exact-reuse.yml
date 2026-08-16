@@ -2,6 +2,9 @@ name: analyze-ltmd-u1-w3-spanish-exact-reuse
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ['build-ltmd-u1-w3-spanish-fragseg']
+    types: [completed]
   push:
     paths:
       - 'data/catalog/ltmd_u1_w3_spanish_fragment_manifest.csv'
@@ -12,6 +15,7 @@ permissions:
 
 jobs:
   analyze:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
