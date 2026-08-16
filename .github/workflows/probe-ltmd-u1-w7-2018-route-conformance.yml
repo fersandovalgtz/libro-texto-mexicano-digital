@@ -1,0 +1,50 @@
+name: probe-ltmd-u1-w7-2018-route-conformance
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/probe-ltmd-u1-w7-2018-route-conformance.yml'
+      - 'scripts/probe_ltmd_u1_w7_2018_route_conformance.py'
+      - 'data/catalog/ltmd_u1_w7_declared_inventory.csv'
+      - 'data/catalog/ltmd_u1_w7_image_route_contract.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: probe-ltmd-u1-w7-2018-route-conformance
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Probe W7 2018 exact-route conformance
+        run: python3 scripts/probe_ltmd_u1_w7_2018_route_conformance.py
+      - name: Publish route conformance evidence race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-u1-w7-conformance
+          mkdir -p /tmp/ltmd-u1-w7-conformance
+          cp data/catalog/ltmd_u1_w7_2018_route_conformance.csv /tmp/ltmd-u1-w7-conformance/
+          cp data/catalog/ltmd_u1_w7_2018_route_conformance.md /tmp/ltmd-u1-w7-conformance/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w7-conformance/ltmd_u1_w7_2018_route_conformance.csv data/catalog/
+            cp /tmp/ltmd-u1-w7-conformance/ltmd_u1_w7_2018_route_conformance.md data/catalog/
+            git add data/catalog/ltmd_u1_w7_2018_route_conformance.csv data/catalog/ltmd_u1_w7_2018_route_conformance.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W7 2018 route conformance'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
