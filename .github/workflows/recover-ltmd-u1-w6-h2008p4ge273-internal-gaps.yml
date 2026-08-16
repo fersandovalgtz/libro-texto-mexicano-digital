@@ -1,0 +1,42 @@
+name: recover-ltmd-u1-w6-h2008p4ge273-internal-gaps
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/recover-ltmd-u1-w6-h2008p4ge273-internal-gaps.yml'
+      - 'scripts/recover_ltmd_u1_w6_h2008p4ge273_internal_gaps.py'
+
+permissions:
+  contents: write
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Recover two W6 2008 gaps with whole-sequence and live-anchor evidence
+        run: python3 scripts/recover_ltmd_u1_w6_h2008p4ge273_internal_gaps.py
+      - name: Publish W6 2008 gap recovery race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w6-gap-recovery
+          cp data/catalog/ltmd_u1_w6_h2008p4ge273_gap_recovery.csv /tmp/w6-gap-recovery/
+          cp data/catalog/ltmd_u1_w6_h2008p4ge273_gap_recovery_anchors.csv /tmp/w6-gap-recovery/
+          cp data/catalog/ltmd_u1_w6_h2008p4ge273_gap_recovery.md /tmp/w6-gap-recovery/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w6-gap-recovery/* data/catalog/
+            git add data/catalog/ltmd_u1_w6_h2008p4ge273_gap_recovery.csv data/catalog/ltmd_u1_w6_h2008p4ge273_gap_recovery_anchors.csv data/catalog/ltmd_u1_w6_h2008p4ge273_gap_recovery.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W6 H2008P4GE273 gap recovery'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
