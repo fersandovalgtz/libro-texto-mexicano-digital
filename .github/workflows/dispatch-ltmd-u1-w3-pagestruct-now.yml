@@ -1,0 +1,37 @@
+name: dispatch-ltmd-u1-w3-pagestruct-now
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/dispatch-ltmd-u1-w3-pagestruct-now.yml'
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify finalized W3 OCR products
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import csv
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv',encoding='utf-8')))
+          metrics=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_ocr_metrics.csv',encoding='utf-8')))
+          summary=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_ocr_summary.csv',encoding='utf-8')))
+          assert len(proc)==130
+          assert len(summary)==114 and len({r['viewer_key'] for r in summary})==114
+          assert len(metrics)==20765
+          assert {r['ocr_version'] for r in summary}=={'LTMD_U1_W3_SPANISH_OCR_0.1'}
+          assert all(int(r['sha_verified'])==int(r['pages']) and int(r['unresolved'])==0 for r in summary)
+          assert all(r['source_sha256_verified']=='1' and r['ocr_status']=='ok' and r['ocr_class']!='unresolved' for r in metrics)
+          print('W3 OCR finalized: 114 canonicals / 20,765 pages / 0 unresolved')
+          PY
+      - name: Dispatch W3 PAGESTRUCT
+        run: gh workflow run build-ltmd-u1-w3-spanish-pagestruct.yml --repo "$GITHUB_REPOSITORY" --ref main
