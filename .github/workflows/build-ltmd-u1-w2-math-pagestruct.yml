@@ -24,7 +24,9 @@ jobs:
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import csv,json
           rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w2_math_ocr_summary.csv',encoding='utf-8')))
-          assert len(rows)==64 and all(int(r['unresolved'])==0 and int(r['sha_verified'])==int(r['pages']) for r in rows)
+          assert len(rows)==57, len(rows)
+          assert {r['ocr_version'] for r in rows}=={'LTMD_U1_W2_MATH_OCR_0.2'}
+          assert all(int(r['unresolved'])==0 and int(r['sha_verified'])==int(r['pages']) for r in rows)
           print('viewers='+json.dumps([r['viewer_key'] for r in rows],separators=(',',':')))
           PY
 
@@ -42,7 +44,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
-      - name: Extract structural flags for one Mathematics viewer
+      - name: Extract structural flags for one canonical Mathematics viewer
         run: python3 scripts/extract_ltmd_u1_w2_math_structural_flags_book.py --viewer-key '${{ matrix.viewer_key }}'
       - uses: actions/upload-artifact@v4
         with:
@@ -63,11 +65,11 @@ jobs:
           pattern: ltmd-u1-w2-math-structkw-*
           path: data/work/ltmd_u1_w2_math_structkw
           merge-multiple: true
-      - name: Combine exact structural flag layer
-        run: python3 scripts/combine_ltmd_u1_w2_math_structural_flags.py
-      - name: Build frozen PAGESTRUCT layer
-        run: python3 scripts/classify_ltmd_u1_w2_math_page_structure.py
-      - name: Publish PAGESTRUCT race-safely
+      - name: Combine exact 57-canonical structural flag layer
+        run: python3 scripts/combine_ltmd_u1_w2_math_structural_flags_v02.py
+      - name: Build PAGESTRUCT 0.2 layer with frozen rules
+        run: python3 scripts/classify_ltmd_u1_w2_math_page_structure_v02.py
+      - name: Publish PAGESTRUCT 0.2 race-safely
         shell: bash
         run: |
           set -euo pipefail
@@ -84,7 +86,7 @@ jobs:
             cp /tmp/ltmd-u1-w2-math-pagestruct/* data/catalog/
             git add data/catalog/ltmd_u1_w2_math_structural_keyword_flags.csv data/catalog/ltmd_u1_w2_math_page_structure.csv data/catalog/ltmd_u1_w2_math_page_structure_summary.csv data/catalog/ltmd_u1_w2_math_page_structure.md
             if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Publish LTMD-U1 W2 mathematics PAGESTRUCT layer'
+            git commit -m 'Publish LTMD-U1 W2 mathematics PAGESTRUCT 0.2 layer'
             if git push origin HEAD:main; then exit 0; fi
             sleep $((attempt * 2))
           done
