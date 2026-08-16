@@ -7,10 +7,10 @@ Universo operativo U1: **542 visores**.
 
 - Activos completamente resueltos: **100/542 (18.45%)**.
 - Manifiesto de fuente listo: **96/542 (17.71%)**.
-- OCR directo canónico: **36/542 (6.64%)**.
-- PAGESTRUCT directo canónico: **36/542 (6.64%)**.
-- FRAGSEG directo: **36/542 (6.64%)**.
-- Cobertura FRAGSEG efectiva: **40/542 (7.38%)**.
+- OCR directo canónico: **93/542 (17.16%)**.
+- PAGESTRUCT directo canónico: **93/542 (17.16%)**.
+- FRAGSEG directo: **93/542 (17.16%)**.
+- Cobertura FRAGSEG efectiva: **100/542 (18.45%)**.
 - Semántica humana validada: **0/542**.
 
 W2 Matemáticas conserva 4 DMA 2018 como excepciones de routing no resueltas; no reciben crédito por similitud nominal. Los aliases exactos sólo heredan cobertura efectiva después de que su contenido canónico llegue a FRAGSEG.
@@ -20,7 +20,7 @@ W2 Matemáticas conserva 4 DMA 2018 como excepciones de routing no resueltas; no
 | dominio | visores | activos full | FRAGSEG directo | efectiva | restantes | próxima ola |
 |---|---:|---:|---:|---:|---:|---|
 | ciencias_naturales | 40 | 40 | 36 | 40 | 0 | completed_domain |
-| matematicas | 64 | 60 | 0 | 0 | 64 | U1-W2-matematicas |
+| matematicas | 64 | 60 | 57 | 60 | 4 | U1-W2-matematicas |
 | espanol_lengua | 130 | 0 | 0 | 0 | 130 | U1-W3-espanol_lengua |
 | ciencias_sociales | 14 | 0 | 0 | 0 | 14 | U1-W4-ciencias_sociales |
 | historia | 18 | 0 | 0 | 0 | 18 | U1-W5-historia |
