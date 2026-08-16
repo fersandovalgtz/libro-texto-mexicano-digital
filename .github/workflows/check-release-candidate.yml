@@ -1,0 +1,54 @@
+name: check-release-candidate
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/check-release-candidate.yml'
+      - 'VERSION'
+      - 'CITATION.cff'
+      - 'CHANGELOG.md'
+      - 'requirements-release.txt'
+      - '.gitignore'
+      - 'README.md'
+      - 'docs/RELEASE_NOTES_v0.1.0-rc.1.md'
+      - 'docs/REPRODUCIBILITY_ENVIRONMENT_0_1.md'
+      - 'docs/RIGHTS_AND_REUSE_0_1.md'
+      - 'docs/RELEASE_CHECKLIST_0_1.md'
+      - 'docs/METHOD_INDEX.md'
+      - 'docs/METHODS_ARTICLE_DRAFT_0_2.md'
+      - 'scripts/check_release_candidate.py'
+      - 'data/derived/research_integrity_manifest.json'
+      - 'data/derived/methods_article_claim_check.json'
+
+permissions:
+  contents: write
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check LTMD release candidate
+        run: python3 scripts/check_release_candidate.py
+      - name: Publish preflight report race-safely
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-release-preflight
+          cp data/derived/release_candidate_preflight.json /tmp/ltmd-release-preflight/
+          cp data/derived/release_candidate_preflight.md /tmp/ltmd-release-preflight/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-release-preflight/* data/derived/
+            git add data/derived/release_candidate_preflight.json data/derived/release_candidate_preflight.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD release candidate preflight'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
