@@ -28,13 +28,13 @@ MAX_DEPTH = 2
 
 JS_LITERAL_RE = re.compile(r"(?P<q>['\"])(?P<value>[^'\"<>\n]+?\.js(?:\?[^'\"<>\n]*)?)(?P=q)", re.I)
 DEFINITION_PATTERNS = {
-    'named_function_definition': re.compile(r'function\s+addPage\s*\(', re.I),
-    'function_assignment_definition': re.compile(r'addPage\s*=\s*function\s*\(', re.I),
-    'arrow_assignment_definition': re.compile(r'(?:const|let|var)\s+addPage\s*=\s*\([^)]*\)\s*=>', re.I),
+    'addPage_named_function_definition': re.compile(r'function\s+addPage\s*\(', re.I),
+    'addPage_function_assignment_definition': re.compile(r'addPage\s*=\s*function\s*\(', re.I),
+    'addPage_arrow_assignment_definition': re.compile(r'(?:const|let|var)\s+addPage\s*=\s*\([^)]*\)\s*=>', re.I),
 }
 LOADPAGE_PATTERNS = {
-    'named_loadPage_definition': re.compile(r'function\s+loadPage\s*\(', re.I),
-    'loadPage_assignment_definition': re.compile(r'loadPage\s*=\s*function\s*\(', re.I),
+    'loadPage_named_function_definition': re.compile(r'function\s+loadPage\s*\(', re.I),
+    'loadPage_function_assignment_definition': re.compile(r'loadPage\s*=\s*function\s*\(', re.I),
 }
 LOADER_TOKENS = (
     'Modernizr.load', 'getScript', "createElement('script", 'createElement("script',
@@ -92,15 +92,15 @@ def context_hits(source_url: str, text: str) -> list[dict[str, object]]:
         if digest in seen:
             continue
         seen.add(digest)
-        classes = []
+        classes: list[str] = []
         for name, pattern in {**DEFINITION_PATTERNS, **LOADPAGE_PATTERNS}.items():
             if pattern.search(snippet):
                 classes.append(name)
         if any(token.lower() in snippet.lower() for token in LOADER_TOKENS):
             classes.append('dynamic_loader_evidence')
-        if 'addpage' in snippet.lower() and not any('addPage' in name for name in classes):
+        if 'addpage' in snippet.lower() and not any(name.startswith('addPage_') for name in classes):
             classes.append('addPage_use')
-        if 'loadpage' in snippet.lower() and not any('loadPage' in name for name in classes):
+        if 'loadpage' in snippet.lower() and not any(name.startswith('loadPage_') for name in classes):
             classes.append('loadPage_use')
         if '.jpg' in snippet.lower() or '.jpeg' in snippet.lower() or '/c/' in snippet.lower():
             classes.append('image_route_evidence')
@@ -186,12 +186,12 @@ def main() -> None:
 
     definition_hits = [
         hit for hit in hits
-        if any(classification.endswith('addPage_definition') or 'addPage' in classification and 'definition' in classification
+        if any(classification.startswith('addPage_') and classification.endswith('_definition')
                for classification in hit['classifications'])
     ]
     loadpage_definition_hits = [
         hit for hit in hits
-        if any('loadPage' in classification and 'definition' in classification
+        if any(classification.startswith('loadPage_') and classification.endswith('_definition')
                for classification in hit['classifications'])
     ]
     dynamic_loader_hits = [hit for hit in hits if 'dynamic_loader_evidence' in hit['classifications']]
