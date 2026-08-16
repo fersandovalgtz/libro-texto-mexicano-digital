@@ -1,127 +1,164 @@
-# Roadmap
+# Roadmap — LTMD
 
-## Fase 0 — constitución del proyecto — completada
+Estado vigente: **programa LTMD-U1 (542 visores)**.  
+Primera release metodológica publicada: **v0.1.0-rc.1**.  
+Gate semántico: **SEMB 0.3 — WAITING_HUMAN_REFERENCE**.
 
-- [x] Definir identidad, alcance y unidad de análisis.
-- [x] Registrar fuentes y restricciones jurídicas provisionales.
-- [x] Diseñar esquema mínimo de metadatos.
-- [x] Seleccionar corpus piloto.
-- [x] Crear repositorio independiente y reglas de gobernanza.
+> Este roadmap sustituye estados antiguos del piloto que ya fueron superados. El historial permanece en Git. El objetivo actual no es decidir si LTMD debe escalar: **la decisión estratégica es escalar hasta cubrir técnicamente el universo U1 completo**.
 
-## Fase 1 — piloto 0.1/0.2 — en curso avanzado
+## Fase 0 — constitución y piloto técnico — COMPLETADA
 
-### Corpus e infraestructura — completado
-- [x] Fijar Ciencias Naturales, quinto grado, como corpus inicial.
-- [x] Verificar continuidad en generaciones 1972, 1988, 1993 y 2014.
-- [x] Inventariar los cuatro libros y separar generación, edición y copyright.
-- [x] Reconstruir arquitectura de los visores.
-- [x] Construir manifiesto reproducible.
-- [x] Distinguir 763 páginas estructurales de visor y 759 JPEG fuente reales.
+- [x] Crear repositorio independiente, esquema de identidad y gobernanza.
+- [x] Seleccionar Ciencias Naturales 5º como piloto inicial.
+- [x] Reconstruir arquitectura de visores y procedencia.
+- [x] Construir manifiestos y hashes de fuente.
+- [x] Ejecutar OCR técnico sin publicar OCR íntegro sustitutivo.
+- [x] Construir PAGESTRUCT y FRAGSEG.
+- [x] Materializar 9,594 fragmentos del piloto.
+- [x] Ejecutar Rule A como especificación transparente.
+- [x] Rechazar SEMB 0.1 antes del corpus.
+- [x] Ejecutar y diagnosticar SEMB 0.2; conservarlo como resultado negativo/exploratorio.
+- [x] Preregistrar SEMB 0.3 antes de referencia humana.
 
-### Extracción/OCR — cobertura técnica completada
-- [x] Determinar resolución por generación.
-- [x] Diagnosticar timeouts de Tesseract como problema de concurrencia.
-- [x] Fijar concurrencia estable: `OMP_THREAD_LIMIT=1`, dos procesos.
-- [x] Ejecutar benchmark estable de 40 páginas.
-- [x] Procesar los 759 JPEG sin persistir OCR completo en GitHub.
-- [x] Auditar las 61 páginas que `psm 3` dejó sin texto.
-- [x] Identificar 59 falsos negativos recuperables por segmentación alternativa.
-- [x] Congelar OCR adaptativo 0.1: `psm 3 → psm 11/6`, fallback válido con ≥5 palabras.
-- [x] Reejecutar los 759 activos de extremo a extremo.
-- [x] Alcanzar 757/759 activos con texto aceptado por el motor, 2 `no_text_detected`, 0 `unresolved`.
-- [x] Demostrar que `text_detected` no equivale necesariamente a página textual: existen páginas fotográficas con falsos positivos OCR.
+## Fase 1 — expansión de Ciencias Naturales y prueba industrial — COMPLETADA EN SU NÚCLEO
 
-### Diagnóstico CER/WER — muestra primaria completada
-- [x] Preregistrar y trabajar 48/48 posiciones primarias.
-- [x] Preparar evaluador CER/WER léxico y ortográfico.
-- [x] Corregir alineación a `full-page OCR → TSV → región por centro de bounding box`.
-- [x] Corregir parser TSV con `csv.QUOTE_NONE`.
-- [x] Registrar páginas `visual_only` fuera del denominador textual.
-- [x] Mantener referencias e hipótesis OCR legibles en Drive privado, no en GitHub.
-- [x] Eliminar la segunda revisión humana como requisito.
-- [ ] Recalcular y congelar el resumen de **operator-reference CER/WER** global, por generación, front matter y body-only.
-- [ ] Versionar una tabla derivada única de las 48 posiciones sin texto fuente.
+- [x] Expandir a CN4/CN6: 19,067 fragmentos.
+- [x] Ejecutar Ola 2: 36,195 fragmentos.
+- [x] Alcanzar 64,856 ocurrencias técnicas acumuladas.
+- [x] Detectar y modelar reutilización CN4 1972↔1988.
+- [x] Conservar dos objetos CN6 dentro de generación 1993.
+- [x] Demostrar aliases 2018→2019 con 652/652 pares byte-idénticos.
+- [x] Documentar dos objetos CN 2008 con posiciones internas no servidas.
+- [x] Construir vistas `object`, `unique-content` y `revision`.
+- [x] Publicar release metodológica `v0.1.0-rc.1`.
 
-**Estado:** CER/WER es diagnóstico respecto de una referencia de operador de una sola pasada; no se presenta como gold standard humano independiente.
+## Fase 2 — censo U1 y tablero maestro — COMPLETADA
 
-### Protocolo de anotación computacional 0.2 — activo
-- [x] Conservar `CODEBOOK_0_1.md` como preregistro histórico.
-- [x] Crear `COMPUTATIONAL_ANNOTATION_PROTOCOL_0_2.md`.
-- [x] Sustituir doble codificación/adjudicación humana por triangulación computacional reproducible.
-- [x] Congelar **PAGESTRUCT_0.2**: 759/759 páginas = 494 textual, 145 mixed_text_image, 60 visual_only, 1 front_matter, 20 toc_or_navigation, 15 bibliography_or_credits y 24 unknown.
-- [x] Excluir conservadoramente end matter denso no resuelto; body-only elegible = **639 páginas**.
-- [x] Congelar **FRAGSEG_0.2**: **639/639 páginas**, **9,594 fragmentos**, **0 fallos**.
-- [x] Publicar `fragment_manifest.csv` sin texto fuente y validar trazabilidad `book_id → page_id → fragment_id` mediante IDs y SHA-256.
-- [x] Ejecutar **FRAGAUDIT_0.2**: mediana 9 tokens, máximo 158, 0 fragmentos >250 tokens; máximo de densidad 2014 reducido 113→64 fragmentos/página.
-- [x] Preregistrar e implementar **RULEA_0.1** con reglas/rasgos transparentes.
-- [x] Ejecutar pruebas sintéticas RULEA; el primer test detectó ausencia de infinitivos, se corrigió de forma general y el segundo terminó SUCCESS.
-- [x] Ejecutar **RULEA_0.1** sobre **9,594/9,594 fragmentos**, con SHA-256 coincidente en todos los casos y sin texto publicado.
-- [x] Ejecutar **RULEA_AUDIT_0.1**: invariantes lógicas en cero, uncertainty global 1.49 %; RULEA queda congelado y no se ampliará post hoc.
-- [x] Preregistrar e implementar **SEMB_0.1** como estrategia semántica independiente de A.
-- [x] Ejecutar preflight sintético SEMB 0.1 y **rechazarlo antes del corpus**: top-1 de acciones 3/16; prototipos colapsados (similitud media acciones ≈0.945, posiciones ≈0.959).
-- [x] Comprobar que nearest-prototype y centrado no rescatan SEMB 0.1; conservarlo como versión FAILED PRE-CORPUS.
-- [x] Abrir **SEMB_0.2** con `intfloat/multilingual-e5-small`, prototipos cortos, separación desarrollo/validación y `VALIDATION_B02` bloqueada antes de pruebas.
-- [x] Preregistrar criterios de aceptación SEMB 0.2 y regla automática de selección de configuración sintética.
-- [ ] Completar desarrollo sintético SEMB 0.2 — **run activo 31902136502**; todavía sin abrir VALIDATION_B02.
-- [ ] Ejecutar VALIDATION_B02 una sola vez; sólo si pasa, permitir ejecución sobre LTMD.
-- [x] Preregistrar acuerdo computacional A/B (`CLASSIFIER_AGREEMENT_SPEC_0_1.md`) antes de resultados B.
-- [ ] Ejecutar B sobre corpus sólo después de superar su validación sintética.
-- [ ] Calcular acuerdo/desacuerdo A/B por categoría y fragmento.
-- [ ] Crear/propagar bandera `uncertain` para casos sin evidencia suficiente o con desacuerdo relevante.
-- [ ] Ejecutar análisis de sensibilidad por umbral, generación, longitud y layout.
+- [x] Congelar U1 = **542 visores** del snapshot vigente del Catálogo Histórico.
+- [x] Recuperar 542/542 títulos.
+- [x] Normalizar 542/542 títulos en **191 familias**.
+- [x] Construir `LTMD_U1_COVERAGE_0.2`.
+- [x] Crear matriz por visor y KPIs por etapa.
+- [x] Crear taxonomía operativa de dominios.
+- [x] Crear cola completa de olas W1–W11.
+- [x] Separar FRAGSEG directo de cobertura efectiva por alias.
+- [x] Fijar línea base: 32/542 FRAGSEG directo; 36/542 cobertura efectiva; 0/542 semántica validada.
 
-### Dataset analítico — en construcción
-- [x] Fijar especificación `FRAGMENT_SEGMENTATION_SPEC_0_1.md`.
-- [x] Construir manifiesto de 9,594 fragmentos sin texto fuente.
-- [x] Mantener texto sólo de forma efímera durante OCR/reconstrucción; verificar identidad mediante SHA-256.
-- [x] Publicar sólo metadatos, hashes, métricas y etiquetas derivadas no sustitutivas.
-- [x] Publicar primera capa de etiquetas pedagógicas A y auditoría derivada.
-- [ ] Construir dataset integrado:
-  `book → page → fragment → tipo → acciones → posición del alumno → estabilidad → procedencia`.
-- [ ] Integrar etiquetas B sólo si SEMB supera validación pre-corpus.
-- [ ] Generar estadísticas pedagógicas por generación después de triangulación A/B.
+Archivos rectores:
 
-## Fase 2 — prueba historiográfica computacional
+- `LTMD_U1_MASTER_PLAN_0_1.md`
+- `../data/catalog/ltmd_u1_coverage.md`
+- `../data/catalog/ltmd_u1_coverage.csv`
+- `../data/catalog/ltmd_u1_domain_summary.csv`
+- `../data/catalog/ltmd_u1_wave_queue.csv`
 
-Comienza cuando exista etiquetado A/B con trazabilidad completa y estabilidad computacional suficiente. **No depende de revisión humana.**
+## Fase 3 — U1-W1: cerrar Ciencias Naturales/Estudio de la Naturaleza — ACTIVA
 
-- [ ] Cuantificar tipos de actividad y acciones pedagógicas por generación.
-- [ ] Comparar posiciones atribuidas al alumno.
-- [ ] Examinar continuidad/ruptura 1972–1988–1993/1998–2014.
-- [ ] Separar resultados body-only de front matter/layout complejo.
-- [ ] Excluir o modelar separadamente casos `uncertain` y `visual_only`.
-- [ ] Contrastar resultados computacionales con contexto curricular e historiografía.
-- [ ] Formular al menos una hipótesis/artículo derivado del piloto.
-- [ ] Construir una comparación reproducible completa.
-- [ ] Evaluar si los resultados justifican escalar.
+Meta operacional del dominio: **40/40 cobertura efectiva**.
 
-## Puerta de decisión del piloto
+Línea base: **36/40**.
 
-1. acceso reproducible al corpus — **cumplido**;
-2. cobertura técnica suficiente de extracción — **cumplido**;
-3. gobernanza jurídica suficiente para publicar metadatos y derivados — **provisionalmente cumplido para derivados; issue jurídico sigue abierto**;
-4. diagnóstico OCR suficiente para conocer limitaciones por layout y generación — **cumplido en 48/48 posiciones diagnósticas**;
-5. clasificación estructural reproducible — **cumplida: PAGESTRUCT_0.2, 759/759**;
-6. segmentación computacional reproducible — **cumplida: FRAGSEG_0.2, 639/639, 9,594 fragmentos, 0 fallos**;
-7. primera especificación pedagógica reproducible — **cumplida: RULEA_0.1, 9,594/9,594, auditada**;
-8. estabilidad bajo segunda especificación independiente — **pendiente: SEMB 0.1 rechazado; SEMB 0.2 en desarrollo sintético**;
-9. trazabilidad completa entre fuente y dato derivado — **cumplida hasta etiquetas A; pendiente integrar B/estabilidad**;
-10. comparación historiográfica que produzca conocimiento adicional al catálogo original — **pendiente**;
-11. costo técnico razonable para ampliar el corpus — **por evaluar al cierre del piloto**.
+Objetos pendientes congelados:
 
-## Fase 3 — escalamiento controlado
+- [ ] `H1966P6CI374` — *Mi cuaderno de trabajo de Estudio de la Naturaleza*.
+- [ ] `H1966P6CI375` — *Mi libro de Estudio de la Naturaleza*.
+- [ ] `H2008P3CI263` — *Ciencias Naturales*, 3º; resolver/documentar excepción de activo.
+- [ ] `H2008P4CI268` — *Ciencias Naturales*, 4º; resolver/documentar excepción de activos.
 
-Sólo después de superar la puerta de decisión:
+Para 1966: `asset audit → page manifest → OCR → PAGESTRUCT → FRAGSEG → dependencia`.
 
-- ampliar generaciones, grados y/o asignaturas;
-- automatizar inventario e ingestión;
-- estabilizar API/esquema público;
-- construir buscador o interfaz comparativa;
-- preparar release versionado;
-- archivar release en Zenodo u otro repositorio apropiado;
-- asignar DOI y formalizar citación;
-- definir estrategia de artículos, datasets y productos derivados.
+Para 2008: no inventar activos. Buscar ruta/representación alternativa o conservar una excepción documental explícita. No contar como cobertura completa mientras el criterio de U1 no esté satisfecho.
+
+## Fase 4 — U1-W2: Matemáticas — PENDIENTE
+
+Universo operacional actual: **64 visores**.
+
+Objetivos:
+
+- [ ] congelar lista W2 desde `ltmd_u1_wave_queue.csv`;
+- [ ] auditar arquitectura/rutas de activos por generación;
+- [ ] ejecutar manifiestos SHA-256 por objeto;
+- [ ] ejecutar OCR técnico por shards;
+- [ ] evaluar transferibilidad de PAGESTRUCT/FRAGSEG estructural;
+- [ ] no aplicar semántica de Ciencias Naturales a Matemáticas;
+- [ ] actualizar tablero automáticamente.
+
+W2 es la primera prueba de transferencia masiva del pipeline universal a una disciplina distinta.
+
+## Fase 5 — U1-W3: Español/Lengua — PENDIENTE
+
+Universo operacional actual: **130 visores**.
+
+Será el primer gran estrés de escala del sistema. Debe ejecutarse por cohortes reproducibles, no como job monolítico.
+
+## Fase 6 — U1-W4 a U1-W9 — PENDIENTE
+
+- [ ] W4 Ciencias Sociales — 14 visores.
+- [ ] W5 Historia — 18 visores.
+- [ ] W6 Geografía/Atlas — 42 visores.
+- [ ] W7 Cívica/Ética — 30 visores.
+- [ ] W8 Artes — 20 visores.
+- [ ] W9 Educación Física — 4 visores.
+
+El orden es operacional y puede versionarse si aparece evidencia técnica que aconseje otro orden. Nunca se cambia para maximizar un resultado historiográfico.
+
+## Fase 7 — U1-W10: materiales integrados/multiarea — PENDIENTE
+
+Universo operacional actual: **69 visores**.
+
+Estos objetos requieren atención adicional porque el título activa más de una señal disciplinar. Su asignación a W10 es logística; no presupone una ontología curricular.
+
+## Fase 8 — U1-W11: otros y revisión de clasificación operacional — PENDIENTE
+
+Universo actual: **111 visores**.
+
+- [ ] revisar títulos sin señal disciplinar fuerte;
+- [ ] crear subfamilias sólo con reglas documentadas;
+- [ ] no inferir contenido a partir de claves opacas;
+- [ ] completar pipeline técnico de todos los objetos restantes.
+
+## Fase 9 — cierre técnico U1 — PENDIENTE
+
+Criterio principal:
+
+- [ ] **542/542 `effective_fragseg_coverage` o excepción técnica final explícitamente gobernada por el criterio U1**;
+- [ ] 542/542 identidades documentales preservadas;
+- [ ] aliases no duplicados como evidencia independiente;
+- [ ] resolución/limitación de activos documentada por visor;
+- [ ] tablero y matriz regenerados sobre el corte final;
+- [ ] nuevo manifiesto de integridad;
+- [ ] nueva release científica versionada.
+
+El cierre técnico U1 no exige que 542 libros compartan un único clasificador semántico.
+
+## Fase semántica paralela — BLOQUEADA POR REFERENCIA HUMANA
+
+SEMB 0.3 del piloto permanece en `WAITING_HUMAN_REFERENCE`.
+
+- [x] muestra 480 preparada;
+- [x] 320 development / 160 locked validation;
+- [x] 120 doble codificación de fiabilidad;
+- [x] criterios de aceptación congelados;
+- [x] arquitecturas candidatas congeladas;
+- [x] model lock irreversible preparado;
+- [ ] anotación humana genuina;
+- [ ] fiabilidad interanotador;
+- [ ] consenso/adjudicación;
+- [ ] desarrollo dentro del espacio preregistrado;
+- [ ] model lock;
+- [ ] apertura única de locked validation;
+- [ ] aplicación productiva sólo si supera criterios.
+
+**No se fabrican etiquetas humanas, no se abre locked validation antes del lock y no se ajusta el modelo para producir una dirección histórica deseada.**
+
+Los demás dominios U1 requerirán validación semántica específica cuando sus preguntas analíticas lo exijan. La capa técnica universal puede avanzar independientemente.
+
+## Horizonte U2 — NO ABIERTO TODAVÍA
+
+U2 comprenderá materiales relevantes fuera del snapshot U1 —otras colecciones, variantes, materiales indígenas, cuadernos, libros del maestro, antecedentes u otros repositorios— sólo después de que su alcance se defina y versione explícitamente.
+
+U2 no se mezcla retroactivamente con el denominador 542 de U1.
 
 ## Regla documental
 
-Notion mantiene la bitácora técnica narrativa y GitHub la infraestructura reproducible. Todo cambio que afecte el método debe registrarse en ambos sistemas antes de considerarse cerrado.
+GitHub es la fuente reproducible del método, corpus derivado y estado de cobertura. Todo cambio material de definición, denominador, taxonomía operacional o criterio de cobertura debe versionarse. Las releases publicadas no se reescriben retroactivamente.
