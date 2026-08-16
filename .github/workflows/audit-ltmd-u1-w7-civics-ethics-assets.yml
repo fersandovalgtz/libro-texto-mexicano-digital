@@ -2,6 +2,9 @@ name: audit-ltmd-u1-w7-civics-ethics-assets
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audit-ltmd-u1-w7-civics-ethics-assets.yml'
   workflow_run:
     workflows: ['build-ltmd-u1-w7-civics-ethics-declared-inventory']
     types: [completed]
@@ -30,7 +33,7 @@ jobs:
           assert {r['viewer_key'] for r in inv}==set(keys)
           assert {r['viewer_key'] for r in arch}==set(keys)
           total=sum(int(r['declared_positions']) for r in inv)
-          assert total>0
+          assert total==4191
           assert all(int(r['html_status'])==200 for r in arch)
           assert sum(int(r['standard_dynamic_architecture']) for r in arch)==30
           print('viewers='+json.dumps(keys,separators=(',',':')))
