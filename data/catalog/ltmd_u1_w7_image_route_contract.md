@@ -1,6 +1,6 @@
 # LTMD-U1 W7 — contrato de ruta de imagen
 
-Versión: `LTMD_U1_W7_IMAGE_ROUTE_CONTRACT_0.1`.
+Versión: `LTMD_U1_W7_IMAGE_ROUTE_CONTRACT_0.2`.
 
 Política: extracción exclusiva de JavaScript; no se solicitan activos de página.
 
@@ -10,6 +10,11 @@ Política: extracción exclusiva de JavaScript; no se solicitan activos de pági
 - Sentencias con `ag_page`: **21**.
 - Sentencias de ruta/imagen: **7**.
 - Sentencias explícitas que combinan `ag_clave` + `ag_page`: **6**.
+
+## Función `pad()` observada
+
+- líneas 10–15: `function pad(mi_str) { mi_str = mi_str.toString(); return mi_str.length < 3 ? pad("0" + mi_str, 3) : mi_str; }`
+- SHA-256 del fragmento: `f01ceebd053b639f190cec72bb9fd93781a9bee0de145d6c51ab7fd62017e007`.
 
 ## Transformación observada de página
 
