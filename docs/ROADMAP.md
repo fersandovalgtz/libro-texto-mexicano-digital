@@ -4,92 +4,90 @@ Estado vigente: **programa LTMD-U1 (542 visores)**.
 Primera release metodológica publicada: **v0.1.0-rc.1**.  
 Gate semántico: **SEMB 0.3 — WAITING_HUMAN_REFERENCE**.
 
-> Este roadmap sustituye estados antiguos del piloto que ya fueron superados. El historial permanece en Git. El objetivo actual no es decidir si LTMD debe escalar: **la decisión estratégica es escalar hasta cubrir técnicamente el universo U1 completo**.
+> El objetivo estratégico vigente es cubrir técnicamente el universo U1 completo. El progreso técnico del corpus y la validación semántica son carriles distintos.
 
 ## Fase 0 — constitución y piloto técnico — COMPLETADA
 
-- [x] Crear repositorio independiente, esquema de identidad y gobernanza.
-- [x] Seleccionar Ciencias Naturales 5º como piloto inicial.
-- [x] Reconstruir arquitectura de visores y procedencia.
-- [x] Construir manifiestos y hashes de fuente.
-- [x] Ejecutar OCR técnico sin publicar OCR íntegro sustitutivo.
-- [x] Construir PAGESTRUCT y FRAGSEG.
-- [x] Materializar 9,594 fragmentos del piloto.
-- [x] Ejecutar Rule A como especificación transparente.
-- [x] Rechazar SEMB 0.1 antes del corpus.
-- [x] Ejecutar y diagnosticar SEMB 0.2; conservarlo como resultado negativo/exploratorio.
-- [x] Preregistrar SEMB 0.3 antes de referencia humana.
+- [x] Repositorio, identidad y gobernanza.
+- [x] Piloto Ciencias Naturales 5º.
+- [x] Procedencia, manifiestos y SHA-256.
+- [x] OCR técnico, PAGESTRUCT y FRAGSEG.
+- [x] 9,594 fragmentos piloto.
+- [x] Rule A y diagnóstico SEMB 0.2.
+- [x] SEMB 0.3 preregistrado antes de referencia humana.
 
-## Fase 1 — expansión de Ciencias Naturales y prueba industrial — COMPLETADA EN SU NÚCLEO
+## Fase 1 — expansión de Ciencias Naturales y prueba industrial — COMPLETADA
 
-- [x] Expandir a CN4/CN6: 19,067 fragmentos.
-- [x] Ejecutar Ola 2: 36,195 fragmentos.
-- [x] Alcanzar 64,856 ocurrencias técnicas acumuladas.
-- [x] Detectar y modelar reutilización CN4 1972↔1988.
-- [x] Conservar dos objetos CN6 dentro de generación 1993.
-- [x] Demostrar aliases 2018→2019 con 652/652 pares byte-idénticos.
-- [x] Documentar dos objetos CN 2008 con posiciones internas no servidas.
-- [x] Construir vistas `object`, `unique-content` y `revision`.
-- [x] Publicar release metodológica `v0.1.0-rc.1`.
+- [x] CN4/CN6: 19,067 fragmentos.
+- [x] Ola 2: 36,195 fragmentos.
+- [x] Dependencia CN4 1972↔1988.
+- [x] Dos objetos CN6 bajo generación 1993.
+- [x] Aliases 2018→2019: 652/652 pares byte-idénticos.
+- [x] Release metodológica `v0.1.0-rc.1`.
 
 ## Fase 2 — censo U1 y tablero maestro — COMPLETADA
 
-- [x] Congelar U1 = **542 visores** del snapshot vigente del Catálogo Histórico.
-- [x] Recuperar 542/542 títulos.
-- [x] Normalizar 542/542 títulos en **191 familias**.
-- [x] Construir `LTMD_U1_COVERAGE_0.2`.
-- [x] Crear matriz por visor y KPIs por etapa.
-- [x] Crear taxonomía operativa de dominios.
-- [x] Crear cola completa de olas W1–W11.
-- [x] Separar FRAGSEG directo de cobertura efectiva por alias.
-- [x] Fijar línea base: 32/542 FRAGSEG directo; 36/542 cobertura efectiva; 0/542 semántica validada.
+- [x] U1 = **542 visores**.
+- [x] 542/542 títulos recuperados.
+- [x] 191 familias de título normalizadas.
+- [x] Taxonomía operacional y colas W1–W11.
+- [x] Tablero por etapas y por dominio.
+- [x] Separación entre FRAGSEG directo y cobertura efectiva por alias.
 
-Archivos rectores:
+## Fase 3 — U1-W1: Ciencias Naturales / Estudio de la Naturaleza — COMPLETADA
 
-- `LTMD_U1_MASTER_PLAN_0_1.md`
-- `../data/catalog/ltmd_u1_coverage.md`
-- `../data/catalog/ltmd_u1_coverage.csv`
-- `../data/catalog/ltmd_u1_domain_summary.csv`
-- `../data/catalog/ltmd_u1_wave_queue.csv`
+Meta: **40/40 cobertura efectiva**.  
+Resultado: **40/40**.
 
-## Fase 3 — U1-W1: cerrar Ciencias Naturales/Estudio de la Naturaleza — ACTIVA
+### 1966
 
-Meta operacional del dominio: **40/40 cobertura efectiva**.
+- [x] `H1966P6CI374` — *Mi cuaderno de trabajo de Estudio de la Naturaleza*.
+- [x] `H1966P6CI375` — *Mi libro de Estudio de la Naturaleza*.
+- [x] 340 JPEG fuente hasheados; cero huecos internos.
+- [x] OCR 340/340 SHA; 0 unresolved.
+- [x] PAGESTRUCT: 313 páginas elegibles.
+- [x] FRAGSEG: **4,618 fragmentos**.
 
-Línea base: **36/40**.
+### 2008
 
-Objetos pendientes congelados:
+- [x] `H2008P3CI263` / `LTMD-CN3-G2008`.
+- [x] `H2008P4CI268` / `LTMD-CN4-G2008`.
+- [x] Recuperar criptográficamente las tres posiciones internas no servidas.
+- [x] Tres recuperaciones unívocas, cada una con 6 anchors byte-idénticos, offset 0 y 0 discrepancias.
+- [x] Manifiesto reconciliado preservando URL/estado original y fuente efectiva.
+- [x] 355/355 fuentes efectivas; 0 unresolved.
+- [x] OCR 355/355 SHA; 0 unresolved.
+- [x] PAGESTRUCT: 297 páginas elegibles.
+- [x] FRAGSEG: **4,367 fragmentos**.
 
-- [ ] `H1966P6CI374` — *Mi cuaderno de trabajo de Estudio de la Naturaleza*.
-- [ ] `H1966P6CI375` — *Mi libro de Estudio de la Naturaleza*.
-- [ ] `H2008P3CI263` — *Ciencias Naturales*, 3º; resolver/documentar excepción de activo.
-- [ ] `H2008P4CI268` — *Ciencias Naturales*, 4º; resolver/documentar excepción de activos.
+### Cierre W1
 
-Para 1966: `asset audit → page manifest → OCR → PAGESTRUCT → FRAGSEG → dependencia`.
+- [x] Incremento W1: **8,985 fragmentos**.
+- [x] Corpus directo acumulado: **73,841 ocurrencias técnicas**.
+- [x] Tablero `LTMD_U1_COVERAGE_0.4`: 40/542 activos full; 36/542 FRAGSEG directo; 40/542 cobertura efectiva; 0 parciales; 0 semántica validada.
+- [x] Documento de cierre: `LTMD_U1_W1_COMPLETION_2026-08-15.md`.
 
-Para 2008: no inventar activos. Buscar ruta/representación alternativa o conservar una excepción documental explícita. No contar como cobertura completa mientras el criterio de U1 no esté satisfecho.
+## Fase 4 — U1-W2: Matemáticas — ACTIVA
 
-## Fase 4 — U1-W2: Matemáticas — PENDIENTE
+Universo congelado: **64 visores**.
 
-Universo operacional actual: **64 visores**.
+- [x] Congelar `data/catalog/ltmd_u1_w2_scope.csv` con 64/64 visores.
+- [x] Probar arquitectura de los 64 visores sin descargar páginas.
+- [x] 64/64 HTML 200; 64/64 `x.js`; 64/64 señal `ag_pages`; **64/64 arquitectura dinámica estándar**.
+- [x] Cuantificar `claves.json`: **13,656 posiciones declaradas**.
+- [ ] Auditar empíricamente los 13,656 activos por 64 shards con SHA-256.
+- [ ] Resolver aliases/huecos internos que emerjan del asset audit.
+- [ ] Congelar manifiesto fuente de W2.
+- [ ] Ejecutar OCR técnico por shards.
+- [ ] Verificar transferencia estructural PAGESTRUCT/FRAGSEG a Matemáticas.
+- [ ] Ejecutar FRAGSEG técnico.
+- [ ] Actualizar tablero U1 con la cobertura efectiva de W2.
 
-Objetivos:
-
-- [ ] congelar lista W2 desde `ltmd_u1_wave_queue.csv`;
-- [ ] auditar arquitectura/rutas de activos por generación;
-- [ ] ejecutar manifiestos SHA-256 por objeto;
-- [ ] ejecutar OCR técnico por shards;
-- [ ] evaluar transferibilidad de PAGESTRUCT/FRAGSEG estructural;
-- [ ] no aplicar semántica de Ciencias Naturales a Matemáticas;
-- [ ] actualizar tablero automáticamente.
-
-W2 es la primera prueba de transferencia masiva del pipeline universal a una disciplina distinta.
+W2 es la primera prueba de transferencia masiva del **pipeline universal** a una disciplina distinta. No se aplica semántica de Ciencias Naturales a Matemáticas.
 
 ## Fase 5 — U1-W3: Español/Lengua — PENDIENTE
 
-Universo operacional actual: **130 visores**.
-
-Será el primer gran estrés de escala del sistema. Debe ejecutarse por cohortes reproducibles, no como job monolítico.
+Universo operacional: **130 visores**. Será el primer gran estrés de escala después de Matemáticas y debe ejecutarse por cohortes reproducibles.
 
 ## Fase 6 — U1-W4 a U1-W9 — PENDIENTE
 
@@ -100,36 +98,29 @@ Será el primer gran estrés de escala del sistema. Debe ejecutarse por cohortes
 - [ ] W8 Artes — 20 visores.
 - [ ] W9 Educación Física — 4 visores.
 
-El orden es operacional y puede versionarse si aparece evidencia técnica que aconseje otro orden. Nunca se cambia para maximizar un resultado historiográfico.
+## Fase 7 — U1-W10: integrados/multiarea — PENDIENTE
 
-## Fase 7 — U1-W10: materiales integrados/multiarea — PENDIENTE
+- [ ] 69 visores.
+- [ ] Conservar asignación operacional sin confundirla con ontología curricular.
 
-Universo operacional actual: **69 visores**.
+## Fase 8 — U1-W11: otros / revisión operacional — PENDIENTE
 
-Estos objetos requieren atención adicional porque el título activa más de una señal disciplinar. Su asignación a W10 es logística; no presupone una ontología curricular.
-
-## Fase 8 — U1-W11: otros y revisión de clasificación operacional — PENDIENTE
-
-Universo actual: **111 visores**.
-
-- [ ] revisar títulos sin señal disciplinar fuerte;
-- [ ] crear subfamilias sólo con reglas documentadas;
-- [ ] no inferir contenido a partir de claves opacas;
-- [ ] completar pipeline técnico de todos los objetos restantes.
+- [ ] 111 visores.
+- [ ] Revisar títulos sin señal disciplinar fuerte.
+- [ ] Crear subfamilias sólo con reglas documentadas.
+- [ ] No inferir contenido a partir de claves opacas.
 
 ## Fase 9 — cierre técnico U1 — PENDIENTE
 
-Criterio principal:
+- [ ] **542/542 `effective_fragseg_coverage` o excepción técnica final explícita bajo criterio U1**.
+- [ ] 542/542 identidades documentales preservadas.
+- [ ] Aliases no duplicados como evidencia independiente.
+- [ ] Resolución/limitación de activos documentada por visor.
+- [ ] Tablero y matriz regenerados sobre corte final.
+- [ ] Nuevo manifiesto de integridad.
+- [ ] Nueva release científica versionada.
 
-- [ ] **542/542 `effective_fragseg_coverage` o excepción técnica final explícitamente gobernada por el criterio U1**;
-- [ ] 542/542 identidades documentales preservadas;
-- [ ] aliases no duplicados como evidencia independiente;
-- [ ] resolución/limitación de activos documentada por visor;
-- [ ] tablero y matriz regenerados sobre el corte final;
-- [ ] nuevo manifiesto de integridad;
-- [ ] nueva release científica versionada.
-
-El cierre técnico U1 no exige que 542 libros compartan un único clasificador semántico.
+El cierre técnico U1 no exige que los 542 objetos compartan un único clasificador semántico.
 
 ## Fase semántica paralela — BLOQUEADA POR REFERENCIA HUMANA
 
@@ -138,26 +129,21 @@ SEMB 0.3 del piloto permanece en `WAITING_HUMAN_REFERENCE`.
 - [x] muestra 480 preparada;
 - [x] 320 development / 160 locked validation;
 - [x] 120 doble codificación de fiabilidad;
-- [x] criterios de aceptación congelados;
-- [x] arquitecturas candidatas congeladas;
+- [x] criterios y arquitecturas congelados;
 - [x] model lock irreversible preparado;
 - [ ] anotación humana genuina;
 - [ ] fiabilidad interanotador;
 - [ ] consenso/adjudicación;
-- [ ] desarrollo dentro del espacio preregistrado;
+- [ ] desarrollo preregistrado;
 - [ ] model lock;
 - [ ] apertura única de locked validation;
-- [ ] aplicación productiva sólo si supera criterios.
+- [ ] producción sólo si supera criterios.
 
 **No se fabrican etiquetas humanas, no se abre locked validation antes del lock y no se ajusta el modelo para producir una dirección histórica deseada.**
 
-Los demás dominios U1 requerirán validación semántica específica cuando sus preguntas analíticas lo exijan. La capa técnica universal puede avanzar independientemente.
-
 ## Horizonte U2 — NO ABIERTO TODAVÍA
 
-U2 comprenderá materiales relevantes fuera del snapshot U1 —otras colecciones, variantes, materiales indígenas, cuadernos, libros del maestro, antecedentes u otros repositorios— sólo después de que su alcance se defina y versione explícitamente.
-
-U2 no se mezcla retroactivamente con el denominador 542 de U1.
+U2 comprenderá materiales relevantes fuera del snapshot U1 sólo después de definir y versionar explícitamente su denominador. No se mezcla retroactivamente con el 542 de U1.
 
 ## Regla documental
 
