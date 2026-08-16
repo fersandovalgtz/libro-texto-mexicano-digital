@@ -1,0 +1,42 @@
+name: build-ltmd-u1-w3-spanish-declared-inventory
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w3-spanish-declared-inventory.yml'
+      - 'scripts/build_ltmd_u1_w3_spanish_declared_inventory.py'
+      - 'data/catalog/ltmd_u1_wave_queue.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: python3 scripts/build_ltmd_u1_w3_spanish_declared_inventory.py
+      - name: Publish W3 declared inventory race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-w3-inv
+          cp data/catalog/ltmd_u1_w3_declared_inventory.csv /tmp/ltmd-w3-inv/
+          cp data/catalog/ltmd_u1_w3_declared_inventory_summary.csv /tmp/ltmd-w3-inv/
+          cp data/catalog/ltmd_u1_w3_declared_inventory.md /tmp/ltmd-w3-inv/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-w3-inv/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_declared_inventory.csv data/catalog/ltmd_u1_w3_declared_inventory_summary.csv data/catalog/ltmd_u1_w3_declared_inventory.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W3 Spanish-Language declared inventory'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
