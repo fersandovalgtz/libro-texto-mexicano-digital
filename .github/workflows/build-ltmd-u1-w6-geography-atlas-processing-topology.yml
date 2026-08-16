@@ -7,6 +7,10 @@ on:
       - recover-ltmd-u1-w6-h2008p4ge273-internal-gaps
     types:
       - completed
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w6-geography-atlas-processing-topology.yml'
+      - 'scripts/build_ltmd_u1_w6_geography_atlas_processing_topology.py'
 
 permissions:
   contents: write
