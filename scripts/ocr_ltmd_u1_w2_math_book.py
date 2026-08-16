@@ -1,53 +1,67 @@
 #!/usr/bin/env python3
-"""SHA-verified adaptive OCR metrics for one LTMD-U1 W2 Mathematics viewer.
+"""SHA-verified adaptive OCR metrics for one canonical LTMD-U1 W2 Mathematics viewer.
 
-The worker refuses to run unless the consolidated 64-viewer asset audit is
-complete and every viewer is direct_asset_ready. Source JPEGs are temporary,
-verified against the frozen asset manifest, OCRed, then deleted. Full OCR text
-is never persisted.
+Version 0.2 operates on the reconciled source manifest. Only effectively
+resolved, non-alias canonical viewers are processed. Source JPEGs are temporary,
+verified against effective SHA-256/byte-size evidence, OCRed, then deleted.
+Full OCR text is never persisted.
 """
 from __future__ import annotations
 import argparse,csv,hashlib,statistics,subprocess,tempfile
 from pathlib import Path
 from urllib.request import Request,urlopen
 
-MAN=Path('data/catalog/ltmd_u1_w2_math_asset_manifest.csv')
-ASSET_SUMMARY=Path('data/catalog/ltmd_u1_w2_math_asset_summary.csv')
+MAN=Path('data/catalog/ltmd_u1_w2_math_reconciled_manifest.csv')
+SUMMARY=Path('data/catalog/ltmd_u1_w2_math_reconciled_summary.csv')
+ALIASES=Path('data/catalog/ltmd_u1_w2_math_reconciled_exact_aliases.csv')
 SCOPE=Path('data/catalog/ltmd_u1_w2_scope.csv')
-VERSION='LTMD_U1_W2_MATH_OCR_0.1'
-UA='LibroTextoMexicanoDigital/U1-W2 Mathematics OCR'
+VERSION='LTMD_U1_W2_MATH_OCR_0.2'
+UA='LibroTextoMexicanoDigital/U1-W2 Mathematics OCR 0.2'
 FALLBACK_MIN_WORDS=5
 TIMEOUT=60
-FIELDS=['ocr_version','page_id','viewer_key','book_id','catalog_generation','grade','viewer_page','asset_status','source_bytes','source_sha256_verified','attempts','selected_psm','recognized_words','ocr_chars','mean_word_confidence','median_word_confidence','low_confidence_word_rate','ocr_class','ocr_status','error']
+EXPECTED_SCOPE=64
+EXPECTED_READY=60
+EXPECTED_ALIASES=3
+EXPECTED_CANONICAL=57
+FIELDS=['ocr_version','page_id','viewer_key','book_id','catalog_generation','grade','viewer_page','asset_status','effective_source_viewer_key','resolution_method','source_bytes','source_sha256_verified','attempts','selected_psm','recognized_words','ocr_chars','mean_word_confidence','median_word_confidence','low_confidence_word_rate','ocr_class','ocr_status','error']
 
-def page_id(row):
-    return f"U1-{row['viewer_key']}-P{int(row['viewer_page']):03d}"
+def page_id(row): return f"U1-{row['viewer_key']}-P{int(row['viewer_page']):03d}"
+
+def canonical_viewers():
+    if not all(p.exists() for p in (MAN,SUMMARY,ALIASES,SCOPE)):
+        raise SystemExit('W2 reconciled asset/alias evidence not materialized')
+    scope=list(csv.DictReader(SCOPE.open(encoding='utf-8')))
+    summary=list(csv.DictReader(SUMMARY.open(encoding='utf-8')))
+    aliases=list(csv.DictReader(ALIASES.open(encoding='utf-8')))
+    if len(scope)!=EXPECTED_SCOPE or len(summary)!=EXPECTED_SCOPE:
+        raise SystemExit(f'W2 cardinality mismatch scope={len(scope)} summary={len(summary)}')
+    sk={r['viewer_key'] for r in scope}; sm={r['viewer_key'] for r in summary}
+    if sk!=sm: raise SystemExit('W2 scope/reconciled summary viewer mismatch')
+    ready={r['viewer_key'] for r in summary if r['effective_asset_ready']=='1'}
+    if len(ready)!=EXPECTED_READY: raise SystemExit(f'expected {EXPECTED_READY} effective-ready viewers, got {len(ready)}')
+    alias={r['viewer_key'] for r in aliases if r.get('all_effective_pages_byte_identical_aligned')=='1'}
+    if len(alias)!=EXPECTED_ALIASES or not alias<=ready:
+        raise SystemExit(f'expected {EXPECTED_ALIASES} ready aliases, got {len(alias)}')
+    canonical=ready-alias
+    if len(canonical)!=EXPECTED_CANONICAL: raise SystemExit(f'expected {EXPECTED_CANONICAL} canonical viewers, got {len(canonical)}')
+    return canonical
 
 def gate_assets(viewer_key):
-    if not (MAN.exists() and ASSET_SUMMARY.exists() and SCOPE.exists()):
-        raise SystemExit('W2 asset audit not materialized')
-    scope=list(csv.DictReader(SCOPE.open(encoding='utf-8')))
-    summary=list(csv.DictReader(ASSET_SUMMARY.open(encoding='utf-8')))
-    if len(scope)!=64 or len(summary)!=64:
-        raise SystemExit(f'W2 asset gate cardinality mismatch scope={len(scope)} summary={len(summary)}')
-    if {r['viewer_key'] for r in scope}!={r['viewer_key'] for r in summary}:
-        raise SystemExit('W2 asset gate viewer set mismatch')
-    bad=[r['viewer_key'] for r in summary if r['direct_asset_ready']!='1' or int(r['internal_unserved'])!=0 or int(r['probe_errors'])!=0]
-    if bad:
-        raise SystemExit(f'W2 asset gate closed: {len(bad)} viewers not ready; first={bad[:5]}')
-    if viewer_key not in {r['viewer_key'] for r in summary}:
-        raise SystemExit(f'viewer not in frozen W2 scope: {viewer_key}')
+    canonical=canonical_viewers()
+    if viewer_key not in canonical:
+        raise SystemExit(f'viewer is not a W2 canonical compute viewer: {viewer_key}')
 
 def download_verify(row,target):
-    h=hashlib.sha256();total=0
-    with urlopen(Request(row['source_asset_url'],headers={'User-Agent':UA}),timeout=45) as r, target.open('wb') as f:
+    h=hashlib.sha256();total=0;url=row['effective_asset_url']
+    if not url or not row['effective_sha256']: raise RuntimeError('missing effective source evidence')
+    with urlopen(Request(url,headers={'User-Agent':UA}),timeout=45) as r, target.open('wb') as f:
         while True:
             b=r.read(1024*1024)
             if not b: break
             h.update(b);total+=len(b);f.write(b)
     got=h.hexdigest()
-    if got!=row['sha256']: raise RuntimeError(f"SHA256 mismatch expected={row['sha256']} got={got}")
-    if row.get('byte_size') and total!=int(row['byte_size']): raise RuntimeError(f"byte size mismatch expected={row['byte_size']} got={total}")
+    if got!=row['effective_sha256']: raise RuntimeError(f"SHA256 mismatch expected={row['effective_sha256']} got={got}")
+    if row.get('effective_byte_size') and total!=int(row['effective_byte_size']): raise RuntimeError(f"byte size mismatch expected={row['effective_byte_size']} got={total}")
     return total
 
 def run_ocr(image,psm):
@@ -66,7 +80,7 @@ def score(m): return (int(m['recognized_words']),float(m['mean_word_confidence']
 
 def process(row,tmp):
     pid=page_id(row);image=tmp/f'{pid}.jpg';attempts=[];errors=[]
-    base={'ocr_version':VERSION,'page_id':pid,'viewer_key':row['viewer_key'],'book_id':row['book_id'],'catalog_generation':row['catalog_generation'],'grade':row['grade_code'],'viewer_page':row['viewer_page'],'asset_status':row['asset_status']}
+    base={'ocr_version':VERSION,'page_id':pid,'viewer_key':row['viewer_key'],'book_id':row['book_id'],'catalog_generation':row['catalog_generation'],'grade':row['grade_code'],'viewer_page':row['viewer_page'],'asset_status':row['effective_asset_status'],'effective_source_viewer_key':row['effective_source_viewer_key'],'resolution_method':row['resolution_method']}
     empty={'recognized_words':'','ocr_chars':'','mean_word_confidence':'','median_word_confidence':'','low_confidence_word_rate':''}
     try:
         size=download_verify(row,image);baseline=None
@@ -97,8 +111,8 @@ def main():
     ap=argparse.ArgumentParser();ap.add_argument('--viewer-key',required=True);ap.add_argument('--output-dir',default='data/work/ltmd_u1_w2_math_ocr');args=ap.parse_args()
     gate_assets(args.viewer_key)
     allrows=list(csv.DictReader(MAN.open(encoding='utf-8',newline='')))
-    source=[r for r in allrows if r['viewer_key']==args.viewer_key and r['asset_status']=='source_jpeg']
-    if not source: raise SystemExit(f'no W2 source rows for {args.viewer_key}')
+    source=[r for r in allrows if r['viewer_key']==args.viewer_key and r['effective_asset_status'] in ('source_jpeg','source_jpeg_recovered')]
+    if not source: raise SystemExit(f'no effective W2 source rows for {args.viewer_key}')
     with tempfile.TemporaryDirectory(prefix='ltmd-u1-w2-math-ocr-') as td:
         outrows=[process(r,Path(td)) for r in source]
     outrows.sort(key=lambda r:int(r['viewer_page']))
