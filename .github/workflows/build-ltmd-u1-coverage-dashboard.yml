@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - '.github/workflows/build-ltmd-u1-coverage-dashboard.yml'
+      - 'scripts/build_ltmd_u1_coverage_dashboard.py'
 
 permissions:
   contents: write
