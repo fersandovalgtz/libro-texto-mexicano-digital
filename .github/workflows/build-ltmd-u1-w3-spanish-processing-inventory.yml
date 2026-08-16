@@ -1,0 +1,46 @@
+name: build-ltmd-u1-w3-spanish-processing-inventory
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/triggers/ltmd-u1-w3-spanish-processing.trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  build-inventory:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify reconciliation evidence exists
+        run: |
+          test -f data/catalog/ltmd_u1_w3_spanish_asset_states.csv
+          test -f data/catalog/ltmd_u1_w3_spanish_exact_aliases.csv
+          test -f data/catalog/ltmd_u1_w3_spanish_internal_unserved_audit.csv
+          test -f data/catalog/ltmd_u1_w3_spanish_2018_2019_route_relationships.csv
+      - name: Build reconciled W3 processing inventory
+        run: python3 scripts/build_ltmd_u1_w3_spanish_processing_inventory.py
+      - name: Publish W3 processing inventory race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w3-spanish-processing
+          cp data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv /tmp/ltmd-u1-w3-spanish-processing/
+          cp data/catalog/ltmd_u1_w3_spanish_processing_inventory.md /tmp/ltmd-u1-w3-spanish-processing/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w3-spanish-processing/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv data/catalog/ltmd_u1_w3_spanish_processing_inventory.md
+            if git diff --cached --quiet; then break; fi
+            git commit -m 'Publish LTMD-U1 W3 Spanish processing inventory 0.1'
+            if git push origin HEAD:main; then break; fi
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
+            sleep $((attempt * 2))
+          done
