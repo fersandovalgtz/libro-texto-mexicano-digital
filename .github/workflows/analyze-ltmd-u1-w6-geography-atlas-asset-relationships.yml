@@ -7,9 +7,6 @@ on:
       - audit-ltmd-u1-w6-geography-atlas-assets
     types:
       - completed
-  push:
-    paths:
-      - '.github/workflows/analyze-ltmd-u1-w6-geography-atlas-asset-relationships.yml'
 
 permissions:
   contents: write
