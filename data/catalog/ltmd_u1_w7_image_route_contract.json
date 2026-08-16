@@ -1,0 +1,323 @@
+{
+  "contract_version": "LTMD_U1_W7_IMAGE_ROUTE_CONTRACT_0.1",
+  "policy": "JavaScript source extraction only; no book-image asset requests.",
+  "dynamic_dependency_version": "LTMD_U1_W7_DYNAMIC_DEPENDENCIES_0.1",
+  "source": {
+    "url": "https://historico.conaliteg.gob.mx/magazine.js",
+    "status": 200,
+    "content_type": "text/javascript",
+    "byte_size": 7455,
+    "sha256": "0a885166ba1252c650565eeb43218f72382450d268541533afe26cb62fe80d33"
+  },
+  "ag_page_statement_count": 21,
+  "route_statement_count": 7,
+  "explicit_route_statement_count": 6,
+  "ag_page_statements": [
+    {
+      "line": 74,
+      "statement": "var ag_page = \"\";",
+      "sha256": "9b545fd836b0e137ff54a0e32803c087a873d5b819f29bb069ff42d01afa2cd1"
+    },
+    {
+      "line": 80,
+      "statement": "ag_page = pad(0);",
+      "sha256": "18c9a299464fa5a1abe1c27598e4e0306c8166de9d0b4c20ee4267ae0fcb3761"
+    },
+    {
+      "line": 82,
+      "statement": "ag_page = ag_page.toString();",
+      "sha256": "59bbfe1e91874f342365c8bb75b0baa05a426b9d3d781dccd01a2b9e4d1925a3"
+    },
+    {
+      "line": 86,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 93,
+      "statement": "ag_page = pad(page);",
+      "sha256": "4c8a77b48b31949bc307197b8b7432440bcfebe466e9435cf5602cb507f33d9f"
+    },
+    {
+      "line": 95,
+      "statement": "ag_page = ag_page.toString();",
+      "sha256": "59bbfe1e91874f342365c8bb75b0baa05a426b9d3d781dccd01a2b9e4d1925a3"
+    },
+    {
+      "line": 99,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 160,
+      "statement": "var ag_page = \"\";",
+      "sha256": "9b545fd836b0e137ff54a0e32803c087a873d5b819f29bb069ff42d01afa2cd1"
+    },
+    {
+      "line": 166,
+      "statement": "ag_page = pad(0);",
+      "sha256": "18c9a299464fa5a1abe1c27598e4e0306c8166de9d0b4c20ee4267ae0fcb3761"
+    },
+    {
+      "line": 168,
+      "statement": "ag_page = ag_page.toString();",
+      "sha256": "59bbfe1e91874f342365c8bb75b0baa05a426b9d3d781dccd01a2b9e4d1925a3"
+    },
+    {
+      "line": 172,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 179,
+      "statement": "ag_page = pad(page);",
+      "sha256": "4c8a77b48b31949bc307197b8b7432440bcfebe466e9435cf5602cb507f33d9f"
+    },
+    {
+      "line": 181,
+      "statement": "ag_page = ag_page.toString();",
+      "sha256": "59bbfe1e91874f342365c8bb75b0baa05a426b9d3d781dccd01a2b9e4d1925a3"
+    },
+    {
+      "line": 185,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 208,
+      "statement": "var ag_page = \"\";",
+      "sha256": "9b545fd836b0e137ff54a0e32803c087a873d5b819f29bb069ff42d01afa2cd1"
+    },
+    {
+      "line": 214,
+      "statement": "ag_page = pad(0);",
+      "sha256": "18c9a299464fa5a1abe1c27598e4e0306c8166de9d0b4c20ee4267ae0fcb3761"
+    },
+    {
+      "line": 216,
+      "statement": "ag_page = ag_page.toString();",
+      "sha256": "59bbfe1e91874f342365c8bb75b0baa05a426b9d3d781dccd01a2b9e4d1925a3"
+    },
+    {
+      "line": 220,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 227,
+      "statement": "ag_page = pad(page);",
+      "sha256": "4c8a77b48b31949bc307197b8b7432440bcfebe466e9435cf5602cb507f33d9f"
+    },
+    {
+      "line": 229,
+      "statement": "ag_page = ag_page.toString();",
+      "sha256": "59bbfe1e91874f342365c8bb75b0baa05a426b9d3d781dccd01a2b9e4d1925a3"
+    },
+    {
+      "line": 233,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    }
+  ],
+  "route_statements": [
+    {
+      "line": 6,
+      "statement": "// crea el string 001.jpg",
+      "sha256": "44c88bc44ef3b89c11b43d24a433d80b7d7a99c920f9f51432891f3236d69764"
+    },
+    {
+      "line": 86,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 99,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 172,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 185,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 220,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 233,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    }
+  ],
+  "explicit_route_statements": [
+    {
+      "line": 86,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 99,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 172,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 185,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 220,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 233,
+      "statement": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    }
+  ],
+  "context_evidence": [
+    {
+      "line": 6,
+      "snippet": "// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * // crea el string 001.jpg // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *",
+      "snippet_sha256": "a6af30b2b52935a432944d00ba5877773859c75aeca3258e3c2401a2736a1a16"
+    },
+    {
+      "line": 23,
+      "snippet": "function addPage(page, book) { var id, pages = book.turn('pages');",
+      "snippet_sha256": "05021fb95fced43c53e7832792d9320520caf426bc5086ff522b94a709aa0e04"
+    },
+    {
+      "line": 31,
+      "snippet": "// Add the page to the flipbook if (book.turn('addPage', element, page)) { // Add the initial HTML",
+      "snippet_sha256": "113ed61d44282ae70d69bea40721398736c78c0d856f8f728ca4e8d5dc67df55"
+    },
+    {
+      "line": 38,
+      "snippet": "// Load the page loadPage(page, element); }",
+      "snippet_sha256": "002b34a5f0f2664de0ac0e56f8811e92706c16d8051dbc7b2078f1bf15bda387"
+    },
+    {
+      "line": 48,
+      "snippet": "function loadPage(page, pageElement) { // Create an image element",
+      "snippet_sha256": "626a291d5a547bdc15ac54f6b4417e31e6d0aef6adef195b74a531e09b1f973d"
+    },
+    {
+      "line": 74,
+      "snippet": "// Load the page var ag_page = \"\";",
+      "snippet_sha256": "3a3623051da55ddc1919f89fa7d30170781600c770b4c62eec7f63041e89d6b4"
+    },
+    {
+      "line": 80,
+      "snippet": "{ ag_page = pad(0); ag_page = ag_page.toString();",
+      "snippet_sha256": "1e8e3a96a54ed1dbd3ed46a2a3ca62f11f479ffa331eed2b411db4d21a5f22ca"
+    },
+    {
+      "line": 82,
+      "snippet": "ag_page = pad(0); ag_page = ag_page.toString();",
+      "snippet_sha256": "c7857f3914d746744589832d5b13c8a6e9361274fe8ae840fa9553270f2e2a1d"
+    },
+    {
+      "line": 86,
+      "snippet": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "snippet_sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 93,
+      "snippet": "{ ag_page = pad(page); ag_page = ag_page.toString();",
+      "snippet_sha256": "8fc375e77a5416be270cd40d986bb4d672409ecd737cfe56f86951ef7d62c0b5"
+    },
+    {
+      "line": 95,
+      "snippet": "ag_page = pad(page); ag_page = ag_page.toString();",
+      "snippet_sha256": "1c7ac756457086816c34b8d9a8982f8c103b9ef845918f7af752499d7f5b4db7"
+    },
+    {
+      "line": 99,
+      "snippet": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "snippet_sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 160,
+      "snippet": "// Loadnew page var ag_page = \"\";",
+      "snippet_sha256": "8a94f0ea2333686ef07cdb1cf730b04ec4b148d9c46a725cd5155fa8002313b5"
+    },
+    {
+      "line": 166,
+      "snippet": "{ ag_page = pad(0); ag_page = ag_page.toString();",
+      "snippet_sha256": "1e8e3a96a54ed1dbd3ed46a2a3ca62f11f479ffa331eed2b411db4d21a5f22ca"
+    },
+    {
+      "line": 168,
+      "snippet": "ag_page = pad(0); ag_page = ag_page.toString();",
+      "snippet_sha256": "c7857f3914d746744589832d5b13c8a6e9361274fe8ae840fa9553270f2e2a1d"
+    },
+    {
+      "line": 172,
+      "snippet": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "snippet_sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 179,
+      "snippet": "{ ag_page = pad(page); ag_page = ag_page.toString();",
+      "snippet_sha256": "8fc375e77a5416be270cd40d986bb4d672409ecd737cfe56f86951ef7d62c0b5"
+    },
+    {
+      "line": 181,
+      "snippet": "ag_page = pad(page); ag_page = ag_page.toString();",
+      "snippet_sha256": "1c7ac756457086816c34b8d9a8982f8c103b9ef845918f7af752499d7f5b4db7"
+    },
+    {
+      "line": 185,
+      "snippet": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "snippet_sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 208,
+      "snippet": "// Loadnew page var ag_page = \"\";",
+      "snippet_sha256": "8a94f0ea2333686ef07cdb1cf730b04ec4b148d9c46a725cd5155fa8002313b5"
+    },
+    {
+      "line": 214,
+      "snippet": "{ ag_page = pad(0); ag_page = ag_page.toString();",
+      "snippet_sha256": "1e8e3a96a54ed1dbd3ed46a2a3ca62f11f479ffa331eed2b411db4d21a5f22ca"
+    },
+    {
+      "line": 216,
+      "snippet": "ag_page = pad(0); ag_page = ag_page.toString();",
+      "snippet_sha256": "c7857f3914d746744589832d5b13c8a6e9361274fe8ae840fa9553270f2e2a1d"
+    },
+    {
+      "line": 220,
+      "snippet": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "snippet_sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    },
+    {
+      "line": 227,
+      "snippet": "{ ag_page = pad(page); ag_page = ag_page.toString();",
+      "snippet_sha256": "8fc375e77a5416be270cd40d986bb4d672409ecd737cfe56f86951ef7d62c0b5"
+    },
+    {
+      "line": 229,
+      "snippet": "ag_page = pad(page); ag_page = ag_page.toString();",
+      "snippet_sha256": "1c7ac756457086816c34b8d9a8982f8c103b9ef845918f7af752499d7f5b4db7"
+    },
+    {
+      "line": 233,
+      "snippet": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');",
+      "snippet_sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e"
+    }
+  ]
+}
