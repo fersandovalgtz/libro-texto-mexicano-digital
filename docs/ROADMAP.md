@@ -64,24 +64,57 @@ Resultado: **40/40**.
 
 - [x] Incremento W1: **8,985 fragmentos**.
 - [x] Corpus directo acumulado: **73,841 ocurrencias técnicas**.
-- [x] Tablero `LTMD_U1_COVERAGE_0.4`: 40/542 activos full; 36/542 FRAGSEG directo; 40/542 cobertura efectiva; 0 parciales; 0 semántica validada.
+- [x] Ciencias Naturales: **40/40 cobertura efectiva**.
 - [x] Documento de cierre: `LTMD_U1_W1_COMPLETION_2026-08-15.md`.
 
 ## Fase 4 — U1-W2: Matemáticas — ACTIVA
 
-Universo congelado: **64 visores**.
+Universo congelado: **64 visores**.  
+Posiciones declaradas: **13,656**.  
+Estado de fuente actual: **60/64 identidades efectivamente resueltas; 57 contenidos canónicos de cómputo; 4 excepciones DMA 2018**.
+
+### Censo, arquitectura y activos — COMPLETADOS
 
 - [x] Congelar `data/catalog/ltmd_u1_w2_scope.csv` con 64/64 visores.
 - [x] Probar arquitectura de los 64 visores sin descargar páginas.
 - [x] 64/64 HTML 200; 64/64 `x.js`; 64/64 señal `ag_pages`; **64/64 arquitectura dinámica estándar**.
 - [x] Cuantificar `claves.json`: **13,656 posiciones declaradas**.
-- [ ] Auditar empíricamente los 13,656 activos por 64 shards con SHA-256.
-- [ ] Resolver aliases/huecos internos que emerjan del asset audit.
-- [ ] Congelar manifiesto fuente de W2.
-- [ ] Ejecutar OCR técnico por shards.
-- [ ] Verificar transferencia estructural PAGESTRUCT/FRAGSEG a Matemáticas.
-- [ ] Ejecutar FRAGSEG técnico.
-- [ ] Actualizar tablero U1 con la cobertura efectiva de W2.
+- [x] Auditar empíricamente las 13,656 posiciones por 64 shards con SHA-256.
+- [x] Resultado crudo: 59 `direct_asset_ready`, 1 libro 2008 con dos huecos internos y 4 DMA 2018 con ruta no servida.
+- [x] Recuperar unívocamente los dos huecos de `H2008P4MA276` mediante anchors byte-idénticos, offset fijo y cero discrepancias.
+- [x] Construir manifiesto reconciliado que conserva anomalía original + fuente efectiva.
+- [x] Alcanzar **60/64** de resolución efectiva de activos.
+- [x] Mantener sin imputar `H2018P3DMA`, `H2018P4DMA`, `H2018P5DMA`, `H2018P6DMA`.
+- [x] Auditar configuración DMA 2018↔2019: mismo `ag_pages`, distinto `ag_clave`; evidencia insuficiente para promover alias.
+
+### Dependencia documental y deduplicación — COMPLETADAS
+
+- [x] Detectar tres aliases byte-idénticos completos:
+  - `H1982P4MA388` → `H1972P4MA083`, 258 JPEG;
+  - `H1982P5MA394` → `H1972P5MA089`, 304 JPEG;
+  - `H1982P6MA399` → `H1972P6MA094`, 194 JPEG.
+- [x] Conservar las identidades de catálogo separadas.
+- [x] Reducir la unidad de cómputo de 60 identidades resueltas a **57 contenidos canónicos**.
+- [x] Registrar relaciones documentales y recuperaciones de página en `data/catalog/ltmd_u1_w2_math_document_relationships.csv`.
+
+### Pipeline técnico 0.2 — EN EJECUCIÓN
+
+- [x] Versionar OCR/PAGESTRUCT/FRAGSEG como 0.2 para reflejar la topología empírica 57 canónicos + 3 aliases + 4 excepciones.
+- [x] Gate OCR: sólo 57 canónicos; descarga desde campos `effective_*`; SHA y byte-size obligatorios.
+- [x] Preparar PAGESTRUCT 0.2 con las mismas reglas estructurales congeladas.
+- [x] Preparar FRAGSEG 0.2 con las mismas reglas de segmentación congeladas.
+- [ ] Completar OCR técnico 0.2 de los 57 contenidos canónicos.
+- [ ] Completar PAGESTRUCT 0.2.
+- [ ] Completar FRAGSEG 0.2.
+- [ ] Promover los tres aliases a cobertura FRAGSEG efectiva sólo cuando su canónico esté materializado.
+- [ ] Cerrar W2 en **60/64 cobertura técnica efectiva** mientras persistan las cuatro excepciones 2018.
+
+### Tablero U1
+
+- [x] `LTMD_U1_COVERAGE_0.5`: **100/542 activos completamente resueltos (18.45%)** y **96/542 manifiestos de fuente listos (17.71%)**.
+- [ ] Promover OCR/PAGESTRUCT/FRAGSEG W2 únicamente después de sus artefactos finales.
+
+Documento de estado: `LTMD_U1_W2_MATHEMATICS_STATUS_0_1.md`.
 
 W2 es la primera prueba de transferencia masiva del **pipeline universal** a una disciplina distinta. No se aplica semántica de Ciencias Naturales a Matemáticas.
 
