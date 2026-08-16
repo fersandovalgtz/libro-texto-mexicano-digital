@@ -1,0 +1,36 @@
+name: build-ltmd-u1-w2-integrity-checkpoint
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: python3 scripts/build_ltmd_u1_w2_integrity_checkpoint.py
+      - name: Publish W2 integrity checkpoint race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w2-integrity
+          cp data/derived/ltmd_u1_w2_integrity_checkpoint.json /tmp/w2-integrity/
+          cp data/derived/ltmd_u1_w2_integrity_checkpoint.md /tmp/w2-integrity/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w2-integrity/* data/derived/
+            git add data/derived/ltmd_u1_w2_integrity_checkpoint.json data/derived/ltmd_u1_w2_integrity_checkpoint.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W2 integrity checkpoint'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
