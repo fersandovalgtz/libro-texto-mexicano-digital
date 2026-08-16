@@ -25,13 +25,14 @@ jobs:
           import csv,json
           rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w2_math_page_structure.csv',encoding='utf-8')))
           keys=sorted({r['viewer_key'] for r in rows})
-          assert len(keys)==64
+          assert len(keys)==57, len(keys)
+          assert {r['classifier_version'] for r in rows}=={'PAGESTRUCT_LTMD_U1_W2_MATH_0.2'}
           eligible={k:0 for k in keys}
           for r in rows:
               if r['primary_structure'] in {'textual','mixed_text_image'}:
                   eligible[r['viewer_key']]+=1
           bad=[k for k,n in eligible.items() if n==0]
-          if bad: raise SystemExit(f'W2 FRAGSEG gate closed: viewers without eligible pages={bad}')
+          if bad: raise SystemExit(f'W2 FRAGSEG gate closed: canonical viewers without eligible pages={bad}')
           print('viewers='+json.dumps(keys,separators=(',',':')))
           PY
 
@@ -49,8 +50,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
-      - name: Segment one Mathematics viewer
-        run: python3 scripts/segment_ltmd_u1_w2_math_fragments.py --viewer-key '${{ matrix.viewer_key }}'
+      - name: Segment one canonical Mathematics viewer
+        run: python3 scripts/segment_ltmd_u1_w2_math_fragments_v02.py --viewer-key '${{ matrix.viewer_key }}'
       - uses: actions/upload-artifact@v4
         with:
           name: ltmd-u1-w2-math-fragments-${{ matrix.viewer_key }}
@@ -70,9 +71,9 @@ jobs:
           pattern: ltmd-u1-w2-math-fragments-*
           path: data/work/ltmd_u1_w2_math_fragments
           merge-multiple: true
-      - name: Combine exact 64-viewer FRAGSEG layer
-        run: python3 scripts/combine_ltmd_u1_w2_math_fragment_shards.py
-      - name: Publish W2 FRAGSEG race-safely
+      - name: Combine exact 57-canonical-viewer FRAGSEG 0.2 layer
+        run: python3 scripts/combine_ltmd_u1_w2_math_fragment_shards_v02.py
+      - name: Publish W2 FRAGSEG 0.2 race-safely
         shell: bash
         run: |
           set -euo pipefail
@@ -89,7 +90,7 @@ jobs:
             cp /tmp/ltmd-u1-w2-math-fragseg/* data/catalog/
             git add data/catalog/ltmd_u1_w2_math_fragment_manifest.csv data/catalog/ltmd_u1_w2_math_fragment_manifest_summary.csv data/catalog/ltmd_u1_w2_math_fragment_sequence_gaps.csv data/catalog/ltmd_u1_w2_math_fragment_manifest.md
             if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Publish LTMD-U1 W2 mathematics FRAGSEG layer'
+            git commit -m 'Publish LTMD-U1 W2 mathematics FRAGSEG 0.2 layer'
             if git push origin HEAD:main; then exit 0; fi
             sleep $((attempt * 2))
           done
