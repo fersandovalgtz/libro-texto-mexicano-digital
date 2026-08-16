@@ -1,0 +1,51 @@
+name: build-ltmd-u1-w1-1966-page-manifest
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w1-1966-page-manifest.yml'
+      - 'scripts/build_ltmd_u1_w1_1966_page_manifest.py'
+      - 'data/catalog/ltmd_u1_w1_scope.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  manifest:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Probe and hash every declared 1966 source position
+        run: python3 scripts/build_ltmd_u1_w1_1966_page_manifest.py
+      - name: Publish W1 1966 manifest race-safely
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w1-1966
+          for f in \
+            data/catalog/ltmd_u1_w1_1966_page_manifest.csv \
+            data/catalog/ltmd_u1_w1_1966_page_manifest_summary.csv \
+            data/catalog/ltmd_u1_w1_1966_page_manifest.md; do
+            test -f "$f" && cp "$f" /tmp/ltmd-u1-w1-1966/
+          done
+          test -f /tmp/ltmd-u1-w1-1966/ltmd_u1_w1_1966_page_manifest.csv
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w1-1966/* data/catalog/
+            git add \
+              data/catalog/ltmd_u1_w1_1966_page_manifest.csv \
+              data/catalog/ltmd_u1_w1_1966_page_manifest_summary.csv \
+              data/catalog/ltmd_u1_w1_1966_page_manifest.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W1 1966 source asset manifest'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
