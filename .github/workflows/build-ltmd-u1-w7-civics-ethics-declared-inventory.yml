@@ -2,6 +2,9 @@ name: build-ltmd-u1-w7-civics-ethics-declared-inventory
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w7-civics-ethics-declared-inventory.yml'
   workflow_run:
     workflows: ['audit-ltmd-u1-w7-civics-ethics-architecture']
     types: [completed]
