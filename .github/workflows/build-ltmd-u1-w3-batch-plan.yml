@@ -1,0 +1,43 @@
+name: build-ltmd-u1-w3-batch-plan
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w3-batch-plan.yml'
+      - 'scripts/build_ltmd_u1_w3_batch_plan.py'
+      - 'data/catalog/ltmd_u1_w3_declared_inventory.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Require declared W3 inventory
+        run: test -f data/catalog/ltmd_u1_w3_declared_inventory.csv
+      - run: python3 scripts/build_ltmd_u1_w3_batch_plan.py
+      - name: Publish W3 batch plan race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-w3-batches
+          cp data/catalog/ltmd_u1_w3_batch_plan.csv /tmp/ltmd-w3-batches/
+          cp data/catalog/ltmd_u1_w3_batch_plan.md /tmp/ltmd-w3-batches/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-w3-batches/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_batch_plan.csv data/catalog/ltmd_u1_w3_batch_plan.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W3 Spanish-Language batch plan'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
