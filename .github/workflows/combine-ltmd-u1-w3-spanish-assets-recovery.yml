@@ -15,7 +15,7 @@ on:
       - '.github/triggers/ltmd-u1-w3-spanish-combine.trigger'
 
 permissions:
-  actions: read
+  actions: write
   contents: write
 
 jobs:
@@ -98,3 +98,5 @@ jobs:
             if [ "$attempt" -eq 3 ]; then exit 1; fi
             sleep $((attempt * 2))
           done
+      - name: Dispatch W3 asset diagnostics explicitly
+        run: gh workflow run analyze-ltmd-u1-w3-spanish-assets.yml --repo "$GITHUB_REPOSITORY"
