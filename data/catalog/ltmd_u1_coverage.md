@@ -1,6 +1,6 @@
 # LTMD-U1 — tablero maestro de cobertura
 
-Versión: **LTMD_U1_COVERAGE_0.1**  
+Versión: **LTMD_U1_COVERAGE_0.2**  
 Universo operativo U1: **542 visores** del snapshot vigente del Catálogo Histórico de CONALITEG.  
 Familias normalizadas de título: **191**.
 
@@ -20,22 +20,23 @@ La cobertura efectiva no elimina ni fusiona visores: los aliases conservan su id
 
 | dominio | visores | % U1 | activos full | FRAGSEG directo | cobertura efectiva | restantes | próxima ola |
 |---|---:|---:|---:|---:|---:|---:|---|
-| ciencias_naturales | 47 | 8.67% | 36 | 32 | 36 | 11 | U1-W1-ciencias_naturales |
+| ciencias_naturales | 40 | 7.38% | 36 | 32 | 36 | 4 | U1-W1-ciencias_naturales |
 | matematicas | 64 | 11.81% | 0 | 0 | 0 | 64 | U1-W2-matematicas |
 | espanol_lengua | 130 | 23.99% | 0 | 0 | 0 | 130 | U1-W3-espanol_lengua |
-| historia | 18 | 3.32% | 0 | 0 | 0 | 18 | U1-W4-historia |
-| geografia_atlas | 42 | 7.75% | 0 | 0 | 0 | 42 | U1-W5-geografia_atlas |
-| civica_etica | 30 | 5.54% | 0 | 0 | 0 | 30 | U1-W6-civica_etica |
-| artes | 20 | 3.69% | 0 | 0 | 0 | 20 | U1-W7-artes |
-| educacion_fisica | 4 | 0.74% | 0 | 0 | 0 | 4 | U1-W8-educacion_fisica |
-| integrados_multiarea | 62 | 11.44% | 0 | 0 | 0 | 62 | U1-W9-integrados_multiarea |
-| otros_no_clasificados | 125 | 23.06% | 0 | 0 | 0 | 125 | U1-W10-otros_revision |
+| ciencias_sociales | 14 | 2.58% | 0 | 0 | 0 | 14 | U1-W4-ciencias_sociales |
+| historia | 18 | 3.32% | 0 | 0 | 0 | 18 | U1-W5-historia |
+| geografia_atlas | 42 | 7.75% | 0 | 0 | 0 | 42 | U1-W6-geografia_atlas |
+| civica_etica | 30 | 5.54% | 0 | 0 | 0 | 30 | U1-W7-civica_etica |
+| artes | 20 | 3.69% | 0 | 0 | 0 | 20 | U1-W8-artes |
+| educacion_fisica | 4 | 0.74% | 0 | 0 | 0 | 4 | U1-W9-educacion_fisica |
+| integrados_multiarea | 69 | 12.73% | 0 | 0 | 0 | 69 | U1-W10-integrados_multiarea |
+| otros_no_clasificados | 111 | 20.48% | 0 | 0 | 0 | 111 | U1-W11-otros_revision |
 
 ## Regla de olas
 
-La taxonomía anterior es **operativa**, derivada sólo de palabras fuertes del título normalizado; no es una ontología curricular ni una clasificación semántica del contenido. Los títulos con señales de más de un dominio pasan a `integrados_multiarea`; los títulos sin señal suficientemente fuerte permanecen en `otros_no_clasificados` para revisión controlada.
+La taxonomía es **operativa**, derivada sólo de señales fuertes del título normalizado; no es una ontología curricular ni una clasificación semántica del contenido. Si un título activa más de un dominio —por ejemplo, naturaleza + sociedad— pasa a `integrados_multiarea`. Los títulos sin señal suficientemente fuerte permanecen en `otros_no_clasificados` para revisión controlada.
 
-El orden de olas prioriza terminar Ciencias Naturales y después escalar a Matemáticas, Español/Lengua, Historia, Geografía/Atlas, Cívica/Ética, Artes, Educación Física, materiales integrados y finalmente títulos que requieren revisión operacional. Un alias verificado se considera cubierto efectivamente sin duplicar OCR/FRAGSEG.
+El orden prioriza terminar Ciencias Naturales y después Matemáticas, Español/Lengua, Ciencias Sociales, Historia, Geografía/Atlas, Cívica/Ética, Artes, Educación Física, materiales integrados y finalmente títulos que requieren revisión operacional. Un alias verificado se considera cubierto efectivamente sin duplicar OCR/FRAGSEG.
 
 ## Límites de lectura
 
