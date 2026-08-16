@@ -1,0 +1,48 @@
+name: build-ltmd-u1-w4-social-sciences-processing-topology
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w4-social-sciences-processing-topology.yml'
+      - 'data/catalog/ltmd_u1_w4_social_sciences_source_readiness.csv'
+      - 'data/catalog/ltmd_u1_w4_social_sciences_exact_asset_relationships.csv'
+
+permissions:
+  actions: write
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build reconciled W4 processing topology
+        run: python3 scripts/build_ltmd_u1_w4_social_sciences_processing_topology.py
+      - name: Publish W4 processing topology race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w4-topology
+          cp data/catalog/ltmd_u1_w4_social_sciences_processing_inventory.csv /tmp/ltmd-u1-w4-topology/
+          cp data/catalog/ltmd_u1_w4_social_sciences_canonical_page_manifest.csv /tmp/ltmd-u1-w4-topology/
+          cp data/catalog/ltmd_u1_w4_social_sciences_processing_topology.md /tmp/ltmd-u1-w4-topology/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w4-topology/* data/catalog/
+            git add data/catalog/ltmd_u1_w4_social_sciences_processing_inventory.csv data/catalog/ltmd_u1_w4_social_sciences_canonical_page_manifest.csv data/catalog/ltmd_u1_w4_social_sciences_processing_topology.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W4 Social Sciences processing topology'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
+      - name: Dispatch W4 OCR only after topology passes
+        run: gh workflow run build-ltmd-u1-w4-social-sciences-ocr.yml --repo "$GITHUB_REPOSITORY" --ref main
