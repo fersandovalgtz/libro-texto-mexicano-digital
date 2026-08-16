@@ -1,0 +1,103 @@
+name: build-ltmd-u1-w6-geography-atlas-ocr
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - build-ltmd-u1-w6-geography-atlas-processing-topology
+    types:
+      - completed
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w6-geography-atlas-ocr.yml'
+
+permissions:
+  contents: write
+
+env:
+  OMP_THREAD_LIMIT: '1'
+
+jobs:
+  matrix:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-24.04
+    outputs:
+      viewers: ${{ steps.make.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: make
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import csv,json
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w6_geography_atlas_processing_inventory.csv',encoding='utf-8')))
+          man=list(csv.DictReader(open('data/catalog/ltmd_u1_w6_geography_atlas_canonical_page_manifest.csv',encoding='utf-8')))
+          assert len(proc)==42 and len({r['viewer_key'] for r in proc})==42
+          assert all(r['technical_identity_covered']=='1' and int(r['persistent_source_gaps'])==0 for r in proc)
+          canonical=sorted(r['viewer_key'] for r in proc if r['is_canonical_processing_object']=='1')
+          aliases=[r for r in proc if r['processing_mode']=='route_alias_to_2019']
+          assert len(canonical)==37 and len(aliases)==5
+          assert len(man)==5258 and {r['viewer_key'] for r in man}==set(canonical)
+          assert len({r['page_id'] for r in man})==5258
+          assert sum(r['source_kind']=='cryptographically_recovered_same_position_reference' for r in man)==2
+          print('viewers='+json.dumps(canonical,separators=(',',':')))
+          PY
+
+  ocr:
+    needs: matrix
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.matrix.outputs.viewers) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
+      - name: OCR canonical W6 viewer with live source verification
+        run: python3 scripts/ocr_ltmd_u1_w6_geography_atlas_book.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w6-geography-atlas-ocr-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w6_geography_atlas_ocr/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  combine:
+    needs: ocr
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w6-geography-atlas-ocr-*
+          path: data/work/ltmd_u1_w6_geography_atlas_ocr
+          merge-multiple: true
+      - run: python3 scripts/combine_ltmd_u1_w6_geography_atlas_ocr.py
+      - name: Publish W6 OCR 0.1 race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w6-ocr
+          cp data/catalog/ltmd_u1_w6_geography_atlas_ocr_metrics.csv /tmp/w6-ocr/
+          cp data/catalog/ltmd_u1_w6_geography_atlas_ocr_summary.csv /tmp/w6-ocr/
+          cp data/catalog/ltmd_u1_w6_geography_atlas_ocr.md /tmp/w6-ocr/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w6-ocr/* data/catalog/
+            git add data/catalog/ltmd_u1_w6_geography_atlas_ocr_metrics.csv data/catalog/ltmd_u1_w6_geography_atlas_ocr_summary.csv data/catalog/ltmd_u1_w6_geography_atlas_ocr.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W6 Geography Atlas OCR 0.1 metrics'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
