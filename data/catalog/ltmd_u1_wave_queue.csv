@@ -20,6 +20,8 @@ LTMD_U1_COVERAGE_0.4,0,U1-W0-materializado,materialized_direct,ciencias_naturale
 LTMD_U1_COVERAGE_0.4,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1993P5CI200,1993,5,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H1993P5CI200.htm
 LTMD_U1_COVERAGE_0.4,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1993P6CI209,1993,6,Ciencias Naturales y desarrollo humano,full_direct_processed,1,,https://historico.conaliteg.gob.mx/H1993P6CI209.htm
 LTMD_U1_COVERAGE_0.4,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1993P6CI210,1993,6,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H1993P6CI210.htm
+LTMD_U1_COVERAGE_0.4,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2008P3CI263,2008,3,CIENCIAS NATURALES,full_direct_reconciled_w1_2008,1,,https://historico.conaliteg.gob.mx/H2008P3CI263.htm
+LTMD_U1_COVERAGE_0.4,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2008P4CI268,2008,4,CIENCIAS NATURALES,full_direct_reconciled_w1_2008,1,,https://historico.conaliteg.gob.mx/H2008P4CI268.htm
 LTMD_U1_COVERAGE_0.4,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2008P5CI277,2008,5,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H2008P5CI277.htm
 LTMD_U1_COVERAGE_0.4,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2011P3CI307,2011,3,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H2011P3CI307.htm
 LTMD_U1_COVERAGE_0.4,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2011P4CI314,2011,4,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H2011P4CI314.htm
@@ -37,8 +39,6 @@ LTMD_U1_COVERAGE_0.4,0,U1-W0-materializado,materialized_direct,ciencias_naturale
 LTMD_U1_COVERAGE_0.4,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2019P4CNA,2019,4,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2019P4CNA.htm
 LTMD_U1_COVERAGE_0.4,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2019P5CNA,2019,5,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2019P5CNA.htm
 LTMD_U1_COVERAGE_0.4,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2019P6CNA,2019,6,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2019P6CNA.htm
-LTMD_U1_COVERAGE_0.4,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H2008P3CI263,2008,3,CIENCIAS NATURALES,full_direct_reconciled_w1_2008,0,,https://historico.conaliteg.gob.mx/H2008P3CI263.htm
-LTMD_U1_COVERAGE_0.4,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H2008P4CI268,2008,4,CIENCIAS NATURALES,full_direct_reconciled_w1_2008,0,,https://historico.conaliteg.gob.mx/H2008P4CI268.htm
 LTMD_U1_COVERAGE_0.4,2,U1-W2-matematicas,queued,matematicas,H1972P1MA063,1972,1,MATEMATICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P1MA063.htm
 LTMD_U1_COVERAGE_0.4,2,U1-W2-matematicas,queued,matematicas,H1972P2MA069,1972,2,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P2MA069.htm
 LTMD_U1_COVERAGE_0.4,2,U1-W2-matematicas,queued,matematicas,H1972P3MA076,1972,3,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P3MA076.htm

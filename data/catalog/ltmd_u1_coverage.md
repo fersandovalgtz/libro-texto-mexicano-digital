@@ -12,8 +12,8 @@ Familias normalizadas de título: **191**.
 - Manifiesto directo: **36/542 (6.64%)**.
 - OCR directo: **36/542 (6.64%)**.
 - PAGESTRUCT directo: **36/542 (6.64%)**.
-- FRAGSEG directo: **34/542 (6.27%)**.
-- Cobertura FRAGSEG efectiva: **38/542 (7.01%)**.
+- FRAGSEG directo: **36/542 (6.64%)**.
+- Cobertura FRAGSEG efectiva: **40/542 (7.38%)**.
 - Dependencia documental auditada: **12/542 (2.21%)**.
 - Cobertura semántica validada: **0/542 (0.00%)**.
 
@@ -23,7 +23,7 @@ Los KPIs se promueven por etapa sólo cuando existe el artefacto final correspon
 
 | dominio | visores | % U1 | activos full | FRAGSEG directo | cobertura efectiva | restantes | próxima ola |
 |---|---:|---:|---:|---:|---:|---:|---|
-| ciencias_naturales | 40 | 7.38% | 40 | 34 | 38 | 2 | U1-W1-ciencias_naturales |
+| ciencias_naturales | 40 | 7.38% | 40 | 36 | 40 | 0 | completed_domain |
 | matematicas | 64 | 11.81% | 0 | 0 | 0 | 64 | U1-W2-matematicas |
 | espanol_lengua | 130 | 23.99% | 0 | 0 | 0 | 130 | U1-W3-espanol_lengua |
 | ciencias_sociales | 14 | 2.58% | 0 | 0 | 0 | 14 | U1-W4-ciencias_sociales |

@@ -6,7 +6,7 @@ LTMD_U1_COVERAGE_0.4,asset_resolved_partial,0,542,0.00,Known partial source reso
 LTMD_U1_COVERAGE_0.4,page_manifest_ready_direct,36,542,6.64,Direct page/source manifest materialized.
 LTMD_U1_COVERAGE_0.4,ocr_ready_direct,36,542,6.64,Direct technical OCR layer materialized.
 LTMD_U1_COVERAGE_0.4,pagestruct_ready_direct,36,542,6.64,Direct PAGESTRUCT layer materialized.
-LTMD_U1_COVERAGE_0.4,fragseg_materialized_direct,34,542,6.27,Direct FRAGSEG materialized.
-LTMD_U1_COVERAGE_0.4,effective_fragseg_coverage,38,542,7.01,Direct FRAGSEG plus verified byte-identical aliases.
+LTMD_U1_COVERAGE_0.4,fragseg_materialized_direct,36,542,6.64,Direct FRAGSEG materialized.
+LTMD_U1_COVERAGE_0.4,effective_fragseg_coverage,40,542,7.38,Direct FRAGSEG plus verified byte-identical aliases.
 LTMD_U1_COVERAGE_0.4,dependence_audited,12,542,2.21,Viewer participates in registered documentary dependence.
 LTMD_U1_COVERAGE_0.4,semantic_ready_validated,0,542,0.00,SEMB 0.3 remains WAITING_HUMAN_REFERENCE.
