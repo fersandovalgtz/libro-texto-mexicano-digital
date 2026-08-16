@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - '.github/workflows/build-ltmd-u1-w4-social-sciences-declared-inventory.yml'
       - 'data/catalog/ltmd_u1_w4_scope.csv'
       - 'data/catalog/ltmd_u1_w4_viewer_architecture.csv'
 
