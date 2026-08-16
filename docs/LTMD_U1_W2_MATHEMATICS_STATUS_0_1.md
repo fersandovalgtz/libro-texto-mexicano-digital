@@ -1,7 +1,7 @@
 # LTMD-U1 W2 — estado técnico de Matemáticas 0.1
 
 Corte: 15 de agosto de 2026.  
-Estado: **ingestión técnica activa; semántica no abierta**.
+Estado: **OCR técnico completado; PAGESTRUCT/FRAGSEG en ejecución; semántica no abierta**.
 
 ## Universo congelado
 
@@ -38,11 +38,23 @@ Por tanto, las 60 identidades efectivamente resueltas corresponden a **57 conten
 
 La comparación de configuración 2018↔2019 mostró el mismo `ag_pages` por grado, pero `ag_clave` distinto. Esa evidencia es insuficiente para declarar identidad documental o byte-alias. Los cuatro DMA 2018 permanecen explícitamente fuera del cómputo mientras no exista una prueba documental o criptográfica suficiente.
 
+## OCR técnico 0.2 — COMPLETADO
+
+La capa `LTMD_U1_W2_MATH_OCR_0.2` procesó los 57 contenidos canónicos y representa 60/64 identidades de catálogo mediante tres aliases exactos.
+
+- **11,945/11,945 páginas fuente canónicas verificadas por SHA-256**;
+- **11,812/11,945 (98.89%)** con texto detectado;
+- **133** `no_text_detected`;
+- **0 unresolved**;
+- OCR íntegro no persistido; sólo métricas y controles de procedencia.
+
+El combine final de OCR terminó en `success`; no fue necesario usar el workflow de recuperación preparado como contingencia.
+
 ## Pipeline 0.2
 
 La ejecución W2 se versiona como 0.2 porque la auditoría empírica refutó el supuesto preparatorio de 64/64 directos.
 
-`57 canónicos → OCR temporal SHA-verificado → PAGESTRUCT → FRAGSEG → 3 aliases heredan sólo cobertura efectiva`
+`57 canónicos → OCR temporal SHA-verificado ✅ → PAGESTRUCT (en ejecución) → FRAGSEG → 3 aliases heredan sólo cobertura efectiva`
 
 Los cuatro DMA 2018 permanecen fuera de esa cadena. SEMB 0.3 de Ciencias Naturales no se aplica a Matemáticas y W2 no produce todavía inferencia pedagógica/histórica.
 
