@@ -124,7 +124,9 @@ def main():
     text = sum(r['ocr_class'] == 'text_detected' for r in rows)
     no_text = sum(r['ocr_class'] == 'no_text_detected' for r in rows)
     exact_aliases = sum(proc[k]['processing_mode'] == 'exact_byte_alias' for k in aliases)
-    route_aliases = sum(proc[k]['processing_mode'] == 'route_alias_2018_to_2019' for k in aliases)
+    route_aliases = sum(proc[k]['processing_mode'] == 'paired_route_alias_2018_to_2019' for k in aliases)
+    if exact_aliases + route_aliases != len(aliases):
+        raise SystemExit(f'alias breakdown mismatch exact={exact_aliases} route={route_aliases} total={len(aliases)}')
     REPORT.write_text('\n'.join([
         '# LTMD-U1 W3 — OCR técnico de Español/Lengua',
         '',
