@@ -1,0 +1,73 @@
+name: diagnose-research-integrity-v07
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/diagnose-research-integrity-v07.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: diagnose-research-integrity-v07
+  cancel-in-progress: false
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Diagnose v0.7 integrity perimeter
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .github/diagnostics
+          python3 - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          sys.path.insert(0, 'scripts')
+          import build_research_integrity_manifest_v07 as v07
+
+          critical = list(v07.base.CRITICAL)
+          optional = list(v07.base.OPTIONAL)
+          payload = {
+              'integrity_version': v07.base.VERSION,
+              'critical_count': len(critical),
+              'critical_present_count': sum(Path(p).exists() for p in critical),
+              'missing_critical': [p for p in critical if not Path(p).exists()],
+              'optional_count': len(optional),
+              'optional_present': [p for p in optional if Path(p).exists()],
+              'optional_missing': [p for p in optional if not Path(p).exists()],
+          }
+          Path('.github/diagnostics/research_integrity_v07_missing.json').write_text(
+              json.dumps(payload, ensure_ascii=False, indent=2) + '\n',
+              encoding='utf-8',
+          )
+          print(json.dumps(payload, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Publish diagnostic race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp .github/diagnostics/research_integrity_v07_missing.json /tmp/research_integrity_v07_missing.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p .github/diagnostics
+            cp /tmp/research_integrity_v07_missing.json .github/diagnostics/
+            git add .github/diagnostics/research_integrity_v07_missing.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish research integrity v0.7 diagnostic'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
