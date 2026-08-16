@@ -1,0 +1,45 @@
+name: analyze-ltmd-u1-w3-spanish-assets
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify combined W3 asset layer exists
+        run: |
+          test -f data/catalog/ltmd_u1_w3_spanish_asset_manifest.csv
+          test -f data/catalog/ltmd_u1_w3_spanish_asset_summary.csv
+      - name: Classify operational asset states
+        run: python3 scripts/classify_ltmd_u1_w3_spanish_asset_states.py
+      - name: Audit exact aligned byte aliases
+        run: python3 scripts/audit_ltmd_u1_w3_spanish_exact_aliases.py
+      - name: Publish W3 diagnostics race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w3-spanish-analysis
+          cp data/catalog/ltmd_u1_w3_spanish_asset_states.csv /tmp/ltmd-u1-w3-spanish-analysis/
+          cp data/catalog/ltmd_u1_w3_spanish_asset_states.md /tmp/ltmd-u1-w3-spanish-analysis/
+          cp data/catalog/ltmd_u1_w3_spanish_exact_aliases.csv /tmp/ltmd-u1-w3-spanish-analysis/
+          cp data/catalog/ltmd_u1_w3_spanish_exact_aliases.md /tmp/ltmd-u1-w3-spanish-analysis/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w3-spanish-analysis/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_spanish_asset_states.csv data/catalog/ltmd_u1_w3_spanish_asset_states.md data/catalog/ltmd_u1_w3_spanish_exact_aliases.csv data/catalog/ltmd_u1_w3_spanish_exact_aliases.md
+            if git diff --cached --quiet; then break; fi
+            git commit -m 'Publish LTMD-U1 W3 Spanish asset diagnostics'
+            if git push origin HEAD:main; then break; fi
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
+            sleep $((attempt * 2))
+          done
