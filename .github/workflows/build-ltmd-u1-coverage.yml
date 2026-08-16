@@ -1,4 +1,5 @@
 name: build-ltmd-u1-coverage
+# Explicit refresh after U1-W1 technical closure.
 
 on:
   workflow_dispatch:
