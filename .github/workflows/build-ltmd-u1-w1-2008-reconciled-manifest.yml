@@ -1,0 +1,44 @@
+name: build-ltmd-u1-w1-2008-reconciled-manifest
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w1-2008-reconciled-manifest.yml'
+      - 'scripts/build_ltmd_u1_w1_2008_reconciled_manifest.py'
+      - 'data/catalog/ciencias_naturales_pending_page_manifest.csv'
+      - 'data/catalog/ltmd_u1_w1_2008_recovered_positions.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  manifest:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build provenance-preserving reconciled manifest
+        run: python3 scripts/build_ltmd_u1_w1_2008_reconciled_manifest.py
+      - name: Publish manifest race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w1-2008-manifest
+          cp data/catalog/ltmd_u1_w1_2008_page_manifest.csv /tmp/ltmd-u1-w1-2008-manifest/
+          cp data/catalog/ltmd_u1_w1_2008_page_manifest_summary.csv /tmp/ltmd-u1-w1-2008-manifest/
+          cp data/catalog/ltmd_u1_w1_2008_page_manifest.md /tmp/ltmd-u1-w1-2008-manifest/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w1-2008-manifest/* data/catalog/
+            git add data/catalog/ltmd_u1_w1_2008_page_manifest.csv data/catalog/ltmd_u1_w1_2008_page_manifest_summary.csv data/catalog/ltmd_u1_w1_2008_page_manifest.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish reconciled LTMD-U1 W1 2008 page manifest'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
