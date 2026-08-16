@@ -14,7 +14,7 @@ OUT=Path('data/catalog/ltmd_u1_w6_geography_atlas_processing_inventory.csv')
 PAGES=Path('data/catalog/ltmd_u1_w6_geography_atlas_canonical_page_manifest.csv')
 REPORT=Path('data/catalog/ltmd_u1_w6_geography_atlas_processing_topology.md')
 VERSION='LTMD_U1_W6_GEOGRAPHY_ATLAS_TOPOLOGY_0.1'
-EXPECTED_IDENTITIES=42;EXPECTED_CANONICAL=37;EXPECTED_ALIASES=5;EXPECTED_RECOVERED=2
+EXPECTED_IDENTITIES=42;EXPECTED_CANONICAL=37;EXPECTED_ALIASES=5;EXPECTED_RECOVERED=2;EXPECTED_CANONICAL_PAGES=5258
 
 def main():
     scope=list(csv.DictReader(SCOPE.open(encoding='utf-8',newline='')));meta={r['viewer_key']:r for r in scope}
@@ -56,9 +56,9 @@ def main():
                 page_rows.append({'topology_version':VERSION,'page_id':f'{key}:p{p:04d}','viewer_key':key,'catalog_generation':meta[key]['catalog_generation'],'grade_code':meta[key]['grade_code'],'title_core':meta[key]['title_core'],'viewer_page':p,'source_kind':'cryptographically_recovered_same_position_reference','source_asset_url':rec['effective_source_asset_url'],'sha256':rec['effective_sha256'],'byte_size':rec['effective_byte_size'],'original_source_asset_url':rec['original_source_asset_url'],'original_asset_status':rec['original_asset_status'],'recovery_reference_viewer_key':rec['recovery_reference_viewer_key']})
     ids=[r['page_id'] for r in page_rows]
     if len(ids)!=len(set(ids)):raise SystemExit('duplicate W6 canonical page IDs')
-    expected_pages=sum(int(r['direct_source_pages_for_processing'])+int(r['recovered_source_pages_for_processing']) for r in inventory if r['is_canonical_processing_object']=='1')
+    expected_pages=sum(int(r['direct_source_pages_for_processing'])+int(r['recovered_source_pages_for_processing']) for r in inventory if int(r['is_canonical_processing_object'])==1)
     if len(page_rows)!=expected_pages:raise SystemExit(f'W6 canonical page manifest mismatch {len(page_rows)} vs {expected_pages}')
-    if len(page_rows)!=5290:raise SystemExit(f'W6 canonical source page invariant changed: {len(page_rows)} != 5290')
+    if len(page_rows)!=EXPECTED_CANONICAL_PAGES:raise SystemExit(f'W6 canonical source page invariant changed: {len(page_rows)} != {EXPECTED_CANONICAL_PAGES}')
     if sum(r['source_kind']=='cryptographically_recovered_same_position_reference' for r in page_rows)!=EXPECTED_RECOVERED:raise SystemExit('W6 recovered page manifest count mismatch')
 
     with OUT.open('w',encoding='utf-8',newline='') as f:w=csv.DictWriter(f,fieldnames=list(inventory[0]));w.writeheader();w.writerows(inventory)
@@ -66,8 +66,8 @@ def main():
     with PAGES.open('w',encoding='utf-8',newline='') as f:w=csv.DictWriter(f,fieldnames=list(page_rows[0]));w.writeheader();w.writerows(page_rows)
     gens=defaultdict(Counter)
     for r in inventory:
-        g=gens[r['catalog_generation']];g['identities']+=1;g['canonical']+=int(r['is_canonical_processing_object']);g['aliases']+=r['processing_mode']=='route_alias_to_2019';g['pages']+=int(r['direct_source_pages_for_processing'])+int(r['recovered_source_pages_for_processing']) if r['is_canonical_processing_object']=='1' else 0
-    terminals=sum(int(r['terminal_synthetic_candidates']) for r in inventory if r['is_canonical_processing_object']=='1')
+        g=gens[r['catalog_generation']];g['identities']+=1;g['canonical']+=int(r['is_canonical_processing_object']);g['aliases']+=r['processing_mode']=='route_alias_to_2019';g['pages']+=(int(r['direct_source_pages_for_processing'])+int(r['recovered_source_pages_for_processing'])) if int(r['is_canonical_processing_object'])==1 else 0
+    terminals=sum(int(r['terminal_synthetic_candidates']) for r in inventory if int(r['is_canonical_processing_object'])==1)
     lines=['# LTMD-U1 W6 — topología de procesamiento Geografía/Atlas','',f'Versión: `{VERSION}`.','',f'- Identidades técnicas cubiertas: **{EXPECTED_IDENTITIES}/{EXPECTED_IDENTITIES}**.',f'- Objetos canónicos de procesamiento: **{EXPECTED_CANONICAL}**.',f'- Aliases operacionales de ruta 2018→2019: **{EXPECTED_ALIASES}**.',f'- Páginas recuperadas criptográficamente en `H2008P4GE273`: **{EXPECTED_RECOVERED}**.',f'- Huecos de fuente persistentes después de reconciliación: **0**.',f'- Páginas fuente canónicas autorizadas para OCR: **{len(page_rows):,}**.',f'- Terminales sintéticos de objetos canónicos excluidos de OCR: **{terminals}**.',f'- Renumeración de páginas: **0**.','','## Por generación','', '| generación | identidades | canónicos | aliases | páginas canónicas |','|---:|---:|---:|---:|---:|']
     for g in sorted(gens,key=int):lines.append(f"| {g} | {gens[g]['identities']} | {gens[g]['canonical']} | {gens[g]['aliases']} | {gens[g]['pages']:,} |")
     lines+=['','## Contrato downstream','OCR W6 sólo puede consumir `ltmd_u1_w6_geography_atlas_canonical_page_manifest.csv` y debe revalidar en vivo SHA-256 + tamaño antes de reconocer texto. Los cinco visores 2018 no duplican OCR; heredan cobertura técnica de sus rutas 2019 demostradas. Las dos páginas 2008 recuperadas mantienen la URL original 404 y la referencia 1993 como provenance.','','La topología es infraestructura de fuente. No fusiona identidades de catálogo ni autoriza equivalencias bibliográficas, históricas, curriculares o semánticas. `WAITING_HUMAN_REFERENCE` permanece vigente.']
