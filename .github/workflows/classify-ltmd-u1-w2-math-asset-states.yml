@@ -42,3 +42,5 @@ jobs:
             sleep $((attempt * 2))
           done
           exit 1
+
+# retrigger: consolidated 64-viewer asset audit available
