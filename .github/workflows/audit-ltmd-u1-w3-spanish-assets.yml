@@ -2,6 +2,9 @@ name: audit-ltmd-u1-w3-spanish-assets
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/triggers/ltmd-u1-w3-spanish-assets.trigger'
 
 permissions:
   contents: write
@@ -18,9 +21,11 @@ jobs:
         run: |
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import csv,json
+          from pathlib import Path
           rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_scope.csv',encoding='utf-8')))
           keys=[r['viewer_key'] for r in rows]
           assert len(keys)==130 and len(set(keys))==130
+          assert Path('docs/LTMD_U1_W2_COMPLETION.md').is_file()
           print('viewers='+json.dumps(keys,separators=(',',':')))
           PY
 
@@ -43,5 +48,5 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-# Combine/reconciliation is intentionally not wired yet. The first W3 asset run
-# remains gated until W2 closes technically and W3's 130-viewer source audit is explicitly opened.
+# Combine/reconciliation remains intentionally separate. This run audits source
+# assets only; no OCR, PAGESTRUCT, FRAGSEG or semantic model is opened here.
