@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Extract conservative front/end structural keyword flags for one W2 Math viewer."""
+"""Extract conservative front/end structural keyword flags for one canonical W2 Math viewer."""
 from __future__ import annotations
 import argparse,csv,hashlib,re,subprocess,tempfile,unicodedata
 from pathlib import Path
 from urllib.request import Request,urlopen
 
 METRICS=Path('data/catalog/ltmd_u1_w2_math_ocr_metrics.csv')
-MAN=Path('data/catalog/ltmd_u1_w2_math_asset_manifest.csv')
-VERSION='LTMD_U1_W2_MATH_STRUCTKW_0.1'
-UA='LibroTextoMexicanoDigital/U1-W2 Mathematics structural flags'
+MAN=Path('data/catalog/ltmd_u1_w2_math_reconciled_manifest.csv')
+VERSION='LTMD_U1_W2_MATH_STRUCTKW_0.2'
+UA='LibroTextoMexicanoDigital/U1-W2 Mathematics structural flags 0.2'
 VOCAB={
  'front_matter':[r'\bpresentacion\b',r'\bprologo\b',r'\bintroduccion\b',r'\bconoce tu libro\b',r'\bal alumno\b',r'\bal maestro\b',r'\bmensaje\b'],
  'toc_navigation':[r'\bindice\b',r'\bcontenido(?:s)?\b',r'\bpagina(?:s)?\b',r'\bbloque(?:s)?\b',r'\btema(?:s)?\b',r'\bleccion(?:es)?\b'],
@@ -18,13 +18,14 @@ def norm(s):
     s=unicodedata.normalize('NFKD',s);s=''.join(ch for ch in s if not unicodedata.combining(ch));return re.sub(r'\s+',' ',s.casefold())
 
 def download_verify(row,target):
-    h=hashlib.sha256()
-    with urlopen(Request(row['source_asset_url'],headers={'User-Agent':UA}),timeout=45) as r,target.open('wb') as f:
+    h=hashlib.sha256();total=0
+    with urlopen(Request(row['effective_asset_url'],headers={'User-Agent':UA}),timeout=45) as r,target.open('wb') as f:
         while True:
             b=r.read(1024*1024)
             if not b: break
-            h.update(b);f.write(b)
-    if h.hexdigest()!=row['sha256']: raise RuntimeError(f"SHA mismatch {row['viewer_key']} page {row['viewer_page']}")
+            h.update(b);total+=len(b);f.write(b)
+    if h.hexdigest()!=row['effective_sha256']: raise RuntimeError(f"SHA mismatch {row['viewer_key']} page {row['viewer_page']}")
+    if row.get('effective_byte_size') and total!=int(row['effective_byte_size']): raise RuntimeError(f"byte-size mismatch {row['viewer_key']} page {row['viewer_page']}")
 
 def run_ocr(img,psm):
     cp=subprocess.run(['tesseract',str(img),'stdout','-l','spa','--psm',str(psm or 3)],stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,text=True,timeout=90,check=False)
@@ -34,7 +35,7 @@ def main():
     ap=argparse.ArgumentParser();ap.add_argument('--viewer-key',required=True);ap.add_argument('--output-dir',default='data/work/ltmd_u1_w2_math_structkw');args=ap.parse_args()
     metrics=[r for r in csv.DictReader(METRICS.open(encoding='utf-8')) if r['viewer_key']==args.viewer_key]
     if not metrics: raise SystemExit(f'no W2 OCR rows for {args.viewer_key}')
-    manifest={(r['viewer_key'],int(r['viewer_page'])):r for r in csv.DictReader(MAN.open(encoding='utf-8')) if r['asset_status']=='source_jpeg'}
+    manifest={(r['viewer_key'],int(r['viewer_page'])):r for r in csv.DictReader(MAN.open(encoding='utf-8')) if r['effective_asset_status'] in ('source_jpeg','source_jpeg_recovered')}
     max_page=max(int(r['viewer_page']) for r in metrics);candidates=[r for r in metrics if int(r['viewer_page'])<=16 or int(r['viewer_page'])>max_page-16]
     out=[]
     with tempfile.TemporaryDirectory(prefix='ltmd-u1-w2-math-struct-') as td:
@@ -49,5 +50,5 @@ def main():
     if any(not int(r['source_sha256_verified']) for r in out): raise SystemExit(f'{args.viewer_key}: structural source verification failure')
     d=Path(args.output_dir);d.mkdir(parents=True,exist_ok=True);p=d/f'structkw_{args.viewer_key.lower()}.csv'
     with p.open('w',encoding='utf-8',newline='') as f: w=csv.DictWriter(f,fieldnames=list(out[0]));w.writeheader();w.writerows(out)
-    print(f'{args.viewer_key}: structural candidates={len(out)} all SHA verified; out={p}')
+    print(f'{args.viewer_key}: structural candidates={len(out)} all effective SHA verified; out={p}')
 if __name__=='__main__': main()
