@@ -1,0 +1,61 @@
+name: recover-ltmd-u1-w2-math-ocr-combine
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    env:
+      SOURCE_RUN_ID: '31924766773'
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Require source OCR run to be terminal
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID" --jq .status)"
+          test "$status" = completed
+      - name: Download exactly 57 OCR artifacts from source run
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p data/work/ltmd_u1_w2_math_ocr_downloads
+          gh run download "$SOURCE_RUN_ID" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern 'ltmd-u1-w2-math-ocr-*' \
+            --dir data/work/ltmd_u1_w2_math_ocr_downloads
+          mkdir -p data/work/ltmd_u1_w2_math_ocr
+          find data/work/ltmd_u1_w2_math_ocr_downloads -type f -name 'ocr_*.csv' -exec cp {} data/work/ltmd_u1_w2_math_ocr/ \;
+          count="$(find data/work/ltmd_u1_w2_math_ocr -maxdepth 1 -type f -name 'ocr_*.csv' | wc -l)"
+          test "$count" -eq 57
+      - name: Combine exact canonical OCR 0.2 layer
+        run: python3 scripts/combine_ltmd_u1_w2_math_ocr.py
+      - name: Publish recovered W2 OCR 0.2 metrics race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w2-ocr
+          cp data/catalog/ltmd_u1_w2_math_ocr_metrics.csv /tmp/ltmd-u1-w2-ocr/
+          cp data/catalog/ltmd_u1_w2_math_ocr_summary.csv /tmp/ltmd-u1-w2-ocr/
+          cp data/catalog/ltmd_u1_w2_math_ocr.md /tmp/ltmd-u1-w2-ocr/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w2-ocr/* data/catalog/
+            git add data/catalog/ltmd_u1_w2_math_ocr_metrics.csv data/catalog/ltmd_u1_w2_math_ocr_summary.csv data/catalog/ltmd_u1_w2_math_ocr.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish recovered LTMD-U1 W2 Mathematics OCR 0.2 metrics'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
