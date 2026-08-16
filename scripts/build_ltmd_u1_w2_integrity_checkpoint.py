@@ -7,7 +7,7 @@ VERSION='LTMD_U1_W2_INTEGRITY_0.1'
 OUTJ=Path('data/derived/ltmd_u1_w2_integrity_checkpoint.json')
 OUTM=Path('data/derived/ltmd_u1_w2_integrity_checkpoint.md')
 CRITICAL=[
- 'docs/LTMD_U1_W2_MATHEMATICS_STATUS_0_1.md','docs/LTMD_U1_W2_COMPLETION.md',
+ 'docs/LTMD_U1_W2_MATHEMATICS_STATUS_0_1.md','docs/LTMD_U1_W2_COMPLETION.md','docs/LTMD_U1_W2_DATA_DICTIONARY_0_1.md',
  'data/catalog/ltmd_u1_w2_scope.csv','data/catalog/ltmd_u1_w2_declared_inventory.csv','data/catalog/ltmd_u1_w2_viewer_architecture.md',
  'data/catalog/ltmd_u1_w2_math_asset_manifest.csv','data/catalog/ltmd_u1_w2_math_asset_summary.csv','data/catalog/ltmd_u1_w2_math_asset_states.csv',
  'data/catalog/ltmd_u1_w2_math_internal_recoveries.csv','data/catalog/ltmd_u1_w2_math_reconciled_manifest.csv','data/catalog/ltmd_u1_w2_math_reconciled_summary.csv',
