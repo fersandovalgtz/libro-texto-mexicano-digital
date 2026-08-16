@@ -1,0 +1,106 @@
+{
+  "contract_version": "LTMD_U1_W7_VIEWER_ROUTE_CONTRACT_0.1",
+  "policy": "Evidence extraction only; no book-image asset requests.",
+  "sources": {
+    "claves_json": {
+      "url": "https://historico.conaliteg.gob.mx/claves.json",
+      "content_type": "application/json",
+      "byte_size": 47710,
+      "sha256": "7fb55e583ee5190fd2153d95764426114f86946ea93d8545c07d5f03d7674037"
+    },
+    "viewer_javascript": {
+      "url": "https://historico.conaliteg.gob.mx/x.js",
+      "content_type": "text/javascript",
+      "byte_size": 8192,
+      "sha256": "209526b121455c45b743c43f7a269126c2d510cbb77bd6945d5798703ec2cdc3"
+    }
+  },
+  "unresolved_viewer_count": 5,
+  "viewer_entries": {
+    "H2014P5FCA": {
+      "ag_pages": 225,
+      "ag_clave": "H2014P5FCA"
+    },
+    "H2018P3FCA": {
+      "ag_pages": 114,
+      "ag_clave": "H2018P3FCA"
+    },
+    "H2018P4FCA": {
+      "ag_pages": 130,
+      "ag_clave": "H2018P4FCA"
+    },
+    "H2018P5FCA": {
+      "ag_pages": 226,
+      "ag_clave": "H2018P5FCA"
+    },
+    "H2018P6FCA": {
+      "ag_pages": 210,
+      "ag_clave": "H2018P6FCA"
+    }
+  },
+  "viewer_entry_fields": {
+    "H2014P5FCA": [
+      "ag_clave",
+      "ag_pages"
+    ],
+    "H2018P3FCA": [
+      "ag_clave",
+      "ag_pages"
+    ],
+    "H2018P4FCA": [
+      "ag_clave",
+      "ag_pages"
+    ],
+    "H2018P5FCA": [
+      "ag_clave",
+      "ag_pages"
+    ],
+    "H2018P6FCA": [
+      "ag_clave",
+      "ag_pages"
+    ]
+  },
+  "javascript_route_evidence": [
+    {
+      "line": 3,
+      "tokens": [
+        "ag_clave"
+      ],
+      "snippet_sha256": "ecf4728f62f7680d92e59523bd6142a0612e125b8f5958f8d9786e5c827efda8",
+      "snippet": "let ag_clave = nombreArchivo.substring(0, nombreArchivo.indexOf('.htm'));"
+    },
+    {
+      "line": 4,
+      "tokens": [
+        "ag_pages"
+      ],
+      "snippet_sha256": "58b950d37a46732284ae3618f87b671ddb167639f4e967f3299c5735631d0171",
+      "snippet": "let ag_pages;"
+    },
+    {
+      "line": 12,
+      "tokens": [
+        "ag_clave",
+        "ag_pages"
+      ],
+      "snippet_sha256": "112c64dd0f1c218d69a1d84700a440a6c9a22ca40c59a0a305cb07bb4071a778",
+      "snippet": "ag_pages = data[ag_clave].ag_pages;"
+    },
+    {
+      "line": 66,
+      "tokens": [
+        "ag_pages"
+      ],
+      "snippet_sha256": "52c3001c598a84ce9e5e7c8e9ce350da4b9ebc70cc4adc29f9065bfc2db48fa4",
+      "snippet": "pages: ag_pages,"
+    },
+    {
+      "line": 115,
+      "tokens": [
+        "addPage"
+      ],
+      "snippet_sha256": "2776e491017bbe6e2e2d0a16b2599bc997a8354ec1da709100873437a6854a76",
+      "snippet": "addPage(pages[i], $(this));"
+    }
+  ]
+}
