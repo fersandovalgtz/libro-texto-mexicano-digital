@@ -1,0 +1,4 @@
+alias_version,alias_group,viewer_key,canonical_viewer_key,effective_jpeg_count,all_effective_pages_byte_identical_aligned,interpretive_limit
+LTMD_U1_W2_MATH_RECONCILED_EXACT_ALIASES_0.1,MATH-RECON-ALIAS-001,H1982P4MA388,H1972P4MA083,258,1,Operational byte alias on reconciled assets only; catalog identities remain distinct.
+LTMD_U1_W2_MATH_RECONCILED_EXACT_ALIASES_0.1,MATH-RECON-ALIAS-002,H1982P5MA394,H1972P5MA089,304,1,Operational byte alias on reconciled assets only; catalog identities remain distinct.
+LTMD_U1_W2_MATH_RECONCILED_EXACT_ALIASES_0.1,MATH-RECON-ALIAS-003,H1982P6MA399,H1972P6MA094,194,1,Operational byte alias on reconciled assets only; catalog identities remain distinct.
