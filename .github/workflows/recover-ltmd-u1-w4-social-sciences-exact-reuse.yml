@@ -1,0 +1,31 @@
+name: recover-ltmd-u1-w4-social-sciences-exact-reuse
+
+on:
+  workflow_run:
+    workflows: ['analyze-ltmd-u1-w4-social-sciences-exact-reuse']
+    types: [completed]
+
+permissions:
+  actions: write
+  contents: write
+
+jobs:
+  recover:
+    if: github.event.workflow_run.conclusion != 'success'
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: python3 scripts/analyze_ltmd_u1_w4_social_sciences_exact_reuse.py
+      - name: Publish recovered W4 exact-reuse analysis
+        shell: bash
+        run: |
+          mkdir -p /tmp/w4exact
+          cp data/catalog/ltmd_u1_w4_social_sciences_exact_content_units.csv data/catalog/ltmd_u1_w4_social_sciences_exact_viewer_overlap.csv data/catalog/ltmd_u1_w4_social_sciences_exact_reuse.md /tmp/w4exact/
+          git config user.name 'github-actions[bot]'; git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do git fetch origin main; git reset --hard origin/main; cp /tmp/w4exact/* data/catalog/; git add data/catalog/ltmd_u1_w4_social_sciences_exact_content_units.csv data/catalog/ltmd_u1_w4_social_sciences_exact_viewer_overlap.csv data/catalog/ltmd_u1_w4_social_sciences_exact_reuse.md; if git diff --cached --quiet; then break; fi; git commit -m 'Publish recovered LTMD-U1 W4 Social Sciences exact-reuse analysis'; if git push origin HEAD:main; then break; fi; if [ "$attempt" -eq 3 ]; then exit 1; fi; sleep $((attempt*2)); done
+      - name: Dispatch W4 completion report after recovery
+        run: gh workflow run build-ltmd-u1-w4-social-sciences-completion-report.yml --repo "$GITHUB_REPOSITORY" --ref main
