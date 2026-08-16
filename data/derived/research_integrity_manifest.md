@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.5`.
 
-Commit observado: `8559552940bce8ab6f8e58fef1cd4530dd07ac02`.
+Commit observado: `59b7f3a58f69210f7d6cc80080529519a9d473fe`.
 
 Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
@@ -162,7 +162,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `.github/workflows/recover-page-structure-cn-wave2.yml` — 2306 bytes — `a38e9ed6f7248e7dc427b61b2f96d4d1888945d8d3c2e126de66c7ebe6a138ad`
 - `.github/workflows/fragment-cn-wave2.yml` — 5081 bytes — `dee30622d3e74d59ffb93d50d1334fd13635925e106e65990df41799bcc35048`
 - `.github/workflows/verify-methods-article-claims.yml` — 2241 bytes — `8061b92a3c89c67396c545cf4fefcebe61273590969614a06f902b388d777bfc`
-- `docs/METHOD_INDEX.md` — 6915 bytes — `e9cfd491d0e795e20e067769144c4134670af5a7c4330bb1f4d635ffdc596528`
+- `docs/METHOD_INDEX.md` — 8041 bytes — `703f9f220b2ba2d96656fda4b31a0fdb845b28fbe220e677eee95e3f67a62bb7`
 
 ## Artefactos derivados adicionales presentes
 
