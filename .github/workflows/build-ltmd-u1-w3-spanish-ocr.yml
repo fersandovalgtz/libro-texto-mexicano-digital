@@ -4,11 +4,13 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - '.github/workflows/build-ltmd-u1-w3-spanish-ocr.yml'
       - 'scripts/ocr_ltmd_u1_w3_spanish_book.py'
-      - 'scripts/combine_ltmd_u1_w3_spanish_ocr.py'
       - 'data/catalog/ltmd_u1_w3_spanish_canonical_page_manifest.csv'
       - 'data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv'
+
+concurrency:
+  group: ltmd-u1-w3-spanish-ocr
+  cancel-in-progress: true
 
 permissions:
   contents: write
