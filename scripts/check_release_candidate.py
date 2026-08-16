@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Preflight the LTMD v0.1.0-rc.1 scientific release candidate.
 
-The check separates technical RC readiness from public-release readiness and
-validates the substance and scope of the adopted code/data licenses.
+The check separates technical RC readiness from public-release readiness,
+validates the substance/scope of adopted licenses, and recomputes every
+release-critical SHA-256 recorded by the integrity manifest.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 from datetime import datetime, timezone
@@ -61,6 +63,44 @@ def tracked_files() -> list[str]:
     return [p.decode("utf-8") for p in raw.split(b"\0") if p]
 
 
+def sha256_path(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for block in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def verify_manifest_hashes(integrity: dict) -> list[dict]:
+    """Recompute every required file hash; return missing/mismatched entries."""
+    mismatches: list[dict] = []
+    required_entries = [item for item in integrity.get("files", []) if item.get("required") is True]
+    if len(required_entries) != INTEGRITY_CRITICAL_COUNT:
+        mismatches.append({
+            "path": "<manifest>",
+            "reason": "required_entry_count_mismatch",
+            "expected": INTEGRITY_CRITICAL_COUNT,
+            "observed": len(required_entries),
+        })
+        return mismatches
+
+    for item in required_entries:
+        path = Path(item.get("path", ""))
+        expected = item.get("sha256")
+        if not path.exists():
+            mismatches.append({"path": str(path), "reason": "missing"})
+            continue
+        observed = sha256_path(path)
+        if observed != expected:
+            mismatches.append({
+                "path": str(path),
+                "reason": "sha256_mismatch",
+                "expected": expected,
+                "observed": observed,
+            })
+    return mismatches
+
+
 def check(condition: bool, code: str, detail: str, checks: list[dict]) -> None:
     checks.append({"code": code, "passed": bool(condition), "detail": detail})
 
@@ -74,7 +114,13 @@ def validate_publish_licenses() -> list[str]:
         blockers.append("code_license_not_selected")
     else:
         text = license_path.read_text(encoding="utf-8", errors="replace")
-        if "Apache License" not in text or "Version 2.0, January 2004" not in text:
+        apache_markers = (
+            "Apache License",
+            "Version 2.0, January 2004",
+            "TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION",
+            "END OF TERMS AND CONDITIONS",
+        )
+        if not all(marker in text for marker in apache_markers):
             blockers.append("code_license_not_apache_2_0")
 
     data_path = Path("DATA_LICENSE.md")
@@ -116,16 +162,24 @@ def main() -> None:
     integrity = {}
     if Path("data/derived/research_integrity_manifest.json").exists():
         integrity = json.loads(Path("data/derived/research_integrity_manifest.json").read_text(encoding="utf-8"))
-    integrity_ok = (
+    integrity_metadata_ok = (
         integrity.get("integrity_version") == INTEGRITY_VERSION
         and integrity.get("critical_count") == integrity.get("critical_present_count")
         and integrity.get("critical_count") == INTEGRITY_CRITICAL_COUNT
         and integrity.get("missing_critical") == []
     )
     check(
-        integrity_ok,
-        "integrity_0_6",
+        integrity_metadata_ok,
+        "integrity_0_6_metadata",
         f"version={integrity.get('integrity_version')} critical={integrity.get('critical_present_count')}/{integrity.get('critical_count')}",
+        checks,
+    )
+
+    hash_mismatches = verify_manifest_hashes(integrity) if integrity_metadata_ok else [{"reason": "metadata_invalid"}]
+    check(
+        not hash_mismatches,
+        "integrity_0_6_sha256_recomputed",
+        f"mismatches={hash_mismatches[:10]}",
         checks,
     )
 
@@ -168,7 +222,7 @@ def main() -> None:
     publish_ready = rc_technical_ready and not publish_blockers
 
     result = {
-        "preflight_version": "LTMD_RELEASE_PREFLIGHT_0.2",
+        "preflight_version": "LTMD_RELEASE_PREFLIGHT_0.3",
         "release_candidate": f"v{VERSION}",
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "git_head": git_head(),
@@ -178,6 +232,7 @@ def main() -> None:
         "publish_blockers": publish_blockers,
         "integrity_version": integrity.get("integrity_version"),
         "integrity_critical": f"{integrity.get('critical_present_count')}/{integrity.get('critical_count')}",
+        "integrity_hash_mismatches": hash_mismatches,
         "methods_claim_check_passed": claim.get("passed"),
         "checks": checks,
     }
@@ -196,6 +251,7 @@ def main() -> None:
         f"Lista para publicación pública: **{'SÍ' if publish_ready else 'NO'}**.",
         "",
         f"Integridad: **{result['integrity_critical']}** (`{result['integrity_version']}`).",
+        f"SHA-256 críticos recomputados: **{'PASS' if not hash_mismatches else 'FAIL'}**.",
         f"Verificación de cifras del artículo: **{'PASS' if result['methods_claim_check_passed'] else 'FAIL'}**.",
         "",
         "## Controles técnicos",
@@ -215,12 +271,13 @@ def main() -> None:
         "",
         "## Interpretación",
         "",
-        "`rc_technical_ready` significa que el corte puede auditarse como candidata metodológica. `publish_ready` exige además licencias materializadas y consistentes con la política documentada. El DOI no se exige antes de la publicación real: debe añadirse únicamente después de que Zenodo archive el tag correspondiente.",
+        "`rc_technical_ready` significa que el corte puede auditarse como candidata metodológica y que las huellas críticas fueron recomputadas contra el checkout actual. `publish_ready` exige además licencias materializadas y consistentes con la política documentada. El DOI no se exige antes de la publicación real: debe añadirse únicamente después de que Zenodo archive el tag correspondiente.",
     ]
     OUT_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     print("rc_technical_ready", rc_technical_ready)
     print("publish_ready", publish_ready)
+    print("integrity_hash_mismatches", len(hash_mismatches))
     print("publish_blockers", ",".join(publish_blockers) or "none")
     if technical_failures:
         raise SystemExit("release candidate technical preflight failed")
