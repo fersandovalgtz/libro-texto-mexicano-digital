@@ -1,0 +1,55 @@
+name: repair-ltmd-u1-w3-ocr-report-metadata
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/repair-ltmd-u1-w3-ocr-report-metadata.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Reconcile alias counts and repair report only
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import csv,re
+          from pathlib import Path
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv',encoding='utf-8')))
+          metrics=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_ocr_metrics.csv',encoding='utf-8')))
+          summary=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_ocr_summary.csv',encoding='utf-8')))
+          eligible={r['viewer_key'] for r in proc if r['ocr_identity_eligible']=='1'}
+          canonical={r['viewer_key'] for r in proc if r['is_canonical_processing_object']=='1'}
+          aliases=eligible-canonical
+          exact={k for k in aliases if next(r for r in proc if r['viewer_key']==k)['processing_mode']=='exact_byte_alias'}
+          route={k for k in aliases if next(r for r in proc if r['viewer_key']==k)['processing_mode']=='paired_route_alias_2018_to_2019'}
+          assert len(proc)==130 and len(canonical)==114 and len(aliases)==16
+          assert len(exact)==8 and len(route)==8 and exact|route==aliases
+          assert len(metrics)==20765 and len(summary)==114
+          assert all(r['source_sha256_verified']=='1' and r['ocr_status']=='ok' and r['ocr_class']!='unresolved' for r in metrics)
+          p=Path('data/catalog/ltmd_u1_w3_spanish_ocr.md')
+          text=p.read_text(encoding='utf-8')
+          pattern=r'- Aliases cubiertos por provenance sin recomputar OCR: \*\*16\*\* \(byte-exactos: \*\*\d+\*\*; ruta 2018→2019: \*\*\d+\*\*\)\.'
+          replacement=f'- Aliases cubiertos por provenance sin recomputar OCR: **16** (byte-exactos: **{len(exact)}**; ruta 2018→2019: **{len(route)}**).'
+          new,n=re.subn(pattern,replacement,text)
+          assert n==1, f'expected one alias line, replaced {n}'
+          p.write_text(new,encoding='utf-8')
+          print(replacement)
+          PY
+      - name: Publish corrected report metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/catalog/ltmd_u1_w3_spanish_ocr.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Correct W3 OCR route-alias report metadata'
+          git push origin HEAD:main
