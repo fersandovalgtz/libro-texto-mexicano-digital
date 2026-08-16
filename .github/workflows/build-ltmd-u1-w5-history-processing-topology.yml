@@ -7,6 +7,11 @@ on:
       - audit-ltmd-u1-w5-history-2018-2019-routes
     types:
       - completed
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w5-history-processing-topology.yml'
+      - 'scripts/build_ltmd_u1_w5_history_processing_topology.py'
+      - 'data/catalog/ltmd_u1_w5_history_2018_2019_route_relationships.csv'
 
 permissions:
   contents: write
