@@ -1,0 +1,543 @@
+coverage_version,wave_priority,wave_label,queue_status,operational_domain,viewer_key,catalog_generation,grade_code,title_core,asset_status,effective_fragseg_coverage,coverage_inherited_from_viewer,source_url
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1972P1CI058,1972,1,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1972P1CI058.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1972P2CI064,1972,2,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1972P2CI064.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1972P3CI070,1972,3,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1972P3CI070.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1972P4CI077,1972,4,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1972P4CI077.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1972P5CI084,1972,5,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1972P5CI084.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1972P6CI090,1972,6,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1972P6CI090.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1982P3CI103,1982,3,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1982P3CI103.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1982P4CI383,1982,4,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1982P4CI383.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1982P5CI389,1982,5,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1982P5CI389.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1982P6CI395,1982,6,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1982P6CI395.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1988P3CI129,1988,3,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1988P3CI129.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1988P4CI119,1988,4,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1988P4CI119.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1988P5CI123,1988,5,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1988P5CI123.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1988P6CI128,1988,6,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H1988P6CI128.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1993P3CI153,1993,3,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H1993P3CI153.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1993P4CI191,1993,4,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H1993P4CI191.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1993P5CI200,1993,5,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H1993P5CI200.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1993P6CI209,1993,6,Ciencias Naturales y desarrollo humano,full_direct_processed,1,,https://historico.conaliteg.gob.mx/H1993P6CI209.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H1993P6CI210,1993,6,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H1993P6CI210.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2008P5CI277,2008,5,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H2008P5CI277.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2011P3CI307,2011,3,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H2011P3CI307.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2011P4CI314,2011,4,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H2011P4CI314.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2011P5CI325,2011,5,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H2011P5CI325.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2011P6CI335,2011,6,CIENCIAS NATURALES,full_direct,1,,https://historico.conaliteg.gob.mx/H2011P6CI335.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2014P3CNA,2014,3,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2014P3CNA.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2014P4CNA,2014,4,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2014P4CNA.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2014P5CNA,2014,5,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2014P5CNA.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2014P6CNA,2014,6,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2014P6CNA.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-cubierto_alias,covered_by_verified_alias,ciencias_naturales,H2018P3CNA,2018,3,Ciencias Naturales,full_alias_same_bytes,1,H2019P3CNA,https://historico.conaliteg.gob.mx/H2018P3CNA.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-cubierto_alias,covered_by_verified_alias,ciencias_naturales,H2018P4CNA,2018,4,Ciencias Naturales,full_alias_same_bytes,1,H2019P4CNA,https://historico.conaliteg.gob.mx/H2018P4CNA.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-cubierto_alias,covered_by_verified_alias,ciencias_naturales,H2018P5CNA,2018,5,Ciencias Naturales,full_alias_same_bytes,1,H2019P5CNA,https://historico.conaliteg.gob.mx/H2018P5CNA.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-cubierto_alias,covered_by_verified_alias,ciencias_naturales,H2018P6CNA,2018,6,Ciencias Naturales,full_alias_same_bytes,1,H2019P6CNA,https://historico.conaliteg.gob.mx/H2018P6CNA.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2019P3CNA,2019,3,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2019P3CNA.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2019P4CNA,2019,4,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2019P4CNA.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2019P5CNA,2019,5,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2019P5CNA.htm
+LTMD_U1_COVERAGE_0.1,0,U1-W0-materializado,materialized_direct,ciencias_naturales,H2019P6CNA,2019,6,Ciencias Naturales,full_direct,1,,https://historico.conaliteg.gob.mx/H2019P6CNA.htm
+LTMD_U1_COVERAGE_0.1,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H1966P6CI374,1966,6,MI CUADERNO DE TRABAJO DE ESTUDIO DE LA NATURALEZA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P6CI374.htm
+LTMD_U1_COVERAGE_0.1,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H1966P6CI375,1966,6,MI LIBRO DE ESTUDIO DE LA NATURALEZA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P6CI375.htm
+LTMD_U1_COVERAGE_0.1,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H1972P1CI059,1972,1,"CIENCIAS NATURALES, CIENCIAS SOCIALES",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P1CI059.htm
+LTMD_U1_COVERAGE_0.1,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H1972P3CI071,1972,3,CIENCIAS NATURALES-CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P3CI071.htm
+LTMD_U1_COVERAGE_0.1,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H2008P1CI249,2008,1,EXPLORACION DE LA NATURALEZA Y LA SOCIEDAD,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P1CI249.htm
+LTMD_U1_COVERAGE_0.1,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H2008P3CI263,2008,3,CIENCIAS NATURALES,partial_internal_unserved,0,,https://historico.conaliteg.gob.mx/H2008P3CI263.htm
+LTMD_U1_COVERAGE_0.1,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H2008P4CI268,2008,4,CIENCIAS NATURALES,partial_internal_unserved,0,,https://historico.conaliteg.gob.mx/H2008P4CI268.htm
+LTMD_U1_COVERAGE_0.1,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H2011P1CI293,2011,1,EXPLORACIÓN DE LA NATURALEZA Y LA SOCIEDAD,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P1CI293.htm
+LTMD_U1_COVERAGE_0.1,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H2011P2CI300,2011,2,EXPLORACIÓN DE LA NATURALEZA Y LA SOCIEDAD,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P2CI300.htm
+LTMD_U1_COVERAGE_0.1,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H2014P1ENA,2014,1,Exploración de la Naturaleza y la Sociedad,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P1ENA.htm
+LTMD_U1_COVERAGE_0.1,1,U1-W1-ciencias_naturales,queued,ciencias_naturales,H2014P2ENA,2014,2,Exploración de la Naturaleza y la Sociedad,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P2ENA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1972P1MA063,1972,1,MATEMATICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P1MA063.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1972P2MA069,1972,2,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P2MA069.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1972P3MA076,1972,3,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P3MA076.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1972P4MA083,1972,4,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P4MA083.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1972P5MA089,1972,5,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P5MA089.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1972P6MA094,1972,6,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P6MA094.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1982P3MA106,1982,3,MATEMATICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P3MA106.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1982P4MA388,1982,4,MATEMATICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P4MA388.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1982P5MA394,1982,5,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P5MA394.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1982P6MA399,1982,6,MATEMATICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P6MA399.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1988P3MA118,1988,3,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P3MA118.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1988P4MA122,1988,4,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P4MA122.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1988P5MA127,1988,5,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P5MA127.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1988P6MA134,1988,6,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P6MA134.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1993P1MA142,1993,1,Matemáticas Recortable,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P1MA142.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1993P1MA143,1993,1,Matemáticas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P1MA143.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1993P2MA151,1993,2,Matemáticas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P2MA151.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1993P2MA152,1993,2,Matemáticas recortable,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P2MA152.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1993P3MA189,1993,3,Matemáticas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3MA189.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1993P4MA199,1993,4,Matemáticas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P4MA199.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1993P5MA207,1993,5,Matemáticas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P5MA207.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1993P5MA208,1993,5,Matemáticas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P5MA208.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1993P6MA247,1993,6,Matemáticas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6MA247.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H1993P6MA248,1993,6,Matemáticas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6MA248.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2008P1MA255,2008,1,MATEMATICAS CUADERNO DE TRABAJO PARA EL ALUMNO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P1MA255.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2008P2MA262,2008,2,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P2MA262.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2008P3MA267,2008,3,Matemáticas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P3MA267.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2008P4MA276,2008,4,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P4MA276.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2008P6MA291,2008,6,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P6MA291.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2008P6MA292,2008,6,MATEMÁTICAS CUADERNO DE TRABAJO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P6MA292.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2011P1MA299,2011,1,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P1MA299.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2011P2MA306,2011,2,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P2MA306.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2011P3MA313,2011,3,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P3MA313.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2011P4MA324,2011,4,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P4MA324.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2011P5MA334,2011,5,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P5MA334.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2011P6MA343,2011,6,MATEMÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P6MA343.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2014P1DMA,2014,1,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P1DMA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2014P1DMM,2014,1,Desafíos matemáticos. Libro para el maestro,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P1DMM.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2014P2DMA,2014,2,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P2DMA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2014P2DMM,2014,2,Desafíos matemáticos. Libro para el maestro,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P2DMM.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2014P3DMA,2014,3,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3DMA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2014P3DMM,2014,3,Desafíos matemáticos. Libro para el maestro,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3DMM.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2014P4DMA,2014,4,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P4DMA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2014P4DMM,2014,4,Desafíos matemáticos. Libro para el maestro,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P4DMM.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2014P5DMA,2014,5,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P5DMA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2014P5DMM,2014,5,Desafíos matemáticos. Libro para el maestro,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P5DMM.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2014P6DMA,2014,6,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P6DMA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2014P6DMM,2014,6,Desafíos matemáticos. Libro para el maestro,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P6DMM.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2018P1MAA,2018,1,Matemáticas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P1MAA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2018P1MAM,2018,1,Matemáticas. Docente,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P1MAM.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2018P2MAA,2018,2,Matemáticas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P2MAA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2018P2MAM,2018,2,Matemáticas. Docente,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P2MAM.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2018P3DMA,2018,3,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P3DMA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2018P4DMA,2018,4,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P4DMA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2018P5DMA,2018,5,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P5DMA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2018P6DMA,2018,6,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P6DMA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2019P1MAA,2019,1,Matemáticas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P1MAA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2019P1MAM,2019,1,Matemáticas. Docente,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P1MAM.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2019P2MAA,2019,2,Matemáticas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P2MAA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2019P2MAM,2019,2,Matemáticas. Docente,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P2MAM.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2019P3DMA,2019,3,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P3DMA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2019P4DMA,2019,4,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P4DMA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2019P5DMA,2019,5,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P5DMA.htm
+LTMD_U1_COVERAGE_0.1,2,U1-W2-matematicas,queued,matematicas,H2019P6DMA,2019,6,Desafíos matemáticos. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P6DMA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1960P2ES003,1960,2,MI CUADERNO DE TRABAJO Y ESCRITURA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P2ES003.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1960P3ES007,1960,3,MI LIBRO DE LENGUA NACIONAL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P3ES007.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1960P4ES013,1960,4,MI LIBRO DE LENGUA NACIONAL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P4ES013.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1966P1ES345,1966,1,MI CUADERNO DE TRABAJO DE LENGUA NACIONAL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P1ES345.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1966P2ES347,1966,2,MI CUADERNO DE TRABAJO DE LENGUA NACIONAL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P2ES347.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1966P3ES350,1966,3,MI LIBRO DE LENGUA NACIONAL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P3ES350.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1966P4ES358,1966,4,MI LIBRO DE LENGUA NACIONAL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P4ES358.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1966P5ES365,1966,5,MI CUADERNO DE TRABAJO DE LENGUA NACIONAL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P5ES365.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1966P5ES366,1966,5,MI LIBRO DE LENGUA NACIONAL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P5ES366.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1966P6ES376,1966,6,MI CUADERNO DE TRABAJO DE LENGUA NACIONAL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P6ES376.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1966P6ES377,1966,6,MI LIBRO DE LENGUA NACIONAL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P6ES377.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P1ES061,1972,1,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P1ES061.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P1ES062,1972,1,ESPAÑOL RECORTABLE,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P1ES062.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P2ES066,1972,2,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P2ES066.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P2ES067,1972,2,ESPAÑOL EJERCICIOS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P2ES067.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P2ES068,1972,2,ESPAÑOL LECTURA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P2ES068.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P3ES073,1972,3,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P3ES073.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P3ES074,1972,3,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P3ES074.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P3ES075,1972,3,ESPAÑOL EJERCICIOS Y LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P3ES075.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P4ES080,1972,4,ESPAÑOL EJERCICIOS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P4ES080.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P4ES081,1972,4,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P4ES081.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P4ES082,1972,4,ESPAÑOL EJERCICIOS Y LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P4ES082.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P5ES086,1972,5,ESPAÑOL EJERCICIOS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P5ES086.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P5ES087,1972,5,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P5ES087.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P5ES088,1972,5,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P5ES088.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P6ES092,1972,6,ESPAÑOL EJERCICIOS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P6ES092.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1972P6ES093,1972,6,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P6ES093.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1982P2ES100,1982,2,MI LIBRO LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P2ES100.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1982P3ES104,1982,3,ESPAÑOL EJERCICIOS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P3ES104.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1982P3ES105,1982,3,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P3ES105.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1982P4ES385,1982,4,ESPAÑOL EJERCICIOS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P4ES385.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1982P4ES386,1982,4,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P4ES386.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1982P4ES387,1982,4,ESPAÑOL EJERCICIOS Y LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P4ES387.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1982P5ES391,1982,5,ESPAÑOL EJERCICIOS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P5ES391.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1982P5ES392,1982,5,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P5ES392.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1982P5ES393,1982,5,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P5ES393.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1982P6ES397,1982,6,ESPAÑOL EJERCICIOS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P6ES397.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1982P6ES398,1982,6,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P6ES398.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1988P2ES114,1988,2,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P2ES114.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1988P3ES116,1988,3,ESPAÑOL EJERCICIOS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P3ES116.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1988P3ES117,1988,3,ESPAÑOL LECTURA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P3ES117.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1988P4ES121,1988,4,"ESPAÑOL, EJERCICIOS Y LECTURAS",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P4ES121.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1988P5ES125,1988,5,ESPAÑOL EJERCICIOS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P5ES125.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1988P5ES126,1988,5,ESPAÑOL LECTURA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P5ES126.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1988P6ES131,1988,6,ESPAÑOL EJERCICIOS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P6ES131.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1988P6ES132,1988,6,ESPAN?OL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P6ES132.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P1ES135,1993,1,Español actividades,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P1ES135.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P1ES136,1993,1,Español recortable,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P1ES136.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P1ES137,1993,1,Español recortable,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P1ES137.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P1ES138,1993,1,Español Lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P1ES138.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P1ES139,1993,1,Español lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P1ES139.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P2ES144,1993,2,Español Actividades,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P2ES144.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P2ES145,1993,2,Español Recortable,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P2ES145.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P2ES146,1993,2,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P2ES146.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P2ES147,1993,2,Español Lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P2ES147.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P2ES148,1993,2,Español Lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P2ES148.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P3ES154,1993,3,Español Actividades,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3ES154.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P3ES155,1993,3,Español Lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3ES155.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P3ES156,1993,3,Español Lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3ES156.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P3ES400,1993,3,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3ES400.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P4ES193,1993,4,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P4ES193.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P4ES194,1993,4,Español Lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P4ES194.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P4ES195,1993,4,Español Lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P4ES195.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P5ES201,1993,5,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P5ES201.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P5ES202,1993,5,Español Lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P5ES202.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P6ES211,1993,6,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6ES211.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H1993P6ES212,1993,6,Español Lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6ES212.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2008P1ES253,2008,1,ESPAÑOL 1er GRADO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P1ES253.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2008P1ES254,2008,1,ESPAÑOL RECORTABLE,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P1ES254.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2008P2ES261,2008,2,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P2ES261.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2008P3ES265,2008,3,ESPAÑOL ACTIVIDADES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P3ES265.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2008P3ES266,2008,3,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P3ES266.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2008P4ES271,2008,4,ESPAÑOL ACTIVIDADES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P4ES271.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2008P4ES272,2008,4,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P4ES272.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2008P5ES281,2008,5,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P5ES281.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2008P6ES288,2008,6,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P6ES288.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2011P1ES297,2011,1,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P1ES297.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2011P1ES298,2011,1,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P1ES298.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2011P2ES304,2011,2,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P2ES304.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2011P2ES305,2011,2,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P2ES305.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2011P3ES311,2011,3,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P3ES311.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2011P3ES312,2011,3,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P3ES312.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2011P4ES319,2011,4,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P4ES319.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2011P4ES320,2011,4,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P4ES320.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2011P5ES329,2011,5,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P5ES329.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2011P5ES330,2011,5,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P5ES330.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2011P6ES339,2011,6,ESPAÑOL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P6ES339.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2011P6ES340,2011,6,ESPAÑOL LECTURAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P6ES340.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P1ESA,2014,1,Español. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P1ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P1ESM,2014,1,Español. Libro para el maestro,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P1ESM.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P1LEA,2014,1,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P1LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P2ESA,2014,2,Español. Libro para el alumno,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P2ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P2ESM,2014,2,Español. Libro para el maestro,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P2ESM.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P2LEA,2014,2,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P2LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P3ESA,2014,3,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P3LEA,2014,3,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P4ESA,2014,4,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P4ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P4LEA,2014,4,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P4LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P5ESA,2014,5,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P5ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P5LEA,2014,5,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P5LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P6ESA,2014,6,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P6ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2014P6LEA,2014,6,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P6LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P1ESA,2018,1,Lengua materna. Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P1ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P1ESM,2018,1,Lengua materna. Español. Docente,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P1ESM.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P1LEA,2018,1,Lengua materna. Español lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P1LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P2ESA,2018,2,Lengua materna. Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P2ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P2ESM,2018,2,Lengua materna. Español. Docente,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P2ESM.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P2LEA,2018,2,Lengua materna. Español lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P2LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P3ESA,2018,3,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P3ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P3LEA,2018,3,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P3LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P4ESA,2018,4,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P4ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P4LEA,2018,4,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P4LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P5ESA,2018,5,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P5ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P5LEA,2018,5,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P5LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P6ESA,2018,6,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P6ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2018P6LEA,2018,6,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P6LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P1ESA,2019,1,Lengua materna. Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P1ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P1ESM,2019,1,Lengua materna. Español. Docente,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P1ESM.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P1LEA,2019,1,Lengua materna. Español lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P1LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P2ESA,2019,2,Lengua materna. Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P2ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P2ESM,2019,2,Lengua materna. Español. Docente,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P2ESM.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P2LEA,2019,2,Lengua materna. Español lecturas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P2LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P3ESA,2019,3,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P3ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P3LEA,2019,3,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P3LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P4ESA,2019,4,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P4ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P4LEA,2019,4,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P4LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P5ESA,2019,5,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P5ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P5LEA,2019,5,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P5LEA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P6ESA,2019,6,Español,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P6ESA.htm
+LTMD_U1_COVERAGE_0.1,3,U1-W3-espanol_lengua,queued,espanol_lengua,H2019P6LEA,2019,6,Español. Libro de lectura,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P6LEA.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H1993P4HI198,1993,4,Historia,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P4HI198.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H1993P5HI206,1993,5,Historia,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P5HI206.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H1993P6HI214,1993,6,Historia,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI214.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2008P4HI275,2008,4,HISTORIA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P4HI275.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2008P5HI284,2008,5,HISTORIA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P5HI284.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2008P6HI290,2008,6,HISTORIA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P6HI290.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2011P4HI323,2011,4,HISTORIA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P4HI323.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2011P5HI333,2011,5,HISTORIA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P5HI333.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2011P6HI342,2011,6,HISTORIA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P6HI342.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2014P4HIA,2014,4,Historia,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P4HIA.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2014P5HIA,2014,5,Historia,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P5HIA.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2014P6HIA,2014,6,Historia,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P6HIA.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2018P4HIA,2018,4,Historia,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P4HIA.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2018P5HIA,2018,5,Historia,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P5HIA.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2018P6HIA,2018,6,Historia,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P6HIA.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2019P4HIA,2019,4,Historia,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P4HIA.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2019P5HIA,2019,5,Historia,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P5HIA.htm
+LTMD_U1_COVERAGE_0.1,4,U1-W4-historia,queued,historia,H2019P6HIA,2019,6,Historia,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P6HIA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1960P3GE008,1960,3,MI CUADERNO DE TRABAJO GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P3GE008.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1960P3GE009,1960,3,MI LIBRO DE GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P3GE009.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1960P4GE015,1960,4,MI CUADERNO DE TRABAJO DE GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P4GE015.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1960P4GE016,1960,4,MI LIBRO DE GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P4GE016.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1966P3GE352,1966,3,MI CUADERNO DE TRABAJO DE GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P3GE352.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1966P3GE353,1966,3,MI LIBRO DE GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P3GE353.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1966P4GE360,1966,4,MI CUADERNO DE TRABAJO DE GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P4GE360.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1966P4GE364,1966,4,MI LIBRO DE GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P4GE364.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1966P5GE367,1966,5,MI CUADERNO DE TRABAJO DE GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P5GE367.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1966P5GE368,1966,5,MI LIBRO DE GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P5GE368.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1966P6GE378,1966,6,MI CUADERNO DE TRABAJO DE GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P6GE378.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1993P4GE196,1993,4,Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P4GE196.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1993P4GE197,1993,4,Atlas de México,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P4GE197.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1993P5GE203,1993,5,Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P5GE203.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1993P5GE204,1993,5,Atlas de Geografía Universal,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P5GE204.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1993P5GE205,1993,5,Atlas de Geografía Universal,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P5GE205.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H1993P6GE213,1993,6,Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6GE213.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2008P4GE273,2008,4,GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P4GE273.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2008P4GE274,2008,4,ATLAS DE MÉXICO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P4GE274.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2008P5GE282,2008,5,GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P5GE282.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2008P5GE283,2008,5,ATLAS DE GEPGRAFÍA UNIVERSAL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P5GE283.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2008P6GE289,2008,6,GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P6GE289.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2011P4GE321,2011,4,GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P4GE321.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2011P4GE322,2011,4,ATLAS DE MÉXICO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P4GE322.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2011P5GE331,2011,5,GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P5GE331.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2011P5GE332,2011,5,ATLAS DE GEOGRAFÍA UNIVERSAL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P5GE332.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2011P6GE341,2011,6,GEOGRAFÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P6GE341.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2014P4AMA,2014,4,Atlas de México,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P4AMA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2014P4GEA,2014,4,Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P4GEA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2014P5AGA,2014,5,Atlas de geografía del mundo,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P5AGA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2014P5GEA,2014,5,Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P5GEA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2014P6GEA,2014,6,Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P6GEA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2018P4AMA,2018,4,Atlas de México,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P4AMA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2018P4GEA,2018,4,Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P4GEA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2018P5AGA,2018,5,Atlas de geografía del mundo,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P5AGA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2018P5GEA,2018,5,Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P5GEA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2018P6GEA,2018,6,Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P6GEA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2019P4AMA,2019,4,Atlas de México,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P4AMA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2019P4GEA,2019,4,Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P4GEA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2019P5AGA,2019,5,Atlas de geografía del mundo,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P5AGA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2019P5GEA,2019,5,Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P5GEA.htm
+LTMD_U1_COVERAGE_0.1,5,U1-W5-geografia_atlas,queued,geografia_atlas,H2019P6GEA,2019,6,Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P6GEA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2008P1CI250,2008,1,FORMACIÓN CÍVICA Y ÉTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P1CI250.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2008P1CI251,2008,1,FORMACIÓN CÍVICA Y ÉTICA CUADERNO DE TRABAJO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P1CI251.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2008P2CI257,2008,2,FORMACIÓN CÍVICA Y ÉTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P2CI257.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2008P2CI258,2008,2,FORMACIÓN CÍVICA Y ÉTICA CUADERNO DE TRABAJO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P2CI258.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2008P3CI264,2008,3,FORMACIÓN CÍVICA Y ÉTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P3CI264.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2008P4CI269,2008,4,FORMACIÓN CÍVICA Y ÉTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P4CI269.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2008P5CI278,2008,5,FORMACIÓN CÍVICA Y ÉTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P5CI278.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2008P6CI286,2008,6,FORMACIÓN CÍVICA Y ÉTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P6CI286.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2011P1CI294,2011,1,FORMACIÓN CÍVICA Y ÉTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P1CI294.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2011P2CI301,2011,2,FORMACIÓN CÍVICA Y ÉTICA 2° GRADO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P2CI301.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2011P3CI308,2011,3,FORMACIÓN CÍVICA Y ÉTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P3CI308.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2011P4CI315,2011,4,FORMACIÓN CÍVICA Y ÉTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P4CI315.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2011P5CI326,2011,5,FORMACIÓN CÍVICA Y ÉTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P5CI326.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2011P6CI336,2011,6,FORMACIÓN CÍVICA Y ÉTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P6CI336.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2014P1FCA,2014,1,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P1FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2014P2FCA,2014,2,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P2FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2014P3FCA,2014,3,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2014P4FCA,2014,4,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P4FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2014P5FCA,2014,5,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P5FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2014P6FCA,2014,6,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P6FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2018P3FCA,2018,3,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P3FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2018P4FCA,2018,4,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P4FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2018P5FCA,2018,5,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P5FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2018P6FCA,2018,6,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P6FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2019P1FCA,2019,1,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P1FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2019P2FCA,2019,2,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P2FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2019P3FCA,2019,3,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P3FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2019P4FCA,2019,4,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P4FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2019P5FCA,2019,5,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P5FCA.htm
+LTMD_U1_COVERAGE_0.1,6,U1-W6-civica_etica,queued,civica_etica,H2019P6FCA,2019,6,Formación Cívica y Ética,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P6FCA.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2008P2ED259,2008,2,EDUCACIÓN ARTÍSTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P2ED259.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2008P5ED279,2008,5,EDUCACIÓN ARTÍSTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P5ED279.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2011P1ED295,2011,1,EDUCACIÓN ARTÍSTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P1ED295.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2011P2ED302,2011,2,EDUCACIÓN ARTÍSTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P2ED302.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2011P3ED309,2011,3,EDUCACIÓN ARTÍSTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P3ED309.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2011P4ED317,2011,4,EDUCACIÓN ARTÍSTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P4ED317.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2011P5ED327,2011,5,EDUCACIÓN ARTÍSTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P5ED327.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2011P6CI337,2011,6,EDUCACIÓN ARTÍSTICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P6CI337.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2014P3EAA,2014,3,Educación Artística,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3EAA.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2014P4EAA,2014,4,Educación Artística,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P4EAA.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2014P5EAA,2014,5,Educación Artística,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P5EAA.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2014P6EAA,2014,6,Educación Artística,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P6EAA.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2018P3EAA,2018,3,Educación Artística,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P3EAA.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2018P4EAA,2018,4,Educación Artística,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P4EAA.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2018P5EAA,2018,5,Educación Artística,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P5EAA.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2018P6EAA,2018,6,Educación Artística,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P6EAA.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2019P3EAA,2019,3,Educación Artística,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P3EAA.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2019P4EAA,2019,4,Educación Artística,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P4EAA.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2019P5EAA,2019,5,Educación Artística,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P5EAA.htm
+LTMD_U1_COVERAGE_0.1,7,U1-W7-artes,queued,artes,H2019P6EAA,2019,6,Educación Artística,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P6EAA.htm
+LTMD_U1_COVERAGE_0.1,8,U1-W8-educacion_fisica,queued,educacion_fisica,H2008P1ED252,2008,1,EDUCACION FISICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P1ED252.htm
+LTMD_U1_COVERAGE_0.1,8,U1-W8-educacion_fisica,queued,educacion_fisica,H2008P2ED260,2008,2,EDUCACION FISICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P2ED260.htm
+LTMD_U1_COVERAGE_0.1,8,U1-W8-educacion_fisica,queued,educacion_fisica,H2008P5ED280,2008,5,EDUCACIÓN FÍSICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P5ED280.htm
+LTMD_U1_COVERAGE_0.1,8,U1-W8-educacion_fisica,queued,educacion_fisica,H2008P6ED287,2008,6,EDUCACIÓN FÍSICA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P6ED287.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1960P2MA005,1960,2,"MI CUADERNO DE TRABAJO, ARITMÉTICA Y GEOMETRÍA",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P2MA005.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1960P3ES006,1960,3,MI CUADERNO DE TRABAJO. LENGUA NACIONAL Y ESCRITURA. HISTORIA Y CIVISMO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P3ES006.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1960P3HI010,1960,3,MI LIBRO DE HISTORIA Y CIVISMO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P3HI010.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1960P3MA011,1960,3,"MI LIBRO, SEGUNDA PARTE. ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P3MA011.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1960P3MA012,1960,3,"MI CUADERNO DE TRABAJO, SEGUNDA PARTE. ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P3MA012.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1960P4ES014,1960,4,"MI CUADERNO DE TRABAJO, PRIMERA PARTE. LENGUA NACIONAL Y ESCRITURA. HISTORIA Y CIVISMO",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P4ES014.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1960P4HI017,1960,4,MI LIBRO DE HISTORIA Y CIVISMO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P4HI017.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1960P4MA018,1960,4,MI CUADERNO DE TRABAJO. ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P4MA018.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1960P4MA019,1960,4,MI LIBRO. SEGUNDA PARTE. ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P4MA019.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1960P5MA020,1960,5,"MI CUADERNO DE TRABAJO, SEGUNDA PARTE , ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P5MA020.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1960P5MA021,1960,5,"MI LIBRO, SEGUNDA PARTE ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P5MA021.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P2MA349,1966,2,MI CUADERNO DE TRABAJO DE ARITMÉTICA Y GEOMETRÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P2MA349.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P3ES351,1966,3,"MI CUADERNO DE TRABAJO DE LENGUA NACIONAL, HISTORIA Y CIVISMO",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P3ES351.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P3HI354,1966,3,MI LIBRO DE HISTORIA Y CIVISMO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P3HI354.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P3MA355,1966,3,"MI CUADERNO DE TRABAJO DE ARITMÉTICA Y GEOMETRÍA, ESTUDIO DE LA NATURALEZA",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P3MA355.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P3MA356,1966,3,"MI LIBRO DE ARITMÉTICA Y GEOMETRÍA, ESTUDIO DE LA NATURALEZA",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P3MA356.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P3MA357,1966,3,"MI LIBRO, SEGUNDA PARTE, ARITMÉTICA Y GEOMETRIA, ESTUDIO DE LA NATURALEZA",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P3MA357.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P4ES359,1966,4,"MI CUADERNO DE TRABAJO DE LENGUA NACIONAL, HISTORIA Y CIVISMO",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P4ES359.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P4HI361,1966,4,MI LIBRO DE HISTORIA Y CIVISMO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P4HI361.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P4MA362,1966,4,"MI CUADERNO DE TRABAJO DE ARITMÉTICA Y GEOMETRÍA, ESTUDIO DE LA NATURALEZA",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P4MA362.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P4MA363,1966,4,"MI LIBRO DE ARITMÉTICA Y GEOMETRÍA, ESTUDIO DE LA NATURALEZA",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P4MA363.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P5HI369,1966,5,MI CUADERNO DE TRABAJO DE HISTORIA Y CIVISMO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P5HI369.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P5HI370,1966,5,MI LIBRO DE HISTORIA Y CIVISMO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P5HI370.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P5MA371,1966,5,MI CUADERNO DE TRABAJO. ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P5MA371.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P5MA372,1966,5,MI LIBRO DE ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P5MA372.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P5MA373,1966,5,"MI LIBRO, SEGUNDA PARTE. ARITMÉTICA Y GEOMETRÍA. ESTUDIO DE LA NATURALEZA",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P5MA373.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P6HI379,1966,6,MI CUADERNO DE TRABAJO DE HISTORIA Y CIVISMO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P6HI379.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P6HI380,1966,6,MI LIBRO DE HISTORIA Y CIVISMO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P6HI380.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P6MA381,1966,6,MI LIBRO DE ARITMÉTICA Y GEOMETRÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P6MA381.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1966P6MA382,1966,6,MI CUADERNO DE TRABAJO. ARITMÉTICA Y GEOMETRÍA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P6MA382.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI157,1993,3,Aguascalientes. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI157.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI158,1993,3,Baja California. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI158.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI159,1993,3,Baja California Sur. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI159.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI160,1993,3,Campeche. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI160.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI161,1993,3,Chiapas. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI161.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI162,1993,3,Chihuahua. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI162.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI163,1993,3,Distrito Federal. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI163.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI164,1993,3,Coahuila. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI164.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI165,1993,3,Colima. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI165.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI166,1993,3,Durango. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI166.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI167,1993,3,Guanajuato. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI167.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI168,1993,3,Guerrero. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI168.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI169,1993,3,Hidalgo. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI169.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI170,1993,3,Jalisco. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI170.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI171,1993,3,México. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI171.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI172,1993,3,Michoacán. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI172.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI173,1993,3,Morelos. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI173.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI174,1993,3,Nayarit. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI174.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI175,1993,3,Nuevo León. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI175.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI176,1993,3,Oaxaca. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI176.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI177,1993,3,Puebla. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI177.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI178,1993,3,Querétaro. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI178.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI179,1993,3,Quintana Roo. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI179.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI180,1993,3,San Luis Potosí. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI180.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI181,1993,3,Sinaloa. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI181.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI182,1993,3,Sonora. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI182.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI183,1993,3,Tabasco. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI183.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI184,1993,3,Tamaulipas. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI184.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI185,1993,3,Tlaxcala. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI185.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI186,1993,3,Veracruz. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI186.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI187,1993,3,Yucatán. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI187.htm
+LTMD_U1_COVERAGE_0.1,9,U1-W9-integrados_multiarea,queued,integrados_multiarea,H1993P3HI188,1993,3,Zacatecas. Historia y Geografía,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P3HI188.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1960P1ES001,1960,1,MI CUADERNO DE TRABAJO DE 1ER AÑO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P1ES001.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1960P1ES002,1960,1,MI LIBRO DE 1ER AÑO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P1ES002.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1960P2ES004,1960,2,MI LIBRO DE 2° AÑO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1960P2ES004.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1966P1ES346,1966,1,MI LIBRO DE 1er AÑO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P1ES346.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1966P2ES348,1966,2,MI LIBRO DE 2° AÑO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1966P2ES348.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1972P1CI060,1972,1,CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P1CI060.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1972P2CI065,1972,2,CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P2CI065.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1972P3CI072,1972,3,CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P3CI072.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1972P4CI078,1972,4,CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P4CI078.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1972P5CI085,1972,5,CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P5CI085.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1972P6CI091,1972,6,CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1972P6CI091.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1982P1ES096,1982,1,MI LIBRO RECORTABLE PARTE 1,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P1ES096.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1982P1ES097,1982,1,MI LIBRO RECORTABLE PARTE 2,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P1ES097.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1982P1ES098,1982,1,MI LIBRO PARTE 2,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P1ES098.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1982P1ES099,1982,1,MI LIBRO PARTE 1,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P1ES099.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1982P2ES101,1982,2,MI LIBRO PARTE 2,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P2ES101.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1982P2ES102,1982,2,MI LIBRO DE SEGUNDO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P2ES102.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1982P4CI384,1982,4,CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P4CI384.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1982P5CI390,1982,5,CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P5CI390.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1982P6CI396,1982,6,CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1982P6CI396.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1988P1ES108,1988,1,"MI LIBRO DE 1°, PARTE 1",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P1ES108.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1988P1ES109,1988,1,"MI LIBRO DE 1°, PARTE 2",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P1ES109.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1988P1ES110,1988,1,"MI LIBRO DE 1° RECORTABLE, PARTE 1",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P1ES110.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1988P1ES111,1988,1,"MI LIBRO DE 1°, RECORTABLE PARTE 2",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P1ES111.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1988P2CI112,1988,2,"MI LIBRO DE 2°, PARTE 2",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P2CI112.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1988P2CI113,1988,2,MI LIBRO DE 2° PARTE 1,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P2CI113.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1988P3CI115,1988,3,CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P3CI115.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1988P4CI120,1988,4,CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P4CI120.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1988P5CI124,1988,5,CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P5CI124.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1988P6CI130,1988,6,CIENCIAS SOCIALES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1988P6CI130.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P1LI140,1993,1,Libro Integrado,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P1LI140.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P1LI141,1993,1,Libro Integrado recortable,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P1LI141.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P2LI149,1993,2,Libro Integrado,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P2LI149.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P2LI150,1993,2,Libro Integrado Recortable,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P2LI150.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P4CI192,1993,4,Conoce nuestra constitución,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P4CI192.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI215,1993,6,MONOGRAFÍA ESTATAL AGUASCALIENTES,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI215.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI216,1993,6,MONOGRAFÍA ESTATAL BAJA CALIFORNIA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI216.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI217,1993,6,MONOGRAFÍA ESTATAL BAJA CALIFORNIA SUR,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI217.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI218,1993,6,MONOGRAFÍA ESTATAL COAHUILA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI218.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI219,1993,6,MONOGRAFÍA ESTATAL COLIMA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI219.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI220,1993,6,MONOGRAFÍA ESTATAL CAMPECHE,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI220.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI221,1993,6,MONOGRAFÍA ESTATAL CHIAPAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI221.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI222,1993,6,MONOGRAFÍA ESTATAL CHIHUAHUA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI222.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI223,1993,6,MONOGRAFÍA ESTATAL DISTRITO FEDERAL,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI223.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI224,1993,6,MONOGRAFÍA ESTATAL DURANGO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI224.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI225,1993,6,MONOGRAFÍA ESTATAL ESTADO DE MÉXICO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI225.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI226,1993,6,MONOGRAFÍA ESTATAL GUANAJUATO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI226.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI227,1993,6,MONOGRAFÍA ESTATAL GUERRERO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI227.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI228,1993,6,MONOGRAFÍA ESTATAL HIDALGO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI228.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI229,1993,6,MONOGRAFÍA ESTATAL JALISCO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI229.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI230,1993,6,MONOGRAFÍA ESTATAL MICHOACÁN,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI230.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI231,1993,6,MONOGRAFÍA ESTATAL MORELOS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI231.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI232,1993,6,MONOGRAFÍA ESTATAL NAYARIT,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI232.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI233,1993,6,MONOGRAFÍA ESTATAL NUEVO LEÓN,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI233.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI234,1993,6,MONOGRAFÍA ESTATAL OAXACA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI234.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI235,1993,6,MONOGRAFÍA ESTATAL PUEBLA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI235.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI236,1993,6,MONOGRAFÍA ESTATAL QUERÉTARO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI236.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI237,1993,6,MONOGRAFÍA ESTATAL QUINTANA ROO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI237.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI238,1993,6,MONOGRAFÍA ESTATAL SAN LUIS POTOSÍ,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI238.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI239,1993,6,MONOGRAFÍA ESTATAL SINALOA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI239.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI240,1993,6,MONOGRAFÍA ESTATAL SONORA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI240.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI241,1993,6,MONOGRAFÍA ESTATAL TABASCO,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI241.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI242,1993,6,MONOGRAFÍA ESTATAL TAMAULIPAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI242.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI243,1993,6,MONOGRAFÍA ESTATAL TLAXCALA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI243.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI244,1993,6,MONOGRAFÍA ESTATAL VERACRUZ,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI244.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI245,1993,6,MONOGRAFÍA ESTATAL YUCATÁN,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI245.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H1993P6HI246,1993,6,MONOGRAFÍA ESTATAL ZACATECAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H1993P6HI246.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2008P2CI256,2008,2,EXPLORACIOÓN DE NATURALEZA Y LA SOCIEDAD,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P2CI256.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2008P4CI270,2008,4,CONOCE NUESTRA CONSTITUCIÓN,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P4CI270.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2008P5MA285,2008,5,MATEMAÁTICAS,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2008P5MA285.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2011P1ED296,2011,1,EDUCACIÓN FÍSCIA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P1ED296.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2011P2ED303,2011,2,EDUCACIÓN FÍSCIA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P2ED303.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2011P3ED310,2011,3,EDUCACIÓN FÍSCIA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P3ED310.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2011P4CI316,2011,4,CONOCE NUESTRA CONSTITICIÓN,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P4CI316.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2011P4ED318,2011,4,EDUCACIÓN FÍSCIA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P4ED318.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2011P5ED328,2011,5,EDUCACIÓN FÍSCIA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P5ED328.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2011P6ED338,2011,6,EDUCACIÓN FÍSCIA,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2011P6ED338.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P1CAM,2014,1,"Material de apoyo a la alfabetización inicial, Tiras recortables y cartel con el alfabeto",not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P1CAM.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P1EAM,2014,1,Fichero didactico (incluye DVD),not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P1EAM.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P2EAM,2014,2,Fichero didactico (incluye DVD),not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P2EAM.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3AGS,2014,3,La entidad donde vivo Aguascalientes,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3AGS.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3BCN,2014,3,La entidad donde vivo Baja California Norte,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3BCN.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3BCS,2014,3,La entidad donde vivo Baja California Sur,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3BCS.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3CAM,2014,3,La entidad donde vivo Campeche,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3CAM.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3CDM,2014,3,La entidad donde vivo Ciudad de México,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3CDM.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3CHH,2014,3,La entidad donde vivo Chihuahua,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3CHH.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3CHP,2014,3,La entidad donde vivo Chiapas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3CHP.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3COA,2014,3,La entidad donde vivo Coahuila,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3COA.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3COL,2014,3,La entidad donde vivo Colima,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3COL.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3DUR,2014,3,La entidad donde vivo Durango,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3DUR.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3GRO,2014,3,La entidad donde vivo Guerrero,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3GRO.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3GTO,2014,3,La entidad donde vivo Guanajuato,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3GTO.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3HID,2014,3,La entidad donde vivo Hidalgo,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3HID.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3JAL,2014,3,La entidad donde vivo Jalisco,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3JAL.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3MEX,2014,3,La entidad donde vivo México,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3MEX.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3MIC,2014,3,La entidad donde vivo Michoacán,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3MIC.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3MOR,2014,3,La entidad donde vivo Morelos,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3MOR.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3NAY,2014,3,La entidad donde vivo Nayarit,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3NAY.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3NLE,2014,3,La entidad donde vivo Nuevo León,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3NLE.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3OAX,2014,3,La entidad donde vivo Oaxaca,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3OAX.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3PUE,2014,3,La entidad donde vivo Puebla,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3PUE.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3QRO,2014,3,La entidad donde vivo Quintana Roo,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3QRO.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3QUE,2014,3,La entidad donde vivo Querétaro,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3QUE.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3SIN,2014,3,La entidad donde vivo Sinaloa,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3SIN.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3SLP,2014,3,La entidad donde vivo San Luis Potosí,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3SLP.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3SON,2014,3,La entidad donde vivo Sonora,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3SON.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3TAB,2014,3,La entidad donde vivo Tabasco,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3TAB.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3TAM,2014,3,La entidad donde vivo Tamaulipas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3TAM.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3TLA,2014,3,La entidad donde vivo Tlaxcala,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3TLA.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3VER,2014,3,La entidad donde vivo Veracruz,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3VER.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3YUC,2014,3,La entidad donde vivo Yucatán,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3YUC.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P3ZAC,2014,3,La entidad donde vivo Zacatecas,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P3ZAC.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2014P4CCA,2014,4,Conoce nuestra Constitución,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2014P4CCA.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2018P1CAM,2018,1,Material de apoyo a la alfabetización Inicial. Tiras recortables,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P1CAM.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2018P1COA,2018,1,Conocimiento del medio,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P1COA.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2018P1COM,2018,1,Conocimiento del medio. Docente,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P1COM.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2018P2COA,2018,2,Conocimiento del medio,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P2COA.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2018P2COM,2018,2,Conocimiento del medio. Docente,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P2COM.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2018P4CCA,2018,4,Conoce Nuestra Constitución,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2018P4CCA.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2019P1CAM,2019,1,Material de apoyo a la alfabetización Inicial. Tiras recortables. PrImer grado,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P1CAM.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2019P1COA,2019,1,Conocimiento del medio,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P1COA.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2019P1COM,2019,1,Conocimiento del medio. Docente,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P1COM.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2019P2COA,2019,2,Conocimiento del medio,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P2COA.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2019P2COM,2019,2,Conocimiento del medio. Docente,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P2COM.htm
+LTMD_U1_COVERAGE_0.1,10,U1-W10-otros_revision,queued,otros_no_clasificados,H2019P4CCA,2019,4,Conoce nuestra Constitución,not_yet_audited,0,,https://historico.conaliteg.gob.mx/H2019P4CCA.htm
