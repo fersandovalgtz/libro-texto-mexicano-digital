@@ -1,0 +1,1793 @@
+{
+  "diagnostic_version": "LTMD_U1_W7_ROUTING_DIAGNOSTICS_0.1",
+  "scope": "LTMD-U1 W7 unresolved Civics/Ethics viewers only",
+  "policy": "HTML and same-origin JavaScript only; no image bytes fetched or persisted.",
+  "viewer_count": 5,
+  "viewers": [
+    {
+      "diagnostic_version": "LTMD_U1_W7_ROUTING_DIAGNOSTICS_0.1",
+      "viewer_key": "H2014P5FCA",
+      "catalog_generation": "2014",
+      "grade_code": "5",
+      "title_core": "Formación Cívica y Ética",
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+      "declared_positions": 225,
+      "asset_audit_internal_unserved": 1,
+      "asset_audit_source_jpegs": 224,
+      "html": {
+        "url": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+        "status": 200,
+        "content_type": "text/html",
+        "byte_size": 4800,
+        "sha256": "d50b0d52a39594a90dd642fb92b8bede70c2810cec4930b7fcfcc5c2a2e99055",
+        "encoding": "utf-8",
+        "attempts": 1,
+        "error": ""
+      },
+      "html_parse_error": "",
+      "same_origin_scripts_declared": 5,
+      "scripts": [
+        {
+          "url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 87534,
+          "sha256": "39572eb8749061730edbbc2b434b6bcc964a9ce7a9939fc9727e6f5913329fbb",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/modernizr.2.5.3.min.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 8547,
+          "sha256": "c17c84e682712bd3e5e3f23ca76cc7eaaaf9879be223a8e2ba92ea8cd40e1ba7",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/hash.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 2967,
+          "sha256": "5c56c9d6b31c8de4d43a1099c1a80cbcca39f0a63696a10ef389d9eeaff84887",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/js.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 303,
+          "sha256": "6b595aaf4d56a695072eac1a4b02246cc2ae4bcea30ee90166fdc1a60f2fadf0",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/x.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 8192,
+          "sha256": "209526b121455c45b743c43f7a269126c2d510cbb77bd6945d5798703ec2cdc3",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        }
+      ],
+      "route_evidence": [
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+          "line": "20",
+          "keywords": ".jpg,image",
+          "snippet_sha256": "b727402622b7e306c9dabbb3c4810d6099da8a02bf39e38d815fe68af15e09b8",
+          "snippet": "<meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+          "line": "26",
+          "keywords": ".jpg,image",
+          "snippet_sha256": "68c69a578d3f08a67edfd2c33bc2a93d4b0fa2713d592dd48c7f70bff725e195",
+          "snippet": "<meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+          "line": "27",
+          "keywords": "image",
+          "snippet_sha256": "a4faf4d0c33eed4c4c41db8d8bb553ae2f4732c0010cfdf8c94aab153debfbb6",
+          "snippet": "<link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+          "line": "28",
+          "keywords": "image",
+          "snippet_sha256": "6e52e9ad2fcb2e6ade10603076768ecd4c8a1ddc578cb8466342b057c858be69",
+          "snippet": "<link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+          "line": "63",
+          "keywords": "page",
+          "snippet_sha256": "ad3a2403e83767579d902fd936eb411d4b90893a507e952a72a2f3601bbe48f2",
+          "snippet": "<span>Ir a página: <input id=\"ag_page\" size=\"1\" type=\"text\"/> </span> <img class=\"ag_ir\" src=\"./pics/go.png\" title=\"Ir a la página\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+          "line": "2",
+          "keywords": "page,image",
+          "snippet_sha256": "9e3e2e0937b918ff003813cc13a91022d747b68cbf15e92f5af2f1ce1b3e4add",
+          "snippet": "!function(e,t){\"use strict\";\"object\"==typeof module&&\"object\"==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error(\"jQuery requires a window with a document\");return t(e)}:t(e)}(\"undefined\"!=typeof window?window:this,function(ie,e){\"use strict\";var oe=[],r=Object.getPrototypeOf,ae=oe.slice,g=oe.flat?function(e){return oe.flat.call(e)}:function(e){return oe.concat.apply(["
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "11",
+          "keywords": "page",
+          "snippet_sha256": "d571722e98dc149dc45d05d8f81de5bfb0944096cce312f4cf4df7b36caa8728",
+          "snippet": "* Hash.on('/page/([0-9]+)$',"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "13",
+          "keywords": "page",
+          "snippet_sha256": "cf26f62fb40dcca578209f13a1956a9d38d05ce59420ff5cec854a79853ef4ba",
+          "snippet": "* 'Page $1');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "15",
+          "keywords": "page",
+          "snippet_sha256": "42763c900d12bdae84330631fa2569853bf57da81273996b5cf8c8e1c082e0bc",
+          "snippet": "* Hash.go('/page/1');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "3",
+          "keywords": "ag_clave,clave",
+          "snippet_sha256": "ecf4728f62f7680d92e59523bd6142a0612e125b8f5958f8d9786e5c827efda8",
+          "snippet": "let ag_clave = nombreArchivo.substring(0, nombreArchivo.indexOf('.htm'));"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "4",
+          "keywords": "page",
+          "snippet_sha256": "58b950d37a46732284ae3618f87b671ddb167639f4e967f3299c5735631d0171",
+          "snippet": "let ag_pages;"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "5",
+          "keywords": "clave",
+          "snippet_sha256": "952bf55348f1f0a84f875dbd13ff16144c598547ab557930c41666f95b130dd8",
+          "snippet": "fetch('claves.json')"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "12",
+          "keywords": "ag_clave,clave,page",
+          "snippet_sha256": "112c64dd0f1c218d69a1d84700a440a6c9a22ca40c59a0a305cb07bb4071a778",
+          "snippet": "ag_pages = data[ag_clave].ag_pages;"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "60",
+          "keywords": "page",
+          "snippet_sha256": "2423d6ad7894b7f5dbe022374047511556f1c74bd490642914bce519a6f8683f",
+          "snippet": "// Elevation from the edge of the flipbook when turning a page"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "64",
+          "keywords": "page",
+          "snippet_sha256": "a8f0eca03c83c2db1de590ca6c57ef0f053ee2c39862138dd99cfb75c675ccba",
+          "snippet": "// The number of pages"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "66",
+          "keywords": "page",
+          "snippet_sha256": "52c3001c598a84ce9e5e7c8e9ce350da4b9ebc70cc4adc29f9065bfc2db48fa4",
+          "snippet": "pages: ag_pages,"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "71",
+          "keywords": "page",
+          "snippet_sha256": "3e92d669b05e6a7a37402bd4fcf75481b1f58133978d454a8669bae9bd01cca7",
+          "snippet": "turning: function(event, page, view) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "74",
+          "keywords": "page",
+          "snippet_sha256": "0a2ac0018bed9f5e13c79f23bf458155b8ed901892150f1a6813c72d927c08c8",
+          "snippet": "currentPage = book.turn('page'),"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "75",
+          "keywords": "page",
+          "snippet_sha256": "87839664d4f0d8213f8e8934477b2fa6358f71ad54a29b2ae3501225243efd7a",
+          "snippet": "pages = book.turn('pages');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "79",
+          "keywords": "page",
+          "snippet_sha256": "cfe92f5a52df5f8ec8567e4bfbaaf0a38412014e756c60ea39114fc6c4a7524e",
+          "snippet": "Hash.go('page/' + page).update();"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "83",
+          "keywords": "page",
+          "snippet_sha256": "334a45a5fb551c3be2a7698fa1d4e6f56ba54a1140c478e382d64a3271b561ca",
+          "snippet": "disableControls(page);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "86",
+          "keywords": "page",
+          "snippet_sha256": "587caa0bbff824eb91ea74f192b4b2513654babd5a7f599bc8dd936795bee432",
+          "snippet": "$('.thumbnails .page-'+currentPage)."
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "90",
+          "keywords": "page",
+          "snippet_sha256": "4565bea88c96ee9e65f18d9c5298b8db13f1f8e44eb4c4f3fcc2341f152f4faf",
+          "snippet": "$('.thumbnails .page-'+page)."
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "98",
+          "keywords": "page",
+          "snippet_sha256": "6d45a856d754e8f5a010cd77e4af6c3f8f81c7b728f2af15f11b2db0ddda25c1",
+          "snippet": "turned: function(event, page, view) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "104",
+          "keywords": "page",
+          "snippet_sha256": "743cb6277f0fa02e7ea018caa38beba12625cd22adac1a017f8c081fcbb67087",
+          "snippet": "if (page==1) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "110",
+          "keywords": "page",
+          "snippet_sha256": "1465a325ffeba8dd3008d66887660fbe7f67be0066719a65d17a7e68fe45b25f",
+          "snippet": "missing: function (event, pages) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "112",
+          "keywords": "page",
+          "snippet_sha256": "f3115ab23febc30334583fc10e309f9afec5d50c76417059709e3f08889de38e",
+          "snippet": "// Add pages that aren't in the magazine"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "114",
+          "keywords": "page",
+          "snippet_sha256": "e6aa7f27ac84ff128fa182ba3159856ff5e07fb12e58794f527ec89bebf147ba",
+          "snippet": "for (var i = 0; i < pages.length; i++)"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "115",
+          "keywords": "page",
+          "snippet_sha256": "2776e491017bbe6e2e2d0a16b2599bc997a8354ec1da709100873437a6854a76",
+          "snippet": "addPage(pages[i], $(this));"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "151",
+          "keywords": "page",
+          "snippet_sha256": "2d6e5e8f64a1bbffe8c66499fc665bb39c5e4d7483ed89c46dae0969c950e86a",
+          "snippet": "resize: function(event, scale, page, pageElement) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "154",
+          "keywords": "page",
+          "snippet_sha256": "72b07bc5eebf7262524b5b31c2dad05f587ca557c96aa160401470cf0f328c86",
+          "snippet": "loadSmallPage(page, pageElement);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "156",
+          "keywords": "page",
+          "snippet_sha256": "8fc4974873f2531b4465012cb2db381d5a43371e2b59c5af84bfe037e4060c27",
+          "snippet": "loadLargePage(page, pageElement);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "254",
+          "keywords": "page",
+          "snippet_sha256": "a05a4d48a2e0d4e8aacd8073ef5f7bf5311e33e551a07467834a1a417cd9430b",
+          "snippet": "Hash.on('^page\\/([0-9]*)$', {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "256",
+          "keywords": "page",
+          "snippet_sha256": "b009d33695ad645d9befa0dd15f46c5d58cd7c1767d3b985f5cfba6820bccb50",
+          "snippet": "var page = parts[1];"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "258",
+          "keywords": "page",
+          "snippet_sha256": "d95732fbd3a628b4725b8344e2e12356c689723d85eb35039ee6ef252ded2222",
+          "snippet": "if (page!==undefined) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "260",
+          "keywords": "page",
+          "snippet_sha256": "173458a2c9b0e9a56481150eb96d6847e710233fc112322d5a1b007fa0d41d91",
+          "snippet": "$('.magazine').turn('page', page);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "267",
+          "keywords": "page",
+          "snippet_sha256": "c8bdce94d3b610abe55e79e5f80cd39729c0f69db115d6abc76d207a6e523073",
+          "snippet": "$('.magazine').turn('page', 1);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "363",
+          "keywords": "page",
+          "snippet_sha256": "6c1fea2578545964230051756a633d952e9e3e36b5da3b3202651d0e0f3729a1",
+          "snippet": "ag_destino = $('#ag_page').val()"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "365",
+          "keywords": "page",
+          "snippet_sha256": "61632b26709089cae45db43e8959cedbe821d29c3252c48cfbfd66b44a9c11ce",
+          "snippet": "$('.magazine').turn('page', ag_destino);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "374",
+          "keywords": "page",
+          "snippet_sha256": "6d25e0a9b0d5b82e7c90f2d3446cb6bd56f1e0370cd694a0fded9ce79331e0d2",
+          "snippet": "ag_destino = $('#ag_page').val();"
+        }
+      ]
+    },
+    {
+      "diagnostic_version": "LTMD_U1_W7_ROUTING_DIAGNOSTICS_0.1",
+      "viewer_key": "H2018P3FCA",
+      "catalog_generation": "2018",
+      "grade_code": "3",
+      "title_core": "Formación Cívica y Ética",
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+      "declared_positions": 114,
+      "asset_audit_internal_unserved": 113,
+      "asset_audit_source_jpegs": 0,
+      "html": {
+        "url": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+        "status": 200,
+        "content_type": "text/html",
+        "byte_size": 4969,
+        "sha256": "fda108c0e226f6eab970b6b250b95448fe893fb0fd96fe07777cb04ea1211dd9",
+        "encoding": "utf-8",
+        "attempts": 1,
+        "error": ""
+      },
+      "html_parse_error": "",
+      "same_origin_scripts_declared": 5,
+      "scripts": [
+        {
+          "url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 87534,
+          "sha256": "39572eb8749061730edbbc2b434b6bcc964a9ce7a9939fc9727e6f5913329fbb",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/modernizr.2.5.3.min.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 8547,
+          "sha256": "c17c84e682712bd3e5e3f23ca76cc7eaaaf9879be223a8e2ba92ea8cd40e1ba7",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/hash.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 2967,
+          "sha256": "5c56c9d6b31c8de4d43a1099c1a80cbcca39f0a63696a10ef389d9eeaff84887",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/js.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 303,
+          "sha256": "6b595aaf4d56a695072eac1a4b02246cc2ae4bcea30ee90166fdc1a60f2fadf0",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/x.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 8192,
+          "sha256": "209526b121455c45b743c43f7a269126c2d510cbb77bd6945d5798703ec2cdc3",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        }
+      ],
+      "route_evidence": [
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+          "line": "19",
+          "keywords": ".jpg,image",
+          "snippet_sha256": "b727402622b7e306c9dabbb3c4810d6099da8a02bf39e38d815fe68af15e09b8",
+          "snippet": "<meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+          "line": "25",
+          "keywords": ".jpg,image",
+          "snippet_sha256": "68c69a578d3f08a67edfd2c33bc2a93d4b0fa2713d592dd48c7f70bff725e195",
+          "snippet": "<meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+          "line": "26",
+          "keywords": "image",
+          "snippet_sha256": "a4faf4d0c33eed4c4c41db8d8bb553ae2f4732c0010cfdf8c94aab153debfbb6",
+          "snippet": "<link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+          "line": "27",
+          "keywords": "image",
+          "snippet_sha256": "6e52e9ad2fcb2e6ade10603076768ecd4c8a1ddc578cb8466342b057c858be69",
+          "snippet": "<link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+          "line": "62",
+          "keywords": "page",
+          "snippet_sha256": "ad3a2403e83767579d902fd936eb411d4b90893a507e952a72a2f3601bbe48f2",
+          "snippet": "<span>Ir a página: <input id=\"ag_page\" size=\"1\" type=\"text\"/> </span> <img class=\"ag_ir\" src=\"./pics/go.png\" title=\"Ir a la página\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+          "line": "2",
+          "keywords": "page,image",
+          "snippet_sha256": "9e3e2e0937b918ff003813cc13a91022d747b68cbf15e92f5af2f1ce1b3e4add",
+          "snippet": "!function(e,t){\"use strict\";\"object\"==typeof module&&\"object\"==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error(\"jQuery requires a window with a document\");return t(e)}:t(e)}(\"undefined\"!=typeof window?window:this,function(ie,e){\"use strict\";var oe=[],r=Object.getPrototypeOf,ae=oe.slice,g=oe.flat?function(e){return oe.flat.call(e)}:function(e){return oe.concat.apply(["
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "11",
+          "keywords": "page",
+          "snippet_sha256": "d571722e98dc149dc45d05d8f81de5bfb0944096cce312f4cf4df7b36caa8728",
+          "snippet": "* Hash.on('/page/([0-9]+)$',"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "13",
+          "keywords": "page",
+          "snippet_sha256": "cf26f62fb40dcca578209f13a1956a9d38d05ce59420ff5cec854a79853ef4ba",
+          "snippet": "* 'Page $1');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "15",
+          "keywords": "page",
+          "snippet_sha256": "42763c900d12bdae84330631fa2569853bf57da81273996b5cf8c8e1c082e0bc",
+          "snippet": "* Hash.go('/page/1');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "3",
+          "keywords": "ag_clave,clave",
+          "snippet_sha256": "ecf4728f62f7680d92e59523bd6142a0612e125b8f5958f8d9786e5c827efda8",
+          "snippet": "let ag_clave = nombreArchivo.substring(0, nombreArchivo.indexOf('.htm'));"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "4",
+          "keywords": "page",
+          "snippet_sha256": "58b950d37a46732284ae3618f87b671ddb167639f4e967f3299c5735631d0171",
+          "snippet": "let ag_pages;"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "5",
+          "keywords": "clave",
+          "snippet_sha256": "952bf55348f1f0a84f875dbd13ff16144c598547ab557930c41666f95b130dd8",
+          "snippet": "fetch('claves.json')"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "12",
+          "keywords": "ag_clave,clave,page",
+          "snippet_sha256": "112c64dd0f1c218d69a1d84700a440a6c9a22ca40c59a0a305cb07bb4071a778",
+          "snippet": "ag_pages = data[ag_clave].ag_pages;"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "60",
+          "keywords": "page",
+          "snippet_sha256": "2423d6ad7894b7f5dbe022374047511556f1c74bd490642914bce519a6f8683f",
+          "snippet": "// Elevation from the edge of the flipbook when turning a page"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "64",
+          "keywords": "page",
+          "snippet_sha256": "a8f0eca03c83c2db1de590ca6c57ef0f053ee2c39862138dd99cfb75c675ccba",
+          "snippet": "// The number of pages"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "66",
+          "keywords": "page",
+          "snippet_sha256": "52c3001c598a84ce9e5e7c8e9ce350da4b9ebc70cc4adc29f9065bfc2db48fa4",
+          "snippet": "pages: ag_pages,"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "71",
+          "keywords": "page",
+          "snippet_sha256": "3e92d669b05e6a7a37402bd4fcf75481b1f58133978d454a8669bae9bd01cca7",
+          "snippet": "turning: function(event, page, view) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "74",
+          "keywords": "page",
+          "snippet_sha256": "0a2ac0018bed9f5e13c79f23bf458155b8ed901892150f1a6813c72d927c08c8",
+          "snippet": "currentPage = book.turn('page'),"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "75",
+          "keywords": "page",
+          "snippet_sha256": "87839664d4f0d8213f8e8934477b2fa6358f71ad54a29b2ae3501225243efd7a",
+          "snippet": "pages = book.turn('pages');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "79",
+          "keywords": "page",
+          "snippet_sha256": "cfe92f5a52df5f8ec8567e4bfbaaf0a38412014e756c60ea39114fc6c4a7524e",
+          "snippet": "Hash.go('page/' + page).update();"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "83",
+          "keywords": "page",
+          "snippet_sha256": "334a45a5fb551c3be2a7698fa1d4e6f56ba54a1140c478e382d64a3271b561ca",
+          "snippet": "disableControls(page);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "86",
+          "keywords": "page",
+          "snippet_sha256": "587caa0bbff824eb91ea74f192b4b2513654babd5a7f599bc8dd936795bee432",
+          "snippet": "$('.thumbnails .page-'+currentPage)."
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "90",
+          "keywords": "page",
+          "snippet_sha256": "4565bea88c96ee9e65f18d9c5298b8db13f1f8e44eb4c4f3fcc2341f152f4faf",
+          "snippet": "$('.thumbnails .page-'+page)."
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "98",
+          "keywords": "page",
+          "snippet_sha256": "6d45a856d754e8f5a010cd77e4af6c3f8f81c7b728f2af15f11b2db0ddda25c1",
+          "snippet": "turned: function(event, page, view) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "104",
+          "keywords": "page",
+          "snippet_sha256": "743cb6277f0fa02e7ea018caa38beba12625cd22adac1a017f8c081fcbb67087",
+          "snippet": "if (page==1) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "110",
+          "keywords": "page",
+          "snippet_sha256": "1465a325ffeba8dd3008d66887660fbe7f67be0066719a65d17a7e68fe45b25f",
+          "snippet": "missing: function (event, pages) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "112",
+          "keywords": "page",
+          "snippet_sha256": "f3115ab23febc30334583fc10e309f9afec5d50c76417059709e3f08889de38e",
+          "snippet": "// Add pages that aren't in the magazine"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "114",
+          "keywords": "page",
+          "snippet_sha256": "e6aa7f27ac84ff128fa182ba3159856ff5e07fb12e58794f527ec89bebf147ba",
+          "snippet": "for (var i = 0; i < pages.length; i++)"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "115",
+          "keywords": "page",
+          "snippet_sha256": "2776e491017bbe6e2e2d0a16b2599bc997a8354ec1da709100873437a6854a76",
+          "snippet": "addPage(pages[i], $(this));"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "151",
+          "keywords": "page",
+          "snippet_sha256": "2d6e5e8f64a1bbffe8c66499fc665bb39c5e4d7483ed89c46dae0969c950e86a",
+          "snippet": "resize: function(event, scale, page, pageElement) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "154",
+          "keywords": "page",
+          "snippet_sha256": "72b07bc5eebf7262524b5b31c2dad05f587ca557c96aa160401470cf0f328c86",
+          "snippet": "loadSmallPage(page, pageElement);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "156",
+          "keywords": "page",
+          "snippet_sha256": "8fc4974873f2531b4465012cb2db381d5a43371e2b59c5af84bfe037e4060c27",
+          "snippet": "loadLargePage(page, pageElement);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "254",
+          "keywords": "page",
+          "snippet_sha256": "a05a4d48a2e0d4e8aacd8073ef5f7bf5311e33e551a07467834a1a417cd9430b",
+          "snippet": "Hash.on('^page\\/([0-9]*)$', {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "256",
+          "keywords": "page",
+          "snippet_sha256": "b009d33695ad645d9befa0dd15f46c5d58cd7c1767d3b985f5cfba6820bccb50",
+          "snippet": "var page = parts[1];"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "258",
+          "keywords": "page",
+          "snippet_sha256": "d95732fbd3a628b4725b8344e2e12356c689723d85eb35039ee6ef252ded2222",
+          "snippet": "if (page!==undefined) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "260",
+          "keywords": "page",
+          "snippet_sha256": "173458a2c9b0e9a56481150eb96d6847e710233fc112322d5a1b007fa0d41d91",
+          "snippet": "$('.magazine').turn('page', page);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "267",
+          "keywords": "page",
+          "snippet_sha256": "c8bdce94d3b610abe55e79e5f80cd39729c0f69db115d6abc76d207a6e523073",
+          "snippet": "$('.magazine').turn('page', 1);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "363",
+          "keywords": "page",
+          "snippet_sha256": "6c1fea2578545964230051756a633d952e9e3e36b5da3b3202651d0e0f3729a1",
+          "snippet": "ag_destino = $('#ag_page').val()"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "365",
+          "keywords": "page",
+          "snippet_sha256": "61632b26709089cae45db43e8959cedbe821d29c3252c48cfbfd66b44a9c11ce",
+          "snippet": "$('.magazine').turn('page', ag_destino);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "374",
+          "keywords": "page",
+          "snippet_sha256": "6d25e0a9b0d5b82e7c90f2d3446cb6bd56f1e0370cd694a0fded9ce79331e0d2",
+          "snippet": "ag_destino = $('#ag_page').val();"
+        }
+      ]
+    },
+    {
+      "diagnostic_version": "LTMD_U1_W7_ROUTING_DIAGNOSTICS_0.1",
+      "viewer_key": "H2018P4FCA",
+      "catalog_generation": "2018",
+      "grade_code": "4",
+      "title_core": "Formación Cívica y Ética",
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+      "declared_positions": 130,
+      "asset_audit_internal_unserved": 129,
+      "asset_audit_source_jpegs": 0,
+      "html": {
+        "url": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+        "status": 200,
+        "content_type": "text/html",
+        "byte_size": 4969,
+        "sha256": "0293019f55e7418bb755aba04d6a3a54488f9d60244bb23c7dd24918a27e464f",
+        "encoding": "utf-8",
+        "attempts": 1,
+        "error": ""
+      },
+      "html_parse_error": "",
+      "same_origin_scripts_declared": 5,
+      "scripts": [
+        {
+          "url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 87534,
+          "sha256": "39572eb8749061730edbbc2b434b6bcc964a9ce7a9939fc9727e6f5913329fbb",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/modernizr.2.5.3.min.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 8547,
+          "sha256": "c17c84e682712bd3e5e3f23ca76cc7eaaaf9879be223a8e2ba92ea8cd40e1ba7",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/hash.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 2967,
+          "sha256": "5c56c9d6b31c8de4d43a1099c1a80cbcca39f0a63696a10ef389d9eeaff84887",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/js.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 303,
+          "sha256": "6b595aaf4d56a695072eac1a4b02246cc2ae4bcea30ee90166fdc1a60f2fadf0",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/x.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 8192,
+          "sha256": "209526b121455c45b743c43f7a269126c2d510cbb77bd6945d5798703ec2cdc3",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        }
+      ],
+      "route_evidence": [
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+          "line": "19",
+          "keywords": ".jpg,image",
+          "snippet_sha256": "b727402622b7e306c9dabbb3c4810d6099da8a02bf39e38d815fe68af15e09b8",
+          "snippet": "<meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+          "line": "25",
+          "keywords": ".jpg,image",
+          "snippet_sha256": "68c69a578d3f08a67edfd2c33bc2a93d4b0fa2713d592dd48c7f70bff725e195",
+          "snippet": "<meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+          "line": "26",
+          "keywords": "image",
+          "snippet_sha256": "a4faf4d0c33eed4c4c41db8d8bb553ae2f4732c0010cfdf8c94aab153debfbb6",
+          "snippet": "<link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+          "line": "27",
+          "keywords": "image",
+          "snippet_sha256": "6e52e9ad2fcb2e6ade10603076768ecd4c8a1ddc578cb8466342b057c858be69",
+          "snippet": "<link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+          "line": "62",
+          "keywords": "page",
+          "snippet_sha256": "ad3a2403e83767579d902fd936eb411d4b90893a507e952a72a2f3601bbe48f2",
+          "snippet": "<span>Ir a página: <input id=\"ag_page\" size=\"1\" type=\"text\"/> </span> <img class=\"ag_ir\" src=\"./pics/go.png\" title=\"Ir a la página\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+          "line": "2",
+          "keywords": "page,image",
+          "snippet_sha256": "9e3e2e0937b918ff003813cc13a91022d747b68cbf15e92f5af2f1ce1b3e4add",
+          "snippet": "!function(e,t){\"use strict\";\"object\"==typeof module&&\"object\"==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error(\"jQuery requires a window with a document\");return t(e)}:t(e)}(\"undefined\"!=typeof window?window:this,function(ie,e){\"use strict\";var oe=[],r=Object.getPrototypeOf,ae=oe.slice,g=oe.flat?function(e){return oe.flat.call(e)}:function(e){return oe.concat.apply(["
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "11",
+          "keywords": "page",
+          "snippet_sha256": "d571722e98dc149dc45d05d8f81de5bfb0944096cce312f4cf4df7b36caa8728",
+          "snippet": "* Hash.on('/page/([0-9]+)$',"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "13",
+          "keywords": "page",
+          "snippet_sha256": "cf26f62fb40dcca578209f13a1956a9d38d05ce59420ff5cec854a79853ef4ba",
+          "snippet": "* 'Page $1');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "15",
+          "keywords": "page",
+          "snippet_sha256": "42763c900d12bdae84330631fa2569853bf57da81273996b5cf8c8e1c082e0bc",
+          "snippet": "* Hash.go('/page/1');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "3",
+          "keywords": "ag_clave,clave",
+          "snippet_sha256": "ecf4728f62f7680d92e59523bd6142a0612e125b8f5958f8d9786e5c827efda8",
+          "snippet": "let ag_clave = nombreArchivo.substring(0, nombreArchivo.indexOf('.htm'));"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "4",
+          "keywords": "page",
+          "snippet_sha256": "58b950d37a46732284ae3618f87b671ddb167639f4e967f3299c5735631d0171",
+          "snippet": "let ag_pages;"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "5",
+          "keywords": "clave",
+          "snippet_sha256": "952bf55348f1f0a84f875dbd13ff16144c598547ab557930c41666f95b130dd8",
+          "snippet": "fetch('claves.json')"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "12",
+          "keywords": "ag_clave,clave,page",
+          "snippet_sha256": "112c64dd0f1c218d69a1d84700a440a6c9a22ca40c59a0a305cb07bb4071a778",
+          "snippet": "ag_pages = data[ag_clave].ag_pages;"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "60",
+          "keywords": "page",
+          "snippet_sha256": "2423d6ad7894b7f5dbe022374047511556f1c74bd490642914bce519a6f8683f",
+          "snippet": "// Elevation from the edge of the flipbook when turning a page"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "64",
+          "keywords": "page",
+          "snippet_sha256": "a8f0eca03c83c2db1de590ca6c57ef0f053ee2c39862138dd99cfb75c675ccba",
+          "snippet": "// The number of pages"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "66",
+          "keywords": "page",
+          "snippet_sha256": "52c3001c598a84ce9e5e7c8e9ce350da4b9ebc70cc4adc29f9065bfc2db48fa4",
+          "snippet": "pages: ag_pages,"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "71",
+          "keywords": "page",
+          "snippet_sha256": "3e92d669b05e6a7a37402bd4fcf75481b1f58133978d454a8669bae9bd01cca7",
+          "snippet": "turning: function(event, page, view) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "74",
+          "keywords": "page",
+          "snippet_sha256": "0a2ac0018bed9f5e13c79f23bf458155b8ed901892150f1a6813c72d927c08c8",
+          "snippet": "currentPage = book.turn('page'),"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "75",
+          "keywords": "page",
+          "snippet_sha256": "87839664d4f0d8213f8e8934477b2fa6358f71ad54a29b2ae3501225243efd7a",
+          "snippet": "pages = book.turn('pages');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "79",
+          "keywords": "page",
+          "snippet_sha256": "cfe92f5a52df5f8ec8567e4bfbaaf0a38412014e756c60ea39114fc6c4a7524e",
+          "snippet": "Hash.go('page/' + page).update();"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "83",
+          "keywords": "page",
+          "snippet_sha256": "334a45a5fb551c3be2a7698fa1d4e6f56ba54a1140c478e382d64a3271b561ca",
+          "snippet": "disableControls(page);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "86",
+          "keywords": "page",
+          "snippet_sha256": "587caa0bbff824eb91ea74f192b4b2513654babd5a7f599bc8dd936795bee432",
+          "snippet": "$('.thumbnails .page-'+currentPage)."
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "90",
+          "keywords": "page",
+          "snippet_sha256": "4565bea88c96ee9e65f18d9c5298b8db13f1f8e44eb4c4f3fcc2341f152f4faf",
+          "snippet": "$('.thumbnails .page-'+page)."
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "98",
+          "keywords": "page",
+          "snippet_sha256": "6d45a856d754e8f5a010cd77e4af6c3f8f81c7b728f2af15f11b2db0ddda25c1",
+          "snippet": "turned: function(event, page, view) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "104",
+          "keywords": "page",
+          "snippet_sha256": "743cb6277f0fa02e7ea018caa38beba12625cd22adac1a017f8c081fcbb67087",
+          "snippet": "if (page==1) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "110",
+          "keywords": "page",
+          "snippet_sha256": "1465a325ffeba8dd3008d66887660fbe7f67be0066719a65d17a7e68fe45b25f",
+          "snippet": "missing: function (event, pages) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "112",
+          "keywords": "page",
+          "snippet_sha256": "f3115ab23febc30334583fc10e309f9afec5d50c76417059709e3f08889de38e",
+          "snippet": "// Add pages that aren't in the magazine"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "114",
+          "keywords": "page",
+          "snippet_sha256": "e6aa7f27ac84ff128fa182ba3159856ff5e07fb12e58794f527ec89bebf147ba",
+          "snippet": "for (var i = 0; i < pages.length; i++)"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "115",
+          "keywords": "page",
+          "snippet_sha256": "2776e491017bbe6e2e2d0a16b2599bc997a8354ec1da709100873437a6854a76",
+          "snippet": "addPage(pages[i], $(this));"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "151",
+          "keywords": "page",
+          "snippet_sha256": "2d6e5e8f64a1bbffe8c66499fc665bb39c5e4d7483ed89c46dae0969c950e86a",
+          "snippet": "resize: function(event, scale, page, pageElement) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "154",
+          "keywords": "page",
+          "snippet_sha256": "72b07bc5eebf7262524b5b31c2dad05f587ca557c96aa160401470cf0f328c86",
+          "snippet": "loadSmallPage(page, pageElement);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "156",
+          "keywords": "page",
+          "snippet_sha256": "8fc4974873f2531b4465012cb2db381d5a43371e2b59c5af84bfe037e4060c27",
+          "snippet": "loadLargePage(page, pageElement);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "254",
+          "keywords": "page",
+          "snippet_sha256": "a05a4d48a2e0d4e8aacd8073ef5f7bf5311e33e551a07467834a1a417cd9430b",
+          "snippet": "Hash.on('^page\\/([0-9]*)$', {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "256",
+          "keywords": "page",
+          "snippet_sha256": "b009d33695ad645d9befa0dd15f46c5d58cd7c1767d3b985f5cfba6820bccb50",
+          "snippet": "var page = parts[1];"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "258",
+          "keywords": "page",
+          "snippet_sha256": "d95732fbd3a628b4725b8344e2e12356c689723d85eb35039ee6ef252ded2222",
+          "snippet": "if (page!==undefined) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "260",
+          "keywords": "page",
+          "snippet_sha256": "173458a2c9b0e9a56481150eb96d6847e710233fc112322d5a1b007fa0d41d91",
+          "snippet": "$('.magazine').turn('page', page);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "267",
+          "keywords": "page",
+          "snippet_sha256": "c8bdce94d3b610abe55e79e5f80cd39729c0f69db115d6abc76d207a6e523073",
+          "snippet": "$('.magazine').turn('page', 1);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "363",
+          "keywords": "page",
+          "snippet_sha256": "6c1fea2578545964230051756a633d952e9e3e36b5da3b3202651d0e0f3729a1",
+          "snippet": "ag_destino = $('#ag_page').val()"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "365",
+          "keywords": "page",
+          "snippet_sha256": "61632b26709089cae45db43e8959cedbe821d29c3252c48cfbfd66b44a9c11ce",
+          "snippet": "$('.magazine').turn('page', ag_destino);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "374",
+          "keywords": "page",
+          "snippet_sha256": "6d25e0a9b0d5b82e7c90f2d3446cb6bd56f1e0370cd694a0fded9ce79331e0d2",
+          "snippet": "ag_destino = $('#ag_page').val();"
+        }
+      ]
+    },
+    {
+      "diagnostic_version": "LTMD_U1_W7_ROUTING_DIAGNOSTICS_0.1",
+      "viewer_key": "H2018P5FCA",
+      "catalog_generation": "2018",
+      "grade_code": "5",
+      "title_core": "Formación Cívica y Ética",
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+      "declared_positions": 226,
+      "asset_audit_internal_unserved": 225,
+      "asset_audit_source_jpegs": 0,
+      "html": {
+        "url": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+        "status": 200,
+        "content_type": "text/html",
+        "byte_size": 4978,
+        "sha256": "86485f5ee8e1b22dadcdaa6842430cc1ea665489190d640773cb0cb582313b91",
+        "encoding": "utf-8",
+        "attempts": 1,
+        "error": ""
+      },
+      "html_parse_error": "",
+      "same_origin_scripts_declared": 5,
+      "scripts": [
+        {
+          "url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 87534,
+          "sha256": "39572eb8749061730edbbc2b434b6bcc964a9ce7a9939fc9727e6f5913329fbb",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/modernizr.2.5.3.min.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 8547,
+          "sha256": "c17c84e682712bd3e5e3f23ca76cc7eaaaf9879be223a8e2ba92ea8cd40e1ba7",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/hash.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 2967,
+          "sha256": "5c56c9d6b31c8de4d43a1099c1a80cbcca39f0a63696a10ef389d9eeaff84887",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/js.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 303,
+          "sha256": "6b595aaf4d56a695072eac1a4b02246cc2ae4bcea30ee90166fdc1a60f2fadf0",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/x.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 8192,
+          "sha256": "209526b121455c45b743c43f7a269126c2d510cbb77bd6945d5798703ec2cdc3",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        }
+      ],
+      "route_evidence": [
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+          "line": "19",
+          "keywords": ".jpg,image",
+          "snippet_sha256": "b727402622b7e306c9dabbb3c4810d6099da8a02bf39e38d815fe68af15e09b8",
+          "snippet": "<meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+          "line": "25",
+          "keywords": ".jpg,image",
+          "snippet_sha256": "68c69a578d3f08a67edfd2c33bc2a93d4b0fa2713d592dd48c7f70bff725e195",
+          "snippet": "<meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+          "line": "26",
+          "keywords": "image",
+          "snippet_sha256": "a4faf4d0c33eed4c4c41db8d8bb553ae2f4732c0010cfdf8c94aab153debfbb6",
+          "snippet": "<link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+          "line": "27",
+          "keywords": "image",
+          "snippet_sha256": "6e52e9ad2fcb2e6ade10603076768ecd4c8a1ddc578cb8466342b057c858be69",
+          "snippet": "<link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+          "line": "62",
+          "keywords": "page",
+          "snippet_sha256": "ad3a2403e83767579d902fd936eb411d4b90893a507e952a72a2f3601bbe48f2",
+          "snippet": "<span>Ir a página: <input id=\"ag_page\" size=\"1\" type=\"text\"/> </span> <img class=\"ag_ir\" src=\"./pics/go.png\" title=\"Ir a la página\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+          "line": "2",
+          "keywords": "page,image",
+          "snippet_sha256": "9e3e2e0937b918ff003813cc13a91022d747b68cbf15e92f5af2f1ce1b3e4add",
+          "snippet": "!function(e,t){\"use strict\";\"object\"==typeof module&&\"object\"==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error(\"jQuery requires a window with a document\");return t(e)}:t(e)}(\"undefined\"!=typeof window?window:this,function(ie,e){\"use strict\";var oe=[],r=Object.getPrototypeOf,ae=oe.slice,g=oe.flat?function(e){return oe.flat.call(e)}:function(e){return oe.concat.apply(["
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "11",
+          "keywords": "page",
+          "snippet_sha256": "d571722e98dc149dc45d05d8f81de5bfb0944096cce312f4cf4df7b36caa8728",
+          "snippet": "* Hash.on('/page/([0-9]+)$',"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "13",
+          "keywords": "page",
+          "snippet_sha256": "cf26f62fb40dcca578209f13a1956a9d38d05ce59420ff5cec854a79853ef4ba",
+          "snippet": "* 'Page $1');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "15",
+          "keywords": "page",
+          "snippet_sha256": "42763c900d12bdae84330631fa2569853bf57da81273996b5cf8c8e1c082e0bc",
+          "snippet": "* Hash.go('/page/1');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "3",
+          "keywords": "ag_clave,clave",
+          "snippet_sha256": "ecf4728f62f7680d92e59523bd6142a0612e125b8f5958f8d9786e5c827efda8",
+          "snippet": "let ag_clave = nombreArchivo.substring(0, nombreArchivo.indexOf('.htm'));"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "4",
+          "keywords": "page",
+          "snippet_sha256": "58b950d37a46732284ae3618f87b671ddb167639f4e967f3299c5735631d0171",
+          "snippet": "let ag_pages;"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "5",
+          "keywords": "clave",
+          "snippet_sha256": "952bf55348f1f0a84f875dbd13ff16144c598547ab557930c41666f95b130dd8",
+          "snippet": "fetch('claves.json')"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "12",
+          "keywords": "ag_clave,clave,page",
+          "snippet_sha256": "112c64dd0f1c218d69a1d84700a440a6c9a22ca40c59a0a305cb07bb4071a778",
+          "snippet": "ag_pages = data[ag_clave].ag_pages;"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "60",
+          "keywords": "page",
+          "snippet_sha256": "2423d6ad7894b7f5dbe022374047511556f1c74bd490642914bce519a6f8683f",
+          "snippet": "// Elevation from the edge of the flipbook when turning a page"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "64",
+          "keywords": "page",
+          "snippet_sha256": "a8f0eca03c83c2db1de590ca6c57ef0f053ee2c39862138dd99cfb75c675ccba",
+          "snippet": "// The number of pages"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "66",
+          "keywords": "page",
+          "snippet_sha256": "52c3001c598a84ce9e5e7c8e9ce350da4b9ebc70cc4adc29f9065bfc2db48fa4",
+          "snippet": "pages: ag_pages,"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "71",
+          "keywords": "page",
+          "snippet_sha256": "3e92d669b05e6a7a37402bd4fcf75481b1f58133978d454a8669bae9bd01cca7",
+          "snippet": "turning: function(event, page, view) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "74",
+          "keywords": "page",
+          "snippet_sha256": "0a2ac0018bed9f5e13c79f23bf458155b8ed901892150f1a6813c72d927c08c8",
+          "snippet": "currentPage = book.turn('page'),"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "75",
+          "keywords": "page",
+          "snippet_sha256": "87839664d4f0d8213f8e8934477b2fa6358f71ad54a29b2ae3501225243efd7a",
+          "snippet": "pages = book.turn('pages');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "79",
+          "keywords": "page",
+          "snippet_sha256": "cfe92f5a52df5f8ec8567e4bfbaaf0a38412014e756c60ea39114fc6c4a7524e",
+          "snippet": "Hash.go('page/' + page).update();"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "83",
+          "keywords": "page",
+          "snippet_sha256": "334a45a5fb551c3be2a7698fa1d4e6f56ba54a1140c478e382d64a3271b561ca",
+          "snippet": "disableControls(page);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "86",
+          "keywords": "page",
+          "snippet_sha256": "587caa0bbff824eb91ea74f192b4b2513654babd5a7f599bc8dd936795bee432",
+          "snippet": "$('.thumbnails .page-'+currentPage)."
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "90",
+          "keywords": "page",
+          "snippet_sha256": "4565bea88c96ee9e65f18d9c5298b8db13f1f8e44eb4c4f3fcc2341f152f4faf",
+          "snippet": "$('.thumbnails .page-'+page)."
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "98",
+          "keywords": "page",
+          "snippet_sha256": "6d45a856d754e8f5a010cd77e4af6c3f8f81c7b728f2af15f11b2db0ddda25c1",
+          "snippet": "turned: function(event, page, view) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "104",
+          "keywords": "page",
+          "snippet_sha256": "743cb6277f0fa02e7ea018caa38beba12625cd22adac1a017f8c081fcbb67087",
+          "snippet": "if (page==1) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "110",
+          "keywords": "page",
+          "snippet_sha256": "1465a325ffeba8dd3008d66887660fbe7f67be0066719a65d17a7e68fe45b25f",
+          "snippet": "missing: function (event, pages) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "112",
+          "keywords": "page",
+          "snippet_sha256": "f3115ab23febc30334583fc10e309f9afec5d50c76417059709e3f08889de38e",
+          "snippet": "// Add pages that aren't in the magazine"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "114",
+          "keywords": "page",
+          "snippet_sha256": "e6aa7f27ac84ff128fa182ba3159856ff5e07fb12e58794f527ec89bebf147ba",
+          "snippet": "for (var i = 0; i < pages.length; i++)"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "115",
+          "keywords": "page",
+          "snippet_sha256": "2776e491017bbe6e2e2d0a16b2599bc997a8354ec1da709100873437a6854a76",
+          "snippet": "addPage(pages[i], $(this));"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "151",
+          "keywords": "page",
+          "snippet_sha256": "2d6e5e8f64a1bbffe8c66499fc665bb39c5e4d7483ed89c46dae0969c950e86a",
+          "snippet": "resize: function(event, scale, page, pageElement) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "154",
+          "keywords": "page",
+          "snippet_sha256": "72b07bc5eebf7262524b5b31c2dad05f587ca557c96aa160401470cf0f328c86",
+          "snippet": "loadSmallPage(page, pageElement);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "156",
+          "keywords": "page",
+          "snippet_sha256": "8fc4974873f2531b4465012cb2db381d5a43371e2b59c5af84bfe037e4060c27",
+          "snippet": "loadLargePage(page, pageElement);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "254",
+          "keywords": "page",
+          "snippet_sha256": "a05a4d48a2e0d4e8aacd8073ef5f7bf5311e33e551a07467834a1a417cd9430b",
+          "snippet": "Hash.on('^page\\/([0-9]*)$', {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "256",
+          "keywords": "page",
+          "snippet_sha256": "b009d33695ad645d9befa0dd15f46c5d58cd7c1767d3b985f5cfba6820bccb50",
+          "snippet": "var page = parts[1];"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "258",
+          "keywords": "page",
+          "snippet_sha256": "d95732fbd3a628b4725b8344e2e12356c689723d85eb35039ee6ef252ded2222",
+          "snippet": "if (page!==undefined) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "260",
+          "keywords": "page",
+          "snippet_sha256": "173458a2c9b0e9a56481150eb96d6847e710233fc112322d5a1b007fa0d41d91",
+          "snippet": "$('.magazine').turn('page', page);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "267",
+          "keywords": "page",
+          "snippet_sha256": "c8bdce94d3b610abe55e79e5f80cd39729c0f69db115d6abc76d207a6e523073",
+          "snippet": "$('.magazine').turn('page', 1);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "363",
+          "keywords": "page",
+          "snippet_sha256": "6c1fea2578545964230051756a633d952e9e3e36b5da3b3202651d0e0f3729a1",
+          "snippet": "ag_destino = $('#ag_page').val()"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "365",
+          "keywords": "page",
+          "snippet_sha256": "61632b26709089cae45db43e8959cedbe821d29c3252c48cfbfd66b44a9c11ce",
+          "snippet": "$('.magazine').turn('page', ag_destino);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "374",
+          "keywords": "page",
+          "snippet_sha256": "6d25e0a9b0d5b82e7c90f2d3446cb6bd56f1e0370cd694a0fded9ce79331e0d2",
+          "snippet": "ag_destino = $('#ag_page').val();"
+        }
+      ]
+    },
+    {
+      "diagnostic_version": "LTMD_U1_W7_ROUTING_DIAGNOSTICS_0.1",
+      "viewer_key": "H2018P6FCA",
+      "catalog_generation": "2018",
+      "grade_code": "6",
+      "title_core": "Formación Cívica y Ética",
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+      "declared_positions": 210,
+      "asset_audit_internal_unserved": 209,
+      "asset_audit_source_jpegs": 0,
+      "html": {
+        "url": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+        "status": 200,
+        "content_type": "text/html",
+        "byte_size": 4969,
+        "sha256": "02c1b10eeb0a316fdd2c7136a9eaa1cda23dbb6396b8f79923da25dfd2e2790a",
+        "encoding": "utf-8",
+        "attempts": 1,
+        "error": ""
+      },
+      "html_parse_error": "",
+      "same_origin_scripts_declared": 5,
+      "scripts": [
+        {
+          "url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 87534,
+          "sha256": "39572eb8749061730edbbc2b434b6bcc964a9ce7a9939fc9727e6f5913329fbb",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/modernizr.2.5.3.min.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 8547,
+          "sha256": "c17c84e682712bd3e5e3f23ca76cc7eaaaf9879be223a8e2ba92ea8cd40e1ba7",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/hash.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 2967,
+          "sha256": "5c56c9d6b31c8de4d43a1099c1a80cbcca39f0a63696a10ef389d9eeaff84887",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/js.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 303,
+          "sha256": "6b595aaf4d56a695072eac1a4b02246cc2ae4bcea30ee90166fdc1a60f2fadf0",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        },
+        {
+          "url": "https://historico.conaliteg.gob.mx/x.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "byte_size": 8192,
+          "sha256": "209526b121455c45b743c43f7a269126c2d510cbb77bd6945d5798703ec2cdc3",
+          "encoding": "utf-8",
+          "attempts": 1,
+          "error": ""
+        }
+      ],
+      "route_evidence": [
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+          "line": "19",
+          "keywords": ".jpg,image",
+          "snippet_sha256": "b727402622b7e306c9dabbb3c4810d6099da8a02bf39e38d815fe68af15e09b8",
+          "snippet": "<meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+          "line": "25",
+          "keywords": ".jpg,image",
+          "snippet_sha256": "68c69a578d3f08a67edfd2c33bc2a93d4b0fa2713d592dd48c7f70bff725e195",
+          "snippet": "<meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+          "line": "26",
+          "keywords": "image",
+          "snippet_sha256": "a4faf4d0c33eed4c4c41db8d8bb553ae2f4732c0010cfdf8c94aab153debfbb6",
+          "snippet": "<link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+          "line": "27",
+          "keywords": "image",
+          "snippet_sha256": "6e52e9ad2fcb2e6ade10603076768ecd4c8a1ddc578cb8466342b057c858be69",
+          "snippet": "<link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+          "line": "62",
+          "keywords": "page",
+          "snippet_sha256": "ad3a2403e83767579d902fd936eb411d4b90893a507e952a72a2f3601bbe48f2",
+          "snippet": "<span>Ir a página: <input id=\"ag_page\" size=\"1\" type=\"text\"/> </span> <img class=\"ag_ir\" src=\"./pics/go.png\" title=\"Ir a la página\"/>"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+          "line": "2",
+          "keywords": "page,image",
+          "snippet_sha256": "9e3e2e0937b918ff003813cc13a91022d747b68cbf15e92f5af2f1ce1b3e4add",
+          "snippet": "!function(e,t){\"use strict\";\"object\"==typeof module&&\"object\"==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error(\"jQuery requires a window with a document\");return t(e)}:t(e)}(\"undefined\"!=typeof window?window:this,function(ie,e){\"use strict\";var oe=[],r=Object.getPrototypeOf,ae=oe.slice,g=oe.flat?function(e){return oe.flat.call(e)}:function(e){return oe.concat.apply(["
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "11",
+          "keywords": "page",
+          "snippet_sha256": "d571722e98dc149dc45d05d8f81de5bfb0944096cce312f4cf4df7b36caa8728",
+          "snippet": "* Hash.on('/page/([0-9]+)$',"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "13",
+          "keywords": "page",
+          "snippet_sha256": "cf26f62fb40dcca578209f13a1956a9d38d05ce59420ff5cec854a79853ef4ba",
+          "snippet": "* 'Page $1');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/hash.js",
+          "line": "15",
+          "keywords": "page",
+          "snippet_sha256": "42763c900d12bdae84330631fa2569853bf57da81273996b5cf8c8e1c082e0bc",
+          "snippet": "* Hash.go('/page/1');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "3",
+          "keywords": "ag_clave,clave",
+          "snippet_sha256": "ecf4728f62f7680d92e59523bd6142a0612e125b8f5958f8d9786e5c827efda8",
+          "snippet": "let ag_clave = nombreArchivo.substring(0, nombreArchivo.indexOf('.htm'));"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "4",
+          "keywords": "page",
+          "snippet_sha256": "58b950d37a46732284ae3618f87b671ddb167639f4e967f3299c5735631d0171",
+          "snippet": "let ag_pages;"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "5",
+          "keywords": "clave",
+          "snippet_sha256": "952bf55348f1f0a84f875dbd13ff16144c598547ab557930c41666f95b130dd8",
+          "snippet": "fetch('claves.json')"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "12",
+          "keywords": "ag_clave,clave,page",
+          "snippet_sha256": "112c64dd0f1c218d69a1d84700a440a6c9a22ca40c59a0a305cb07bb4071a778",
+          "snippet": "ag_pages = data[ag_clave].ag_pages;"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "60",
+          "keywords": "page",
+          "snippet_sha256": "2423d6ad7894b7f5dbe022374047511556f1c74bd490642914bce519a6f8683f",
+          "snippet": "// Elevation from the edge of the flipbook when turning a page"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "64",
+          "keywords": "page",
+          "snippet_sha256": "a8f0eca03c83c2db1de590ca6c57ef0f053ee2c39862138dd99cfb75c675ccba",
+          "snippet": "// The number of pages"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "66",
+          "keywords": "page",
+          "snippet_sha256": "52c3001c598a84ce9e5e7c8e9ce350da4b9ebc70cc4adc29f9065bfc2db48fa4",
+          "snippet": "pages: ag_pages,"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "71",
+          "keywords": "page",
+          "snippet_sha256": "3e92d669b05e6a7a37402bd4fcf75481b1f58133978d454a8669bae9bd01cca7",
+          "snippet": "turning: function(event, page, view) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "74",
+          "keywords": "page",
+          "snippet_sha256": "0a2ac0018bed9f5e13c79f23bf458155b8ed901892150f1a6813c72d927c08c8",
+          "snippet": "currentPage = book.turn('page'),"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "75",
+          "keywords": "page",
+          "snippet_sha256": "87839664d4f0d8213f8e8934477b2fa6358f71ad54a29b2ae3501225243efd7a",
+          "snippet": "pages = book.turn('pages');"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "79",
+          "keywords": "page",
+          "snippet_sha256": "cfe92f5a52df5f8ec8567e4bfbaaf0a38412014e756c60ea39114fc6c4a7524e",
+          "snippet": "Hash.go('page/' + page).update();"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "83",
+          "keywords": "page",
+          "snippet_sha256": "334a45a5fb551c3be2a7698fa1d4e6f56ba54a1140c478e382d64a3271b561ca",
+          "snippet": "disableControls(page);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "86",
+          "keywords": "page",
+          "snippet_sha256": "587caa0bbff824eb91ea74f192b4b2513654babd5a7f599bc8dd936795bee432",
+          "snippet": "$('.thumbnails .page-'+currentPage)."
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "90",
+          "keywords": "page",
+          "snippet_sha256": "4565bea88c96ee9e65f18d9c5298b8db13f1f8e44eb4c4f3fcc2341f152f4faf",
+          "snippet": "$('.thumbnails .page-'+page)."
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "98",
+          "keywords": "page",
+          "snippet_sha256": "6d45a856d754e8f5a010cd77e4af6c3f8f81c7b728f2af15f11b2db0ddda25c1",
+          "snippet": "turned: function(event, page, view) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "104",
+          "keywords": "page",
+          "snippet_sha256": "743cb6277f0fa02e7ea018caa38beba12625cd22adac1a017f8c081fcbb67087",
+          "snippet": "if (page==1) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "110",
+          "keywords": "page",
+          "snippet_sha256": "1465a325ffeba8dd3008d66887660fbe7f67be0066719a65d17a7e68fe45b25f",
+          "snippet": "missing: function (event, pages) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "112",
+          "keywords": "page",
+          "snippet_sha256": "f3115ab23febc30334583fc10e309f9afec5d50c76417059709e3f08889de38e",
+          "snippet": "// Add pages that aren't in the magazine"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "114",
+          "keywords": "page",
+          "snippet_sha256": "e6aa7f27ac84ff128fa182ba3159856ff5e07fb12e58794f527ec89bebf147ba",
+          "snippet": "for (var i = 0; i < pages.length; i++)"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "115",
+          "keywords": "page",
+          "snippet_sha256": "2776e491017bbe6e2e2d0a16b2599bc997a8354ec1da709100873437a6854a76",
+          "snippet": "addPage(pages[i], $(this));"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "151",
+          "keywords": "page",
+          "snippet_sha256": "2d6e5e8f64a1bbffe8c66499fc665bb39c5e4d7483ed89c46dae0969c950e86a",
+          "snippet": "resize: function(event, scale, page, pageElement) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "154",
+          "keywords": "page",
+          "snippet_sha256": "72b07bc5eebf7262524b5b31c2dad05f587ca557c96aa160401470cf0f328c86",
+          "snippet": "loadSmallPage(page, pageElement);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "156",
+          "keywords": "page",
+          "snippet_sha256": "8fc4974873f2531b4465012cb2db381d5a43371e2b59c5af84bfe037e4060c27",
+          "snippet": "loadLargePage(page, pageElement);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "254",
+          "keywords": "page",
+          "snippet_sha256": "a05a4d48a2e0d4e8aacd8073ef5f7bf5311e33e551a07467834a1a417cd9430b",
+          "snippet": "Hash.on('^page\\/([0-9]*)$', {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "256",
+          "keywords": "page",
+          "snippet_sha256": "b009d33695ad645d9befa0dd15f46c5d58cd7c1767d3b985f5cfba6820bccb50",
+          "snippet": "var page = parts[1];"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "258",
+          "keywords": "page",
+          "snippet_sha256": "d95732fbd3a628b4725b8344e2e12356c689723d85eb35039ee6ef252ded2222",
+          "snippet": "if (page!==undefined) {"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "260",
+          "keywords": "page",
+          "snippet_sha256": "173458a2c9b0e9a56481150eb96d6847e710233fc112322d5a1b007fa0d41d91",
+          "snippet": "$('.magazine').turn('page', page);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "267",
+          "keywords": "page",
+          "snippet_sha256": "c8bdce94d3b610abe55e79e5f80cd39729c0f69db115d6abc76d207a6e523073",
+          "snippet": "$('.magazine').turn('page', 1);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "363",
+          "keywords": "page",
+          "snippet_sha256": "6c1fea2578545964230051756a633d952e9e3e36b5da3b3202651d0e0f3729a1",
+          "snippet": "ag_destino = $('#ag_page').val()"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "365",
+          "keywords": "page",
+          "snippet_sha256": "61632b26709089cae45db43e8959cedbe821d29c3252c48cfbfd66b44a9c11ce",
+          "snippet": "$('.magazine').turn('page', ag_destino);"
+        },
+        {
+          "source_url": "https://historico.conaliteg.gob.mx/x.js",
+          "line": "374",
+          "keywords": "page",
+          "snippet_sha256": "6d25e0a9b0d5b82e7c90f2d3446cb6bd56f1e0370cd694a0fded9ce79331e0d2",
+          "snippet": "ag_destino = $('#ag_page').val();"
+        }
+      ]
+    }
+  ]
+}
