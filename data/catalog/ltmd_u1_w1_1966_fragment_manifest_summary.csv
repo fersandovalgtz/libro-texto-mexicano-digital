@@ -1,0 +1,4 @@
+segmenter_version,book_id,fragment_count,segmented_page_count,activity_candidate,experiment_candidate,expository_candidate,instruction_candidate,question_candidate,short_residual_candidate
+FRAGSEG_LTMD_U1_W1_1966_0.1,U1-H1966P6CI374,2547,163,7,18,391,429,199,1503
+FRAGSEG_LTMD_U1_W1_1966_0.1,U1-H1966P6CI375,2071,150,22,6,555,307,58,1123
+FRAGSEG_LTMD_U1_W1_1966_0.1,ALL,4618,313,29,24,946,736,257,2626
