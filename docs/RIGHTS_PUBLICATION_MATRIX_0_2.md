@@ -5,25 +5,19 @@ Alcance: **v0.1.0-rc.1 / corpus escalado de Ciencias Naturales**
 
 > Política conservadora de gestión de riesgo. No es una opinión jurídica vinculante. Una autorización o término específico emitido por CONALITEG/SEP o por el titular competente prevalece y debe incorporarse documentalmente.
 
-## Fuentes oficiales verificadas
-
-1. Catálogo Histórico de CONALITEG: https://historico.conaliteg.gob.mx/
-2. Términos y condiciones de gob.mx: https://www.gob.mx/terminos
-3. Ley Federal del Derecho de Autor — ficha oficial de la Cámara de Diputados; última reforma publicada señalada por la ficha: **15 de enero de 2026**: https://www.diputados.gob.mx/LeyesBiblio/ref/lfda.htm
-4. Texto de consulta de la LFDA, incluidos artículos 107 y 148: https://www.ordenjuridico.gob.mx/Documentos/Federal/html/wo17068.html
-5. Creative Commons — licencias y datos: https://creativecommons.org/faq/
-6. Apache License 2.0 — texto y guía oficial: https://www.apache.org/licenses/LICENSE-2.0
-
 ## Principio rector
 
-La existencia de acceso público a un visor **no se interpreta como licencia abierta de redistribución**. Los términos generales de gob.mx permiten visualizar/descargar para uso personal y no comercial y contienen restricciones sobre modificación, reproducción pública/comercial, distribución y transferencia.
+La existencia de acceso público a un visor **no se interpreta como licencia abierta de redistribución**. LTMD separa material fuente de terceros, copias temporales de trabajo, datos derivados no sustitutivos y código/documentación original.
 
-LTMD mantiene por ello una arquitectura que separa:
+## Licencias adoptadas por LTMD
 
-- **material fuente de terceros**;
-- **copias temporales de trabajo**;
-- **datos derivados no sustitutivos**;
-- **código/documentación original de LTMD**.
+Desde el corte `v0.1.0-rc.1`:
+
+- **software original LTMD:** Apache License 2.0, materializada en [`../LICENSE`](../LICENSE);
+- **datos derivados originales licenciables de LTMD:** CC BY 4.0, bajo el alcance definido en [`../DATA_LICENSE.md`](../DATA_LICENSE.md);
+- **materiales fuente CONALITEG/SEP/terceros:** expresamente excluidos de esas concesiones salvo que exista un derecho o autorización independiente aplicable.
+
+`DATA_LICENSE.md` limita la concesión a aquello sobre lo que el licenciante posea o controle derechos necesarios. La presencia de una URL, hash, identificador o hecho bibliográfico no relicencia la obra fuente ni implica reclamación de exclusividad sobre hechos no protegibles.
 
 ## Semáforo de publicación
 
@@ -31,11 +25,11 @@ LTMD mantiene por ello una arquitectura que separa:
 
 - identificadores LTMD (`book_id`, `page_id`, `fragment_id`);
 - generación, grado, asignatura y año/edición cuando estén verificados;
-- ISBN y otros hechos bibliográficos;
+- ISBN y hechos bibliográficos;
 - URLs oficiales de procedencia;
 - tamaños, dimensiones y SHA-256;
 - estados de resolución de activos;
-- métricas OCR y conteos de texto sin transcripción íntegra;
+- métricas OCR y conteos sin transcripción íntegra;
 - PAGESTRUCT/FRAGSEG como categorías y metadatos;
 - códigos/etiquetas analíticas originales;
 - frecuencias, agregados y resultados estadísticos;
@@ -78,35 +72,19 @@ La publicación requiere necesidad científica, proporcionalidad, atribución, a
 | Métricas OCR | Verde | métricas sin OCR íntegro |
 | OCR temporal | Amarillo | procesamiento interno y eliminación posterior |
 | PAGESTRUCT/FRAGSEG | Verde | categorías/metadatos derivados |
-| Manifiestos de fragmentos | Verde sólo si no contienen texto fuente sustitutivo | mantener hashes/categorías, controlar cualquier campo textual |
+| Manifiestos de fragmentos | Verde sólo si no contienen texto fuente sustitutivo | controlar cualquier campo textual |
 | SEMB 0.2 resultados/diagnósticos | Verde | derivados analíticos; resultados históricos siguen exploratorios |
 | Muestra SEMB 0.3 por IDs opacos | Verde | sin gold humano ni texto fuente masivo público |
-| Gold/reference humana futura | Revisión previa | decidir publicación y derechos tras el gate correspondiente |
+| Gold/reference humana futura | Revisión previa | decidir publicación tras el gate correspondiente |
 | Imágenes/páginas completas | Rojo | no incluir en GitHub/Zenodo |
-| Código LTMD | Verde respecto de contenido | licencia propia aún debe adoptarse formalmente |
-| Datos derivados LTMD | Verde respecto de contenido | licencia propia debe definir alcance y exclusiones |
+| Código LTMD | Verde | Apache License 2.0 adoptada |
+| Datos derivados LTMD | Verde dentro del alcance licenciable | CC BY 4.0 con exclusiones expresas |
 
-## Ley Federal del Derecho de Autor y bases de datos
+## Material fuente y límites
 
-El artículo 107 establece protección de bases de datos/compilaciones cuando la selección o disposición constituya creación intelectual y aclara que esa protección no se extiende a los datos y materiales en sí mismos. LTMD no utiliza una licencia de derivados para reclamar exclusividad sobre hechos bibliográficos o hechos no protegibles.
+LTMD no interpreta las limitaciones y excepciones al derecho de autor como permiso general para redistribuir OCR o páginas completas. El modelo operativo permanece: reconstrucción temporal, verificación SHA-256, publicación de métricas/metadatos no sustitutivos y eliminación de copias de trabajo.
 
-El artículo 148 contempla usos limitados de obras divulgadas, incluidos la cita que no constituya reproducción simulada/sustancial y la reproducción de partes para crítica o investigación científica, sujetos a condiciones legales. LTMD **no** interpreta estas limitaciones como permiso general para redistribuir el OCR completo o las páginas de los libros.
-
-## Licencias de las contribuciones propias
-
-La recomendación de gobernanza para cerrar los blockers de la candidata es:
-
-- **código original LTMD:** Apache License 2.0;
-- **metadatos/derivados originales LTMD, en la medida en que existan derechos licenciables:** CC BY 4.0;
-- **materiales fuente CONALITEG/SEP/terceros:** excluidos expresamente de ambas licencias.
-
-La decisión completa y sus cautelas están en `LICENSE_DECISION_MEMO_0_1.md`. Las licencias no se consideran aplicadas hasta que existan los archivos correspondientes y el preflight marque `publish_ready=true`.
-
-## Creative Commons: cautelas
-
-CC BY 4.0 permite compartir y adaptar con atribución y puede utilizarse para bases de datos. Creative Commons desaconseja NC/ND para bases de datos científicas. Al mismo tiempo, las licencias CC son irrevocables respecto de quienes reciben material bajo ellas y sólo deben aplicarse cuando quien licencia posee o controla los derechos necesarios.
-
-Esto hace indispensable una cláusula de **alcance limitado** en `DATA_LICENSE.md`: licenciar sólo las aportaciones originales de LTMD y excluir de forma visible texto, páginas, imágenes, ilustraciones, marcas y demás materiales de terceros.
+Las licencias abiertas del repositorio no se aplican a libros, páginas, imágenes, ilustraciones, portadas, texto fuente, OCR sustitutivo, marcas u otros materiales de CONALITEG/SEP o terceros.
 
 ## Operación técnica obligatoria
 
@@ -119,10 +97,18 @@ Para cualquier pipeline que necesite fuente protegida:
 5. eliminar la copia temporal;
 6. impedir que `private/`, `data/raw/` o `data/work/` entren al control de versiones.
 
-El preflight de `v0.1.0-rc.1` automatiza parte de esta última defensa mediante `git ls-files`.
+El preflight inspecciona además los archivos rastreados y valida la sustancia de `LICENSE`/`DATA_LICENSE.md` antes de permitir `publish_ready=true`.
 
-## Consulta institucional pendiente
+## Estado de la candidata
 
-Se mantiene como buena práctica solicitar a CONALITEG/SEP aclaración sobre OCR académico, publicación de fragmentos breves y posibles términos específicos distintos de los generales de gob.mx. El Catálogo Histórico publica actualmente el contacto `info@conaliteg.gob.mx`.
+El preflight vigente registra `publish_ready=true`, `publish_blockers=[]`, `LTMD_INTEGRITY_0.6` con 166/166 artefactos críticos y recomputación SHA-256 completa sin discrepancias.
 
-La falta de esa aclaración **no impide** publicar código, metadatos, hashes, métricas y análisis propios bajo una política conservadora; sí aconseja mantener amarillos/rojos fuera del paquete público hasta contar con fundamento suficiente.
+La consulta institucional a CONALITEG/SEP continúa siendo una buena práctica para ampliar futuros usos amarillos/rojos, pero no constituye un blocker para publicar código y derivados propios no sustitutivos bajo el alcance conservador ya adoptado.
+
+## Fuentes institucionales de referencia
+
+- Catálogo Histórico de CONALITEG: https://historico.conaliteg.gob.mx/
+- Términos y condiciones de gob.mx: https://www.gob.mx/terminos
+- Ley Federal del Derecho de Autor — Cámara de Diputados: https://www.diputados.gob.mx/LeyesBiblio/ref/lfda.htm
+- Creative Commons Attribution 4.0: https://creativecommons.org/licenses/by/4.0/
+- Apache License 2.0: https://www.apache.org/licenses/LICENSE-2.0

@@ -21,17 +21,17 @@ El corpus técnico materializado contiene:
 
 ## Release candidate vigente
 
-La candidata metodológica actual es **`v0.1.0-rc.1`**.
-
-El preflight automatizado reporta:
+La candidata metodológica actual es **`v0.1.0-rc.1`** y el preflight reproducible la declara **lista para publicación** como release candidate:
 
 - `rc_technical_ready=true`;
+- `publish_ready=true`;
 - `technical_failures=[]`;
-- `LTMD_INTEGRITY_0.5`: **150/150 artefactos críticos**;
+- `publish_blockers=[]`;
+- `LTMD_INTEGRITY_0.6`: **166/166 artefactos críticos**;
+- SHA-256 de los 166 artefactos críticos recomputados contra el checkout: **PASS**, cero discrepancias;
 - verificación de cifras del artículo metodológico: **PASS**;
 - fuentes/working files prohibidos rastreados: **0**;
-- gate humano SEMB 0.3: **cerrado correctamente**;
-- `publish_ready=false` únicamente por dos blockers: licencia del código propio y licencia/política de derivados originales LTMD.
+- gate humano SEMB 0.3: **cerrado correctamente**.
 
 **No existe todavía un DOI de esta candidata.** El DOI se incorporará sólo después de que una release real sea archivada por Zenodo; LTMD no anticipa ni inventa identificadores persistentes.
 
@@ -39,6 +39,8 @@ Documentos de la candidata:
 
 - [`VERSION`](VERSION)
 - [`CHANGELOG.md`](CHANGELOG.md)
+- [`LICENSE`](LICENSE) — software propio, Apache License 2.0
+- [`DATA_LICENSE.md`](DATA_LICENSE.md) — derivados originales licenciables, CC BY 4.0
 - [`docs/RELEASE_NOTES_v0.1.0-rc.1.md`](docs/RELEASE_NOTES_v0.1.0-rc.1.md)
 - [`docs/REPRODUCIBILITY_ENVIRONMENT_0_1.md`](docs/REPRODUCIBILITY_ENVIRONMENT_0_1.md)
 - [`docs/REPRODUCIBILITY_REPORT_v0.1.0-rc.1.md`](docs/REPRODUCIBILITY_REPORT_v0.1.0-rc.1.md)
@@ -82,12 +84,7 @@ Para dependencia documental se mantienen vistas reversibles:
 
 ## Familia estricta _Ciencias Naturales_
 
-El inventario contiene **37 visores** en nueve generaciones del catálogo:
-
-- `full_direct`: 31;
-- `full_alias_same_bytes`: 4;
-- `partial_internal_unserved`: 2;
-- `not_resolved`: 0.
+El inventario contiene **37 visores** en nueve generaciones del catálogo: 31 `full_direct`, 4 `full_alias_same_bytes`, 2 `partial_internal_unserved` y 0 `not_resolved`.
 
 ### Alias 2018 → 2019
 
@@ -112,21 +109,15 @@ Es la única capa que actualmente llega a Rule A, SEMB 0.2, comparación A/B y u
 
 ## SEMB 0.2: resultado metodológico negativo
 
-SEMB 0.2 produjo **99.49% de incertidumbre global**. Una batería sintética independiente de 105 casos confirmó una operacionalización insuficiente del gate. LTMD no bajó los umbrales retrospectivamente para maximizar diferencias históricas.
+SEMB 0.2 produjo **99.49% de incertidumbre global**. Una batería sintética independiente confirmó una operacionalización insuficiente del gate. LTMD no bajó los umbrales retrospectivamente para maximizar diferencias históricas.
 
 SEMB 0.2 se conserva como **resultado negativo/diagnóstico reproducible**, no como clasificador válido para expandir inferencias históricas.
 
 ## SEMB 0.3: referencia humana preregistrada
 
-La infraestructura prehumana contiene **480 casos**:
+La infraestructura prehumana contiene **480 casos**: 320 `development`, 160 `locked_validation` y 120 reservados para doble codificación de fiabilidad. Los criterios de aceptación, arquitecturas candidatas, stage gates y reglas de apertura quedaron congelados antes de observar anotaciones humanas.
 
-- 320 `development`;
-- 160 `locked_validation`;
-- 120 casos reservados para doble codificación de fiabilidad.
-
-Los criterios de aceptación, arquitecturas candidatas, stage gates y reglas de apertura quedaron congelados antes de observar anotaciones humanas. La etapa actual es:
-
-**`WAITING_HUMAN_REFERENCE`**
+Etapa actual: **`WAITING_HUMAN_REFERENCE`**.
 
 Las expansiones CN4/CN6 y Ola 2 no se clasifican productivamente con SEMB 0.2 ni con candidatos SEMB 0.3 para producir narrativa histórica.
 
@@ -138,74 +129,40 @@ El universo potencial de fragmentos de ≥4 tokens pasa de 5,037 a 7,429 (+2,392
 
 ## Expansión CN4/CN6
 
-Nueve objetos adicionales fueron auditados y procesados técnicamente.
-
-- posiciones declaradas: 1,897;
-- JPEG fuente reales: **1,888**;
-- SHA-256 verificados: 1,888/1,888;
-- texto detectado: 1,880/1,888 (99.58%);
-- páginas elegibles para FRAGSEG: 1,559;
-- FRAGSEG: **19,067 fragmentos**.
-
-La vista de contenido único conserva **16,155 unidades textuales únicas** entre esas 19,067 ocurrencias. La deduplicación es reversible y nunca elimina la procedencia original.
+Nueve objetos adicionales fueron auditados y procesados técnicamente: 1,888 JPEG reales, SHA-256 verificados 1,888/1,888, texto detectado 1,880/1,888 y **19,067 fragmentos**. La vista de contenido único conserva **16,155 unidades textuales únicas**. La deduplicación es reversible y nunca elimina la procedencia original.
 
 ## Ciencias Naturales Ola 2
 
-La Ola 2 incorporó exclusivamente objetos `full_direct` no procesados previamente; excluye aliases 2018 y los dos objetos 2008 parciales.
-
-- **19 libros**;
-- 3,177 JPEG;
-- SHA-256 verificados: 3,177/3,177;
-- texto detectado: 3,164/3,177 (99.59%);
-- `unresolved`: 0;
-- páginas elegibles: 2,528;
-- FRAGSEG: **36,195 fragmentos**, con 36,195 IDs únicos.
-
-Esta capa está `corpus_ready`, no `semantic_ready`.
+La Ola 2 incorporó exclusivamente objetos `full_direct` no procesados previamente; excluye aliases 2018 y los dos objetos 2008 parciales. Contiene 19 libros, 3,177 JPEG, SHA-256 verificados 3,177/3,177 y **36,195 fragmentos**. Esta capa está `corpus_ready`, no `semantic_ready`.
 
 ## Dependencia documental
 
-LTMD no supone independencia por `catalog_generation`.
-
-En CN4 1972↔1988, 188/214 páginas alineables (87.9%) son byte-idénticas en la misma posición, acompañadas por revisión localizada. El proyecto modela esa continuidad en lugar de contar automáticamente ambos objetos como observaciones independientes.
-
-En CN6 bajo generación 1993 se conservan dos objetos documentales distintos, incluido _Ciencias Naturales y desarrollo humano_. Las relaciones se modelan mediante `book_id`, `viewer_key`, `edition_year`, `document_role` y clusters de dependencia.
+LTMD no supone independencia por `catalog_generation`. En CN4 1972↔1988, 188/214 páginas alineables (87.9%) son byte-idénticas en la misma posición, acompañadas por revisión localizada. En CN6 bajo generación 1993 se conservan dos objetos documentales distintos. Las relaciones se modelan mediante identidad documental, procedencia y clusters de dependencia.
 
 ## Catálogo maestro reproducible
 
-El snapshot institucional indexado contiene:
+El snapshot institucional indexado contiene 542 claves de visor, 542/542 visores alcanzables, 542/542 títulos recuperados y 191 familias de título nuclear. La identidad documental se fundamenta en `book_id` + `viewer_key`; `catalog_generation` no se usa automáticamente como `edition_year`.
 
-- 542 claves de visor;
-- 542/542 visores alcanzables;
-- 542/542 títulos recuperados;
-- 191 familias de título nuclear;
-- 8 grupos de títulos repetidos conservados como colas de auditoría.
+## Derechos, licencias y reutilización
 
-La identidad documental se fundamenta en `book_id` + `viewer_key`; `catalog_generation` no se usa automáticamente como `edition_year`.
+El **software original de LTMD** se distribuye bajo **Apache License 2.0**, conforme a [`LICENSE`](LICENSE).
 
-## Derechos y reutilización
+Los **datos derivados originales de LTMD** sobre los cuales el licenciante posea o controle los derechos necesarios se ofrecen bajo **CC BY 4.0**, conforme a [`DATA_LICENSE.md`](DATA_LICENSE.md).
 
-LTMD **no redistribuye indiscriminadamente PDF, imágenes ni OCR íntegro de las obras fuente**. Conserva identificadores, URLs de procedencia, tamaños, SHA-256, código, métricas y derivados no sustitutivos.
+Estas licencias **no se aplican** a libros, PDF, JPEG, páginas, portadas, ilustraciones, texto fuente, OCR sustitutivo, marcas ni otros materiales de CONALITEG/SEP o terceros. El repositorio no redistribuye indiscriminadamente esos materiales. Cuando una etapa necesita contenido fuente, éste se reconstruye temporalmente, se verifica contra el hash persistido y se elimina después del procesamiento.
 
-Cuando una etapa necesita contenido fuente, éste se reconstruye temporalmente, se verifica contra el hash persistido y se elimina después del procesamiento.
-
-La candidata `v0.1.0-rc.1` mantiene deliberadamente pendientes dos decisiones de licencia:
-
-1. licencia del código propio;
-2. licencia/política de los datos derivados originales.
-
-No se interpretará una futura licencia LTMD como relicenciamiento de materiales fuente de CONALITEG/SEP o de terceros.
-
-Véanse:
+Véanse también:
 
 - [`docs/RIGHTS_AND_REUSE_0_1.md`](docs/RIGHTS_AND_REUSE_0_1.md)
+- [`docs/RIGHTS_PUBLICATION_MATRIX_0_2.md`](docs/RIGHTS_PUBLICATION_MATRIX_0_2.md)
+- [`docs/LICENSE_DECISION_MEMO_0_1.md`](docs/LICENSE_DECISION_MEMO_0_1.md)
 - [`docs/RELEASE_OUTPUTS_0_1.md`](docs/RELEASE_OUTPUTS_0_1.md)
 
 ## Reproducibilidad e integridad científica
 
-El corte vigente es **`LTMD_INTEGRITY_0.5`**, con **150/150 artefactos críticos presentes** y `missing_critical=[]` en el corte validado de la candidata.
+El corte vigente es **`LTMD_INTEGRITY_0.6`**, con **166/166 artefactos críticos presentes**, `missing_critical=[]` y recomputación SHA-256 completa en PASS.
 
-El entorno de referencia de release es Ubuntu 24.04. `requirements-release.txt` fija la dependencia Python directa de SEMB 0.2 (`sentence-transformers==5.6.1`) y la revisión exacta del modelo se mantiene en el workflow congelado. La reproducción de procedimiento/artefactos es alta; Python patch-level y el lock transitivo de wheels todavía están documentados como parcialmente congelados.
+El entorno de referencia de release es Ubuntu 24.04. `requirements-release.txt` fija la dependencia Python directa de SEMB 0.2 (`sentence-transformers==5.6.1`) y la revisión exacta del modelo se conserva en la infraestructura congelada. Python patch-level y el lock transitivo de wheels permanecen documentados como parcialmente congelados.
 
 Archivos:
 
@@ -221,7 +178,7 @@ LTMD separa dos productos:
 1. **artículo de método/recurso digital** — [`docs/METHODS_ARTICLE_DRAFT_0_2.md`](docs/METHODS_ARTICLE_DRAFT_0_2.md);
 2. **artículo histórico-educativo** — bloqueado hasta superar SEMB 0.3 y reconstruir la inferencia bajo unidades documentales defendibles.
 
-Las cifras centrales del manuscrito metodológico se recomputan automáticamente desde los artefactos congelados mediante CI. La candidata de release no transforma las tendencias exploratorias de SEMB 0.2 en resultados históricos confirmados.
+La condición `publish_ready=true` de esta RC se refiere a **publicabilidad del corte metodológico/técnico**, no a validación de SEMB 0.3 ni a confirmación de las tendencias históricas exploratorias de SEMB 0.2.
 
 ## Documentación central
 
@@ -243,10 +200,8 @@ Documentos clave:
 
 LTMD privilegia una regla sencilla: **una cifra reproducible no es automáticamente una afirmación válida**. Cada salto —fuente, identidad documental, OCR, estructura, fragmentación, clasificación e inferencia— debe conservar evidencia suficiente para ser auditado independientemente.
 
-Por ello el proyecto conserva también resultados negativos, aliases, posiciones no servidas, revisiones, huecos legítimos de secuencia y fallos de infraestructura: forman parte de la trazabilidad del corpus.
-
 ## Citación
 
-Mientras no exista un DOI versionado real, use la metadata de [`CITATION.cff`](CITATION.cff) y la versión de candidata correspondiente. La referencia provisional de `v0.1.0-rc.1` está documentada en las release notes.
+Mientras no exista un DOI versionado real, use la metadata de [`CITATION.cff`](CITATION.cff) y la versión correspondiente. La referencia provisional de `v0.1.0-rc.1` está documentada en las release notes.
 
 Cuando exista una release archivada en Zenodo, deberá citarse el DOI versionado de ese corte científico. No debe citarse una versión móvil de `main` como sustituto de una release congelada cuando exista una versión depositada.
