@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: write
   contents: write
 
 env:
@@ -59,6 +60,8 @@ jobs:
   combine:
     needs: ocr
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -85,9 +88,11 @@ jobs:
             git reset --hard origin/main
             cp /tmp/ltmd-u1-w4-ocr/* data/catalog/
             git add data/catalog/ltmd_u1_w4_social_sciences_ocr_metrics.csv data/catalog/ltmd_u1_w4_social_sciences_ocr_summary.csv data/catalog/ltmd_u1_w4_social_sciences_ocr.md
-            if git diff --cached --quiet; then exit 0; fi
+            if git diff --cached --quiet; then break; fi
             git commit -m 'Publish LTMD-U1 W4 Social Sciences OCR 0.1 metrics'
-            if git push origin HEAD:main; then exit 0; fi
+            if git push origin HEAD:main; then break; fi
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
             sleep $((attempt * 2))
           done
-          exit 1
+      - name: Dispatch W4 PAGESTRUCT
+        run: gh workflow run build-ltmd-u1-w4-social-sciences-pagestruct.yml --repo "$GITHUB_REPOSITORY" --ref main
