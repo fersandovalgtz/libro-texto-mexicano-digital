@@ -1,0 +1,151 @@
+name: recover-ltmd-u1-w3-spanish-pagestruct
+
+on:
+  workflow_run:
+    workflows: ['build-ltmd-u1-w3-spanish-pagestruct']
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: 'Source W3 PAGESTRUCT run to recover/assemble'
+        required: true
+        type: string
+
+permissions:
+  actions: write
+  contents: write
+
+env:
+  OMP_THREAD_LIMIT: '1'
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    outputs:
+      source_run_id: ${{ steps.inspect.outputs.source_run_id }}
+      source_success: ${{ steps.inspect.outputs.source_success }}
+      missing: ${{ steps.inspect.outputs.missing }}
+      missing_count: ${{ steps.inspect.outputs.missing_count }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: inspect
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            SOURCE_RUN_ID='${{ github.event.workflow_run.id }}'
+          else
+            SOURCE_RUN_ID='${{ inputs.source_run_id }}'
+          fi
+          RUN_JSON="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID")"
+          SOURCE_SUCCESS="$(python3 - "$RUN_JSON" <<'PY'
+          import json,sys
+          r=json.loads(sys.argv[1])
+          assert r['name']=='build-ltmd-u1-w3-spanish-pagestruct', r['name']
+          assert r['status']=='completed', (r['status'],r.get('conclusion'))
+          print('1' if r.get('conclusion')=='success' else '0')
+          PY
+          )"
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100" > /tmp/artifact_pages.json
+          python3 - /tmp/artifact_pages.json <<'PY' > /tmp/missing.json
+          import csv,json,sys
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_ocr_summary.csv',encoding='utf-8')))
+          expected=[r['viewer_key'] for r in rows]
+          assert len(expected)==114 and len(set(expected))==114, len(expected)
+          pages=json.load(open(sys.argv[1],encoding='utf-8'))
+          arts=[a for page in pages for a in page.get('artifacts',[])]
+          prefix='ltmd-u1-w3-spanish-structkw-'
+          present={a['name'][len(prefix):] for a in arts if a['name'].startswith(prefix) and not a.get('expired')}
+          extra=present-set(expected)
+          if extra: raise SystemExit(f'unexpected PAGESTRUCT artifacts: {sorted(extra)}')
+          print(json.dumps([k for k in expected if k not in present],separators=(',',':')))
+          PY
+          MISSING="$(cat /tmp/missing.json)"
+          MISSING_COUNT="$(python3 -c 'import json,sys; print(len(json.loads(sys.argv[1])))' "$MISSING")"
+          echo "source_run_id=$SOURCE_RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "source_success=$SOURCE_SUCCESS" >> "$GITHUB_OUTPUT"
+          echo "missing=$MISSING" >> "$GITHUB_OUTPUT"
+          echo "missing_count=$MISSING_COUNT" >> "$GITHUB_OUTPUT"
+          echo "source_success=$SOURCE_SUCCESS missing_count=$MISSING_COUNT"
+
+  recompute:
+    needs: inspect
+    if: needs.inspect.outputs.source_success != '1' && needs.inspect.outputs.missing_count != '0'
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.inspect.outputs.missing) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
+      - name: Recompute only missing structural-flags shard
+        run: python3 scripts/extract_ltmd_u1_w3_spanish_structural_flags_book.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w3-spanish-structkw-recovery-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w3_spanish_structkw/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  assemble:
+    needs: [inspect, recompute]
+    if: always() && needs.inspect.result == 'success' && needs.inspect.outputs.source_success != '1' && (needs.recompute.result == 'success' || needs.recompute.result == 'skipped')
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN_ID: ${{ needs.inspect.outputs.source_run_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download surviving source structural artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p data/work/ltmd_u1_w3_spanish_structkw /tmp/source-structkw
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern 'ltmd-u1-w3-spanish-structkw-*' --dir /tmp/source-structkw || true
+          find /tmp/source-structkw -type f -name 'structkw_*.csv' -exec cp {} data/work/ltmd_u1_w3_spanish_structkw/ \;
+      - name: Download recovery structural artifacts
+        if: needs.inspect.outputs.missing_count != '0'
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w3-spanish-structkw-recovery-*
+          path: /tmp/recovery-structkw
+          merge-multiple: true
+      - name: Merge recovery structural artifacts
+        if: needs.inspect.outputs.missing_count != '0'
+        run: find /tmp/recovery-structkw -type f -name 'structkw_*.csv' -exec cp {} data/work/ltmd_u1_w3_spanish_structkw/ \;
+      - name: Recombine and classify PAGESTRUCT
+        run: |
+          python3 scripts/combine_ltmd_u1_w3_spanish_structural_flags.py
+          python3 scripts/classify_ltmd_u1_w3_spanish_page_structure.py
+      - name: Publish recovered W3 PAGESTRUCT race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w3-pagestruct-recovered
+          cp data/catalog/ltmd_u1_w3_spanish_structural_keyword_flags.csv /tmp/w3-pagestruct-recovered/
+          cp data/catalog/ltmd_u1_w3_spanish_page_structure.csv /tmp/w3-pagestruct-recovered/
+          cp data/catalog/ltmd_u1_w3_spanish_page_structure_summary.csv /tmp/w3-pagestruct-recovered/
+          cp data/catalog/ltmd_u1_w3_spanish_page_structure.md /tmp/w3-pagestruct-recovered/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w3-pagestruct-recovered/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_spanish_structural_keyword_flags.csv data/catalog/ltmd_u1_w3_spanish_page_structure.csv data/catalog/ltmd_u1_w3_spanish_page_structure_summary.csv data/catalog/ltmd_u1_w3_spanish_page_structure.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish recovered LTMD-U1 W3 Spanish PAGESTRUCT 0.1'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
