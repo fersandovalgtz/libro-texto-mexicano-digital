@@ -2,6 +2,9 @@ name: build-ltmd-u1-w6-geography-atlas-completion-report
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w6-geography-atlas-completion-report.yml'
   workflow_run:
     workflows: ['analyze-ltmd-u1-w6-geography-atlas-exact-reuse']
     types: [completed]
