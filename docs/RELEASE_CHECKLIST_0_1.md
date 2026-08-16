@@ -2,128 +2,101 @@
 
 Fecha de creación: 2026-08-15  
 Última actualización: 2026-08-15  
-Candidata vigente: **v0.1.0-rc.1**
-
-## Objetivo
-
-Preparar una primera release archivable en GitHub/Zenodo sin confundir repositorio activo, release candidate y versión científica estable. La liberación debe ser reconstruible, citable y explícita sobre aquello que no redistribuye.
+Release: **v0.1.0-rc.1**
 
 ## Estado ejecutivo
 
-El preflight endurecido de `v0.1.0-rc.1` reporta:
+`v0.1.0-rc.1` fue publicada en GitHub como **prerelease metodológica/técnica** después de superar el preflight final.
+
+El corte auditado demostró:
 
 - `rc_technical_ready=true`;
 - `publish_ready=true`;
 - `technical_failures=[]`;
 - `publish_blockers=[]`;
 - `LTMD_INTEGRITY_0.6`: **166/166** artefactos críticos;
-- recomputación SHA-256 de los 166 artefactos críticos: **PASS**, cero discrepancias;
+- recomputación SHA-256 completa: **PASS**, cero discrepancias;
 - verificación del artículo metodológico: **PASS**;
-- fuentes/working files prohibidos rastreados por Git: **0**;
+- fuentes/working files prohibidos rastreados: **0**;
 - gate humano SEMB 0.3: **cerrado correctamente**.
 
-La candidata está, por tanto, **lista para publicarse como release candidate metodológica/técnica**. Esto no convierte SEMB 0.3 en validado ni autoriza inferencias históricas sustantivas nuevas.
+GitHub Release: https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.1.0-rc.1
 
-## Condiciones de release
-
-### Identidad y citación
+## Identidad y citación
 
 - [x] `CITATION.cff` presente.
 - [x] versión semántica fijada: `v0.1.0-rc.1`.
 - [x] archivo raíz `VERSION` materializado.
-- [x] `CITATION.cff` actualizado con versión y fecha de candidata.
+- [x] metadata de versión/fecha preparada.
 - [x] referencia bibliográfica provisional documentada.
-- [ ] crear el tag exacto `v0.1.0-rc.1`.
-- [ ] publicar GitHub Release asociada al tag.
-- [ ] archivar esa release en Zenodo y registrar el DOI versionado real.
-- [ ] añadir DOI/badge al README únicamente después de que exista realmente.
+- [x] tag anotado `v0.1.0-rc.1` creado.
+- [x] GitHub Release publicada como prerelease.
+- [ ] Zenodo debe ingerir/archivar la release y emitir un DOI real.
+- [ ] añadir DOI/badge al README únicamente después de verificar ese registro.
 
-### Derechos y licencias
+## Derechos y licencias
 
-- [x] licencia del **software propio** materializada en `LICENSE`: Apache License 2.0.
-- [x] licencia de **datos derivados originales licenciables** materializada en `DATA_LICENSE.md`: CC BY 4.0.
-- [x] `DATA_LICENSE.md` limita el alcance a derechos poseídos/controlados por el licenciante.
+- [x] software propio: Apache License 2.0 (`LICENSE`).
+- [x] derivados originales licenciables: CC BY 4.0 (`DATA_LICENSE.md`).
+- [x] alcance limitado a derechos poseídos/controlados por el licenciante.
 - [x] materiales fuente CONALITEG/SEP y de terceros excluidos expresamente.
 - [x] imágenes, libros, texto fuente y OCR sustitutivo fuera del paquete público ordinario.
 - [x] separación formal entre código, derivados propios y materiales fuente.
-- [x] comprobación automática de ausencia de fuentes/workfiles prohibidos rastreados.
-- [x] política y decisión documentadas en `RIGHTS_PUBLICATION_MATRIX_0_2.md` y `LICENSE_DECISION_MEMO_0_1.md`.
+- [x] comprobación automática de ausencia de fuentes/workfiles prohibidos.
 
-### Integridad y reproducibilidad
+## Integridad y reproducibilidad
 
 - [x] manifiesto SHA-256 de artefactos críticos.
-- [x] `LTMD_INTEGRITY_0.6` validado con **166/166** artefactos críticos y `missing_critical=[]`.
-- [x] SHA-256 de cada entrada crítica recomputado por el preflight contra el checkout actual.
-- [x] workflows reproducibles de las capas centrales.
+- [x] `LTMD_INTEGRITY_0.6` validado con 166/166 y `missing_critical=[]`.
+- [x] SHA-256 crítico recomputado por el preflight contra el checkout.
+- [x] workflows reproducibles de capas centrales.
 - [x] CI de infraestructura SEMB 0.3.
-- [x] verificación ejecutable de cifras del manuscrito metodológico.
-- [x] preflight de release automatizado.
-- [x] comprobación de ausencia de `private/`, `data/raw/`, `data/work/`, `downloads/` y `working/` rastreados.
-- [x] dependencia Python directa de SEMB 0.2 fijada en `requirements-release.txt`.
+- [x] verificación ejecutable de cifras del manuscrito.
+- [x] preflight automatizado.
+- [x] dependencia Python directa de SEMB 0.2 fijada.
 - [x] runtime y límites de congelamiento documentados.
-- [x] reporte específico de reproducibilidad materializado.
-- [ ] opcional para una versión estable posterior: congelar Python patch-level y lock transitivo de wheels.
-- [ ] regenerar integridad y repetir preflight sobre el corte documental final inmediatamente anterior al tag.
+- [x] reporte específico de reproducibilidad.
+- [ ] mejora futura opcional: congelar Python patch-level y lock transitivo de wheels.
 
-### Alcance científico
+## Alcance científico
 
-- [x] corpus piloto CN5 delimitado y auditado.
-- [x] distinción formal entre generación del catálogo y edición bibliográfica.
+- [x] piloto CN5 delimitado y auditado.
+- [x] distinción `catalog_generation` / edición bibliográfica.
 - [x] PAGESTRUCT y FRAGSEG versionados.
-- [x] resultado negativo SEMB 0.2 documentado.
-- [x] protocolo SEMB 0.3 preregistrado antes de referencia humana.
-- [x] primera release definida como metodológica/técnica, anterior a SEMB 0.3 humano.
-- [x] SEMB 0.2 marcado como diagnóstico/exploratorio, no gold standard.
-- [x] expansiones CN4/CN6 y Ola 2 incluidas sólo como `corpus_ready`, no `semantic_ready`.
-- [x] 64,856 unidades descritas como **ocurrencias técnicas**, no observaciones históricas independientes.
-- [x] SEMB 0.3 continúa en `WAITING_HUMAN_REFERENCE`.
+- [x] SEMB 0.2 documentado como resultado negativo/diagnóstico.
+- [x] SEMB 0.3 preregistrado antes de referencia humana.
+- [x] release definida como metodológica/técnica, anterior a SEMB 0.3 humano.
+- [x] expansiones CN4/CN6 y Ola 2 tratadas como `corpus_ready`, no `semantic_ready`.
+- [x] 64,856 unidades descritas como ocurrencias técnicas, no observaciones históricas independientes.
+- [x] SEMB 0.3 permanece en `WAITING_HUMAN_REFERENCE`.
 
-### Documentación
+## Documentación
 
-- [x] README actualizado al corpus escalado y al estatus de release.
-- [x] contexto curricular 0.2.
-- [x] registro de fuentes primarias.
-- [x] estrategia de publicación.
-- [x] plan de expansión.
+- [x] README de release/corpus.
+- [x] contexto curricular y registro de fuentes.
+- [x] estrategia de publicación y expansión.
 - [x] manuscrito metodológico 0.2.
 - [x] `CHANGELOG.md`.
-- [x] instalación/runtime mínimo documentado.
-- [x] tabla de outputs públicos por workflow.
-- [x] release notes específicas.
-- [x] índice maestro de método actualizado.
-- [ ] revisión sistemática de enlaces externos y alternativas archivadas, deseable para futuras releases estables.
+- [x] release notes.
+- [x] matriz de outputs públicos.
+- [x] reporte de reproducibilidad.
+- [x] matriz de derechos y memorando de licencias.
+- [x] índice maestro de método.
+- [ ] revisión sistemática de enlaces/archivos web, deseable en releases estables posteriores.
 
-### Expansión y dependencia documental
+## Operaciones publicadas
 
-- [x] mecanismo reproducible de descubrimiento del Catálogo Histórico identificado.
-- [x] relación documental de los dos objetos CN6 bajo generación 1993 documentada.
-- [x] dependencia/reutilización CN4 1972↔1988 representada explícitamente.
-- [x] aliases 2018→2019 demostrados por identidad byte a byte.
-- [x] dos objetos 2008 parciales documentados conservadoramente.
-- [x] CN4/CN6 y Ola 2 incluidos como infraestructura técnica, no inferencia semántica.
-
-## Blockers vigentes
-
-**El preflight no identifica blockers de publicación:** `publish_blockers=[]`.
-
-Lo pendiente ya no es un bloqueo del paquete, sino la secuencia externa de publicación: crear tag, GitHub Release, depósito Zenodo y después registrar el DOI real.
-
-El DOI **no** es una precondición del tag. Debe ser una salida del depósito real y nunca debe anticiparse.
-
-## Decisión vigente
-
-**`v0.1.0-rc.1` es la release candidate metodológica/técnica formal y está lista para publicación.** Su eventual publicación no cambia el gate científico: la futura release con resultados históricos semánticos continúa condicionada a SEMB 0.3 humano.
-
-## Secuencia de promoción pública
-
-1. cerrar este corte documental;
-2. regenerar `LTMD_INTEGRITY_0.6`;
-3. ejecutar el preflight y exigir `rc_technical_ready=true`, `publish_ready=true`, cero discrepancias SHA-256 y cero blockers;
-4. crear el tag exacto `v0.1.0-rc.1` sobre el commit verificado;
-5. publicar GitHub Release;
-6. archivar en Zenodo;
-7. registrar el DOI versionado real en la metadata de una actualización posterior, sin reescribir silenciosamente el tag archivado.
+- [x] corte documental cerrado.
+- [x] integridad regenerada.
+- [x] preflight final en success.
+- [x] tag anotado creado.
+- [x] GitHub prerelease creada.
+- [x] workflow de publicación de una sola vez retirado de `main` después del éxito.
+- [ ] depósito/ingesta Zenodo confirmado.
+- [ ] DOI versionado incorporado sólo después de confirmación.
 
 ## Regla de no retroactividad
 
-El DOI o tag de una release identifica exactamente el estado de código/datos de esa versión. Las correcciones posteriores producen una nueva release; no se reescribe silenciosamente una versión archivada.
+El tag `v0.1.0-rc.1` identifica un corte cerrado. `main` puede continuar evolucionando, pero el tag no debe moverse ni reescribirse para incorporar cambios posteriores o un DOI sobrevenido. Cualquier corrección científica o técnica material produce una nueva versión.
+
+La publicación de esta RC **no** altera el gate semántico: la futura release con resultados históricos primarios sigue condicionada a la referencia humana de SEMB 0.3.
