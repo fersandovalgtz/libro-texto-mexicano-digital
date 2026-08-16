@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Locate the observed addPage implementation used by unresolved LTMD-U1 W7 viewers.
 
-The inspection is source-only: it reads the already-published routing diagnostic
-to obtain same-origin JavaScript URLs, retrieves only those JavaScript resources,
+The inspection is source-only. It reads the published routing diagnostic,
+retrieves the unresolved viewer HTML plus its declared same-origin JavaScript,
 and records hashes plus minimal call/definition snippets. No page-image assets
 are requested or persisted.
 """
@@ -19,7 +19,7 @@ from urllib.request import Request, urlopen
 ROUTING = Path('data/catalog/ltmd_u1_w7_routing_diagnostics.json')
 OUT_JSON = Path('data/catalog/ltmd_u1_w7_addpage_contract.json')
 OUT_MD = Path('data/catalog/ltmd_u1_w7_addpage_contract.md')
-VERSION = 'LTMD_U1_W7_ADDPAGE_CONTRACT_0.1'
+VERSION = 'LTMD_U1_W7_ADDPAGE_CONTRACT_0.2'
 UA = 'LibroTextoMexicanoDigital/U1-W7 addPage contract inspector'
 TOKENS = ('addPage', 'loadPage', '.jpg', '/c/', 'ag_clave')
 
@@ -28,7 +28,7 @@ def fetch(url: str, attempts: int = 3) -> dict[str, object]:
     error = ''
     for attempt in range(1, attempts + 1):
         try:
-            req = Request(url, headers={'User-Agent': UA, 'Accept': 'application/javascript,text/javascript,*/*;q=0.1'})
+            req = Request(url, headers={'User-Agent': UA, 'Accept': 'text/html,application/javascript,text/javascript,*/*;q=0.1'})
             with urlopen(req, timeout=45) as response:
                 body = response.read()
                 status = int(getattr(response, 'status', 200))
@@ -53,7 +53,7 @@ def fetch(url: str, attempts: int = 3) -> dict[str, object]:
     return {'url': url, 'status': None, 'content_type': '', 'byte_size': 0, 'sha256': '', 'attempts': attempts, 'error': error, 'text': ''}
 
 
-def compact(value: str, limit: int = 900) -> str:
+def compact(value: str, limit: int = 1200) -> str:
     return re.sub(r'\s+', ' ', value).strip()[:limit]
 
 
@@ -69,47 +69,62 @@ def classify(snippet: str) -> str:
     return 'route_related'
 
 
+def scan(source_url: str, source_kind: str, text: str) -> list[dict[str, object]]:
+    hits: list[dict[str, object]] = []
+    lines = text.splitlines() or [text]
+    for idx, line in enumerate(lines):
+        if not any(token.lower() in line.lower() for token in TOKENS):
+            continue
+        lo = max(0, idx - 3)
+        hi = min(len(lines), idx + 4)
+        snippet = compact('\n'.join(lines[lo:hi]))
+        hits.append({
+            'source_url': source_url,
+            'source_kind': source_kind,
+            'line': idx + 1,
+            'classification': classify(snippet),
+            'tokens': [token for token in TOKENS if token.lower() in snippet.lower()],
+            'snippet_sha256': hashlib.sha256(snippet.encode('utf-8')).hexdigest(),
+            'snippet': snippet,
+        })
+    return hits
+
+
 def main() -> None:
     routing = json.loads(ROUTING.read_text(encoding='utf-8'))
+    html_urls: list[str] = []
     script_urls: list[str] = []
     for viewer in routing.get('viewers', []):
+        source_url = viewer.get('source_url', '')
+        if source_url and source_url not in html_urls:
+            html_urls.append(source_url)
         for item in viewer.get('scripts', []):
             url = item.get('url', '')
             if url and url not in script_urls:
                 script_urls.append(url)
 
-    if not script_urls:
-        raise SystemExit('No JavaScript URLs available in W7 routing diagnostics')
+    if not html_urls or not script_urls:
+        raise SystemExit('W7 routing diagnostics lack viewer HTML or JavaScript URLs')
 
     sources: list[dict[str, object]] = []
     hits: list[dict[str, object]] = []
-    for url in script_urls:
-        record = fetch(url)
-        text = str(record.pop('text', ''))
-        sources.append(record)
-        lines = text.splitlines() or [text]
-        for idx, line in enumerate(lines):
-            if not any(token.lower() in line.lower() for token in TOKENS):
-                continue
-            lo = max(0, idx - 2)
-            hi = min(len(lines), idx + 3)
-            snippet = compact('\n'.join(lines[lo:hi]))
-            hits.append({
-                'source_url': url,
-                'line': idx + 1,
-                'classification': classify(snippet),
-                'tokens': [token for token in TOKENS if token.lower() in snippet.lower()],
-                'snippet_sha256': hashlib.sha256(snippet.encode('utf-8')).hexdigest(),
-                'snippet': snippet,
-            })
+    for source_kind, urls in (('viewer_html', html_urls), ('declared_javascript', script_urls)):
+        for url in urls:
+            record = fetch(url)
+            text = str(record.pop('text', ''))
+            record['source_kind'] = source_kind
+            sources.append(record)
+            hits.extend(scan(url, source_kind, text))
 
     definitions = [hit for hit in hits if 'definition' in str(hit['classification'])]
     addpage_uses = [hit for hit in hits if 'addPage' in hit['tokens']]
     payload = {
         'contract_version': VERSION,
-        'policy': 'Same-origin JavaScript only; no book-image asset requests.',
+        'policy': 'Unresolved viewer HTML plus declared same-origin JavaScript only; no book-image asset requests.',
         'routing_diagnostic_version': routing.get('diagnostic_version'),
-        'script_source_count': len(sources),
+        'viewer_html_source_count': len(html_urls),
+        'javascript_source_count': len(script_urls),
+        'source_count': len(sources),
         'sources': sources,
         'route_hit_count': len(hits),
         'addpage_use_count': len(addpage_uses),
@@ -124,9 +139,10 @@ def main() -> None:
         '',
         f'Versión: `{VERSION}`.',
         '',
-        'Política: sólo JavaScript del mismo origen ya declarado por los visores; no se solicitan activos de página.',
+        'Política: HTML de los visores no resueltos y JavaScript declarado del mismo origen; no se solicitan activos de página.',
         '',
-        f'- Fuentes JavaScript inspeccionadas: **{len(sources)}**.',
+        f'- HTML de visores inspeccionados: **{len(html_urls)}**.',
+        f'- Fuentes JavaScript inspeccionadas: **{len(script_urls)}**.',
         f'- Evidencias de ruta: **{len(hits)}**.',
         f'- Usos de `addPage`: **{len(addpage_uses)}**.',
         f'- Definiciones observadas de `addPage`: **{len(definitions)}**.',
@@ -136,12 +152,12 @@ def main() -> None:
     ]
     if definitions:
         for hit in definitions:
-            lines.append(f"- `{hit['classification']}` en `{hit['source_url']}`, línea {hit['line']}; snippet SHA-256 `{hit['snippet_sha256']}`.")
+            lines.append(f"- `{hit['classification']}` en `{hit['source_url']}`, línea {hit['line']}; fuente `{hit['source_kind']}`; snippet SHA-256 `{hit['snippet_sha256']}`.")
     else:
-        lines.append('No se observó una definición de `addPage` en los JavaScript declarados por los cinco visores. La cadena de routing permanece no resuelta y no autoriza inferir una ruta de imagen alternativa.')
+        lines.append('No se observó una definición de `addPage` ni en el HTML de los cinco visores ni en sus JavaScript declarados. La cadena de routing permanece no resuelta y no autoriza inferir una ruta de imagen alternativa.')
     lines += [
         '',
-        'El JSON conserva los hashes de las fuentes y fragmentos mínimos suficientes para auditar la conclusión. La ausencia de una definición en este perímetro no demuestra que no exista código cargado dinámicamente; sólo delimita lo observado en las fuentes declaradas por el visor.',
+        'El JSON conserva hashes de las fuentes y fragmentos mínimos suficientes para auditar la conclusión. Si no aparece una definición, el siguiente perímetro legítimo es detectar referencias/cargas dinámicas adicionales; no probar rutas de imagen por heurística.',
     ]
     OUT_MD.write_text('\n'.join(lines) + '\n', encoding='utf-8')
     print(OUT_MD.read_text(encoding='utf-8'))
