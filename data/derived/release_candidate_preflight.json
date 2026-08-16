@@ -1,8 +1,8 @@
 {
   "preflight_version": "LTMD_RELEASE_PREFLIGHT_0.1",
   "release_candidate": "v0.1.0-rc.1",
-  "generated_utc": "2026-08-16T01:15:40.632560+00:00",
-  "git_head": "59b7f3a58f69210f7d6cc80080529519a9d473fe",
+  "generated_utc": "2026-08-16T01:16:13.970341+00:00",
+  "git_head": "10598ebd1de14a7cefca2181659c65d6ad2b73a3",
   "rc_technical_ready": true,
   "publish_ready": false,
   "technical_failures": [],
@@ -53,6 +53,11 @@
       "code": "direct_semantic_dependency_pinned",
       "passed": true,
       "detail": "sentence-transformers==5.6.1"
+    },
+    {
+      "code": "license_recommendation_documented",
+      "passed": true,
+      "detail": "Apache-2.0 + CC BY 4.0 recommendation recorded without applying licenses"
     },
     {
       "code": "gitignore_private_",

@@ -2,7 +2,7 @@
 
 Candidata: **v0.1.0-rc.1**.
 
-Commit observado: `59b7f3a58f69210f7d6cc80080529519a9d473fe`.
+Commit observado: `10598ebd1de14a7cefca2181659c65d6ad2b73a3`.
 
 RC técnicamente lista: **SÍ**.
 Lista para publicación pública: **NO**.
@@ -20,6 +20,7 @@ Verificación de cifras del artículo: **PASS**.
 - [x] `integrity_0_5` — critical=150/150
 - [x] `methods_claim_check` — passed=True
 - [x] `direct_semantic_dependency_pinned` — sentence-transformers==5.6.1
+- [x] `license_recommendation_documented` — Apache-2.0 + CC BY 4.0 recommendation recorded without applying licenses
 - [x] `gitignore_private_` — requires private/
 - [x] `gitignore_data_work_` — requires data/work/
 - [x] `gitignore__env` — requires .env
