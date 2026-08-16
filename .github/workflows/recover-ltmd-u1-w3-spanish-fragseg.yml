@@ -164,3 +164,5 @@ jobs:
             sleep $((attempt * 2))
           done
           exit 1
+      - name: Continue W3 exact-reuse analysis after recovered FRAGSEG
+        run: gh workflow run analyze-ltmd-u1-w3-spanish-exact-reuse.yml --repo "$GITHUB_REPOSITORY" --ref main
