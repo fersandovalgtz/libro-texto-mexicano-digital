@@ -1,0 +1,88 @@
+name: diagnose-ltmd-u1-w3-spanish-ocr-run
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/diagnose-ltmd-u1-w3-spanish-ocr-run.yml'
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN_ID: '31960694824'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Diagnose missing W3 OCR artifacts and jobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100" > /tmp/artifacts.json
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/jobs?per_page=100" > /tmp/jobs.json
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID" > /tmp/run.json
+          python3 - <<'PY'
+          import csv,json,datetime
+          from pathlib import Path
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv',encoding='utf-8')))
+          expected=[r['viewer_key'] for r in proc if r['is_canonical_processing_object']=='1']
+          assert len(expected)==114 and len(set(expected))==114
+          art_pages=json.load(open('/tmp/artifacts.json'))
+          arts=[a for page in art_pages for a in page.get('artifacts',[])]
+          prefix='ltmd-u1-w3-spanish-ocr-'
+          present={a['name'][len(prefix):] for a in arts if a['name'].startswith(prefix) and not a.get('expired')}
+          missing=[k for k in expected if k not in present]
+          job_pages=json.load(open('/tmp/jobs.json'))
+          jobs=[j for page in job_pages for j in page.get('jobs',[])]
+          run=json.load(open('/tmp/run.json'))
+          lines=[
+            '# LTMD-U1 W3 — diagnóstico del run OCR fuente',
+            '',
+            f"Run: `{run['id']}`. Estado: `{run.get('status')}`. Conclusión: `{run.get('conclusion')}`.",
+            '',
+            f'- Canónicos esperados: **{len(expected)}**.',
+            f'- Artifacts OCR canónicos presentes: **{len(present)}**.',
+            f'- Canónicos sin artifact: **{len(missing)}**.',
+            '',
+            '## Faltantes y job asociado',
+            ''
+          ]
+          for key in missing:
+              candidates=[j for j in jobs if key in (j.get('name') or '')]
+              if candidates:
+                  for j in candidates:
+                      lines.append(f"- `{key}` → job `{j.get('name')}`: status=`{j.get('status')}`, conclusion=`{j.get('conclusion')}`, started=`{j.get('started_at')}`, completed=`{j.get('completed_at')}`.")
+              else:
+                  lines.append(f'- `{key}` → no se encontró job cuyo nombre contenga el viewer key.')
+          failures=[j for j in jobs if j.get('conclusion') in {'failure','cancelled','timed_out','action_required'}]
+          active=[j for j in jobs if j.get('status')!='completed']
+          lines += [
+            '',
+            f'- Jobs no completados en snapshot: **{len(active)}**.',
+            f'- Jobs con conclusión de fallo/cancelación/timeout/action_required: **{len(failures)}**.',
+            '',
+            'Este diagnóstico es un snapshot operacional; no modifica ni recomputa OCR.'
+          ]
+          Path('data/catalog/ltmd_u1_w3_spanish_ocr_run_diagnostic.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
+          print('\n'.join(lines))
+          PY
+      - name: Publish diagnostic snapshot
+        shell: bash
+        run: |
+          cp data/catalog/ltmd_u1_w3_spanish_ocr_run_diagnostic.md /tmp/w3diag.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/w3diag.md data/catalog/ltmd_u1_w3_spanish_ocr_run_diagnostic.md
+          git add data/catalog/ltmd_u1_w3_spanish_ocr_run_diagnostic.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'Publish W3 OCR source-run diagnostic snapshot'
+            git push origin HEAD:main
+          fi
