@@ -1,0 +1,39 @@
+name: extract-ltmd-u1-w2-math-route-cases
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/extract-ltmd-u1-w2-math-route-cases.yml'
+      - 'scripts/extract_ltmd_u1_w2_math_route_cases.py'
+      - 'data/catalog/ltmd_u1_w2_math_asset_manifest.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: python3 scripts/extract_ltmd_u1_w2_math_route_cases.py
+      - name: Publish selected routing evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w2_math_route_cases.csv /tmp/route_cases.csv
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/route_cases.csv data/catalog/ltmd_u1_w2_math_route_cases.csv
+            git add data/catalog/ltmd_u1_w2_math_route_cases.csv
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W2 mathematics routing evidence subset'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
