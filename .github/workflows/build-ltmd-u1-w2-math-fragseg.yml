@@ -2,17 +2,13 @@ name: build-ltmd-u1-w2-math-fragseg
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows:
-      - build-ltmd-u1-w2-math-pagestruct
-    types: [completed]
 
 permissions:
+  actions: write
   contents: write
 
 jobs:
   matrix:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     outputs:
       viewers: ${{ steps.make.outputs.viewers }}
@@ -62,6 +58,8 @@ jobs:
   combine:
     needs: fragment
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -89,9 +87,15 @@ jobs:
             git reset --hard origin/main
             cp /tmp/ltmd-u1-w2-math-fragseg/* data/catalog/
             git add data/catalog/ltmd_u1_w2_math_fragment_manifest.csv data/catalog/ltmd_u1_w2_math_fragment_manifest_summary.csv data/catalog/ltmd_u1_w2_math_fragment_sequence_gaps.csv data/catalog/ltmd_u1_w2_math_fragment_manifest.md
-            if git diff --cached --quiet; then exit 0; fi
+            if git diff --cached --quiet; then break; fi
             git commit -m 'Publish LTMD-U1 W2 mathematics FRAGSEG 0.2 layer'
-            if git push origin HEAD:main; then exit 0; fi
+            if git push origin HEAD:main; then break; fi
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
             sleep $((attempt * 2))
           done
-          exit 1
+      - name: Dispatch final W2 dashboard and completion report
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh workflow run build-ltmd-u1-coverage.yml --repo "$GITHUB_REPOSITORY"
+          gh workflow run build-ltmd-u1-w2-completion-report.yml --repo "$GITHUB_REPOSITORY"
