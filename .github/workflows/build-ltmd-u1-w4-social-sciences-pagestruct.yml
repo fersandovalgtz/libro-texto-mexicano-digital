@@ -1,0 +1,101 @@
+name: build-ltmd-u1-w4-social-sciences-pagestruct
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['build-ltmd-u1-w4-social-sciences-ocr']
+    types: [completed]
+
+permissions:
+  actions: write
+  contents: write
+
+env:
+  OMP_THREAD_LIMIT: '1'
+
+jobs:
+  matrix:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    outputs:
+      viewers: ${{ steps.make.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: make
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import csv,json
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w4_social_sciences_ocr_summary.csv',encoding='utf-8')))
+          metrics=list(csv.DictReader(open('data/catalog/ltmd_u1_w4_social_sciences_ocr_metrics.csv',encoding='utf-8')))
+          assert len(rows)==14 and len({r['viewer_key'] for r in rows})==14
+          assert {r['ocr_version'] for r in rows}=={'LTMD_U1_W4_SOCIAL_SCIENCES_OCR_0.1'}
+          assert all(int(r['unresolved'])==0 and int(r['sha_verified'])==int(r['pages']) for r in rows)
+          assert len(metrics)==2414
+          assert all(r['source_sha256_verified']=='1' and r['ocr_status']=='ok' for r in metrics)
+          print('viewers='+json.dumps([r['viewer_key'] for r in rows],separators=(',',':')))
+          PY
+
+  flags:
+    needs: matrix
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.matrix.outputs.viewers) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
+      - run: python3 scripts/extract_ltmd_u1_w4_social_sciences_structural_flags_book.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w4-social-sciences-structkw-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w4_social_sciences_structkw/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  combine:
+    needs: flags
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w4-social-sciences-structkw-*
+          path: data/work/ltmd_u1_w4_social_sciences_structkw
+          merge-multiple: true
+      - run: python3 scripts/combine_ltmd_u1_w4_social_sciences_structural_flags.py
+      - run: python3 scripts/classify_ltmd_u1_w4_social_sciences_page_structure.py
+      - name: Publish W4 PAGESTRUCT 0.1 race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w4-pagestruct
+          cp data/catalog/ltmd_u1_w4_social_sciences_structural_keyword_flags.csv /tmp/w4-pagestruct/
+          cp data/catalog/ltmd_u1_w4_social_sciences_page_structure.csv /tmp/w4-pagestruct/
+          cp data/catalog/ltmd_u1_w4_social_sciences_page_structure_summary.csv /tmp/w4-pagestruct/
+          cp data/catalog/ltmd_u1_w4_social_sciences_page_structure.md /tmp/w4-pagestruct/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w4-pagestruct/* data/catalog/
+            git add data/catalog/ltmd_u1_w4_social_sciences_structural_keyword_flags.csv data/catalog/ltmd_u1_w4_social_sciences_page_structure.csv data/catalog/ltmd_u1_w4_social_sciences_page_structure_summary.csv data/catalog/ltmd_u1_w4_social_sciences_page_structure.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W4 Social Sciences PAGESTRUCT 0.1'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
+      - name: Dispatch W4 FRAGSEG
+        run: gh workflow run build-ltmd-u1-w4-social-sciences-fragseg.yml --repo "$GITHUB_REPOSITORY" --ref main
