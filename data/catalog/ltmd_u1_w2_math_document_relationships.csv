@@ -1,0 +1,6 @@
+relationship_version,relation_level,source_viewer_key,source_page,target_viewer_key,target_page,relation_type,evidence,interpretive_limit
+LTMD_U1_W2_MATH_REL_0.1,document,H1982P4MA388,,H1972P4MA083,,full_byte_alias,"258 aligned JPEG; all SHA-256 and byte-size identical",Viewer identities and bibliographic records remain distinct.
+LTMD_U1_W2_MATH_REL_0.1,document,H1982P5MA394,,H1972P5MA089,,full_byte_alias,"304 aligned JPEG; all SHA-256 and byte-size identical",Viewer identities and bibliographic records remain distinct.
+LTMD_U1_W2_MATH_REL_0.1,document,H1982P6MA399,,H1972P6MA094,,full_byte_alias,"194 aligned JPEG; all SHA-256 and byte-size identical",Viewer identities and bibliographic records remain distinct.
+LTMD_U1_W2_MATH_REL_0.1,page,H2008P4MA276,86,H2014P4DMM,92,page_recovery_by_fixed_offset,"offset +6; 5 byte-identical anchors; 0 mismatches; recovered target SHA verified",Page-level recovery does not imply document-level identity.
+LTMD_U1_W2_MATH_REL_0.1,page,H2008P4MA276,163,H2014P5DMM,163,page_recovery_by_fixed_offset,"offset 0; 7 byte-identical anchors; 0 mismatches; recovered target SHA verified",Page-level recovery does not imply document-level identity.
