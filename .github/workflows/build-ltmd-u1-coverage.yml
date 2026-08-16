@@ -16,6 +16,8 @@ on:
       - 'data/catalog/ltmd_u1_w1_1966_ocr_summary.csv'
       - 'data/catalog/ltmd_u1_w1_1966_page_structure_summary.csv'
       - 'data/catalog/ltmd_u1_w1_1966_fragment_manifest_summary.csv'
+      - 'data/catalog/ltmd_u1_w1_2008_recovery_audit.csv'
+      - 'data/catalog/ltmd_u1_w1_2008_recovered_positions.csv'
       - 'data/book_inventory.csv'
       - 'data/derived/fragment_manifest.csv'
       - 'data/derived/fragment_segmentation_summary.csv'
