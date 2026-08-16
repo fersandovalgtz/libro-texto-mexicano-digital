@@ -1,0 +1,51 @@
+name: build-ltmd-u1-w6-geography-atlas-processing-topology
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - recover-ltmd-u1-w6-h2008p4ge273-internal-gaps
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify all W6 reconciliation evidence exists
+        shell: bash
+        run: |
+          test -s data/catalog/ltmd_u1_w6_geography_atlas_asset_manifest.csv
+          test -s data/catalog/ltmd_u1_w6_geography_atlas_source_readiness.csv
+          test -s data/catalog/ltmd_u1_w6_geography_atlas_2018_2019_route_relationships.csv
+          test -s data/catalog/ltmd_u1_w6_h2008p4ge273_gap_recovery.csv
+      - name: Build W6 reconciled processing topology
+        run: python3 scripts/build_ltmd_u1_w6_geography_atlas_processing_topology.py
+      - name: Publish W6 processing topology race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w6-topology
+          cp data/catalog/ltmd_u1_w6_geography_atlas_processing_inventory.csv /tmp/w6-topology/
+          cp data/catalog/ltmd_u1_w6_geography_atlas_canonical_page_manifest.csv /tmp/w6-topology/
+          cp data/catalog/ltmd_u1_w6_geography_atlas_processing_topology.md /tmp/w6-topology/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w6-topology/* data/catalog/
+            git add data/catalog/ltmd_u1_w6_geography_atlas_processing_inventory.csv data/catalog/ltmd_u1_w6_geography_atlas_canonical_page_manifest.csv data/catalog/ltmd_u1_w6_geography_atlas_processing_topology.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W6 Geography Atlas processing topology'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
