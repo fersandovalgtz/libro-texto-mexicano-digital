@@ -1,0 +1,3 @@
+ocr_version,book_id,pages,sha_verified,text_detected,no_text_detected,unresolved,recognized_words,ocr_chars
+LTMD_U1_W1_2008_OCR_0.1,LTMD-CN3-G2008,178,178,178,0,0,26112,153247
+LTMD_U1_W1_2008_OCR_0.1,LTMD-CN4-G2008,177,177,177,0,0,33881,231930
