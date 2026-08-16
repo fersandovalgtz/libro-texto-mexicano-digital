@@ -1,0 +1,786 @@
+{
+  "inspection_version": "LTMD_U1_W7_DYNAMIC_DEPENDENCIES_0.1",
+  "policy": "HTML/JavaScript source inspection only; no page-image asset requests.",
+  "routing_diagnostic_version": "LTMD_U1_W7_ROUTING_DIAGNOSTICS_0.1",
+  "origin": "historico.conaliteg.gob.mx",
+  "initial_source_count": 10,
+  "source_count_total": 14,
+  "new_dependency_count": 4,
+  "new_dependency_http_200_count": 4,
+  "dynamic_loader_evidence_count": 1,
+  "addpage_definition_count": 1,
+  "loadpage_definition_count": 1,
+  "image_route_evidence_count": 12,
+  "sources": [
+    {
+      "url": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+      "status": 200,
+      "content_type": "text/html",
+      "byte_size": 4800,
+      "sha256": "d50b0d52a39594a90dd642fb92b8bede70c2810cec4930b7fcfcc5c2a2e99055",
+      "attempts": 1,
+      "error": "",
+      "depth": 0,
+      "discovered_from": "declared_by_viewer"
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 87534,
+      "sha256": "39572eb8749061730edbbc2b434b6bcc964a9ce7a9939fc9727e6f5913329fbb",
+      "attempts": 1,
+      "error": "",
+      "depth": 0,
+      "discovered_from": "declared_by_viewer"
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/modernizr.2.5.3.min.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 8547,
+      "sha256": "c17c84e682712bd3e5e3f23ca76cc7eaaaf9879be223a8e2ba92ea8cd40e1ba7",
+      "attempts": 1,
+      "error": "",
+      "depth": 0,
+      "discovered_from": "declared_by_viewer"
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/hash.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 2967,
+      "sha256": "5c56c9d6b31c8de4d43a1099c1a80cbcca39f0a63696a10ef389d9eeaff84887",
+      "attempts": 1,
+      "error": "",
+      "depth": 0,
+      "discovered_from": "declared_by_viewer"
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/js.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 303,
+      "sha256": "6b595aaf4d56a695072eac1a4b02246cc2ae4bcea30ee90166fdc1a60f2fadf0",
+      "attempts": 1,
+      "error": "",
+      "depth": 0,
+      "discovered_from": "declared_by_viewer"
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/x.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 8192,
+      "sha256": "209526b121455c45b743c43f7a269126c2d510cbb77bd6945d5798703ec2cdc3",
+      "attempts": 1,
+      "error": "",
+      "depth": 0,
+      "discovered_from": "declared_by_viewer"
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+      "status": 200,
+      "content_type": "text/html",
+      "byte_size": 4969,
+      "sha256": "fda108c0e226f6eab970b6b250b95448fe893fb0fd96fe07777cb04ea1211dd9",
+      "attempts": 1,
+      "error": "",
+      "depth": 0,
+      "discovered_from": "declared_by_viewer"
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+      "status": 200,
+      "content_type": "text/html",
+      "byte_size": 4969,
+      "sha256": "0293019f55e7418bb755aba04d6a3a54488f9d60244bb23c7dd24918a27e464f",
+      "attempts": 1,
+      "error": "",
+      "depth": 0,
+      "discovered_from": "declared_by_viewer"
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+      "status": 200,
+      "content_type": "text/html",
+      "byte_size": 4978,
+      "sha256": "86485f5ee8e1b22dadcdaa6842430cc1ea665489190d640773cb0cb582313b91",
+      "attempts": 1,
+      "error": "",
+      "depth": 0,
+      "discovered_from": "declared_by_viewer"
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+      "status": 200,
+      "content_type": "text/html",
+      "byte_size": 4969,
+      "sha256": "02c1b10eeb0a316fdd2c7136a9eaa1cda23dbb6396b8f79923da25dfd2e2790a",
+      "attempts": 1,
+      "error": "",
+      "depth": 0,
+      "discovered_from": "declared_by_viewer"
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/turn.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 74062,
+      "sha256": "e27644257b9749b709baddc8fa3edbcd88c2945ed4e435500fdd4b276686d380",
+      "attempts": 1,
+      "error": "",
+      "depth": 1,
+      "discovered_from": "https://historico.conaliteg.gob.mx/x.js"
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/turn.html4.min.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 23173,
+      "sha256": "aeeec025bf16c6883326184c12d4df0b2ac78b674c74a40ac2cfc5e9e341ef42",
+      "attempts": 1,
+      "error": "",
+      "depth": 1,
+      "discovered_from": "https://historico.conaliteg.gob.mx/x.js"
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/zoom.min.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 12137,
+      "sha256": "46b7e7e4f04487b7be39a704b2203dbb7e173c2a1fcd3eaae6483052ae398360",
+      "attempts": 1,
+      "error": "",
+      "depth": 1,
+      "discovered_from": "https://historico.conaliteg.gob.mx/x.js"
+    },
+    {
+      "url": "https://historico.conaliteg.gob.mx/magazine.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "byte_size": 7455,
+      "sha256": "0a885166ba1252c650565eeb43218f72382450d268541533afe26cb62fe80d33",
+      "attempts": 1,
+      "error": "",
+      "depth": 1,
+      "discovered_from": "https://historico.conaliteg.gob.mx/x.js"
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/modernizr.2.5.3.min.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/hash.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/js.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/x.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/x.js",
+      "to": "https://historico.conaliteg.gob.mx/turn.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/x.js",
+      "to": "https://historico.conaliteg.gob.mx/turn.html4.min.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/x.js",
+      "to": "https://historico.conaliteg.gob.mx/zoom.min.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/x.js",
+      "to": "https://historico.conaliteg.gob.mx/magazine.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/modernizr.2.5.3.min.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/hash.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/js.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/x.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/modernizr.2.5.3.min.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/hash.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/js.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/x.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/modernizr.2.5.3.min.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/hash.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/js.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/x.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/modernizr.2.5.3.min.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/hash.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/js.js",
+      "depth": 1
+    },
+    {
+      "from": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+      "to": "https://historico.conaliteg.gob.mx/x.js",
+      "depth": 1
+    }
+  ],
+  "addpage_definitions": [
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/magazine.js",
+      "line": 23,
+      "classifications": [
+        "addPage_named_function_definition"
+      ],
+      "snippet_sha256": "05021fb95fced43c53e7832792d9320520caf426bc5086ff522b94a709aa0e04",
+      "snippet": "function addPage(page, book) { var id, pages = book.turn('pages');"
+    }
+  ],
+  "loadpage_definitions": [
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/magazine.js",
+      "line": 48,
+      "classifications": [
+        "loadPage_named_function_definition"
+      ],
+      "snippet_sha256": "626a291d5a547bdc15ac54f6b4417e31e6d0aef6adef195b74a531e09b1f973d",
+      "snippet": "function loadPage(page, pageElement) { // Create an image element"
+    }
+  ],
+  "dynamic_loader_evidence": [
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+      "line": 2,
+      "classifications": [
+        "dynamic_loader_evidence"
+      ],
+      "snippet_sha256": "e517b3b8f6a81a6448e76885793a8d489ad350a3f27cd4086554802ce68a02b0",
+      "snippet": "/*! jQuery v3.7.1 | (c) OpenJS Foundation and other contributors | jquery.org/license */ !function(e,t){\"use strict\";\"object\"==typeof module&&\"object\"==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error(\"jQuery requires a window with a document\");return t(e)}:t(e)}(\"undefined\"!=typeof window?window:this,function(ie,e){\"use strict\";var oe=[],r=Object.getPrototypeOf,ae=oe.slice,g=oe.flat?function(e){return oe.flat.call(e)}:function(e){return oe.concat.apply([],e)},s=oe.push,se=oe.indexOf,n={},i=n.toString,ue=n.hasOwnProperty,o=ue.toString,a=o.call(Object),le={},v=function(e){return\"function\"==typeof e&&\"number\"!=typeof e.nodeType&&\"function\"!=typeof e.item},y=function(e){return null!=e&&e===e.window},C=ie.document,u={type:!0,src:!0,nonce:!0,noModule:!0};function m(e,t,n){var r,i,o=(n=n||C).createElement(\"script\");if(o.text=e,t)for(r in u)(i=t[r]||t.getAttribute&&t.getAttribute(r))&&o.setAttribute(r,i);n.head.appendChild(o).parentNode.removeChild(o)}function x(e){return null==e?e+\"\":\"object\"==typeof e||\"function\"==typeof e?n[i.call(e)]||\"o"
+    }
+  ],
+  "image_route_evidence": [
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+      "line": 20,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "97970ebb7c6aa4e9f029a54c4c129828d74d10bfba224415c55c2928fda307e8",
+      "snippet": "<meta content=\"Catálogo histórico de libros: Formación Cívica y Ética Grado 5° Generación 2014\" property=\"og:description\"/> <meta content=\" .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG:. \" property=\"og:site_name\"/> <meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/> <meta content=\"summary\" name=\"twitter:card\"/> <meta content=\"@Conaliteg\" name=\"twitter:site\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+      "line": 26,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "248bdfa3bc74756e927a71bf26d29da14da3e34edced105d2545c4ada3592758",
+      "snippet": "<meta content=\"Formación Cívica y Ética Grado 5° Generación 2014\" name=\"twitter:title\"/> <meta content=\"Catálogo histórico de libros: Formación Cívica y Ética Grado 5° Generación 2014\" name=\"twitter:description\"/> <meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/> <link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/> <link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+      "line": 19,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "766a6542e8dc5c4f890b9f902fdb861b303282efa535acbad52db44595027b98",
+      "snippet": "<meta content=\"Catálogo histórico de libros: Formación Cívica y Ética.. Grado 3° Generación 2018\" property=\"og:description\"/> <meta content=\" .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG:. \" property=\"og:site_name\"/> <meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/> <meta content=\"summary\" name=\"twitter:card\"/> <meta content=\"@Conaliteg\" name=\"twitter:site\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+      "line": 25,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "43f883125ffdbdb53c48984e6423145c6c13c9d7dd36471002b554b24ce36b29",
+      "snippet": "<meta content=\"Formación Cívica y Ética.. Grado 3° Generación 2018\" name=\"twitter:title\"/> <meta content=\"Catálogo histórico de libros: Formación Cívica y Ética.. Grado 3° Generación 2018\" name=\"twitter:description\"/> <meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/> <link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/> <link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+      "line": 19,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "f293aade3bbe46023f0a01b1a83e87fae663ccc5daec81c26fe3e782c9e7d11a",
+      "snippet": "<meta content=\"Catálogo histórico de libros: Formación Cívica y Ética.. Grado 4° Generación 2018\" property=\"og:description\"/> <meta content=\" .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG:. \" property=\"og:site_name\"/> <meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/> <meta content=\"summary\" name=\"twitter:card\"/> <meta content=\"@Conaliteg\" name=\"twitter:site\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+      "line": 25,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "24ebc22af2be70593c17ca0a99bde5fd6e7d1e39f6466f815af9a4e96a955d7b",
+      "snippet": "<meta content=\"Formación Cívica y Ética.. Grado 4° Generación 2018\" name=\"twitter:title\"/> <meta content=\"Catálogo histórico de libros: Formación Cívica y Ética.. Grado 4° Generación 2018\" name=\"twitter:description\"/> <meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/> <link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/> <link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+      "line": 19,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "7dff803cb3036b77752f2926e0a39dc5cc0a43cd6fb4daf096977b92ccf0e5f2",
+      "snippet": "<meta content=\"Catálogo histórico de libros: Formación Cívica y Ética .. Grado 5° Generación 2018\" property=\"og:description\"/> <meta content=\" .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG:. \" property=\"og:site_name\"/> <meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/> <meta content=\"summary\" name=\"twitter:card\"/> <meta content=\"@Conaliteg\" name=\"twitter:site\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+      "line": 25,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "bd555a7689cf7b9baa3b406be3d8c6032ec7bf764648d3f51be2a1f097bf67a2",
+      "snippet": "<meta content=\"Formación Cívica y Ética .. Grado 5° Generación 2018\" name=\"twitter:title\"/> <meta content=\"Catálogo histórico de libros: Formación Cívica y Ética .. Grado 5° Generación 2018\" name=\"twitter:description\"/> <meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/> <link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/> <link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+      "line": 19,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "1670ba689b470003213d740eb75b644430d6b848f63caa743c90fb7a46e972c7",
+      "snippet": "<meta content=\"Catálogo histórico de libros: Formación Cívica y Ética.. Grado 6° Generación 2018\" property=\"og:description\"/> <meta content=\" .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG:. \" property=\"og:site_name\"/> <meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/> <meta content=\"summary\" name=\"twitter:card\"/> <meta content=\"@Conaliteg\" name=\"twitter:site\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+      "line": 25,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "b32575018dd4c9043ddbdd570d2b106885a8cbeb30bf9f068d900b3e1f91fd80",
+      "snippet": "<meta content=\"Formación Cívica y Ética.. Grado 6° Generación 2018\" name=\"twitter:title\"/> <meta content=\"Catálogo histórico de libros: Formación Cívica y Ética.. Grado 6° Generación 2018\" name=\"twitter:description\"/> <meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/> <link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/> <link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/magazine.js",
+      "line": 6,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "a6af30b2b52935a432944d00ba5877773859c75aeca3258e3c2401a2736a1a16",
+      "snippet": "// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * // crea el string 001.jpg // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/magazine.js",
+      "line": 86,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e",
+      "snippet": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');"
+    }
+  ],
+  "all_route_hits": [
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+      "line": 20,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "97970ebb7c6aa4e9f029a54c4c129828d74d10bfba224415c55c2928fda307e8",
+      "snippet": "<meta content=\"Catálogo histórico de libros: Formación Cívica y Ética Grado 5° Generación 2014\" property=\"og:description\"/> <meta content=\" .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG:. \" property=\"og:site_name\"/> <meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/> <meta content=\"summary\" name=\"twitter:card\"/> <meta content=\"@Conaliteg\" name=\"twitter:site\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2014P5FCA.htm",
+      "line": 26,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "248bdfa3bc74756e927a71bf26d29da14da3e34edced105d2545c4ada3592758",
+      "snippet": "<meta content=\"Formación Cívica y Ética Grado 5° Generación 2014\" name=\"twitter:title\"/> <meta content=\"Catálogo histórico de libros: Formación Cívica y Ética Grado 5° Generación 2014\" name=\"twitter:description\"/> <meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/> <link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/> <link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/jquery.min.1.7.js",
+      "line": 2,
+      "classifications": [
+        "dynamic_loader_evidence"
+      ],
+      "snippet_sha256": "e517b3b8f6a81a6448e76885793a8d489ad350a3f27cd4086554802ce68a02b0",
+      "snippet": "/*! jQuery v3.7.1 | (c) OpenJS Foundation and other contributors | jquery.org/license */ !function(e,t){\"use strict\";\"object\"==typeof module&&\"object\"==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error(\"jQuery requires a window with a document\");return t(e)}:t(e)}(\"undefined\"!=typeof window?window:this,function(ie,e){\"use strict\";var oe=[],r=Object.getPrototypeOf,ae=oe.slice,g=oe.flat?function(e){return oe.flat.call(e)}:function(e){return oe.concat.apply([],e)},s=oe.push,se=oe.indexOf,n={},i=n.toString,ue=n.hasOwnProperty,o=ue.toString,a=o.call(Object),le={},v=function(e){return\"function\"==typeof e&&\"number\"!=typeof e.nodeType&&\"function\"!=typeof e.item},y=function(e){return null!=e&&e===e.window},C=ie.document,u={type:!0,src:!0,nonce:!0,noModule:!0};function m(e,t,n){var r,i,o=(n=n||C).createElement(\"script\");if(o.text=e,t)for(r in u)(i=t[r]||t.getAttribute&&t.getAttribute(r))&&o.setAttribute(r,i);n.head.appendChild(o).parentNode.removeChild(o)}function x(e){return null==e?e+\"\":\"object\"==typeof e||\"function\"==typeof e?n[i.call(e)]||\"o"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/modernizr.2.5.3.min.js",
+      "line": 4,
+      "classifications": [
+        "route_related"
+      ],
+      "snippet_sha256": "b3308a4290ac56fe49677e47f93593c99ec7af2852cb48fc285c1a79644e8e98",
+      "snippet": "* Build: http://www.modernizr.com/download/#-csstransforms-csstransforms3d-shiv-cssclasses-teststyles-testprop-testallprops-prefixes-domprefixes-load */ ;window.Modernizr=function(a,b,c){function z(a){j.cssText=a}function A(a,b){return z(m.join(a+\";\")+(b||\"\"))}function B(a,b){return typeof a===b}function C(a,b){return!!~(\"\"+a).indexOf(b)}function D(a,b){for(var d in a)if(j[a[d]]!==c)return b==\"pfx\"?a[d]:!0;return!1}function E(a,b,d){for(var e in a){var f=b[a[e]];if(f!==c)return d===!1?a[e]:B(f,\"function\")?f.bind(d||b):f}return!1}function F(a,b,c){var d=a.charAt(0).toUpperCase()+a.substr(1),e=(a+\" \"+o.join(d+\" \")+d).split(\" \");return B(b,\"string\")||B(b,\"undefined\")?D(e,b):(e=(a+\" \"+p.join(d+\" \")+d).split(\" \"),E(e,b,c))}var d=\"2.5.3\",e={},f=!0,g=b.documentElement,h=\"modernizr\",i=b.createElement(h),j=i.style,k,l={}.toString,m=\" -webkit- -moz- -o- -ms- \".split(\" \"),n=\"Webkit Moz O ms\",o=n.split(\" \"),p=n.toLowerCase().split(\" \"),q={},r={},s={},t=[],u=t.slice,v,w=function(a,c,d,e){var f,i,j,k=b.createElement(\"div\"),l=b.body,m=l?l:b.createElement(\"body\");if(parseInt(d,10))while(d--)j=b.crea"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/x.js",
+      "line": 3,
+      "classifications": [
+        "route_related"
+      ],
+      "snippet_sha256": "0fd583d1dc5bb40e5455c769d63e61aeb01bd7ed3e0bd4c6c523f3a0bd734820",
+      "snippet": "let urlActual = new URL(window.location.href); let nombreArchivo = urlActual.pathname.substring(urlActual.pathname.lastIndexOf('/') + 1); let ag_clave = nombreArchivo.substring(0, nombreArchivo.indexOf('.htm')); let ag_pages; fetch('claves.json')"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/x.js",
+      "line": 4,
+      "classifications": [
+        "route_related"
+      ],
+      "snippet_sha256": "c980c96c5323829200de1011b8a1122a8dc29cea521c50c0b9167de66ed2269d",
+      "snippet": "let nombreArchivo = urlActual.pathname.substring(urlActual.pathname.lastIndexOf('/') + 1); let ag_clave = nombreArchivo.substring(0, nombreArchivo.indexOf('.htm')); let ag_pages; fetch('claves.json') .then(response => {"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/x.js",
+      "line": 12,
+      "classifications": [
+        "route_related"
+      ],
+      "snippet_sha256": "9adc1086b30d81437e93a0300d47d471865441ffc0de6730cf8c380d1d90eeaf",
+      "snippet": "}) .then(data => { ag_pages = data[ag_clave].ag_pages; }) .catch(error => console.error('Error:', error));"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/x.js",
+      "line": 66,
+      "classifications": [
+        "route_related"
+      ],
+      "snippet_sha256": "d3ee9c327dfa25e7e6ffe63234265803b6e1a701a41d0e10835f2d3162f1dfd4",
+      "snippet": "// The number of pages pages: ag_pages, // Events"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/x.js",
+      "line": 115,
+      "classifications": [
+        "addPage_use"
+      ],
+      "snippet_sha256": "fdbfbbec2d3716930b8fa3e5193307352e2877768e465a7cfce5f7dac8d7d930",
+      "snippet": "for (var i = 0; i < pages.length; i++) addPage(pages[i], $(this)); }"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+      "line": 19,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "766a6542e8dc5c4f890b9f902fdb861b303282efa535acbad52db44595027b98",
+      "snippet": "<meta content=\"Catálogo histórico de libros: Formación Cívica y Ética.. Grado 3° Generación 2018\" property=\"og:description\"/> <meta content=\" .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG:. \" property=\"og:site_name\"/> <meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/> <meta content=\"summary\" name=\"twitter:card\"/> <meta content=\"@Conaliteg\" name=\"twitter:site\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P3FCA.htm",
+      "line": 25,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "43f883125ffdbdb53c48984e6423145c6c13c9d7dd36471002b554b24ce36b29",
+      "snippet": "<meta content=\"Formación Cívica y Ética.. Grado 3° Generación 2018\" name=\"twitter:title\"/> <meta content=\"Catálogo histórico de libros: Formación Cívica y Ética.. Grado 3° Generación 2018\" name=\"twitter:description\"/> <meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/> <link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/> <link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+      "line": 19,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "f293aade3bbe46023f0a01b1a83e87fae663ccc5daec81c26fe3e782c9e7d11a",
+      "snippet": "<meta content=\"Catálogo histórico de libros: Formación Cívica y Ética.. Grado 4° Generación 2018\" property=\"og:description\"/> <meta content=\" .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG:. \" property=\"og:site_name\"/> <meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/> <meta content=\"summary\" name=\"twitter:card\"/> <meta content=\"@Conaliteg\" name=\"twitter:site\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P4FCA.htm",
+      "line": 25,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "24ebc22af2be70593c17ca0a99bde5fd6e7d1e39f6466f815af9a4e96a955d7b",
+      "snippet": "<meta content=\"Formación Cívica y Ética.. Grado 4° Generación 2018\" name=\"twitter:title\"/> <meta content=\"Catálogo histórico de libros: Formación Cívica y Ética.. Grado 4° Generación 2018\" name=\"twitter:description\"/> <meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/> <link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/> <link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+      "line": 19,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "7dff803cb3036b77752f2926e0a39dc5cc0a43cd6fb4daf096977b92ccf0e5f2",
+      "snippet": "<meta content=\"Catálogo histórico de libros: Formación Cívica y Ética .. Grado 5° Generación 2018\" property=\"og:description\"/> <meta content=\" .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG:. \" property=\"og:site_name\"/> <meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/> <meta content=\"summary\" name=\"twitter:card\"/> <meta content=\"@Conaliteg\" name=\"twitter:site\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P5FCA.htm",
+      "line": 25,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "bd555a7689cf7b9baa3b406be3d8c6032ec7bf764648d3f51be2a1f097bf67a2",
+      "snippet": "<meta content=\"Formación Cívica y Ética .. Grado 5° Generación 2018\" name=\"twitter:title\"/> <meta content=\"Catálogo histórico de libros: Formación Cívica y Ética .. Grado 5° Generación 2018\" name=\"twitter:description\"/> <meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/> <link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/> <link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+      "line": 19,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "1670ba689b470003213d740eb75b644430d6b848f63caa743c90fb7a46e972c7",
+      "snippet": "<meta content=\"Catálogo histórico de libros: Formación Cívica y Ética.. Grado 6° Generación 2018\" property=\"og:description\"/> <meta content=\" .: Comisión Nacional de Libros de Texto Gratuitos CONALITEG:. \" property=\"og:site_name\"/> <meta content=\"http://historico.conaliteg.gob.mx/tw.jpg\" property=\"og:image\"/> <meta content=\"summary\" name=\"twitter:card\"/> <meta content=\"@Conaliteg\" name=\"twitter:site\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/H2018P6FCA.htm",
+      "line": 25,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "b32575018dd4c9043ddbdd570d2b106885a8cbeb30bf9f068d900b3e1f91fd80",
+      "snippet": "<meta content=\"Formación Cívica y Ética.. Grado 6° Generación 2018\" name=\"twitter:title\"/> <meta content=\"Catálogo histórico de libros: Formación Cívica y Ética.. Grado 6° Generación 2018\" name=\"twitter:description\"/> <meta content=\"http://www.conaliteg.gob.mx/images/tw_conaliteg.jpg\" name=\"twitter:image\"/> <link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\"/> <link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/turn.js",
+      "line": 181,
+      "classifications": [
+        "addPage_use"
+      ],
+      "snippet_sha256": "a316090c6be9d3be5955e1c3dc1c6027c099a56b8b14b584adea4c1ecc480f53",
+      "snippet": "for (i = 0; i<ch.length; i++) { if ($(ch[i]).attr('ignore')!='1') { this.turn('addPage', ch[i], ++pageNum); } }"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/turn.js",
+      "line": 211,
+      "classifications": [
+        "addPage_use"
+      ],
+      "snippet_sha256": "c0a258014087ed6ca2be0d4f05a926ed983bb265e986853dd80f291aca3ec9e2",
+      "snippet": "// Adds a page from external data addPage: function(element, page) { var currentPage,"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/turn.js",
+      "line": 270,
+      "classifications": [
+        "addPage_use"
+      ],
+      "snippet_sha256": "fbc0ebcec527fffe518d7816c7b6ffcb86c13b46cb2c88ebaa050670fc3bf6e6",
+      "snippet": "// Add page turnMethods._addPage.call(this, page); // Remove pages out of range"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/turn.js",
+      "line": 281,
+      "classifications": [
+        "addPage_use"
+      ],
+      "snippet_sha256": "50d3d9aef630ed9e35a0dcce27a5fedd14a63a32b5f7a009cf2c84dbefb1386a",
+      "snippet": "// Adds a page _addPage: function(page) { var data = this.data(),"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/turn.js",
+      "line": 579,
+      "classifications": [
+        "addPage_use"
+      ],
+      "snippet_sha256": "7f731ada0fca16904afd5ea3961eb02f801dde2b5836a25133515e455294a833",
+      "snippet": "for (page = range[0]; page<=range[1]; page++) turnMethods._addPage.call(this, page); },"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/turn.js",
+      "line": 1889,
+      "classifications": [
+        "addPage_use"
+      ],
+      "snippet_sha256": "94c732fc7f76c6a817977a20fae48e73f81c26d9181a2b0c2fc617244d36324c",
+      "snippet": "this.flip('options', opts); flipMethods._addPageWrapper.call(this); return this;"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/turn.js",
+      "line": 2173,
+      "classifications": [
+        "addPage_use"
+      ],
+      "snippet_sha256": "c4ac11b22e7cabb84f4c345bd2f918eb0e0ea3f5c919f6fff7e8d2e265733895",
+      "snippet": "// Prepares the page by adding a general wrapper and another objects _addPageWrapper: function() { var att,"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/turn.html4.min.js",
+      "line": 6,
+      "classifications": [
+        "route_related"
+      ],
+      "snippet_sha256": "c5442b016bd7d5bbe61e2c3584b06cdc8dc9c2f28c451a2564faff9a470e8976",
+      "snippet": "a)}function k(a){function b(a){this.name=\"TurnJsError\";this.message=a}b.prototype=Error();b.prototype.constructor=b;return new b(a)}function v(){return\"\"}var r=\"\",n={down:\"mousedown\",move:\"mousemove\",up:\"mouseup\",over:\"mouseover\",out:\"mouseout\"},p={backward:[\"l\"],forward:[\"r\"],all:[\"l\",\"r\"]},x=[\"single\",\"double\"],y=[\"ltr\",\"rtl\"],z={acceleration:!0,display:\"double\",duration:600,page:1,gradients:!0,when:null},A={acceleration:!0,corners:\"forward\",cornerSize:100,duration:600,gradients:!0},i={init:function(a){if(1< this.length)throw k(\"This selector has more than 1 element\");for(var b=[\"Moz\",\"Webkit\",\"Khtml\",\"O\",\"ms\"],c=b.length,d=\"\";c--;)b[c]+\"Transform\"in document.body.style&&(d=\"-\"+b[c].toLowerCase()+\"-\");r=d;var e,b=0,g=this.data(),c=this.children(),a=f.extend({width:this.width(),height:this.height(),direction:this.attr(\"dir\")||this.css(\"direction\")||\"ltr\"},z,a);g.opts=a;g.pageObjs={};g.pages={};g.pageWrap={};g.pagePlace={};g.pageMv=[];g.zoom=1;g.totalPages=a.pages||0;g.docEvents={mouseStart:function(a){for(var b in g.pages)if(j(b, g.pages)&&!1===h._eventStart.call(g.pages[b],a))retur"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/turn.html4.min.js",
+      "line": 7,
+      "classifications": [
+        "addPage_use"
+      ],
+      "snippet_sha256": "5c9744ef298a5b70812057993ecddc561ae76d71a92f21c591a04a4d15e76b73",
+      "snippet": "this.length)throw k(\"This selector has more than 1 element\");for(var b=[\"Moz\",\"Webkit\",\"Khtml\",\"O\",\"ms\"],c=b.length,d=\"\";c--;)b[c]+\"Transform\"in document.body.style&&(d=\"-\"+b[c].toLowerCase()+\"-\");r=d;var e,b=0,g=this.data(),c=this.children(),a=f.extend({width:this.width(),height:this.height(),direction:this.attr(\"dir\")||this.css(\"direction\")||\"ltr\"},z,a);g.opts=a;g.pageObjs={};g.pages={};g.pageWrap={};g.pagePlace={};g.pageMv=[];g.zoom=1;g.totalPages=a.pages||0;g.docEvents={mouseStart:function(a){for(var b in g.pages)if(j(b, g.pages)&&!1===h._eventStart.call(g.pages[b],a))return!1},mouseMove:function(a){for(var b in g.pages)j(b,g.pages)&&h._eventMove.call(g.pages[b],a)},mouseEnd:function(a){for(var b in g.pages)j(b,g.pages)&&h._eventEnd.call(g.pages[b],a)}};if(a.when)for(e in a.when)j(e,a.when)&&this.bind(e,a.when[e]);this.css({position:\"relative\",width:a.width,height:a.height});this.turn(\"display\",a.display);\"\"!==a.direction&&this.turn(\"direction\",a.direction);for(e=0;e<c.length;e++)\"1\"!=f(c[e]).attr(\"ignore\")&&this.turn(\"addPage\", c[e],++b);f(this).bind(n.down,g.docEvents.mouseStar"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/turn.html4.min.js",
+      "line": 8,
+      "classifications": [
+        "addPage_use"
+      ],
+      "snippet_sha256": "164badc394bfa5c471213d885cb96e259bc32dc60a821690d98493afc02c5ae9",
+      "snippet": "g.pages)&&!1===h._eventStart.call(g.pages[b],a))return!1},mouseMove:function(a){for(var b in g.pages)j(b,g.pages)&&h._eventMove.call(g.pages[b],a)},mouseEnd:function(a){for(var b in g.pages)j(b,g.pages)&&h._eventEnd.call(g.pages[b],a)}};if(a.when)for(e in a.when)j(e,a.when)&&this.bind(e,a.when[e]);this.css({position:\"relative\",width:a.width,height:a.height});this.turn(\"display\",a.display);\"\"!==a.direction&&this.turn(\"direction\",a.direction);for(e=0;e<c.length;e++)\"1\"!=f(c[e]).attr(\"ignore\")&&this.turn(\"addPage\", c[e],++b);f(this).bind(n.down,g.docEvents.mouseStart).bind(\"start\",i._start).bind(\"end\",i._end).bind(\"pressed\",i._pressed).bind(\"released\",i._released).bind(\"flip\",i._flip);f(document).bind(n.move,g.docEvents.mouseMove).bind(n.up,g.docEvents.mouseEnd);this.turn(\"page\",a.page);g.done=!0;return this},addPage:function(a,b){var c,d=!1,e=this.data(),g=e.totalPages+1;if(e.destroying)return!1;if(c=/\\bp([0-9]+)\\b/.exec(f(a).attr(\"class\")))b=parseInt(c[1],10);if(b)if(b==g)d=!0;else{if(b>g)throw k('Page \"'+ b+'\" cannot be inserted');}else b=g,d=!0;1<=b&&b<=g&&(c=\"double\"==e.display?b%2"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/turn.html4.min.js",
+      "line": 14,
+      "classifications": [
+        "route_related"
+      ],
+      "snippet_sha256": "6d851bab9a9ba04316390e0026391a04f2c23f9ef2fbce704eddcd848f4a2186",
+      "snippet": "f(this).turn(\"stop\").turn(\"size\",e,g).css({marginTop:c.height*d/2-g/2});b.opts.autoCenter?this.turn(\"center\"):f(this).css({marginLeft:c.width*d/2-e/2});i._updateShadow.call(this);return this}return b.zoom},_pageSize:function(a,b){var c=this.data(),d={};if(\"single\"==c.display)d.width=this.width(),d.height=this.height(),b&&(d.top=0,d.left=0,d.right=\"auto\");else{var e=this.width()/2,g=this.height();c.pageObjs[a].hasClass(\"own-size\")?(d.width=c.pageObjs[a].width(),d.height=c.pageObjs[a].height()):(d.width= e,d.height=g);if(b){var f=a%2;d.top=(g-d.height)/2;\"ltr\"==c.direction?(d[f?\"right\":\"left\"]=e-d.width,d[f?\"left\":\"right\"]=\"auto\"):(d[f?\"left\":\"right\"]=e-d.width,d[f?\"right\":\"left\"]=\"auto\")}}return d},_makeFlip:function(a){var b=this.data();if(!b.pages[a]&&b.pagePlace[a]==a){var c=\"single\"==b.display,d=a%2;b.pages[a]=b.pageObjs[a].css(i._pageSize.call(this,a)).flip({page:a,next:d||c?a+1:a-1,turn:this,duration:b.opts.duration,acceleration:b.opts.acceleration,gradients:b.opts.gradients}).flip(\"disable\", b.disabled)}return b.pages[a]},_makeRange:function(){var a,b;if(!(1>this.data().totalPa"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/turn.html4.min.js",
+      "line": 34,
+      "classifications": [
+        "route_related"
+      ],
+      "snippet_sha256": "8de022c12b1485aab4c3c5fc4c1d21e52bc1c0d1d3f6f61322b3747b6887c3e5",
+      "snippet": "(c.shadow=f(\"<div />\",{\"class\":\"shadow\",css:q(0,0,0).css}).appendTo(this));for(var h=0;h<c.pageMv.length&&a[0]&&a[1];h++)a=this.turn(\"view\",c.pages[c.pageMv[h]].data().f.opts.next),b=this.turn(\"view\",c.pageMv[h]),a[0]=a[0]&&b[0],a[1]=a[1]&&b[1];switch(a[0]?a[1]?3:\"ltr\"==c.direction?2:1:\"ltr\"==c.direction?1:2){case 1:c.shadow.css({width:g,height:e,top:0,left:g});break;case 2:c.shadow.css({width:g,height:e,top:0,left:0});break;case 3:c.shadow.css({width:d,height:e,top:0,left:0})}},_setPageLoc:function(a){var b= this.data(),c=this.turn(\"view\");if(a==c[0]||a==c[1])return b.pageWrap[a].css({zIndex:b.totalPages,display:\"\"}),1;if(\"single\"==b.display&&a==c[0]+1||\"double\"==b.display&&a==c[0]-2||a==c[1]+2)return b.pageWrap[a].css({zIndex:b.totalPages-1,display:\"\"}),2;b.pageWrap[a].css({zIndex:0,display:b.pageObjs[a].hasClass(\"fixed\")?\"\":\"none\"});return 0},options:function(a){if(void 0===a)return this.data().opts;var b=this.data();f.extend(b.opts,a);a.pages&&this.turn(\"pages\",a.pages);a.page&&this.turn(\"page\",a.page); a.display&&this.turn(\"display\",a.display);a.direction&&this.turn(\"direction\","
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/turn.html4.min.js",
+      "line": 38,
+      "classifications": [
+        "addPage_use"
+      ],
+      "snippet_sha256": "23c7844bbc5a6da87bb50a66ea9b80c700039716b22f8adb9b4081703708adfb",
+      "snippet": "p[c?\"backward\":\"forward\"]},_cornerActivated:function(a){var b=this.data().f,c=b.parent.offset(),d=this.width(),e=this.height(),a={x:Math.max(0,a.pageX-c.left),y:Math.max(0,a.pageY-c.top)},b=b.opts.cornerSize;if(0>=a.x||0>=a.y||a.x>=d||a.y>=e)return!1;e=h._cAllowed.call(this);if(a.x>d-b)a.corner=\"r\";else if(a.x<b)a.corner=\"l\";else return!1;return-1==f.inArray(a.corner,e)?!1:a},_c:function(a,b){b=b||0;switch(a){case \"l\":return m(b,0);case \"r\":return m(this.width()-b,0)}},_c2:function(a){switch(a){case \"l\":return m(2* this.width(),0);case \"r\":return m(-this.width(),0)}},_foldingPage:function(){var a=this.data().f,b=a.opts;if(a.folding)return a.folding;if(b.turn)return a=b.turn.data(),\"single\"==a.display?a.pageObjs[b.next]?a.pageObjs[0]:null:a.pageObjs[b.next]},_backGradient:function(){var a=this.data().f,b=a.opts.turn;return a.opts.gradients&&(!b||\"single\"==b.data().display||2!=a.opts.page&&a.opts.page!=b.data().totalPages-1)},resize:function(a){var b=this.data().f,c=this.width(),d=this.height();a&&(b.wrapper.css({width:c, height:d}),b.fpage.css({width:c,height:d}))},_addPageWrapper:fun"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/magazine.js",
+      "line": 6,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "a6af30b2b52935a432944d00ba5877773859c75aeca3258e3c2401a2736a1a16",
+      "snippet": "// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * // crea el string 001.jpg // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/magazine.js",
+      "line": 23,
+      "classifications": [
+        "addPage_named_function_definition"
+      ],
+      "snippet_sha256": "05021fb95fced43c53e7832792d9320520caf426bc5086ff522b94a709aa0e04",
+      "snippet": "function addPage(page, book) { var id, pages = book.turn('pages');"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/magazine.js",
+      "line": 31,
+      "classifications": [
+        "addPage_use"
+      ],
+      "snippet_sha256": "113ed61d44282ae70d69bea40721398736c78c0d856f8f728ca4e8d5dc67df55",
+      "snippet": "// Add the page to the flipbook if (book.turn('addPage', element, page)) { // Add the initial HTML"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/magazine.js",
+      "line": 38,
+      "classifications": [
+        "loadPage_use"
+      ],
+      "snippet_sha256": "002b34a5f0f2664de0ac0e56f8811e92706c16d8051dbc7b2078f1bf15bda387",
+      "snippet": "// Load the page loadPage(page, element); }"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/magazine.js",
+      "line": 48,
+      "classifications": [
+        "loadPage_named_function_definition"
+      ],
+      "snippet_sha256": "626a291d5a547bdc15ac54f6b4417e31e6d0aef6adef195b74a531e09b1f973d",
+      "snippet": "function loadPage(page, pageElement) { // Create an image element"
+    },
+    {
+      "source_url": "https://historico.conaliteg.gob.mx/magazine.js",
+      "line": 86,
+      "classifications": [
+        "image_route_evidence"
+      ],
+      "snippet_sha256": "d910839a11d18e98cd2d90a52f6dd647022bab584b9aa2c7db4e7235f1064a7e",
+      "snippet": "img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg');"
+    }
+  ]
+}
