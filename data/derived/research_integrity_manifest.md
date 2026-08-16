@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.6`.
 
-Commit observado: `9de58f81ac70bd6dc7aae47d11b44579b11dccc1`.
+Commit observado: `39e1dcfe04ec4bdcb77910b63d391a5b9532caa1`.
 
 Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
@@ -174,7 +174,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `docs/RELEASE_OUTPUTS_0_1.md` — 4079 bytes — `7851bb28627ce2422c7f84e5a1e92046b1a4dbe518e2759a5cb7873789d43184`
 - `docs/RIGHTS_PUBLICATION_MATRIX_0_2.md` — 7881 bytes — `b79e64f94d51b3af1c867636264486aa7a8cb9fdf2fcfddf13e31ca832343583`
 - `docs/LICENSE_DECISION_MEMO_0_1.md` — 7402 bytes — `40af67b139a9e5202f943198f596a568f831ebd92031476820b5924445a9c98a`
-- `scripts/check_release_candidate.py` — 9537 bytes — `4ee536d47a81b2d2943589b7cace1adc2969d3b53995e6cae4769e21ac625cbe`
+- `scripts/check_release_candidate.py` — 9621 bytes — `c63834575933bd41215caf94cb3a7b719b0f4686de16059d96009c55e2b786d1`
 - `scripts/build_research_integrity_manifest.py` — 13838 bytes — `c4a8f2f9b884a4ea2c8776329e5829fa3bd6eb9cfea55b5350ff62ee7de2cd1c`
 - `scripts/build_research_integrity_manifest_v06.py` — 1363 bytes — `28468c6873055c7089bce221b98e67d1fbcc3b941aac56a18ed746a329d30069`
 - `.github/workflows/check-release-candidate.yml` — 2151 bytes — `67e3432e7d84b8de084c10ad3c7ada54fecdb874947589c8ebd27ee647178adf`
