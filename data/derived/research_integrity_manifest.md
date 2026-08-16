@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.6`.
 
-Commit observado: `10368ecbb257a575c09829de0e096c31a7f0ca55`.
+Commit observado: `032eedb4857e578222d41ca8e3dd22a970830234`.
 
 Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
@@ -13,7 +13,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 
 ## Archivos críticos
 
-- `README.md` — 12226 bytes — `9d34f79a0092521c893a5efe574beb75f2ec9a25d013b3de0b87c9c60f7c3426`
+- `README.md` — 9510 bytes — `3910d60f51fd12ae4f858afbdf5978bde9cdb109313106f75c85fb8b0ca364a1`
 - `CITATION.cff` — 1024 bytes — `8e418bc83fb1ac019f5fa0147d59fa31230bad543fbf2d3ec08805221b37ea4a`
 - `data/book_inventory.csv` — 3003 bytes — `4b9ae106d4b3ed2e1b30203e46d46f6280e1c3f6b22b62791beaab1e677446c4`
 - `data/derived/page_structure.csv` — 107957 bytes — `9528558068ac52b45f05fa9c75b9336a8150d57bf2b3a9a9225b816ed68e82ad`
@@ -52,7 +52,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `docs/METHODS_ARTICLE_DRAFT_0_2.md` — 25280 bytes — `19addc345813bfff754161b1182d6a03f723f457165c54afe8a2fd00eff33021`
 - `docs/PUBLICATION_STRATEGY_0_1.md` — 4143 bytes — `787980a07f53726c41a6e7cddcf1fbcd6d3860c13b7d4c6ee01924c986641831`
 - `docs/CORPUS_EXPANSION_PLAN_0_1.md` — 5031 bytes — `f7a3f339f146e26f93edea0fb0cb05cae7b845f88cbb810f3de485fbb63d4e8b`
-- `docs/RELEASE_CHECKLIST_0_1.md` — 6630 bytes — `b906b12f92a9511d6184861708de8c539ad9e76f47455252c7f90fcd8c92388e`
+- `docs/RELEASE_CHECKLIST_0_1.md` — 4467 bytes — `1cbb15ac2a20a6808d1efb7e351360bc211f5142c08765daba138ed6fe531cbf`
 - `docs/FIGURE_PIPELINE_0_1.md` — 2608 bytes — `91c82acb18e6ee970b6594cec6556a794d1d147519702eeb6938fc1f5e83dcdd`
 - `docs/TABLE_PILOT_OBJECTS_0_1.md` — 1860 bytes — `3e0f01e3e49afcea36df100ec89bde6443eef06ba95b4a40468847642da2e1db`
 - `docs/RIGHTS_AND_REUSE_0_1.md` — 5057 bytes — `1ac573dd82f40beabaf5efee9b81746686e623f9064dd3008f59120136929585`
