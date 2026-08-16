@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.6`.
 
-Commit observado: `e6a241cb84635543daf58338b26d353e810f8aa6`.
+Commit observado: `a87dcab5be9896ddbef4f125a30fb00837398394`.
 
 Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
