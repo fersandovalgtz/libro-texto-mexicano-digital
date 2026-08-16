@@ -1,0 +1,49 @@
+name: analyze-ltmd-u1-w7-admitted-asset-relationships
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/analyze-ltmd-u1-w7-admitted-asset-relationships.yml'
+      - 'scripts/analyze_ltmd_u1_w7_admitted_asset_relationships.py'
+      - 'data/catalog/ltmd_u1_w7_source_admissibility.csv'
+      - 'data/catalog/ltmd_u1_w7_civics_ethics_asset_manifest.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: analyze-ltmd-u1-w7-admitted-asset-relationships
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Analyze exact W7 admitted asset relationships
+        run: python3 scripts/analyze_ltmd_u1_w7_admitted_asset_relationships.py
+      - name: Publish W7 exact asset relationships race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-u1-w7-rel
+          mkdir -p /tmp/ltmd-u1-w7-rel
+          cp data/catalog/ltmd_u1_w7_admitted_asset_fingerprints.csv /tmp/ltmd-u1-w7-rel/
+          cp data/catalog/ltmd_u1_w7_exact_asset_relationships.csv /tmp/ltmd-u1-w7-rel/
+          cp data/catalog/ltmd_u1_w7_admitted_asset_relationships.md /tmp/ltmd-u1-w7-rel/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w7-rel/* data/catalog/
+            git add data/catalog/ltmd_u1_w7_admitted_asset_fingerprints.csv data/catalog/ltmd_u1_w7_exact_asset_relationships.csv data/catalog/ltmd_u1_w7_admitted_asset_relationships.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W7 admitted asset relationships'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
