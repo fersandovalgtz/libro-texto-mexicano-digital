@@ -2,7 +2,7 @@
 
 Candidata: **v0.1.0-rc.1**.
 
-Commit observado: `551760f5645b01a3570e227b79d07aa7e8eccb13`.
+Commit observado: `59b7f3a58f69210f7d6cc80080529519a9d473fe`.
 
 RC técnicamente lista: **SÍ**.
 Lista para publicación pública: **NO**.
