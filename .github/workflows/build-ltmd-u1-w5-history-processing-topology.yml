@@ -1,0 +1,50 @@
+name: build-ltmd-u1-w5-history-processing-topology
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - audit-ltmd-u1-w5-history-2018-2019-routes
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify W5 reconciled route evidence exists
+        run: |
+          test -f data/catalog/ltmd_u1_w5_history_source_readiness.csv
+          test -f data/catalog/ltmd_u1_w5_history_exact_asset_relationships.csv
+          test -f data/catalog/ltmd_u1_w5_history_2018_2019_route_relationships.csv
+          test -f data/catalog/ltmd_u1_w5_history_asset_manifest.csv
+      - name: Build W5 reconciled processing topology
+        run: python3 scripts/build_ltmd_u1_w5_history_processing_topology.py
+      - name: Publish W5 processing topology race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w5-topology
+          cp data/catalog/ltmd_u1_w5_history_processing_inventory.csv /tmp/ltmd-u1-w5-topology/
+          cp data/catalog/ltmd_u1_w5_history_canonical_page_manifest.csv /tmp/ltmd-u1-w5-topology/
+          cp data/catalog/ltmd_u1_w5_history_processing_topology.md /tmp/ltmd-u1-w5-topology/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w5-topology/* data/catalog/
+            git add data/catalog/ltmd_u1_w5_history_processing_inventory.csv data/catalog/ltmd_u1_w5_history_canonical_page_manifest.csv data/catalog/ltmd_u1_w5_history_processing_topology.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W5 History processing topology'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
