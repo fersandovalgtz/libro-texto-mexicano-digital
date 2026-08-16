@@ -1,0 +1,36 @@
+{
+  "integrity_version": "LTMD_INTEGRITY_0.7",
+  "critical_count": 264,
+  "critical_present_count": 262,
+  "missing_critical": [
+    "scripts/build_ltmd_u1_w4_completion_report.py",
+    ".github/workflows/build-ltmd-u1-w4-completion-report.yml"
+  ],
+  "optional_count": 22,
+  "optional_present": [
+    "data/derived/semb03_sample_coverage.csv",
+    "data/derived/semb03_sample_token_coverage.csv",
+    "data/derived/fragseg_layout_proxy_summary.csv",
+    "data/derived/frontmatter_bibliographic_audit.csv",
+    "data/derived/semb03_gate_synthetic_development.json",
+    "data/derived/semb03_label_heads_synthetic_development.json",
+    "data/derived/semb03_readiness_report.json",
+    "data/derived/catalog_search_architecture_probe.json",
+    "data/expansion/cn46_no_text_visual_proxies.csv",
+    "data/catalog/ltmd_u1_w3_spanish_fragment_manifest.csv",
+    "data/catalog/ltmd_u1_w3_spanish_fragment_manifest_summary.csv",
+    "data/catalog/ltmd_u1_w3_spanish_fragment_sequence_gaps.csv",
+    "data/catalog/ltmd_u1_w3_spanish_fragment_manifest.md",
+    "data/catalog/ltmd_u1_w3_spanish_exact_content_units.csv",
+    "data/catalog/ltmd_u1_w3_spanish_identity_content_projection.csv",
+    "data/catalog/ltmd_u1_w3_spanish_exact_viewer_overlap.csv",
+    "data/catalog/ltmd_u1_w3_spanish_exact_reuse.md",
+    "docs/LTMD_U1_W3_COMPLETION.md"
+  ],
+  "optional_missing": [
+    "data/validation/semb03_human_reference_consensus.csv",
+    "data/validation/semb03_locked_validation_reference.csv",
+    "data/derived/semb03_model_lock.json",
+    "data/derived/semb03_locked_validation_result.json"
+  ]
+}
