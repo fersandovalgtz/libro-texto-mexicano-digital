@@ -1,0 +1,52 @@
+name: build-ltmd-u1-w5-history-declared-inventory
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'data/catalog/ltmd_u1_w5_scope.csv'
+      - 'data/catalog/ltmd_u1_w5_viewer_architecture.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Gate W5 architecture publication
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import csv
+          scope=list(csv.DictReader(open('data/catalog/ltmd_u1_w5_scope.csv',encoding='utf-8')))
+          arch=list(csv.DictReader(open('data/catalog/ltmd_u1_w5_viewer_architecture.csv',encoding='utf-8')))
+          assert len(scope)==18 and len(arch)==18
+          assert {r['viewer_key'] for r in scope}=={r['viewer_key'] for r in arch}
+          assert all(int(r['html_status'])==200 for r in arch), 'one or more W5 viewer HTML pages unavailable'
+          PY
+      - run: python3 scripts/build_ltmd_u1_w5_history_declared_inventory.py
+      - name: Publish W5 declared inventory race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-w5-inv
+          cp data/catalog/ltmd_u1_w5_declared_inventory.csv /tmp/ltmd-w5-inv/
+          cp data/catalog/ltmd_u1_w5_declared_inventory_summary.csv /tmp/ltmd-w5-inv/
+          cp data/catalog/ltmd_u1_w5_declared_inventory.md /tmp/ltmd-w5-inv/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-w5-inv/* data/catalog/
+            git add data/catalog/ltmd_u1_w5_declared_inventory.csv data/catalog/ltmd_u1_w5_declared_inventory_summary.csv data/catalog/ltmd_u1_w5_declared_inventory.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W5 History declared inventory'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
