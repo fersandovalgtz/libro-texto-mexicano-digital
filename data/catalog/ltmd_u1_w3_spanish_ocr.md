@@ -14,10 +14,6 @@ Versión: `LTMD_U1_W3_SPANISH_OCR_0.1`.
 
 El OCR íntegro no se persiste. Esta capa conserva sólo métricas técnicas y controles de procedencia. La confianza interna de Tesseract se usa para triage técnico y no equivale a exactitud textual validada.
 
-## Nota de corrección
-
-El primer render del reporte mostró por error `ruta 2018→2019: 0` debido a que el combinador buscaba el literal abreviado `route_alias_2018_to_2019`. La topología reconciliada usa el estado canónico `paired_route_alias_2018_to_2019`. El combinador quedó corregido y ahora exige además que `byte-exactos + ruta = aliases totales`, por lo que el desglose reproducible es **8 + 8 = 16**. Esta corrección afecta únicamente el contador descriptivo del reporte; no modifica páginas, hashes, OCR, canónicos ni provenance.
-
 ## Límite epistemológico vigente
 
 No existe por ahora referencia humana para validación semántica. Por ello este producto autoriza PAGESTRUCT/FRAGSEG y análisis técnicos de estructura, reutilización y dependencia documental, pero no convierte clasificadores semánticos no validados en evidencia histórica primaria.
