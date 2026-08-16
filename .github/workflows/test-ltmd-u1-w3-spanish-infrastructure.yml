@@ -53,8 +53,11 @@ jobs:
           assert len(eligible)==130
           assert len(canonical)==114
           assert len(aliases)==16
-          assert sum(r['processing_mode']=='exact_byte_alias' for r in proc)==8
-          assert sum(r['processing_mode']=='route_alias_2018_to_2019' for r in proc)==8
+          exact={r['viewer_key'] for r in proc if r['processing_mode']=='exact_byte_alias'}
+          route={r['viewer_key'] for r in proc if r['processing_mode']=='paired_route_alias_2018_to_2019'}
+          assert len(exact)==8, len(exact)
+          assert len(route)==8, len(route)
+          assert exact|route==aliases
           assert sum(int(r['persistent_internal_source_gaps'] or 0) for r in proc if r['viewer_key'] in canonical)==8
           assert len(man)==20765, len(man)
           assert {r['viewer_key'] for r in man}==canonical
