@@ -6,10 +6,16 @@ on:
     paths:
       - '.github/workflows/build-ltmd-u1-coverage.yml'
       - 'scripts/build_ltmd_u1_coverage.py'
+      - 'scripts/build_ltmd_u1_coverage_current.py'
       - 'data/catalog/conaliteg_historical_title_inventory.csv'
       - 'data/catalog/conaliteg_title_cores.csv'
       - 'data/catalog/ciencias_naturales_family_asset_readiness.csv'
       - 'data/catalog/cn2018_2019_catalog_alias_relationships.csv'
+      - 'data/catalog/ltmd_u1_w1_scope.csv'
+      - 'data/catalog/ltmd_u1_w1_1966_page_manifest_summary.csv'
+      - 'data/catalog/ltmd_u1_w1_1966_ocr_summary.csv'
+      - 'data/catalog/ltmd_u1_w1_1966_page_structure_summary.csv'
+      - 'data/catalog/ltmd_u1_w1_1966_fragment_manifest_summary.csv'
       - 'data/book_inventory.csv'
       - 'data/derived/fragment_manifest.csv'
       - 'data/derived/fragment_segmentation_summary.csv'
@@ -29,8 +35,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Build U1 coverage matrix
-        run: python3 scripts/build_ltmd_u1_coverage.py
+      - name: Build current U1 coverage matrix from finalized stage artifacts
+        run: python3 scripts/build_ltmd_u1_coverage_current.py
       - name: Publish U1 coverage race-safely
         shell: bash
         run: |
@@ -55,7 +61,7 @@ jobs:
               data/catalog/ltmd_u1_wave_queue.csv \
               data/catalog/ltmd_u1_coverage.md
             if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Publish LTMD-U1 542-viewer coverage dashboard'
+            git commit -m 'Publish current LTMD-U1 542-viewer coverage dashboard'
             if git push origin HEAD:main; then exit 0; fi
             sleep $((attempt * 2))
           done
