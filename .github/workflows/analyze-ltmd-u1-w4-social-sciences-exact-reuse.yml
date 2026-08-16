@@ -1,0 +1,42 @@
+name: analyze-ltmd-u1-w4-social-sciences-exact-reuse
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: python3 scripts/analyze_ltmd_u1_w4_social_sciences_exact_reuse.py
+      - name: Publish W4 exact-reuse analysis race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w4-exact
+          cp data/catalog/ltmd_u1_w4_social_sciences_exact_content_units.csv /tmp/w4-exact/
+          cp data/catalog/ltmd_u1_w4_social_sciences_exact_viewer_overlap.csv /tmp/w4-exact/
+          cp data/catalog/ltmd_u1_w4_social_sciences_exact_reuse.md /tmp/w4-exact/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w4-exact/* data/catalog/
+            git add data/catalog/ltmd_u1_w4_social_sciences_exact_content_units.csv data/catalog/ltmd_u1_w4_social_sciences_exact_viewer_overlap.csv data/catalog/ltmd_u1_w4_social_sciences_exact_reuse.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W4 Social Sciences exact-reuse analysis'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
+      - name: Dispatch W4 completion report
+        run: gh workflow run build-ltmd-u1-w4-social-sciences-completion-report.yml --repo "$GITHUB_REPOSITORY" --ref main
