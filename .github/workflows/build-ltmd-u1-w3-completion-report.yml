@@ -2,9 +2,6 @@ name: build-ltmd-u1-w3-completion-report
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ['analyze-ltmd-u1-w3-spanish-exact-reuse']
-    types: [completed]
   push:
     paths:
       - 'data/catalog/ltmd_u1_w3_spanish_exact_reuse.md'
@@ -17,7 +14,6 @@ permissions:
 
 jobs:
   build:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
