@@ -1,0 +1,108 @@
+name: publish-ltmd-v0.1.0-rc.1
+
+on:
+  workflow_run:
+    workflows: ["check-release-candidate"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-24.04
+    env:
+      TAG: v0.1.0-rc.1
+      ARM_FILE: .github/RELEASE_PUBLISH_ARM_v0.1.0-rc.1
+      AUDITED_SHA: ${{ github.event.workflow_run.head_sha }}
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Verify publication arm and audited lineage
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "$ARM_FILE"
+          grep -Fxq 'publish=true' "$ARM_FILE"
+          grep -Fxq 'tag=v0.1.0-rc.1' "$ARM_FILE"
+
+          git fetch origin main --tags
+          MAIN_SHA="$(git rev-parse HEAD)"
+          git merge-base --is-ancestor "$AUDITED_SHA" "$MAIN_SHA"
+
+          mapfile -t changed < <(git diff --name-only "$AUDITED_SHA..$MAIN_SHA")
+          for path in "${changed[@]}"; do
+            case "$path" in
+              data/derived/release_candidate_preflight.json|data/derived/release_candidate_preflight.md) ;;
+              *) echo "Unexpected post-preflight path: $path" >&2; exit 1 ;;
+            esac
+          done
+
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = json.loads(Path('data/derived/release_candidate_preflight.json').read_text(encoding='utf-8'))
+          assert p['release_candidate'] == 'v0.1.0-rc.1'
+          assert p['git_head'] == os.environ['AUDITED_SHA']
+          assert p['rc_technical_ready'] is True
+          assert p['publish_ready'] is True
+          assert p['technical_failures'] == []
+          assert p['publish_blockers'] == []
+          assert p['integrity_version'] == 'LTMD_INTEGRITY_0.6'
+          assert p['integrity_critical'] == '166/166'
+          assert p['integrity_hash_mismatches'] == []
+          assert p['methods_claim_check_passed'] is True
+          PY
+
+      - name: Recompute preflight on exact release commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/check_release_candidate.py
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = json.loads(Path('data/derived/release_candidate_preflight.json').read_text(encoding='utf-8'))
+          assert p['release_candidate'] == 'v0.1.0-rc.1'
+          assert p['rc_technical_ready'] is True
+          assert p['publish_ready'] is True
+          assert p['technical_failures'] == []
+          assert p['publish_blockers'] == []
+          assert p['integrity_hash_mismatches'] == []
+          PY
+
+      - name: Create immutable tag and GitHub prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          MAIN_SHA="$(git rev-parse HEAD)"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
+            git fetch origin "refs/tags/$TAG:refs/tags/$TAG"
+            TAG_SHA="$(git rev-list -n 1 "$TAG")"
+            test "$TAG_SHA" = "$MAIN_SHA"
+          else
+            git tag -a "$TAG" "$MAIN_SHA" -m 'LTMD v0.1.0-rc.1 — methodological release candidate'
+            git push origin "refs/tags/$TAG"
+          fi
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "GitHub Release already exists for $TAG"
+          else
+            gh release create "$TAG" \
+              --verify-tag \
+              --title 'LTMD v0.1.0-rc.1 — methodological release candidate' \
+              --notes-file docs/RELEASE_NOTES_v0.1.0-rc.1.md \
+              --prerelease
+          fi
