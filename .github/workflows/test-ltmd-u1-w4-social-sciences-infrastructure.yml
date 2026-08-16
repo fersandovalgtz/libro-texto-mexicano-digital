@@ -1,0 +1,62 @@
+name: test-ltmd-u1-w4-social-sciences-infrastructure
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/test-ltmd-u1-w4-social-sciences-infrastructure.yml'
+      - 'scripts/build_ltmd_u1_w4_social_sciences_processing_topology.py'
+      - 'scripts/ocr_ltmd_u1_w4_social_sciences_book.py'
+      - 'scripts/combine_ltmd_u1_w4_social_sciences_ocr.py'
+      - 'scripts/extract_ltmd_u1_w4_social_sciences_structural_flags_book.py'
+      - 'scripts/combine_ltmd_u1_w4_social_sciences_structural_flags.py'
+      - 'scripts/classify_ltmd_u1_w4_social_sciences_page_structure.py'
+      - 'scripts/segment_ltmd_u1_w4_social_sciences_fragments.py'
+      - 'scripts/combine_ltmd_u1_w4_social_sciences_fragment_shards.py'
+      - 'scripts/analyze_ltmd_u1_w4_social_sciences_exact_reuse.py'
+      - 'scripts/build_ltmd_u1_w4_social_sciences_completion_report.py'
+      - 'data/catalog/ltmd_u1_w4_social_sciences_processing_inventory.csv'
+      - 'data/catalog/ltmd_u1_w4_social_sciences_canonical_page_manifest.csv'
+
+jobs:
+  selftest:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile W4 Python infrastructure
+        run: |
+          python3 -m py_compile \
+            scripts/build_ltmd_u1_w4_social_sciences_processing_topology.py \
+            scripts/ocr_ltmd_u1_w4_social_sciences_book.py \
+            scripts/combine_ltmd_u1_w4_social_sciences_ocr.py \
+            scripts/extract_ltmd_u1_w4_social_sciences_structural_flags_book.py \
+            scripts/combine_ltmd_u1_w4_social_sciences_structural_flags.py \
+            scripts/classify_ltmd_u1_w4_social_sciences_page_structure.py \
+            scripts/segment_ltmd_u1_w4_social_sciences_fragments.py \
+            scripts/combine_ltmd_u1_w4_social_sciences_fragment_shards.py \
+            scripts/analyze_ltmd_u1_w4_social_sciences_exact_reuse.py \
+            scripts/build_ltmd_u1_w4_social_sciences_completion_report.py
+      - name: Validate W4 source-independent topology
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import csv
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w4_social_sciences_processing_inventory.csv',encoding='utf-8')))
+          man=list(csv.DictReader(open('data/catalog/ltmd_u1_w4_social_sciences_canonical_page_manifest.csv',encoding='utf-8')))
+          assert len(proc)==14 and len({r['viewer_key'] for r in proc})==14
+          assert all(r['processing_mode']=='direct_canonical' for r in proc)
+          assert all(r['ocr_identity_eligible']=='1' and r['is_canonical_processing_object']=='1' for r in proc)
+          assert all(r['canonical_processing_viewer_key']==r['viewer_key'] for r in proc)
+          assert all(int(r['persistent_internal_source_gaps'] or 0)==0 for r in proc)
+          assert sum(int(r['terminal_synthetic_candidates']) for r in proc)==14
+          assert len(man)==2414 and {r['viewer_key'] for r in man}=={r['viewer_key'] for r in proc}
+          assert all(r['asset_status']=='source_jpeg' for r in man)
+          pairs=[(r['viewer_key'],int(r['viewer_page'])) for r in man]
+          assert len(pairs)==len(set(pairs))==2414
+          print('W4 topology selftest passed: 14 identities/canonicals, 2,414 pages, 14 terminals excluded, 0 internal gaps')
+          PY
+      - name: Verify no-human-reference boundary
+        shell: bash
+        run: |
+          grep -q 'WAITING_HUMAN_REFERENCE' docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md
+          grep -q 'no demuestra por sí sola equivalencia bibliográfica' docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md
