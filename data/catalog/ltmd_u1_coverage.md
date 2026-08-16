@@ -1,52 +1,35 @@
 # LTMD-U1 — tablero maestro de cobertura
 
-Versión: **LTMD_U1_COVERAGE_0.4**  
-Universo operativo U1: **542 visores**.  
-Familias normalizadas de título: **191**.
+Versión: **LTMD_U1_COVERAGE_0.5**  
+Universo operativo U1: **542 visores**.
 
 ## Estado ejecutivo
 
-- Catálogo censado: **542/542 (100.00%)**.
-- Títulos normalizados: **542/542 (100.00%)**.
-- Activos completamente resueltos: **40/542 (7.38%)**; parciales documentados: **0**.
-- Manifiesto directo: **36/542 (6.64%)**.
-- OCR directo: **36/542 (6.64%)**.
-- PAGESTRUCT directo: **36/542 (6.64%)**.
+- Activos completamente resueltos: **100/542 (18.45%)**.
+- Manifiesto de fuente listo: **96/542 (17.71%)**.
+- OCR directo canónico: **36/542 (6.64%)**.
+- PAGESTRUCT directo canónico: **36/542 (6.64%)**.
 - FRAGSEG directo: **36/542 (6.64%)**.
 - Cobertura FRAGSEG efectiva: **40/542 (7.38%)**.
-- Dependencia documental auditada: **12/542 (2.21%)**.
-- Cobertura semántica validada: **0/542 (0.00%)**.
+- Semántica humana validada: **0/542**.
 
-Los KPIs se promueven por etapa sólo cuando existe el artefacto final correspondiente. Las tres recuperaciones 2008 conservan la anomalía original y la fuente efectiva en un manifiesto reconciliado.
+W2 Matemáticas conserva 4 DMA 2018 como excepciones de routing no resueltas; no reciben crédito por similitud nominal. Los aliases exactos sólo heredan cobertura efectiva después de que su contenido canónico llegue a FRAGSEG.
 
 ## Cobertura por dominio operativo
 
-| dominio | visores | % U1 | activos full | FRAGSEG directo | cobertura efectiva | restantes | próxima ola |
-|---|---:|---:|---:|---:|---:|---:|---|
-| ciencias_naturales | 40 | 7.38% | 40 | 36 | 40 | 0 | completed_domain |
-| matematicas | 64 | 11.81% | 0 | 0 | 0 | 64 | U1-W2-matematicas |
-| espanol_lengua | 130 | 23.99% | 0 | 0 | 0 | 130 | U1-W3-espanol_lengua |
-| ciencias_sociales | 14 | 2.58% | 0 | 0 | 0 | 14 | U1-W4-ciencias_sociales |
-| historia | 18 | 3.32% | 0 | 0 | 0 | 18 | U1-W5-historia |
-| geografia_atlas | 42 | 7.75% | 0 | 0 | 0 | 42 | U1-W6-geografia_atlas |
-| civica_etica | 30 | 5.54% | 0 | 0 | 0 | 30 | U1-W7-civica_etica |
-| artes | 20 | 3.69% | 0 | 0 | 0 | 20 | U1-W8-artes |
-| educacion_fisica | 4 | 0.74% | 0 | 0 | 0 | 4 | U1-W9-educacion_fisica |
-| integrados_multiarea | 69 | 12.73% | 0 | 0 | 0 | 69 | U1-W10-integrados_multiarea |
-| otros_no_clasificados | 111 | 20.48% | 0 | 0 | 0 | 111 | U1-W11-otros_revision |
+| dominio | visores | activos full | FRAGSEG directo | efectiva | restantes | próxima ola |
+|---|---:|---:|---:|---:|---:|---|
+| ciencias_naturales | 40 | 40 | 36 | 40 | 0 | completed_domain |
+| matematicas | 64 | 60 | 0 | 0 | 64 | U1-W2-matematicas |
+| espanol_lengua | 130 | 0 | 0 | 0 | 130 | U1-W3-espanol_lengua |
+| ciencias_sociales | 14 | 0 | 0 | 0 | 14 | U1-W4-ciencias_sociales |
+| historia | 18 | 0 | 0 | 0 | 18 | U1-W5-historia |
+| geografia_atlas | 42 | 0 | 0 | 0 | 42 | U1-W6-geografia_atlas |
+| civica_etica | 30 | 0 | 0 | 0 | 30 | U1-W7-civica_etica |
+| artes | 20 | 0 | 0 | 0 | 20 | U1-W8-artes |
+| educacion_fisica | 4 | 0 | 0 | 0 | 4 | U1-W9-educacion_fisica |
+| integrados_multiarea | 69 | 0 | 0 | 0 | 69 | U1-W10-integrados_multiarea |
+| otros_no_clasificados | 111 | 0 | 0 | 0 | 111 | U1-W11-otros_revision |
 
-## Límites de lectura
-
-- `cataloged` no significa `asset_resolved`.
-- `asset_resolved` no significa `ocr_ready`.
-- `fragseg_materialized` no significa `semantic_ready`.
-- Cobertura efectiva por alias conserva identidad documental y evita reprocesar bytes demostrados como idénticos.
-- Recuperación puntual por continuidad criptográfica no equivale a identidad bibliográfica total entre ediciones.
-- La taxonomía de dominios es logística, no una ontología curricular.
-
-## Archivos
-
-- `data/catalog/ltmd_u1_coverage.csv`
-- `data/catalog/ltmd_u1_coverage_summary.csv`
-- `data/catalog/ltmd_u1_domain_summary.csv`
-- `data/catalog/ltmd_u1_wave_queue.csv`
+## Regla
+Cada KPI se promueve sólo con el artefacto final correspondiente. Resolución de activos, OCR, PAGESTRUCT, FRAGSEG y semántica son capas separadas.
