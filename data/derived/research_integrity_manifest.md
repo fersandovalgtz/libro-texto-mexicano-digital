@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.6`.
 
-Commit observado: `708a6287a674b529b8124c579ba9c2ece8b12fc9`.
+Commit observado: `10368ecbb257a575c09829de0e096c31a7f0ca55`.
 
 Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
@@ -13,7 +13,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 
 ## Archivos críticos
 
-- `README.md` — 12676 bytes — `260b4ec5044f2ce48833f6b0f7ce4ba1ca2eef6e7cbab1caa552e95cfb23f5e7`
+- `README.md` — 12226 bytes — `9d34f79a0092521c893a5efe574beb75f2ec9a25d013b3de0b87c9c60f7c3426`
 - `CITATION.cff` — 1024 bytes — `8e418bc83fb1ac019f5fa0147d59fa31230bad543fbf2d3ec08805221b37ea4a`
 - `data/book_inventory.csv` — 3003 bytes — `4b9ae106d4b3ed2e1b30203e46d46f6280e1c3f6b22b62791beaab1e677446c4`
 - `data/derived/page_structure.csv` — 107957 bytes — `9528558068ac52b45f05fa9c75b9336a8150d57bf2b3a9a9225b816ed68e82ad`
@@ -52,7 +52,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `docs/METHODS_ARTICLE_DRAFT_0_2.md` — 25280 bytes — `19addc345813bfff754161b1182d6a03f723f457165c54afe8a2fd00eff33021`
 - `docs/PUBLICATION_STRATEGY_0_1.md` — 4143 bytes — `787980a07f53726c41a6e7cddcf1fbcd6d3860c13b7d4c6ee01924c986641831`
 - `docs/CORPUS_EXPANSION_PLAN_0_1.md` — 5031 bytes — `f7a3f339f146e26f93edea0fb0cb05cae7b845f88cbb810f3de485fbb63d4e8b`
-- `docs/RELEASE_CHECKLIST_0_1.md` — 7399 bytes — `5c83dc3477101bd16188de418d450247ff2037466ca4db3dec64bff23b4c2978`
+- `docs/RELEASE_CHECKLIST_0_1.md` — 6630 bytes — `b906b12f92a9511d6184861708de8c539ad9e76f47455252c7f90fcd8c92388e`
 - `docs/FIGURE_PIPELINE_0_1.md` — 2608 bytes — `91c82acb18e6ee970b6594cec6556a794d1d147519702eeb6938fc1f5e83dcdd`
 - `docs/TABLE_PILOT_OBJECTS_0_1.md` — 1860 bytes — `3e0f01e3e49afcea36df100ec89bde6443eef06ba95b4a40468847642da2e1db`
 - `docs/RIGHTS_AND_REUSE_0_1.md` — 5057 bytes — `1ac573dd82f40beabaf5efee9b81746686e623f9064dd3008f59120136929585`
@@ -167,13 +167,13 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `LICENSE` — 11324 bytes — `50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a`
 - `DATA_LICENSE.md` — 3995 bytes — `d4070d74adb6d83c8b61034e3920e9577d9b566063e870f12ce7f6f50d71b892`
 - `requirements-release.txt` — 319 bytes — `1360a8becccdfa022d3ea3b83643883955eee84c0704dff01ccc8453de6ea827`
-- `docs/METHOD_INDEX.md` — 8041 bytes — `703f9f220b2ba2d96656fda4b31a0fdb845b28fbe220e677eee95e3f67a62bb7`
-- `docs/RELEASE_NOTES_v0.1.0-rc.1.md` — 4187 bytes — `3f24a084293f18a506234c535b753184c153dd70ab3a0de245809a0d6a3f7490`
+- `docs/METHOD_INDEX.md` — 6188 bytes — `949be1bfa1a783dbfb101864c532461448b566a1454b765557095543af3fd744`
+- `docs/RELEASE_NOTES_v0.1.0-rc.1.md` — 4523 bytes — `59c0049bb2cb71153023ca58b3af43ff406b88381080c6c310333085af52de87`
 - `docs/REPRODUCIBILITY_ENVIRONMENT_0_1.md` — 3218 bytes — `3831a462437192328ba67dbe72cfc150c948a8aa633e0a290c9dc38386142829`
-- `docs/REPRODUCIBILITY_REPORT_v0.1.0-rc.1.md` — 5743 bytes — `2bce86d3403065a19b46916cc39f4c1d215a263b8f7d78f96175e7c7f136dca6`
+- `docs/REPRODUCIBILITY_REPORT_v0.1.0-rc.1.md` — 5664 bytes — `e6322b1ce6a06f4bb192963979e81ffff2fb91a28c694da390eee8ac9d30ba43`
 - `docs/RELEASE_OUTPUTS_0_1.md` — 4079 bytes — `7851bb28627ce2422c7f84e5a1e92046b1a4dbe518e2759a5cb7873789d43184`
-- `docs/RIGHTS_PUBLICATION_MATRIX_0_2.md` — 7881 bytes — `b79e64f94d51b3af1c867636264486aa7a8cb9fdf2fcfddf13e31ca832343583`
-- `docs/LICENSE_DECISION_MEMO_0_1.md` — 7402 bytes — `40af67b139a9e5202f943198f596a568f831ebd92031476820b5924445a9c98a`
+- `docs/RIGHTS_PUBLICATION_MATRIX_0_2.md` — 6493 bytes — `d14f06be47c55d1e8a8936e2f0f6f643743db47f2f05c65f2d1de7389af82e90`
+- `docs/LICENSE_DECISION_MEMO_0_1.md` — 4961 bytes — `05de35861d0c9c3025c475c33e046412c75171e91eb10a1560768939782d1afd`
 - `scripts/check_release_candidate.py` — 11810 bytes — `a4d45ce41be7416e69f995f880b4d177485d81016383faa0edcdddc6c26bd470`
 - `scripts/build_research_integrity_manifest.py` — 13838 bytes — `c4a8f2f9b884a4ea2c8776329e5829fa3bd6eb9cfea55b5350ff62ee7de2cd1c`
 - `scripts/build_research_integrity_manifest_v06.py` — 1363 bytes — `28468c6873055c7089bce221b98e67d1fbcc3b941aac56a18ed746a329d30069`

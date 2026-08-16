@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.6",
-  "generated_utc": "2026-08-16T01:24:57.664244+00:00",
-  "git_head": "708a6287a674b529b8124c579ba9c2ece8b12fc9",
+  "generated_utc": "2026-08-16T01:30:59.089928+00:00",
+  "git_head": "10368ecbb257a575c09829de0e096c31a7f0ca55",
   "scope": "CN5 pilot + closed CN4/CN6 expansion + closed Ciencias Naturales Wave 2 + strict-family asset readiness + document-dependence/unique-content evidence + prehuman SEMB 0.3 infrastructure + methods article 0.2",
   "critical_count": 166,
   "critical_present_count": 166,
@@ -16,8 +16,8 @@
   "files": [
     {
       "path": "README.md",
-      "bytes": 12676,
-      "sha256": "260b4ec5044f2ce48833f6b0f7ce4ba1ca2eef6e7cbab1caa552e95cfb23f5e7",
+      "bytes": 12226,
+      "sha256": "9d34f79a0092521c893a5efe574beb75f2ec9a25d013b3de0b87c9c60f7c3426",
       "required": true
     },
     {
@@ -250,8 +250,8 @@
     },
     {
       "path": "docs/RELEASE_CHECKLIST_0_1.md",
-      "bytes": 7399,
-      "sha256": "5c83dc3477101bd16188de418d450247ff2037466ca4db3dec64bff23b4c2978",
+      "bytes": 6630,
+      "sha256": "b906b12f92a9511d6184861708de8c539ad9e76f47455252c7f90fcd8c92388e",
       "required": true
     },
     {
@@ -940,14 +940,14 @@
     },
     {
       "path": "docs/METHOD_INDEX.md",
-      "bytes": 8041,
-      "sha256": "703f9f220b2ba2d96656fda4b31a0fdb845b28fbe220e677eee95e3f67a62bb7",
+      "bytes": 6188,
+      "sha256": "949be1bfa1a783dbfb101864c532461448b566a1454b765557095543af3fd744",
       "required": true
     },
     {
       "path": "docs/RELEASE_NOTES_v0.1.0-rc.1.md",
-      "bytes": 4187,
-      "sha256": "3f24a084293f18a506234c535b753184c153dd70ab3a0de245809a0d6a3f7490",
+      "bytes": 4523,
+      "sha256": "59c0049bb2cb71153023ca58b3af43ff406b88381080c6c310333085af52de87",
       "required": true
     },
     {
@@ -958,8 +958,8 @@
     },
     {
       "path": "docs/REPRODUCIBILITY_REPORT_v0.1.0-rc.1.md",
-      "bytes": 5743,
-      "sha256": "2bce86d3403065a19b46916cc39f4c1d215a263b8f7d78f96175e7c7f136dca6",
+      "bytes": 5664,
+      "sha256": "e6322b1ce6a06f4bb192963979e81ffff2fb91a28c694da390eee8ac9d30ba43",
       "required": true
     },
     {
@@ -970,14 +970,14 @@
     },
     {
       "path": "docs/RIGHTS_PUBLICATION_MATRIX_0_2.md",
-      "bytes": 7881,
-      "sha256": "b79e64f94d51b3af1c867636264486aa7a8cb9fdf2fcfddf13e31ca832343583",
+      "bytes": 6493,
+      "sha256": "d14f06be47c55d1e8a8936e2f0f6f643743db47f2f05c65f2d1de7389af82e90",
       "required": true
     },
     {
       "path": "docs/LICENSE_DECISION_MEMO_0_1.md",
-      "bytes": 7402,
-      "sha256": "40af67b139a9e5202f943198f596a568f831ebd92031476820b5924445a9c98a",
+      "bytes": 4961,
+      "sha256": "05de35861d0c9c3025c475c33e046412c75171e91eb10a1560768939782d1afd",
       "required": true
     },
     {
