@@ -1,0 +1,49 @@
+name: extract-ltmd-u1-w7-image-route-contract
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/extract-ltmd-u1-w7-image-route-contract.yml'
+      - 'scripts/extract_ltmd_u1_w7_image_route_contract.py'
+      - 'data/catalog/ltmd_u1_w7_dynamic_dependencies.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: extract-ltmd-u1-w7-image-route-contract
+  cancel-in-progress: false
+
+jobs:
+  extract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Extract W7 image route contract
+        run: python3 scripts/extract_ltmd_u1_w7_image_route_contract.py
+      - name: Publish image route contract race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-u1-w7-image-route
+          mkdir -p /tmp/ltmd-u1-w7-image-route
+          cp data/catalog/ltmd_u1_w7_image_route_contract.json /tmp/ltmd-u1-w7-image-route/
+          cp data/catalog/ltmd_u1_w7_image_route_contract.md /tmp/ltmd-u1-w7-image-route/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w7-image-route/ltmd_u1_w7_image_route_contract.json data/catalog/
+            cp /tmp/ltmd-u1-w7-image-route/ltmd_u1_w7_image_route_contract.md data/catalog/
+            git add data/catalog/ltmd_u1_w7_image_route_contract.json data/catalog/ltmd_u1_w7_image_route_contract.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W7 image route contract'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
