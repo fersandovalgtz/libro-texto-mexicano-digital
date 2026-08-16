@@ -1,0 +1,40 @@
+name: build-ltmd-u1-coverage-dashboard
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-coverage-dashboard.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Recompute U1 coverage
+        run: python3 scripts/build_ltmd_u1_coverage_dashboard.py
+      - name: Publish coverage dashboard race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/u1-coverage
+          cp data/catalog/ltmd_u1_coverage.md /tmp/u1-coverage/
+          cp data/catalog/ltmd_u1_coverage_summary.csv /tmp/u1-coverage/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/u1-coverage/* data/catalog/
+            git add data/catalog/ltmd_u1_coverage.md data/catalog/ltmd_u1_coverage_summary.csv
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 coverage dashboard 0.6'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
