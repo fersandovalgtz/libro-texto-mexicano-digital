@@ -1,0 +1,101 @@
+name: audit-ltmd-u1-w6-geography-atlas-assets
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - build-ltmd-u1-w6-geography-atlas-declared-inventory
+    types:
+      - completed
+  push:
+    paths:
+      - '.github/workflows/audit-ltmd-u1-w6-geography-atlas-assets.yml'
+      - 'scripts/audit_ltmd_u1_w6_geography_atlas_assets_book.py'
+      - 'scripts/combine_ltmd_u1_w6_geography_atlas_asset_shards.py'
+      - 'data/catalog/ltmd_u1_w6_declared_inventory.csv'
+      - 'data/catalog/ltmd_u1_w6_viewer_architecture.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  matrix:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-24.04
+    outputs:
+      viewers: ${{ steps.make.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: make
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import csv,json
+          scope=list(csv.DictReader(open('data/catalog/ltmd_u1_w6_scope.csv',encoding='utf-8')))
+          inv=list(csv.DictReader(open('data/catalog/ltmd_u1_w6_declared_inventory.csv',encoding='utf-8')))
+          arch=list(csv.DictReader(open('data/catalog/ltmd_u1_w6_viewer_architecture.csv',encoding='utf-8')))
+          keys=[r['viewer_key'] for r in scope]
+          assert len(keys)==42 and len(set(keys))==42
+          assert {r['viewer_key'] for r in inv}==set(keys)
+          assert {r['viewer_key'] for r in arch}==set(keys)
+          assert sum(int(r['declared_positions']) for r in inv)==7766
+          assert all(int(r['html_status'])==200 for r in arch)
+          assert sum(int(r['standard_dynamic_architecture']) for r in arch)==41
+          print('viewers='+json.dumps(keys,separators=(',',':')))
+          PY
+
+  audit:
+    needs: matrix
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.matrix.outputs.viewers) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit one W6 Geography/Atlas viewer
+        run: python3 scripts/audit_ltmd_u1_w6_geography_atlas_assets_book.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w6-geography-atlas-assets-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w6_geography_atlas_assets/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  combine:
+    needs: audit
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w6-geography-atlas-assets-*
+          path: data/work/ltmd_u1_w6_geography_atlas_assets
+          merge-multiple: true
+      - name: Combine exact 42-viewer asset layer
+        run: python3 scripts/combine_ltmd_u1_w6_geography_atlas_asset_shards.py
+      - name: Publish W6 asset audit race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w6-assets
+          cp data/catalog/ltmd_u1_w6_geography_atlas_asset_manifest.csv /tmp/ltmd-u1-w6-assets/
+          cp data/catalog/ltmd_u1_w6_geography_atlas_asset_summary.csv /tmp/ltmd-u1-w6-assets/
+          cp data/catalog/ltmd_u1_w6_geography_atlas_asset_audit.md /tmp/ltmd-u1-w6-assets/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w6-assets/* data/catalog/
+            git add data/catalog/ltmd_u1_w6_geography_atlas_asset_manifest.csv data/catalog/ltmd_u1_w6_geography_atlas_asset_summary.csv data/catalog/ltmd_u1_w6_geography_atlas_asset_audit.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W6 Geography Atlas asset audit'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
