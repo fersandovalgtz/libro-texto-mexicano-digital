@@ -1,0 +1,43 @@
+name: build-ltmd-u1-w2-math-reconciled-manifest
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w2-math-reconciled-manifest.yml'
+      - 'scripts/build_ltmd_u1_w2_math_reconciled_manifest.py'
+      - 'data/catalog/ltmd_u1_w2_math_asset_manifest.csv'
+      - 'data/catalog/ltmd_u1_w2_math_internal_recoveries.csv'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: python3 scripts/build_ltmd_u1_w2_math_reconciled_manifest.py
+      - name: Publish reconciled W2 mathematics manifest race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w2-reconciled
+          cp data/catalog/ltmd_u1_w2_math_reconciled_manifest.csv /tmp/w2-reconciled/
+          cp data/catalog/ltmd_u1_w2_math_reconciled_summary.csv /tmp/w2-reconciled/
+          cp data/catalog/ltmd_u1_w2_math_reconciled_manifest.md /tmp/w2-reconciled/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w2-reconciled/* data/catalog/
+            git add data/catalog/ltmd_u1_w2_math_reconciled_manifest.csv data/catalog/ltmd_u1_w2_math_reconciled_summary.csv data/catalog/ltmd_u1_w2_math_reconciled_manifest.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W2 mathematics reconciled manifest'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
