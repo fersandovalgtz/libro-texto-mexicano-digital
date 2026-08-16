@@ -1,8 +1,8 @@
 {
   "preflight_version": "LTMD_RELEASE_PREFLIGHT_0.3",
   "release_candidate": "v0.1.0-rc.1",
-  "generated_utc": "2026-08-16T01:32:40.981941+00:00",
-  "git_head": "854ac38cfc48b51cbd9a1c330d4017cf9ed27ae6",
+  "generated_utc": "2026-08-16T01:36:26.532574+00:00",
+  "git_head": "cd3e5e6d2cb14210637da00b85e7a2db6935f0c9",
   "rc_technical_ready": true,
   "publish_ready": true,
   "technical_failures": [],
