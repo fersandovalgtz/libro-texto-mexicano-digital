@@ -1,19 +1,19 @@
 # Manifiesto de integridad científica LTMD
 
-Versión: `LTMD_INTEGRITY_0.6`.
+Versión: `LTMD_INTEGRITY_0.8`.
 
-Commit observado: `daa8c2f0bf4b7eb37f56b46458fde5c9a38207da`.
+Commit observado: `8334a43cbfb54d4d45032c431218159f6446a3a0`.
 
 Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
-Archivos críticos presentes: **166/166**.
-Artefactos opcionales presentes: **9**.
+Archivos críticos presentes: **286/286**.
+Artefactos opcionales presentes: **18**.
 
 Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; la desaparición de un artefacto crítico hace fallar el workflow.
 
 ## Archivos críticos
 
-- `README.md` — 10324 bytes — `407cba8634f2d1bad877cad292770743819d1c38ac314194bb16527b9484c088`
+- `README.md` — 12971 bytes — `360606d7b4428c33e3f979f063a7184d0fdc6470025922927ec7db135a1f3570`
 - `CITATION.cff` — 1024 bytes — `8e418bc83fb1ac019f5fa0147d59fa31230bad543fbf2d3ec08805221b37ea4a`
 - `data/book_inventory.csv` — 3003 bytes — `4b9ae106d4b3ed2e1b30203e46d46f6280e1c3f6b22b62791beaab1e677446c4`
 - `data/derived/page_structure.csv` — 107957 bytes — `9528558068ac52b45f05fa9c75b9336a8150d57bf2b3a9a9225b816ed68e82ad`
@@ -178,7 +178,127 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/build_research_integrity_manifest.py` — 13838 bytes — `c4a8f2f9b884a4ea2c8776329e5829fa3bd6eb9cfea55b5350ff62ee7de2cd1c`
 - `scripts/build_research_integrity_manifest_v06.py` — 1363 bytes — `28468c6873055c7089bce221b98e67d1fbcc3b941aac56a18ed746a329d30069`
 - `.github/workflows/check-release-candidate.yml` — 2195 bytes — `ea162ccdde5fedc6af6b023d6e8d0a081aecca08686f59d4c69af9a173c2fbe7`
-- `.github/workflows/build-research-integrity-manifest.yml` — 3161 bytes — `315a740cc7c0e6b175352d4cd1d40f2290f1980cbace43a46646158818913fb6`
+- `.github/workflows/build-research-integrity-manifest.yml` — 3252 bytes — `1bc49cfe49a0b0b78d91d14f5768e563277d6f9a9e7941da8eec3c5902cef844`
+- `docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md` — 4193 bytes — `29e09613813214d2ea3e00c4d10c6a7f5c5786452629be779af899e20e81638f`
+- `docs/LTMD_STATUS_2026-08-16.md` — 6714 bytes — `5080028dd1419c88714ccb40bf1d71f2394fefbd8ef6e1f96e227f602c32d067`
+- `data/catalog/ltmd_u1_w3_scope.csv` — 16769 bytes — `0d630fc85a3e709092174b5bb16b2a224527a9c067f36bcd4de4af19183a2038`
+- `data/catalog/ltmd_u1_w3_scope.md` — 519 bytes — `e61aede5bc80c7e0ef96ede7367c4bac62488e3f5d41733cad1475abb34499c8`
+- `data/catalog/ltmd_u1_w3_viewer_architecture.csv` — 17615 bytes — `5aaf3039916deb97af436732fa9323a9f22e4d3bc439df90447d749f41da1ba8`
+- `data/catalog/ltmd_u1_w3_viewer_architecture.md` — 747 bytes — `89f8e707a19f0d2f9834ee257852b05ede3cf6f8694dc7c467b74648d10f5db6`
+- `data/catalog/ltmd_u1_w3_declared_inventory.csv` — 18644 bytes — `ca99e139028c7677de80003c3c16047a2b9b657b0240a91149eb5e932a6ec4f9`
+- `data/catalog/ltmd_u1_w3_declared_inventory_summary.csv` — 642 bytes — `e4f819ede035e915899b170cd41e36702dfbbe31b09627ae3e2b21741e910b22`
+- `data/catalog/ltmd_u1_w3_declared_inventory.md` — 674 bytes — `b748c91bee4d5f77bf5eed6e0fe8420a5d05aa8b84d8dded236e7254a0c6aceb`
+- `data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv` — 41626 bytes — `66bb414f6a1dc45325e5abf31800a9e94f57a25b93e40f214b17011848d6ad0b`
+- `data/catalog/ltmd_u1_w3_spanish_processing_inventory.md` — 873 bytes — `2d17169dc5b56dbbcf4c1b6a3ada276298c6326d4f3226a571d7aaa5ade05eed`
+- `data/catalog/ltmd_u1_w3_spanish_canonical_page_manifest.csv` — 6835239 bytes — `f3ffd78ef9fdda26bac9f6be7fb71ecda59bf001339e6f6749413074782de3b5`
+- `data/catalog/ltmd_u1_w3_spanish_canonical_page_manifest.md` — 1294 bytes — `9bb130960275b7b13d16dfdad720859528ef2072614289fc8b41654fd9863a39`
+- `data/catalog/ltmd_u1_w3_spanish_canonical_gap_manifest.csv` — 3624 bytes — `5287187bc017864019365c3c5fd4e0bb1f66848ceacd6e317e7ac95e8933da64`
+- `data/catalog/ltmd_u1_w3_spanish_ocr_metrics.csv` — 4397797 bytes — `5866c490e5a9cead7427ef32870110078290d8ba48098c6020a4eed339f55030`
+- `data/catalog/ltmd_u1_w3_spanish_ocr_summary.csv` — 13482 bytes — `584a1609bf52ab565f484dff0233d206fdcb3f7a73a4837b005d1b8bd55ca12d`
+- `data/catalog/ltmd_u1_w3_spanish_ocr.md` — 1145 bytes — `7f5fa88217fe2de248068320db6d2575bcb6443f2ed667946da5cf0d73f3aded`
+- `data/catalog/ltmd_u1_w3_spanish_page_structure.csv` — 3826261 bytes — `f937575e68868097f9e05c4da192a14c6b9ccaf903ce170c21754ef34e1fff99`
+- `data/catalog/ltmd_u1_w3_spanish_page_structure_summary.csv` — 4121 bytes — `70ab697efe15b976ffeec6f87f8f5bff4b3683eb25ab3be13c2fd27ca9f465f6`
+- `data/catalog/ltmd_u1_w3_spanish_page_structure.md` — 893 bytes — `a800e728baf0faad8838bd0a1515112d773b8ef2a4a96cf9dfc5dab24a2f091a`
+- `scripts/build_ltmd_u1_w3_spanish_scope.py` — 1988 bytes — `6dd97310d83b71286f6e532f896a1aafcec842d30c2a79ea05b1113560fca82c`
+- `scripts/audit_ltmd_u1_w3_spanish_architecture.py` — 3060 bytes — `f63ab2fb7f59c96ad7bfc8112a2c01f240c17b4942800123925b09023a24cc22`
+- `scripts/build_ltmd_u1_w3_spanish_declared_inventory.py` — 3120 bytes — `2a99386c8a86d6d18d9d703f97d2b75054834d4bfc229a8b6c0410e6bde74e76`
+- `scripts/build_ltmd_u1_w3_spanish_processing_inventory.py` — 9113 bytes — `cf7eb17b06e240346f1233dbc45a23653cfe6e3a650a1594106d65142438dac6`
+- `scripts/build_ltmd_u1_w3_spanish_canonical_page_manifest.py` — 8487 bytes — `38ecd6a71813ceea8b4578b49e173108022ada88dec6369605d1ddd54ee2e704`
+- `scripts/ocr_ltmd_u1_w3_spanish_book.py` — 11757 bytes — `4a960e8096e5d25044cea197176b38092927625d32914b9240e653c676b67bbd`
+- `scripts/combine_ltmd_u1_w3_spanish_ocr.py` — 8096 bytes — `638644b6a05e4e29010c1779f548974472be6e84b0e016545a04290db3b35064`
+- `scripts/extract_ltmd_u1_w3_spanish_structural_flags_book.py` — 6243 bytes — `8c4c5f13f95200c04f9f59bb82f9f6483d3512b72a1e9d199640ab3d5705604b`
+- `scripts/combine_ltmd_u1_w3_spanish_structural_flags.py` — 2891 bytes — `a201df8fabe5688ff4ea9649656638c0ff69f53b41c624a5071021e87639e4ed`
+- `scripts/classify_ltmd_u1_w3_spanish_page_structure.py` — 8297 bytes — `313a8acc69d1cce01cee0ca37ae2b26f80f093a3373b5423702754c76b4d44c0`
+- `scripts/segment_ltmd_u1_w3_spanish_fragments.py` — 11154 bytes — `e25ddce88b6f19f84cc223b45f8c42cd26fd82b923bc8fd6678b667ef05298f5`
+- `scripts/combine_ltmd_u1_w3_spanish_fragment_shards.py` — 8767 bytes — `0d7c480b9066d969385b93d142570c05a297bc578d2610f5925e2f62b73445a7`
+- `scripts/analyze_ltmd_u1_w3_spanish_exact_reuse.py` — 10404 bytes — `7c7abe5530ba1008f0255ad2bc9d39ca304132a6055aad0cc018ef3b7dbb9503`
+- `scripts/build_ltmd_u1_w3_completion_report.py` — 9927 bytes — `ab227e9bb48f229dd7de0be81dccc702cec437b217d73d71176d0fb0b446009d`
+- `.github/workflows/build-ltmd-u1-w3-spanish-ocr.yml` — 4160 bytes — `3d43a53b8c5295a1e9c35dbce97cdf90498daf1a81296b8b718b331675ca6bf5`
+- `.github/workflows/recover-ltmd-u1-w3-spanish-ocr.yml` — 7995 bytes — `05680d060350714733eb82e0635d4e75d828025c5e192d08672b4beb9ac974df`
+- `.github/workflows/build-ltmd-u1-w3-spanish-pagestruct.yml` — 4510 bytes — `d60626f12ab386a3a8727252e4e4e709f84a7e7c05a80538bd8a8644340780d4`
+- `.github/workflows/recover-ltmd-u1-w3-spanish-pagestruct.yml` — 7181 bytes — `82b96cb7fa0e9a7b12a28ac637a519c2aef217532e58e6d666b2da4969e8255e`
+- `.github/workflows/build-ltmd-u1-w3-spanish-fragseg.yml` — 4252 bytes — `b57b3f6f1f24a5647ca78dc17094d808cef86b28031edb145aa047de3c6a0ca2`
+- `.github/workflows/recover-ltmd-u1-w3-spanish-fragseg.yml` — 8111 bytes — `f668000be740a54ffc9a82459fbac9ad354b5e2bebd78f54c8479b350184351b`
+- `.github/workflows/analyze-ltmd-u1-w3-spanish-exact-reuse.yml` — 2847 bytes — `e718d3bdd6b965cab7914a2f16806c130a8922891391faa11ea741045b3d37a8`
+- `.github/workflows/recover-ltmd-u1-w3-spanish-exact-reuse.yml` — 2308 bytes — `ccb64b3039e8bbd19f21f859704eddc076f001437fe1f69e3c5dca9a2bed8310`
+- `.github/workflows/build-ltmd-u1-w3-completion-report.yml` — 1469 bytes — `e2123d68991f4e6ac3ffb19c6388888faecdf328a290072d1dd1e1c18690fe4d`
+- `docs/LTMD_U1_W4_COMPLETION.md` — 1927 bytes — `658c6fc26e6b7f8a576ae4ef79b81f0a9ce66d8f3df56ba56a63af0d66808dc4`
+- `data/catalog/ltmd_u1_w4_scope.csv` — 1941 bytes — `918ad418cc8352f1f413d5a51357f243ebb5db759d1815899807c1132289adf8`
+- `data/catalog/ltmd_u1_w4_scope.md` — 687 bytes — `5d1c5a41d1f22000433b2727c4e4c37d534db7dd5a8605fd7c627ad27c71504f`
+- `data/catalog/ltmd_u1_w4_viewer_architecture.csv` — 2057 bytes — `8d686328c30d67e9dc9943b694b6a0665476ded572546cdb80e73fddaa3e6f5e`
+- `data/catalog/ltmd_u1_w4_viewer_architecture.md` — 628 bytes — `a3c511ab9387c8b998f813918df778304a77d05502e03de773c9fcf0119abe22`
+- `data/catalog/ltmd_u1_w4_declared_inventory.csv` — 2121 bytes — `2672eba4f54b7d84855ae7a3e94fd8cb32aa3aab0089fd372d5af6f1ee081303`
+- `data/catalog/ltmd_u1_w4_declared_inventory_summary.csv` — 302 bytes — `8eb9f66555979d2d5ea429127414707770eea5fd37717cd52f4c4288c91f20e9`
+- `data/catalog/ltmd_u1_w4_declared_inventory.md` — 573 bytes — `f62f34ff25a4da3e738fa55e682cf154c57d89688c8f26c8c1fca727b54e5180`
+- `data/catalog/ltmd_u1_w4_social_sciences_asset_manifest.csv` — 717170 bytes — `58f93280e9026c3151ad01aaea3404255beafc4b7e5bffb49f2a2cec96a61d01`
+- `data/catalog/ltmd_u1_w4_social_sciences_asset_summary.csv` — 2179 bytes — `21ac155172ede93081f12b3fe9f60da1d637b890cfd2541db41bb94a816ac7f8`
+- `data/catalog/ltmd_u1_w4_social_sciences_asset_audit.md` — 1053 bytes — `a5ac1161ddf1d09d084497773af262c9bea9e759a61f2b694e14133039f4aa76`
+- `data/catalog/ltmd_u1_w4_social_sciences_asset_relationships.md` — 1171 bytes — `4a21b5848ea7387f868c23d0f7ef09116ffdb420b0bc7e8c52ccd797fcb5380f`
+- `data/catalog/ltmd_u1_w4_social_sciences_processing_topology.md` — 1459 bytes — `ac9cac0d11214f6362d90a9e5dfa28d6df01d006edbe059aa1b4cb8b9ff7891d`
+- `data/catalog/ltmd_u1_w4_social_sciences_canonical_page_manifest.csv` — 848635 bytes — `d56de90037a57118c1f26d6a887c25f667d6c24a0e16d9be0ba1f87098fbc2b5`
+- `data/catalog/ltmd_u1_w4_social_sciences_ocr_metrics.csv` — 566421 bytes — `d12a3f33f2337c4e7d616f11337815124520296cb5e05525ae5180d8243ff342`
+- `data/catalog/ltmd_u1_w4_social_sciences_ocr_summary.csv` — 1865 bytes — `e9bc7143cd7453f76b8a29f9c3a2d9733b767a1fc81e3e8b2b24ad6357fa16b9`
+- `data/catalog/ltmd_u1_w4_social_sciences_ocr.md` — 804 bytes — `e799ca42ce5ecb5bd786aefc751449051480878cbf7d8d936ff00051d6d611b3`
+- `data/catalog/ltmd_u1_w4_social_sciences_page_structure.csv` — 454894 bytes — `29d8658a94fa4cc2aa32bbc51265a0dbade5150bbcc4e008393c2fb0731a7770`
+- `data/catalog/ltmd_u1_w4_social_sciences_page_structure_summary.csv` — 648 bytes — `f1d45001990f4ae1d67d84bcbcb4ff72872439fb775c2c5af5f24fb268a00161`
+- `data/catalog/ltmd_u1_w4_social_sciences_page_structure.md` — 682 bytes — `934e204889e3d8f207e664c16d8eef1388f2adc0029405cd233218ffbf2a39dd`
+- `data/catalog/ltmd_u1_w4_social_sciences_fragment_manifest.csv` — 5487746 bytes — `9838e14a621b01de50c677a7b033a6b302787253ce2e5bbd062ea3c183f707b3`
+- `data/catalog/ltmd_u1_w4_social_sciences_fragment_manifest_summary.csv` — 1518 bytes — `107c3292dcbfc7dc68f159b0206a09d5fcbc6bd73944d5aec0ee2c3d51bd4d00`
+- `data/catalog/ltmd_u1_w4_social_sciences_fragment_sequence_gaps.csv` — 1980 bytes — `def466925168f93dbfcaba48295689b670040b9dd98fc0f5d07f07420a10646a`
+- `data/catalog/ltmd_u1_w4_social_sciences_fragment_manifest.md` — 918 bytes — `6edf932d19e62e813212dc7b7d59ba773eeb1281f347ef132d4e47f8d5dbebb9`
+- `data/catalog/ltmd_u1_w4_social_sciences_exact_reuse.md` — 2401 bytes — `c1339e9a2d145f3d458f056ff4b3f92cec4d65c4a037dc7734856affa945691f`
+- `scripts/build_ltmd_u1_w4_social_sciences_scope.py` — 2364 bytes — `331bef3af60d0e42b5b9c3093858392c1bfacf39e4ebb2885edfd80e5ed5e5f6`
+- `scripts/audit_ltmd_u1_w4_social_sciences_architecture.py` — 3061 bytes — `81b5b91f51257c9e9423eaa59b7f3b60a3c4682f684d4f2e9e314d72b32cd679`
+- `scripts/build_ltmd_u1_w4_social_sciences_declared_inventory.py` — 3127 bytes — `02739e21533edb6a9195ba51cd7e56c7bc2b38f48dd6a6e3c87dea9284983fbe`
+- `scripts/audit_ltmd_u1_w4_social_sciences_assets_book.py` — 4281 bytes — `da88f9eea745e24b625a6fd40b7dd80cbbfde59d2a4c63a4e5496d54b905652c`
+- `scripts/combine_ltmd_u1_w4_social_sciences_asset_shards.py` — 5655 bytes — `05dd11b390946044d067dab706ff7d5bdfb7f367699aab8c038ef30ecdbedf2f`
+- `scripts/analyze_ltmd_u1_w4_social_sciences_asset_relationships.py` — 8591 bytes — `9d7553be64942691406cbe2337f16d0e345766d697afdd447737d89e7cf5656b`
+- `scripts/build_ltmd_u1_w4_social_sciences_processing_topology.py` — 9019 bytes — `587ba08cfe17ed0e51bae164f8b5220a8801d7a69bd9f1d6c9c8cb655799ae5d`
+- `scripts/ocr_ltmd_u1_w4_social_sciences_book.py` — 8248 bytes — `3601489a145f39cb918269773b38618df1e57240deffb54b645f84e523e20ac0`
+- `scripts/combine_ltmd_u1_w4_social_sciences_ocr.py` — 5351 bytes — `dd85dbfb8317ddb4ac55f70e4e8b6a5602a31e9a9f8769c2f483c087d3b6bae7`
+- `scripts/extract_ltmd_u1_w4_social_sciences_structural_flags_book.py` — 4894 bytes — `4c76615e6e548e706bbaf3c14c83d9be09c0f22da3496e3f6b69df436cb6d9d1`
+- `scripts/combine_ltmd_u1_w4_social_sciences_structural_flags.py` — 2152 bytes — `1bbad4775e8d487d1d514648444731601a587694c4cc51ae80fb129389d70cdf`
+- `scripts/classify_ltmd_u1_w4_social_sciences_page_structure.py` — 5428 bytes — `cc89464a6873381594ed53d10285359a79b06e228d94b4342537f0f65ad696c3`
+- `scripts/segment_ltmd_u1_w4_social_sciences_fragments.py` — 1349 bytes — `2b019cb7b6248a9193936df54d2884aebc3e6600eff3d9cd67fcfd632ec87b42`
+- `scripts/combine_ltmd_u1_w4_social_sciences_fragment_shards.py` — 5630 bytes — `70f0141c6a25e00ed34bd8863d873780dc590c02d33597789b469c6410efd021`
+- `scripts/analyze_ltmd_u1_w4_social_sciences_exact_reuse.py` — 5514 bytes — `c7ebb611d2d1608393aedcc0501e40d171e0cc84b9744002d40dc3b0536c6121`
+- `scripts/build_ltmd_u1_w4_completion_report.py` — 12592 bytes — `df8deb3a4767fdfb60148e38ebd2ca3b8902bdb00c12ff99f3cb8791729de3ec`
+- `.github/workflows/audit-ltmd-u1-w4-social-sciences-architecture.yml` — 1916 bytes — `7c5ee930e2ce5e7e94ae1988cd5202b84c5fc832ad6679ff7bc90ecd329c271a`
+- `.github/workflows/build-ltmd-u1-w4-social-sciences-declared-inventory.yml` — 2257 bytes — `13bf8d0fa21b87522ff13081889f766d9856a655303422d8e7e3de6cb89dfdd0`
+- `.github/workflows/audit-ltmd-u1-w4-social-sciences-assets.yml` — 3823 bytes — `98f7f61c2d3d3360dbb974271ee0bcf41fa8e8307931e9a3413aef0da0a0af14`
+- `.github/workflows/analyze-ltmd-u1-w4-social-sciences-asset-relationships.yml` — 1992 bytes — `b44493ca93c4e71000f5c1bc1d574e34c2b9de48b3509acb6c87be07bc586f49`
+- `.github/workflows/build-ltmd-u1-w4-social-sciences-processing-topology.yml` — 2131 bytes — `89cb4a75e3349aa0c3dddd43cc95a6a2e75955cc7d23f93168d593fdd2bfc09e`
+- `.github/workflows/build-ltmd-u1-w4-social-sciences-ocr.yml` — 3899 bytes — `a13cbe2c83fe950bbd4a6bbc45a95b75a7f65e4209490fdd452787ef64a4b63f`
+- `.github/workflows/recover-ltmd-u1-w4-social-sciences-ocr.yml` — 5430 bytes — `4b31c1ba4ccbaccdc32b49bda117044677e8cf9c8d0ca8fd4688b51a1e4a335f`
+- `.github/workflows/build-ltmd-u1-w4-social-sciences-pagestruct.yml` — 4169 bytes — `13f0667aa0538449c160e175d6e8fa0e906afdca88e04c68dd1bb4d082778407`
+- `.github/workflows/recover-ltmd-u1-w4-social-sciences-pagestruct.yml` — 5830 bytes — `b065b49041e31d0384ad4c045e69b72baff4f4b55563e773d453a50828e0f388`
+- `.github/workflows/build-ltmd-u1-w4-social-sciences-fragseg.yml` — 3966 bytes — `72b4b65c2a30c70b9b92f562f57bd13f1f8d443e758753ded80e07f3ce82aca9`
+- `.github/workflows/recover-ltmd-u1-w4-social-sciences-fragseg.yml` — 5753 bytes — `dc2fbd69cb1ee95a6d6da1784aff73d75c4feed5239e8427e254c6edb789e5df`
+- `.github/workflows/analyze-ltmd-u1-w4-social-sciences-exact-reuse.yml` — 1736 bytes — `bfe734658aa42f40926cf9d47a2650be1ed6debb784e6b8579afb19ba5429497`
+- `.github/workflows/build-ltmd-u1-w4-completion-report.yml` — 2215 bytes — `c9ad8d81c2b34868332277850e655a807013498d132156745c40ae1851c3bdac`
+- `scripts/build_research_integrity_manifest_v07.py` — 7787 bytes — `65bf76430f1da8d3aa5ae9b2c2fa994385a222cc092b604fe81aff6b13af6eff`
+- `data/catalog/ltmd_u1_w7_scope.csv` — 4133 bytes — `c86c88d27694c7ff47a8087fae51fdb6355c4bb1909267dcc0d531492b8679d3`
+- `data/catalog/ltmd_u1_w7_scope.md` — 729 bytes — `40556b2be58da8ea74c2b01abf192ec0f2f74dab3f6d1765f1d51950d70eb985`
+- `data/catalog/ltmd_u1_w7_viewer_architecture.csv` — 4447 bytes — `0870293d7669683c6ea629e0aedd9b291c9cb1c4f99b65ddcb0ff4e675fb4636`
+- `data/catalog/ltmd_u1_w7_viewer_architecture.md` — 710 bytes — `7ea75fa6c97ebeab0f50e202f2176f4d55a55d87df9f5cff09c98f95215dedc7`
+- `data/catalog/ltmd_u1_w7_declared_inventory.csv` — 4707 bytes — `d9e11613a866d4b08bdda17cf4d1b08da1b0e861904a5e1f1c42828bdb1d3c94`
+- `data/catalog/ltmd_u1_w7_declared_inventory_summary.csv` — 388 bytes — `bb5f47e6ac944e0bc51ddcd9b60cc1a9c59a07ca630f11af59cc8ce2a9641121`
+- `data/catalog/ltmd_u1_w7_declared_inventory.md` — 861 bytes — `68907fd8acc652935bf13354b57efeff5be7af0f8c0a0a0f6d0fbc6836ace564`
+- `data/catalog/ltmd_u1_w7_civics_ethics_asset_manifest.csv` — 1227034 bytes — `7277edf84d66320afdcc06c4ecded19f8f99c79110665d543a0918ed7edc0b94`
+- `data/catalog/ltmd_u1_w7_civics_ethics_asset_summary.csv` — 4536 bytes — `30f6b755f92f6fe3bda8d0125836e7c26c64e7b656737ef362d8e92150df0649`
+- `data/catalog/ltmd_u1_w7_civics_ethics_asset_audit.md` — 1718 bytes — `5af5ea1f6778400b4c7a3a38c91e895a2dab4aea0815172a1c4bbb1e0bd2ad82`
+- `data/validation/ltmd_u1_w7_provenance_validation.md` — 1056 bytes — `4d1584506edd9740dcbf0dd3d5a5e8ce31c9a4bda707a366990ff924f0f886ce`
+- `data/catalog/ltmd_u1_w7_routing_diagnostics.json` — 76348 bytes — `32f39677a7f5290ca6df22db156e5eed5b0228f5f54652619a1529b66082e51b`
+- `data/catalog/ltmd_u1_w7_routing_diagnostics.md` — 1022 bytes — `7d6dc4a9025d95a9c47899b971160ef6583d9c47500d8d51aad3b4469371159d`
+- `data/catalog/ltmd_u1_w7_viewer_route_contract.json` — 2604 bytes — `d1ed63bdacac817f88a9b2d52f07215ba397e9ef8fcaacc38f07ca6cbe32e53f`
+- `data/catalog/ltmd_u1_w7_viewer_route_contract.md` — 1520 bytes — `8bb02adc712414a66ffcd22f516d8d310116cffed111de88313f90edfc4c11f5`
+- `scripts/validate_ltmd_u1_w7_provenance.py` — 10485 bytes — `930369e7d50e5f4707a4d1cbfe48f70f63a1e14e4f6c1ae11eeb090b5db2dabd`
+- `scripts/diagnose_ltmd_u1_w7_routing.py` — 8969 bytes — `659967d5ba8931bccbd544d7c70ffa8d252cc961463117fba981b47d34054ee5`
+- `scripts/extract_ltmd_u1_w7_viewer_route_contract.py` — 6626 bytes — `517cc1527c2a2c0f0151d23312af99a36b5e7d15247c7b054421a4a6a40fc0ad`
+- `.github/workflows/validate-ltmd-u1-w7-provenance.yml` — 1704 bytes — `d228a5b3215f08fdbb550fffef40dd2bb99c30c7b1c85d6f758d72a1bb4e4aad`
+- `.github/workflows/diagnose-ltmd-u1-w7-routing.yml` — 1810 bytes — `80e1c0e2715a982c8a2cc1f170d84ca2488d81d3728938c08557285a96056f2b`
+- `.github/workflows/extract-ltmd-u1-w7-viewer-route-contract.yml` — 1971 bytes — `73cffe30eb6159dc242103ed24861a5dace33d0a66e689fd6c5e465abcc0b782`
+- `scripts/build_research_integrity_manifest_v08.py` — 2372 bytes — `43358e265664f2ede91fbf15287bed558aadc6dc013d424c702ee473b8a43335`
 
 ## Artefactos derivados adicionales presentes
 
@@ -191,6 +311,15 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `data/derived/semb03_readiness_report.json` — `fed739b72317f9943839744cd63ac776a1d13fc838bcf48bffee911acecd5e33`
 - `data/derived/catalog_search_architecture_probe.json` — `2e0b712de0be2f8e2d288fc1801227e2a578934b1684d6c9f3953ac7b042770e`
 - `data/expansion/cn46_no_text_visual_proxies.csv` — `57df19506750abb2ea7fd0a4fefff3f43149418d78e9e67cfef22a5ffaae132b`
+- `data/catalog/ltmd_u1_w3_spanish_fragment_manifest.csv` — `5052d7bfd5904d045e29e22123dff3c949ab717f592a97b7c1d633ff181dc648`
+- `data/catalog/ltmd_u1_w3_spanish_fragment_manifest_summary.csv` — `5a2742cd22de66ed635bc2fe963e64ce0920353aecd045376819c3891b70d3c3`
+- `data/catalog/ltmd_u1_w3_spanish_fragment_sequence_gaps.csv` — `efe714acc5f0ca6abe5b83a1cd85befe2f6ae4c12867da20af3f9e05b534943f`
+- `data/catalog/ltmd_u1_w3_spanish_fragment_manifest.md` — `23e1bda20b2a6926de8f2d1f92e0d79ff322583da6c3cb28646cd9a5dd435b3a`
+- `data/catalog/ltmd_u1_w3_spanish_exact_content_units.csv` — `31ab6362dc07dbbb7511f8b5730f00a8f8b0f6264c2bbf808ebebf3f6ea0f648`
+- `data/catalog/ltmd_u1_w3_spanish_identity_content_projection.csv` — `e47b7992a89d4c29f0457fc57a70bf59b5c249d288a0246639cd8d4a97d65aa9`
+- `data/catalog/ltmd_u1_w3_spanish_exact_viewer_overlap.csv` — `843f34d5a222c04fbc1702de57fd42cd3babf37e8e28b3a511d6b5fa341e8a20`
+- `data/catalog/ltmd_u1_w3_spanish_exact_reuse.md` — `76d4a0cb07d50aa753aa9dc8bea34d05072f5f26d30ddace761ab59878e95faf`
+- `docs/LTMD_U1_W3_COMPLETION.md` — `765b5d815dff75240484b37340b48374007692df0fc4495ea23d9488de49bc4b`
 
 ## Artefactos opcionales aún ausentes
 
