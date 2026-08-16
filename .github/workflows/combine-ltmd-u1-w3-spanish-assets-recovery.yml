@@ -1,6 +1,9 @@
 name: combine-ltmd-u1-w3-spanish-assets-recovery
 
 on:
+  workflow_run:
+    workflows: ['audit-ltmd-u1-w3-spanish-assets']
+    types: [completed]
   workflow_dispatch:
     inputs:
       source_run_id:
@@ -29,7 +32,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            SOURCE_RUN_ID='${{ github.event.workflow_run.id }}'
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             SOURCE_RUN_ID='${{ inputs.source_run_id }}'
           else
             SOURCE_RUN_ID="$(tr -d '[:space:]' < .github/triggers/ltmd-u1-w3-spanish-combine.trigger)"
