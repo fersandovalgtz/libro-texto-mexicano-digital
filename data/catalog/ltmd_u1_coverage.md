@@ -1,35 +1,38 @@
-# LTMD-U1 — tablero maestro de cobertura
+# LTMD-U1 — tablero de cobertura técnica
 
-Versión: **LTMD_U1_COVERAGE_0.5**  
-Universo operativo U1: **542 visores**.
+Versión: `LTMD_U1_COVERAGE_0.6`.
 
-## Estado ejecutivo
+Este tablero se recompone desde la cola maestra por `operational_domain` y desde las actas de cierre W1–W5. **Cobertura técnica no equivale a preparación semántica.**
 
-- Activos completamente resueltos: **100/542 (18.45%)**.
-- Manifiesto de fuente listo: **96/542 (17.71%)**.
-- OCR directo canónico: **93/542 (17.16%)**.
-- PAGESTRUCT directo canónico: **93/542 (17.16%)**.
-- FRAGSEG directo: **93/542 (17.16%)**.
-- Cobertura FRAGSEG efectiva: **100/542 (18.45%)**.
-- Semántica humana validada: **0/542**.
+## Totales
 
-W2 Matemáticas conserva 4 DMA 2018 como excepciones de routing no resueltas; no reciben crédito por similitud nominal. Los aliases exactos sólo heredan cobertura efectiva después de que su contenido canónico llegue a FRAGSEG.
+- Universo U1: **542/542** identidades catalogadas.
+- Cobertura técnica efectiva cerrada o resuelta: **262/542 (48.34%)**.
+- Objetos canónicos de procesamiento: **236/542 (43.54%)**.
+- Cobertura semántica humana validada incorporada al tablero: **0/542**.
 
-## Cobertura por dominio operativo
+## Por ola
 
-| dominio | visores | activos full | FRAGSEG directo | efectiva | restantes | próxima ola |
-|---|---:|---:|---:|---:|---:|---|
-| ciencias_naturales | 40 | 40 | 36 | 40 | 0 | completed_domain |
-| matematicas | 64 | 60 | 57 | 60 | 4 | U1-W2-matematicas |
-| espanol_lengua | 130 | 0 | 0 | 0 | 130 | U1-W3-espanol_lengua |
-| ciencias_sociales | 14 | 0 | 0 | 0 | 14 | U1-W4-ciencias_sociales |
-| historia | 18 | 0 | 0 | 0 | 18 | U1-W5-historia |
-| geografia_atlas | 42 | 0 | 0 | 0 | 42 | U1-W6-geografia_atlas |
-| civica_etica | 30 | 0 | 0 | 0 | 30 | U1-W7-civica_etica |
-| artes | 20 | 0 | 0 | 0 | 20 | U1-W8-artes |
-| educacion_fisica | 4 | 0 | 0 | 0 | 4 | U1-W9-educacion_fisica |
-| integrados_multiarea | 69 | 0 | 0 | 0 | 69 | U1-W10-integrados_multiarea |
-| otros_no_clasificados | 111 | 0 | 0 | 0 | 111 | U1-W11-otros_revision |
+| ola | dominio operacional | plan | efectiva | canónicos | restantes | estado |
+|---|---|---:|---:|---:|---:|---|
+| W1 | `ciencias_naturales` | 40 | 40 | 36 | 0 | `closed` |
+| W2 | `matematicas` | 64 | 60 | 57 | 4 | `partial_with_preserved_exceptions` |
+| W3 | `espanol_lengua` | 130 | 130 | 114 | 0 | `closed` |
+| W4 | `ciencias_sociales` | 14 | 14 | 14 | 0 | `closed` |
+| W5 | `historia` | 18 | 18 | 15 | 0 | `closed` |
+| W6 | `geografia_atlas` | 42 | 0 | 0 | 42 | `source_first_active` |
+| W7 | `civica_etica` | 30 | 0 | 0 | 30 | `queued` |
+| W8 | `artes` | 20 | 0 | 0 | 20 | `queued` |
+| W9 | `educacion_fisica` | 4 | 0 | 0 | 4 | `queued` |
+| W10 | `integrados_multiarea` | 69 | 0 | 0 | 69 | `queued` |
+| W11 | `otros_no_clasificados` | 111 | 0 | 0 | 111 | `queued` |
 
-## Regla
-Cada KPI se promueve sólo con el artefacto final correspondiente. Resolución de activos, OCR, PAGESTRUCT, FRAGSEG y semántica son capas separadas.
+## Lectura correcta
+
+W1, W3, W4 y W5 están cerradas técnicamente. W2 conserva cuatro excepciones de routing sin imputación. W6 está activo únicamente en source-first y por ello todavía no suma identidades a la cobertura técnica efectiva. W7–W11 permanecen en cola.
+
+`wave_label` no se usa para reconstruir la partición científica porque la cola también codifica estados de ejecución como materialización y aliases; la partición se deriva de `operational_domain`.
+
+`effective_technical_identities` puede incluir identidades documentales cubiertas mediante aliases o rutas demostradas criptográficamente; `canonical_processing_objects` evita duplicar procesamiento de contenido cuando la evidencia de identidad/reutilización lo permite.
+
+`WAITING_HUMAN_REFERENCE` sigue vigente. PAGESTRUCT, FRAGSEG y la igualdad de hashes son infraestructura técnica; no validan por sí mismos categorías semánticas, continuidad curricular ni equivalencia pedagógica.
