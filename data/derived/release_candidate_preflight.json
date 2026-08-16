@@ -1,0 +1,83 @@
+{
+  "preflight_version": "LTMD_RELEASE_PREFLIGHT_0.1",
+  "release_candidate": "v0.1.0-rc.1",
+  "generated_utc": "2026-08-16T01:09:00.254284+00:00",
+  "git_head": "cbf7b4dbb4840200fb5737b400b80cb0e3707603",
+  "rc_technical_ready": true,
+  "publish_ready": false,
+  "technical_failures": [],
+  "publish_blockers": [
+    "code_license_not_selected",
+    "derived_data_license_not_selected"
+  ],
+  "integrity_version": "LTMD_INTEGRITY_0.5",
+  "integrity_critical": "150/150",
+  "methods_claim_check_passed": true,
+  "checks": [
+    {
+      "code": "required_release_files",
+      "passed": true,
+      "detail": "missing=[]"
+    },
+    {
+      "code": "version_file",
+      "passed": true,
+      "detail": "VERSION='0.1.0-rc.1'"
+    },
+    {
+      "code": "citation_version",
+      "passed": true,
+      "detail": "expected 0.1.0-rc.1"
+    },
+    {
+      "code": "citation_date",
+      "passed": true,
+      "detail": "expected 2026-08-15"
+    },
+    {
+      "code": "no_invented_doi",
+      "passed": true,
+      "detail": "CFF explicitly defers DOI until real deposit"
+    },
+    {
+      "code": "integrity_0_5",
+      "passed": true,
+      "detail": "critical=150/150"
+    },
+    {
+      "code": "methods_claim_check",
+      "passed": true,
+      "detail": "passed=True"
+    },
+    {
+      "code": "direct_semantic_dependency_pinned",
+      "passed": true,
+      "detail": "sentence-transformers==5.6.1"
+    },
+    {
+      "code": "gitignore_private_",
+      "passed": true,
+      "detail": "requires private/"
+    },
+    {
+      "code": "gitignore_data_work_",
+      "passed": true,
+      "detail": "requires data/work/"
+    },
+    {
+      "code": "gitignore__env",
+      "passed": true,
+      "detail": "requires .env"
+    },
+    {
+      "code": "no_forbidden_source_or_work_files_tracked",
+      "passed": true,
+      "detail": "forbidden=[]"
+    },
+    {
+      "code": "semb03_human_gate_still_closed",
+      "passed": true,
+      "detail": "premature_outputs=[]"
+    }
+  ]
+}
