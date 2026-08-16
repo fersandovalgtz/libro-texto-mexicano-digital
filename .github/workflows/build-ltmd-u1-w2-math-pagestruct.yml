@@ -2,6 +2,9 @@ name: build-ltmd-u1-w2-math-pagestruct
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w2-math-pagestruct.yml'
 
 permissions:
   actions: write
