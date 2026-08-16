@@ -4,106 +4,124 @@ Corte: **16 de agosto de 2026**.
 
 ## Regla epistemológica vigente
 
-El proyecto opera temporalmente **sin referencia humana disponible**. Esto no bloquea la expansión técnica del corpus. Continúan procedencia, OCR técnico, PAGESTRUCT, FRAGSEG, metadatos, reutilización exacta, dependencia documental, integridad y documentación reproducible.
+El proyecto opera temporalmente **sin referencia humana disponible**. Esto no bloquea la expansión técnica del corpus. Continúan procedencia, auditoría de activos, OCR técnico, PAGESTRUCT, FRAGSEG, metadatos, reutilización textual exacta, dependencia documental, integridad y documentación reproducible.
 
 Permanecen no validados o estacionados CER/WER contra referencia humana, confiabilidad intercodificador, consenso humano, validación SEMB03 y cualquier afirmación histórica primaria que dependa de categorías semánticas automáticas no validadas. Véase `docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md`.
 
-## Piloto de Ciencias Naturales
+## Ciencias Naturales y W2 Matemáticas
 
-El piloto de Ciencias Naturales conserva su función metodológica: separó generación de catálogo, año editorial e identidad documental; estableció procedencia SHA-verificada; PAGESTRUCT; FRAGSEG; vistas de dependencia documental; y la infraestructura SEMB03. La expansión técnica puede continuar, pero el frente semántico permanece en `WAITING_HUMAN_REFERENCE`.
-
-## LTMD-U1 W2 — Matemáticas
-
-W2 está técnicamente cerrado.
-
-- Universo congelado: **64 visores**.
-- Identidades con activos resueltos: **60/64**.
-- Objetos canónicos computados: **57**.
-- Aliases byte-idénticos: **3**.
-- Páginas canónicas OCR: **11,945**; SHA verificado **11,945/11,945**.
-- Texto detectado: **11,812**; `no_text_detected`: **133**; `unresolved`: **0**.
-- PAGESTRUCT: **11,945** páginas; FRAGSEG elegibles: **10,145**.
-- FRAGSEG: **135,727** fragmentos técnicos.
-
-Las cuatro excepciones DMA 2018 continúan explícitas y no se imputan. El cierre está documentado en `docs/LTMD_U1_W2_COMPLETION.md`.
+El piloto y las expansiones de Ciencias Naturales permanecen como base metodológica. W2 Matemáticas está técnicamente cerrado con **64 visores**, **60/64** identidades con activos resueltos, **57** objetos canónicos, **3** aliases byte-idénticos, **11,945** páginas OCR SHA-verificadas, **10,145** páginas elegibles y **135,727** fragmentos técnicos. Las cuatro excepciones DMA 2018 permanecen explícitas y no se imputan.
 
 ## LTMD-U1 W3 — Español/Lengua
 
-### Fuente y reconciliación
+### Fuente y topología
 
-La topología de activos quedó reconciliada antes de abrir OCR.
-
-- Identidades W3: **130/130** con cobertura operacional.
-- Objetos canónicos que requieren cómputo único: **114**.
-- Aliases de provenance: **16**.
-  - **8** aliases byte-exactos directos.
-  - **8** aliases de ruta 2018→2019, demostrados página por página por SHA-256 y tamaño.
+- Identidades institucionales cubiertas: **130/130**.
+- Objetos canónicos de procesamiento: **114**.
+- Aliases de provenance: **16** = **8 byte-exactos + 8 de ruta 2018→2019**.
 - Páginas fuente canónicas autorizadas: **20,765**.
 - Huecos internos persistentes: **8**, conservados sin renumeración.
 - Identidades bloqueadas por fuente: **0**.
 
-### OCR
+### OCR 0.1 — cerrado
 
-Se creó `LTMD_U1_W3_SPANISH_OCR_0.1` con:
+Run fuente: **GitHub Actions 31960694824**, conclusión `success`.
 
-- verificación SHA-256 y tamaño antes de cada OCR;
-- Tesseract español;
-- `OMP_THREAD_LIMIT=1`;
-- procesamiento serial dentro de cada visor y matriz de hasta 8 visores en paralelo;
-- imágenes y OCR completo efímeros;
-- persistencia exclusiva de métricas técnicas y provenance;
-- 114 shards canónicos con combinador de cardinalidad exacta.
+- Canónicos procesados: **114/114**.
+- Páginas procesadas: **20,765**.
+- SHA-256 verificados: **20,765/20,765**.
+- Texto detectado: **20,588/20,765 (99.15%)**.
+- `no_text_detected`: **177**.
+- `unresolved`: **0**.
 
-Run fuente: **GitHub Actions 31960694824**. En el último control de esta sesión el run había producido **71/114 artifacts canónicos** y no se habían observado fallos entre los shards revisados. Esta cifra es un estado transitorio del run, no un resultado científico final.
+El primer render del reporte OCR mostró por error `ruta 2018→2019: 0` debido a un literal abreviado en el contador descriptivo. El estado canónico real es `paired_route_alias_2018_to_2019`; el combinador fue corregido y ahora exige la invariante **8 + 8 = 16**. La corrección no cambia páginas, hashes, OCR ni provenance.
 
-### Cadena técnica y recovery
+### PAGESTRUCT 0.1 — cerrado
 
-La secuencia científica preparada es:
+- Páginas clasificadas: **20,765**.
+- `textual`: **8,309**.
+- `mixed_text_image`: **9,028**.
+- `visual_only`: **1,498**.
+- `front_matter`: **34**.
+- `toc_or_navigation`: **409**.
+- `bibliography_or_credits`: **411**.
+- `unknown`: **1,076**.
+- Páginas elegibles para FRAGSEG: **17,337**.
 
-`W3 OCR → W3 PAGESTRUCT → W3 FRAGSEG → exact-text reuse/document dependence → informe de cierre W3`
+### FRAGSEG — pendiente de ejecución efectiva
 
-La orquestación evita dos propiedades de GitHub Actions que pueden romper cadenas silenciosamente: los commits realizados con `GITHUB_TOKEN` no generan nuevos runs por `push`, y `workflow_run` no admite encadenar más de tres niveles. Por ello se usa `workflow_run` sólo para abrir PAGESTRUCT después del OCR fuente; las etapas posteriores se lanzan explícitamente con `workflow_dispatch`, que sí puede ser generado mediante `GITHUB_TOKEN`.
+Dos runs W3 FRAGSEG fueron despachados por la orquestación y permanecen en estado `queued` al cierre de este corte. **No se acredita todavía ningún fragmento W3** hasta que exista y pase el manifiesto combinado final. Los workflows disponen de recovery selectivo por visor y no dependen de referencia humana.
 
-Cada etapa costosa dispone de recovery selectivo:
+El workflow OCR W3 fue endurecido para que cambios meramente descriptivos del combinador o del propio YAML no vuelvan a lanzar 20,765 páginas. Sus triggers quedan restringidos a worker OCR y cambios reales de topología/manifiesto fuente, con concurrencia para cancelar duplicados futuros.
 
-- OCR: inventaría los 114 artifacts, reutiliza los válidos y recomputa sólo canónicos faltantes;
-- PAGESTRUCT: reutiliza structural shards existentes y reconstruye sólo los faltantes;
-- FRAGSEG: reutiliza pares shard+sidecar existentes y recompone únicamente los faltantes;
-- exact-reuse: si el job determinista falla, se recalcula y se despacha el informe de cierre.
+## LTMD-U1 W4 — Ciencias Sociales — cerrado técnicamente
 
-Un recovery exitoso continúa explícitamente la cadena con `workflow_dispatch`; no depende del `push` producido por el bot ni del run fuente fallido.
+### Fuente y topología
 
-PAGESTRUCT reutiliza la lógica estructural conservadora ya empleada en otras olas. FRAGSEG conserva IDs y secuencias sin renumeración destructiva, hace fallar cualquier shard con error de descarga/SHA/OCR de ejecución y no persiste texto completo.
+- Visores: **14/14**.
+- Arquitectura dinámica estándar: **14/14**.
+- Posiciones declaradas: **2,428**.
+- JPEG servidos y hasheados: **2,414**.
+- Terminales sintéticos: **14**.
+- Huecos internos: **0**.
+- Objetos `full_direct_source`: **14**.
+- Pares de libros completos byte-idénticos: **0**.
+- Páginas canónicas autorizadas: **2,414**.
 
-La capa posterior de reutilización exacta agrupará únicamente por `text_sha256`, construirá unidades de contenido, proyección identidad→canónico y solapamiento par-a-par. La igualdad de hash se tratará sólo como reutilización textual exacta dentro de la representación técnica, nunca como equivalencia bibliográfica, curricular, pedagógica o semántica.
+El objeto 2008 *Exploración de la naturaleza y la sociedad* se conserva en W4 por la clasificación operacional congelada; esto no afirma equivalencia curricular o semántica con *Ciencias Sociales*.
 
-## LTMD-U1 W4 — Ciencias Sociales
+### OCR 0.1
 
-W4 se abrió en paralelo únicamente en capas de fuente, que no requieren referencia humana.
+- SHA-256 verificados: **2,414/2,414**.
+- Texto detectado: **2,397/2,414 (99.30%)**.
+- `no_text_detected`: **17**.
+- `unresolved`: **0**.
 
-- Universo congelado: **14 visores**.
-- Arquitectura: **14/14** HTML disponibles, `x.js` disponible y señal `ag_pages`; **14/14** arquitectura dinámica estándar.
-- Inventario declarado: **2,428 posiciones**.
-  - 1972: 6 visores / 1,060 posiciones.
-  - 1982: 3 / 563.
-  - 1988: 4 / 634.
-  - 2008: 1 / 171.
-- Auditoría byte a byte de activos: iniciada sobre las 2,428 posiciones, con un shard por visor.
+### PAGESTRUCT 0.1
 
-El visor 2008 de *Exploración de la naturaleza y la sociedad* permanece en W4 porque así está congelado en el tablero operacional. Esto no se interpreta como equivalencia curricular o semántica con los libros titulados *Ciencias Sociales*.
+- `textual`: **1,417**.
+- `mixed_text_image`: **601**.
+- `visual_only`: **179**.
+- `front_matter`: **1**.
+- `toc_or_navigation`: **33**.
+- `bibliography_or_credits`: **34**.
+- `unknown`: **149**.
+- Páginas elegibles para FRAGSEG: **2,018**.
 
-Antes de autorizar OCR W4 se exige: auditoría completa de activos, clasificación de directos/parciales, detección de secuencias byte-idénticas, reconciliación de routing/huecos y una decisión explícita de provenance/canónicos sin deduplicación destructiva.
+### FRAGSEG 0.1
+
+- Páginas elegibles con ≥1 fragmento: **2,018/2,018**.
+- Fragmentos técnicos: **21,380**.
+- IDs únicos: **21,380**.
+- Páginas con huecos legítimos de secuencia: **42**.
+- Slots omitidos: **46**.
+
+Tipos candidatos: 10,859 `short_residual_candidate`, 5,450 `expository_candidate`, 3,145 `instruction_candidate`, 1,707 `question_candidate`, 136 `activity_candidate`, 69 `experiment_candidate`, 9 `project_candidate` y 5 `assessment_candidate`.
+
+### Reutilización textual exacta
+
+- Unidades exactas únicas: **17,735**.
+- Unidades repetidas en ≥2 ocurrencias: **2,503**.
+- Unidades presentes en ≥2 visores: **2,454**.
+- Unidades presentes en ≥2 generaciones: **2,431**.
+- Pares de visores con ≥1 unidad exacta compartida: **85**.
+
+El par `H1982P4CI384` ↔ `H1988P4CI120` comparte **994** unidades exactas (Jaccard **0.359884**). Esta es evidencia de reutilización textual exacta dentro de la representación OCR+FRAGSEG; no demuestra identidad bibliográfica ni equivalencia curricular, pedagógica o semántica.
+
+Cierre: `docs/LTMD_U1_W4_COMPLETION.md`.
+
+## Orquestación y recuperación
+
+Las cadenas costosas separan fuente, OCR, PAGESTRUCT y FRAGSEG. Los recoveries reutilizan artifacts válidos y recomputan únicamente visores faltantes. Las etapas posteriores se lanzan mediante `workflow_dispatch` cuando corresponde para evitar depender de commits del bot y del límite de encadenamiento de `workflow_run`.
 
 ## Prioridades inmediatas
 
-1. Cerrar OCR W3 con **20,765/20,765** páginas SHA verificadas y cero `unresolved`, o aislar cualquier excepción real sin imputarla.
-2. Cerrar PAGESTRUCT W3 y fijar el número exacto de páginas elegibles para FRAGSEG.
-3. Cerrar FRAGSEG W3 y publicar conteos, IDs únicos, páginas vacías legítimas y huecos de secuencia.
-4. Construir la vista de reutilización exacta/dependencia documental y el informe de cierre W3.
-5. Cerrar la auditoría fuente W4, detectar aliases exactos y reconciliar las excepciones antes de cualquier OCR.
-6. Actualizar el manifiesto de integridad del repositorio después del cierre W3, incluyendo scripts, workflows, reportes y datos derivados nuevos.
-7. Actualizar el artículo de métodos/recurso con la distinción explícita entre validación técnica y validación humana/semántica.
+1. Obtener el artefacto final FRAGSEG W3 sin duplicar cómputo y publicar conteos sólo cuando pase sus invariantes.
+2. Ejecutar reutilización exacta/dependencia documental W3 y emitir `docs/LTMD_U1_W3_COMPLETION.md`.
+3. Actualizar el tablero maestro U1 con W4 cerrado y W3 según artefactos efectivamente existentes.
+4. Elevar el manifiesto de integridad a un nuevo corte que incluya W3/W4 y la infraestructura de recovery/orquestación.
+5. Actualizar el artículo metodológico con W2, W3 y W4, distinguiendo siempre validación técnica de validación humana/semántica.
 
 ## Principio de publicación
 
-La ausencia temporal de referencia humana cambia el **nivel de inferencia admisible**, no el estándar de ingeniería científica. Toda expansión debe mantener provenance verificable, invariantes de cardinalidad, aliases no destructivos, huecos explícitos, separación entre objeto y contenido, y límites epistemológicos visibles.
+La ausencia temporal de referencia humana cambia el **nivel de inferencia admisible**, no el estándar de ingeniería científica. Toda expansión mantiene provenance verificable, cardinalidades comprobables, aliases no destructivos, huecos explícitos, separación entre objeto y contenido y límites epistemológicos visibles.
