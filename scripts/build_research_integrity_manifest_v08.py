@@ -39,14 +39,18 @@ W7_PROVENANCE_CRITICAL = [
     'data/catalog/ltmd_u1_w7_routing_diagnostics.md',
     'data/catalog/ltmd_u1_w7_viewer_route_contract.json',
     'data/catalog/ltmd_u1_w7_viewer_route_contract.md',
+    'data/catalog/ltmd_u1_w7_addpage_contract.json',
+    'data/catalog/ltmd_u1_w7_addpage_contract.md',
 
     # Executable provenance/routing controls.
     'scripts/validate_ltmd_u1_w7_provenance.py',
     'scripts/diagnose_ltmd_u1_w7_routing.py',
     'scripts/extract_ltmd_u1_w7_viewer_route_contract.py',
+    'scripts/inspect_ltmd_u1_w7_addpage_contract.py',
     '.github/workflows/validate-ltmd-u1-w7-provenance.yml',
     '.github/workflows/diagnose-ltmd-u1-w7-routing.yml',
     '.github/workflows/extract-ltmd-u1-w7-viewer-route-contract.yml',
+    '.github/workflows/inspect-ltmd-u1-w7-addpage-contract.yml',
 
     # This wrapper is itself frozen by 0.8.
     'scripts/build_research_integrity_manifest_v08.py',
