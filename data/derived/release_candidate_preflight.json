@@ -1,15 +1,12 @@
 {
   "preflight_version": "LTMD_RELEASE_PREFLIGHT_0.1",
   "release_candidate": "v0.1.0-rc.1",
-  "generated_utc": "2026-08-16T01:17:03.927423+00:00",
-  "git_head": "236824e005213f557580f0a756ce9b4fce57dfd2",
+  "generated_utc": "2026-08-16T01:21:22.165085+00:00",
+  "git_head": "18082d0067731035e72bb8689bb99d5271c6c2dd",
   "rc_technical_ready": true,
-  "publish_ready": false,
+  "publish_ready": true,
   "technical_failures": [],
-  "publish_blockers": [
-    "code_license_not_selected",
-    "derived_data_license_not_selected"
-  ],
+  "publish_blockers": [],
   "integrity_version": "LTMD_INTEGRITY_0.5",
   "integrity_critical": "150/150",
   "methods_claim_check_passed": true,

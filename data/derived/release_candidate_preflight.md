@@ -2,10 +2,10 @@
 
 Candidata: **v0.1.0-rc.1**.
 
-Commit observado: `236824e005213f557580f0a756ce9b4fce57dfd2`.
+Commit observado: `18082d0067731035e72bb8689bb99d5271c6c2dd`.
 
 RC técnicamente lista: **SÍ**.
-Lista para publicación pública: **NO**.
+Lista para publicación pública: **SÍ**.
 
 Integridad: **150/150** (`LTMD_INTEGRITY_0.5`).
 Verificación de cifras del artículo: **PASS**.
@@ -29,8 +29,7 @@ Verificación de cifras del artículo: **PASS**.
 
 ## Blockers de publicación
 
-- `code_license_not_selected`
-- `derived_data_license_not_selected`
+- Ninguno.
 
 ## Interpretación
 
