@@ -43,6 +43,10 @@ def main():
     aliases = eligible - canonical
     if len(canonical) != EXPECTED_CANONICAL or len(aliases) != EXPECTED_ALIASES or len(eligible) != EXPECTED_IDENTITIES:
         raise SystemExit('W3 processing topology mismatch')
+    exact_aliases = {k for k in aliases if proc[k]['processing_mode'] == 'exact_byte_alias'}
+    route_aliases = {k for k in aliases if proc[k]['processing_mode'] == 'paired_route_alias_2018_to_2019'}
+    if len(exact_aliases) != 8 or len(route_aliases) != 8 or exact_aliases | route_aliases != aliases:
+        raise SystemExit(f'W3 alias vocabulary/topology mismatch exact={len(exact_aliases)} route={len(route_aliases)}')
     if {r['viewer_key'] for r in frags} != canonical:
         raise SystemExit('FRAGSEG canonical viewer coverage mismatch')
     versions = {r['segmenter_version'] for r in frags}
@@ -170,6 +174,7 @@ def main():
         f'- Unidades presentes en ≥2 visores canónicos: **{cross_viewer:,}**.',
         f'- Unidades representadas en ≥2 generaciones de catálogo, incluyendo proyección de aliases: **{cross_generation:,}**.',
         f'- Visores canónicos: **{EXPECTED_CANONICAL}**; identidades de catálogo proyectadas: **{EXPECTED_IDENTITIES}**.',
+        f'- Aliases proyectados: **{len(aliases)}** (byte-exactos: **{len(exact_aliases)}**; ruta pareada 2018→2019: **{len(route_aliases)}**).',
         f'- Pares canónicos con ≥1 unidad exacta compartida: **{len(overlap_rows):,}**.',
         '',
         '## Pares con mayor número de unidades exactas compartidas',
