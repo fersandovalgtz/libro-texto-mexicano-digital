@@ -1,0 +1,52 @@
+name: analyze-ltmd-u1-w6-geography-atlas-asset-relationships
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - audit-ltmd-u1-w6-geography-atlas-assets
+    types:
+      - completed
+  push:
+    paths:
+      - '.github/workflows/analyze-ltmd-u1-w6-geography-atlas-asset-relationships.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify W6 asset layer exists
+        shell: bash
+        run: |
+          test -s data/catalog/ltmd_u1_w6_geography_atlas_asset_manifest.csv
+          test -s data/catalog/ltmd_u1_w6_geography_atlas_asset_summary.csv
+      - name: Analyze exact source relationships
+        run: python3 scripts/analyze_ltmd_u1_w6_geography_atlas_asset_relationships.py
+      - name: Publish W6 exact asset relationships race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w6-rel
+          cp data/catalog/ltmd_u1_w6_geography_atlas_exact_asset_relationships.csv /tmp/ltmd-u1-w6-rel/
+          cp data/catalog/ltmd_u1_w6_geography_atlas_source_readiness.csv /tmp/ltmd-u1-w6-rel/
+          cp data/catalog/ltmd_u1_w6_geography_atlas_asset_relationships.md /tmp/ltmd-u1-w6-rel/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w6-rel/* data/catalog/
+            git add data/catalog/ltmd_u1_w6_geography_atlas_exact_asset_relationships.csv data/catalog/ltmd_u1_w6_geography_atlas_source_readiness.csv data/catalog/ltmd_u1_w6_geography_atlas_asset_relationships.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W6 Geography Atlas asset relationships'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
