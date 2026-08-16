@@ -1,0 +1,101 @@
+name: build-ltmd-u1-w3-spanish-fragseg
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'data/catalog/ltmd_u1_w3_spanish_page_structure.csv'
+      - 'data/catalog/ltmd_u1_w3_spanish_page_structure_summary.csv'
+
+permissions:
+  contents: write
+
+env:
+  OMP_THREAD_LIMIT: '1'
+
+jobs:
+  matrix:
+    runs-on: ubuntu-24.04
+    outputs:
+      viewers: ${{ steps.make.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: make
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import csv,json
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_page_structure.csv',encoding='utf-8')))
+          keys=sorted({r['viewer_key'] for r in rows})
+          assert len(rows)==20765, len(rows)
+          assert len(keys)==114, len(keys)
+          assert {r['classifier_version'] for r in rows}=={'PAGESTRUCT_LTMD_U1_W3_SPANISH_0.1'}
+          eligible={k:0 for k in keys}
+          for r in rows:
+              if r['primary_structure'] in {'textual','mixed_text_image'}:
+                  eligible[r['viewer_key']]+=1
+          bad=[k for k,n in eligible.items() if n==0]
+          if bad: raise SystemExit(f'W3 FRAGSEG gate closed: canonical viewers without eligible pages={bad}')
+          print('viewers='+json.dumps(keys,separators=(',',':')))
+          PY
+
+  fragment:
+    needs: matrix
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.matrix.outputs.viewers) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
+      - name: Segment one canonical Español/Lengua viewer
+        run: python3 scripts/segment_ltmd_u1_w3_spanish_fragments.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w3-spanish-fragments-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w3_spanish_fragments/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  combine:
+    needs: fragment
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w3-spanish-fragments-*
+          path: data/work/ltmd_u1_w3_spanish_fragments
+          merge-multiple: true
+      - name: Combine exact 114-canonical-viewer FRAGSEG layer
+        run: python3 scripts/combine_ltmd_u1_w3_spanish_fragment_shards.py
+      - name: Publish W3 FRAGSEG 0.1 race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w3-spanish-fragseg
+          cp data/catalog/ltmd_u1_w3_spanish_fragment_manifest.csv /tmp/ltmd-u1-w3-spanish-fragseg/
+          cp data/catalog/ltmd_u1_w3_spanish_fragment_manifest_summary.csv /tmp/ltmd-u1-w3-spanish-fragseg/
+          cp data/catalog/ltmd_u1_w3_spanish_fragment_sequence_gaps.csv /tmp/ltmd-u1-w3-spanish-fragseg/
+          cp data/catalog/ltmd_u1_w3_spanish_fragment_manifest.md /tmp/ltmd-u1-w3-spanish-fragseg/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w3-spanish-fragseg/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_spanish_fragment_manifest.csv data/catalog/ltmd_u1_w3_spanish_fragment_manifest_summary.csv data/catalog/ltmd_u1_w3_spanish_fragment_sequence_gaps.csv data/catalog/ltmd_u1_w3_spanish_fragment_manifest.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W3 Spanish FRAGSEG 0.1 layer'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
