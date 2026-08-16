@@ -1,0 +1,5 @@
+scope_version,viewer_key,book_id,catalog_generation,grade_code,title_core,asset_status_at_freeze,execution_action,source_url
+LTMD_U1_W1_SCOPE_0.1,H1966P6CI374,U1-H1966P6CI374,1966,6,MI CUADERNO DE TRABAJO DE ESTUDIO DE LA NATURALEZA,not_yet_audited,new_direct_ingestion,https://historico.conaliteg.gob.mx/H1966P6CI374.htm
+LTMD_U1_W1_SCOPE_0.1,H1966P6CI375,U1-H1966P6CI375,1966,6,MI LIBRO DE ESTUDIO DE LA NATURALEZA,not_yet_audited,new_direct_ingestion,https://historico.conaliteg.gob.mx/H1966P6CI375.htm
+LTMD_U1_W1_SCOPE_0.1,H2008P3CI263,U1-H2008P3CI263,2008,3,CIENCIAS NATURALES,partial_internal_unserved,recover_or_document_partial,https://historico.conaliteg.gob.mx/H2008P3CI263.htm
+LTMD_U1_W1_SCOPE_0.1,H2008P4CI268,U1-H2008P4CI268,2008,4,CIENCIAS NATURALES,partial_internal_unserved,recover_or_document_partial,https://historico.conaliteg.gob.mx/H2008P4CI268.htm
