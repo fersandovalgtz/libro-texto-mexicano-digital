@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - '.github/workflows/test-ltmd-u1-w3-spanish-infrastructure.yml'
       - 'scripts/ocr_ltmd_u1_w3_spanish_book.py'
       - 'scripts/combine_ltmd_u1_w3_spanish_ocr.py'
       - 'scripts/extract_ltmd_u1_w3_spanish_structural_flags_book.py'
