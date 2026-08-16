@@ -1,0 +1,49 @@
+name: build-ltmd-u1-w7-source-admissibility
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w7-source-admissibility.yml'
+      - 'scripts/build_ltmd_u1_w7_source_admissibility.py'
+      - 'data/catalog/ltmd_u1_w7_civics_ethics_asset_summary.csv'
+      - 'data/catalog/ltmd_u1_w7_2018_route_conformance.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w7-source-admissibility
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build W7 OCR source-admissibility gate
+        run: python3 scripts/build_ltmd_u1_w7_source_admissibility.py
+      - name: Publish W7 source-admissibility evidence race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-u1-w7-source-gate
+          mkdir -p /tmp/ltmd-u1-w7-source-gate
+          cp data/catalog/ltmd_u1_w7_source_admissibility.csv /tmp/ltmd-u1-w7-source-gate/
+          cp data/catalog/ltmd_u1_w7_source_admissibility.md /tmp/ltmd-u1-w7-source-gate/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w7-source-gate/ltmd_u1_w7_source_admissibility.csv data/catalog/
+            cp /tmp/ltmd-u1-w7-source-gate/ltmd_u1_w7_source_admissibility.md data/catalog/
+            git add data/catalog/ltmd_u1_w7_source_admissibility.csv data/catalog/ltmd_u1_w7_source_admissibility.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W7 source admissibility gate'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
