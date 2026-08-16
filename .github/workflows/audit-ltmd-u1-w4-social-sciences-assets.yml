@@ -2,8 +2,12 @@ name: audit-ltmd-u1-w4-social-sciences-assets
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ['build-ltmd-u1-w4-social-sciences-declared-inventory']
+    types: [completed]
   push:
     paths:
+      - '.github/workflows/audit-ltmd-u1-w4-social-sciences-assets.yml'
       - 'data/catalog/ltmd_u1_w4_declared_inventory.csv'
       - 'data/catalog/ltmd_u1_w4_viewer_architecture.csv'
 
@@ -12,6 +16,7 @@ permissions:
 
 jobs:
   matrix:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     outputs:
       viewers: ${{ steps.make.outputs.viewers }}
@@ -29,6 +34,7 @@ jobs:
           assert len(keys)==14 and len(set(keys))==14
           assert {r['viewer_key'] for r in inv}==set(keys)
           assert {r['viewer_key'] for r in arch}==set(keys)
+          assert all(int(r['html_status'])==200 for r in arch)
           print('viewers='+json.dumps(keys,separators=(',',':')))
           PY
 
