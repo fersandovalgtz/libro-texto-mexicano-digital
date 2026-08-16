@@ -1,0 +1,53 @@
+name: close-stuck-ltmd-u1-w2-ocr-source-run
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/close-stuck-ltmd-u1-w2-ocr-source-run.yml'
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  close:
+    runs-on: ubuntu-24.04
+    env:
+      SOURCE_RUN_ID: '31924766773'
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Verify gate plus all 57 OCR jobs are terminal success
+        shell: bash
+        run: |
+          set -euo pipefail
+          json="$(gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/jobs?per_page=100")"
+          python3 - "$json" <<'PY'
+          import json,sys
+          data=json.loads(sys.argv[1]);jobs=data['jobs']
+          assert len(jobs)==58, f'expected gate + 57 OCR jobs, got {len(jobs)}'
+          bad=[(j['name'],j['status'],j['conclusion']) for j in jobs if j['status']!='completed' or j['conclusion']!='success']
+          assert not bad, f'non-success OCR source jobs: {bad[:10]}'
+          names=[j['name'] for j in jobs]
+          assert sum(n.startswith('ocr (') for n in names)==57
+          assert 'gate' in names
+          print('verified gate + 57/57 OCR shards completed success')
+          PY
+      - name: Close orchestration shell only after successful shard verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID" --jq .status)"
+          echo "source run status before close: $status"
+          if [ "$status" != completed ]; then
+            gh api --method POST "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/cancel" || true
+          fi
+          for i in $(seq 1 12); do
+            status="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID" --jq .status)"
+            conclusion="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID" --jq '.conclusion // ""')"
+            echo "poll $i: status=$status conclusion=$conclusion"
+            if [ "$status" = completed ]; then exit 0; fi
+            sleep 5
+          done
+          echo 'source OCR run did not become completed after verified close' >&2
+          exit 1
