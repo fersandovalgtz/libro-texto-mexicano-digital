@@ -2,15 +2,13 @@ name: build-ltmd-u1-w3-spanish-fragseg
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ['build-ltmd-u1-w3-spanish-pagestruct']
-    types: [completed]
   push:
     paths:
       - 'data/catalog/ltmd_u1_w3_spanish_page_structure.csv'
       - 'data/catalog/ltmd_u1_w3_spanish_page_structure_summary.csv'
 
 permissions:
+  actions: write
   contents: write
 
 env:
@@ -18,7 +16,6 @@ env:
 
 jobs:
   matrix:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     outputs:
       viewers: ${{ steps.make.outputs.viewers }}
@@ -70,6 +67,8 @@ jobs:
   combine:
     needs: fragment
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -103,3 +102,5 @@ jobs:
             sleep $((attempt * 2))
           done
           exit 1
+      - name: Dispatch W3 exact-reuse analysis
+        run: gh workflow run analyze-ltmd-u1-w3-spanish-exact-reuse.yml --repo "$GITHUB_REPOSITORY" --ref main
