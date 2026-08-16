@@ -1,0 +1,48 @@
+name: recover-ltmd-u1-w3-spanish-exact-reuse
+
+on:
+  workflow_run:
+    workflows: ['analyze-ltmd-u1-w3-spanish-exact-reuse']
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: write
+
+jobs:
+  recover:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion != 'success'
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Re-run deterministic exact-reuse analysis
+        run: python3 scripts/analyze_ltmd_u1_w3_spanish_exact_reuse.py
+      - name: Publish recovered W3 exact-reuse products race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ltmd-u1-w3-spanish-exact-reuse-recovered
+          cp data/catalog/ltmd_u1_w3_spanish_exact_content_units.csv /tmp/ltmd-u1-w3-spanish-exact-reuse-recovered/
+          cp data/catalog/ltmd_u1_w3_spanish_identity_content_projection.csv /tmp/ltmd-u1-w3-spanish-exact-reuse-recovered/
+          cp data/catalog/ltmd_u1_w3_spanish_exact_viewer_overlap.csv /tmp/ltmd-u1-w3-spanish-exact-reuse-recovered/
+          cp data/catalog/ltmd_u1_w3_spanish_exact_reuse.md /tmp/ltmd-u1-w3-spanish-exact-reuse-recovered/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w3-spanish-exact-reuse-recovered/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_spanish_exact_content_units.csv data/catalog/ltmd_u1_w3_spanish_identity_content_projection.csv data/catalog/ltmd_u1_w3_spanish_exact_viewer_overlap.csv data/catalog/ltmd_u1_w3_spanish_exact_reuse.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish recovered LTMD-U1 W3 Spanish exact-reuse analysis'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
+      - name: Continue W3 with completion report after recovered exact-reuse analysis
+        run: gh workflow run build-ltmd-u1-w3-completion-report.yml --repo "$GITHUB_REPOSITORY" --ref main
