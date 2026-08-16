@@ -24,7 +24,11 @@ REQUIRED = [
     "README.md",
     "docs/RELEASE_NOTES_v0.1.0-rc.1.md",
     "docs/REPRODUCIBILITY_ENVIRONMENT_0_1.md",
+    "docs/REPRODUCIBILITY_REPORT_v0.1.0-rc.1.md",
+    "docs/RELEASE_OUTPUTS_0_1.md",
     "docs/RIGHTS_AND_REUSE_0_1.md",
+    "docs/RIGHTS_PUBLICATION_MATRIX_0_2.md",
+    "docs/LICENSE_DECISION_MEMO_0_1.md",
     "docs/RELEASE_CHECKLIST_0_1.md",
     "docs/METHOD_INDEX.md",
     "docs/METHODS_ARTICLE_DRAFT_0_2.md",
@@ -89,6 +93,9 @@ def main() -> None:
 
     req = Path("requirements-release.txt").read_text(encoding="utf-8") if Path("requirements-release.txt").exists() else ""
     check("sentence-transformers==5.6.1" in req, "direct_semantic_dependency_pinned", "sentence-transformers==5.6.1", checks)
+
+    rights_matrix = Path("docs/RIGHTS_PUBLICATION_MATRIX_0_2.md").read_text(encoding="utf-8") if Path("docs/RIGHTS_PUBLICATION_MATRIX_0_2.md").exists() else ""
+    check("Apache License 2.0" in rights_matrix and "CC BY 4.0" in rights_matrix, "license_recommendation_documented", "Apache-2.0 + CC BY 4.0 recommendation recorded without applying licenses", checks)
 
     gitignore = Path(".gitignore").read_text(encoding="utf-8") if Path(".gitignore").exists() else ""
     for entry in ("private/", "data/work/", ".env"):
