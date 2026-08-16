@@ -2,7 +2,7 @@
 
 Candidata: **v0.1.0-rc.1**.
 
-Commit observado: `10598ebd1de14a7cefca2181659c65d6ad2b73a3`.
+Commit observado: `236824e005213f557580f0a756ce9b4fce57dfd2`.
 
 RC técnicamente lista: **SÍ**.
 Lista para publicación pública: **NO**.
@@ -34,4 +34,4 @@ Verificación de cifras del artículo: **PASS**.
 
 ## Interpretación
 
-`rc_technical_ready` significa que el corte puede auditarse como candidata metodológica. `publish_ready` exige además que las decisiones de licencia ya estén materializadas. El DOI no se exige antes de la publicación real: debe añadirse únicamente después de que Zenodo archive el tag correspondiente.
+`rc_technical_ready` significa que el corte puede auditarse como candidata metodológica. `publish_ready` exige además licencias materializadas y consistentes con la política preregistrada. El DOI no se exige antes de la publicación real: debe añadirse únicamente después de que Zenodo archive el tag correspondiente.
