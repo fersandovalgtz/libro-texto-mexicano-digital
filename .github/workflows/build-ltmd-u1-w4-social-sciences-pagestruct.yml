@@ -2,9 +2,9 @@ name: build-ltmd-u1-w4-social-sciences-pagestruct
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ['build-ltmd-u1-w4-social-sciences-ocr']
-    types: [completed]
+  push:
+    paths:
+      - 'data/control/ltmd_u1_w4_pagestruct.trigger'
 
 permissions:
   actions: write
@@ -15,7 +15,6 @@ env:
 
 jobs:
   matrix:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     outputs:
       viewers: ${{ steps.make.outputs.viewers }}
@@ -91,11 +90,11 @@ jobs:
             git reset --hard origin/main
             cp /tmp/w4-pagestruct/* data/catalog/
             git add data/catalog/ltmd_u1_w4_social_sciences_structural_keyword_flags.csv data/catalog/ltmd_u1_w4_social_sciences_page_structure.csv data/catalog/ltmd_u1_w4_social_sciences_page_structure_summary.csv data/catalog/ltmd_u1_w4_social_sciences_page_structure.md
-            if git diff --cached --quiet; then exit 0; fi
+            if git diff --cached --quiet; then break; fi
             git commit -m 'Publish LTMD-U1 W4 Social Sciences PAGESTRUCT 0.1'
-            if git push origin HEAD:main; then exit 0; fi
+            if git push origin HEAD:main; then break; fi
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
             sleep $((attempt * 2))
           done
-          exit 1
       - name: Dispatch W4 FRAGSEG
         run: gh workflow run build-ltmd-u1-w4-social-sciences-fragseg.yml --repo "$GITHUB_REPOSITORY" --ref main
