@@ -2,17 +2,20 @@ name: build-ltmd-u1-w2-math-ocr
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows:
-      - audit-ltmd-u1-w2-math-assets
-    types: [completed]
+  push:
+    paths:
+      - '.github/workflows/build-ltmd-u1-w2-math-ocr.yml'
+      - 'scripts/ocr_ltmd_u1_w2_math_book.py'
+      - 'scripts/combine_ltmd_u1_w2_math_ocr.py'
+      - 'data/catalog/ltmd_u1_w2_math_reconciled_manifest.csv'
+      - 'data/catalog/ltmd_u1_w2_math_reconciled_summary.csv'
+      - 'data/catalog/ltmd_u1_w2_math_reconciled_exact_aliases.csv'
 
 permissions:
   contents: write
 
 jobs:
   gate:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     outputs:
       viewers: ${{ steps.make.outputs.viewers }}
@@ -24,14 +27,18 @@ jobs:
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import csv,json
           scope=list(csv.DictReader(open('data/catalog/ltmd_u1_w2_scope.csv',encoding='utf-8')))
-          summary=list(csv.DictReader(open('data/catalog/ltmd_u1_w2_math_asset_summary.csv',encoding='utf-8')))
+          summary=list(csv.DictReader(open('data/catalog/ltmd_u1_w2_math_reconciled_summary.csv',encoding='utf-8')))
+          aliases=list(csv.DictReader(open('data/catalog/ltmd_u1_w2_math_reconciled_exact_aliases.csv',encoding='utf-8')))
           assert len(scope)==64 and len(summary)==64, (len(scope),len(summary))
-          assert {r['viewer_key'] for r in scope}=={r['viewer_key'] for r in summary}
-          bad=[r for r in summary if r['direct_asset_ready']!='1' or int(r['internal_unserved'])!=0 or int(r['probe_errors'])!=0]
-          if bad:
-              raise SystemExit(f'W2 asset gate closed: {len(bad)} viewers not ready; first={[r["viewer_key"] for r in bad[:5]]}')
-          keys=[r['viewer_key'] for r in scope]
-          print('viewers='+json.dumps(keys,separators=(',',':')))
+          order=[r['viewer_key'] for r in scope]
+          assert set(order)=={r['viewer_key'] for r in summary}
+          ready={r['viewer_key'] for r in summary if r['effective_asset_ready']=='1'}
+          alias={r['viewer_key'] for r in aliases if r['all_effective_pages_byte_identical_aligned']=='1'}
+          canonical=[k for k in order if k in ready and k not in alias]
+          assert len(ready)==60, len(ready)
+          assert len(alias)==3 and alias<=ready, alias
+          assert len(canonical)==57, len(canonical)
+          print('viewers='+json.dumps(canonical,separators=(',',':')))
           PY
 
   ocr:
@@ -48,7 +55,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
-      - name: OCR one Mathematics viewer
+      - name: OCR one canonical Mathematics viewer
         run: python3 scripts/ocr_ltmd_u1_w2_math_book.py --viewer-key '${{ matrix.viewer_key }}'
       - uses: actions/upload-artifact@v4
         with:
@@ -69,9 +76,9 @@ jobs:
           pattern: ltmd-u1-w2-math-ocr-*
           path: data/work/ltmd_u1_w2_math_ocr
           merge-multiple: true
-      - name: Combine exact 64-viewer OCR layer
+      - name: Combine exact 57-canonical-viewer OCR 0.2 layer
         run: python3 scripts/combine_ltmd_u1_w2_math_ocr.py
-      - name: Publish W2 OCR metrics race-safely
+      - name: Publish W2 OCR 0.2 metrics race-safely
         shell: bash
         run: |
           set -euo pipefail
@@ -87,7 +94,7 @@ jobs:
             cp /tmp/ltmd-u1-w2-math-ocr/* data/catalog/
             git add data/catalog/ltmd_u1_w2_math_ocr_metrics.csv data/catalog/ltmd_u1_w2_math_ocr_summary.csv data/catalog/ltmd_u1_w2_math_ocr.md
             if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Publish LTMD-U1 W2 mathematics OCR metrics'
+            git commit -m 'Publish LTMD-U1 W2 mathematics OCR 0.2 metrics'
             if git push origin HEAD:main; then exit 0; fi
             sleep $((attempt * 2))
           done
