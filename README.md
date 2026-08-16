@@ -4,48 +4,67 @@ Infraestructura abierta de investigación para estudiar longitudinalmente los li
 
 ## Estado actual
 
-**LTMD adopta como objetivo de su primera gran fase la cobertura integral del universo histórico disponible en el snapshot U1 del Catálogo Histórico de CONALITEG: 542 visores. Ciencias Naturales fue el banco de pruebas y ya constituye el primer dominio técnico cerrado; Matemáticas es la ola activa siguiente.**
+**LTMD adopta como objetivo de su primera gran fase la cobertura integral del universo histórico disponible en el snapshot U1 del Catálogo Histórico de CONALITEG: 542 visores. W1 Ciencias Naturales, W3 Español/Lengua, W4 Ciencias Sociales y W5 Historia están cerradas técnicamente; W2 Matemáticas conserva cuatro excepciones de routing sin imputación; W6 Geografía/Atlas está activa únicamente en fase `source-first`.**
 
-Corte documental de esta actualización: **15 de agosto de 2026**.
+Corte documental de esta actualización: **16 de agosto de 2026**.
 
-El corpus técnico directamente materializado contiene ahora:
+El tablero reproducible `LTMD_U1_COVERAGE_0.6`, recompuesto desde la cola maestra y las actas de cierre W1–W5, reporta:
 
-- **piloto CN5**: 759 imágenes reales y **9,594 fragmentos**;
-- **expansión CN4/CN6**: 1,888 JPEG reales y **19,067 fragmentos**;
-- **Ciencias Naturales Ola 2**: 19 libros, 3,177 JPEG y **36,195 fragmentos**;
-- **U1-W1 1966**: 340 JPEG y **4,618 fragmentos**;
-- **U1-W1 2008 reconciliado**: 355 JPEG efectivos y **4,367 fragmentos**;
-- **73,841 ocurrencias técnicas de fragmento** directamente materializadas en total;
-- catálogo maestro reproducible: **542 visores**, 542 títulos recuperados y 191 familias normalizadas de título nuclear.
+- universo U1 censado: **542/542** identidades documentales;
+- cobertura técnica efectiva cerrada o resuelta: **262/542 (48.34%)**;
+- objetos canónicos de procesamiento: **236/542 (43.54%)**;
+- cobertura semántica humana validada: **0/542**;
+- W6 Geografía/Atlas: **42** identidades en auditoría de fuente, todavía sin incorporarse a la cobertura técnica efectiva.
 
-`corpus_ready` **no equivale** a `semantic_ready`. Las 73,841 ocurrencias tampoco equivalen a 73,841 observaciones históricas independientes: LTMD representa explícitamente reutilización, revisión, reemplazo, aliases y dependencia documental.
+`corpus_ready` **no equivale** a `semantic_ready`. Las ocurrencias técnicas de fragmento tampoco equivalen a observaciones históricas independientes: LTMD representa explícitamente reutilización, revisión, reemplazo, aliases y dependencia documental.
 
 ## Objetivo maestro LTMD-U1: 542/542
 
-El universo operativo **LTMD-U1** está fijado en **542 visores únicos**. El tablero ejecutable `LTMD_U1_COVERAGE_0.4` reporta:
+El universo operativo **LTMD-U1** está fijado en **542 visores únicos**. El tablero vivo [`data/catalog/ltmd_u1_coverage.md`](data/catalog/ltmd_u1_coverage.md) mantiene dos denominadores distintos: identidades documentales técnicamente representadas y objetos canónicos realmente procesados. Esta distinción impide inflar el corpus cuando una identidad se resuelve mediante un alias o una ruta criptográficamente demostrada.
 
-- catálogo censado: **542/542 (100.00%)**;
-- títulos normalizados: **542/542 (100.00%)** en 191 familias;
-- activos completamente resueltos con evidencia: **40/542 (7.38%)**;
-- resoluciones parciales activas: **0/542**;
-- manifiesto/OCR/PAGESTRUCT/FRAGSEG directamente materializados: **36/542 (6.64%)**;
-- cobertura FRAGSEG efectiva, incluyendo cuatro aliases byte-idénticos ya representados: **40/542 (7.38%)**;
-- relaciones documentales registradas: **12/542 (2.21%)**;
-- cobertura semántica humana validada: **0/542**, porque SEMB 0.3 continúa en `WAITING_HUMAN_REFERENCE`.
+| Ola | Dominio operacional | Plan | Cobertura efectiva | Canónicos | Estado |
+|---|---|---:|---:|---:|---|
+| W1 | `ciencias_naturales` | 40 | 40 | 36 | cerrada |
+| W2 | `matematicas` | 64 | 60 | 57 | parcial; 4 excepciones preservadas |
+| W3 | `espanol_lengua` | 130 | 130 | 114 | cerrada |
+| W4 | `ciencias_sociales` | 14 | 14 | 14 | cerrada |
+| W5 | `historia` | 18 | 18 | 15 | cerrada |
+| W6 | `geografia_atlas` | 42 | 0 | 0 | `source-first` activa |
+| W7 | `civica_etica` | 30 | 0 | 0 | en cola |
+| W8 | `artes` | 20 | 0 | 0 | en cola |
+| W9 | `educacion_fisica` | 4 | 0 | 0 | en cola |
+| W10 | `integrados_multiarea` | 69 | 0 | 0 | en cola |
+| W11 | `otros_no_clasificados` | 111 | 0 | 0 | en cola |
 
-La meta U1 es alcanzar **542/542 visores técnicamente representados**, mediante procesamiento directo o alias criptográficamente verificado, conservando siempre identidad documental y excepciones. Este objetivo no autoriza a extrapolar el clasificador semántico de Ciencias Naturales a otras áreas sin validación humana propia.
+La meta U1 es alcanzar **542/542 visores técnicamente representados**, mediante procesamiento directo o relaciones de fuente demostradas, conservando siempre identidad documental y excepciones. Este objetivo no autoriza a extrapolar clasificadores semánticos de un dominio a otro sin validación humana propia.
 
-El programa completo está en **[`docs/LTMD_U1_MASTER_PLAN_0_1.md`](docs/LTMD_U1_MASTER_PLAN_0_1.md)** y el tablero vivo en **[`data/catalog/ltmd_u1_coverage.md`](data/catalog/ltmd_u1_coverage.md)**. La cola integral está en `data/catalog/ltmd_u1_wave_queue.csv`.
+El programa completo está en **[`docs/LTMD_U1_MASTER_PLAN_0_1.md`](docs/LTMD_U1_MASTER_PLAN_0_1.md)**, el tablero vivo en **[`data/catalog/ltmd_u1_coverage.md`](data/catalog/ltmd_u1_coverage.md)** y la cola integral en `data/catalog/ltmd_u1_wave_queue.csv`.
 
-### U1-W1 — Ciencias Naturales: COMPLETADA
+### U1-W1 — Ciencias Naturales: CERRADA
 
 El dominio operativo `ciencias_naturales` contiene **40 visores** y queda en **40/40 de cobertura efectiva**. Treinta y seis están procesados directamente hasta FRAGSEG y cuatro son aliases 2018→2019 demostrados byte por byte. El cierre detallado está en [`docs/LTMD_U1_W1_COMPLETION_2026-08-15.md`](docs/LTMD_U1_W1_COMPLETION_2026-08-15.md).
 
 W1 incorporó además dos materiales de *Estudio de la Naturaleza* de 1966 y resolvió criptográficamente las tres posiciones internas no servidas de los dos libros 2008 sin borrar la anomalía original ni falsear procedencia.
 
-### U1-W2 — Matemáticas: ACTIVA
+### U1-W2 — Matemáticas: PARCIAL CON EXCEPCIONES PRESERVADAS
 
-W2 está congelada en **64 visores**. Los 64/64 visores comparten la arquitectura dinámica estándar de acceso auditada (`x.js`/`claves.json`) y `claves.json` declara **13,656 posiciones** en conjunto. La auditoría empírica SHA-256 por 64 shards es la siguiente capa de industrialización.
+W2 está congelada en **64 visores**. Tiene **60/64 identidades con activos efectivamente resueltos** y **57 objetos canónicos computados**. Cuatro visores DMA 2018 conservan excepciones de routing no resueltas; no se imputan ni se sustituyen por similitud de título, año o cardinalidad. La capa FRAGSEG directamente computada contiene **135,727 fragmentos técnicos**. El cierre vigente está en [`docs/LTMD_U1_W2_COMPLETION.md`](docs/LTMD_U1_W2_COMPLETION.md).
+
+### U1-W3 — Español/Lengua: CERRADA
+
+W3 cubre **130/130 identidades** mediante **114 objetos canónicos** y 16 aliases/provenance relations demostradas. Se verificaron **20,765 páginas**, PAGESTRUCT habilitó **17,337 páginas** y FRAGSEG produjo **222,490 fragmentos técnicos**. El análisis de reutilización exacta conserva la dependencia documental en lugar de asumir independencia entre generaciones. Véase [`docs/LTMD_U1_W3_COMPLETION.md`](docs/LTMD_U1_W3_COMPLETION.md).
+
+### U1-W4 — Ciencias Sociales: CERRADA
+
+W4 cubre **14/14 identidades y objetos canónicos**. Se procesaron **2,414 páginas**, PAGESTRUCT habilitó **2,018 páginas** y FRAGSEG produjo **21,380 fragmentos técnicos**. Véase [`docs/LTMD_U1_W4_COMPLETION.md`](docs/LTMD_U1_W4_COMPLETION.md).
+
+### U1-W5 — Historia: CERRADA
+
+W5 cubre **18/18 identidades históricas** mediante **15 objetos canónicos**. Tres entradas 2018 se resuelven operacionalmente a rutas 2019 después de revalidar **523/523 activos** por SHA-256 y tamaño, sin fusionar las identidades documentales de catálogo. OCR verificó **2,653/2,653 páginas**, PAGESTRUCT habilitó **2,243** y FRAGSEG produjo **32,645 fragmentos técnicos**. El análisis de reutilización exacta obtuvo **25,492 unidades textuales exactas únicas** y **105 pares de visores** con al menos una unidad compartida. Véase [`docs/LTMD_U1_W5_COMPLETION.md`](docs/LTMD_U1_W5_COMPLETION.md).
+
+### U1-W6 — Geografía/Atlas: SOURCE-FIRST ACTIVA
+
+W6 está congelada en **42 visores**. El registro central `claves.json` declara **7,766 posiciones**. Cuarenta y un visores presentan la arquitectura HTML dinámica estándar; `H1993P5GE204` (*Atlas de Geografía Universal*) se conserva como excepción de arquitectura HTML, aunque sí cuenta con declaración en el registro central. Esta ola permanece deliberadamente antes de OCR: primero deben auditarse posición por posición los activos servidos, sus hashes, huecos, terminales, rutas alternativas y posibles relaciones de identidad.
 
 ## Release publicada
 
@@ -149,7 +168,7 @@ LTMD separa dos productos:
 
 ## Documentación central
 
-La entrada recomendada es el **[Índice maestro de método](docs/METHOD_INDEX.md)**. Para la expansión integral, consulte el **[Plan Maestro LTMD-U1](docs/LTMD_U1_MASTER_PLAN_0_1.md)** y el **[cierre de W1](docs/LTMD_U1_W1_COMPLETION_2026-08-15.md)**.
+La entrada recomendada es el **[Índice maestro de método](docs/METHOD_INDEX.md)**. Para la expansión integral, consulte el **[Plan Maestro LTMD-U1](docs/LTMD_U1_MASTER_PLAN_0_1.md)**, el **[tablero vivo](data/catalog/ltmd_u1_coverage.md)** y las actas de cierre W1–W5.
 
 ## Regla epistemológica
 
