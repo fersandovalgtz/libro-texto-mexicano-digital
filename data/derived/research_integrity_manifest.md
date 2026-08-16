@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.8`.
 
-Commit observado: `6f345ecd108ed905944ae9990fea6de34dc9358b`.
+Commit observado: `3fd65e18cf8846ac6b342da20c96a2a6503a9c6b`.
 
 Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
@@ -292,8 +292,8 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `data/catalog/ltmd_u1_w7_routing_diagnostics.md` — 1022 bytes — `7d6dc4a9025d95a9c47899b971160ef6583d9c47500d8d51aad3b4469371159d`
 - `data/catalog/ltmd_u1_w7_viewer_route_contract.json` — 2604 bytes — `d1ed63bdacac817f88a9b2d52f07215ba397e9ef8fcaacc38f07ca6cbe32e53f`
 - `data/catalog/ltmd_u1_w7_viewer_route_contract.md` — 1520 bytes — `8bb02adc712414a66ffcd22f516d8d310116cffed111de88313f90edfc4c11f5`
-- `data/catalog/ltmd_u1_w7_addpage_contract.json` — 3117 bytes — `edabe9bfe73a17875e805c801d5f006815323c5a58c657398820cff85de63e1b`
-- `data/catalog/ltmd_u1_w7_addpage_contract.md` — 848 bytes — `1babba8db894266a12340c93e26f708895c256e765abe72eb6a74e9a2dfddba2`
+- `data/catalog/ltmd_u1_w7_addpage_contract.json` — 14435 bytes — `a2064f628aa5273b9228ad00ffaa8156c9d323de4a540741bc31cb2041e76bb8`
+- `data/catalog/ltmd_u1_w7_addpage_contract.md` — 898 bytes — `82532affa714dd71fc958067c178657346947f36cb03b43c0aa6181eb37dba96`
 - `scripts/validate_ltmd_u1_w7_provenance.py` — 10485 bytes — `930369e7d50e5f4707a4d1cbfe48f70f63a1e14e4f6c1ae11eeb090b5db2dabd`
 - `scripts/diagnose_ltmd_u1_w7_routing.py` — 8969 bytes — `659967d5ba8931bccbd544d7c70ffa8d252cc961463117fba981b47d34054ee5`
 - `scripts/extract_ltmd_u1_w7_viewer_route_contract.py` — 6626 bytes — `517cc1527c2a2c0f0151d23312af99a36b5e7d15247c7b054421a4a6a40fc0ad`

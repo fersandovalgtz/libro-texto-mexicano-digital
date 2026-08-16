@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.8",
-  "generated_utc": "2026-08-16T23:37:13.242900+00:00",
-  "git_head": "6f345ecd108ed905944ae9990fea6de34dc9358b",
+  "generated_utc": "2026-08-16T23:39:59.238059+00:00",
+  "git_head": "3fd65e18cf8846ac6b342da20c96a2a6503a9c6b",
   "scope": "CN5 pilot + closed CN4/CN6 expansion + closed Ciencias Naturales Wave 2 + strict-family asset readiness + document-dependence/unique-content evidence + prehuman SEMB 0.3 infrastructure + methods article 0.2",
   "critical_count": 290,
   "critical_present_count": 290,
@@ -1690,14 +1690,14 @@
     },
     {
       "path": "data/catalog/ltmd_u1_w7_addpage_contract.json",
-      "bytes": 3117,
-      "sha256": "edabe9bfe73a17875e805c801d5f006815323c5a58c657398820cff85de63e1b",
+      "bytes": 14435,
+      "sha256": "a2064f628aa5273b9228ad00ffaa8156c9d323de4a540741bc31cb2041e76bb8",
       "required": true
     },
     {
       "path": "data/catalog/ltmd_u1_w7_addpage_contract.md",
-      "bytes": 848,
-      "sha256": "1babba8db894266a12340c93e26f708895c256e765abe72eb6a74e9a2dfddba2",
+      "bytes": 898,
+      "sha256": "82532affa714dd71fc958067c178657346947f36cb03b43c0aa6181eb37dba96",
       "required": true
     },
     {
