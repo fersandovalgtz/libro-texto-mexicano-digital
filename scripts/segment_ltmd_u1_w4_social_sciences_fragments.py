@@ -7,9 +7,17 @@ provenance label and version change. Candidate types remain unvalidated technica
 signals under the no-human-reference operating mode.
 """
 from __future__ import annotations
+
+import importlib.util
 import sys
 from pathlib import Path
-import scripts.segment_ltmd_u1_w3_spanish_fragments as engine
+
+ENGINE_PATH = Path(__file__).with_name('segment_ltmd_u1_w3_spanish_fragments.py')
+spec = importlib.util.spec_from_file_location('ltmd_w3_fragseg_engine', ENGINE_PATH)
+if spec is None or spec.loader is None:
+    raise SystemExit(f'cannot load frozen W3 FRAGSEG engine from {ENGINE_PATH}')
+engine = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(engine)
 
 engine.STRUCTURE = Path('data/catalog/ltmd_u1_w4_social_sciences_page_structure.csv')
 engine.MANIFEST = Path('data/catalog/ltmd_u1_w4_social_sciences_canonical_page_manifest.csv')
