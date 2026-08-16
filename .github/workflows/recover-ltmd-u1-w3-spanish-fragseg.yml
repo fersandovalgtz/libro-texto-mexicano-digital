@@ -1,0 +1,166 @@
+name: recover-ltmd-u1-w3-spanish-fragseg
+
+on:
+  workflow_run:
+    workflows: ['build-ltmd-u1-w3-spanish-fragseg']
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: 'Source W3 FRAGSEG run to recover/assemble'
+        required: true
+        type: string
+
+permissions:
+  actions: write
+  contents: write
+
+env:
+  OMP_THREAD_LIMIT: '1'
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    outputs:
+      source_run_id: ${{ steps.inspect.outputs.source_run_id }}
+      source_success: ${{ steps.inspect.outputs.source_success }}
+      missing: ${{ steps.inspect.outputs.missing }}
+      missing_count: ${{ steps.inspect.outputs.missing_count }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: inspect
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            SOURCE_RUN_ID='${{ github.event.workflow_run.id }}'
+          else
+            SOURCE_RUN_ID='${{ inputs.source_run_id }}'
+          fi
+          RUN_JSON="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID")"
+          SOURCE_SUCCESS="$(python3 - "$RUN_JSON" <<'PY'
+          import json,sys
+          r=json.loads(sys.argv[1])
+          assert r['name']=='build-ltmd-u1-w3-spanish-fragseg', r['name']
+          assert r['status']=='completed', (r['status'],r.get('conclusion'))
+          print('1' if r.get('conclusion')=='success' else '0')
+          PY
+          )"
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100" > /tmp/artifact_pages.json
+          python3 - /tmp/artifact_pages.json <<'PY' > /tmp/missing.json
+          import csv,json,sys
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_page_structure.csv',encoding='utf-8')))
+          expected=sorted({r['viewer_key'] for r in rows})
+          assert len(expected)==114, len(expected)
+          pages=json.load(open(sys.argv[1],encoding='utf-8'))
+          arts=[a for page in pages for a in page.get('artifacts',[])]
+          prefix='ltmd-u1-w3-spanish-fragments-'
+          present={a['name'][len(prefix):] for a in arts if a['name'].startswith(prefix) and not a.get('expired')}
+          extra=present-set(expected)
+          if extra: raise SystemExit(f'unexpected FRAGSEG artifacts: {sorted(extra)}')
+          print(json.dumps([k for k in expected if k not in present],separators=(',',':')))
+          PY
+          MISSING="$(cat /tmp/missing.json)"
+          MISSING_COUNT="$(python3 -c 'import json,sys; print(len(json.loads(sys.argv[1])))' "$MISSING")"
+          echo "source_run_id=$SOURCE_RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "source_success=$SOURCE_SUCCESS" >> "$GITHUB_OUTPUT"
+          echo "missing=$MISSING" >> "$GITHUB_OUTPUT"
+          echo "missing_count=$MISSING_COUNT" >> "$GITHUB_OUTPUT"
+          echo "source_success=$SOURCE_SUCCESS missing_count=$MISSING_COUNT"
+
+  recompute:
+    needs: inspect
+    if: needs.inspect.outputs.source_success != '1' && needs.inspect.outputs.missing_count != '0'
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.inspect.outputs.missing) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
+      - name: Recompute only missing FRAGSEG shard
+        run: python3 scripts/segment_ltmd_u1_w3_spanish_fragments.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w3-spanish-fragments-recovery-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w3_spanish_fragments/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  assemble:
+    needs: [inspect, recompute]
+    if: always() && needs.inspect.result == 'success' && needs.inspect.outputs.source_success != '1' && (needs.recompute.result == 'success' || needs.recompute.result == 'skipped')
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN_ID: ${{ needs.inspect.outputs.source_run_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download surviving source FRAGSEG artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p data/work/ltmd_u1_w3_spanish_fragments /tmp/source-fragments
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern 'ltmd-u1-w3-spanish-fragments-*' --dir /tmp/source-fragments || true
+          find /tmp/source-fragments -type f -name 'fragment_*.csv' -exec cp {} data/work/ltmd_u1_w3_spanish_fragments/ \;
+      - name: Download recovery FRAGSEG artifacts
+        if: needs.inspect.outputs.missing_count != '0'
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w3-spanish-fragments-recovery-*
+          path: /tmp/recovery-fragments
+          merge-multiple: true
+      - name: Merge recovery FRAGSEG artifacts
+        if: needs.inspect.outputs.missing_count != '0'
+        run: find /tmp/recovery-fragments -type f -name 'fragment_*.csv' -exec cp {} data/work/ltmd_u1_w3_spanish_fragments/ \;
+      - name: Verify exact viewer sidecar coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import csv
+          from pathlib import Path
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w3_spanish_page_structure.csv',encoding='utf-8')))
+          expected={r['viewer_key'].lower() for r in rows}
+          base=Path('data/work/ltmd_u1_w3_spanish_fragments')
+          frags={p.stem[len('fragment_'):].lower() for p in base.glob('fragment_*.csv') if not p.name.endswith('_failures.csv')}
+          fails={p.stem[len('fragment_'):-len('_failures')].lower() for p in base.glob('fragment_*_failures.csv')}
+          assert len(expected)==114
+          assert frags==expected, f'fragment shard coverage mismatch missing={sorted(expected-frags)} extra={sorted(frags-expected)}'
+          assert fails==expected, f'failure sidecar coverage mismatch missing={sorted(expected-fails)} extra={sorted(fails-expected)}'
+          print('recovery assembly has exact 114/114 FRAGSEG shard+sidecar pairs')
+          PY
+      - name: Recombine W3 FRAGSEG
+        run: python3 scripts/combine_ltmd_u1_w3_spanish_fragment_shards.py
+      - name: Publish recovered W3 FRAGSEG race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w3-fragseg-recovered
+          cp data/catalog/ltmd_u1_w3_spanish_fragment_manifest.csv /tmp/w3-fragseg-recovered/
+          cp data/catalog/ltmd_u1_w3_spanish_fragment_manifest_summary.csv /tmp/w3-fragseg-recovered/
+          cp data/catalog/ltmd_u1_w3_spanish_fragment_sequence_gaps.csv /tmp/w3-fragseg-recovered/
+          cp data/catalog/ltmd_u1_w3_spanish_fragment_manifest.md /tmp/w3-fragseg-recovered/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w3-fragseg-recovered/* data/catalog/
+            git add data/catalog/ltmd_u1_w3_spanish_fragment_manifest.csv data/catalog/ltmd_u1_w3_spanish_fragment_manifest_summary.csv data/catalog/ltmd_u1_w3_spanish_fragment_sequence_gaps.csv data/catalog/ltmd_u1_w3_spanish_fragment_manifest.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish recovered LTMD-U1 W3 Spanish FRAGSEG 0.1'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
