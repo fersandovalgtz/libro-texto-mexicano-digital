@@ -1,0 +1,65 @@
+name: dispatch-ltmd-u1-w8-artes-exact-reuse
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/control/ltmd_u1_w8_artes_exact_reuse_trigger.txt'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dispatch-ltmd-u1-w8-artes-exact-reuse
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Gate on closed W8 FRAGSEG
+        run: |
+          python3 - <<'PY'
+          import csv
+          from pathlib import Path
+          frags=Path('data/catalog/ltmd_u1_w8_artes_fragment_manifest.csv')
+          proc=Path('data/catalog/ltmd_u1_w8_processing_inventory.csv')
+          if not frags.exists(): raise SystemExit('W8 exact reuse gate closed: FRAGSEG manifest not published')
+          rows=list(csv.DictReader(frags.open(encoding='utf-8',newline='')))
+          p=list(csv.DictReader(proc.open(encoding='utf-8',newline='')))
+          canonical={r['viewer_key'] for r in p if r['ocr_identity_eligible']=='1' and r['is_canonical_processing_object']=='1'}
+          assert len(p)==20 and len(canonical)==16 and len([r for r in p if r['ocr_identity_eligible']=='0'])==4
+          assert rows and {r['viewer_key'] for r in rows}==canonical
+          assert {r['segmenter_version'] for r in rows}=={'FRAGSEG_LTMD_U1_W8_ARTES_0.1'}
+          assert all(r['text_sha256'] and len(r['text_sha256'])==64 for r in rows)
+          assert len({r['fragment_id'] for r in rows})==len(rows)
+          print(f'W8 exact reuse gate PASS: fragments={len(rows)} viewers={len(canonical)}')
+          PY
+      - name: Analyze W8 exact fragment reuse
+        run: python3 scripts/analyze_ltmd_u1_w8_artes_exact_reuse.py
+      - name: Publish W8 exact-reuse analysis race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/w8-exact
+          mkdir -p /tmp/w8-exact
+          cp data/catalog/ltmd_u1_w8_artes_exact_content_units.csv /tmp/w8-exact/
+          cp data/catalog/ltmd_u1_w8_artes_exact_viewer_overlap.csv /tmp/w8-exact/
+          cp data/catalog/ltmd_u1_w8_artes_exact_reuse.md /tmp/w8-exact/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w8-exact/* data/catalog/
+            git add data/catalog/ltmd_u1_w8_artes_exact_content_units.csv data/catalog/ltmd_u1_w8_artes_exact_viewer_overlap.csv data/catalog/ltmd_u1_w8_artes_exact_reuse.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W8 Artes exact-reuse analysis'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
