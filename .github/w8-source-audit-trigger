@@ -1,0 +1,4 @@
+LTMD U1-W8 strict source audit
+version=LTMD_U1_W8_ARTES_ASSET_AUDIT_0.2
+triggered=2026-08-17
+purpose=clean source-first rerun after terminal-classification hardening and concurrency throttling
