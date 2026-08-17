@@ -28,6 +28,34 @@ Una autorización o viabilidad en una capa no se traslada automáticamente a las
 - posibilidad de publicar datos derivados;
 - decisión adoptada y evidencia que la sustenta.
 
+## Gobernanza temporal y bibliográfica
+
+La procedencia no termina en la URL del libro. Toda fecha utilizada para construir una cronología debe conservar también **qué tipo de fecha es y de dónde proviene**.
+
+### `catalog_generation` no es una fecha editorial por defecto
+
+`catalog_generation` representa la cohorte/generación con la que el Catálogo Histórico organiza un visor. No se transforma automáticamente en `edition_year`, `reprint_year`, `school_cycle` o `copyright_year`.
+
+La evidencia interna del proyecto demuestra por qué: `H2014P5FCA`, situado en la Generación 2014 del catálogo, sirve una página legal institucional SHA-verificada que declara `Primera edición, 2014` y `Tercera reimpresión, 2017 (ciclo escolar 2017-2018)`. El catálogo y la temporalidad bibliográfica describen dimensiones distintas.
+
+### Observaciones bibliográficas atómicas
+
+Las fechas, declaraciones de edición, reimpresión, ciclo escolar, ISBN y otros metadatos bibliográficos se promueven a la capa `data/catalog/ltmd_bibliographic_observations.csv` sólo cuando existe:
+
+- página de evidencia identificada;
+- SHA-256 de la página concordante con la procedencia congelada;
+- regla de extracción explícita y reproducible;
+- indicación de si la lectura es OCR técnico o validación humana;
+- ausencia de imputación por proximidad de cohorte, título, grado o cardinalidad.
+
+Una lectura OCR puede publicarse como **observación técnica con procedencia**, pero `human_validated=0` debe permanecer visible. Una fecha candidata secundaria o una línea OCR ambigua no se convierte silenciosamente en metadato canónico.
+
+### Regla para análisis históricos
+
+Todo producto longitudinal debe declarar explícitamente cuál eje temporal utiliza: cohorte de catálogo, año de edición, año de reimpresión, ciclo escolar o copyright. Si los campos bibliográficos faltan para parte del corpus, esa cobertura incompleta se reporta; no se rellena con `catalog_generation`.
+
+Véanse `docs/DATA_MODEL.md` y `docs/LTMD_CATALOG_GENERATION_SEMANTICS_0_1.md`.
+
 ## Separación de capas
 
 ### Fuente
@@ -45,6 +73,8 @@ OCR completo, transcripciones extensas, recortes y otros derivados que reproduzc
 ### Datos derivados publicables
 
 Metadatos, identificadores, URLs de procedencia, hashes, conteos, dimensiones, métricas OCR, CER/WER, etiquetas, códigos, clasificaciones, frecuencias, medidas estructurales y estadísticas pueden versionarse cuando no reproduzcan sustancialmente la obra fuente.
+
+Las observaciones bibliográficas atómicas, acompañadas de página de procedencia y hash, pertenecen a esta capa siempre que no publiquen una reproducción sustancial del texto fuente.
 
 ### Código
 
@@ -117,6 +147,8 @@ Página legal visor 2:
 
 Se trata expresamente como material protegido.
 
+La investigación W7 añade un segundo ejemplo metodológicamente importante: `H2014P5FCA` declara `Primera edición, 2014` y `Tercera reimpresión, 2017 (ciclo escolar 2017-2018)`. Este dato se conserva como observación bibliográfica separada de su etiqueta de Generación 2014.
+
 ## Semáforo de publicación
 
 ### VERDE — publicable/versionable con procedencia
@@ -127,6 +159,7 @@ Se trata expresamente como material protegido.
 - número de páginas y activos;
 - dimensiones y formatos;
 - hashes/checksums;
+- observaciones bibliográficas atómicas con procedencia de página/hash;
 - modo OCR utilizado;
 - métricas OCR, CER/WER y tasas de error;
 - conteos y estadísticas;
@@ -169,6 +202,7 @@ No se versionan por defecto.
 | OCR interno para investigación | Amarillo |
 | Publicar métricas OCR | Verde |
 | Publicar metadatos/URLs/hashes | Verde |
+| Publicar observaciones bibliográficas atómicas con procedencia | Verde |
 | Publicar códigos y estadísticas | Verde |
 | Cita breve científicamente necesaria | Amarillo, caso por caso |
 | Colección pública de muchos fragmentos | Amarillo alto / rojo según sustancialidad |
@@ -188,6 +222,8 @@ La matriz completa se mantiene en `docs/RIGHTS_PUBLICATION_MATRIX.md`.
 5. Un cambio que pretenda publicar OCR, imágenes, miniaturas o fragmentos extensos exige reabrir/revisar la decisión jurídica correspondiente.
 6. La salida de modelos o embeddings deberá evaluarse por riesgo de reconstrucción antes de publicarse.
 7. La procedencia oficial debe permanecer trazable hasta `book_id` y `page_id`.
+8. Toda observación bibliográfica promocionada debe preservar `evidence_viewer_page`, `evidence_source_sha256`, método de extracción y estado de validación humana.
+9. Un workflow bibliográfico no puede completar campos faltantes a partir de `catalog_generation` ni de proximidad temporal.
 
 ## Consulta institucional preparada
 
