@@ -4,17 +4,17 @@ Infraestructura abierta de investigación para estudiar longitudinalmente los li
 
 ## Estado actual
 
-**LTMD adopta como objetivo de su primera gran fase la cobertura integral del universo histórico disponible en el snapshot U1 del Catálogo Histórico de CONALITEG: 542 visores. W1 Ciencias Naturales, W3 Español/Lengua, W4 Ciencias Sociales y W5 Historia están cerradas técnicamente; W2 Matemáticas conserva cuatro excepciones de routing sin imputación; W6 Geografía/Atlas está activa únicamente en fase `source-first`.**
+**LTMD adopta como objetivo de su primera gran fase la cobertura integral del universo histórico disponible en el snapshot U1 del Catálogo Histórico de CONALITEG: 542 visores. W1 Ciencias Naturales, W3 Español/Lengua, W4 Ciencias Sociales, W5 Historia y W6 Geografía/Atlas están cerradas técnicamente; W2 Matemáticas conserva cuatro excepciones de routing sin imputación; W7 Formación Cívica y Ética tiene cierre técnico de su cohorte fuente-admitida (25/30), con cinco identidades retenidas explícitamente por limitaciones de fuente.**
 
-Corte documental de esta actualización: **16 de agosto de 2026**.
+Corte documental de esta actualización: **17 de agosto de 2026**.
 
-El tablero reproducible `LTMD_U1_COVERAGE_0.6`, recompuesto desde la cola maestra y las actas de cierre W1–W5, reporta:
+El tablero reproducible `LTMD_U1_COVERAGE_0.8`, recompuesto desde la cola maestra y las actas/cortes técnicos W1–W7, reporta:
 
 - universo U1 censado: **542/542** identidades documentales;
-- cobertura técnica efectiva cerrada o resuelta: **262/542 (48.34%)**;
-- objetos canónicos de procesamiento: **236/542 (43.54%)**;
+- cobertura técnica efectiva cerrada o resuelta: **329/542 (60.70%)**;
+- objetos canónicos de procesamiento: **298/542 (54.98%)**;
 - cobertura semántica humana validada: **0/542**;
-- W6 Geografía/Atlas: **42** identidades en auditoría de fuente, todavía sin incorporarse a la cobertura técnica efectiva.
+- W7 Formación Cívica y Ética: **25/30** identidades técnicamente procesadas y **5/30** retenidas sin imputación.
 
 `corpus_ready` **no equivale** a `semantic_ready`. Las ocurrencias técnicas de fragmento tampoco equivalen a observaciones históricas independientes: LTMD representa explícitamente reutilización, revisión, reemplazo, aliases y dependencia documental.
 
@@ -29,8 +29,8 @@ El universo operativo **LTMD-U1** está fijado en **542 visores únicos**. El ta
 | W3 | `espanol_lengua` | 130 | 130 | 114 | cerrada |
 | W4 | `ciencias_sociales` | 14 | 14 | 14 | cerrada |
 | W5 | `historia` | 18 | 18 | 15 | cerrada |
-| W6 | `geografia_atlas` | 42 | 0 | 0 | `source-first` activa |
-| W7 | `civica_etica` | 30 | 0 | 0 | en cola |
+| W6 | `geografia_atlas` | 42 | 42 | 37 | cerrada |
+| W7 | `civica_etica` | 30 | 25 | 25 | parcial; 5 retenciones de fuente preservadas |
 | W8 | `artes` | 20 | 0 | 0 | en cola |
 | W9 | `educacion_fisica` | 4 | 0 | 0 | en cola |
 | W10 | `integrados_multiarea` | 69 | 0 | 0 | en cola |
@@ -62,9 +62,17 @@ W4 cubre **14/14 identidades y objetos canónicos**. Se procesaron **2,414 pági
 
 W5 cubre **18/18 identidades históricas** mediante **15 objetos canónicos**. Tres entradas 2018 se resuelven operacionalmente a rutas 2019 después de revalidar **523/523 activos** por SHA-256 y tamaño, sin fusionar las identidades documentales de catálogo. OCR verificó **2,653/2,653 páginas**, PAGESTRUCT habilitó **2,243** y FRAGSEG produjo **32,645 fragmentos técnicos**. El análisis de reutilización exacta obtuvo **25,492 unidades textuales exactas únicas** y **105 pares de visores** con al menos una unidad compartida. Véase [`docs/LTMD_U1_W5_COMPLETION.md`](docs/LTMD_U1_W5_COMPLETION.md).
 
-### U1-W6 — Geografía/Atlas: SOURCE-FIRST ACTIVA
+### U1-W6 — Geografía/Atlas: CERRADA
 
-W6 está congelada en **42 visores**. El registro central `claves.json` declara **6,160 posiciones**. Cuarenta y un visores presentan la arquitectura HTML dinámica estándar; `H1993P5GE204` (*Atlas de Geografía Universal*) se conserva como excepción de arquitectura HTML, aunque sí cuenta con declaración en el registro central. Esta ola permanece deliberadamente antes de OCR: primero deben auditarse posición por posición los activos servidos, sus hashes, huecos, terminales, rutas alternativas y posibles relaciones de identidad.
+W6 está congelada en **42 identidades** y queda en **42/42 de cobertura técnica efectiva**, mediante **37 objetos canónicos**. La ola conserva sus relaciones de fuente y excepciones documentales de manera explícita; su cierre eleva la cobertura U1 sin modificar el estado `WAITING_HUMAN_REFERENCE` ni convertir procesamiento técnico en validación semántica.
+
+### U1-W7 — Formación Cívica y Ética: COHORTE ADMISIBLE CERRADA; 5 RETENCIONES
+
+W7 preserva **30/30 identidades históricas**. La cohorte con fuente admisible comprende **25/30 identidades**, todas procesadas técnicamente como **25 objetos canónicos**. Sobre **3,261 páginas fuente** se verificaron **3,261/3,261 SHA-256**; OCR detectó texto en **3,255 (99.82%)** y FRAGSEG produjo **33,451 fragmentos técnicos**. El cierre detallado está en [`docs/LTMD_U1_W7_COMPLETION.md`](docs/LTMD_U1_W7_COMPLETION.md).
+
+Este cierre **no equivale a 30/30 histórico**. Permanecen retenidas `H2014P5FCA` —224/225 JPEG institucionales servidos, con hueco en la página lógica 104— y `H2018P3FCA`–`H2018P6FCA`, cuyos visores/configuración institucionales están presentes pero cuyo subárbol oficial de activos observado no se sirve. No se crean aliases por semejanza, cardinalidad o proximidad temporal.
+
+La investigación de fuente continúa bajo umbral estricto. El corte [`docs/LTMD_U1_W7_WITHHELD_SOURCE_RESEARCH_0_4.md`](docs/LTMD_U1_W7_WITHHELD_SOURCE_RESEARCH_0_4.md) registra reproducciones externas contemporáneas del ciclo 2018–2019 como **candidatas de investigación**, sin incorporarlas como fuente canónica ni modificar `ocr_source_admitted`.
 
 ## Release publicada
 
@@ -168,7 +176,7 @@ LTMD separa dos productos:
 
 ## Documentación central
 
-La entrada recomendada es el **[Índice maestro de método](docs/METHOD_INDEX.md)**. Para la expansión integral, consulte el **[Plan Maestro LTMD-U1](docs/LTMD_U1_MASTER_PLAN_0_1.md)**, el **[tablero vivo](data/catalog/ltmd_u1_coverage.md)** y las actas de cierre W1–W5.
+La entrada recomendada es el **[Índice maestro de método](docs/METHOD_INDEX.md)**. Para la expansión integral, consulte el **[Plan Maestro LTMD-U1](docs/LTMD_U1_MASTER_PLAN_0_1.md)**, el **[tablero vivo](data/catalog/ltmd_u1_coverage.md)** y las actas/cortes técnicos W1–W7.
 
 ## Regla epistemológica
 
