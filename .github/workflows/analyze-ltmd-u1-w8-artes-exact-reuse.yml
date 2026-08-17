@@ -5,8 +5,6 @@ on:
   push:
     branches: [main]
     paths:
-      - '.github/workflows/analyze-ltmd-u1-w8-artes-exact-reuse.yml'
-      - 'scripts/analyze_ltmd_u1_w8_artes_exact_reuse.py'
       - 'data/catalog/ltmd_u1_w8_artes_fragment_manifest.csv'
       - 'data/catalog/ltmd_u1_w8_artes_fragment_manifest_summary.csv'
       - 'data/catalog/ltmd_u1_w8_artes_fragment_manifest.md'
