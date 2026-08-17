@@ -8,11 +8,13 @@ El proyecto opera temporalmente **sin referencia humana disponible**. Esto no bl
 
 Permanecen no validados o estacionados CER/WER contra referencia humana, confiabilidad intercodificador, consenso humano, validación SEMB03 y cualquier afirmación histórica primaria que dependa de categorías semánticas automáticas no validadas. Véase `docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md`.
 
-## Semántica temporal del catálogo
+## Semántica temporal y capa bibliográfica
 
 `catalog_generation` se interpreta como **etiqueta institucional de cohorte/navegación** y no como fecha bibliográfica automática. `H2014P5FCA` constituye evidencia falsadora directa del supuesto `catalog_generation == publication_year`: su página legal institucional, verificada contra SHA-256 y tamaño, declara **Primera edición 2014** y **Tercera reimpresión 2017 (ciclo escolar 2017–2018)**.
 
-Por ello, primera edición, reimpresión y ciclo escolar deben modelarse en una capa bibliográfica separada y con evidencia del objeto. Véase `docs/LTMD_CATALOG_GENERATION_SEMANTICS_0_1.md`.
+Esta distinción ya está materializada, no sólo documentada. `LTMD_BIBLIOGRAPHIC_OBSERVATIONS_0.1` publica una capa reproducible con **4 observaciones atómicas** para `H2014P5FCA`: `first_edition_year=2014`, `reprint_statement=third_reprint`, `reprint_year=2017` y `school_cycle=2017-2018`. Las cuatro se anclan a la página legal 4 y al SHA-256 del activo institucional; `catalog_generation=2014` se conserva en una columna distinta. El ISBN no se importa desde fuentes secundarias.
+
+Véanse `docs/LTMD_CATALOG_GENERATION_SEMANTICS_0_1.md` y `data/catalog/ltmd_bibliographic_observations.md`.
 
 ## Ciencias Naturales y W2 Matemáticas
 
@@ -237,9 +239,9 @@ Estas diferencias son descriptivas de dos conjuntos con dominios, generaciones e
 
 ## Integridad científica
 
-`LTMD_INTEGRITY_0.9` preserva el perímetro 0.8 y promueve a críticos los nueve productos W3 que habían permanecido opcionales hasta materializarse: manifiesto y resumen FRAGSEG, auditoría de huecos de secuencia, reporte FRAGSEG, unidades textuales exactas, proyección identidad-contenido, solapamiento exacto entre visores, reporte de reuso exacto y cierre técnico W3. El propio constructor 0.9 forma parte del perímetro. Cada artefacto crítico conserva tamaño y SHA-256; la desaparición de cualquiera hace fallar el workflow de integridad.
+`LTMD_INTEGRITY_0.9` preserva el perímetro 0.8 y promueve a críticos los nueve productos W3 que habían permanecido opcionales hasta materializarse. El propio constructor 0.9 forma parte del perímetro. Cada artefacto crítico conserva tamaño y SHA-256; la desaparición de cualquiera hace fallar el workflow de integridad.
 
-Los nuevos diagnósticos W7 no modifican retrospectivamente ese perímetro congelado. Al final de cada corte debe comprobarse que 0.9 siga reproduciendo **359/359** críticos antes de considerar estable el estado maestro.
+Después de incorporar el expediente W7, el contrato temporal y el builder de observaciones bibliográficas, el run **31991013049** concluyó `success` y el manifiesto publicado conserva **359/359 críticos**, `missing_critical=[]` y **9 opcionales presentes**. Los nuevos productos bibliográficos permanecen fuera del perímetro congelado 0.9 hasta una futura promoción explícita de versión.
 
 ## Orquestación y recuperación
 
@@ -249,12 +251,11 @@ Los recoveries reutilizan artifacts válidos y recomputan únicamente visores fa
 
 ## Prioridades inmediatas
 
-1. Confirmar que `LTMD_INTEGRITY_0.9` continúa en **359/359** después del nuevo expediente W7 y del contrato temporal.
-2. Para `H2014P5FCA`, buscar una fuente reproducible de la **tercera reimpresión 2017 / ciclo 2017–2018** y demostrar la correspondencia de la página 104 sin convertir una copia externa en `source_jpeg` institucional.
-3. Para los cuatro `H2018...`, priorizar routing histórico, relocalización o huellas bibliográficas documentales; mantener la retención si no aparece evidencia suficiente y evitar aliases 2019 heurísticos.
-4. Diseñar una capa bibliográfica reproducible que separe `catalog_generation`, primera edición, reimpresión y ciclo escolar, comenzando por observaciones primarias ya demostradas.
-5. Diseñar, sólo si aporta valor científico, un comparador técnico W3↔W4↔W7 estrictamente descriptivo y no semántico.
-6. Incorporar W3, W7 y la comparación W4↔W7 al artículo metodológico como evidencia técnica/descriptiva, manteniendo separada cualquier validación humana/semántica futura.
+1. Para `H2014P5FCA`, buscar una fuente reproducible de la **tercera reimpresión 2017 / ciclo 2017–2018** y demostrar la correspondencia de la página 104 sin convertir una copia externa en `source_jpeg` institucional.
+2. Para los cuatro `H2018...`, priorizar routing histórico, relocalización o huellas bibliográficas documentales; mantener la retención si no aparece evidencia suficiente y evitar aliases 2019 heurísticos.
+3. Expandir `LTMD_BIBLIOGRAPHIC_OBSERVATIONS_0.1` a nuevos objetos únicamente cuando exista evidencia primaria o documental reproducible; nunca por `catalog_generation`.
+4. Diseñar, sólo si aporta valor científico, un comparador técnico W3↔W4↔W7 estrictamente descriptivo y no semántico.
+5. Incorporar W3, W7, la separación temporal y la comparación W4↔W7 al artículo metodológico como evidencia técnica/descriptiva, manteniendo separada cualquier validación humana/semántica futura.
 
 ## Principio de publicación
 
