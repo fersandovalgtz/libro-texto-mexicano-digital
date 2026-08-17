@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Build LTMD_INTEGRITY_0.8 with the completed W7 admitted-cohort perimeter.
+"""Build LTMD_INTEGRITY_0.8 with the completed W7 and W4-W7 technical perimeter.
 
 0.8 preserves the complete 0.7 perimeter and extends it with LTMD-U1 W7
 Civics/Ethics source scope, page-level provenance, resolved routing, 2018
 source-conformance evidence, source-admissibility decisions, reconciled
-processing topology, completed OCR/PAGESTRUCT/FRAGSEG/exact-reuse evidence, and
-the validated technical-closure report for the source-admitted cohort.
+processing topology, completed OCR/PAGESTRUCT/FRAGSEG/exact-reuse evidence,
+validated technical closure, the nonsemantic W4-W7 technical comparison, and the
+master project status for this cut.
 """
 from __future__ import annotations
 
@@ -18,11 +19,12 @@ base.VERSION = 'LTMD_INTEGRITY_0.8'
 SCOPE = ('LTMD v0.8: frozen v0.7 perimeter plus W7 Civics/Ethics historical scope, '
          'page-level source provenance, resolved viewer routing, 2018 source-conformance '
          'evidence, 30-identity/25-canonical source-admissible processing topology, '
-         'completed SHA-verified OCR, PAGESTRUCT, FRAGSEG, exact-text reuse, and admitted-cohort technical closure')
+         'completed SHA-verified OCR, PAGESTRUCT, FRAGSEG, exact-text reuse, admitted-cohort '
+         'technical closure, nonsemantic W4-W7 technical comparison, and master status')
 SCOPE_ES = ('perímetro v0.7 congelado + W7 Cívica/Ética: alcance histórico, provenance de página, '
             'routing del visor resuelto, evidencia de conformidad de fuente 2018, topología de '
-            '30 identidades/25 canónicos admisibles, OCR/PAGESTRUCT/FRAGSEG/reuso exacto completos '
-            'y cierre técnico validado de la cohorte admisible')
+            '30 identidades/25 canónicos admisibles, OCR/PAGESTRUCT/FRAGSEG/reuso exacto completos, '
+            'cierre técnico validado, comparación técnica no semántica W4↔W7 y estado maestro')
 OLD_SCOPE_ES_ASCII = ('CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia '
                       'estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 '
                       'prehumana + artículo metodológico 0.2.')
@@ -74,6 +76,9 @@ W7_PROVENANCE_CRITICAL = [
     'data/catalog/ltmd_u1_w7_civics_ethics_exact_viewer_overlap.csv',
     'data/catalog/ltmd_u1_w7_civics_ethics_exact_reuse.md',
     'docs/LTMD_U1_W7_COMPLETION.md',
+    'data/derived/ltmd_u1_w4_w7_technical_comparison.csv',
+    'docs/LTMD_U1_W4_W7_TECHNICAL_COMPARISON.md',
+    'docs/LTMD_STATUS_2026-08-16.md',
     'scripts/validate_ltmd_u1_w7_provenance.py',
     'scripts/diagnose_ltmd_u1_w7_routing.py',
     'scripts/extract_ltmd_u1_w7_viewer_route_contract.py',
@@ -93,6 +98,7 @@ W7_PROVENANCE_CRITICAL = [
     'scripts/combine_ltmd_u1_w7_civics_ethics_fragment_shards.py',
     'scripts/analyze_ltmd_u1_w7_civics_ethics_exact_reuse.py',
     'scripts/build_ltmd_u1_w7_completion_report.py',
+    'scripts/compare_ltmd_u1_w4_w7_technical_profiles.py',
     '.github/workflows/validate-ltmd-u1-w7-provenance.yml',
     '.github/workflows/diagnose-ltmd-u1-w7-routing.yml',
     '.github/workflows/extract-ltmd-u1-w7-viewer-route-contract.yml',
@@ -108,6 +114,7 @@ W7_PROVENANCE_CRITICAL = [
     '.github/workflows/build-ltmd-u1-w7-civics-ethics-fragseg.yml',
     '.github/workflows/analyze-ltmd-u1-w7-civics-ethics-exact-reuse.yml',
     '.github/workflows/build-ltmd-u1-w7-completion-report.yml',
+    '.github/workflows/analyze-ltmd-u1-w4-w7-technical-comparison.yml',
     'scripts/build_research_integrity_manifest_v08.py',
 ]
 
