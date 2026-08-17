@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.10",
-  "generated_utc": "2026-08-17T04:54:56.747668+00:00",
-  "git_head": "15956025bc9e041bcf1b1c42967244a774619d42",
+  "generated_utc": "2026-08-17T04:56:15.751260+00:00",
+  "git_head": "d363f2db34eeccf93a2ebbd58f4d33e3fab13afa",
   "scope": "LTMD v0.10: frozen v0.9 perimeter plus explicit catalog-cohort versus bibliographic-time semantics, source-verified bibliographic observations with normalized evidence, bounded W7 fingerprints and multipsm/checksum support audit, reproducible presence/acceptance evidence for the five W7 source-withheld identities, the nonsemantic W3-W4-W7 technical comparison, and the governing data-model/provenance/historical-analysis contracts",
   "critical_count": 392,
   "critical_present_count": 392,
@@ -2194,20 +2194,20 @@
     },
     {
       "path": "data/catalog/ltmd_bibliographic_observations.csv",
-      "bytes": 50479,
-      "sha256": "5a90a838bbb429dd816552ce82482fc959e84805e9e043e56e6d19249cdf2800",
+      "bytes": 51725,
+      "sha256": "78ae7b4c9d847e0e0a87e358f03679becdab37ecb06f048a0a83cc1a4347e160",
       "required": true
     },
     {
       "path": "data/catalog/ltmd_bibliographic_observation_evidence.csv",
-      "bytes": 28392,
-      "sha256": "f37662ecc8bbeb9ba9356a42361c0ce6e46d9c066409dbee9ed40029045ad188",
+      "bytes": 29043,
+      "sha256": "392831dd0a67cd63312cb16493ebf1638617570da587a9292c7069946ab02d75",
       "required": true
     },
     {
       "path": "data/catalog/ltmd_bibliographic_observations.md",
-      "bytes": 11523,
-      "sha256": "47ea9fff653926794d5cba316ef8eeb277b1fe2626e91b7d3721cab6640fcb07",
+      "bytes": 1722,
+      "sha256": "d5888683aa778c17010f40e6673324b2eacfdb9ddf8e06857e14037443b05454",
       "required": true
     },
     {
@@ -2224,8 +2224,8 @@
     },
     {
       "path": ".github/workflows/build-ltmd-bibliographic-observations.yml",
-      "bytes": 2178,
-      "sha256": "59501fc4c6596cad3438c0ff9c3a919e1b964ab99a7e3247ed9cd203666c424f",
+      "bytes": 2310,
+      "sha256": "f924864b74cb88a330ca64ebdc522dd022b07c46f270898e672fc2845217d9ee",
       "required": true
     },
     {

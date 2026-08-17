@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.10`.
 
-Commit observado: `15956025bc9e041bcf1b1c42967244a774619d42`.
+Commit observado: `d363f2db34eeccf93a2ebbd58f4d33e3fab13afa`.
 
 Alcance: perímetro v0.9 congelado + separación explícita entre cohorte de catálogo y tiempo bibliográfico, observaciones bibliográficas con evidencia normalizada, huellas W7 y auditoría multipsm/checksum, evidencia reproducible de presencia/criterios de aceptación para las cinco identidades W7 retenidas, comparación técnica no semántica W3↔W4↔W7 y contratos de modelo/gobernanza/análisis histórico correspondientes.
 
@@ -376,12 +376,12 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `docs/DATA_MODEL.md` — 6622 bytes — `74bd39525cb40e6d5c551f77951ba99ace7146aa88019620d713d340da775f0e`
 - `docs/DATA_GOVERNANCE.md` — 12840 bytes — `14a41fa1210931c60c26958f28d2de49ff061b58d2ab5398379776897ec47d26`
 - `docs/HISTORICAL_ANALYSIS_PLAN_0_3.md` — 6867 bytes — `7a47fed4df6181f94982f58fcb129c6f84150ba9997a08b7364d36e0f62f4094`
-- `data/catalog/ltmd_bibliographic_observations.csv` — 50479 bytes — `5a90a838bbb429dd816552ce82482fc959e84805e9e043e56e6d19249cdf2800`
-- `data/catalog/ltmd_bibliographic_observation_evidence.csv` — 28392 bytes — `f37662ecc8bbeb9ba9356a42361c0ce6e46d9c066409dbee9ed40029045ad188`
-- `data/catalog/ltmd_bibliographic_observations.md` — 11523 bytes — `47ea9fff653926794d5cba316ef8eeb277b1fe2626e91b7d3721cab6640fcb07`
+- `data/catalog/ltmd_bibliographic_observations.csv` — 51725 bytes — `78ae7b4c9d847e0e0a87e358f03679becdab37ecb06f048a0a83cc1a4347e160`
+- `data/catalog/ltmd_bibliographic_observation_evidence.csv` — 29043 bytes — `392831dd0a67cd63312cb16493ebf1638617570da587a9292c7069946ab02d75`
+- `data/catalog/ltmd_bibliographic_observations.md` — 1722 bytes — `d5888683aa778c17010f40e6673324b2eacfdb9ddf8e06857e14037443b05454`
 - `scripts/build_ltmd_bibliographic_observations.py` — 7394 bytes — `0df97e6e391272536da3c09fc216ca797d47e40188e1c049db305da9eef44394`
 - `scripts/build_ltmd_bibliographic_observations_v02.py` — 13390 bytes — `d9318362ec18a84a64fa09ad49f1c5f192bb07d32dec45d1477a3917cdcf4d29`
-- `.github/workflows/build-ltmd-bibliographic-observations.yml` — 2178 bytes — `59501fc4c6596cad3438c0ff9c3a919e1b964ab99a7e3247ed9cd203666c424f`
+- `.github/workflows/build-ltmd-bibliographic-observations.yml` — 2310 bytes — `f924864b74cb88a330ca64ebdc522dd022b07c46f270898e672fc2845217d9ee`
 - `data/catalog/ltmd_u1_w7_h2014p5_bibliographic_fingerprint.csv` — 7955 bytes — `fa68c58fc713ec009b21ac1b45ca464fd67151b109ee6d43137317ff20f2f8a1`
 - `data/catalog/ltmd_u1_w7_h2014p5_bibliographic_fingerprint.md` — 7104 bytes — `5b78652a69b1344df25611145c4b8f06931ad86bf5dc7b485bb33a84dcb3e82a`
 - `scripts/extract_ltmd_u1_w7_h2014p5_bibliographic_fingerprint.py` — 8219 bytes — `eb3540891d367904a0e6f3747ba82c379f9b5083ad9311220be70328c24d039c`
