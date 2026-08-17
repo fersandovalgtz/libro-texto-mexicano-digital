@@ -4,14 +4,15 @@
 0.8 preserves the complete 0.7 perimeter and extends it with LTMD-U1 W7
 Civics/Ethics source scope, page-level provenance, viewer routing reconstruction,
 2018 route-conformance evidence, source-admissibility decisions, complete-asset
-relationship analysis, reconciled processing topology, and executable OCR
-controls for the admitted cohort.
+relationship analysis, reconciled processing topology, and executable OCR,
+PAGESTRUCT, FRAGSEG and exact-reuse controls for the admitted cohort.
 
 The historical scope remains 30 catalog identities. Exactly 25 source-admitted,
-non-byte-identical objects are authorized as independent OCR canonicals; five
-identities remain withheld because their official source assets are incomplete or
-unserved. OCR result artifacts are not frozen here until the complete matrix is
-materialized and passes its own coverage/provenance invariants.
+non-byte-identical objects are authorized as independent processing canonicals;
+five identities remain withheld because their official source assets are
+incomplete or unserved. Derived OCR/PAGESTRUCT/FRAGSEG/reuse outputs are frozen
+only after each complete layer materializes and passes its own coverage and
+provenance invariants.
 """
 from __future__ import annotations
 
@@ -77,6 +78,12 @@ W7_PROVENANCE_CRITICAL = [
     'scripts/build_ltmd_u1_w7_processing_topology.py',
     'scripts/ocr_ltmd_u1_w7_civics_ethics_book.py',
     'scripts/combine_ltmd_u1_w7_civics_ethics_ocr.py',
+    'scripts/extract_ltmd_u1_w7_civics_ethics_structural_flags_book.py',
+    'scripts/combine_ltmd_u1_w7_civics_ethics_structural_flags.py',
+    'scripts/classify_ltmd_u1_w7_civics_ethics_page_structure.py',
+    'scripts/segment_ltmd_u1_w7_civics_ethics_fragments.py',
+    'scripts/combine_ltmd_u1_w7_civics_ethics_fragment_shards.py',
+    'scripts/analyze_ltmd_u1_w7_civics_ethics_exact_reuse.py',
     '.github/workflows/validate-ltmd-u1-w7-provenance.yml',
     '.github/workflows/diagnose-ltmd-u1-w7-routing.yml',
     '.github/workflows/extract-ltmd-u1-w7-viewer-route-contract.yml',
@@ -88,6 +95,9 @@ W7_PROVENANCE_CRITICAL = [
     '.github/workflows/analyze-ltmd-u1-w7-admitted-asset-relationships.yml',
     '.github/workflows/build-ltmd-u1-w7-processing-topology.yml',
     '.github/workflows/build-ltmd-u1-w7-civics-ethics-ocr.yml',
+    '.github/workflows/build-ltmd-u1-w7-civics-ethics-pagestruct.yml',
+    '.github/workflows/build-ltmd-u1-w7-civics-ethics-fragseg.yml',
+    '.github/workflows/analyze-ltmd-u1-w7-civics-ethics-exact-reuse.yml',
 
     # This wrapper is itself frozen by 0.8.
     'scripts/build_research_integrity_manifest_v08.py',
