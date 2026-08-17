@@ -1,29 +1,33 @@
 # LTMD-U1 W7 — huella bibliográfica de H2014P5FCA
 
-Versión: `LTMD_U1_W7_H2014P5_BIBLIOGRAPHIC_FINGERPRINT_0.1`.
+Versión: `LTMD_U1_W7_H2014P5_BIBLIOGRAPHIC_FINGERPRINT_0.2`.
 
 - Páginas lógicas auditadas: **1–12**.
 - JPEG verificados contra SHA-256 y tamaño del manifiesto fuente: **12/12**.
-- ISBN detectados por OCR: **ninguno**.
-- Años detectados por OCR: **1962, 2017, 2018**.
+- Página legal sometida a ensemble OCR: **4**, PSM **3, 4, 6, 11, 12**.
+- ISBN estrictos detectados: **ninguno**.
+- ISBN reconstruidos desde línea explícita `ISBN` con normalización OCR conservadora: **ninguno**.
+- Años detectados: **1962, 2010, 2014, 2017, 2018**.
 
-El CSV conserva únicamente líneas OCR con marcadores bibliográficos; no publica el OCR completo de las páginas. La huella sirve para identificar edición/ISBN contra fuentes externas, pero no rellena la página 104 ni modifica `ocr_source_admitted`.
+La normalización difusa sólo sustituye confusiones OCR comunes (O→0, I/l→1, S→5, B→8) dentro de una línea que contiene literalmente `ISBN`; no se aplica a texto arbitrario.
+
+El CSV conserva únicamente líneas OCR con marcadores bibliográficos; no publica el OCR completo. La huella sirve para identificar edición/ISBN contra fuentes externas, pero no rellena la página 104 ni modifica `ocr_source_admitted`.
 
 ## Evidencia por página
 
 ### Página lógica 4
 
-Marcadores OCR: `Formación Cívica y Ética. Quinto grado fue coordinado y editado por la Subsecretaría de Educación Básica de la Secretaría de Educación Pública. || ¡Alejandro RodríguezVázquez Adriana Quezada Rivas pp. 15, 21, 26, 38, 44-45, 49, 51, 58-59, 65-66, 80-81, 84, 87, 89, 100- || Tercera reimpresión, 2017 (ciclo escolar 2017-2018) padres de famila de educación preescolar, primaria y secundaria, la Secretaría de Educación || ia Cita ó maestr(s), profesorfes, docenta(s) y padres de famila aludiendo a ambos géneros,`
+Marcadores OCR: `psm3: Formación Cvicay Ética Quinto grado ue coordinado y editado por a Subsecretaría de Educación Básica dela Secretari de Educación Pública. || Secretaría de Educación Pública || Subsecretaría de Educación Básica || Aurora Almudena Saavedra Solá || osé Ausendo Sánchez Gutiérrez Verónica Florencia Antonio Andrés, Jorge Humberto || “Alejandro Rodríguez Vázquez || Diana Mayén Pérez, Magdalena Andrade Brse Irene León Coxtinica || Diseño: Ediciones Acapulco || Primera edición, 2014 || Tercera relmpresión, 2017 (ilo escolar 2017-2018) || D.R.O Secretarlade Educación Pública, 2014. || a Caja de Cerilos Ediciones, 5. A.de C.W || La Caja de Cerilos Ediciones, 5. A.de C.W || enelmesde — de2017. || En los materiales drigidos a las educadoras, las maestras, los maestros, las madres y los || padres de famili de educación preescolar primaria y secundaria, la Secretaría de Educación || maestr(s), profesorfes, docenta(s) y padres de famila aludiendo a ambos géneros, || La Secretaría de Educación Pública (e) extiende un especial agradecimiento a la Academia || Mexicana de la Lengua porsu participaciónen la revisión dela primera edición 2018. ### psm4: Formación Cvicay Ética Quinto grado ue coordinado y editado por a Subsecretaría de Educación Básica dela Secretari de Educación Pública. || Secretaría de Educación Pública || Subsecretaría de Educación Básica || Aurora Almudena Saavedra Solá || Siivia Conde Flores (coordinación) Greta Margarita Papadlmitriou Cámara, Sinú Miguel a Gaja de ers Ediciones, 5.A.de CV || Revisión técnico pedagógica La Caja de Cerilos Ediciones, 5. A.de C.W || osé Ausendo Sánchez Gutiérrez Verónica Florencia Antonio Andrés, Jorge Humberto || Alejandro Rodriguez Vázquez Adriana Quezada Rivas pp. 15,21, 26, 38,44-45, 49,51, 50-59, 65-66, 20-9, 4, 87,89, 100- || Diana Mayén Pérez, Magdalena Andrade Brse Irene León Coxtinica || Diseño: Ediciones Acapulco || enelmesde — de2017. || Primera edición, 2014 || Do esoar 2017-2010) En los materiales drigidos a las educadoras, las maestras, los maestros, las madres y los || padres de famili de educación preescolar primaria y secundaria, la Secretaría de Educación || O maestr(s), profesorfes, docenta(s) y padres de famila aludiendo a ambos géneros, || DETABUCIN GATUTA-POHSIA SU VENTA La Secretaría de Educación Pública (e extiende un especial agradecimiento a Academia || Mexicana de la Lengua porsu participaciónen la revisión dela primera edición 2018. ### psm6: Formación Cívica y Ética. Quinto grado fue coordinado y editado por la Subsecretaría de Educación Básica de la Secretaría de Educación Pública. || ¡Alejandro RodríguezVázquez Adriana Quezada Rivas pp. 15, 21, 26, 38, 44-45, 49, 51, 58-59, 65-66, 80-81, 84, 87, 89, 100- || Tercera reimpresión, 2017 (ciclo escolar 2017-2018) padres de famila de educación preescolar, primaria y secundaria, la Secretaría de Educación || ia Cita ó maestr(s), profesorfes, docenta(s) y padres de famila aludiendo a ambos géneros, ### psm11: Formación Cvicay Ética Quinto grado fue coordinado y editado por a Subsecretaría de Educación Básica dela Secretaría de Educación Pública || Secretaría de Educación Pública || Subsecretaría de Educación Básica || Aurora Almudena Saavedra Solá || a Caja de Cerilos Ediciones, 5. A.de C.W || La Caja de Cerilos Ediciones, 5. A.de C.W || osé Ausendo Sánchez Gutiérrez Verónica Florencia Antonio Andrés, Jorge Humberto || “Alejandro Rodríguez Vázquez || Adriana Quezada Rivas pp. 15,21, 26, 38,44-45, 49,51, 50-59, 65-66, 20-9, 4, 87,89, 100- || Diana Mayén Pérez, Magdalena Andrade Brse Irene León Coxtinica || Diseño: Ediciones Acapulco || de2017. || Primera edición, 2014 || En los materiales drigidos a las educadoras, las maestras, los maestros, las madres y los || Tercera relmpresión, 2017 (ilo escolar 2017-2018) || padres de famili de educación preescolar primaria y secundaria, la Secretaría de Educación || D.R.O Secretarlade Educación Pública, 2014. || maestr(s), profesorfes, docenta(s) y padres de famila aludiendo a ambos géneros, || La Secretaría de Educación Pública (e) extiende un especial agradecimiento a la Academia || Mexicana de la Lengua porsu participaciónen la revisión dela primera edición 2018. ### psm12: Formación Cvicay Ética Quinto grado fue coordinado y editado por a Subsecretaría de Educación Básica dela Secretaría de Educación Pública || Secretaría de Educación Pública || Subsecretaría de Educación Básica || Aurora Almudena Saavedra Solá || a Caja de Cerilos Ediciones, 5. A.de C.W || La Caja de Cerilos Ediciones, 5. A.de C.W || osé Ausendo Sánchez Gutiérrez Verónica Florencia Antonio Andrés, Jorge Humberto || “Alejandro Rodríguez Vázquez || Adriana Quezada Rivas pp. 15,21, 26, 38,44-45, 49,51, 50-59, 65-66, 20-9, 4, 87,89, 100- || Diana Mayén Pérez, Magdalena Andrade Brse Irene León Coxtinica || Diseño: Ediciones Acapulco || de2017. || Primera edición, 2014 || En los materiales drigidos a las educadoras, las maestras, los maestros, las madres y los || Tercera relmpresión, 2017 (ilo escolar 2017-2018) || padres de famili de educación preescolar primaria y secundaria, la Secretaría de Educación || D.R.O Secretarlade Educación Pública, 2014. || maestr(s), profesorfes, docenta(s) y padres de famila aludiendo a ambos géneros, || La Secretaría de Educación Pública (e) extiende un especial agradecimiento a la Academia || Mexicana de la Lengua porsu participaciónen la revisión dela primera edición 2018.`
 
 ### Página lógica 5
 
-Marcadores OCR: `E libro de texto que tienes en tus manos fue elaborado por la Secretaría de Educación || Muchos padres de familia y maestros participaron en su creación, trabajando con`
+Marcadores OCR: `psm6: E libro de texto que tienes en tus manos fue elaborado por la Secretaría de Educación || Conforme avancen las clases a lo largo del ciclo escolar, tus profesores profundizarán || Muchos padres de familia y maestros participaron en su creación, trabajando con`
 
 ### Página lógica 8
 
-Marcadores OCR: `En un recuadro se indica silaleo= 1 . 2% a`
+Marcadores OCR: `psm6: En un recuadro se indica silaleo= 1 . 2% a`
 
 ### Página lógica 9
 
-Marcadores OCR: `PETT e ee En los recuadros Palabras cla-`
+Marcadores OCR: `psm6: PETT e ee En los recuadros Palabras cla-`
 
