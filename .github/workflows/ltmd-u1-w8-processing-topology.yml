@@ -1,0 +1,69 @@
+name: LTMD U1 W8 processing topology
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - scripts/build_ltmd_u1_w8_artes_processing_topology.py
+      - data/catalog/ltmd_u1_w8_artes_source_admissibility.csv
+      - data/catalog/ltmd_u1_w8_artes_asset_manifest.csv
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ltmd-u1-w8-processing-topology
+  cancel-in-progress: false
+
+jobs:
+  build-topology:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build closed W8 processing topology
+        run: python scripts/build_ltmd_u1_w8_artes_processing_topology.py
+
+      - name: Verify generated contract
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+
+          proc = list(csv.DictReader(Path('data/catalog/ltmd_u1_w8_processing_inventory.csv').open(encoding='utf-8', newline='')))
+          pages = list(csv.DictReader(Path('data/catalog/ltmd_u1_w8_canonical_page_manifest.csv').open(encoding='utf-8', newline='')))
+          admitted = [r for r in proc if r['ocr_identity_eligible'] == '1']
+          retained = [r for r in proc if r['ocr_identity_eligible'] == '0']
+          assert len(proc) == 20, len(proc)
+          assert len(admitted) == 16, len(admitted)
+          assert len(retained) == 4, len(retained)
+          assert len(pages) == 1490, len(pages)
+          assert len({r['page_id'] for r in pages}) == 1490
+          assert {r['viewer_key'] for r in pages} == {r['viewer_key'] for r in admitted}
+          assert all(r['processing_mode'] == 'direct_canonical' for r in admitted)
+          assert all(r['processing_mode'] == 'withheld_source' for r in retained)
+          assert all(r['sha256'] and len(r['sha256']) == 64 for r in pages)
+          print('W8 processing topology contract verified: 20 / 16 / 4 / 1490')
+          PY
+
+      - name: Publish generated topology when changed
+        run: |
+          if git diff --quiet -- \
+            data/catalog/ltmd_u1_w8_processing_inventory.csv \
+            data/catalog/ltmd_u1_w8_canonical_page_manifest.csv \
+            docs/LTMD_U1_W8_ARTES_PROCESSING_TOPOLOGY.md; then
+            echo 'No topology changes to publish.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            data/catalog/ltmd_u1_w8_processing_inventory.csv \
+            data/catalog/ltmd_u1_w8_canonical_page_manifest.csv \
+            docs/LTMD_U1_W8_ARTES_PROCESSING_TOPOLOGY.md
+          git commit -m 'data(w8): publish closed processing topology'
+          git push
