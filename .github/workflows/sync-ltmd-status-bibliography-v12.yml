@@ -1,0 +1,42 @@
+name: sync-ltmd-status-bibliography-v12
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/sync_ltmd_status_bibliography_v12.py'
+      - '.github/workflows/sync-ltmd-status-bibliography-v12.yml'
+
+concurrency:
+  group: ltmd-status-bibliography-v12
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch only anchored coverage/integrity/status regions
+        run: python3 scripts/sync_ltmd_status_bibliography_v12.py
+      - name: Publish master-status synchronization race-safely
+        run: |
+          set -euo pipefail
+          cp docs/LTMD_STATUS_2026-08-16.md /tmp/LTMD_STATUS_2026-08-16.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/LTMD_STATUS_2026-08-16.md docs/LTMD_STATUS_2026-08-16.md
+            git add docs/LTMD_STATUS_2026-08-16.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Synchronize LTMD bibliographic coverage and integrity 0.12 status'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
