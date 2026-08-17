@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.11",
-  "generated_utc": "2026-08-17T05:05:53.620091+00:00",
-  "git_head": "47ed0926086a0492336b84e61ce1322983460fd2",
+  "generated_utc": "2026-08-17T05:07:10.202086+00:00",
+  "git_head": "37f469a01377503c3c5c67d91d2e716426d5725d",
   "scope": "LTMD v0.11: frozen v0.10 perimeter plus a causally reproducible bibliographic instance-candidate chain (support audit -> narrow OCR recovery 0.2 -> observations 0.4 -> candidates 0.3), publication-safe candidate evidence tiers, and explicit supersession of the older instance-resolution interpretation",
   "critical_count": 405,
   "critical_present_count": 405,
