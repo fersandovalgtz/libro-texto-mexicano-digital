@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.12",
-  "generated_utc": "2026-08-17T06:10:45.950859+00:00",
-  "git_head": "054a051fd8fb7ebb5e1aef3b3b699e1b9115b8b3",
+  "generated_utc": "2026-08-17T06:11:30.618012+00:00",
+  "git_head": "9bdce3630faa7ec8d4520b5897f352ce0618382c",
   "scope": "LTMD v0.12: frozen v0.11 perimeter plus the 30-identity W7 source-versus-bibliographic-readiness matrix and a bounded, source-verified logical-pages-13..20 school-cycle probe for the 12 admitted W7 objects without a strong cycle observation",
   "critical_count": 414,
   "critical_present_count": 414,
@@ -16,8 +16,8 @@
   "files": [
     {
       "path": "README.md",
-      "bytes": 12971,
-      "sha256": "360606d7b4428c33e3f979f063a7184d0fdc6470025922927ec7db135a1f3570",
+      "bytes": 14204,
+      "sha256": "40756bf3dfd2a7d2362ecc98acd9abf1e61bbd82b9582e8f585fcd4c390e16f2",
       "required": true
     },
     {
