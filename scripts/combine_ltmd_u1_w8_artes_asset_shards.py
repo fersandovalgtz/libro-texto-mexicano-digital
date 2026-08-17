@@ -9,7 +9,7 @@ DECL=Path('data/catalog/ltmd_u1_w8_declared_inventory.csv')
 OUT=Path('data/catalog/ltmd_u1_w8_artes_asset_manifest.csv')
 SUMMARY=Path('data/catalog/ltmd_u1_w8_artes_asset_summary.csv')
 REPORT=Path('data/catalog/ltmd_u1_w8_artes_asset_audit.md')
-VERSION='LTMD_U1_W8_ARTES_ASSET_AUDIT_0.1'
+VERSION='LTMD_U1_W8_ARTES_ASSET_AUDIT_0.2'
 EXPECTED=20
 
 def main():
@@ -28,6 +28,13 @@ def main():
         if len(rr)!=expected:raise SystemExit(f'W8 cardinality mismatch {key}: {len(rr)} vs {expected}')
         if any(r['probe_state']=='probe_error' or r['asset_status']=='probe_error' for r in rr):raise SystemExit(f'W8 probe error persisted {key}')
         if {r['ag_clave'] for r in rr}!={decl[key]['ag_clave']}:raise SystemExit(f'W8 ag_clave drift {key}')
+        terminal=[r for r in rr if r['asset_status']=='terminal_synthetic_candidate']
+        if len(terminal)>1:raise SystemExit(f'W8 multiple terminal candidates {key}')
+        if terminal:
+            t=terminal[0]
+            if t['is_final_declared_position']!='1':raise SystemExit(f'W8 non-final terminal candidate {key}')
+            prior=[r for r in rr if int(r['viewer_page'])<int(t['viewer_page'])]
+            if not prior or any(r['asset_status']!='source_jpeg' for r in prior):raise SystemExit(f'W8 invalid terminal candidate with incomplete prior sequence {key}')
         rows+=rr
     if set(seen)!=set(scope) or len(seen)!=len(set(seen)):raise SystemExit('W8 viewer coverage/duplicate mismatch')
     if len(rows)!=sum(int(r['declared_positions']) for r in decl.values()):raise SystemExit('W8 total declared-position mismatch')
@@ -41,11 +48,11 @@ def main():
         g=gen[scope[key]['catalog_generation']];g['viewers']+=1;g['ready']+=ready;g['declared']+=len(rr);g['served']+=len(served);g['internal']+=internal;g['terminal']+=terminal
     with SUMMARY.open('w',encoding='utf-8',newline='') as f:w=csv.DictWriter(f,fieldnames=list(summaries[0]));w.writeheader();w.writerows(summaries)
     ready=sum(int(r['direct_asset_ready']) for r in summaries);internal=sum(int(r['internal_unserved']) for r in summaries);served=sum(int(r['source_jpegs']) for r in summaries);terminal=sum(int(r['terminal_synthetic_candidates']) for r in summaries);nonstandard=sum(r['viewer_ui']=='nonstandard_viewer_architecture' for r in summaries)
-    lines=['# LTMD-U1 W8 — auditoría de activos Artes','',f'Versión: `{VERSION}`.','',f'- Visores auditados: **{len(summaries)}/{EXPECTED}**.',f'- Visores de arquitectura HTML no estándar: **{nonstandard}**.',f'- Posiciones declaradas: **{len(rows):,}**.',f'- JPEG servidos y hasheados: **{served:,}**.',f'- Candidatos terminales sintéticos: **{terminal}**.',f'- Posiciones internas no servidas: **{internal}**.',f'- Visores `direct_asset_ready`: **{ready}/{EXPECTED}**.','','## Por generación','', '| generación | visores | ready | declaradas | JPEG | terminales | internos no servidos |','|---:|---:|---:|---:|---:|---:|---:|']
+    lines=['# LTMD-U1 W8 — auditoría de activos Artes','',f'Versión: `{VERSION}`.','',f'- Visores auditados: **{len(summaries)}/{EXPECTED}**.',f'- Visores de arquitectura HTML no estándar: **{nonstandard}**.',f'- Posiciones declaradas: **{len(rows):,}**.',f'- JPEG servidos y hasheados: **{served:,}**.',f'- Candidatos terminales sintéticos estrictos: **{terminal}**.',f'- Posiciones no servidas: **{internal}**.',f'- Visores `direct_asset_ready`: **{ready}/{EXPECTED}**.','','## Por generación','', '| generación | visores | ready | declaradas | JPEG | terminales estrictos | no servidos |','|---:|---:|---:|---:|---:|---:|---:|']
     for g in sorted(gen,key=int):lines.append(f"| {g} | {gen[g]['viewers']} | {gen[g]['ready']} | {gen[g]['declared']:,} | {gen[g]['served']:,} | {gen[g]['terminal']} | {gen[g]['internal']} |")
     bad=[r for r in summaries if not int(r['direct_asset_ready'])]
-    if bad:lines+=['','## Visores que requieren resolución adicional']+[f"- `{r['viewer_key']}` ({r['catalog_generation']}, grado {r['grade_code']}, UI={r['viewer_ui']}): internos={r['internal_unserved']}; terminales={r['terminal_synthetic_candidates']}; JPEG={r['source_jpegs']}/{r['declared_positions']}." for r in bad]
-    lines += ['', '## Regla', 'Cada byte servido se recorre sólo para SHA-256 y tamaño; no se persisten JPEG. Un 404 final se conserva como candidato terminal y un 404 interno como anomalía. `direct_asset_ready` es un estado técnico de fuente y no acredita independencia documental, continuidad histórica ni equivalencia curricular.', '', 'Coincidencias de título, grado, generación o cardinalidad no autorizan aliases. OCR W8 permanece cerrado hasta analizar relaciones exactas entre activos, routing y huecos.']
+    if bad:lines+=['','## Visores que requieren resolución adicional']+[f"- `{r['viewer_key']}` ({r['catalog_generation']}, grado {r['grade_code']}, UI={r['viewer_ui']}): no_servidos={r['internal_unserved']}; terminales={r['terminal_synthetic_candidates']}; JPEG={r['source_jpegs']}/{r['declared_positions']}." for r in bad]
+    lines += ['', '## Regla', 'Cada byte servido se recorre sólo para SHA-256 y tamaño; no se persisten JPEG. Un 404 final sólo puede clasificarse como `terminal_synthetic_candidate` cuando todas las posiciones declaradas anteriores fueron servidas como imagen. Si existe cualquier hueco previo —incluido un subárbol totalmente ausente— el 404 final permanece `internal_unserved`. `direct_asset_ready` es un estado técnico de fuente y no acredita independencia documental, continuidad histórica ni equivalencia curricular.', '', 'Coincidencias de título, grado, generación o cardinalidad no autorizan aliases. OCR W8 permanece cerrado hasta analizar relaciones exactas entre activos, routing y huecos.']
     REPORT.write_text('\n'.join(lines)+'\n',encoding='utf-8');print(REPORT.read_text(encoding='utf-8'))
 
 if __name__=='__main__':main()
