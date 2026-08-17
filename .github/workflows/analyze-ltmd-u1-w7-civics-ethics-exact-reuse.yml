@@ -2,11 +2,9 @@ name: analyze-ltmd-u1-w7-civics-ethics-exact-reuse
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'data/catalog/ltmd_u1_w7_civics_ethics_fragment_manifest.csv'
-      - 'data/catalog/ltmd_u1_w7_civics_ethics_fragment_manifest_summary.csv'
-      - 'data/catalog/ltmd_u1_w7_civics_ethics_fragment_manifest.md'
+  workflow_run:
+    workflows: ['build-ltmd-u1-w7-civics-ethics-fragseg']
+    types: [completed]
 
 permissions:
   contents: write
@@ -17,6 +15,7 @@ concurrency:
 
 jobs:
   analyze:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
