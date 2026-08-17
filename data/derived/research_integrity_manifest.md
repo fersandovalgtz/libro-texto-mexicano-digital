@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.12`.
 
-Commit observado: `3d8a245d8ed85035a06d540ba535ed39f80aea7c`.
+Commit observado: `fe49af6fb3b05cbb48538bb524f0e1d0a973baab`.
 
 Alcance: perímetro v0.11 congelado + matriz W7 de 30 identidades que separa readiness de fuente y cronología bibliográfica + probe acotado, verificado contra fuente, de páginas lógicas 13–20 para los 12 objetos admitidos sin observación fuerte de ciclo escolar.
 
@@ -180,7 +180,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `.github/workflows/check-release-candidate.yml` — 2195 bytes — `ea162ccdde5fedc6af6b023d6e8d0a081aecca08686f59d4c69af9a173c2fbe7`
 - `.github/workflows/build-research-integrity-manifest.yml` — 3254 bytes — `819cba782ff3e01612dcd6509b6f25bf82367a668fa96224b511878bd14894ee`
 - `docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md` — 4193 bytes — `29e09613813214d2ea3e00c4d10c6a7f5c5786452629be779af899e20e81638f`
-- `docs/LTMD_STATUS_2026-08-16.md` — 24473 bytes — `b665681131350e97de1c7d277b727032534cbf55bde9c03084a578642f6803ce`
+- `docs/LTMD_STATUS_2026-08-16.md` — 28410 bytes — `3c75a460426cf11f5c3388c1b81258a77d3de1ca693be1abce21fb188a295ed2`
 - `data/catalog/ltmd_u1_w3_scope.csv` — 16769 bytes — `0d630fc85a3e709092174b5bb16b2a224527a9c067f36bcd4de4af19183a2038`
 - `data/catalog/ltmd_u1_w3_scope.md` — 519 bytes — `e61aede5bc80c7e0ef96ede7367c4bac62488e3f5d41733cad1475abb34499c8`
 - `data/catalog/ltmd_u1_w3_viewer_architecture.csv` — 17615 bytes — `5aaf3039916deb97af436732fa9323a9f22e4d3bc439df90447d749f41da1ba8`
@@ -416,7 +416,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/build_ltmd_bibliographic_instance_candidates_v02.py` — 13283 bytes — `74711c2ba38ce13878f75a0cc704f4802ca50f80daa68289cd00537dbe9d14d8`
 - `scripts/build_ltmd_bibliographic_instance_candidates_v03.py` — 1727 bytes — `3393d87c15b12c98501af706c68f9b479ac7ae2c444c8d3a3f143c9158bfeeaf`
 - `.github/workflows/build-ltmd-bibliographic-instance-candidates.yml` — 1942 bytes — `bb7385b4d4d98317f7681321829e02b19763a4e763412e9f10d62c9a30bf662f`
-- `docs/LTMD_BIBLIOGRAPHIC_INSTANCE_POLICY_0_1.md` — 5848 bytes — `2f033a549b8f2a7f963d9d1e18d9246ce1f9a855cc4fffff46a32f1d4422562b`
+- `docs/LTMD_BIBLIOGRAPHIC_INSTANCE_POLICY_0_1.md` — 7100 bytes — `9b57e51b5edfc8a314b6f64db46dabc499531e4429832b784d02c3d4317acb5e`
 - `scripts/build_research_integrity_manifest_v11.py` — 3541 bytes — `aba345f952f141bbee5376aa00753e645e9bfec00d6d517c7da466ab127929f5`
 - `data/derived/ltmd_u1_w7_bibliographic_coverage.csv` — 7400 bytes — `33e1e0e1d5f11bc7c925c8704a77f4c6beaacc6ca0815bcfb7e2de3ff2f9214c`
 - `docs/LTMD_U1_W7_BIBLIOGRAPHIC_COVERAGE.md` — 5514 bytes — `8a2b767a7d1e130c1fd21b29da75c35a32217dac37c4828ac5758c04414ffaf0`
