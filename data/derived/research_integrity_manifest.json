@@ -1,10 +1,10 @@
 {
-  "integrity_version": "LTMD_INTEGRITY_0.12",
-  "generated_utc": "2026-08-17T18:37:58.280584+00:00",
-  "git_head": "d3404e5d90c00472e2dad3e44221a02a7edb0f33",
-  "scope": "LTMD v0.12: frozen v0.11 perimeter plus the 30-identity W7 source-versus-bibliographic-readiness matrix and a bounded, source-verified logical-pages-13..20 school-cycle probe for the 12 admitted W7 objects without a strong cycle observation",
-  "critical_count": 414,
-  "critical_present_count": 414,
+  "integrity_version": "LTMD_INTEGRITY_0.13",
+  "generated_utc": "2026-08-17T18:38:18.943713+00:00",
+  "git_head": "7c05867c52a0ae6e5718f01b5459c4ea95bc41d9",
+  "scope": "LTMD v0.13: frozen v0.12 perimeter plus the source-admitted LTMD-U1 W8 Artes technical closure: 20 historical identities preserved, 16 direct canonical processing objects, four 2018 source-retained identities without imputation, 1,490 SHA-traced source pages, closed OCR/PAGESTRUCT/FRAGSEG, exact-text dependence products, explicit dispatch controls, and the W8 cross-layer completion validator/report",
+  "critical_count": 468,
+  "critical_present_count": 468,
   "missing_critical": [],
   "optional_present_count": 9,
   "optional_missing": [
@@ -1006,8 +1006,8 @@
     },
     {
       "path": ".github/workflows/build-research-integrity-manifest.yml",
-      "bytes": 3254,
-      "sha256": "819cba782ff3e01612dcd6509b6f25bf82367a668fa96224b511878bd14894ee",
+      "bytes": 3280,
+      "sha256": "7d1d2beaa35d29109ae41af2352b1db856c5ab15ed2ae8e281af776ee7325625",
       "required": true
     },
     {
@@ -2496,6 +2496,330 @@
       "path": "scripts/build_research_integrity_manifest_v12.py",
       "bytes": 2806,
       "sha256": "b7d3db261120c4b28099296f217c70622bf2a86b70f537080697aae550007de1",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_scope.csv",
+      "bytes": 2489,
+      "sha256": "e4488db6a1c763fbc56b700aafcbf93abb8dbc7b7f7cceb7f9cdb280f6e43cab",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_scope.md",
+      "bytes": 997,
+      "sha256": "999026eadcc8def8d15a0f645885b3b6d7c70a96cffdde358aa4038d7afc67c1",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w8_artes_scope.py",
+      "bytes": 3637,
+      "sha256": "2832da1467d3134facd3a97296b94a0a9b873f7dd540a84953911288810bf976",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_viewer_architecture.csv",
+      "bytes": 2863,
+      "sha256": "1c3cd41cc102586fb43030a4cd33fa310d53ecfb0a03e9f839e43f01d12274d1",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_viewer_architecture.md",
+      "bytes": 740,
+      "sha256": "f8c253f403ad09506389e8e313de0ba606e54c675cdd5b73daab79d264a56351",
+      "required": true
+    },
+    {
+      "path": "scripts/audit_ltmd_u1_w8_artes_architecture.py",
+      "bytes": 3226,
+      "sha256": "d2d2a2f901d8f4a85517e99c5aec0a3233dc0c5657e5b0c921471637c5995e53",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_declared_inventory.csv",
+      "bytes": 3009,
+      "sha256": "23248acf09ad6e86e24e69f363915a9f47a175196c7be8b7e34ec43f39a0f82b",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_declared_inventory_summary.csv",
+      "bytes": 388,
+      "sha256": "e601e65c6c0cf62d2fb2f7026803e8d4ee605547ecdc831dae44d58dd3367acf",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_declared_inventory.md",
+      "bytes": 831,
+      "sha256": "380013528831eab5e417d7e032d23cb0001b62fa0b3fc8acc7f9f28ec200f2ed",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w8_artes_declared_inventory.py",
+      "bytes": 4131,
+      "sha256": "d15acc160dacde2ee0e87f33fce8d8aaccf03d508967cbac1e98b74b05372ad9",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_asset_manifest.csv",
+      "bytes": 515430,
+      "sha256": "eb9a903f9d2011b452e89afcc8378fa0bef9303fd27c7a0266669a5b8503bd20",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_asset_summary.csv",
+      "bytes": 2732,
+      "sha256": "aed49d8e7db08acf1af1323620c511aa861cd7c04469b54eae716296e4f4560e",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_asset_audit.md",
+      "bytes": 1819,
+      "sha256": "dd71e837a54defe26853f0f76b4ac79560a51e80e2282b156d7067f6332f7bf5",
+      "required": true
+    },
+    {
+      "path": "scripts/audit_ltmd_u1_w8_artes_assets_book.py",
+      "bytes": 4804,
+      "sha256": "584e06b2844391902bb659f1176374bb0a89564c6d80aa8f1e15c4143e4884aa",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_source_admissibility.csv",
+      "bytes": 6710,
+      "sha256": "0d88e3734229f5fd60ebc74e9c50f618326dd97a89e3d0f3b4dc328816c722b1",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W8_ARTES_SOURCE_ADMISSIBILITY.md",
+      "bytes": 3214,
+      "sha256": "bdce259ada35870c207bc705a4990deb8900228d21cd26df9c78b0d65cc923ad",
+      "required": true
+    },
+    {
+      "path": "scripts/audit_ltmd_u1_w8_artes_source_admissibility.py",
+      "bytes": 9474,
+      "sha256": "b30b4b64d362f44223ed68526a597610e956c596f05dc89c4d33529ad79f673e",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_processing_inventory.csv",
+      "bytes": 4819,
+      "sha256": "9238cdf29a0499b1f3ef3eca21e480fef5912b86fdcf6bc1011683a1577d2a39",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_canonical_page_manifest.csv",
+      "bytes": 485559,
+      "sha256": "92eca73b35ba3656f98b810d5625a8dad47cf27a02fed4352f0c509436dd1f38",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W8_ARTES_PROCESSING_TOPOLOGY.md",
+      "bytes": 1415,
+      "sha256": "6c1af2874436b5c7dfb911d27abede2fafde4bec072a6154652e7734ec03d04a",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w8_artes_processing_topology.py",
+      "bytes": 10843,
+      "sha256": "808f484d0928cc6a5e00878fe26b910e0db73c4adf0b1cf9ae3a323718e24bf5",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/ltmd-u1-w8-processing-topology-publish.yml",
+      "bytes": 2439,
+      "sha256": "f70a25a0fb8ac0d56235f1e5afd58e7756790ed980f27d93ee3a50e0b9fc8b06",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_ocr_metrics.csv",
+      "bytes": 338761,
+      "sha256": "e872749c6ba4215dca6a822e9a326e949c90ca6a20fb72dcab5bfd892a2092bc",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_ocr_summary.csv",
+      "bytes": 1921,
+      "sha256": "9c6aae2b93d4418bfccdab120db691048e088aed9c857aa1ad90b339775d5903",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_ocr.md",
+      "bytes": 973,
+      "sha256": "0bc291385960541601056a5159c82f7563b56dff6cff94ad2c60913c1cd03abc",
+      "required": true
+    },
+    {
+      "path": "scripts/ocr_ltmd_u1_w8_artes_book.py",
+      "bytes": 10149,
+      "sha256": "7f259c9903f8bbf586090eb6a0cfd58c8b7608842169b7df326ca9b0c3f6aedb",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_ltmd_u1_w8_artes_ocr.py",
+      "bytes": 5751,
+      "sha256": "c3cc0bb22150fafce412cdb4867e78695bd6573d7604b435e6b91f777db3b13f",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w8-artes-ocr.yml",
+      "bytes": 4155,
+      "sha256": "2bd8915d2bcd0017441b9c0acd85854afcfa425d9099bde5fcbc9e7c3a03cf43",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_structural_keyword_flags.csv",
+      "bytes": 57442,
+      "sha256": "a2fdf08b6df03487353a1c8c0fac39755407eff38641583ab53c613bc849f43c",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_page_structure.csv",
+      "bytes": 276768,
+      "sha256": "b19ad0e3f4d9660d09d18debb403de03c48197cbd269a65add12389adf8a854b",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_page_structure_summary.csv",
+      "bytes": 682,
+      "sha256": "8c836f3f112bd58873713bbaebf4399e1199fb9bb0b5fcfe53fce1c7afd052dd",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_page_structure.md",
+      "bytes": 918,
+      "sha256": "859e3774b3d90a2cf6d1393b138776fc697ac0f5b26e2d636fc19e3d6ea2b578",
+      "required": true
+    },
+    {
+      "path": "scripts/extract_ltmd_u1_w8_artes_structural_flags_book.py",
+      "bytes": 5046,
+      "sha256": "2d7fa7217c82ae2a88ce2acac1a20b8a296eb389501688cee797b6a5a4ae1f76",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_ltmd_u1_w8_artes_structural_flags.py",
+      "bytes": 2244,
+      "sha256": "f7db7f7de029cff1828b6b22870858ea39780bffe2a8a5bfeb3f3029a3ed733e",
+      "required": true
+    },
+    {
+      "path": "scripts/classify_ltmd_u1_w8_artes_page_structure.py",
+      "bytes": 5776,
+      "sha256": "1f1295837e70386fc0d6261627c1075a3a7847e1e4534a63c3df89c7a9dc2b2a",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w8-artes-pagestruct.yml",
+      "bytes": 4861,
+      "sha256": "cb93dee57fc131156b02e5cd86f53c8c8d52894352cae4960f428355a05d23cf",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_fragment_manifest.csv",
+      "bytes": 3454883,
+      "sha256": "a7fe2b1772aa7960c56a49ad4c85aa122d2591626f8aa16d7d21d87fc07f9f69",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_fragment_manifest_summary.csv",
+      "bytes": 1501,
+      "sha256": "2ce061aa49bba91951074222547015fea5628c3e7d591ffaed048716a866a63a",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_fragment_sequence_gaps.csv",
+      "bytes": 2806,
+      "sha256": "eb295d111212a13078638619db2095f0171c40e62e3049efa0f392435506ee29",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_fragment_manifest.md",
+      "bytes": 1034,
+      "sha256": "30b5c542dd166cd4a49d0065f3b2defea4eae1726b4ae80e78cb90c0b4607e17",
+      "required": true
+    },
+    {
+      "path": "scripts/segment_ltmd_u1_w8_artes_fragments.py",
+      "bytes": 1195,
+      "sha256": "29f334d278ae29f4b0635bc6d65b5bb81118a5d1bee9628f3d087f328e809c77",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_ltmd_u1_w8_artes_fragment_shards.py",
+      "bytes": 5908,
+      "sha256": "f6994ea4ab4c4edcd2371b22b47d0aa920af11187218b6ba5bbe1cc29e246244",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w8-artes-fragseg.yml",
+      "bytes": 4611,
+      "sha256": "9aaf869f64e8cc1a7560281dde4338b56df1299bce6801f181edf00f9cbe0f42",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_exact_content_units.csv",
+      "bytes": 1429472,
+      "sha256": "6033d7b0e13a9ec396ad431e0cb0c33e8482a47a98f09307a8b2fd149ccdfd0e",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_exact_viewer_overlap.csv",
+      "bytes": 13897,
+      "sha256": "019aaae9283a6fabb45ea6b85440371cd2453cda7821fdc8dc1657db84e63d28",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w8_artes_exact_reuse.md",
+      "bytes": 2545,
+      "sha256": "6fcf92e759100285e54e58a4fb65bda6249cb0f4c7ca072b6e0c312401501ae9",
+      "required": true
+    },
+    {
+      "path": "scripts/analyze_ltmd_u1_w8_artes_exact_reuse.py",
+      "bytes": 5984,
+      "sha256": "078bffc93083c278c93b4dea41e891403a3e2b9232b41ca511519ee82cfaf018",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/dispatch-ltmd-u1-w8-artes-exact-reuse.yml",
+      "bytes": 2892,
+      "sha256": "5b40cadc518c0d7f0cd7a13fd066c4eca14a27c788b5df1d2386bf21be22c4e8",
+      "required": true
+    },
+    {
+      "path": "data/control/ltmd_u1_w8_artes_exact_reuse_trigger.txt",
+      "bytes": 225,
+      "sha256": "77e57dde3cf9abb0684758327d5da01c096dbf4f22398cbd8cb2398d65252f5e",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W8_COMPLETION.md",
+      "bytes": 1965,
+      "sha256": "9a2736725caa534524780b0c3aaabf113267130c17a21569e3702ebfb221cdd3",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w8_completion_report.py",
+      "bytes": 8545,
+      "sha256": "ff534292fb67262e25d4260eee0482d6e40f8ba09eb8ad0d6f342a1b30305a8f",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w8-completion-report.yml",
+      "bytes": 1409,
+      "sha256": "b9cd66a7361b73c43ac4ed0d9b8149dea30edb4bba39b3ccc173885407492a83",
+      "required": true
+    },
+    {
+      "path": "data/control/ltmd_u1_w8_completion_trigger.txt",
+      "bytes": 475,
+      "sha256": "133b5774df6d56507fa7104b36f9e3eb2ecdc8788cc9ee683fef153b586ae905",
+      "required": true
+    },
+    {
+      "path": "scripts/build_research_integrity_manifest_v13.py",
+      "bytes": 4502,
+      "sha256": "b98960d72108aef45b69488cc0030b7fe879bf86a858bae13beabe42b3c572ff",
       "required": true
     },
     {

@@ -1,12 +1,12 @@
 # Manifiesto de integridad científica LTMD
 
-Versión: `LTMD_INTEGRITY_0.12`.
+Versión: `LTMD_INTEGRITY_0.13`.
 
-Commit observado: `d3404e5d90c00472e2dad3e44221a02a7edb0f33`.
+Commit observado: `7c05867c52a0ae6e5718f01b5459c4ea95bc41d9`.
 
-Alcance: perímetro v0.11 congelado + matriz W7 de 30 identidades que separa readiness de fuente y cronología bibliográfica + probe acotado, verificado contra fuente, de páginas lógicas 13–20 para los 12 objetos admitidos sin observación fuerte de ciclo escolar.
+Alcance: perímetro v0.12 congelado + cierre técnico LTMD-U1 W8 Artes con fuente admisible: 20 identidades históricas preservadas, 16 objetos canónicos de procesamiento directo, cuatro identidades 2018 retenidas por fuente sin imputación, 1,490 páginas fuente trazadas por SHA, OCR/PAGESTRUCT/FRAGSEG cerrados, productos de dependencia textual exacta, controles explícitos de despacho y validador/informe transversal de cierre W8.
 
-Archivos críticos presentes: **414/414**.
+Archivos críticos presentes: **468/468**.
 Artefactos opcionales presentes: **9**.
 
 Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; la desaparición de un artefacto crítico hace fallar el workflow.
@@ -178,7 +178,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/build_research_integrity_manifest.py` — 13838 bytes — `c4a8f2f9b884a4ea2c8776329e5829fa3bd6eb9cfea55b5350ff62ee7de2cd1c`
 - `scripts/build_research_integrity_manifest_v06.py` — 1363 bytes — `28468c6873055c7089bce221b98e67d1fbcc3b941aac56a18ed746a329d30069`
 - `.github/workflows/check-release-candidate.yml` — 2195 bytes — `ea162ccdde5fedc6af6b023d6e8d0a081aecca08686f59d4c69af9a173c2fbe7`
-- `.github/workflows/build-research-integrity-manifest.yml` — 3254 bytes — `819cba782ff3e01612dcd6509b6f25bf82367a668fa96224b511878bd14894ee`
+- `.github/workflows/build-research-integrity-manifest.yml` — 3280 bytes — `7d1d2beaa35d29109ae41af2352b1db856c5ab15ed2ae8e281af776ee7325625`
 - `docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md` — 4193 bytes — `29e09613813214d2ea3e00c4d10c6a7f5c5786452629be779af899e20e81638f`
 - `docs/LTMD_STATUS_2026-08-16.md` — 28410 bytes — `3c75a460426cf11f5c3388c1b81258a77d3de1ca693be1abce21fb188a295ed2`
 - `data/catalog/ltmd_u1_w3_scope.csv` — 16769 bytes — `0d630fc85a3e709092174b5bb16b2a224527a9c067f36bcd4de4af19183a2038`
@@ -427,6 +427,60 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/probe_ltmd_u1_w7_missing_cycle_window_13_20.py` — 11087 bytes — `fd15cbd744785db26c60268b090fd524cdce347c415182e14cc72244a5c7aa49`
 - `.github/workflows/probe-ltmd-u1-w7-missing-cycle-window-13-20.yml` — 2070 bytes — `4721c011ef29857149976a823fa3b8d965b8a1c55e19726d926fa1a6d3ac1984`
 - `scripts/build_research_integrity_manifest_v12.py` — 2806 bytes — `b7d3db261120c4b28099296f217c70622bf2a86b70f537080697aae550007de1`
+- `data/catalog/ltmd_u1_w8_scope.csv` — 2489 bytes — `e4488db6a1c763fbc56b700aafcbf93abb8dbc7b7f7cceb7f9cdb280f6e43cab`
+- `data/catalog/ltmd_u1_w8_scope.md` — 997 bytes — `999026eadcc8def8d15a0f645885b3b6d7c70a96cffdde358aa4038d7afc67c1`
+- `scripts/build_ltmd_u1_w8_artes_scope.py` — 3637 bytes — `2832da1467d3134facd3a97296b94a0a9b873f7dd540a84953911288810bf976`
+- `data/catalog/ltmd_u1_w8_viewer_architecture.csv` — 2863 bytes — `1c3cd41cc102586fb43030a4cd33fa310d53ecfb0a03e9f839e43f01d12274d1`
+- `data/catalog/ltmd_u1_w8_viewer_architecture.md` — 740 bytes — `f8c253f403ad09506389e8e313de0ba606e54c675cdd5b73daab79d264a56351`
+- `scripts/audit_ltmd_u1_w8_artes_architecture.py` — 3226 bytes — `d2d2a2f901d8f4a85517e99c5aec0a3233dc0c5657e5b0c921471637c5995e53`
+- `data/catalog/ltmd_u1_w8_declared_inventory.csv` — 3009 bytes — `23248acf09ad6e86e24e69f363915a9f47a175196c7be8b7e34ec43f39a0f82b`
+- `data/catalog/ltmd_u1_w8_declared_inventory_summary.csv` — 388 bytes — `e601e65c6c0cf62d2fb2f7026803e8d4ee605547ecdc831dae44d58dd3367acf`
+- `data/catalog/ltmd_u1_w8_declared_inventory.md` — 831 bytes — `380013528831eab5e417d7e032d23cb0001b62fa0b3fc8acc7f9f28ec200f2ed`
+- `scripts/build_ltmd_u1_w8_artes_declared_inventory.py` — 4131 bytes — `d15acc160dacde2ee0e87f33fce8d8aaccf03d508967cbac1e98b74b05372ad9`
+- `data/catalog/ltmd_u1_w8_artes_asset_manifest.csv` — 515430 bytes — `eb9a903f9d2011b452e89afcc8378fa0bef9303fd27c7a0266669a5b8503bd20`
+- `data/catalog/ltmd_u1_w8_artes_asset_summary.csv` — 2732 bytes — `aed49d8e7db08acf1af1323620c511aa861cd7c04469b54eae716296e4f4560e`
+- `data/catalog/ltmd_u1_w8_artes_asset_audit.md` — 1819 bytes — `dd71e837a54defe26853f0f76b4ac79560a51e80e2282b156d7067f6332f7bf5`
+- `scripts/audit_ltmd_u1_w8_artes_assets_book.py` — 4804 bytes — `584e06b2844391902bb659f1176374bb0a89564c6d80aa8f1e15c4143e4884aa`
+- `data/catalog/ltmd_u1_w8_artes_source_admissibility.csv` — 6710 bytes — `0d88e3734229f5fd60ebc74e9c50f618326dd97a89e3d0f3b4dc328816c722b1`
+- `docs/LTMD_U1_W8_ARTES_SOURCE_ADMISSIBILITY.md` — 3214 bytes — `bdce259ada35870c207bc705a4990deb8900228d21cd26df9c78b0d65cc923ad`
+- `scripts/audit_ltmd_u1_w8_artes_source_admissibility.py` — 9474 bytes — `b30b4b64d362f44223ed68526a597610e956c596f05dc89c4d33529ad79f673e`
+- `data/catalog/ltmd_u1_w8_processing_inventory.csv` — 4819 bytes — `9238cdf29a0499b1f3ef3eca21e480fef5912b86fdcf6bc1011683a1577d2a39`
+- `data/catalog/ltmd_u1_w8_canonical_page_manifest.csv` — 485559 bytes — `92eca73b35ba3656f98b810d5625a8dad47cf27a02fed4352f0c509436dd1f38`
+- `docs/LTMD_U1_W8_ARTES_PROCESSING_TOPOLOGY.md` — 1415 bytes — `6c1af2874436b5c7dfb911d27abede2fafde4bec072a6154652e7734ec03d04a`
+- `scripts/build_ltmd_u1_w8_artes_processing_topology.py` — 10843 bytes — `808f484d0928cc6a5e00878fe26b910e0db73c4adf0b1cf9ae3a323718e24bf5`
+- `.github/workflows/ltmd-u1-w8-processing-topology-publish.yml` — 2439 bytes — `f70a25a0fb8ac0d56235f1e5afd58e7756790ed980f27d93ee3a50e0b9fc8b06`
+- `data/catalog/ltmd_u1_w8_artes_ocr_metrics.csv` — 338761 bytes — `e872749c6ba4215dca6a822e9a326e949c90ca6a20fb72dcab5bfd892a2092bc`
+- `data/catalog/ltmd_u1_w8_artes_ocr_summary.csv` — 1921 bytes — `9c6aae2b93d4418bfccdab120db691048e088aed9c857aa1ad90b339775d5903`
+- `data/catalog/ltmd_u1_w8_artes_ocr.md` — 973 bytes — `0bc291385960541601056a5159c82f7563b56dff6cff94ad2c60913c1cd03abc`
+- `scripts/ocr_ltmd_u1_w8_artes_book.py` — 10149 bytes — `7f259c9903f8bbf586090eb6a0cfd58c8b7608842169b7df326ca9b0c3f6aedb`
+- `scripts/combine_ltmd_u1_w8_artes_ocr.py` — 5751 bytes — `c3cc0bb22150fafce412cdb4867e78695bd6573d7604b435e6b91f777db3b13f`
+- `.github/workflows/build-ltmd-u1-w8-artes-ocr.yml` — 4155 bytes — `2bd8915d2bcd0017441b9c0acd85854afcfa425d9099bde5fcbc9e7c3a03cf43`
+- `data/catalog/ltmd_u1_w8_artes_structural_keyword_flags.csv` — 57442 bytes — `a2fdf08b6df03487353a1c8c0fac39755407eff38641583ab53c613bc849f43c`
+- `data/catalog/ltmd_u1_w8_artes_page_structure.csv` — 276768 bytes — `b19ad0e3f4d9660d09d18debb403de03c48197cbd269a65add12389adf8a854b`
+- `data/catalog/ltmd_u1_w8_artes_page_structure_summary.csv` — 682 bytes — `8c836f3f112bd58873713bbaebf4399e1199fb9bb0b5fcfe53fce1c7afd052dd`
+- `data/catalog/ltmd_u1_w8_artes_page_structure.md` — 918 bytes — `859e3774b3d90a2cf6d1393b138776fc697ac0f5b26e2d636fc19e3d6ea2b578`
+- `scripts/extract_ltmd_u1_w8_artes_structural_flags_book.py` — 5046 bytes — `2d7fa7217c82ae2a88ce2acac1a20b8a296eb389501688cee797b6a5a4ae1f76`
+- `scripts/combine_ltmd_u1_w8_artes_structural_flags.py` — 2244 bytes — `f7db7f7de029cff1828b6b22870858ea39780bffe2a8a5bfeb3f3029a3ed733e`
+- `scripts/classify_ltmd_u1_w8_artes_page_structure.py` — 5776 bytes — `1f1295837e70386fc0d6261627c1075a3a7847e1e4534a63c3df89c7a9dc2b2a`
+- `.github/workflows/build-ltmd-u1-w8-artes-pagestruct.yml` — 4861 bytes — `cb93dee57fc131156b02e5cd86f53c8c8d52894352cae4960f428355a05d23cf`
+- `data/catalog/ltmd_u1_w8_artes_fragment_manifest.csv` — 3454883 bytes — `a7fe2b1772aa7960c56a49ad4c85aa122d2591626f8aa16d7d21d87fc07f9f69`
+- `data/catalog/ltmd_u1_w8_artes_fragment_manifest_summary.csv` — 1501 bytes — `2ce061aa49bba91951074222547015fea5628c3e7d591ffaed048716a866a63a`
+- `data/catalog/ltmd_u1_w8_artes_fragment_sequence_gaps.csv` — 2806 bytes — `eb295d111212a13078638619db2095f0171c40e62e3049efa0f392435506ee29`
+- `data/catalog/ltmd_u1_w8_artes_fragment_manifest.md` — 1034 bytes — `30b5c542dd166cd4a49d0065f3b2defea4eae1726b4ae80e78cb90c0b4607e17`
+- `scripts/segment_ltmd_u1_w8_artes_fragments.py` — 1195 bytes — `29f334d278ae29f4b0635bc6d65b5bb81118a5d1bee9628f3d087f328e809c77`
+- `scripts/combine_ltmd_u1_w8_artes_fragment_shards.py` — 5908 bytes — `f6994ea4ab4c4edcd2371b22b47d0aa920af11187218b6ba5bbe1cc29e246244`
+- `.github/workflows/build-ltmd-u1-w8-artes-fragseg.yml` — 4611 bytes — `9aaf869f64e8cc1a7560281dde4338b56df1299bce6801f181edf00f9cbe0f42`
+- `data/catalog/ltmd_u1_w8_artes_exact_content_units.csv` — 1429472 bytes — `6033d7b0e13a9ec396ad431e0cb0c33e8482a47a98f09307a8b2fd149ccdfd0e`
+- `data/catalog/ltmd_u1_w8_artes_exact_viewer_overlap.csv` — 13897 bytes — `019aaae9283a6fabb45ea6b85440371cd2453cda7821fdc8dc1657db84e63d28`
+- `data/catalog/ltmd_u1_w8_artes_exact_reuse.md` — 2545 bytes — `6fcf92e759100285e54e58a4fb65bda6249cb0f4c7ca072b6e0c312401501ae9`
+- `scripts/analyze_ltmd_u1_w8_artes_exact_reuse.py` — 5984 bytes — `078bffc93083c278c93b4dea41e891403a3e2b9232b41ca511519ee82cfaf018`
+- `.github/workflows/dispatch-ltmd-u1-w8-artes-exact-reuse.yml` — 2892 bytes — `5b40cadc518c0d7f0cd7a13fd066c4eca14a27c788b5df1d2386bf21be22c4e8`
+- `data/control/ltmd_u1_w8_artes_exact_reuse_trigger.txt` — 225 bytes — `77e57dde3cf9abb0684758327d5da01c096dbf4f22398cbd8cb2398d65252f5e`
+- `docs/LTMD_U1_W8_COMPLETION.md` — 1965 bytes — `9a2736725caa534524780b0c3aaabf113267130c17a21569e3702ebfb221cdd3`
+- `scripts/build_ltmd_u1_w8_completion_report.py` — 8545 bytes — `ff534292fb67262e25d4260eee0482d6e40f8ba09eb8ad0d6f342a1b30305a8f`
+- `.github/workflows/build-ltmd-u1-w8-completion-report.yml` — 1409 bytes — `b9cd66a7361b73c43ac4ed0d9b8149dea30edb4bba39b3ccc173885407492a83`
+- `data/control/ltmd_u1_w8_completion_trigger.txt` — 475 bytes — `133b5774df6d56507fa7104b36f9e3eb2ecdc8788cc9ee683fef153b586ae905`
+- `scripts/build_research_integrity_manifest_v13.py` — 4502 bytes — `b98960d72108aef45b69488cc0030b7fe879bf86a858bae13beabe42b3c572ff`
 
 ## Artefactos derivados adicionales presentes
 
