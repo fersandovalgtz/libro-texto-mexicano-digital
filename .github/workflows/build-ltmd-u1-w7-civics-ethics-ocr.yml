@@ -72,6 +72,8 @@ jobs:
   combine:
     needs: ocr
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -105,3 +107,5 @@ jobs:
             sleep $((attempt * 2))
           done
           exit 1
+      - name: Dispatch W7 PAGESTRUCT
+        run: gh workflow run build-ltmd-u1-w7-civics-ethics-pagestruct.yml --repo "$GITHUB_REPOSITORY" --ref main
