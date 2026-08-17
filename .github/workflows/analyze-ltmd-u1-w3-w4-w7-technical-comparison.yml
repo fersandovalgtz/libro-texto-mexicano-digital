@@ -1,0 +1,60 @@
+name: analyze-ltmd-u1-w3-w4-w7-technical-comparison
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/compare_ltmd_u1_w3_w4_w7_technical_profiles.py'
+      - 'scripts/compare_ltmd_u1_w4_w7_technical_profiles.py'
+      - 'data/catalog/ltmd_u1_w3_spanish_page_structure_summary.csv'
+      - 'data/catalog/ltmd_u1_w3_spanish_fragment_manifest_summary.csv'
+      - 'data/catalog/ltmd_u1_w3_spanish_exact_content_units.csv'
+      - 'data/catalog/ltmd_u1_w3_spanish_exact_viewer_overlap.csv'
+      - 'data/catalog/ltmd_u1_w4_social_sciences_page_structure_summary.csv'
+      - 'data/catalog/ltmd_u1_w4_social_sciences_fragment_manifest_summary.csv'
+      - 'data/catalog/ltmd_u1_w4_social_sciences_exact_content_units.csv'
+      - 'data/catalog/ltmd_u1_w4_social_sciences_exact_viewer_overlap.csv'
+      - 'data/catalog/ltmd_u1_w7_civics_ethics_page_structure_summary.csv'
+      - 'data/catalog/ltmd_u1_w7_civics_ethics_fragment_manifest_summary.csv'
+      - 'data/catalog/ltmd_u1_w7_civics_ethics_exact_content_units.csv'
+      - 'data/catalog/ltmd_u1_w7_civics_ethics_exact_viewer_overlap.csv'
+      - '.github/workflows/analyze-ltmd-u1-w3-w4-w7-technical-comparison.yml'
+
+concurrency:
+  group: ltmd-u1-w3-w4-w7-technical-comparison
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build nonsemantic three-cohort technical comparison
+        run: python3 scripts/compare_ltmd_u1_w3_w4_w7_technical_profiles.py
+      - name: Publish comparison race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-w3-w4-w7-comparison
+          mkdir -p /tmp/ltmd-w3-w4-w7-comparison
+          cp data/derived/ltmd_u1_w3_w4_w7_technical_comparison.csv /tmp/ltmd-w3-w4-w7-comparison/
+          cp docs/LTMD_U1_W3_W4_W7_TECHNICAL_COMPARISON.md /tmp/ltmd-w3-w4-w7-comparison/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-w3-w4-w7-comparison/ltmd_u1_w3_w4_w7_technical_comparison.csv data/derived/
+            cp /tmp/ltmd-w3-w4-w7-comparison/LTMD_U1_W3_W4_W7_TECHNICAL_COMPARISON.md docs/
+            git add data/derived/ltmd_u1_w3_w4_w7_technical_comparison.csv \
+                    docs/LTMD_U1_W3_W4_W7_TECHNICAL_COMPARISON.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD U1 W3-W4-W7 technical comparison'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
