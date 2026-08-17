@@ -15,6 +15,10 @@ ADMISSIBILITY = Path('data/catalog/ltmd_u1_w7_source_admissibility.csv')
 OUT = Path('data/catalog/ltmd_u1_w7_withheld_source_gaps.csv')
 REPORT = Path('data/catalog/ltmd_u1_w7_withheld_source_gaps.md')
 VERSION = 'LTMD_U1_W7_WITHHELD_SOURCE_GAPS_0.1'
+CATALOG_LABEL_RULE = (
+    'catalog_generation se conserva como etiqueta institucional de cohorte/navegación '
+    'del catálogo y no se interpreta como fecha de publicación sin evidencia independiente'
+)
 
 
 def read_csv(path: Path):
@@ -133,7 +137,8 @@ def main() -> None:
         '',
         '## Límite epistemológico',
         '',
-        'Las etiquetas `catalog_generation` son etiquetas institucionales del catálogo. Este diagnóstico no las interpreta como fechas de publicación ni usa coincidencia de año, grado, título o cardinalidad para imputar activos.',
+        f'`{CATALOG_LABEL_RULE}`.',
+        'La coincidencia de cohorte, grado, título o cardinalidad no autoriza imputar activos ni equivalencia documental.',
     ]
     REPORT.write_text('\n'.join(lines) + '\n', encoding='utf-8')
 
