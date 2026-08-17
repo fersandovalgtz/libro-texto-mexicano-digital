@@ -1,0 +1,44 @@
+name: analyze-ltmd-u1-w4-w7-technical-comparison
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/analyze-ltmd-u1-w4-w7-technical-comparison.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: analyze-ltmd-u1-w4-w7-technical-comparison
+  cancel-in-progress: false
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build finalized W4-W7 technical comparison
+        run: python3 scripts/compare_ltmd_u1_w4_w7_technical_profiles.py
+      - name: Publish W4-W7 comparison race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/derived/ltmd_u1_w4_w7_technical_comparison.csv /tmp/ltmd-u1-w4-w7-technical-comparison.csv
+          cp docs/LTMD_U1_W4_W7_TECHNICAL_COMPARISON.md /tmp/LTMD_U1_W4_W7_TECHNICAL_COMPARISON.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-u1-w4-w7-technical-comparison.csv data/derived/ltmd_u1_w4_w7_technical_comparison.csv
+            cp /tmp/LTMD_U1_W4_W7_TECHNICAL_COMPARISON.md docs/LTMD_U1_W4_W7_TECHNICAL_COMPARISON.md
+            git add data/derived/ltmd_u1_w4_w7_technical_comparison.csv docs/LTMD_U1_W4_W7_TECHNICAL_COMPARISON.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W4-W7 technical comparison'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
