@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """Evaluate a 2017-2018 external mirror as a derived recovery candidate.
 
-The candidate site is inspected from its landing page. When its server-side HTML
-does not expose pagination links to GitHub Actions, the WordPress page route
-observed in public navigation is treated only as a *candidate route* and must
-self-validate through the textbook image alt metadata before use. Image filenames
-are never guessed. Official H2014P5FCA anchors are SHA/size verified before OCR.
-No external image is committed and source admissibility is not changed.
+The mirror is used only as a candidate reconstruction source. Page routes must
+self-identify in returned HTML, candidate image URLs are extracted from that
+HTML rather than guessed, and all official CONALITEG anchors are verified
+against frozen SHA-256/size before OCR comparison. No external image is stored
+in the repository and source admissibility is never changed here.
 """
 from __future__ import annotations
 
 import csv
 import hashlib
+import html
 import html.parser
 import re
 import shutil
@@ -23,7 +23,7 @@ from pathlib import Path
 from urllib.parse import urljoin
 from urllib.request import Request, urlopen
 
-VERSION = 'LTMD_U1_W7_H2014P5_EXTERNAL_MIRROR_0.2'
+VERSION = 'LTMD_U1_W7_H2014P5_EXTERNAL_MIRROR_0.3'
 TARGET = 'H2014P5FCA'
 GAP_PAGE = 104
 OFFICIAL_ANCHORS = (4, 103, 105)
@@ -32,7 +32,16 @@ LANDING = 'https://librosdetexto.online/formacion-civica-etica-quinto-grado-2017
 ASSETS = Path('data/catalog/ltmd_u1_w7_civics_ethics_asset_manifest.csv')
 OUT = Path('data/catalog/ltmd_u1_w7_h2014p5_external_mirror_alignment.csv')
 REPORT = Path('data/catalog/ltmd_u1_w7_h2014p5_external_mirror.md')
-UA = 'LibroTextoMexicanoDigital/U1-W7 mirror identity diagnostic'
+UA = (
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 '
+    '(KHTML, like Gecko) Chrome/124.0 Safari/537.36 '
+    'LTMD-source-audit/0.3'
+)
+HEADERS = {
+    'User-Agent': UA,
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+    'Accept-Language': 'es-MX,es;q=0.9,en;q=0.5',
+}
 
 
 class PageParser(html.parser.HTMLParser):
@@ -40,40 +49,46 @@ class PageParser(html.parser.HTMLParser):
         super().__init__()
         self.links: list[tuple[str, str]] = []
         self.images: list[dict[str, str]] = []
+        self.text: list[str] = []
         self._href = ''
-        self._text: list[str] = []
+        self._anchor_text: list[str] = []
 
     def handle_starttag(self, tag, attrs):
         data = dict(attrs)
         if tag == 'a':
             self._href = data.get('href', '')
-            self._text = []
+            self._anchor_text = []
         elif tag == 'img':
             self.images.append(data)
 
     def handle_data(self, data):
+        if data.strip():
+            self.text.append(data)
         if self._href:
-            self._text.append(data)
+            self._anchor_text.append(data)
 
     def handle_endtag(self, tag):
         if tag == 'a' and self._href:
-            self.links.append((self._href, ' '.join(self._text).strip()))
+            self.links.append((self._href, ' '.join(self._anchor_text).strip()))
             self._href = ''
-            self._text = []
+            self._anchor_text = []
 
 
 def fetch(url: str) -> bytes:
-    with urlopen(Request(url, headers={'User-Agent': UA}), timeout=45) as response:
+    with urlopen(Request(url, headers=HEADERS), timeout=45) as response:
         return response.read()
 
 
-def parse_html(url: str) -> PageParser:
+def parse_html_bytes(raw: bytes) -> PageParser:
     parser = PageParser()
-    parser.feed(fetch(url).decode('utf-8', errors='replace'))
+    parser.feed(raw.decode('utf-8', errors='replace'))
     return parser
 
 
-def image_identifies_page(parser: PageParser, expected_page: int) -> bool:
+def page_self_identifies(parser: PageParser, expected_page: int) -> bool:
+    plain = html.unescape(' '.join(parser.text))
+    if re.search(rf'P[aá]gina\s*:?[ ]*{expected_page}\s*/\s*226\b', plain, re.I):
+        return True
     for img in parser.images:
         alt = img.get('alt', '')
         if (
@@ -84,61 +99,88 @@ def image_identifies_page(parser: PageParser, expected_page: int) -> bool:
     return False
 
 
-def discover_page_urls() -> tuple[dict[int, str], dict[int, str]]:
-    parser = parse_html(LANDING)
-    urls = {1: LANDING}
-    methods = {1: 'landing'}
-    for href, text in parser.links:
-        text = text.strip()
-        if text.isdigit():
-            page = int(text)
-            if 1 <= page <= 226:
-                urls[page] = urljoin(LANDING, href)
-                methods[page] = 'landing_link'
+def image_url_from_validated_page(raw: bytes, page_url: str, expected_page: int) -> str:
+    parser = parse_html_bytes(raw)
+    if not page_self_identifies(parser, expected_page):
+        raise SystemExit(f'candidate route did not self-identify as page {expected_page}: {page_url}')
 
-    # Some responses suppress the pagination markup seen by public web indexes.
-    # In that case, probe the observed WordPress /{page}/ route, but accept it
-    # only when the returned HTML independently identifies the expected page.
-    for page in CANDIDATE_PAGES:
-        if page in urls:
-            continue
-        candidate_route = urljoin(LANDING, f'{page}/')
-        candidate_parser = parse_html(candidate_route)
-        if not image_identifies_page(candidate_parser, page):
-            raise SystemExit(
-                f'candidate route {candidate_route} did not self-identify as textbook page {page}'
-            )
-        urls[page] = candidate_route
-        methods[page] = 'validated_page_route'
-
-    return urls, methods
-
-
-def discover_image_url(page_url: str, expected_page: int) -> str:
-    parser = parse_html(page_url)
-    ranked = []
+    ranked: dict[str, tuple[int, str]] = {}
     for img in parser.images:
-        src = img.get('src') or img.get('data-src') or img.get('data-lazy-src') or ''
         alt = img.get('alt', '')
-        if not src:
-            continue
-        score = 0
-        if re.search(r'Libro\s+Formaci[oó]n\s+C[ií]vica.*Quinto', alt, re.I):
-            score += 4
-        if re.search(rf'P[aá]gina\s+{expected_page}\b', alt, re.I):
-            score += 4
-        if 'formacion' in src.lower() and 'quinto' in src.lower():
-            score += 2
-        ranked.append((score, urljoin(page_url, src), alt))
+        candidates = [
+            img.get('data-lazy-src', ''), img.get('data-src', ''), img.get('src', '')
+        ]
+        for src in candidates:
+            if not src:
+                continue
+            absolute = urljoin(page_url, src)
+            score = 0
+            if re.search(r'Libro\s+Formaci[oó]n\s+C[ií]vica.*Quinto', alt, re.I):
+                score += 4
+            if re.search(rf'P[aá]gina\s+{expected_page}\b', alt, re.I):
+                score += 4
+            if 'formacion_civica' in absolute.lower() or 'formacion-civica' in absolute.lower():
+                score += 3
+            if 'quinto' in absolute.lower():
+                score += 1
+            prior = ranked.get(absolute)
+            if prior is None or score > prior[0]:
+                ranked[absolute] = (score, alt)
+
     if not ranked:
-        raise SystemExit(f'no images discovered at candidate page {expected_page}')
-    ranked.sort(reverse=True)
-    best = ranked[0]
-    if best[0] < 8:
+        raise SystemExit(f'validated page {expected_page} exposed no image candidates')
+    ordered = sorted(
+        ((score, url, alt) for url, (score, alt) in ranked.items()), reverse=True
+    )
+    best = ordered[0]
+    if best[0] < 4:
         raise SystemExit(
-            f'candidate page {expected_page}: image did not identify both book and page; best={best}'
+            f'validated page {expected_page}: no image sufficiently identified as target book; best={best}'
+        )
+    if len(ordered) > 1 and ordered[1][0] == best[0] and ordered[1][1] != best[1]:
+        raise SystemExit(
+            f'validated page {expected_page}: ambiguous image candidates at score {best[0]}'
         )
     return best[1]
+
+
+def discover_candidate_pages() -> tuple[dict[int, str], dict[int, str], dict[int, bytes]]:
+    landing_raw = fetch(LANDING)
+    landing_parser = parse_html_bytes(landing_raw)
+    linked: dict[int, str] = {}
+    for href, text in landing_parser.links:
+        text = text.strip()
+        if text.isdigit():
+            linked[int(text)] = urljoin(LANDING, href)
+
+    page_urls: dict[int, str] = {}
+    methods: dict[int, str] = {}
+    raws: dict[int, bytes] = {}
+    for page in CANDIDATE_PAGES:
+        candidates = []
+        if page in linked:
+            candidates.append(('landing_link', linked[page]))
+        # Public site navigation has been observed using /{page}/ WordPress routes.
+        route = urljoin(LANDING, f'{page}/')
+        if all(url != route for _, url in candidates):
+            candidates.append(('validated_page_route', route))
+
+        accepted = None
+        errors = []
+        for method, url in candidates:
+            try:
+                raw = fetch(url)
+                parser = parse_html_bytes(raw)
+                if page_self_identifies(parser, page):
+                    accepted = (method, url, raw)
+                    break
+                errors.append(f'{method}:not_self_identified')
+            except Exception as exc:  # diagnostic fallback across candidate routes
+                errors.append(f'{method}:{type(exc).__name__}:{exc}')
+        if accepted is None:
+            raise SystemExit(f'candidate page {page}: no validated route; {errors}')
+        methods[page], page_urls[page], raws[page] = accepted
+    return page_urls, methods, raws
 
 
 def official_rows() -> dict[int, dict[str, str]]:
@@ -164,7 +206,8 @@ def fetch_verified_official(row: dict[str, str]) -> bytes:
 def ocr(data: bytes) -> str:
     if not shutil.which('tesseract'):
         raise SystemExit('tesseract is required')
-    with tempfile.NamedTemporaryFile(suffix='.jpg') as tmp:
+    suffix = '.png' if data.startswith(b'\x89PNG') else '.jpg'
+    with tempfile.NamedTemporaryFile(suffix=suffix) as tmp:
         tmp.write(data); tmp.flush()
         proc = subprocess.run(
             ['tesseract', tmp.name, 'stdout', '-l', 'spa', '--psm', '6'],
@@ -184,17 +227,16 @@ def similarity(a: str, b: str) -> tuple[float, float, float]:
     seq = SequenceMatcher(None, na, nb).ratio() if na and nb else 0.0
     ta, tb = set(na.split()), set(nb.split())
     jac = len(ta & tb) / len(ta | tb) if ta and tb else 0.0
-    combined = 0.6 * seq + 0.4 * jac
-    return seq, jac, combined
+    return seq, jac, 0.6 * seq + 0.4 * jac
 
 
 def main() -> None:
-    page_urls, route_methods = discover_page_urls()
+    page_urls, route_methods, page_raws = discover_candidate_pages()
     candidate_bytes: dict[int, bytes] = {}
     candidate_image_urls: dict[int, str] = {}
     candidate_ocr: dict[int, str] = {}
     for page in CANDIDATE_PAGES:
-        image_url = discover_image_url(page_urls[page], page)
+        image_url = image_url_from_validated_page(page_raws[page], page_urls[page], page)
         data = fetch(image_url)
         if not data.startswith((b'\xff\xd8\xff', b'\x89PNG')):
             raise SystemExit(f'candidate page {page}: fetched object is not JPEG/PNG')
@@ -211,9 +253,8 @@ def main() -> None:
     best_by_anchor = {}
     for anchor in OFFICIAL_ANCHORS:
         official_text = ocr(fetch_verified_official(official[anchor]))
-        neighborhood = range(anchor - 2, anchor + 3)
         comparisons = []
-        for candidate_page in neighborhood:
+        for candidate_page in range(anchor - 2, anchor + 3):
             if candidate_page not in candidate_ocr:
                 continue
             seq, jac, combined = similarity(official_text, candidate_ocr[candidate_page])
@@ -244,9 +285,7 @@ def main() -> None:
     mapping_supported = consistent_offset is not None and min_best_score >= 0.75
     candidate_gap_page = GAP_PAGE + consistent_offset if mapping_supported else None
 
-    gap_sha = ''
-    gap_url = ''
-    gap_bytes = ''
+    gap_sha = gap_url = gap_bytes = ''
     if candidate_gap_page is not None and candidate_gap_page in candidate_bytes:
         gap_data = candidate_bytes[candidate_gap_page]
         gap_sha = hashlib.sha256(gap_data).hexdigest()
@@ -258,7 +297,9 @@ def main() -> None:
         writer = csv.DictWriter(f, fieldnames=list(rows_out[0].keys()))
         writer.writeheader(); writer.writerows(rows_out)
 
-    validated_routes = sum(1 for p in CANDIDATE_PAGES if route_methods[p] == 'validated_page_route')
+    validated_routes = sum(
+        1 for p in CANDIDATE_PAGES if route_methods[p] == 'validated_page_route'
+    )
     lines = [
         '# LTMD-U1 W7 — evaluación de espejo externo para H2014P5FCA',
         '',
@@ -266,9 +307,9 @@ def main() -> None:
         '',
         f'Espejo candidato: `{LANDING}`.',
         '',
-        f'Rutas de página validadas mediante metadatos del propio HTML: **{validated_routes}/{len(CANDIDATE_PAGES)}**.',
+        f'Rutas aceptadas mediante autoverificación de página: **{validated_routes}/{len(CANDIDATE_PAGES)}** usaron la ruta candidata `/{page}/`; las demás provinieron de enlaces expuestos por el landing.',
         '',
-        'Cuando la navegación no aparece en el HTML del runner, la ruta `/{page}/` se trata como candidata y sólo se acepta si la imagen devuelta identifica simultáneamente el libro y el número de página en su `alt`. Los nombres de imagen nunca se construyen. Los anclajes CONALITEG se verifican contra SHA-256 y tamaño antes de OCR. Ninguna imagen externa se guarda en el repositorio.',
+        'Cada ruta se acepta sólo cuando el HTML devuelto identifica el número de página mediante su texto `Página N / 226` o metadatos equivalentes. La URL de imagen se extrae después de ese mismo HTML y nunca se construye por nombre de archivo. Los anclajes CONALITEG se verifican contra SHA-256 y tamaño antes de OCR. Ninguna imagen externa se guarda en el repositorio.',
         '',
         '## Alineación por anclaje',
         '',
@@ -302,7 +343,7 @@ def main() -> None:
         '',
         '## Regla epistemológica',
         '',
-        'Incluso si el mapeo es soportado, la página candidata es una **reconstrucción derivada desde un espejo externo**. No se etiqueta como `source_jpeg`, no sustituye el 404 institucional y no modifica `ocr_source_admitted`. Su uso analítico posterior requiere registrar explícitamente esta procedencia y mantener separada la capa canónica de fuente.',
+        'Incluso con mapeo soportado, la página candidata es una **reconstrucción derivada desde un espejo externo**. No se etiqueta como `source_jpeg`, no sustituye el 404 institucional y no modifica `ocr_source_admitted`. Su uso analítico posterior requiere procedencia explícita y una capa separada de la fuente canónica.',
     ]
     REPORT.write_text('\n'.join(lines) + '\n', encoding='utf-8')
 
