@@ -14,6 +14,7 @@ concurrency:
 permissions:
   contents: write
 
+# Bootstrap note: second commit registers the newly created workflow for push execution.
 jobs:
   sync:
     runs-on: ubuntu-24.04
