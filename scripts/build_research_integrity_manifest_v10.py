@@ -4,8 +4,10 @@
 0.10 is additive over the complete 0.9 perimeter. It freezes:
 
 * the separation of catalog cohort from observed bibliographic time;
-* reproducible bibliographic observations and their source-verified extractors;
-* bounded source-verified bibliographic fingerprints for the W7 admitted cohort;
+* reproducible bibliographic observations, normalized page/SHA evidence and
+  their source-verified extractors;
+* bounded source-verified bibliographic fingerprints for the W7 admitted cohort
+  and a multipsm/checksum candidate-support audit;
 * reproducible institutional-presence evidence and acceptance criteria for the
   five W7 source-withheld identities;
 * the strictly nonsemantic W3-W4-W7 technical comparator;
@@ -26,16 +28,18 @@ base.VERSION = 'LTMD_INTEGRITY_0.10'
 SCOPE = (
     'LTMD v0.10: frozen v0.9 perimeter plus explicit catalog-cohort versus '
     'bibliographic-time semantics, source-verified bibliographic observations '
-    'and bounded W7 fingerprints, reproducible presence/acceptance evidence for '
-    'the five W7 source-withheld identities, the nonsemantic W3-W4-W7 technical '
-    'comparison, and the governing data-model/provenance/historical-analysis contracts'
+    'with normalized evidence, bounded W7 fingerprints and multipsm/checksum '
+    'support audit, reproducible presence/acceptance evidence for the five W7 '
+    'source-withheld identities, the nonsemantic W3-W4-W7 technical comparison, '
+    'and the governing data-model/provenance/historical-analysis contracts'
 )
 SCOPE_ES = (
     'perímetro v0.9 congelado + separación explícita entre cohorte de catálogo '
-    'y tiempo bibliográfico, observaciones bibliográficas y huellas W7 '
-    'verificadas contra fuente, evidencia reproducible de presencia/criterios '
-    'de aceptación para las cinco identidades W7 retenidas, comparación técnica '
-    'no semántica W3↔W4↔W7 y contratos de modelo/gobernanza/análisis histórico correspondientes'
+    'y tiempo bibliográfico, observaciones bibliográficas con evidencia '
+    'normalizada, huellas W7 y auditoría multipsm/checksum, evidencia '
+    'reproducible de presencia/criterios de aceptación para las cinco '
+    'identidades W7 retenidas, comparación técnica no semántica W3↔W4↔W7 y '
+    'contratos de modelo/gobernanza/análisis histórico correspondientes'
 )
 OLD_SCOPE_ES_ASCII = (
     'CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la '
@@ -50,8 +54,10 @@ V10_CRITICAL = [
     'docs/DATA_GOVERNANCE.md',
     'docs/HISTORICAL_ANALYSIS_PLAN_0_3.md',
     'data/catalog/ltmd_bibliographic_observations.csv',
+    'data/catalog/ltmd_bibliographic_observation_evidence.csv',
     'data/catalog/ltmd_bibliographic_observations.md',
     'scripts/build_ltmd_bibliographic_observations.py',
+    'scripts/build_ltmd_bibliographic_observations_v02.py',
     '.github/workflows/build-ltmd-bibliographic-observations.yml',
 
     # H2014P5FCA source-verified legal-page fingerprint.
@@ -60,12 +66,15 @@ V10_CRITICAL = [
     'scripts/extract_ltmd_u1_w7_h2014p5_bibliographic_fingerprint.py',
     '.github/workflows/extract-ltmd-u1-w7-h2014p5-bibliographic-fingerprint.yml',
 
-    # W7 admitted-cohort bounded bibliographic fingerprints. These paths make
-    # 0.10 intentionally non-runnable until the verified build materializes.
+    # W7 admitted-cohort bounded bibliographic fingerprints and support audit.
     'data/catalog/ltmd_u1_w7_admitted_bibliographic_fingerprints.csv',
     'data/catalog/ltmd_u1_w7_admitted_bibliographic_fingerprints.md',
     'scripts/extract_ltmd_u1_w7_admitted_bibliographic_fingerprints.py',
     '.github/workflows/extract-ltmd-u1-w7-admitted-bibliographic-fingerprints.yml',
+    'data/catalog/ltmd_u1_w7_bibliographic_candidate_support.csv',
+    'data/catalog/ltmd_u1_w7_bibliographic_candidate_support.md',
+    'scripts/audit_ltmd_u1_w7_bibliographic_candidate_support.py',
+    '.github/workflows/audit-ltmd-u1-w7-bibliographic-candidate-support.yml',
 
     # W7 withheld-source reproducible evidence/governance.
     'data/catalog/ltmd_u1_w7_withheld_viewer_presence.csv',
