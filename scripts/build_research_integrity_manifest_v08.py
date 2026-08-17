@@ -4,15 +4,16 @@
 0.8 preserves the complete 0.7 perimeter and extends it with LTMD-U1 W7
 Civics/Ethics source scope, page-level provenance, viewer routing reconstruction,
 2018 route-conformance evidence, source-admissibility decisions, complete-asset
-relationship analysis, reconciled processing topology, and executable OCR,
-PAGESTRUCT, FRAGSEG and exact-reuse controls for the admitted cohort.
+relationship analysis, reconciled processing topology, executable OCR,
+PAGESTRUCT, FRAGSEG and exact-reuse controls, plus the technical closure validator
+for the admitted cohort.
 
 The historical scope remains 30 catalog identities. Exactly 25 source-admitted,
 non-byte-identical objects are authorized as independent processing canonicals;
 five identities remain withheld because their official source assets are
-incomplete or unserved. Derived OCR/PAGESTRUCT/FRAGSEG/reuse outputs are frozen
-only after each complete layer materializes and passes its own coverage and
-provenance invariants.
+incomplete or unserved. Derived OCR/PAGESTRUCT/FRAGSEG/reuse/completion outputs
+are frozen only after each complete layer materializes and passes its own
+coverage and provenance invariants.
 """
 from __future__ import annotations
 
@@ -22,24 +23,17 @@ base = v07.base
 base.VERSION = 'LTMD_INTEGRITY_0.8'
 
 W7_PROVENANCE_CRITICAL = [
-    # Frozen W7 source scope and viewer architecture.
     'data/catalog/ltmd_u1_w7_scope.csv',
     'data/catalog/ltmd_u1_w7_scope.md',
     'data/catalog/ltmd_u1_w7_viewer_architecture.csv',
     'data/catalog/ltmd_u1_w7_viewer_architecture.md',
-
-    # Declared source inventory.
     'data/catalog/ltmd_u1_w7_declared_inventory.csv',
     'data/catalog/ltmd_u1_w7_declared_inventory_summary.csv',
     'data/catalog/ltmd_u1_w7_declared_inventory.md',
-
-    # Page-level asset provenance and audit state.
     'data/catalog/ltmd_u1_w7_civics_ethics_asset_manifest.csv',
     'data/catalog/ltmd_u1_w7_civics_ethics_asset_summary.csv',
     'data/catalog/ltmd_u1_w7_civics_ethics_asset_audit.md',
     'data/validation/ltmd_u1_w7_provenance_validation.md',
-
-    # Evidence that resolves the viewer routing chain.
     'data/catalog/ltmd_u1_w7_routing_diagnostics.json',
     'data/catalog/ltmd_u1_w7_routing_diagnostics.md',
     'data/catalog/ltmd_u1_w7_viewer_route_contract.json',
@@ -52,20 +46,14 @@ W7_PROVENANCE_CRITICAL = [
     'data/catalog/ltmd_u1_w7_image_route_contract.md',
     'data/catalog/ltmd_u1_w7_2018_route_conformance.csv',
     'data/catalog/ltmd_u1_w7_2018_route_conformance.md',
-
-    # Explicit source gate and exact admitted-cohort relationships.
     'data/catalog/ltmd_u1_w7_source_admissibility.csv',
     'data/catalog/ltmd_u1_w7_source_admissibility.md',
     'data/catalog/ltmd_u1_w7_admitted_asset_fingerprints.csv',
     'data/catalog/ltmd_u1_w7_exact_asset_relationships.csv',
     'data/catalog/ltmd_u1_w7_admitted_asset_relationships.md',
-
-    # Reconciled 30-identity / 25-canonical processing topology.
     'data/catalog/ltmd_u1_w7_processing_inventory.csv',
     'data/catalog/ltmd_u1_w7_canonical_page_manifest.csv',
     'data/catalog/ltmd_u1_w7_processing_topology.md',
-
-    # Executable provenance/routing controls.
     'scripts/validate_ltmd_u1_w7_provenance.py',
     'scripts/diagnose_ltmd_u1_w7_routing.py',
     'scripts/extract_ltmd_u1_w7_viewer_route_contract.py',
@@ -84,6 +72,7 @@ W7_PROVENANCE_CRITICAL = [
     'scripts/segment_ltmd_u1_w7_civics_ethics_fragments.py',
     'scripts/combine_ltmd_u1_w7_civics_ethics_fragment_shards.py',
     'scripts/analyze_ltmd_u1_w7_civics_ethics_exact_reuse.py',
+    'scripts/build_ltmd_u1_w7_completion_report.py',
     '.github/workflows/validate-ltmd-u1-w7-provenance.yml',
     '.github/workflows/diagnose-ltmd-u1-w7-routing.yml',
     '.github/workflows/extract-ltmd-u1-w7-viewer-route-contract.yml',
@@ -98,8 +87,7 @@ W7_PROVENANCE_CRITICAL = [
     '.github/workflows/build-ltmd-u1-w7-civics-ethics-pagestruct.yml',
     '.github/workflows/build-ltmd-u1-w7-civics-ethics-fragseg.yml',
     '.github/workflows/analyze-ltmd-u1-w7-civics-ethics-exact-reuse.yml',
-
-    # This wrapper is itself frozen by 0.8.
+    '.github/workflows/build-ltmd-u1-w7-completion-report.yml',
     'scripts/build_research_integrity_manifest_v08.py',
 ]
 
