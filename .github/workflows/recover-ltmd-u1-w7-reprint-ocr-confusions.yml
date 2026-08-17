@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'scripts/recover_ltmd_u1_w7_reprint_ocr_confusions.py'
+      - 'scripts/recover_ltmd_u1_w7_reprint_ocr_confusions_v02.py'
       - 'data/catalog/ltmd_u1_w7_admitted_bibliographic_fingerprints.csv'
-      - 'data/catalog/ltmd_bibliographic_instance_candidates.csv'
+      - 'data/catalog/ltmd_u1_w7_bibliographic_candidate_support.csv'
       - '.github/workflows/recover-ltmd-u1-w7-reprint-ocr-confusions.yml'
 
 concurrency:
@@ -23,8 +23,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Recover only documented reprint OCR confusions
-        run: python3 scripts/recover_ltmd_u1_w7_reprint_ocr_confusions.py
+      - name: Derive targets and recover only documented reprint OCR confusions 0.2
+        run: python3 scripts/recover_ltmd_u1_w7_reprint_ocr_confusions_v02.py
       - name: Publish recovery evidence race-safely
         run: |
           set -euo pipefail
@@ -41,7 +41,7 @@ jobs:
             git add data/catalog/ltmd_u1_w7_reprint_ocr_confusion_recovery.csv \
                     data/catalog/ltmd_u1_w7_reprint_ocr_confusion_recovery.md
             if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Publish LTMD W7 reprint OCR-confusion recovery 0.1'
+            git commit -m 'Publish LTMD W7 reprint OCR-confusion recovery 0.2'
             if git push origin HEAD:main; then exit 0; fi
             sleep $((attempt * 2))
           done
