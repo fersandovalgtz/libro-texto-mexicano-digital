@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Evaluate a 2017-2018 external mirror as a derived recovery candidate.
 
-The candidate site is discovered from its landing page and page links; image
-filenames are never guessed. Official H2014P5FCA anchor images are downloaded
-only from URLs frozen in the W7 asset manifest and verified by SHA-256/size.
-OCR fingerprints are compared around the isolated page-104 gap to infer any
-page-number offset. No external image is committed and source admissibility is
-not changed.
+The candidate site is inspected from its landing page. When its server-side HTML
+does not expose pagination links to GitHub Actions, the WordPress page route
+observed in public navigation is treated only as a *candidate route* and must
+self-validate through the textbook image alt metadata before use. Image filenames
+are never guessed. Official H2014P5FCA anchors are SHA/size verified before OCR.
+No external image is committed and source admissibility is not changed.
 """
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ from pathlib import Path
 from urllib.parse import urljoin
 from urllib.request import Request, urlopen
 
-VERSION = 'LTMD_U1_W7_H2014P5_EXTERNAL_MIRROR_0.1'
+VERSION = 'LTMD_U1_W7_H2014P5_EXTERNAL_MIRROR_0.2'
 TARGET = 'H2014P5FCA'
 GAP_PAGE = 104
 OFFICIAL_ANCHORS = (4, 103, 105)
@@ -73,19 +73,45 @@ def parse_html(url: str) -> PageParser:
     return parser
 
 
-def discover_page_urls() -> dict[int, str]:
+def image_identifies_page(parser: PageParser, expected_page: int) -> bool:
+    for img in parser.images:
+        alt = img.get('alt', '')
+        if (
+            re.search(r'Libro\s+Formaci[oó]n\s+C[ií]vica.*Quinto', alt, re.I)
+            and re.search(rf'P[aá]gina\s+{expected_page}\b', alt, re.I)
+        ):
+            return True
+    return False
+
+
+def discover_page_urls() -> tuple[dict[int, str], dict[int, str]]:
     parser = parse_html(LANDING)
     urls = {1: LANDING}
+    methods = {1: 'landing'}
     for href, text in parser.links:
         text = text.strip()
         if text.isdigit():
             page = int(text)
             if 1 <= page <= 226:
                 urls[page] = urljoin(LANDING, href)
-    missing = [p for p in CANDIDATE_PAGES if p not in urls]
-    if missing:
-        raise SystemExit(f'candidate landing page did not expose page links: {missing}')
-    return urls
+                methods[page] = 'landing_link'
+
+    # Some responses suppress the pagination markup seen by public web indexes.
+    # In that case, probe the observed WordPress /{page}/ route, but accept it
+    # only when the returned HTML independently identifies the expected page.
+    for page in CANDIDATE_PAGES:
+        if page in urls:
+            continue
+        candidate_route = urljoin(LANDING, f'{page}/')
+        candidate_parser = parse_html(candidate_route)
+        if not image_identifies_page(candidate_parser, page):
+            raise SystemExit(
+                f'candidate route {candidate_route} did not self-identify as textbook page {page}'
+            )
+        urls[page] = candidate_route
+        methods[page] = 'validated_page_route'
+
+    return urls, methods
 
 
 def discover_image_url(page_url: str, expected_page: int) -> str:
@@ -108,9 +134,9 @@ def discover_image_url(page_url: str, expected_page: int) -> str:
         raise SystemExit(f'no images discovered at candidate page {expected_page}')
     ranked.sort(reverse=True)
     best = ranked[0]
-    if best[0] < 4:
+    if best[0] < 8:
         raise SystemExit(
-            f'candidate page {expected_page}: no sufficiently identified textbook image; best={best}'
+            f'candidate page {expected_page}: image did not identify both book and page; best={best}'
         )
     return best[1]
 
@@ -163,7 +189,7 @@ def similarity(a: str, b: str) -> tuple[float, float, float]:
 
 
 def main() -> None:
-    page_urls = discover_page_urls()
+    page_urls, route_methods = discover_page_urls()
     candidate_bytes: dict[int, bytes] = {}
     candidate_image_urls: dict[int, str] = {}
     candidate_ocr: dict[int, str] = {}
@@ -175,7 +201,10 @@ def main() -> None:
         candidate_image_urls[page] = image_url
         candidate_bytes[page] = data
         candidate_ocr[page] = ocr(data)
-        print('candidate', page, len(data), hashlib.sha256(data).hexdigest(), flush=True)
+        print(
+            'candidate', page, route_methods[page], len(data),
+            hashlib.sha256(data).hexdigest(), flush=True,
+        )
 
     official = official_rows()
     rows_out: list[dict[str, str | int | float]] = []
@@ -195,6 +224,8 @@ def main() -> None:
                 'official_page': anchor,
                 'official_sha256': official[anchor]['sha256'],
                 'candidate_page': candidate_page,
+                'candidate_page_route': page_urls[candidate_page],
+                'route_discovery_method': route_methods[candidate_page],
                 'candidate_image_url': candidate_image_urls[candidate_page],
                 'candidate_sha256': hashlib.sha256(candidate_bytes[candidate_page]).hexdigest(),
                 'sequence_similarity': f'{seq:.9f}',
@@ -223,11 +254,11 @@ def main() -> None:
         gap_bytes = str(len(gap_data))
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    fields = list(rows_out[0].keys())
     with OUT.open('w', encoding='utf-8', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=fields)
+        writer = csv.DictWriter(f, fieldnames=list(rows_out[0].keys()))
         writer.writeheader(); writer.writerows(rows_out)
 
+    validated_routes = sum(1 for p in CANDIDATE_PAGES if route_methods[p] == 'validated_page_route')
     lines = [
         '# LTMD-U1 W7 — evaluación de espejo externo para H2014P5FCA',
         '',
@@ -235,7 +266,9 @@ def main() -> None:
         '',
         f'Espejo candidato: `{LANDING}`.',
         '',
-        'Las URLs de página e imagen se descubren desde el HTML del sitio; no se construyen nombres de imagen por heurística. Los anclajes CONALITEG se verifican contra SHA-256 y tamaño antes de OCR. Ninguna imagen externa se guarda en el repositorio.',
+        f'Rutas de página validadas mediante metadatos del propio HTML: **{validated_routes}/{len(CANDIDATE_PAGES)}**.',
+        '',
+        'Cuando la navegación no aparece en el HTML del runner, la ruta `/{page}/` se trata como candidata y sólo se acepta si la imagen devuelta identifica simultáneamente el libro y el número de página en su `alt`. Los nombres de imagen nunca se construyen. Los anclajes CONALITEG se verifican contra SHA-256 y tamaño antes de OCR. Ninguna imagen externa se guarda en el repositorio.',
         '',
         '## Alineación por anclaje',
         '',
