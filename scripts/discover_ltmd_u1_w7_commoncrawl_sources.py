@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Search Common Crawl indexes for exact W7 withheld-source URIs.
+"""Search a bounded Common Crawl phase for exact W7 withheld-source URIs.
 
-This is a fallback archive probe after Wayback availability errors. It queries
-only the exact missing H2014 asset and the four exact H2018 institutional viewer
-URIs across Common Crawl collections from 2014 onward. It does not search titles,
-nearby keys, or substitute editions.
+This is a fallback archive probe after Wayback availability errors. Phase 0.2
+queries two Common Crawl indexes per year for 2017-2020, centered on the served
+H2014P5FCA reprint (cycle 2017-2018) and the unresolved 2018 viewers. It uses
+only exact institutional URIs; no title search, nearby-key search, or aliases.
 """
 from __future__ import annotations
 
@@ -17,11 +17,13 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-VERSION = 'LTMD_U1_W7_COMMONCRAWL_SOURCE_DISCOVERY_0.1'
+VERSION = 'LTMD_U1_W7_COMMONCRAWL_SOURCE_DISCOVERY_0.2'
 COLLINFO = 'https://index.commoncrawl.org/collinfo.json'
 UA = 'LibroTextoMexicanoDigital/U1-W7 exact-uri Common Crawl discovery'
 TIMEOUT = 15
 WORKERS = 10
+PHASE_YEARS = (2017, 2018, 2019, 2020)
+COLLECTIONS_PER_YEAR = 2
 OUT = Path('data/catalog/ltmd_u1_w7_commoncrawl_source_discovery.csv')
 REPORT = Path('data/catalog/ltmd_u1_w7_commoncrawl_source_discovery.md')
 
@@ -56,6 +58,23 @@ def collection_year(collection_id: str) -> int | None:
         return None
 
 
+def select_phase_collections(collections: list[dict]) -> list[dict]:
+    selected: list[dict] = []
+    for year in PHASE_YEARS:
+        year_items = sorted(
+            [c for c in collections if collection_year(c.get('id', '')) == year],
+            key=lambda c: c['id'],
+        )
+        if not year_items:
+            continue
+        picks = [year_items[0]]
+        if len(year_items) > 1:
+            picks.append(year_items[-1])
+        selected.extend(picks[:COLLECTIONS_PER_YEAR])
+    dedup = {c['id']: c for c in selected}
+    return [dedup[key] for key in sorted(dedup)]
+
+
 def query_one(collection: dict, target: dict) -> dict:
     endpoint = collection.get('cdx-api') or f"https://index.commoncrawl.org/{collection['id']}-index"
     query_url = endpoint + '?' + urlencode({
@@ -66,12 +85,7 @@ def query_one(collection: dict, target: dict) -> dict:
     try:
         with urlopen(Request(query_url, headers={'User-Agent': UA}), timeout=TIMEOUT) as response:
             raw = response.read().decode('utf-8', errors='replace')
-        rows = []
-        for line in raw.splitlines():
-            line = line.strip()
-            if not line:
-                continue
-            rows.append(json.loads(line))
+        rows = [json.loads(line) for line in raw.splitlines() if line.strip()]
         return {
             'target': target,
             'collection_id': collection['id'],
@@ -102,13 +116,10 @@ def query_one(collection: dict, target: dict) -> dict:
 
 def main() -> None:
     observed_utc = datetime.now(timezone.utc).isoformat()
-    collections = get_json(COLLINFO)
-    collections = [
-        c for c in collections
-        if (collection_year(c.get('id', '')) or 0) >= 2014
-    ]
+    collections = select_phase_collections(get_json(COLLINFO))
     if not collections:
-        raise SystemExit('no Common Crawl collections from 2014 onward')
+        raise SystemExit('no Common Crawl phase collections selected for 2017-2020')
+    print('selected_collections', ','.join(c['id'] for c in collections), flush=True)
 
     results = []
     with ThreadPoolExecutor(max_workers=WORKERS) as pool:
@@ -120,13 +131,10 @@ def main() -> None:
         for future in as_completed(futures):
             result = future.result()
             results.append(result)
-            if result['rows']:
-                print(
-                    result['target']['target_id'],
-                    result['collection_id'],
-                    'captures', len(result['rows']),
-                    flush=True,
-                )
+            print(
+                result['target']['target_id'], result['collection_id'],
+                result['probe_state'], 'captures', len(result['rows']), flush=True,
+            )
 
     records: list[dict[str, str]] = []
     summaries = []
@@ -181,6 +189,7 @@ def main() -> None:
         writer = csv.DictWriter(f, fieldnames=fields)
         writer.writeheader(); writer.writerows(records)
 
+    selected_ids = ', '.join(c['id'] for c in collections)
     lines = [
         '# LTMD-U1 W7 — descubrimiento Common Crawl de fuentes retenidas',
         '',
@@ -188,9 +197,10 @@ def main() -> None:
         '',
         f'Observado UTC: `{observed_utc}`.',
         '',
-        f'Colecciones Common Crawl consultadas desde 2014: **{len(collections)}**.',
+        f'Fase temporal: **2017–2020**, hasta **{COLLECTIONS_PER_YEAR}** índices por año.',
+        f'Índices seleccionados: `{selected_ids}`.',
         '',
-        'La consulta usa únicamente URIs institucionales exactos. Una captura es evidencia de que Common Crawl observó ese URI en una colección; no es por sí sola prueba de identidad bibliográfica. Cero capturas, si las consultas de índice fueron válidas, sólo significa ausencia en las colecciones consultadas.',
+        'La consulta usa únicamente URIs institucionales exactos. Esta fase está diseñada para descubrimiento rápido alrededor del periodo documental pertinente; cero capturas no equivale a ausencia global en Common Crawl ni en la web histórica.',
         '',
         '## Resumen',
         '',
@@ -208,13 +218,13 @@ def main() -> None:
         '',
         '## Página 104 de H2014P5FCA',
         '',
-        f"El URI exacto produjo **{h2014['capture_count']}** captura(s) en Common Crawl, con **{h2014['index_ok']}/{h2014['collections_queried']}** consultas de índice válidas.",
+        f"El URI exacto produjo **{h2014['capture_count']}** captura(s) en esta fase, con **{h2014['index_ok']}/{h2014['collections_queried']}** consultas de índice válidas.",
         '',
-        'Si existen capturas, los campos `filename`, `offset`, `length` y `digest` del CSV permiten una recuperación WARC dirigida y verificable. No se incorpora ningún byte al corpus en esta etapa.',
+        'Si existen capturas, `filename`, `offset`, `length` y `digest` permiten una recuperación WARC dirigida. No se incorpora ningún byte al corpus en esta etapa.',
         '',
         '## Límite epistemológico',
         '',
-        'No se consultan títulos, ediciones parecidas ni claves 2019 como sustitutos. Los cuatro visores 2018 se buscan por su URI institucional exacto; la fuente productiva permanece retenida hasta que la evidencia permita reconstruir el objeto sin imputación.',
+        'No se consultan títulos, ediciones parecidas ni claves 2019 como sustitutos. Ningún cero de esta fase se interpreta como inexistencia del recurso; la fuente productiva permanece retenida hasta reconstrucción con procedencia suficiente.',
     ]
     REPORT.write_text('\n'.join(lines) + '\n', encoding='utf-8')
 
