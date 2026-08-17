@@ -1,0 +1,190 @@
+name: LTMD U1-W8 Artes source-first audit
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/ltmd-u1-w8-artes-source-audit.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ltmd-u1-w8-artes-source-audit
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Build authoritative W8 scope
+        run: python scripts/build_ltmd_u1_w8_artes_scope.py
+
+      - name: Audit official viewer architecture
+        run: python scripts/audit_ltmd_u1_w8_artes_architecture.py
+
+      - name: Build declared inventory from official configuration
+        run: python scripts/build_ltmd_u1_w8_artes_declared_inventory.py
+
+      - name: Package immutable base evidence for asset jobs
+        run: |
+          tar -czf w8-base-evidence.tgz \
+            data/catalog/ltmd_u1_w8_scope.csv \
+            data/catalog/ltmd_u1_w8_scope.md \
+            data/catalog/ltmd_u1_w8_viewer_architecture.csv \
+            data/catalog/ltmd_u1_w8_viewer_architecture.md \
+            data/catalog/ltmd_u1_w8_declared_inventory.csv \
+            data/catalog/ltmd_u1_w8_declared_inventory_summary.csv \
+            data/catalog/ltmd_u1_w8_declared_inventory.md
+
+      - name: Upload base evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: w8-base-evidence
+          path: w8-base-evidence.tgz
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit source architecture and declared inventory
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/catalog/ltmd_u1_w8_scope.csv \
+            data/catalog/ltmd_u1_w8_scope.md \
+            data/catalog/ltmd_u1_w8_viewer_architecture.csv \
+            data/catalog/ltmd_u1_w8_viewer_architecture.md \
+            data/catalog/ltmd_u1_w8_declared_inventory.csv \
+            data/catalog/ltmd_u1_w8_declared_inventory_summary.csv \
+            data/catalog/ltmd_u1_w8_declared_inventory.md
+          if git diff --cached --quiet; then
+            echo "No source-architecture metadata changed."
+            exit 0
+          fi
+          git commit -m "data(w8): publish source architecture and declared inventory"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+  assets:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        viewer_key:
+          - H2008P2ED259
+          - H2008P5ED279
+          - H2011P1ED295
+          - H2011P2ED302
+          - H2011P3ED309
+          - H2011P4ED317
+          - H2011P5ED327
+          - H2011P6CI337
+          - H2014P3EAA
+          - H2014P4EAA
+          - H2014P5EAA
+          - H2014P6EAA
+          - H2018P3EAA
+          - H2018P4EAA
+          - H2018P5EAA
+          - H2018P6EAA
+          - H2019P3EAA
+          - H2019P4EAA
+          - H2019P5EAA
+          - H2019P6EAA
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download base evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: w8-base-evidence
+          path: .
+
+      - name: Restore base evidence
+        run: tar -xzf w8-base-evidence.tgz
+
+      - name: Audit exact official assets
+        id: audit
+        continue-on-error: true
+        run: python scripts/audit_ltmd_u1_w8_artes_assets_book.py --viewer-key "${{ matrix.viewer_key }}"
+
+      - name: Upload per-viewer audit shard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w8-asset-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w8_artes_assets/asset_*.csv
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Preserve probe-error signal
+        if: steps.audit.outcome == 'failure'
+        run: echo "Asset probe reported an operational error; shard preserved for diagnosis."
+
+  combine:
+    needs: assets
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout latest main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Download base evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: w8-base-evidence
+          path: .
+
+      - name: Restore base evidence
+        run: tar -xzf w8-base-evidence.tgz
+
+      - name: Download all viewer audit shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: w8-asset-*
+          path: data/work/ltmd_u1_w8_artes_assets
+          merge-multiple: true
+
+      - name: Combine and validate source manifest
+        run: python scripts/combine_ltmd_u1_w8_artes_asset_shards.py
+
+      - name: Upload combined source evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: w8-combined-source-evidence
+          path: |
+            data/catalog/ltmd_u1_w8_artes_asset_manifest.csv
+            data/catalog/ltmd_u1_w8_artes_asset_summary.csv
+            data/catalog/ltmd_u1_w8_artes_asset_audit.md
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit hash-only W8 source audit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/catalog/ltmd_u1_w8_artes_asset_manifest.csv \
+            data/catalog/ltmd_u1_w8_artes_asset_summary.csv \
+            data/catalog/ltmd_u1_w8_artes_asset_audit.md
+          if git diff --cached --quiet; then
+            echo "No combined W8 source evidence changed."
+            exit 0
+          fi
+          git commit -m "data(w8): publish exact official asset audit"
+          git pull --rebase origin main
+          git push origin HEAD:main
