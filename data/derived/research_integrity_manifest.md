@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.10`.
 
-Commit observado: `e1c13c702137bf4a2e32d0d37d00e9ce1e233c48`.
+Commit observado: `587b4fc0fd6168c2ed2ce5beff1b9cf41d763373`.
 
 Alcance: perímetro v0.9 congelado + separación explícita entre cohorte de catálogo y tiempo bibliográfico, observaciones bibliográficas con evidencia normalizada, huellas W7 y auditoría multipsm/checksum, evidencia reproducible de presencia/criterios de aceptación para las cinco identidades W7 retenidas, comparación técnica no semántica W3↔W4↔W7 y contratos de modelo/gobernanza/análisis histórico correspondientes.
 

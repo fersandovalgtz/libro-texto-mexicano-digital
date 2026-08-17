@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.10",
-  "generated_utc": "2026-08-17T05:01:05.784090+00:00",
-  "git_head": "e1c13c702137bf4a2e32d0d37d00e9ce1e233c48",
+  "generated_utc": "2026-08-17T05:01:32.814859+00:00",
+  "git_head": "587b4fc0fd6168c2ed2ce5beff1b9cf41d763373",
   "scope": "LTMD v0.10: frozen v0.9 perimeter plus explicit catalog-cohort versus bibliographic-time semantics, source-verified bibliographic observations with normalized evidence, bounded W7 fingerprints and multipsm/checksum support audit, reproducible presence/acceptance evidence for the five W7 source-withheld identities, the nonsemantic W3-W4-W7 technical comparison, and the governing data-model/provenance/historical-analysis contracts",
   "critical_count": 392,
   "critical_present_count": 392,
