@@ -2,9 +2,12 @@ name: analyze-ltmd-u1-w4-w7-technical-comparison
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - '.github/workflows/analyze-ltmd-u1-w4-w7-technical-comparison.yml'
+    inputs:
+      pipeline:
+        description: 'Allow explicit finalized comparison execution'
+        required: true
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -15,6 +18,7 @@ concurrency:
 
 jobs:
   compare:
+    if: ${{ inputs.pipeline == true }}
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
