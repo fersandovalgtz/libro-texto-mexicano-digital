@@ -114,6 +114,12 @@ Los candidatos pueden utilizarse para:
 
 No deben mezclarse sin etiqueta con fechas humanas validadas. Cualquier artículo o visualización que los use deberá publicar el tier de evidencia y la cobertura de datos faltantes.
 
+## Regla de corte reproducible
+
+Un conjunto de candidatos no se considera listo para publicación o análisis compartido sólo porque su workflow específico termine en `success`. El **estado maestro actualizado, los productores de observaciones/recovery/candidatos y sus salidas vigentes deben estar simultáneamente presentes en el manifiesto de integridad científico actual**, con `missing_critical=[]`.
+
+Cuando una actualización del estado maestro es publicada por un workflow mediante `GITHUB_TOKEN`, se debe ejecutar después un corte de integridad sobre el `main` actualizado; no se presupone que el push del bot dispare automáticamente otros workflows. El manifiesto publicado, y no la secuencia aparente de commits, es la prueba de que el conjunto versionado quedó congelado de manera conjunta.
+
 Véanse también:
 
 - `docs/HISTORICAL_ANALYSIS_PLAN_0_3.md`;
