@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'scripts/build_ltmd_bibliographic_instance_candidates_v01.py'
-      - 'data/catalog/ltmd_bibliographic_instance_resolution.csv'
-      - 'data/catalog/ltmd_bibliographic_instance_resolution_audit.csv'
+      - 'scripts/build_ltmd_bibliographic_instance_candidates_v02.py'
+      - 'data/catalog/ltmd_bibliographic_observations.csv'
+      - 'data/catalog/ltmd_bibliographic_observation_evidence.csv'
       - '.github/workflows/build-ltmd-bibliographic-instance-candidates.yml'
 
 concurrency:
@@ -23,8 +23,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Build publication-safe bibliographic instance candidates
-        run: python3 scripts/build_ltmd_bibliographic_instance_candidates_v01.py
+      - name: Build publication-safe bibliographic instance candidates 0.2
+        run: python3 scripts/build_ltmd_bibliographic_instance_candidates_v02.py
       - name: Publish candidates race-safely
         run: |
           set -euo pipefail
@@ -41,7 +41,7 @@ jobs:
             git add data/catalog/ltmd_bibliographic_instance_candidates.csv \
                     data/catalog/ltmd_bibliographic_instance_candidates.md
             if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Publish LTMD bibliographic instance candidates 0.1'
+            git commit -m 'Publish LTMD bibliographic instance candidates 0.2'
             if git push origin HEAD:main; then exit 0; fi
             sleep $((attempt * 2))
           done
