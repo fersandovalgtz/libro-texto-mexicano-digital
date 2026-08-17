@@ -2,9 +2,9 @@
 
 Versión: `LTMD_INTEGRITY_0.8`.
 
-Commit observado: `982f536858f0a6c5c4dbabd5e87edae77d263d9f`.
+Commit observado: `41fc4845fb882e35653735a9f971ae8f82b7c27b`.
 
-Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
+Alcance: perímetro v0.7 congelado + W7 Cívica/Ética: alcance histórico, provenance de página, routing del visor resuelto, evidencia de conformidad de fuente 2018, topología de 30 identidades/25 canónicos admisibles, OCR completo verificado por SHA-256 y controles PAGESTRUCT/FRAGSEG/reuso exacto/cierre técnico.
 
 Archivos críticos presentes: **333/333**.
 Artefactos opcionales presentes: **18**.
@@ -345,7 +345,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `.github/workflows/build-ltmd-u1-w7-civics-ethics-fragseg.yml` — 4497 bytes — `36a39e0298d581796561cd5ce64944abda7e5f6f46e6e622fed3c02700bf1b72`
 - `.github/workflows/analyze-ltmd-u1-w7-civics-ethics-exact-reuse.yml` — 1868 bytes — `89f9316c1c6e6e416f2c78f082c6b5ac56591ffede734e14277d867f0ee789e3`
 - `.github/workflows/build-ltmd-u1-w7-completion-report.yml` — 1504 bytes — `2788c98d9ddbe0003cea3d496a5e4d4ddb80ede6fc94f5118ee9eeb2f12dc9b6`
-- `scripts/build_research_integrity_manifest_v08.py` — 5364 bytes — `6e29a5d8178b5cb5fc5f790661178a63272ff25f1f81e7ce6e85e32f3a46aa54`
+- `scripts/build_research_integrity_manifest_v08.py` — 7333 bytes — `2d95d5f790195c73f666a00d6d4230d59ada39c997c90e3d4fc399d0ae37115e`
 
 ## Artefactos derivados adicionales presentes
 
