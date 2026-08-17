@@ -1,0 +1,44 @@
+name: discover-ltmd-u1-w7-wayback-sources
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/discover_ltmd_u1_w7_wayback_sources.py'
+
+concurrency:
+  group: ltmd-u1-w7-wayback-source-discovery
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Query exact institutional URIs in Wayback CDX
+        run: python3 scripts/discover_ltmd_u1_w7_wayback_sources.py
+      - name: Publish archival discovery race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-w7-wayback
+          mkdir -p /tmp/ltmd-w7-wayback
+          cp data/catalog/ltmd_u1_w7_wayback_source_discovery.csv /tmp/ltmd-w7-wayback/
+          cp data/catalog/ltmd_u1_w7_wayback_source_discovery.md /tmp/ltmd-w7-wayback/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-w7-wayback/* data/catalog/
+            git add data/catalog/ltmd_u1_w7_wayback_source_discovery.csv data/catalog/ltmd_u1_w7_wayback_source_discovery.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD U1 W7 Wayback source discovery'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
