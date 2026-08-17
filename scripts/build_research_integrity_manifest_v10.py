@@ -9,7 +9,8 @@
 * reproducible institutional-presence evidence and acceptance criteria for the
   five W7 source-withheld identities;
 * the strictly nonsemantic W3-W4-W7 technical comparator;
-* the data-model/governance documents that define those semantics.
+* the data-model/governance and historical-analysis contracts that define those
+  semantics.
 
 It does not promote Wayback/Common Crawl infrastructure failures or the
 unverified external mirror experiment into the critical scientific perimeter.
@@ -27,14 +28,14 @@ SCOPE = (
     'bibliographic-time semantics, source-verified bibliographic observations '
     'and bounded W7 fingerprints, reproducible presence/acceptance evidence for '
     'the five W7 source-withheld identities, the nonsemantic W3-W4-W7 technical '
-    'comparison, and the governing data-model/provenance contracts'
+    'comparison, and the governing data-model/provenance/historical-analysis contracts'
 )
 SCOPE_ES = (
     'perímetro v0.9 congelado + separación explícita entre cohorte de catálogo '
     'y tiempo bibliográfico, observaciones bibliográficas y huellas W7 '
     'verificadas contra fuente, evidencia reproducible de presencia/criterios '
     'de aceptación para las cinco identidades W7 retenidas, comparación técnica '
-    'no semántica W3↔W4↔W7 y contratos de modelo/gobernanza correspondientes'
+    'no semántica W3↔W4↔W7 y contratos de modelo/gobernanza/análisis histórico correspondientes'
 )
 OLD_SCOPE_ES_ASCII = (
     'CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la '
@@ -47,6 +48,7 @@ V10_CRITICAL = [
     'docs/LTMD_CATALOG_GENERATION_SEMANTICS_0_1.md',
     'docs/DATA_MODEL.md',
     'docs/DATA_GOVERNANCE.md',
+    'docs/HISTORICAL_ANALYSIS_PLAN_0_3.md',
     'data/catalog/ltmd_bibliographic_observations.csv',
     'data/catalog/ltmd_bibliographic_observations.md',
     'scripts/build_ltmd_bibliographic_observations.py',
