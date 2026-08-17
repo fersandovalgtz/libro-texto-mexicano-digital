@@ -7,6 +7,7 @@ on:
       - 'scripts/extract_ltmd_u1_w7_admitted_bibliographic_fingerprints.py'
       - 'data/catalog/ltmd_u1_w7_source_admissibility.csv'
       - 'data/catalog/ltmd_u1_w7_civics_ethics_asset_manifest.csv'
+      - '.github/workflows/extract-ltmd-u1-w7-admitted-bibliographic-fingerprints.yml'
 
 concurrency:
   group: ltmd-u1-w7-admitted-bibliographic-fingerprints
