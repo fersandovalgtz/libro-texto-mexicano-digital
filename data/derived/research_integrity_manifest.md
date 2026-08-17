@@ -2,11 +2,11 @@
 
 Versión: `LTMD_INTEGRITY_0.8`.
 
-Commit observado: `9b72bed45c376b621898ede6fa25e9ea47e5349c`.
+Commit observado: `3c6c591bf4a6ec9744be9fcad547c81d6fe5e804`.
 
 Alcance: CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 prehumana + artículo metodológico 0.2.
 
-Archivos críticos presentes: **328/328**.
+Archivos críticos presentes: **330/330**.
 Artefactos opcionales presentes: **18**.
 
 Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; la desaparición de un artefacto crítico hace fallar el workflow.
@@ -326,6 +326,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/segment_ltmd_u1_w7_civics_ethics_fragments.py` — 1323 bytes — `e853bdf3e11470041a8aa4870349000b49357576f1793c874f16bf6df16175cb`
 - `scripts/combine_ltmd_u1_w7_civics_ethics_fragment_shards.py` — 5983 bytes — `26709babc3fb4e4fe6751ce60a777b06fbc5de9354d5683a8fd1a95046f6fdcc`
 - `scripts/analyze_ltmd_u1_w7_civics_ethics_exact_reuse.py` — 6075 bytes — `d520f02fa5fb43fdce8d19885d695688e8605a39550ff586ffb06631812485da`
+- `scripts/build_ltmd_u1_w7_completion_report.py` — 9052 bytes — `59a54f575b0f803ec4175fe8ed2dcb17765a8c5a3cd59e05f722b1aae0721f14`
 - `.github/workflows/validate-ltmd-u1-w7-provenance.yml` — 1704 bytes — `d228a5b3215f08fdbb550fffef40dd2bb99c30c7b1c85d6f758d72a1bb4e4aad`
 - `.github/workflows/diagnose-ltmd-u1-w7-routing.yml` — 1810 bytes — `80e1c0e2715a982c8a2cc1f170d84ca2488d81d3728938c08557285a96056f2b`
 - `.github/workflows/extract-ltmd-u1-w7-viewer-route-contract.yml` — 1971 bytes — `73cffe30eb6159dc242103ed24861a5dace33d0a66e689fd6c5e465abcc0b782`
@@ -340,7 +341,8 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `.github/workflows/build-ltmd-u1-w7-civics-ethics-pagestruct.yml` — 4699 bytes — `11b25e97f4771f697ac347a5314864dde3d8245e29f0648ead9ef9c469af8ad4`
 - `.github/workflows/build-ltmd-u1-w7-civics-ethics-fragseg.yml` — 4515 bytes — `1e5d7db3ad79d667749d003e1e2a5d65c335a1b725e415b7c29679ee57d4b790`
 - `.github/workflows/analyze-ltmd-u1-w7-civics-ethics-exact-reuse.yml` — 1898 bytes — `cbc3ec73e1494f4c7cb21503f9d7b59579530a5a7ef223296ae14c4eab8e6df7`
-- `scripts/build_research_integrity_manifest_v08.py` — 5442 bytes — `5cfc9b3cf95781bee365fcf0a0525eb4598da56d9f273e4458742570d072378c`
+- `.github/workflows/build-ltmd-u1-w7-completion-report.yml` — 1519 bytes — `656b52b8a61d1d1bd6b075561edef2f13a56e5e290eb781e30a175b2a343d212`
+- `scripts/build_research_integrity_manifest_v08.py` — 5181 bytes — `3104ec5fc4bce270ad4cffb3225ef3da147cf2450c4df29486a2c26e76ecf81f`
 
 ## Artefactos derivados adicionales presentes
 
