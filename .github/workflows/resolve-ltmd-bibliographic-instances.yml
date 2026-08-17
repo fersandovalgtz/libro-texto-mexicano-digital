@@ -1,0 +1,48 @@
+name: resolve-ltmd-bibliographic-instances
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/resolve_ltmd_bibliographic_instances_v01.py'
+      - 'data/catalog/ltmd_bibliographic_observations.csv'
+      - 'data/catalog/ltmd_bibliographic_observation_evidence.csv'
+      - '.github/workflows/resolve-ltmd-bibliographic-instances.yml'
+
+concurrency:
+  group: ltmd-bibliographic-instance-resolution
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  resolve:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Resolve strict bibliographic instances
+        run: python3 scripts/resolve_ltmd_bibliographic_instances_v01.py
+      - name: Publish instance resolution race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-biblio-resolution
+          mkdir -p /tmp/ltmd-biblio-resolution
+          cp data/catalog/ltmd_bibliographic_instance_resolution.csv /tmp/ltmd-biblio-resolution/
+          cp data/catalog/ltmd_bibliographic_instance_resolution.md /tmp/ltmd-biblio-resolution/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-biblio-resolution/* data/catalog/
+            git add data/catalog/ltmd_bibliographic_instance_resolution.csv \
+                    data/catalog/ltmd_bibliographic_instance_resolution.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD bibliographic instance resolution 0.1'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
