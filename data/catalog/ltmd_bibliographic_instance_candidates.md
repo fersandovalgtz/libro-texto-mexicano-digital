@@ -1,6 +1,6 @@
 # LTMD — candidatos de instancia bibliográfica
 
-Versión: `LTMD_BIBLIOGRAPHIC_INSTANCE_CANDIDATES_0.2`.
+Versión: `LTMD_BIBLIOGRAPHIC_INSTANCE_CANDIDATES_0.3`.
 
 - Objetos evaluados: **26**.
 - Candidatos técnicos con año: **11**.
@@ -10,7 +10,7 @@ Versión: `LTMD_BIBLIOGRAPHIC_INSTANCE_CANDIDATES_0.2`.
 - Tier C, declaración conjunta en una sola página: **9**.
 - Candidatos cuyo año difiere de `catalog_generation`: **6/11**.
 
-0.2 se reconstruye directamente desde `LTMD_BIBLIOGRAPHIC_OBSERVATIONS_0.3`; ya no depende de la tabla de “resolution” 0.1. Las dos recuperaciones OCR estrechas incorporadas en Observaciones 0.3 elevan la cobertura de **9 a 11** candidatos sin cambiar la regla temporal.
+0.3 se reconstruye directamente desde `LTMD_BIBLIOGRAPHIC_OBSERVATIONS_0.4`; ya no depende de la tabla de “resolution” 0.1. Las dos recuperaciones OCR estrechas, ahora procedentes de la cadena causal `candidate-support 0.1 → recovery 0.2 → observations 0.4`, elevan la cobertura de **9 a 11** candidatos sin cambiar la regla temporal.
 
 ## Candidatos
 
