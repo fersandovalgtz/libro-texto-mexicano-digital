@@ -1,0 +1,8 @@
+LTMD_U1_W8_ARTES_EXACT_REUSE_DISPATCH_0.1
+prerequisite=FRAGSEG_LTMD_U1_W8_ARTES_0.1
+fragseg_run=32054880967
+eligible_pages=1025
+fragments=14060
+canonical_viewers=16
+withheld_viewers=4
+decision=OPEN_EXACT_REUSE_TECHNICAL_GATE
