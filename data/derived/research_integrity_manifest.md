@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.13`.
 
-Commit observado: `d8b4c678b4ca5ed16644e4f57625e17bc2895d5d`.
+Commit observado: `4c07020f0b971f125413346a969b1ec02bb71f86`.
 
 Alcance: perímetro v0.12 congelado + cierre técnico LTMD-U1 W8 Artes con fuente admisible: 20 identidades históricas preservadas, 16 objetos canónicos de procesamiento directo, cuatro identidades 2018 retenidas por fuente sin imputación, 1,490 páginas fuente trazadas por SHA, OCR/PAGESTRUCT/FRAGSEG cerrados, productos de dependencia textual exacta, controles explícitos de despacho y validador/informe transversal de cierre W8.
 
