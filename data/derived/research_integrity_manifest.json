@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.10",
-  "generated_utc": "2026-08-17T04:59:06.444840+00:00",
-  "git_head": "ac7ff7da890b781d584a58171b5f0755e3634e75",
+  "generated_utc": "2026-08-17T04:59:56.975151+00:00",
+  "git_head": "e9a2c1a112f40bf394b967e157d305b03ae7ed9a",
   "scope": "LTMD v0.10: frozen v0.9 perimeter plus explicit catalog-cohort versus bibliographic-time semantics, source-verified bibliographic observations with normalized evidence, bounded W7 fingerprints and multipsm/checksum support audit, reproducible presence/acceptance evidence for the five W7 source-withheld identities, the nonsemantic W3-W4-W7 technical comparison, and the governing data-model/provenance/historical-analysis contracts",
   "critical_count": 392,
   "critical_present_count": 392,
@@ -2195,19 +2195,19 @@
     {
       "path": "data/catalog/ltmd_bibliographic_observations.csv",
       "bytes": 51725,
-      "sha256": "78ae7b4c9d847e0e0a87e358f03679becdab37ecb06f048a0a83cc1a4347e160",
+      "sha256": "8a64216fd76dad529db231549c58b28814fe45a6ca3fe10feaa8994a8cde4190",
       "required": true
     },
     {
       "path": "data/catalog/ltmd_bibliographic_observation_evidence.csv",
       "bytes": 29043,
-      "sha256": "392831dd0a67cd63312cb16493ebf1638617570da587a9292c7069946ab02d75",
+      "sha256": "f0dca04d46a653fc5a4658719d9792c6f7029b9393b3cb2f3f6cddf09b0cb53e",
       "required": true
     },
     {
       "path": "data/catalog/ltmd_bibliographic_observations.md",
-      "bytes": 1722,
-      "sha256": "d5888683aa778c17010f40e6673324b2eacfdb9ddf8e06857e14037443b05454",
+      "bytes": 1933,
+      "sha256": "e2075089b04bc66fa3c28c4544b92557619c375870b7735b32a243229ddb7026",
       "required": true
     },
     {
@@ -2224,8 +2224,8 @@
     },
     {
       "path": ".github/workflows/build-ltmd-bibliographic-observations.yml",
-      "bytes": 2310,
-      "sha256": "f924864b74cb88a330ca64ebdc522dd022b07c46f270898e672fc2845217d9ee",
+      "bytes": 2373,
+      "sha256": "02fb8ddcd2e70e2efc1f46b6bfb7ed270b77b52c5db416987909756d1195fb1b",
       "required": true
     },
     {
