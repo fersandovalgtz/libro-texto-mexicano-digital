@@ -1,0 +1,60 @@
+name: audit-ltmd-u1-w9-source-admissibility
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/audit-ltmd-u1-w9-source-admissibility.yml'
+      - 'scripts/audit_ltmd_u1_w9_educacion_fisica_source_admissibility.py'
+      - 'data/catalog/ltmd_u1_w9_educacion_fisica_asset_summary.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: audit-ltmd-u1-w9-source-admissibility
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build W9 source-admissibility matrix
+        run: python3 scripts/audit_ltmd_u1_w9_educacion_fisica_source_admissibility.py
+      - name: Verify exact partition
+        run: |
+          python3 - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w9_educacion_fisica_source_admissibility.csv',encoding='utf-8')))
+          assert len(rows)==4 and len({r['viewer_key'] for r in rows})==4
+          assert all(r['identity_reconciliation_state']=='exact_1_to_1' for r in rows)
+          assert all(r['alias_state']=='no_alias' for r in rows)
+          admitted=sum(r['source_status']=='SOURCE_ADMISSIBLE' for r in rows)
+          retained=sum(r['source_status']=='SOURCE_RETAINED' for r in rows)
+          assert admitted+retained==4
+          print('W9 source partition PASS:',admitted,'admitted /',retained,'retained')
+          PY
+      - name: Publish source-admissibility products
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w9_educacion_fisica_source_admissibility.csv /tmp/
+          cp docs/LTMD_U1_W9_EDUCACION_FISICA_SOURCE_ADMISSIBILITY.md /tmp/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w9_educacion_fisica_source_admissibility.csv data/catalog/
+            cp /tmp/LTMD_U1_W9_EDUCACION_FISICA_SOURCE_ADMISSIBILITY.md docs/
+            git add data/catalog/ltmd_u1_w9_educacion_fisica_source_admissibility.csv docs/LTMD_U1_W9_EDUCACION_FISICA_SOURCE_ADMISSIBILITY.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w9): publish source-admissibility matrix'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
