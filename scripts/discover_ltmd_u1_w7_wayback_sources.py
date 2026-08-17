@@ -11,17 +11,21 @@ from __future__ import annotations
 import csv
 import json
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-VERSION = 'LTMD_U1_W7_WAYBACK_SOURCE_DISCOVERY_0.1'
+VERSION = 'LTMD_U1_W7_WAYBACK_SOURCE_DISCOVERY_0.2'
 CDX = 'https://web.archive.org/cdx/search/cdx'
 UA = 'LibroTextoMexicanoDigital/U1-W7 exact-uri archive discovery'
 OUT = Path('data/catalog/ltmd_u1_w7_wayback_source_discovery.csv')
 REPORT = Path('data/catalog/ltmd_u1_w7_wayback_source_discovery.md')
+MAX_WORKERS = 5
+TIMEOUT_SECONDS = 20
+ATTEMPTS = 2
 
 VIEWERS = [
     'H2014P5FCA',
@@ -76,12 +80,13 @@ def fetch_cdx(target: dict[str, str]) -> tuple[str, str, list[dict[str, str]]]:
         'fl': ','.join(FIELDS),
         'filter': 'statuscode:200',
         'collapse': 'urlkey',
+        'limit': '5000',
     }
     url = CDX + '?' + urlencode(params)
     last_error = ''
-    for attempt in range(1, 4):
+    for attempt in range(1, ATTEMPTS + 1):
         try:
-            with urlopen(Request(url, headers={'User-Agent': UA}), timeout=60) as response:
+            with urlopen(Request(url, headers={'User-Agent': UA}), timeout=TIMEOUT_SECONDS) as response:
                 raw = response.read().decode('utf-8', errors='replace')
             data = json.loads(raw)
             if not data:
@@ -94,21 +99,30 @@ def fetch_cdx(target: dict[str, str]) -> tuple[str, str, list[dict[str, str]]]:
         except HTTPError as exc:
             last_error = f'HTTP {exc.code}'
             if exc.code in {400, 404}:
-                return url, 'cdx_http_error', []
+                return url, f'cdx_http_{exc.code}', []
         except (URLError, TimeoutError, OSError, json.JSONDecodeError) as exc:
             last_error = f'{type(exc).__name__}: {exc}'
-        if attempt < 3:
-            time.sleep(attempt * 2)
+        if attempt < ATTEMPTS:
+            time.sleep(2)
     return url, 'cdx_network_error:' + last_error, []
 
 
 def main() -> None:
     observed_utc = datetime.now(timezone.utc).isoformat()
+    fetched: dict[str, tuple[dict[str, str], str, str, list[dict[str, str]]]] = {}
+
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as pool:
+        futures = {pool.submit(fetch_cdx, target): target for target in TARGETS}
+        for future in as_completed(futures):
+            target = futures[future]
+            query_url, probe_state, rows = future.result()
+            fetched[target['target_id']] = (target, query_url, probe_state, rows)
+            print(target['target_id'], probe_state, len(rows), flush=True)
+
     records: list[dict[str, str]] = []
     summaries: list[dict[str, object]] = []
-
-    for target in TARGETS:
-        query_url, probe_state, rows = fetch_cdx(target)
+    for target_id in sorted(fetched):
+        target, query_url, probe_state, rows = fetched[target_id]
         valid_rows = []
         for row in rows:
             original = row.get('original', '')
@@ -133,7 +147,6 @@ def main() -> None:
             'first_capture': timestamps[0] if timestamps else '',
             'last_capture': timestamps[-1] if timestamps else '',
         })
-        print(target['target_id'], probe_state, len(valid_rows))
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = [
@@ -151,6 +164,8 @@ def main() -> None:
         f'Versión: `{VERSION}`.',
         '',
         f'Observado UTC: `{observed_utc}`.',
+        '',
+        f'Contrato operativo: {MAX_WORKERS} consultas concurrentes; timeout {TIMEOUT_SECONDS}s; {ATTEMPTS} intentos por objetivo.',
         '',
         'Se consulta Wayback CDX exclusivamente con URIs institucionales exactos o prefijos exactos ya demostrados por el contrato de routing. Una captura archivada es evidencia de disponibilidad histórica del URI, no prueba automática de identidad bibliográfica; una consulta sin capturas tampoco prueba inexistencia del recurso.',
         '',
