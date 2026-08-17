@@ -12,9 +12,39 @@ Permanecen no validados o estacionados CER/WER contra referencia humana, confiab
 
 `catalog_generation` se interpreta como **etiqueta institucional de cohorte/navegación** y no como fecha bibliográfica automática. `H2014P5FCA` constituye evidencia falsadora directa del supuesto `catalog_generation == publication_year`: su página legal institucional, verificada contra SHA-256 y tamaño, declara **Primera edición 2014** y **Tercera reimpresión 2017 (ciclo escolar 2017–2018)**.
 
-Esta distinción ya está materializada, no sólo documentada. `LTMD_BIBLIOGRAPHIC_OBSERVATIONS_0.1` publica una capa reproducible con **4 observaciones atómicas** para `H2014P5FCA`: `first_edition_year=2014`, `reprint_statement=third_reprint`, `reprint_year=2017` y `school_cycle=2017-2018`. Las cuatro se anclan a la página legal 4 y al SHA-256 del activo institucional; `catalog_generation=2014` se conserva en una columna distinta. El ISBN no se importa desde fuentes secundarias.
+Esta separación quedó incorporada al modelo de datos, a la gobernanza y al plan histórico `HISTORICAL_ANALYSIS_PLAN_0.3`: cualquier análisis longitudinal debe declarar si usa `catalog_generation`, `edition_year`, `reprint_year`, `school_cycle`, `copyright_year` u otra temporalidad primaria, y no puede intercambiarlas implícitamente.
 
-Véanse `docs/LTMD_CATALOG_GENERATION_SEMANTICS_0_1.md` y `data/catalog/ltmd_bibliographic_observations.md`.
+### Fingerprint bibliográfico W7 admitido
+
+El run **31994479276** (`success`) ejecutó `LTMD_U1_W7_ADMITTED_BIBLIOGRAPHIC_FINGERPRINTS_0.1` sobre los **25/25 visores W7 fuente-admitidos**. La ventana se limitó a páginas lógicas 1–12: **300/300 páginas** fueron descargadas temporalmente, verificadas contra SHA-256 + tamaño del manifiesto fuente y sometidas a OCR técnico. No se persistieron imágenes ni OCR completo.
+
+El fingerprint conserva candidatos de edición, reimpresión, ciclo escolar e ISBN sin resolver automáticamente cuál declaración histórica corresponde a la edición vigente del ejemplar.
+
+### Auditoría multímodo/checksum
+
+El run **31995336575** (`success`) auditó **107 candidatos estructurados**. Resultado:
+
+- candidatos `strong_multipsm`: **91**;
+- visores con ≥1 candidato fuerte: **25/25**;
+- `single_psm`: **10**;
+- `cross_line_or_unretained_only`: **3**;
+- ISBN rechazados por checksum ISBN-13: **3**.
+
+La regla exige la misma declaración en ≥2 modos PSM sobre la misma página SHA-verificada; un ISBN requiere además checksum válido. El hallazgo de ISBN multímodo pero inválidos demuestra que acuerdo OCR no equivale por sí solo a corrección bibliográfica.
+
+### Observaciones bibliográficas 0.2
+
+El run **31995431165** (`success`) publicó `LTMD_BIBLIOGRAPHIC_OBSERVATIONS_0.2`:
+
+- observaciones semánticas materializadas: **93**;
+- objetos con ≥1 observación: **26**;
+- filas normalizadas de evidencia página/SHA: **95**;
+- W7 admitidos cubiertos: **25/25**;
+- `H2014P5FCA` conserva sus cuatro observaciones específicas pese a estar retenido del OCR productivo por el hueco de fuente.
+
+La capa distingue explícitamente `edition_history_statement`, `reprint_history_statement`, `school_cycle_statement` e `isbn_statement` de una futura resolución de `edition_year` o “edición vigente”. Las declaraciones históricas observadas no se convierten automáticamente en una fecha canónica del visor. `human_validated=0` permanece visible.
+
+Véanse `docs/LTMD_CATALOG_GENERATION_SEMANTICS_0_1.md`, `docs/DATA_MODEL.md`, `docs/DATA_GOVERNANCE.md`, `docs/HISTORICAL_ANALYSIS_PLAN_0_3.md`, `data/catalog/ltmd_u1_w7_admitted_bibliographic_fingerprints.md`, `data/catalog/ltmd_u1_w7_bibliographic_candidate_support.md` y `data/catalog/ltmd_bibliographic_observations.md`.
 
 ## Ciencias Naturales y W2 Matemáticas
 
@@ -157,21 +187,33 @@ El visor oficial construye la ruta `./c/{ag_clave}/{ag_page}.jpg` con numeració
 
 `H2014P5FCA` está retenido por un único hueco interno: **página lógica 104 / `104.jpg`**, con **224/225** JPEG institucionales servidos. La comparación SHA-256 contra otros libros W7 de quinto dio **0 coincidencias byte-exactas** con `H2019P5FCA` en las 224 posiciones comparables; no existe base para un alias de recuperación.
 
-### Investigación de las cinco fuentes retenidas — 0.2
+### Investigación de las cinco fuentes retenidas — 0.3
 
-La huella bibliográfica de `H2014P5FCA`, extraída de las páginas lógicas 1–12 después de verificar **12/12 SHA-256 y tamaños**, identifica en su página legal:
+El snapshot `LTMD_U1_W7_WITHHELD_VIEWER_PRESENCE_0.1` (run **31994842361**, `success`) verificó sin solicitar JPEG de páginas que las **5/5 identidades retenidas** siguen presentes en `claves.json` y como visores HTML HTTP 200. Las cardinalidades gate/live coinciden exactamente:
 
-- **Primera edición, 2014**.
-- **Tercera reimpresión, 2017**.
-- Ciclo escolar **2017–2018**.
+- `H2014P5FCA`: 225/225;
+- `H2018P3FCA`: 114/114;
+- `H2018P4FCA`: 130/130;
+- `H2018P5FCA`: 226/226;
+- `H2018P6FCA`: 210/210.
+
+Esto refuerza el diagnóstico correcto para 2018: **objeto/configuración y visor institucional presentes; activos de página no servidos bajo la ruta oficial observada**.
+
+La huella bibliográfica específica de `H2014P5FCA`, extraída de las páginas lógicas 1–12 después de verificar **12/12 SHA-256 y tamaños**, identifica en su página legal:
+
+- **Primera edición, 2014**;
+- **Tercera reimpresión, 2017**;
+- ciclo escolar **2017–2018**.
 
 El ISBN no se leyó con fiabilidad suficiente y no se imputa desde fuentes secundarias.
 
 Dos vías archivísticas quedaron no concluyentes por infraestructura: Wayback CDX devolvió HTTP 503/timeouts y el probe Common Crawl 2017–2020 obtuvo **0/8 consultas de índice válidas por objetivo**. Esos ceros no se interpretan como ausencia histórica.
 
-Se evaluó además un espejo externo del ciclo 2017–2018 como posible fuente de una reconstrucción derivada. Tres runs (`31990532400`, `31990634303`, `31990733990`) terminaron antes de publicar evidencia porque el HTML servido a GitHub Actions no permitió autoverificar reproduciblemente la página candidata. No se aceptó ninguna imagen externa; el workflow quedó `workflow_dispatch` manual-only para evitar reintentos y, sobre todo, para no rebajar el gate.
+Se evaluó además un espejo externo del ciclo 2017–2018 como posible fuente de una reconstrucción derivada. Tres runs (`31990532400`, `31990634303`, `31990733990`) terminaron antes de publicar evidencia porque el HTML servido a GitHub Actions no permitió autoverificar reproduciblemente la página candidata. No se aceptó ninguna imagen externa; el workflow quedó `workflow_dispatch` manual-only para evitar reintentos y no rebajar el gate.
 
-Estado final de este corte: **25/30 admitidas; 5/30 retenidas; 0 aliases nuevos; 0 reconstrucciones externas aceptadas**. Véanse `docs/LTMD_U1_W7_WITHHELD_SOURCE_RESEARCH_0_2.md` y `docs/LTMD_U1_W7_H2014P5_EXTERNAL_MIRROR_STATUS_0_1.md`.
+La investigación está formalizada en `docs/LTMD_U1_W7_WITHHELD_SOURCE_RESEARCH_0_3.md` y `docs/LTMD_U1_W7_WITHHELD_SOURCE_ACCEPTANCE_CRITERIA.md`. La issue **#5**, `Resolver fuentes W7 retenidas sin aliases heurísticos`, conserva los criterios de cierre verificables.
+
+Estado de este corte: **25/30 admitidas; 5/30 retenidas; 0 aliases nuevos; 0 reconstrucciones externas aceptadas**.
 
 ### OCR 0.1 — cerrado
 
@@ -225,23 +267,58 @@ Los pares 2014↔2019 del mismo grado concentran el mayor reuso observado; por e
 
 Cierre validado: `docs/LTMD_U1_W7_COMPLETION.md` (run **31981780547**, `success`). El cierre aplica sólo a la cohorte con fuente admisible; **W7 no se declara históricamente completo**.
 
-## Comparación técnica W4 ↔ W7
+## Comparaciones técnicas no semánticas
 
-El comparador no semántico `LTMD_U1_W4_W7_TECHNICAL_COMPARISON_0.1` fue publicado con éxito. Entre sus descriptores:
+### W4 ↔ W7
 
-- Páginas PAGESTRUCT elegibles: **83.60% W4** vs **84.18% W7**.
-- Fragmentos por página elegible: **10.595 W4** vs **12.186 W7**.
-- `mixed_text_image`: **24.90% W4** vs **37.07% W7**.
-- Unidades exactas repetidas: **14.11% W4** vs **24.06% W7**.
-- Unidades exactas presentes en ≥2 generaciones: **13.71% W4** vs **22.58% W7**.
+El comparador `LTMD_U1_W4_W7_TECHNICAL_COMPARISON_0.1` permanece congelado. Entre sus descriptores:
 
-Estas diferencias son descriptivas de dos conjuntos con dominios, generaciones e inventarios distintos. Sirven para formular hipótesis y auditar el comportamiento del pipeline; no justifican atribuciones causales a reformas, asignaturas o periodos sin diseño posterior y validación humana. Véase `docs/LTMD_U1_W4_W7_TECHNICAL_COMPARISON.md`.
+- páginas PAGESTRUCT elegibles: **83.60% W4** vs **84.18% W7**;
+- fragmentos por página elegible: **10.595 W4** vs **12.186 W7**;
+- `mixed_text_image`: **24.90% W4** vs **37.07% W7**;
+- unidades exactas repetidas: **14.11% W4** vs **24.06% W7**;
+- unidades exactas presentes en ≥2 generaciones: **13.71% W4** vs **22.58% W7**.
+
+### W3 ↔ W4 ↔ W7
+
+El run **31994732022** (`success`) publicó `LTMD_U1_W3_W4_W7_TECHNICAL_COMPARISON_0.2`. El primer intento falló antes de publicar porque W3 conserva un schema de reuso exacto distinto; la versión 0.2 normaliza explícitamente `canonical_occurrence_count`, `canonical_viewer_count` y `represented_catalog_generation_count` sin modificar los productos W3 cerrados.
+
+Descriptores de escala:
+
+- objetos canónicos: **114 W3 / 14 W4 / 25 W7**;
+- páginas: **20,765 / 2,414 / 3,261**;
+- páginas elegibles: **17,337 (83.49%) / 2,018 (83.60%) / 2,745 (84.18%)**;
+- fragmentos: **222,490 / 21,380 / 33,451**;
+- fragmentos por página elegible: **12.833 / 10.595 / 12.186**;
+- unidades exactas únicas: **147,375 / 17,735 / 22,651**;
+- unidades exactas repetidas: **27.79% / 14.11% / 24.06%**;
+- unidades en ≥2 visores: **27.22% / 13.84% / 23.46%**;
+- unidades en ≥2 generaciones de catálogo: **34.02% / 13.71% / 22.58%**.
+
+Estas diferencias caracterizan representaciones computacionales de cohortes con dominios, inventarios y coberturas históricas distintos. **No justifican inferencias de calidad educativa, complejidad pedagógica, reforma curricular ni cambio histórico.** Véase `docs/LTMD_U1_W3_W4_W7_TECHNICAL_COMPARISON.md`.
 
 ## Integridad científica
 
-`LTMD_INTEGRITY_0.9` preserva el perímetro 0.8 y promueve a críticos los nueve productos W3 que habían permanecido opcionales hasta materializarse. El propio constructor 0.9 forma parte del perímetro. Cada artefacto crítico conserva tamaño y SHA-256; la desaparición de cualquiera hace fallar el workflow de integridad.
+`LTMD_INTEGRITY_0.10` es el perímetro científico vigente. Preserva 0.9 y congela adicionalmente:
 
-Después de incorporar el expediente W7, el contrato temporal y el builder de observaciones bibliográficas, el run **31991013049** concluyó `success` y el manifiesto publicado conserva **359/359 críticos**, `missing_critical=[]` y **9 opcionales presentes**. Los nuevos productos bibliográficos permanecen fuera del perímetro congelado 0.9 hasta una futura promoción explícita de versión.
+- semántica `catalog_generation` vs tiempo bibliográfico;
+- `DATA_MODEL`, `DATA_GOVERNANCE` y `HISTORICAL_ANALYSIS_PLAN_0.3`;
+- fingerprint específico `H2014P5FCA`;
+- fingerprint W7 admitido 300/300;
+- auditoría multímodo/checksum;
+- observaciones bibliográficas 0.2 y su tabla normalizada de evidencia;
+- snapshot y criterios de aceptación de las cinco fuentes W7 retenidas;
+- comparador técnico W3↔W4↔W7;
+- constructor versionado 0.10.
+
+El run **31995509011** concluyó `success`. El manifiesto publicado declara:
+
+- archivos críticos: **392**;
+- críticos presentes: **392/392**;
+- `missing_critical=[]`;
+- opcionales presentes: **9**.
+
+Los fallos de infraestructura de Wayback/Common Crawl y el espejo externo no verificado **no** se promueven al perímetro científico como resultados sustantivos.
 
 ## Orquestación y recuperación
 
@@ -253,9 +330,9 @@ Los recoveries reutilizan artifacts válidos y recomputan únicamente visores fa
 
 1. Para `H2014P5FCA`, buscar una fuente reproducible de la **tercera reimpresión 2017 / ciclo 2017–2018** y demostrar la correspondencia de la página 104 sin convertir una copia externa en `source_jpeg` institucional.
 2. Para los cuatro `H2018...`, priorizar routing histórico, relocalización o huellas bibliográficas documentales; mantener la retención si no aparece evidencia suficiente y evitar aliases 2019 heurísticos.
-3. Expandir `LTMD_BIBLIOGRAPHIC_OBSERVATIONS_0.1` a nuevos objetos únicamente cuando exista evidencia primaria o documental reproducible; nunca por `catalog_generation`.
-4. Diseñar, sólo si aporta valor científico, un comparador técnico W3↔W4↔W7 estrictamente descriptivo y no semántico.
-5. Incorporar W3, W7, la separación temporal y la comparación W4↔W7 al artículo metodológico como evidencia técnica/descriptiva, manteniendo separada cualquier validación humana/semántica futura.
+3. Sobre las **93 observaciones bibliográficas**, diseñar una capa posterior de resolución de ejemplar que determine —sólo cuando la evidencia lo permita— qué declaración corresponde a la edición/reimpresión efectiva del objeto; no seleccionar simplemente el ordinal o año máximo.
+4. Extender gradualmente la extracción bibliográfica a W3/W4/W2 usando el mismo contrato página + SHA + soporte, antes de formular cronologías editoriales amplias.
+5. Incorporar W3, W7, la separación temporal, la capa bibliográfica y el comparador W3↔W4↔W7 al artículo metodológico como evidencia técnica/descriptiva, manteniendo separada cualquier validación humana/semántica futura.
 
 ## Principio de publicación
 
