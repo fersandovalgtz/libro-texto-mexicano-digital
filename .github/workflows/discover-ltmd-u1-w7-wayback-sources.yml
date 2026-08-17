@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - 'scripts/discover_ltmd_u1_w7_wayback_sources.py'
+      - '.github/workflows/discover-ltmd-u1-w7-wayback-sources.yml'
 
 concurrency:
   group: ltmd-u1-w7-wayback-source-discovery
