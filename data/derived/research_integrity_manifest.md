@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.11`.
 
-Commit observado: `162580156bf4411c3cac33fdcb389eaa2f581331`.
+Commit observado: `c79888a308fb9b4b531feaa4b8aa7d43e183a921`.
 
 Alcance: perímetro v0.10 congelado + cadena causal reproducible de candidatos de instancia bibliográfica (audit de soporte → recovery OCR estrecho 0.2 → observaciones 0.4 → candidatos 0.3), tiers de evidencia seguros para publicación y supersesión explícita de la interpretación antigua de instance-resolution.
 
