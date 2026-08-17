@@ -1,0 +1,48 @@
+name: recover-ltmd-u1-w7-reprint-ocr-confusions
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/recover_ltmd_u1_w7_reprint_ocr_confusions.py'
+      - 'data/catalog/ltmd_u1_w7_admitted_bibliographic_fingerprints.csv'
+      - 'data/catalog/ltmd_bibliographic_instance_candidates.csv'
+      - '.github/workflows/recover-ltmd-u1-w7-reprint-ocr-confusions.yml'
+
+concurrency:
+  group: ltmd-u1-w7-reprint-ocr-confusion-recovery
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Recover only documented reprint OCR confusions
+        run: python3 scripts/recover_ltmd_u1_w7_reprint_ocr_confusions.py
+      - name: Publish recovery evidence race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-w7-reprint-recovery
+          mkdir -p /tmp/ltmd-w7-reprint-recovery
+          cp data/catalog/ltmd_u1_w7_reprint_ocr_confusion_recovery.csv /tmp/ltmd-w7-reprint-recovery/
+          cp data/catalog/ltmd_u1_w7_reprint_ocr_confusion_recovery.md /tmp/ltmd-w7-reprint-recovery/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-w7-reprint-recovery/* data/catalog/
+            git add data/catalog/ltmd_u1_w7_reprint_ocr_confusion_recovery.csv \
+                    data/catalog/ltmd_u1_w7_reprint_ocr_confusion_recovery.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD W7 reprint OCR-confusion recovery 0.1'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
