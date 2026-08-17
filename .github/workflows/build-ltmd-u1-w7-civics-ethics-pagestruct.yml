@@ -2,14 +2,15 @@ name: build-ltmd-u1-w7-civics-ethics-pagestruct
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ['build-ltmd-u1-w7-civics-ethics-ocr']
-    types: [completed]
-  push:
-    paths:
-      - '.github/workflows/build-ltmd-u1-w7-civics-ethics-pagestruct.yml'
+    inputs:
+      pipeline:
+        description: 'Allow explicit W7 pipeline execution'
+        required: true
+        default: false
+        type: boolean
 
 permissions:
+  actions: write
   contents: write
 
 env:
@@ -21,7 +22,7 @@ concurrency:
 
 jobs:
   matrix:
-    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ inputs.pipeline == true }}
     runs-on: ubuntu-24.04
     outputs:
       viewers: ${{ steps.make.outputs.viewers }}
@@ -73,6 +74,8 @@ jobs:
   combine:
     needs: flags
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -109,3 +112,5 @@ jobs:
             sleep $((attempt * 2))
           done
           exit 1
+      - name: Dispatch W7 FRAGSEG
+        run: gh workflow run build-ltmd-u1-w7-civics-ethics-fragseg.yml --repo "$GITHUB_REPOSITORY" --ref main -f pipeline=true
