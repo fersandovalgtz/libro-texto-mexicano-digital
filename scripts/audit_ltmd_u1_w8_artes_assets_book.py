@@ -13,7 +13,7 @@ from urllib.request import Request,urlopen
 
 INV=Path('data/catalog/ltmd_u1_w8_declared_inventory.csv')
 ARCH=Path('data/catalog/ltmd_u1_w8_viewer_architecture.csv')
-VERSION='LTMD_U1_W8_ARTES_ASSET_AUDIT_0.1'
+VERSION='LTMD_U1_W8_ARTES_ASSET_AUDIT_0.2'
 BASE='https://historico.conaliteg.gob.mx/c/{key}/{idx:03d}.jpg'
 UA='LibroTextoMexicanoDigital/U1-W8 Arts asset audit'
 EXPECTED=20
@@ -50,11 +50,20 @@ def main():
     records=[]
     for page in range(1,n+1):
         idx=0 if page==1 else page;url=BASE.format(key=key,idx=idx);p=fetch_hash(url)
-        if p['probe_state']=='served_image':status='source_jpeg'
-        elif p['probe_state']=='http_404' and page==n:status='terminal_synthetic_candidate'
-        elif p['probe_state']=='http_404':status='internal_unserved'
+        records.append({'audit_version':VERSION,'viewer_key':a.viewer_key,'catalog_generation':m['catalog_generation'],'grade_code':m['grade_code'],'title_core':m['title_core'],'viewer_ui':ui,'ag_clave':key,'viewer_page':page,'declared_positions':n,'source_image_index':idx,'source_asset_url':url,'is_final_declared_position':int(page==n),**p})
+
+    # A final 404 is only a terminal synthetic candidate when every preceding
+    # declared position was actually served as an image. This prevents an
+    # entirely absent asset subtree from being mislabeled as if only its final
+    # synthetic viewer position were missing.
+    prior_sequence_complete=bool(records[:-1]) and all(r['probe_state']=='served_image' for r in records[:-1])
+    for r in records:
+        if r['probe_state']=='served_image':status='source_jpeg'
+        elif r['probe_state']=='http_404' and int(r['viewer_page'])==n and prior_sequence_complete:status='terminal_synthetic_candidate'
+        elif r['probe_state']=='http_404':status='internal_unserved'
         else:status='probe_error'
-        records.append({'audit_version':VERSION,'viewer_key':a.viewer_key,'catalog_generation':m['catalog_generation'],'grade_code':m['grade_code'],'title_core':m['title_core'],'viewer_ui':ui,'ag_clave':key,'viewer_page':page,'declared_positions':n,'source_image_index':idx,'source_asset_url':url,'is_final_declared_position':int(page==n),'asset_status':status,**p})
+        r['asset_status']=status
+
     d=Path(a.output_dir);d.mkdir(parents=True,exist_ok=True);out=d/f'asset_{a.viewer_key.lower()}.csv'
     with out.open('w',encoding='utf-8',newline='') as f:w=csv.DictWriter(f,fieldnames=list(records[0]));w.writeheader();w.writerows(records)
     c={s:sum(r['asset_status']==s for r in records) for s in ('source_jpeg','terminal_synthetic_candidate','internal_unserved','probe_error')}
