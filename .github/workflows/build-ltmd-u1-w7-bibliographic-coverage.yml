@@ -1,0 +1,50 @@
+name: build-ltmd-u1-w7-bibliographic-coverage
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/build_ltmd_u1_w7_bibliographic_coverage_matrix.py'
+      - 'data/catalog/ltmd_u1_w7_source_admissibility.csv'
+      - 'data/catalog/ltmd_bibliographic_observations.csv'
+      - 'data/catalog/ltmd_bibliographic_instance_candidates.csv'
+      - '.github/workflows/build-ltmd-u1-w7-bibliographic-coverage.yml'
+
+concurrency:
+  group: ltmd-u1-w7-bibliographic-coverage
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build 30-identity W7 bibliographic coverage matrix
+        run: python3 scripts/build_ltmd_u1_w7_bibliographic_coverage_matrix.py
+      - name: Publish coverage matrix race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-w7-biblio-coverage
+          mkdir -p /tmp/ltmd-w7-biblio-coverage
+          cp data/derived/ltmd_u1_w7_bibliographic_coverage.csv /tmp/ltmd-w7-biblio-coverage/
+          cp docs/LTMD_U1_W7_BIBLIOGRAPHIC_COVERAGE.md /tmp/ltmd-w7-biblio-coverage/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-w7-biblio-coverage/ltmd_u1_w7_bibliographic_coverage.csv data/derived/
+            cp /tmp/ltmd-w7-biblio-coverage/LTMD_U1_W7_BIBLIOGRAPHIC_COVERAGE.md docs/
+            git add data/derived/ltmd_u1_w7_bibliographic_coverage.csv \
+                    docs/LTMD_U1_W7_BIBLIOGRAPHIC_COVERAGE.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD W7 bibliographic coverage 0.1'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
