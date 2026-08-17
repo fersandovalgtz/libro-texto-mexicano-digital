@@ -1,0 +1,115 @@
+name: build-ltmd-u1-w8-artes-pagestruct
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w8-artes-pagestruct.yml'
+      - 'scripts/extract_ltmd_u1_w8_artes_structural_flags_book.py'
+      - 'scripts/combine_ltmd_u1_w8_artes_structural_flags.py'
+      - 'scripts/classify_ltmd_u1_w8_artes_page_structure.py'
+      - 'data/catalog/ltmd_u1_w8_artes_ocr_metrics.csv'
+      - 'data/catalog/ltmd_u1_w8_artes_ocr_summary.csv'
+      - 'data/catalog/ltmd_u1_w8_processing_inventory.csv'
+      - 'data/catalog/ltmd_u1_w8_canonical_page_manifest.csv'
+
+permissions:
+  contents: write
+
+env:
+  OMP_THREAD_LIMIT: '1'
+
+concurrency:
+  group: build-ltmd-u1-w8-artes-pagestruct
+  cancel-in-progress: false
+
+jobs:
+  matrix:
+    runs-on: ubuntu-24.04
+    outputs:
+      viewers: ${{ steps.make.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: make
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import csv,json
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w8_artes_ocr_summary.csv',encoding='utf-8')))
+          metrics=list(csv.DictReader(open('data/catalog/ltmd_u1_w8_artes_ocr_metrics.csv',encoding='utf-8')))
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w8_processing_inventory.csv',encoding='utf-8')))
+          assert len(proc)==20 and len([r for r in proc if r['ocr_identity_eligible']=='0'])==4
+          keys={r['viewer_key'] for r in proc if r['ocr_identity_eligible']=='1' and r['is_canonical_processing_object']=='1'}
+          assert len(keys)==16
+          assert len(rows)==16 and {r['viewer_key'] for r in rows}==keys
+          assert {r['ocr_version'] for r in rows}=={'LTMD_U1_W8_ARTES_OCR_0.1'}
+          assert all(int(r['unresolved'])==0 and int(r['sha_verified'])==int(r['pages']) for r in rows)
+          assert len(metrics)==1490 and {r['viewer_key'] for r in metrics}==keys
+          assert all(r['source_sha256_verified']=='1' and r['ocr_status']=='ok' for r in metrics)
+          print('viewers='+json.dumps([r['viewer_key'] for r in rows],separators=(',',':')))
+          PY
+
+  flags:
+    needs: matrix
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.matrix.outputs.viewers) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
+      - name: Scan structural zones for one canonical W8 viewer
+        run: python3 scripts/extract_ltmd_u1_w8_artes_structural_flags_book.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w8-artes-structkw-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w8_artes_structkw/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  combine:
+    needs: flags
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w8-artes-structkw-*
+          path: data/work/ltmd_u1_w8_artes_structkw
+          merge-multiple: true
+      - name: Combine structural evidence
+        run: python3 scripts/combine_ltmd_u1_w8_artes_structural_flags.py
+      - name: Classify W8 page structure
+        run: python3 scripts/classify_ltmd_u1_w8_artes_page_structure.py
+      - name: Publish W8 PAGESTRUCT 0.1 race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/w8-pagestruct
+          mkdir -p /tmp/w8-pagestruct
+          cp data/catalog/ltmd_u1_w8_artes_structural_keyword_flags.csv /tmp/w8-pagestruct/
+          cp data/catalog/ltmd_u1_w8_artes_page_structure.csv /tmp/w8-pagestruct/
+          cp data/catalog/ltmd_u1_w8_artes_page_structure_summary.csv /tmp/w8-pagestruct/
+          cp data/catalog/ltmd_u1_w8_artes_page_structure.md /tmp/w8-pagestruct/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w8-pagestruct/* data/catalog/
+            git add data/catalog/ltmd_u1_w8_artes_structural_keyword_flags.csv data/catalog/ltmd_u1_w8_artes_page_structure.csv data/catalog/ltmd_u1_w8_artes_page_structure_summary.csv data/catalog/ltmd_u1_w8_artes_page_structure.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W8 Artes PAGESTRUCT 0.1'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
