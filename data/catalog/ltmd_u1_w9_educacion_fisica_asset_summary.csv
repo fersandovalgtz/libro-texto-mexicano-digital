@@ -1,0 +1,5 @@
+audit_version,viewer_key,catalog_generation,grade_code,title_core,viewer_ui,ag_clave,declared_positions,source_jpegs,terminal_synthetic_candidates,internal_unserved,probe_errors,source_bytes,unique_source_hashes,direct_asset_ready
+LTMD_U1_W9_EDUCACION_FISICA_ASSET_AUDIT_0.1,H2008P1ED252,2008,1,EDUCACION FISICA,standard_x_js,H2008P1ED252,115,114,1,0,0,33369026,114,1
+LTMD_U1_W9_EDUCACION_FISICA_ASSET_AUDIT_0.1,H2008P2ED260,2008,2,EDUCACION FISICA,standard_x_js,H2008P2ED260,107,106,1,0,0,6242177,106,1
+LTMD_U1_W9_EDUCACION_FISICA_ASSET_AUDIT_0.1,H2008P5ED280,2008,5,EDUCACIÓN FÍSICA,standard_x_js,H2008P5ED280,115,114,1,0,0,31319082,114,1
+LTMD_U1_W9_EDUCACION_FISICA_ASSET_AUDIT_0.1,H2008P6ED287,2008,6,EDUCACIÓN FÍSICA,standard_x_js,H2008P6ED287,115,114,1,0,0,31549279,114,1
