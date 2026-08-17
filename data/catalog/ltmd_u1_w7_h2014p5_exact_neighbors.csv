@@ -1,0 +1,4 @@
+analysis_version,target_viewer,target_generation,candidate_viewer,candidate_generation,grade_code,target_served_pages,candidate_served_pages,positional_overlap_pages,exact_positional_matches,positional_mismatches,exact_positional_rate,candidate_has_target_gap_page,candidate_gap_page_sha256,candidate_gap_page_byte_size,candidate_gap_page_source_url
+LTMD_U1_W7_H2014P5_EXACT_NEIGHBORS_0.1,H2014P5FCA,2014,H2008P5CI278,2008,5,224,86,86,0,86,0.000000000,0,,,
+LTMD_U1_W7_H2014P5_EXACT_NEIGHBORS_0.1,H2014P5FCA,2014,H2011P5CI326,2011,5,224,129,128,0,128,0.000000000,1,21aac31c565539f64499b09441ab70dcc7d9d20f3d379e7863a05aa986341ba4,346540,https://historico.conaliteg.gob.mx/c/H2011P5CI326/104.jpg
+LTMD_U1_W7_H2014P5_EXACT_NEIGHBORS_0.1,H2014P5FCA,2014,H2019P5FCA,2019,5,224,225,224,0,224,0.000000000,1,21f9fbd085183a2db1058636edbbc98974e9ed5b08c99662933af84742d34676,517697,https://historico.conaliteg.gob.mx/c/H2019P5FCA/104.jpg
