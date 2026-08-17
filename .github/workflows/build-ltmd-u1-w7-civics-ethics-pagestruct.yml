@@ -2,11 +2,12 @@ name: build-ltmd-u1-w7-civics-ethics-pagestruct
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ['build-ltmd-u1-w7-civics-ethics-ocr']
+    types: [completed]
   push:
     paths:
-      - 'data/catalog/ltmd_u1_w7_civics_ethics_ocr_metrics.csv'
-      - 'data/catalog/ltmd_u1_w7_civics_ethics_ocr_summary.csv'
-      - 'data/catalog/ltmd_u1_w7_civics_ethics_ocr.md'
+      - '.github/workflows/build-ltmd-u1-w7-civics-ethics-pagestruct.yml'
 
 permissions:
   contents: write
@@ -20,6 +21,7 @@ concurrency:
 
 jobs:
   matrix:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-24.04
     outputs:
       viewers: ${{ steps.make.outputs.viewers }}
