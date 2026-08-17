@@ -2,23 +2,14 @@
 """Build LTMD_INTEGRITY_0.8 with the W7 source-to-processing perimeter.
 
 0.8 preserves the complete 0.7 perimeter and extends it with LTMD-U1 W7
-Civics/Ethics source scope, page-level provenance, viewer routing reconstruction,
-2018 route-conformance evidence, source-admissibility decisions, complete-asset
-relationship analysis, reconciled processing topology, completed OCR evidence,
-executable PAGESTRUCT/FRAGSEG/exact-reuse controls, and the technical closure
-validator for the admitted cohort.
-
-The historical scope remains 30 catalog identities. Exactly 25 source-admitted,
-non-byte-identical objects are authorized as independent processing canonicals;
-five identities remain withheld because their official source assets are
-incomplete or unserved. Derived PAGESTRUCT/FRAGSEG/reuse/completion outputs are
-frozen only after each complete layer materializes and passes its own coverage
-and provenance invariants.
+Civics/Ethics source scope, page-level provenance, resolved routing, 2018
+source-conformance evidence, source-admissibility decisions, reconciled
+processing topology, completed OCR and PAGESTRUCT evidence, and executable
+FRAGSEG/exact-reuse/technical-closure controls for the admitted cohort.
 """
 from __future__ import annotations
 
 import json
-
 import build_research_integrity_manifest_v07 as v07
 
 base = v07.base
@@ -27,15 +18,11 @@ base.VERSION = 'LTMD_INTEGRITY_0.8'
 SCOPE = ('LTMD v0.8: frozen v0.7 perimeter plus W7 Civics/Ethics historical scope, '
          'page-level source provenance, resolved viewer routing, 2018 source-conformance '
          'evidence, 30-identity/25-canonical source-admissible processing topology, '
-         'completed SHA-verified OCR, and staged PAGESTRUCT/FRAGSEG/exact-reuse/technical-closure controls')
+         'completed SHA-verified OCR and PAGESTRUCT, and staged FRAGSEG/exact-reuse/technical-closure controls')
 SCOPE_ES = ('perímetro v0.7 congelado + W7 Cívica/Ética: alcance histórico, provenance de página, '
             'routing del visor resuelto, evidencia de conformidad de fuente 2018, topología de '
-            '30 identidades/25 canónicos admisibles, OCR completo verificado por SHA-256 y controles '
-            'PAGESTRUCT/FRAGSEG/reuso exacto/cierre técnico')
-OLD_SCOPE_ES = ('CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia '
-                'estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 '
-                'prehumanа + artículo metodológico 0.2.')
-# The inherited report actually uses the ASCII-a spelling below; keep the replacement exact.
+            '30 identidades/25 canónicos admisibles, OCR y PAGESTRUCT completos y controles '
+            'FRAGSEG/reuso exacto/cierre técnico')
 OLD_SCOPE_ES_ASCII = ('CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia '
                       'estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 '
                       'prehumana + artículo metodológico 0.2.')
@@ -75,6 +62,10 @@ W7_PROVENANCE_CRITICAL = [
     'data/catalog/ltmd_u1_w7_civics_ethics_ocr_metrics.csv',
     'data/catalog/ltmd_u1_w7_civics_ethics_ocr_summary.csv',
     'data/catalog/ltmd_u1_w7_civics_ethics_ocr.md',
+    'data/catalog/ltmd_u1_w7_civics_ethics_structural_keyword_flags.csv',
+    'data/catalog/ltmd_u1_w7_civics_ethics_page_structure.csv',
+    'data/catalog/ltmd_u1_w7_civics_ethics_page_structure_summary.csv',
+    'data/catalog/ltmd_u1_w7_civics_ethics_page_structure.md',
     'scripts/validate_ltmd_u1_w7_provenance.py',
     'scripts/diagnose_ltmd_u1_w7_routing.py',
     'scripts/extract_ltmd_u1_w7_viewer_route_contract.py',
@@ -122,7 +113,6 @@ def main():
     data = json.loads(base.OUT.read_text(encoding='utf-8'))
     data['scope'] = SCOPE
     base.OUT.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-
     report = base.REPORT.read_text(encoding='utf-8')
     old_line = f'Alcance: {OLD_SCOPE_ES_ASCII}'
     new_line = f'Alcance: {SCOPE_ES}.'
