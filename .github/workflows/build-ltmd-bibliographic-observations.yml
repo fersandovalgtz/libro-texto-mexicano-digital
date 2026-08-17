@@ -1,0 +1,48 @@
+name: build-ltmd-bibliographic-observations
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/build_ltmd_bibliographic_observations.py'
+      - 'data/catalog/ltmd_u1_w7_h2014p5_bibliographic_fingerprint.csv'
+      - 'data/catalog/ltmd_u1_w7_civics_ethics_asset_manifest.csv'
+      - '.github/workflows/build-ltmd-bibliographic-observations.yml'
+
+concurrency:
+  group: ltmd-bibliographic-observations
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build verified bibliographic observations
+        run: python3 scripts/build_ltmd_bibliographic_observations.py
+      - name: Publish bibliographic observations race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-bibliography
+          mkdir -p /tmp/ltmd-bibliography
+          cp data/catalog/ltmd_bibliographic_observations.csv /tmp/ltmd-bibliography/
+          cp data/catalog/ltmd_bibliographic_observations.md /tmp/ltmd-bibliography/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-bibliography/* data/catalog/
+            git add data/catalog/ltmd_bibliographic_observations.csv \
+                    data/catalog/ltmd_bibliographic_observations.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD bibliographic observations 0.1'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
