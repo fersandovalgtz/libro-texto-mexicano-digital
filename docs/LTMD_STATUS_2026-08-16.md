@@ -12,7 +12,7 @@ Permanecen no validados o estacionados CER/WER contra referencia humana, confiab
 
 El piloto y las expansiones de Ciencias Naturales permanecen como base metodológica. W2 Matemáticas está técnicamente cerrado con **64 visores**, **60/64** identidades con activos resueltos, **57** objetos canónicos, **3** aliases byte-idénticos, **11,945** páginas OCR SHA-verificadas, **10,145** páginas elegibles y **135,727** fragmentos técnicos. Las cuatro excepciones DMA 2018 permanecen explícitas y no se imputan.
 
-## LTMD-U1 W3 — Español/Lengua
+## LTMD-U1 W3 — Español/Lengua — cerrado técnicamente
 
 ### Fuente y topología
 
@@ -22,6 +22,8 @@ El piloto y las expansiones de Ciencias Naturales permanecen como base metodoló
 - Páginas fuente canónicas autorizadas: **20,765**.
 - Huecos internos persistentes: **8**, conservados sin renumeración.
 - Identidades bloqueadas por fuente: **0**.
+
+Los ocho aliases de ruta 2018→2019 son relaciones explícitas de procesamiento/provenance. No constituyen por sí mismos afirmaciones de identidad histórica, bibliográfica, curricular, pedagógica o semántica.
 
 ### OCR 0.1 — cerrado
 
@@ -34,7 +36,7 @@ Run fuente: **GitHub Actions 31960694824**, conclusión `success`.
 - `no_text_detected`: **177**.
 - `unresolved`: **0**.
 
-El primer render del reporte OCR mostró por error `ruta 2018→2019: 0` debido a un literal abreviado en el contador descriptivo. El estado canónico real es `paired_route_alias_2018_to_2019`; el combinador fue corregido y ahora exige la invariante **8 + 8 = 16**. La corrección no cambia páginas, hashes, OCR ni provenance.
+El primer render del reporte OCR mostró por error `ruta 2018→2019: 0` debido a un literal abreviado en el contador descriptivo. El estado canónico real es `paired_route_alias_2018_to_2019`; el combinador fue corregido y exige la invariante **8 + 8 = 16**. La corrección no cambia páginas, hashes, OCR ni provenance.
 
 ### PAGESTRUCT 0.1 — cerrado
 
@@ -48,11 +50,32 @@ El primer render del reporte OCR mostró por error `ruta 2018→2019: 0` debido 
 - `unknown`: **1,076**.
 - Páginas elegibles para FRAGSEG: **17,337**.
 
-### FRAGSEG — pendiente de ejecución efectiva
+### FRAGSEG 0.1 — cerrado
 
-Dos runs W3 FRAGSEG fueron despachados por la orquestación y permanecen en estado `queued` al cierre de este corte. **No se acredita todavía ningún fragmento W3** hasta que exista y pase el manifiesto combinado final. Los workflows disponen de recovery selectivo por visor y no dependen de referencia humana.
+Run principal: **GitHub Actions 31968601780**, conclusión `success`.
 
-El workflow OCR W3 fue endurecido para que cambios meramente descriptivos del combinador o del propio YAML no vuelvan a lanzar 20,765 páginas. Sus triggers quedan restringidos a worker OCR y cambios reales de topología/manifiesto fuente, con concurrencia para cancelar duplicados futuros.
+- Páginas elegibles con ≥1 fragmento: **17,337/17,337**.
+- Páginas elegibles sin fragmentos: **0**.
+- Fragmentos técnicos: **222,490**.
+- IDs de fragmento únicos: **222,490**.
+- Páginas con huecos legítimos de secuencia: **653**.
+- Slots omitidos: **832**.
+
+Tipos candidatos: 127,366 `short_residual_candidate`, 31,149 `expository_candidate`, 30,694 `instruction_candidate`, 26,322 `question_candidate`, 4,205 `activity_candidate`, 1,354 `project_candidate`, 795 `experiment_candidate` y 605 `assessment_candidate`.
+
+### Reutilización textual exacta y dependencia documental — cerrada
+
+Run principal: **GitHub Actions 31970661872**, conclusión `success`.
+
+- Unidades textuales exactas únicas: **147,375**.
+- Unidades repetidas en ≥2 ocurrencias canónicas: **40,956**.
+- Unidades presentes en ≥2 visores canónicos: **40,118**.
+- Unidades representadas en ≥2 generaciones de catálogo: **50,144**.
+- Pares de visores canónicos con ≥1 unidad exacta compartida: **6,387**.
+
+La igualdad de `text_sha256` documenta igualdad dentro de la representación OCR+FRAGSEG fijada. No demuestra por sí sola identidad bibliográfica ni equivalencia curricular, pedagógica, histórica o semántica.
+
+Cierre validado: `docs/LTMD_U1_W3_COMPLETION.md`. El cierre es **técnico**, no una validación semántica; `SEMB03` permanece en `WAITING_HUMAN_REFERENCE`.
 
 ## LTMD-U1 W4 — Ciencias Sociales — cerrado técnicamente
 
@@ -190,7 +213,7 @@ Estas diferencias son descriptivas de dos conjuntos con dominios, generaciones e
 
 ## Integridad científica
 
-`LTMD_INTEGRITY_0.8` extiende el perímetro 0.7 con W7: fuente, routing, admisibilidad, topología, OCR, PAGESTRUCT, FRAGSEG, reuso exacto y cierre técnico. Cada artefacto crítico conserva tamaño y SHA-256. La desaparición de un artefacto crítico hace fallar el workflow de integridad.
+`LTMD_INTEGRITY_0.9` preserva el perímetro 0.8 y promueve a críticos los nueve productos W3 que habían permanecido opcionales hasta materializarse: manifiesto y resumen FRAGSEG, auditoría de huecos de secuencia, reporte FRAGSEG, unidades textuales exactas, proyección identidad-contenido, solapamiento exacto entre visores, reporte de reuso exacto y cierre técnico W3. El propio constructor 0.9 forma parte del perímetro. Cada artefacto crítico conserva tamaño y SHA-256; la desaparición de cualquiera hace fallar el workflow de integridad.
 
 ## Orquestación y recuperación
 
@@ -200,12 +223,11 @@ Los recoveries reutilizan artifacts válidos y recomputan únicamente visores fa
 
 ## Prioridades inmediatas
 
-1. Obtener el artefacto final FRAGSEG W3 sin duplicar cómputo y publicar conteos sólo cuando pase sus invariantes.
-2. Ejecutar reutilización exacta/dependencia documental W3 y emitir `docs/LTMD_U1_W3_COMPLETION.md`.
-3. Investigar las cinco retenciones de fuente W7 mediante evidencia documental o descubrimiento de fuente, sin aliases heurísticos: el hueco `H2014P5FCA` y los cuatro subárboles 2018.
-4. Actualizar el tablero maestro U1 con W3, W4 y W7 según artefactos efectivamente existentes.
-5. Incorporar W7 y la comparación W4↔W7 al artículo metodológico como evidencia técnica/descriptiva, manteniendo separada cualquier validación humana/semántica futura.
-6. Preparar el siguiente corte de integridad cuando se cierre W3 y existan nuevos productos comparativos estabilizados.
+1. Validar y congelar `LTMD_INTEGRITY_0.9` con el cierre W3 ya incorporado al perímetro crítico.
+2. Investigar las cinco retenciones de fuente W7 mediante evidencia documental o descubrimiento de fuente, sin aliases heurísticos: el hueco `H2014P5FCA` y los cuatro subárboles 2018.
+3. Diseñar, sólo si aporta valor científico, un comparador técnico W3↔W4↔W7 estrictamente descriptivo y no semántico.
+4. Mantener sincronizados el tablero maestro, los reportes de cierre y el manifiesto de integridad después de cada cambio de perímetro.
+5. Incorporar W3, W7 y la comparación W4↔W7 al artículo metodológico como evidencia técnica/descriptiva, manteniendo separada cualquier validación humana/semántica futura.
 
 ## Principio de publicación
 
