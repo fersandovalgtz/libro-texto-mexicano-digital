@@ -2,11 +2,15 @@ name: build-ltmd-u1-w7-completion-report
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ['analyze-ltmd-u1-w7-civics-ethics-exact-reuse']
-    types: [completed]
+    inputs:
+      pipeline:
+        description: 'Allow explicit W7 pipeline execution'
+        required: true
+        default: false
+        type: boolean
 
 permissions:
+  actions: write
   contents: write
 
 concurrency:
@@ -15,8 +19,10 @@ concurrency:
 
 jobs:
   validate:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ inputs.pipeline == true }}
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -41,3 +47,5 @@ jobs:
             sleep $((attempt * 2))
           done
           exit 1
+      - name: Dispatch W4-W7 technical comparison
+        run: gh workflow run analyze-ltmd-u1-w4-w7-technical-comparison.yml --repo "$GITHUB_REPOSITORY" --ref main -f pipeline=true
