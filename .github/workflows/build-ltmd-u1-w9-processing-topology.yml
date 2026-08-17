@@ -1,0 +1,62 @@
+name: build-ltmd-u1-w9-processing-topology
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w9-processing-topology.yml'
+      - 'scripts/build_ltmd_u1_w9_educacion_fisica_processing_topology.py'
+      - 'data/catalog/ltmd_u1_w9_educacion_fisica_source_admissibility.csv'
+      - 'data/catalog/ltmd_u1_w9_educacion_fisica_asset_manifest.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w9-processing-topology
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build W9 processing topology
+        run: python3 scripts/build_ltmd_u1_w9_educacion_fisica_processing_topology.py
+      - name: Verify topology contract
+        run: |
+          python3 - <<'PY'
+          import csv
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w9_processing_inventory.csv',encoding='utf-8')))
+          pages=list(csv.DictReader(open('data/catalog/ltmd_u1_w9_canonical_page_manifest.csv',encoding='utf-8')))
+          assert len(proc)==4 and len([r for r in proc if r['ocr_identity_eligible']=='1'])==4
+          assert all(r['processing_mode']=='direct_canonical' for r in proc)
+          assert len(pages)==448 and len({r['page_id'] for r in pages})==448
+          assert all(r['asset_status']=='source_jpeg' and len(r['sha256'])==64 for r in pages)
+          print('W9 topology PASS: 4 canonical / 448 pages')
+          PY
+      - name: Publish topology products
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w9_processing_inventory.csv /tmp/
+          cp data/catalog/ltmd_u1_w9_canonical_page_manifest.csv /tmp/
+          cp docs/LTMD_U1_W9_EDUCACION_FISICA_PROCESSING_TOPOLOGY.md /tmp/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w9_processing_inventory.csv data/catalog/
+            cp /tmp/ltmd_u1_w9_canonical_page_manifest.csv data/catalog/
+            cp /tmp/LTMD_U1_W9_EDUCACION_FISICA_PROCESSING_TOPOLOGY.md docs/
+            git add data/catalog/ltmd_u1_w9_processing_inventory.csv data/catalog/ltmd_u1_w9_canonical_page_manifest.csv docs/LTMD_U1_W9_EDUCACION_FISICA_PROCESSING_TOPOLOGY.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w9): publish closed processing topology'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
