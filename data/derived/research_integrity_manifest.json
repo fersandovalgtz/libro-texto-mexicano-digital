@@ -1,10 +1,10 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.8",
-  "generated_utc": "2026-08-17T00:00:51.011750+00:00",
-  "git_head": "a543b790d1300e9158e5bcecd38a0636129f3c08",
+  "generated_utc": "2026-08-17T00:01:25.831824+00:00",
+  "git_head": "a74fc5fccb0e8887d60d670f6b5d95ec5d57434d",
   "scope": "CN5 pilot + closed CN4/CN6 expansion + closed Ciencias Naturales Wave 2 + strict-family asset readiness + document-dependence/unique-content evidence + prehuman SEMB 0.3 infrastructure + methods article 0.2",
-  "critical_count": 319,
-  "critical_present_count": 319,
+  "critical_count": 328,
+  "critical_present_count": 328,
   "missing_critical": [],
   "optional_present_count": 18,
   "optional_missing": [
@@ -1857,6 +1857,42 @@
       "required": true
     },
     {
+      "path": "scripts/extract_ltmd_u1_w7_civics_ethics_structural_flags_book.py",
+      "bytes": 5083,
+      "sha256": "073fdb326e0a8df563e6355e6f5f10cb4110996c435d2a41be2cf955aaf20ebb",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_ltmd_u1_w7_civics_ethics_structural_flags.py",
+      "bytes": 2276,
+      "sha256": "7ef4f8f4a06f85f4787a65df230b3f9a4d14a683b2e24378b3a66db86a5df558",
+      "required": true
+    },
+    {
+      "path": "scripts/classify_ltmd_u1_w7_civics_ethics_page_structure.py",
+      "bytes": 5832,
+      "sha256": "a12e9e26c1880f642185de3ca4e2e396349ad8090d42982a0de9290a0f8c2bec",
+      "required": true
+    },
+    {
+      "path": "scripts/segment_ltmd_u1_w7_civics_ethics_fragments.py",
+      "bytes": 1323,
+      "sha256": "e853bdf3e11470041a8aa4870349000b49357576f1793c874f16bf6df16175cb",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_ltmd_u1_w7_civics_ethics_fragment_shards.py",
+      "bytes": 5983,
+      "sha256": "26709babc3fb4e4fe6751ce60a777b06fbc5de9354d5683a8fd1a95046f6fdcc",
+      "required": true
+    },
+    {
+      "path": "scripts/analyze_ltmd_u1_w7_civics_ethics_exact_reuse.py",
+      "bytes": 6075,
+      "sha256": "d520f02fa5fb43fdce8d19885d695688e8605a39550ff586ffb06631812485da",
+      "required": true
+    },
+    {
       "path": ".github/workflows/validate-ltmd-u1-w7-provenance.yml",
       "bytes": 1704,
       "sha256": "d228a5b3215f08fdbb550fffef40dd2bb99c30c7b1c85d6f758d72a1bb4e4aad",
@@ -1923,9 +1959,27 @@
       "required": true
     },
     {
+      "path": ".github/workflows/build-ltmd-u1-w7-civics-ethics-pagestruct.yml",
+      "bytes": 4699,
+      "sha256": "11b25e97f4771f697ac347a5314864dde3d8245e29f0648ead9ef9c469af8ad4",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w7-civics-ethics-fragseg.yml",
+      "bytes": 4515,
+      "sha256": "1e5d7db3ad79d667749d003e1e2a5d65c335a1b725e415b7c29679ee57d4b790",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/analyze-ltmd-u1-w7-civics-ethics-exact-reuse.yml",
+      "bytes": 1898,
+      "sha256": "cbc3ec73e1494f4c7cb21503f9d7b59579530a5a7ef223296ae14c4eab8e6df7",
+      "required": true
+    },
+    {
       "path": "scripts/build_research_integrity_manifest_v08.py",
-      "bytes": 4765,
-      "sha256": "27bda75fd1b1ff2f884fd4ee4307ff7d8e9f634dbb972de8972e86379f1141e3",
+      "bytes": 5442,
+      "sha256": "5cfc9b3cf95781bee365fcf0a0525eb4598da56d9f273e4458742570d072378c",
       "required": true
     },
     {
