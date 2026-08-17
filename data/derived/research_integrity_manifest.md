@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.9`.
 
-Commit observado: `3d54a59136bf9290c512fe5b8419731a32e7188f`.
+Commit observado: `5cdaace35c1e9e6568902c77fb6af7aa36fe5f07`.
 
 Alcance: perímetro v0.8 congelado + W3 Español/Lengua: FRAGSEG completo, reutilización textual exacta/dependencia documental y cierre técnico validado; se conservan el cierre técnico de la cohorte W7 admisible y la comparación técnica no semántica W4↔W7 de v0.8.
 
@@ -180,7 +180,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `.github/workflows/check-release-candidate.yml` — 2195 bytes — `ea162ccdde5fedc6af6b023d6e8d0a081aecca08686f59d4c69af9a173c2fbe7`
 - `.github/workflows/build-research-integrity-manifest.yml` — 3252 bytes — `4b1a6a739bbd807435d102dd283cfd2e8c157a82dd07ad46ed23b4ea16ade3b0`
 - `docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md` — 4193 bytes — `29e09613813214d2ea3e00c4d10c6a7f5c5786452629be779af899e20e81638f`
-- `docs/LTMD_STATUS_2026-08-16.md` — 11616 bytes — `7db296abcf3d9595fbaa85d4ab1426c11fb84ff9338dc501cdd2e43c29cf6516`
+- `docs/LTMD_STATUS_2026-08-16.md` — 12857 bytes — `b23f6aa6726d6e3bf2a5d4a30da7626ec1c350f0abcb7ec098b0e1f09b2d02ca`
 - `data/catalog/ltmd_u1_w3_scope.csv` — 16769 bytes — `0d630fc85a3e709092174b5bb16b2a224527a9c067f36bcd4de4af19183a2038`
 - `data/catalog/ltmd_u1_w3_scope.md` — 519 bytes — `e61aede5bc80c7e0ef96ede7367c4bac62488e3f5d41733cad1475abb34499c8`
 - `data/catalog/ltmd_u1_w3_viewer_architecture.csv` — 17615 bytes — `5aaf3039916deb97af436732fa9323a9f22e4d3bc439df90447d749f41da1ba8`
