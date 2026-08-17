@@ -3,44 +3,53 @@
 **Corte:** 2026-08-17  
 **Ola:** `U1-W8`  
 **Dominio operativo:** `artes`  
-**Estado del documento:** congelamiento documental previo al procesamiento técnico
+**Estado del documento:** congelamiento documental reconciliado contra cola maestra
 
-## 1. Propósito
+## 1. Propósito y autoridad documental
 
 Este documento congela la cohorte histórica y las reglas de procesamiento para `U1-W8` antes de cualquier ampliación de cobertura técnica. El congelamiento es operativo y documental: no constituye validación semántica, no establece equivalencia histórica entre objetos y no modifica por sí mismo la cobertura efectiva de U1.
 
-La ola queda delimitada por las 20 identidades ya registradas en `data/catalog/ltmd_u1_wave_queue.csv`. Todas conservan `needs_domain_validation=True` y `needs_semantic_reference=True`. El procesamiento técnico puede avanzar bajo el estado general `WAITING_HUMAN_REFERENCE`, pero ninguna salida de esta ola debe presentarse como interpretación sustantiva validada de los libros.
+La autoridad para delimitar esta ola es `data/catalog/ltmd_u1_wave_queue.csv`. La cohorte queda fijada por las 20 filas cuyo `wave_label` es `U1-W8-artes`; no se reconstruye a partir de patrones aparentes de identificadores, años o grados.
 
-## 2. Cohorte congelada: 20 identidades históricas
+Todas las identidades conservan `needs_domain_validation=True` y `needs_semantic_reference=True`. El procesamiento técnico puede avanzar bajo el estado general `WAITING_HUMAN_REFERENCE`, pero ninguna salida de esta ola debe presentarse como interpretación sustantiva validada de los libros.
 
-1. `H2008P3AR`
-2. `H2008P4AR`
-3. `H2008P5AR`
-4. `H2008P6AR`
-5. `H2010P3AR`
-6. `H2010P4AR`
-7. `H2010P5AR`
-8. `H2010P6AR`
-9. `H2011P3AR`
-10. `H2011P4AR`
-11. `H2011P5AR`
-12. `H2011P6CI337`
-13. `H2014P4ARA`
-14. `H2014P5ARA`
-15. `H2014P6ARA`
-16. `H2018P3AR`
-17. `H2018P4AR`
-18. `H2018P5AR`
-19. `H2018P6AR`
-20. `H2019P3AR`
+## 2. Nota de reconciliación del congelamiento
+
+La primera versión de este documento contenía una lista de 20 identificadores que no correspondía fielmente a la cola maestra. Antes de iniciar reconocimiento de fuentes o procesamiento técnico, la discrepancia fue detectada mediante lectura directa de `ltmd_u1_wave_queue.csv` y corregida en este mismo corte.
+
+La lista sustituida **no debe utilizarse como cohorte W8, no generó cobertura y no autoriza ningún alias ni procesamiento**. Esta corrección preserva la regla fundamental de LTMD: ante conflicto entre una síntesis secundaria y el registro maestro auditable, prevalece el registro maestro.
+
+## 3. Cohorte congelada reconciliada: 20 identidades históricas
+
+1. `H2008P2ED259`
+2. `H2008P5ED279`
+3. `H2011P1ED295`
+4. `H2011P2ED302`
+5. `H2011P3ED309`
+6. `H2011P4ED317`
+7. `H2011P5ED327`
+8. `H2011P6CI337`
+9. `H2014P3EAA`
+10. `H2014P4EAA`
+11. `H2014P5EAA`
+12. `H2014P6EAA`
+13. `H2018P3EAA`
+14. `H2018P4EAA`
+15. `H2018P5EAA`
+16. `H2018P6EAA`
+17. `H2019P3EAA`
+18. `H2019P4EAA`
+19. `H2019P5EAA`
+20. `H2019P6EAA`
 
 ### Nota de identidad sobre `H2011P6CI337`
 
-La identidad se conserva exactamente como está registrada en el catálogo maestro. Aunque el identificador contiene la secuencia `CI`, el título canónico y la asignación de la cola la sitúan en `artes` / Educación Artística. No se corrige, renombra ni reasigna a partir de la apariencia del identificador. Cualquier revisión futura deberá partir de evidencia documental explícita y dejar trazabilidad de una eventual corrección.
+La identidad se conserva exactamente como está registrada en el catálogo/cola maestra. Aunque el identificador contiene la secuencia `CI`, el título registrado es `EDUCACIÓN ARTÍSTICA` y la cola la asigna a `artes`. No se corrige, renombra ni reasigna a partir de la apariencia del identificador. Cualquier revisión futura deberá partir de evidencia documental explícita y dejar trazabilidad de una eventual corrección.
 
-## 3. Estado al congelamiento
+## 4. Estado al congelamiento reconciliado
 
-- Identidades históricas de W8: **20/20 congeladas**.
+- Identidades históricas de W8: **20/20 congeladas contra la cola maestra**.
+- Años/generaciones de catálogo representados: **2008, 2011, 2014, 2018 y 2019**.
 - Acción prevista en la cola: `process` para las 20 identidades.
 - Alias aceptados al congelamiento: **0**.
 - Identidades técnicamente incorporadas por este documento: **0**.
@@ -50,16 +59,18 @@ La identidad se conserva exactamente como está registrada en el catálogo maest
 
 Las cifras anteriores permanecen sin cambio hasta que cada identidad satisfaga los gates técnicos y documentales aplicables. Una identidad retenida por fuente no se contabiliza como cobertura efectiva sólo por pertenecer a la ola.
 
-## 4. Protocolo `source-first`
+## 5. Protocolo `source-first`
 
 W8 reutiliza la arquitectura epistemológica y operativa consolidada en las olas anteriores. El orden de las operaciones es deliberado: primero se establece la fuente y su trazabilidad; después se producen derivados técnicos. No se utilizará OCR, similitud visual, título, año, grado, cardinalidad o cercanía temporal para suplir una fuente que no haya sido admitida documentalmente.
 
 ### G0 — congelamiento de cohorte
 
-- fijar las 20 identidades históricas;
-- preservar `book_id`, `viewer_key`, título y demás metadatos ya observados;
+- fijar las 20 identidades históricas desde la cola maestra;
+- preservar `book_id`/`viewer_key`, título y demás metadatos ya observados;
 - impedir altas o bajas silenciosas durante la ejecución;
 - registrar explícitamente cualquier discrepancia descubierta posteriormente.
+
+**Estado:** cumplido y reconciliado el 2026-08-17.
 
 ### G1 — reconocimiento de fuente oficial
 
@@ -95,40 +106,24 @@ La segmentación técnica se ejecuta sobre derivados admitidos y conserva la dep
 
 La similitud no crea alias. Una posible reutilización técnica entre identidades requiere evidencia inequívoca de dependencia documental; la identidad de bytes y sus hashes constituye la evidencia técnica más fuerte cuando procede. Aun cuando un mismo contenido pueda procesarse una sola vez, todas las identidades históricas deben continuar representadas en la vista de objetos y su relación de dependencia debe quedar explícita.
 
-No se aceptan alias sólo por:
-
-- título semejante o idéntico;
-- mismo grado o materia;
-- año/generación próximos;
-- igual número de páginas;
-- similitud OCR, perceptual o visual;
-- coincidencia parcial de páginas.
+No se aceptan alias sólo por título semejante o idéntico, mismo grado o materia, año/generación próximos, igual número de páginas, similitud OCR/perceptual/visual ni coincidencia parcial de páginas.
 
 ### G7 — cierre de ola
 
-El cierre técnico de W8 debe producir como mínimo:
-
-- balance por identidad histórica;
-- identidades con fuente admitida;
-- identidades retenidas por fuente, si existen;
-- cardinalidad y verificación de hashes;
-- cobertura OCR;
-- producción FRAGSEG;
-- dependencias/reutilizaciones demostradas;
-- actualización explícita de `ltmd_u1_coverage.md`, README y documentación de estado.
+El cierre técnico de W8 debe producir como mínimo balance por identidad histórica, identidades con fuente admitida, identidades retenidas por fuente, cardinalidad y verificación de hashes, cobertura OCR, producción FRAGSEG, dependencias/reutilizaciones demostradas y actualización explícita de `ltmd_u1_coverage.md`, README y documentación de estado.
 
 Si sólo una subcohorte resulta fuente-admitida, el cierre debe denominarse exactamente como tal y las retenciones deben permanecer visibles; no se presentará como `20/20` técnico salvo evidencia suficiente.
 
-## 5. Política de fuentes retenidas
+## 6. Política de fuentes retenidas
 
 Una identidad cuyo viewer/configuración sea conocido pero cuya fuente no pueda reconstruirse de forma completa y reproducible se mantiene como `source-retained` o equivalente. El hueco es un resultado de investigación y forma parte de la trazabilidad de LTMD.
 
 Una fuente externa puede registrarse como pista o candidato de investigación sin convertirse automáticamente en fuente canónica. Para promoverla se requiere un expediente reproducible que establezca procedencia, características técnicas, correspondencia con el objeto histórico y límites de la inferencia.
 
-## 6. Regla de no interpretación sustantiva
+## 7. Regla de no interpretación sustantiva
 
 W8 es una expansión técnica del corpus. `needs_domain_validation=True` y `needs_semantic_reference=True` continúan activos para las 20 identidades. Ningún conteo de páginas, OCR, fragmentos, hashes o coincidencias debe redactarse como conclusión acerca de currículo, pedagogía, discurso, estética, ideología, autoría, edición o cambio histórico sin la fase humana/documental correspondiente.
 
-## 7. Criterio de avance
+## 8. Criterio de avance
 
-El siguiente paso autorizado es el reconocimiento reproducible de fuentes de las 20 identidades, seguido de manifiestos y derivados para aquellas que superen los gates. Hasta que exista evidencia técnica incorporada, **W8 no aumenta la cobertura de U1**, que permanece en **329/542**.
+El siguiente paso autorizado es el reconocimiento reproducible de fuentes de **estas 20 identidades reconciliadas**, seguido de manifiestos y derivados para aquellas que superen los gates. Hasta que exista evidencia técnica incorporada, **W8 no aumenta la cobertura de U1**, que permanece en **329/542**.
