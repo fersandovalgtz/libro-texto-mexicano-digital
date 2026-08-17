@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.11",
-  "generated_utc": "2026-08-17T05:04:35.344133+00:00",
-  "git_head": "081f8318c5faee0f5478e9eda44d8f7099e49d2d",
+  "generated_utc": "2026-08-17T05:05:53.620091+00:00",
+  "git_head": "47ed0926086a0492336b84e61ce1322983460fd2",
   "scope": "LTMD v0.11: frozen v0.10 perimeter plus a causally reproducible bibliographic instance-candidate chain (support audit -> narrow OCR recovery 0.2 -> observations 0.4 -> candidates 0.3), publication-safe candidate evidence tiers, and explicit supersession of the older instance-resolution interpretation",
   "critical_count": 405,
   "critical_present_count": 405,
@@ -1018,8 +1018,8 @@
     },
     {
       "path": "docs/LTMD_STATUS_2026-08-16.md",
-      "bytes": 20154,
-      "sha256": "34bbea27715134db7ad9464e0421160169ae94d3c3bb8354166c9a8b90e17557",
+      "bytes": 24473,
+      "sha256": "b665681131350e97de1c7d277b727032534cbf55bde9c03084a578642f6803ce",
       "required": true
     },
     {
@@ -2434,8 +2434,8 @@
     },
     {
       "path": "docs/LTMD_BIBLIOGRAPHIC_INSTANCE_POLICY_0_1.md",
-      "bytes": 5039,
-      "sha256": "99f1f754f33f28b1bf54a00e373e2833818f071ff08d5c1d7f0dd7cad0bcfd2f",
+      "bytes": 5848,
+      "sha256": "2f033a549b8f2a7f963d9d1e18d9246ce1f9a855cc4fffff46a32f1d4422562b",
       "required": true
     },
     {
