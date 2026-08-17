@@ -1,10 +1,10 @@
 {
-  "integrity_version": "LTMD_INTEGRITY_0.13",
-  "generated_utc": "2026-08-17T18:42:01.897161+00:00",
-  "git_head": "1d9bea180ea431cd492bec2b333ab3a3f0bdbd92",
-  "scope": "LTMD v0.13: frozen v0.12 perimeter plus the source-admitted LTMD-U1 W8 Artes technical closure: 20 historical identities preserved, 16 direct canonical processing objects, four 2018 source-retained identities without imputation, 1,490 SHA-traced source pages, closed OCR/PAGESTRUCT/FRAGSEG, exact-text dependence products, explicit dispatch controls, and the W8 cross-layer completion validator/report",
-  "critical_count": 468,
-  "critical_present_count": 468,
+  "integrity_version": "LTMD_INTEGRITY_0.14",
+  "generated_utc": "2026-08-17T18:42:27.595201+00:00",
+  "git_head": "c43138e19ed074b77c593ccf58a7b04bc9c90c89",
+  "scope": "LTMD v0.14: frozen v0.13 W8 technical-closure perimeter plus the closed, strictly descriptive LTMD-U1 W3-W4-W7-W8 technical comparison across PAGESTRUCT, FRAGSEG and exact-text reuse/dependence, including its reproducible script, explicit dispatch control and workflow",
+  "critical_count": 474,
+  "critical_present_count": 474,
   "missing_critical": [],
   "optional_present_count": 9,
   "optional_missing": [
@@ -1007,7 +1007,7 @@
     {
       "path": ".github/workflows/build-research-integrity-manifest.yml",
       "bytes": 3280,
-      "sha256": "7d1d2beaa35d29109ae41af2352b1db856c5ab15ed2ae8e281af776ee7325625",
+      "sha256": "78f10cc997d3db52ce0fb4ee568517c9eccfe14ad50cfafbaa9527bc97260967",
       "required": true
     },
     {
@@ -2820,6 +2820,42 @@
       "path": "scripts/build_research_integrity_manifest_v13.py",
       "bytes": 4502,
       "sha256": "b98960d72108aef45b69488cc0030b7fe879bf86a858bae13beabe42b3c572ff",
+      "required": true
+    },
+    {
+      "path": "data/derived/ltmd_u1_w3_w4_w7_w8_technical_comparison.csv",
+      "bytes": 3389,
+      "sha256": "d054d5db5ce50c89c13933ba040232b641dce37f362616f44869b8f2b06fa1d8",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W3_W4_W7_W8_TECHNICAL_COMPARISON.md",
+      "bytes": 4045,
+      "sha256": "a5c9cce141ab90ed895cafda8caca0a3b639d784d9ee3cc4217080ea8905e8b5",
+      "required": true
+    },
+    {
+      "path": "scripts/compare_ltmd_u1_w3_w4_w7_w8_technical_profiles.py",
+      "bytes": 6413,
+      "sha256": "c951060c5b477663e7fd1e65ace78995e3507b9236b8dce079a03bdb361fd2fc",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/analyze-ltmd-u1-w3-w4-w7-w8-technical-comparison.yml",
+      "bytes": 1795,
+      "sha256": "375e9cbd395437c141c3b0021a7b41a6d2884823b45b0511e97f2440b51ad51c",
+      "required": true
+    },
+    {
+      "path": "data/control/ltmd_u1_w3_w4_w7_w8_comparison_trigger.txt",
+      "bytes": 400,
+      "sha256": "b67c233e50ae976a24682947a028c8e92b34fb4174d4b8facfb18804bfaa96f1",
+      "required": true
+    },
+    {
+      "path": "scripts/build_research_integrity_manifest_v14.py",
+      "bytes": 1814,
+      "sha256": "fe72e5f790bf97aba33016ff114f93564233e865767b1c24f54170fbea151bd5",
       "required": true
     },
     {
