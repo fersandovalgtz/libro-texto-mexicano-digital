@@ -1,0 +1,53 @@
+name: probe-ltmd-u1-w7-missing-cycle-window-13-20
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/probe_ltmd_u1_w7_missing_cycle_window_13_20.py'
+      - 'data/catalog/ltmd_u1_w7_source_admissibility.csv'
+      - 'data/catalog/ltmd_bibliographic_observations.csv'
+      - 'data/catalog/ltmd_u1_w7_civics_ethics_asset_manifest.csv'
+      - '.github/workflows/probe-ltmd-u1-w7-missing-cycle-window-13-20.yml'
+
+concurrency:
+  group: ltmd-u1-w7-missing-cycle-window-13-20
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install bounded OCR dependency
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+      - name: Probe SHA-verified logical pages 13-20
+        run: python3 scripts/probe_ltmd_u1_w7_missing_cycle_window_13_20.py
+      - name: Publish bounded probe race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-w7-cycle-window
+          mkdir -p /tmp/ltmd-w7-cycle-window
+          cp data/catalog/ltmd_u1_w7_missing_cycle_window_13_20.csv /tmp/ltmd-w7-cycle-window/
+          cp data/catalog/ltmd_u1_w7_missing_cycle_window_13_20.md /tmp/ltmd-w7-cycle-window/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-w7-cycle-window/* data/catalog/
+            git add data/catalog/ltmd_u1_w7_missing_cycle_window_13_20.csv \
+                    data/catalog/ltmd_u1_w7_missing_cycle_window_13_20.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD W7 missing-cycle pages 13-20 probe 0.1'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
