@@ -1,0 +1,51 @@
+name: evaluate-ltmd-u1-w7-h2014p5-external-mirror
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/evaluate_ltmd_u1_w7_h2014p5_external_mirror.py'
+      - 'data/catalog/ltmd_u1_w7_civics_ethics_asset_manifest.csv'
+      - '.github/workflows/evaluate-ltmd-u1-w7-h2014p5-external-mirror.yml'
+
+concurrency:
+  group: ltmd-u1-w7-h2014p5-external-mirror
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install bounded OCR dependency
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+      - name: Evaluate mirror alignment without persisting images
+        run: python3 scripts/evaluate_ltmd_u1_w7_h2014p5_external_mirror.py
+      - name: Publish alignment evidence race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-w7-h2014-mirror
+          mkdir -p /tmp/ltmd-w7-h2014-mirror
+          cp data/catalog/ltmd_u1_w7_h2014p5_external_mirror_alignment.csv /tmp/ltmd-w7-h2014-mirror/
+          cp data/catalog/ltmd_u1_w7_h2014p5_external_mirror.md /tmp/ltmd-w7-h2014-mirror/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-w7-h2014-mirror/* data/catalog/
+            git add data/catalog/ltmd_u1_w7_h2014p5_external_mirror_alignment.csv \
+                    data/catalog/ltmd_u1_w7_h2014p5_external_mirror.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD U1 W7 H2014P5 external-mirror alignment'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
