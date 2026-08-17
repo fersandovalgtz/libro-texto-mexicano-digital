@@ -58,8 +58,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Build integrity manifest 0.8
-        run: python3 scripts/build_research_integrity_manifest_v08.py
+      - name: Build integrity manifest 0.9
+        run: python3 scripts/build_research_integrity_manifest_v09.py
       - name: Publish integrity manifest race-safely
         run: |
           set -euo pipefail
@@ -75,7 +75,7 @@ jobs:
             cp /tmp/ltmd-integrity/* data/derived/
             git add data/derived/research_integrity_manifest.json data/derived/research_integrity_manifest.md
             if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Publish LTMD research integrity manifest 0.8'
+            git commit -m 'Publish LTMD research integrity manifest 0.9'
             if git push origin HEAD:main; then exit 0; fi
             sleep $((attempt * 2))
           done
