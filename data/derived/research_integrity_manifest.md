@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.8`.
 
-Commit observado: `1654694be70f6e414c663f02d5ea992eada14c2a`.
+Commit observado: `064b3a0391b42be06b5e1614b20c0b5e940639a7`.
 
 Alcance: perímetro v0.7 congelado + W7 Cívica/Ética: alcance histórico, provenance de página, routing del visor resuelto, evidencia de conformidad de fuente 2018, topología de 30 identidades/25 canónicos admisibles, OCR y PAGESTRUCT completos y controles FRAGSEG/reuso exacto/cierre técnico.
 

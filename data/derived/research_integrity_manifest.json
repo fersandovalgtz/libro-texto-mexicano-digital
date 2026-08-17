@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.8",
-  "generated_utc": "2026-08-17T00:11:38.773255+00:00",
-  "git_head": "1654694be70f6e414c663f02d5ea992eada14c2a",
+  "generated_utc": "2026-08-17T00:22:36.525947+00:00",
+  "git_head": "064b3a0391b42be06b5e1614b20c0b5e940639a7",
   "scope": "LTMD v0.8: frozen v0.7 perimeter plus W7 Civics/Ethics historical scope, page-level source provenance, resolved viewer routing, 2018 source-conformance evidence, 30-identity/25-canonical source-admissible processing topology, completed SHA-verified OCR and PAGESTRUCT, and staged FRAGSEG/exact-reuse/technical-closure controls",
   "critical_count": 337,
   "critical_present_count": 337,
