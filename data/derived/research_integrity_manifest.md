@@ -2,11 +2,11 @@
 
 Versión: `LTMD_INTEGRITY_0.8`.
 
-Commit observado: `f08aa88d6d8440f3b64bc85e028330b0984b7c4e`.
+Commit observado: `9f66c8566b0632e2c0af81e5df186c20bafa78b4`.
 
-Alcance: perímetro v0.7 congelado + W7 Cívica/Ética: alcance histórico, provenance de página, routing del visor resuelto, evidencia de conformidad de fuente 2018, topología de 30 identidades/25 canónicos admisibles, OCR/PAGESTRUCT/FRAGSEG/reuso exacto completos y cierre técnico validado de la cohorte admisible.
+Alcance: perímetro v0.7 congelado + W7 Cívica/Ética: alcance histórico, provenance de página, routing del visor resuelto, evidencia de conformidad de fuente 2018, topología de 30 identidades/25 canónicos admisibles, OCR/PAGESTRUCT/FRAGSEG/reuso exacto completos, cierre técnico validado, comparación técnica no semántica W4↔W7 y estado maestro.
 
-Archivos críticos presentes: **345/345**.
+Archivos críticos presentes: **349/349**.
 Artefactos opcionales presentes: **18**.
 
 Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; la desaparición de un artefacto crítico hace fallar el workflow.
@@ -323,6 +323,8 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `data/catalog/ltmd_u1_w7_civics_ethics_exact_viewer_overlap.csv` — 37310 bytes — `1a07547940993ad6320a3b6fc7aed5d387156c3e6cbe1d4fdee2da440efd1d1f`
 - `data/catalog/ltmd_u1_w7_civics_ethics_exact_reuse.md` — 2607 bytes — `f57bee3efee75a6e80b5e3f25c0d880e84c3866b972b9ff2845a2d2cbe583c48`
 - `docs/LTMD_U1_W7_COMPLETION.md` — 2001 bytes — `35c27cc878837c45eeae23fd5ca9937e62c74511803fb92d1e30cf11bfc870e0`
+- `data/derived/ltmd_u1_w4_w7_technical_comparison.csv` — 2336 bytes — `dccf06b7f9d07d54b342b6c34ffe1d75ae148373834a0688ae92cb458bcd20a4`
+- `docs/LTMD_U1_W4_W7_TECHNICAL_COMPARISON.md` — 2589 bytes — `286686c103d1db5aefe2865daf81a92b7a2b598139eccc78b8c167ecca157c80`
 - `scripts/validate_ltmd_u1_w7_provenance.py` — 10485 bytes — `930369e7d50e5f4707a4d1cbfe48f70f63a1e14e4f6c1ae11eeb090b5db2dabd`
 - `scripts/diagnose_ltmd_u1_w7_routing.py` — 8969 bytes — `659967d5ba8931bccbd544d7c70ffa8d252cc961463117fba981b47d34054ee5`
 - `scripts/extract_ltmd_u1_w7_viewer_route_contract.py` — 6626 bytes — `517cc1527c2a2c0f0151d23312af99a36b5e7d15247c7b054421a4a6a40fc0ad`
@@ -342,6 +344,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/combine_ltmd_u1_w7_civics_ethics_fragment_shards.py` — 5983 bytes — `26709babc3fb4e4fe6751ce60a777b06fbc5de9354d5683a8fd1a95046f6fdcc`
 - `scripts/analyze_ltmd_u1_w7_civics_ethics_exact_reuse.py` — 6075 bytes — `d520f02fa5fb43fdce8d19885d695688e8605a39550ff586ffb06631812485da`
 - `scripts/build_ltmd_u1_w7_completion_report.py` — 9052 bytes — `59a54f575b0f803ec4175fe8ed2dcb17765a8c5a3cd59e05f722b1aae0721f14`
+- `scripts/compare_ltmd_u1_w4_w7_technical_profiles.py` — 8929 bytes — `c3479f4069089d2ed1c8e4357a63f0129d70bd832d0cb3b633a85c5450765271`
 - `.github/workflows/validate-ltmd-u1-w7-provenance.yml` — 1704 bytes — `d228a5b3215f08fdbb550fffef40dd2bb99c30c7b1c85d6f758d72a1bb4e4aad`
 - `.github/workflows/diagnose-ltmd-u1-w7-routing.yml` — 1810 bytes — `80e1c0e2715a982c8a2cc1f170d84ca2488d81d3728938c08557285a96056f2b`
 - `.github/workflows/extract-ltmd-u1-w7-viewer-route-contract.yml` — 1971 bytes — `73cffe30eb6159dc242103ed24861a5dace33d0a66e689fd6c5e465abcc0b782`
@@ -357,7 +360,8 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `.github/workflows/build-ltmd-u1-w7-civics-ethics-fragseg.yml` — 4717 bytes — `defcb853a8b515bbede8cf3e842ad877ae77fe0ca02735f1184cb3df4ab558df`
 - `.github/workflows/analyze-ltmd-u1-w7-civics-ethics-exact-reuse.yml` — 2090 bytes — `3f6f079b82ee258c20f70f9b5f8dfbf2bba3ae0b2b6b1be6c12beceea73156e5`
 - `.github/workflows/build-ltmd-u1-w7-completion-report.yml` — 1731 bytes — `c3f530addc162cd624924d103f15640a5362f4162f75aae7dc24a2aebf59491a`
-- `scripts/build_research_integrity_manifest_v08.py` — 7297 bytes — `62690dbec1f622770cb4afa32bda804c343b045df4e1d6d1abb37696c375e073`
+- `.github/workflows/analyze-ltmd-u1-w4-w7-technical-comparison.yml` — 1817 bytes — `d987ebfc9cd761be2b41308a0047929aa4f1ebc38cbab7a3547994fab50e2875`
+- `scripts/build_research_integrity_manifest_v08.py` — 7725 bytes — `f48e5c5a9c05bc0827f719f87e060653cda401966a931d4b6da59d572c30133c`
 
 ## Artefactos derivados adicionales presentes
 

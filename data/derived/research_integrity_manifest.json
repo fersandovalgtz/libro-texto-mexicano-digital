@@ -1,10 +1,10 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.8",
-  "generated_utc": "2026-08-17T00:28:04.769937+00:00",
-  "git_head": "f08aa88d6d8440f3b64bc85e028330b0984b7c4e",
-  "scope": "LTMD v0.8: frozen v0.7 perimeter plus W7 Civics/Ethics historical scope, page-level source provenance, resolved viewer routing, 2018 source-conformance evidence, 30-identity/25-canonical source-admissible processing topology, completed SHA-verified OCR, PAGESTRUCT, FRAGSEG, exact-text reuse, and admitted-cohort technical closure",
-  "critical_count": 345,
-  "critical_present_count": 345,
+  "generated_utc": "2026-08-17T00:28:45.371440+00:00",
+  "git_head": "9f66c8566b0632e2c0af81e5df186c20bafa78b4",
+  "scope": "LTMD v0.8: frozen v0.7 perimeter plus W7 Civics/Ethics historical scope, page-level source provenance, resolved viewer routing, 2018 source-conformance evidence, 30-identity/25-canonical source-admissible processing topology, completed SHA-verified OCR, PAGESTRUCT, FRAGSEG, exact-text reuse, admitted-cohort technical closure, nonsemantic W4-W7 technical comparison, and master status",
+  "critical_count": 349,
+  "critical_present_count": 349,
   "missing_critical": [],
   "optional_present_count": 18,
   "optional_missing": [
@@ -1875,6 +1875,18 @@
       "required": true
     },
     {
+      "path": "data/derived/ltmd_u1_w4_w7_technical_comparison.csv",
+      "bytes": 2336,
+      "sha256": "dccf06b7f9d07d54b342b6c34ffe1d75ae148373834a0688ae92cb458bcd20a4",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W4_W7_TECHNICAL_COMPARISON.md",
+      "bytes": 2589,
+      "sha256": "286686c103d1db5aefe2865daf81a92b7a2b598139eccc78b8c167ecca157c80",
+      "required": true
+    },
+    {
       "path": "scripts/validate_ltmd_u1_w7_provenance.py",
       "bytes": 10485,
       "sha256": "930369e7d50e5f4707a4d1cbfe48f70f63a1e14e4f6c1ae11eeb090b5db2dabd",
@@ -1989,6 +2001,12 @@
       "required": true
     },
     {
+      "path": "scripts/compare_ltmd_u1_w4_w7_technical_profiles.py",
+      "bytes": 8929,
+      "sha256": "c3479f4069089d2ed1c8e4357a63f0129d70bd832d0cb3b633a85c5450765271",
+      "required": true
+    },
+    {
       "path": ".github/workflows/validate-ltmd-u1-w7-provenance.yml",
       "bytes": 1704,
       "sha256": "d228a5b3215f08fdbb550fffef40dd2bb99c30c7b1c85d6f758d72a1bb4e4aad",
@@ -2079,9 +2097,15 @@
       "required": true
     },
     {
+      "path": ".github/workflows/analyze-ltmd-u1-w4-w7-technical-comparison.yml",
+      "bytes": 1817,
+      "sha256": "d987ebfc9cd761be2b41308a0047929aa4f1ebc38cbab7a3547994fab50e2875",
+      "required": true
+    },
+    {
       "path": "scripts/build_research_integrity_manifest_v08.py",
-      "bytes": 7297,
-      "sha256": "62690dbec1f622770cb4afa32bda804c343b045df4e1d6d1abb37696c375e073",
+      "bytes": 7725,
+      "sha256": "f48e5c5a9c05bc0827f719f87e060653cda401966a931d4b6da59d572c30133c",
       "required": true
     },
     {
