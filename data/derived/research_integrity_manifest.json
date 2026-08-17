@@ -1,10 +1,10 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.8",
-  "generated_utc": "2026-08-17T00:09:10.402805+00:00",
-  "git_head": "41fc4845fb882e35653735a9f971ae8f82b7c27b",
-  "scope": "LTMD v0.8: frozen v0.7 perimeter plus W7 Civics/Ethics historical scope, page-level source provenance, resolved viewer routing, 2018 source-conformance evidence, 30-identity/25-canonical source-admissible processing topology, completed SHA-verified OCR, and staged PAGESTRUCT/FRAGSEG/exact-reuse/technical-closure controls",
-  "critical_count": 333,
-  "critical_present_count": 333,
+  "generated_utc": "2026-08-17T00:11:38.773255+00:00",
+  "git_head": "1654694be70f6e414c663f02d5ea992eada14c2a",
+  "scope": "LTMD v0.8: frozen v0.7 perimeter plus W7 Civics/Ethics historical scope, page-level source provenance, resolved viewer routing, 2018 source-conformance evidence, 30-identity/25-canonical source-admissible processing topology, completed SHA-verified OCR and PAGESTRUCT, and staged FRAGSEG/exact-reuse/technical-closure controls",
+  "critical_count": 337,
+  "critical_present_count": 337,
   "missing_critical": [],
   "optional_present_count": 18,
   "optional_missing": [
@@ -1803,6 +1803,30 @@
       "required": true
     },
     {
+      "path": "data/catalog/ltmd_u1_w7_civics_ethics_structural_keyword_flags.csv",
+      "bytes": 102896,
+      "sha256": "78f411c9b8575f4b7aa201e420d37793f7f9b415ac18ca51a1a8a2becc8d4716",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w7_civics_ethics_page_structure.csv",
+      "bytes": 645804,
+      "sha256": "8b157822d03e37a2f401e16c41c1006fc340a177ffc1fd594f3d1a0b25f76fa9",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w7_civics_ethics_page_structure_summary.csv",
+      "bytes": 989,
+      "sha256": "0818f9150ec27576f3587774a2acdcf4e783bd07b013230566d9dcebe9605b45",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w7_civics_ethics_page_structure.md",
+      "bytes": 943,
+      "sha256": "ba977b53296fd774e28178c71afeba57d3d5d11175cab8aae474e3e88d6b3a41",
+      "required": true
+    },
+    {
       "path": "scripts/validate_ltmd_u1_w7_provenance.py",
       "bytes": 10485,
       "sha256": "930369e7d50e5f4707a4d1cbfe48f70f63a1e14e4f6c1ae11eeb090b5db2dabd",
@@ -2008,8 +2032,8 @@
     },
     {
       "path": "scripts/build_research_integrity_manifest_v08.py",
-      "bytes": 7333,
-      "sha256": "2d95d5f790195c73f666a00d6d4230d59ada39c997c90e3d4fc399d0ae37115e",
+      "bytes": 6747,
+      "sha256": "8af9c5997b5eef5ccc0a4356bea85e60326dbfdd1aad2e574eb914bceadf3aae",
       "required": true
     },
     {
