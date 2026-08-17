@@ -4,16 +4,16 @@
 0.8 preserves the complete 0.7 perimeter and extends it with LTMD-U1 W7
 Civics/Ethics source scope, page-level provenance, viewer routing reconstruction,
 2018 route-conformance evidence, source-admissibility decisions, complete-asset
-relationship analysis, reconciled processing topology, executable OCR,
-PAGESTRUCT, FRAGSEG and exact-reuse controls, plus the technical closure validator
-for the admitted cohort.
+relationship analysis, reconciled processing topology, completed OCR evidence,
+executable PAGESTRUCT/FRAGSEG/exact-reuse controls, and the technical closure
+validator for the admitted cohort.
 
 The historical scope remains 30 catalog identities. Exactly 25 source-admitted,
 non-byte-identical objects are authorized as independent processing canonicals;
 five identities remain withheld because their official source assets are
-incomplete or unserved. Derived OCR/PAGESTRUCT/FRAGSEG/reuse/completion outputs
-are frozen only after each complete layer materializes and passes its own
-coverage and provenance invariants.
+incomplete or unserved. Derived PAGESTRUCT/FRAGSEG/reuse/completion outputs are
+frozen only after each complete layer materializes and passes its own coverage
+and provenance invariants.
 """
 from __future__ import annotations
 
@@ -54,6 +54,9 @@ W7_PROVENANCE_CRITICAL = [
     'data/catalog/ltmd_u1_w7_processing_inventory.csv',
     'data/catalog/ltmd_u1_w7_canonical_page_manifest.csv',
     'data/catalog/ltmd_u1_w7_processing_topology.md',
+    'data/catalog/ltmd_u1_w7_civics_ethics_ocr_metrics.csv',
+    'data/catalog/ltmd_u1_w7_civics_ethics_ocr_summary.csv',
+    'data/catalog/ltmd_u1_w7_civics_ethics_ocr.md',
     'scripts/validate_ltmd_u1_w7_provenance.py',
     'scripts/diagnose_ltmd_u1_w7_routing.py',
     'scripts/extract_ltmd_u1_w7_viewer_route_contract.py',
