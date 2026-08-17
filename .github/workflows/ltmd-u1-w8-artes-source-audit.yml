@@ -2,9 +2,6 @@ name: LTMD U1-W8 Artes source-first audit
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - '.github/w8-source-audit-trigger'
 
 permissions:
   contents: write
