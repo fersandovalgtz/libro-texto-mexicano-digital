@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.8",
-  "generated_utc": "2026-08-17T00:23:12.626807+00:00",
-  "git_head": "ab842e7c75075ac6912a58858c4b44b0a3d085a9",
+  "generated_utc": "2026-08-17T00:28:04.769937+00:00",
+  "git_head": "f08aa88d6d8440f3b64bc85e028330b0984b7c4e",
   "scope": "LTMD v0.8: frozen v0.7 perimeter plus W7 Civics/Ethics historical scope, page-level source provenance, resolved viewer routing, 2018 source-conformance evidence, 30-identity/25-canonical source-admissible processing topology, completed SHA-verified OCR, PAGESTRUCT, FRAGSEG, exact-text reuse, and admitted-cohort technical closure",
   "critical_count": 345,
   "critical_present_count": 345,
@@ -1018,8 +1018,8 @@
     },
     {
       "path": "docs/LTMD_STATUS_2026-08-16.md",
-      "bytes": 6714,
-      "sha256": "5080028dd1419c88714ccb40bf1d71f2394fefbd8ef6e1f96e227f602c32d067",
+      "bytes": 11616,
+      "sha256": "7db296abcf3d9595fbaa85d4ab1426c11fb84ff9338dc501cdd2e43c29cf6516",
       "required": true
     },
     {
@@ -2050,32 +2050,32 @@
     },
     {
       "path": ".github/workflows/build-ltmd-u1-w7-civics-ethics-ocr.yml",
-      "bytes": 4158,
-      "sha256": "e676961ce2e5b752c549646dd9c71473d9bd298ae664b036aa8a7281a7c2e8e2",
+      "bytes": 4191,
+      "sha256": "0ceec9a179da8d6830907ca241a2f086943f140034d62991785da6f7e070df21",
       "required": true
     },
     {
       "path": ".github/workflows/build-ltmd-u1-w7-civics-ethics-pagestruct.yml",
-      "bytes": 4787,
-      "sha256": "e59746de883c0a8f19a3ca4a418a14bc528e34a65464edb41c2c5f25962f35c1",
+      "bytes": 4916,
+      "sha256": "6e18acd6e777e2c59ede9f1b0ccc97b83f3040a0f4bdebcab480fdd4c2cdf476",
       "required": true
     },
     {
       "path": ".github/workflows/build-ltmd-u1-w7-civics-ethics-fragseg.yml",
-      "bytes": 4497,
-      "sha256": "36a39e0298d581796561cd5ce64944abda7e5f6f46e6e622fed3c02700bf1b72",
+      "bytes": 4717,
+      "sha256": "defcb853a8b515bbede8cf3e842ad877ae77fe0ca02735f1184cb3df4ab558df",
       "required": true
     },
     {
       "path": ".github/workflows/analyze-ltmd-u1-w7-civics-ethics-exact-reuse.yml",
-      "bytes": 1868,
-      "sha256": "89f9316c1c6e6e416f2c78f082c6b5ac56591ffede734e14277d867f0ee789e3",
+      "bytes": 2090,
+      "sha256": "3f6f079b82ee258c20f70f9b5f8dfbf2bba3ae0b2b6b1be6c12beceea73156e5",
       "required": true
     },
     {
       "path": ".github/workflows/build-ltmd-u1-w7-completion-report.yml",
-      "bytes": 1504,
-      "sha256": "2788c98d9ddbe0003cea3d496a5e4d4ddb80ede6fc94f5118ee9eeb2f12dc9b6",
+      "bytes": 1731,
+      "sha256": "c3f530addc162cd624924d103f15640a5362f4162f75aae7dc24a2aebf59491a",
       "required": true
     },
     {
