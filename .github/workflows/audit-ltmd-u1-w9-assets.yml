@@ -1,0 +1,93 @@
+name: audit-ltmd-u1-w9-assets
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/audit-ltmd-u1-w9-assets.yml'
+      - 'scripts/audit_ltmd_u1_w9_educacion_fisica_assets_book.py'
+      - 'scripts/combine_ltmd_u1_w9_educacion_fisica_asset_shards.py'
+      - 'data/catalog/ltmd_u1_w9_declared_inventory.csv'
+      - 'data/catalog/ltmd_u1_w9_viewer_architecture.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: audit-ltmd-u1-w9-assets
+  cancel-in-progress: false
+
+jobs:
+  matrix:
+    runs-on: ubuntu-24.04
+    outputs:
+      viewers: ${{ steps.make.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: make
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import csv,json
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w9_declared_inventory.csv',encoding='utf-8')))
+          assert len(rows)==4 and all(int(r['declared_positions'])>0 for r in rows)
+          print('viewers='+json.dumps([r['viewer_key'] for r in rows],separators=(',',':')))
+          PY
+
+  audit:
+    needs: matrix
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        viewer_key: ${{ fromJSON(needs.matrix.outputs.viewers) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit one W9 viewer
+        run: python3 scripts/audit_ltmd_u1_w9_educacion_fisica_assets_book.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w9-assets-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w9_educacion_fisica_assets/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  combine:
+    needs: audit
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w9-assets-*
+          path: data/work/ltmd_u1_w9_educacion_fisica_assets
+          merge-multiple: true
+      - name: Combine strict W9 asset audit
+        run: python3 scripts/combine_ltmd_u1_w9_educacion_fisica_asset_shards.py
+      - name: Publish W9 asset audit race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/w9-assets
+          mkdir -p /tmp/w9-assets
+          cp data/catalog/ltmd_u1_w9_educacion_fisica_asset_manifest.csv /tmp/w9-assets/
+          cp data/catalog/ltmd_u1_w9_educacion_fisica_asset_summary.csv /tmp/w9-assets/
+          cp data/catalog/ltmd_u1_w9_educacion_fisica_asset_audit.md /tmp/w9-assets/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w9-assets/* data/catalog/
+            git add data/catalog/ltmd_u1_w9_educacion_fisica_asset_manifest.csv data/catalog/ltmd_u1_w9_educacion_fisica_asset_summary.csv data/catalog/ltmd_u1_w9_educacion_fisica_asset_audit.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w9): publish strict physical-education asset audit'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
