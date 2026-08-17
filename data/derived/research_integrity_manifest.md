@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.12`.
 
-Commit observado: `f6e2e9b2cfcad3112dc876f5cd7188d0bf2d10b3`.
+Commit observado: `1b7a5a76c7c60a2f1ed4d15fce242b7cea24a0ef`.
 
 Alcance: perímetro v0.11 congelado + matriz W7 de 30 identidades que separa readiness de fuente y cronología bibliográfica + probe acotado, verificado contra fuente, de páginas lógicas 13–20 para los 12 objetos admitidos sin observación fuerte de ciclo escolar.
 
