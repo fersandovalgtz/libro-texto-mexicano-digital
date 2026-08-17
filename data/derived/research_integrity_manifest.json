@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.13",
-  "generated_utc": "2026-08-17T18:40:55.772212+00:00",
-  "git_head": "4c07020f0b971f125413346a969b1ec02bb71f86",
+  "generated_utc": "2026-08-17T18:42:01.897161+00:00",
+  "git_head": "1d9bea180ea431cd492bec2b333ab3a3f0bdbd92",
   "scope": "LTMD v0.13: frozen v0.12 perimeter plus the source-admitted LTMD-U1 W8 Artes technical closure: 20 historical identities preserved, 16 direct canonical processing objects, four 2018 source-retained identities without imputation, 1,490 SHA-traced source pages, closed OCR/PAGESTRUCT/FRAGSEG, exact-text dependence products, explicit dispatch controls, and the W8 cross-layer completion validator/report",
   "critical_count": 468,
   "critical_present_count": 468,
