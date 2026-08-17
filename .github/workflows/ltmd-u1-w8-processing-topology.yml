@@ -5,6 +5,7 @@ on:
   push:
     branches: [main]
     paths:
+      - .github/workflows/ltmd-u1-w8-processing-topology.yml
       - scripts/build_ltmd_u1_w8_artes_processing_topology.py
       - data/catalog/ltmd_u1_w8_artes_source_admissibility.csv
       - data/catalog/ltmd_u1_w8_artes_asset_manifest.csv
