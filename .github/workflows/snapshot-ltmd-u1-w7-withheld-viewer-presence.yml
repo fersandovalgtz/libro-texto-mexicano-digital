@@ -1,0 +1,47 @@
+name: snapshot-ltmd-u1-w7-withheld-viewer-presence
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/snapshot_ltmd_u1_w7_withheld_viewer_presence.py'
+      - 'data/catalog/ltmd_u1_w7_source_admissibility.csv'
+      - '.github/workflows/snapshot-ltmd-u1-w7-withheld-viewer-presence.yml'
+
+concurrency:
+  group: ltmd-u1-w7-withheld-viewer-presence
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Snapshot official configuration and viewer HTML
+        run: python3 scripts/snapshot_ltmd_u1_w7_withheld_viewer_presence.py
+      - name: Publish snapshot race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-w7-held-presence
+          mkdir -p /tmp/ltmd-w7-held-presence
+          cp data/catalog/ltmd_u1_w7_withheld_viewer_presence.csv /tmp/ltmd-w7-held-presence/
+          cp data/catalog/ltmd_u1_w7_withheld_viewer_presence.md /tmp/ltmd-w7-held-presence/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-w7-held-presence/* data/catalog/
+            git add data/catalog/ltmd_u1_w7_withheld_viewer_presence.csv \
+                    data/catalog/ltmd_u1_w7_withheld_viewer_presence.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD U1 W7 withheld-viewer presence snapshot'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
