@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Build LTMD_INTEGRITY_0.8 with the W7 source-to-processing perimeter.
+"""Build LTMD_INTEGRITY_0.8 with the completed W7 admitted-cohort perimeter.
 
 0.8 preserves the complete 0.7 perimeter and extends it with LTMD-U1 W7
 Civics/Ethics source scope, page-level provenance, resolved routing, 2018
 source-conformance evidence, source-admissibility decisions, reconciled
-processing topology, completed OCR and PAGESTRUCT evidence, and executable
-FRAGSEG/exact-reuse/technical-closure controls for the admitted cohort.
+processing topology, completed OCR/PAGESTRUCT/FRAGSEG/exact-reuse evidence, and
+the validated technical-closure report for the source-admitted cohort.
 """
 from __future__ import annotations
 
@@ -18,11 +18,11 @@ base.VERSION = 'LTMD_INTEGRITY_0.8'
 SCOPE = ('LTMD v0.8: frozen v0.7 perimeter plus W7 Civics/Ethics historical scope, '
          'page-level source provenance, resolved viewer routing, 2018 source-conformance '
          'evidence, 30-identity/25-canonical source-admissible processing topology, '
-         'completed SHA-verified OCR and PAGESTRUCT, and staged FRAGSEG/exact-reuse/technical-closure controls')
+         'completed SHA-verified OCR, PAGESTRUCT, FRAGSEG, exact-text reuse, and admitted-cohort technical closure')
 SCOPE_ES = ('perímetro v0.7 congelado + W7 Cívica/Ética: alcance histórico, provenance de página, '
             'routing del visor resuelto, evidencia de conformidad de fuente 2018, topología de '
-            '30 identidades/25 canónicos admisibles, OCR y PAGESTRUCT completos y controles '
-            'FRAGSEG/reuso exacto/cierre técnico')
+            '30 identidades/25 canónicos admisibles, OCR/PAGESTRUCT/FRAGSEG/reuso exacto completos '
+            'y cierre técnico validado de la cohorte admisible')
 OLD_SCOPE_ES_ASCII = ('CN5 piloto + expansión CN4/CN6 cerrada + Ola 2 cerrada + readiness de la familia '
                       'estricta Ciencias Naturales + dependencia/contenido único + infraestructura SEMB 0.3 '
                       'prehumana + artículo metodológico 0.2.')
@@ -66,6 +66,14 @@ W7_PROVENANCE_CRITICAL = [
     'data/catalog/ltmd_u1_w7_civics_ethics_page_structure.csv',
     'data/catalog/ltmd_u1_w7_civics_ethics_page_structure_summary.csv',
     'data/catalog/ltmd_u1_w7_civics_ethics_page_structure.md',
+    'data/catalog/ltmd_u1_w7_civics_ethics_fragment_manifest.csv',
+    'data/catalog/ltmd_u1_w7_civics_ethics_fragment_manifest_summary.csv',
+    'data/catalog/ltmd_u1_w7_civics_ethics_fragment_sequence_gaps.csv',
+    'data/catalog/ltmd_u1_w7_civics_ethics_fragment_manifest.md',
+    'data/catalog/ltmd_u1_w7_civics_ethics_exact_content_units.csv',
+    'data/catalog/ltmd_u1_w7_civics_ethics_exact_viewer_overlap.csv',
+    'data/catalog/ltmd_u1_w7_civics_ethics_exact_reuse.md',
+    'docs/LTMD_U1_W7_COMPLETION.md',
     'scripts/validate_ltmd_u1_w7_provenance.py',
     'scripts/diagnose_ltmd_u1_w7_routing.py',
     'scripts/extract_ltmd_u1_w7_viewer_route_contract.py',
