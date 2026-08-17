@@ -1,0 +1,48 @@
+name: build-ltmd-bibliographic-instance-candidates
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/build_ltmd_bibliographic_instance_candidates_v01.py'
+      - 'data/catalog/ltmd_bibliographic_instance_resolution.csv'
+      - 'data/catalog/ltmd_bibliographic_instance_resolution_audit.csv'
+      - '.github/workflows/build-ltmd-bibliographic-instance-candidates.yml'
+
+concurrency:
+  group: ltmd-bibliographic-instance-candidates
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build publication-safe bibliographic instance candidates
+        run: python3 scripts/build_ltmd_bibliographic_instance_candidates_v01.py
+      - name: Publish candidates race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-biblio-candidates
+          mkdir -p /tmp/ltmd-biblio-candidates
+          cp data/catalog/ltmd_bibliographic_instance_candidates.csv /tmp/ltmd-biblio-candidates/
+          cp data/catalog/ltmd_bibliographic_instance_candidates.md /tmp/ltmd-biblio-candidates/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-biblio-candidates/* data/catalog/
+            git add data/catalog/ltmd_bibliographic_instance_candidates.csv \
+                    data/catalog/ltmd_bibliographic_instance_candidates.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD bibliographic instance candidates 0.1'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
