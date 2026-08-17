@@ -103,6 +103,22 @@ Los 15 objetos restantes permanecen explícitamente sin año efectivo candidato 
 
 No se imputan desde la cohorte del catálogo, títulos vecinos, otras generaciones, similitud OCR o reutilización textual.
 
+## Regla para búsquedas bibliográficas negativas acotadas
+
+Una búsqueda OCR adicional puede cerrarse científicamente con **cero hallazgos** cuando el target, la ventana, las páginas fuente, los hashes y los modos OCR fueron definidos antes de observar el resultado.
+
+El probe `LTMD_U1_W7_MISSING_CYCLE_WINDOW_13_20_0.1` aplica esta regla:
+
+- 12 objetos source-admitted sin `school_cycle_statement` en Observations 0.4;
+- páginas lógicas 13–20;
+- 96/96 páginas verificadas contra SHA-256+tamaño;
+- PSM 3, 6 y 11 por página;
+- **0/12 objetos con un ciclo fuerte multímodo**.
+
+Este resultado significa únicamente que la ventana 13–20 no aportó un ciclo fuerte bajo ese contrato. **No demuestra ausencia del ciclo escolar en el libro completo.**
+
+Una ventana negativa acotada **no autoriza ampliar automáticamente la búsqueda a las páginas siguientes**. Una expansión posterior necesita una pista documental concreta, una hipótesis de ubicación justificable o un nuevo protocolo explícitamente versionado. Esta regla evita convertir la búsqueda bibliográfica en un barrido indefinido hasta encontrar una fecha conveniente.
+
 ## Uso en análisis histórico
 
 Los candidatos pueden utilizarse para:
@@ -125,5 +141,7 @@ Véanse también:
 - `docs/HISTORICAL_ANALYSIS_PLAN_0_3.md`;
 - `docs/DATA_MODEL.md`;
 - `docs/DATA_GOVERNANCE.md`;
+- `docs/LTMD_U1_W7_BIBLIOGRAPHIC_COVERAGE.md`;
+- `data/catalog/ltmd_u1_w7_missing_cycle_window_13_20.md`;
 - `data/catalog/ltmd_bibliographic_observations.md`;
 - `data/catalog/ltmd_u1_w7_reprint_ocr_confusion_recovery.md`.
