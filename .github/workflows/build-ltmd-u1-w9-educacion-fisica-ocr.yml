@@ -1,0 +1,105 @@
+name: build-ltmd-u1-w9-educacion-fisica-ocr
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w9-educacion-fisica-ocr.yml'
+      - 'scripts/ocr_ltmd_u1_w9_educacion_fisica_book.py'
+      - 'scripts/combine_ltmd_u1_w9_educacion_fisica_ocr.py'
+      - 'data/catalog/ltmd_u1_w9_processing_inventory.csv'
+      - 'data/catalog/ltmd_u1_w9_canonical_page_manifest.csv'
+
+permissions:
+  contents: write
+
+env:
+  OMP_THREAD_LIMIT: '1'
+
+concurrency:
+  group: build-ltmd-u1-w9-educacion-fisica-ocr
+  cancel-in-progress: false
+
+jobs:
+  matrix:
+    runs-on: ubuntu-24.04
+    outputs:
+      viewers: ${{ steps.make.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: make
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import csv,json
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w9_processing_inventory.csv',encoding='utf-8')))
+          man=list(csv.DictReader(open('data/catalog/ltmd_u1_w9_canonical_page_manifest.csv',encoding='utf-8')))
+          assert len(proc)==4 and len({r['viewer_key'] for r in proc})==4
+          keys=[r['viewer_key'] for r in proc if r['is_canonical_processing_object']=='1' and r['ocr_identity_eligible']=='1']
+          assert len(keys)==4 and all(r['processing_mode']=='direct_canonical' for r in proc)
+          assert len(man)==448 and {r['viewer_key'] for r in man}==set(keys)
+          assert all(r['asset_status']=='source_jpeg' and len(r['sha256'])==64 for r in man)
+          print('viewers='+json.dumps(keys,separators=(',',':')))
+          PY
+
+  ocr:
+    needs: matrix
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        viewer_key: ${{ fromJSON(needs.matrix.outputs.viewers) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
+      - name: OCR one canonical W9 viewer
+        run: python3 scripts/ocr_ltmd_u1_w9_educacion_fisica_book.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w9-educacion-fisica-ocr-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w9_educacion_fisica_ocr/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  combine:
+    needs: ocr
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w9-educacion-fisica-ocr-*
+          path: data/work/ltmd_u1_w9_educacion_fisica_ocr
+          merge-multiple: true
+      - name: Combine exact four-viewer W9 OCR layer
+        run: python3 scripts/combine_ltmd_u1_w9_educacion_fisica_ocr.py
+      - name: Publish W9 OCR 0.1 race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/w9-ocr
+          mkdir -p /tmp/w9-ocr
+          cp data/catalog/ltmd_u1_w9_educacion_fisica_ocr_metrics.csv /tmp/w9-ocr/
+          cp data/catalog/ltmd_u1_w9_educacion_fisica_ocr_summary.csv /tmp/w9-ocr/
+          cp data/catalog/ltmd_u1_w9_educacion_fisica_ocr.md /tmp/w9-ocr/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w9-ocr/* data/catalog/
+            git add data/catalog/ltmd_u1_w9_educacion_fisica_ocr_metrics.csv data/catalog/ltmd_u1_w9_educacion_fisica_ocr_summary.csv data/catalog/ltmd_u1_w9_educacion_fisica_ocr.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W9 Educación Física OCR 0.1 metrics'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
