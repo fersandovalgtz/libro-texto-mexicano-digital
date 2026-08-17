@@ -1,10 +1,10 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.8",
-  "generated_utc": "2026-08-17T00:22:36.525947+00:00",
-  "git_head": "064b3a0391b42be06b5e1614b20c0b5e940639a7",
-  "scope": "LTMD v0.8: frozen v0.7 perimeter plus W7 Civics/Ethics historical scope, page-level source provenance, resolved viewer routing, 2018 source-conformance evidence, 30-identity/25-canonical source-admissible processing topology, completed SHA-verified OCR and PAGESTRUCT, and staged FRAGSEG/exact-reuse/technical-closure controls",
-  "critical_count": 337,
-  "critical_present_count": 337,
+  "generated_utc": "2026-08-17T00:23:12.626807+00:00",
+  "git_head": "ab842e7c75075ac6912a58858c4b44b0a3d085a9",
+  "scope": "LTMD v0.8: frozen v0.7 perimeter plus W7 Civics/Ethics historical scope, page-level source provenance, resolved viewer routing, 2018 source-conformance evidence, 30-identity/25-canonical source-admissible processing topology, completed SHA-verified OCR, PAGESTRUCT, FRAGSEG, exact-text reuse, and admitted-cohort technical closure",
+  "critical_count": 345,
+  "critical_present_count": 345,
   "missing_critical": [],
   "optional_present_count": 18,
   "optional_missing": [
@@ -1827,6 +1827,54 @@
       "required": true
     },
     {
+      "path": "data/catalog/ltmd_u1_w7_civics_ethics_fragment_manifest.csv",
+      "bytes": 8757628,
+      "sha256": "f28033c9264bb4447a67bbf93f1ad68dfc93e0345d938a98edfba4b8390c90da",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w7_civics_ethics_fragment_manifest_summary.csv",
+      "bytes": 2422,
+      "sha256": "7c36547c01dcebacf77c9df069186ddf3d81c58969627d4e3655c7bcda7b7d02",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w7_civics_ethics_fragment_sequence_gaps.csv",
+      "bytes": 3722,
+      "sha256": "8e9877806a6dd17026fe44235030828f8aba0e29405a01e1173df6bb711c65ea",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w7_civics_ethics_fragment_manifest.md",
+      "bytes": 1049,
+      "sha256": "7fb02daeb1a8645d20d50c6084b4ce8dccdeee320ddb1baf274a016f036cccc6",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w7_civics_ethics_exact_content_units.csv",
+      "bytes": 3303553,
+      "sha256": "3e6a28aed73c87b388ca0de94d44e75c5feb34ee1547d7c661e4c5e33a8cc278",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w7_civics_ethics_exact_viewer_overlap.csv",
+      "bytes": 37310,
+      "sha256": "1a07547940993ad6320a3b6fc7aed5d387156c3e6cbe1d4fdee2da440efd1d1f",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w7_civics_ethics_exact_reuse.md",
+      "bytes": 2607,
+      "sha256": "f57bee3efee75a6e80b5e3f25c0d880e84c3866b972b9ff2845a2d2cbe583c48",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W7_COMPLETION.md",
+      "bytes": 2001,
+      "sha256": "35c27cc878837c45eeae23fd5ca9937e62c74511803fb92d1e30cf11bfc870e0",
+      "required": true
+    },
+    {
       "path": "scripts/validate_ltmd_u1_w7_provenance.py",
       "bytes": 10485,
       "sha256": "930369e7d50e5f4707a4d1cbfe48f70f63a1e14e4f6c1ae11eeb090b5db2dabd",
@@ -2032,8 +2080,8 @@
     },
     {
       "path": "scripts/build_research_integrity_manifest_v08.py",
-      "bytes": 6747,
-      "sha256": "8af9c5997b5eef5ccc0a4356bea85e60326dbfdd1aad2e574eb914bceadf3aae",
+      "bytes": 7297,
+      "sha256": "62690dbec1f622770cb4afa32bda804c343b045df4e1d6d1abb37696c375e073",
       "required": true
     },
     {

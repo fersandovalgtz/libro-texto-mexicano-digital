@@ -2,11 +2,11 @@
 
 Versión: `LTMD_INTEGRITY_0.8`.
 
-Commit observado: `064b3a0391b42be06b5e1614b20c0b5e940639a7`.
+Commit observado: `ab842e7c75075ac6912a58858c4b44b0a3d085a9`.
 
-Alcance: perímetro v0.7 congelado + W7 Cívica/Ética: alcance histórico, provenance de página, routing del visor resuelto, evidencia de conformidad de fuente 2018, topología de 30 identidades/25 canónicos admisibles, OCR y PAGESTRUCT completos y controles FRAGSEG/reuso exacto/cierre técnico.
+Alcance: perímetro v0.7 congelado + W7 Cívica/Ética: alcance histórico, provenance de página, routing del visor resuelto, evidencia de conformidad de fuente 2018, topología de 30 identidades/25 canónicos admisibles, OCR/PAGESTRUCT/FRAGSEG/reuso exacto completos y cierre técnico validado de la cohorte admisible.
 
-Archivos críticos presentes: **337/337**.
+Archivos críticos presentes: **345/345**.
 Artefactos opcionales presentes: **18**.
 
 Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; la desaparición de un artefacto crítico hace fallar el workflow.
@@ -315,6 +315,14 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `data/catalog/ltmd_u1_w7_civics_ethics_page_structure.csv` — 645804 bytes — `8b157822d03e37a2f401e16c41c1006fc340a177ffc1fd594f3d1a0b25f76fa9`
 - `data/catalog/ltmd_u1_w7_civics_ethics_page_structure_summary.csv` — 989 bytes — `0818f9150ec27576f3587774a2acdcf4e783bd07b013230566d9dcebe9605b45`
 - `data/catalog/ltmd_u1_w7_civics_ethics_page_structure.md` — 943 bytes — `ba977b53296fd774e28178c71afeba57d3d5d11175cab8aae474e3e88d6b3a41`
+- `data/catalog/ltmd_u1_w7_civics_ethics_fragment_manifest.csv` — 8757628 bytes — `f28033c9264bb4447a67bbf93f1ad68dfc93e0345d938a98edfba4b8390c90da`
+- `data/catalog/ltmd_u1_w7_civics_ethics_fragment_manifest_summary.csv` — 2422 bytes — `7c36547c01dcebacf77c9df069186ddf3d81c58969627d4e3655c7bcda7b7d02`
+- `data/catalog/ltmd_u1_w7_civics_ethics_fragment_sequence_gaps.csv` — 3722 bytes — `8e9877806a6dd17026fe44235030828f8aba0e29405a01e1173df6bb711c65ea`
+- `data/catalog/ltmd_u1_w7_civics_ethics_fragment_manifest.md` — 1049 bytes — `7fb02daeb1a8645d20d50c6084b4ce8dccdeee320ddb1baf274a016f036cccc6`
+- `data/catalog/ltmd_u1_w7_civics_ethics_exact_content_units.csv` — 3303553 bytes — `3e6a28aed73c87b388ca0de94d44e75c5feb34ee1547d7c661e4c5e33a8cc278`
+- `data/catalog/ltmd_u1_w7_civics_ethics_exact_viewer_overlap.csv` — 37310 bytes — `1a07547940993ad6320a3b6fc7aed5d387156c3e6cbe1d4fdee2da440efd1d1f`
+- `data/catalog/ltmd_u1_w7_civics_ethics_exact_reuse.md` — 2607 bytes — `f57bee3efee75a6e80b5e3f25c0d880e84c3866b972b9ff2845a2d2cbe583c48`
+- `docs/LTMD_U1_W7_COMPLETION.md` — 2001 bytes — `35c27cc878837c45eeae23fd5ca9937e62c74511803fb92d1e30cf11bfc870e0`
 - `scripts/validate_ltmd_u1_w7_provenance.py` — 10485 bytes — `930369e7d50e5f4707a4d1cbfe48f70f63a1e14e4f6c1ae11eeb090b5db2dabd`
 - `scripts/diagnose_ltmd_u1_w7_routing.py` — 8969 bytes — `659967d5ba8931bccbd544d7c70ffa8d252cc961463117fba981b47d34054ee5`
 - `scripts/extract_ltmd_u1_w7_viewer_route_contract.py` — 6626 bytes — `517cc1527c2a2c0f0151d23312af99a36b5e7d15247c7b054421a4a6a40fc0ad`
@@ -349,7 +357,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `.github/workflows/build-ltmd-u1-w7-civics-ethics-fragseg.yml` — 4497 bytes — `36a39e0298d581796561cd5ce64944abda7e5f6f46e6e622fed3c02700bf1b72`
 - `.github/workflows/analyze-ltmd-u1-w7-civics-ethics-exact-reuse.yml` — 1868 bytes — `89f9316c1c6e6e416f2c78f082c6b5ac56591ffede734e14277d867f0ee789e3`
 - `.github/workflows/build-ltmd-u1-w7-completion-report.yml` — 1504 bytes — `2788c98d9ddbe0003cea3d496a5e4d4ddb80ede6fc94f5118ee9eeb2f12dc9b6`
-- `scripts/build_research_integrity_manifest_v08.py` — 6747 bytes — `8af9c5997b5eef5ccc0a4356bea85e60326dbfdd1aad2e574eb914bceadf3aae`
+- `scripts/build_research_integrity_manifest_v08.py` — 7297 bytes — `62690dbec1f622770cb4afa32bda804c343b045df4e1d6d1abb37696c375e073`
 
 ## Artefactos derivados adicionales presentes
 
