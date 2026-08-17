@@ -1,0 +1,51 @@
+name: extract-ltmd-u1-w7-admitted-bibliographic-fingerprints
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/extract_ltmd_u1_w7_admitted_bibliographic_fingerprints.py'
+      - 'data/catalog/ltmd_u1_w7_source_admissibility.csv'
+      - 'data/catalog/ltmd_u1_w7_civics_ethics_asset_manifest.csv'
+
+concurrency:
+  group: ltmd-u1-w7-admitted-bibliographic-fingerprints
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  fingerprint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install bounded OCR dependency
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+      - name: Extract source-verified W7 bibliographic fingerprints
+        run: python3 scripts/extract_ltmd_u1_w7_admitted_bibliographic_fingerprints.py
+      - name: Publish fingerprints race-safely
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ltmd-w7-biblio-fp
+          mkdir -p /tmp/ltmd-w7-biblio-fp
+          cp data/catalog/ltmd_u1_w7_admitted_bibliographic_fingerprints.csv /tmp/ltmd-w7-biblio-fp/
+          cp data/catalog/ltmd_u1_w7_admitted_bibliographic_fingerprints.md /tmp/ltmd-w7-biblio-fp/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd-w7-biblio-fp/* data/catalog/
+            git add data/catalog/ltmd_u1_w7_admitted_bibliographic_fingerprints.csv \
+                    data/catalog/ltmd_u1_w7_admitted_bibliographic_fingerprints.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD U1 W7 admitted bibliographic fingerprints'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
