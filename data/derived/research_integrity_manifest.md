@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.9`.
 
-Commit observado: `c2aaa9d1b6cc3dfe0f9285441e0765f9468a180c`.
+Commit observado: `2303e0284b26953a0feaddeba6a22c202b4db8a8`.
 
 Alcance: perímetro v0.8 congelado + W3 Español/Lengua: FRAGSEG completo, reutilización textual exacta/dependencia documental y cierre técnico validado; se conservan el cierre técnico de la cohorte W7 admisible y la comparación técnica no semántica W4↔W7 de v0.8.
 
