@@ -4,9 +4,6 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - '.github/workflows/build-ltmd-u1-w7-civics-ethics-ocr.yml'
-      - 'scripts/ocr_ltmd_u1_w7_civics_ethics_book.py'
-      - 'scripts/combine_ltmd_u1_w7_civics_ethics_ocr.py'
       - 'data/catalog/ltmd_u1_w7_processing_inventory.csv'
       - 'data/catalog/ltmd_u1_w7_canonical_page_manifest.csv'
 
