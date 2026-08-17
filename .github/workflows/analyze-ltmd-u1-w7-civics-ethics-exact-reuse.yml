@@ -2,11 +2,15 @@ name: analyze-ltmd-u1-w7-civics-ethics-exact-reuse
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ['build-ltmd-u1-w7-civics-ethics-fragseg']
-    types: [completed]
+    inputs:
+      pipeline:
+        description: 'Allow explicit W7 pipeline execution'
+        required: true
+        default: false
+        type: boolean
 
 permissions:
+  actions: write
   contents: write
 
 concurrency:
@@ -15,8 +19,10 @@ concurrency:
 
 jobs:
   analyze:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ inputs.pipeline == true }}
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -45,3 +51,5 @@ jobs:
             sleep $((attempt * 2))
           done
           exit 1
+      - name: Dispatch W7 technical completion
+        run: gh workflow run build-ltmd-u1-w7-completion-report.yml --repo "$GITHUB_REPOSITORY" --ref main -f pipeline=true
