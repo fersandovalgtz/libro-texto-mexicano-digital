@@ -1,0 +1,223 @@
+#!/usr/bin/env python3
+"""Search Common Crawl indexes for exact W7 withheld-source URIs.
+
+This is a fallback archive probe after Wayback availability errors. It queries
+only the exact missing H2014 asset and the four exact H2018 institutional viewer
+URIs across Common Crawl collections from 2014 onward. It does not search titles,
+nearby keys, or substitute editions.
+"""
+from __future__ import annotations
+
+import csv
+import json
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timezone
+from pathlib import Path
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+
+VERSION = 'LTMD_U1_W7_COMMONCRAWL_SOURCE_DISCOVERY_0.1'
+COLLINFO = 'https://index.commoncrawl.org/collinfo.json'
+UA = 'LibroTextoMexicanoDigital/U1-W7 exact-uri Common Crawl discovery'
+TIMEOUT = 15
+WORKERS = 10
+OUT = Path('data/catalog/ltmd_u1_w7_commoncrawl_source_discovery.csv')
+REPORT = Path('data/catalog/ltmd_u1_w7_commoncrawl_source_discovery.md')
+
+TARGETS = [
+    {
+        'target_id': 'H2014P5FCA_page104',
+        'target_kind': 'exact_missing_asset',
+        'viewer_key': 'H2014P5FCA',
+        'url': 'https://historico.conaliteg.gob.mx/c/H2014P5FCA/104.jpg',
+    },
+    *[
+        {
+            'target_id': f'{key}_viewer',
+            'target_kind': 'exact_viewer',
+            'viewer_key': key,
+            'url': f'https://historico.conaliteg.gob.mx/{key}.htm',
+        }
+        for key in ('H2018P3FCA', 'H2018P4FCA', 'H2018P5FCA', 'H2018P6FCA')
+    ],
+]
+
+
+def get_json(url: str):
+    with urlopen(Request(url, headers={'User-Agent': UA}), timeout=TIMEOUT) as response:
+        return json.loads(response.read().decode('utf-8', errors='replace'))
+
+
+def collection_year(collection_id: str) -> int | None:
+    try:
+        return int(collection_id.split('-')[2])
+    except (IndexError, ValueError):
+        return None
+
+
+def query_one(collection: dict, target: dict) -> dict:
+    endpoint = collection.get('cdx-api') or f"https://index.commoncrawl.org/{collection['id']}-index"
+    query_url = endpoint + '?' + urlencode({
+        'url': target['url'],
+        'output': 'json',
+        'filter': 'status:200',
+    })
+    try:
+        with urlopen(Request(query_url, headers={'User-Agent': UA}), timeout=TIMEOUT) as response:
+            raw = response.read().decode('utf-8', errors='replace')
+        rows = []
+        for line in raw.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            rows.append(json.loads(line))
+        return {
+            'target': target,
+            'collection_id': collection['id'],
+            'query_url': query_url,
+            'probe_state': 'index_ok',
+            'rows': rows,
+            'error': '',
+        }
+    except HTTPError as exc:
+        return {
+            'target': target,
+            'collection_id': collection['id'],
+            'query_url': query_url,
+            'probe_state': f'index_http_{exc.code}',
+            'rows': [],
+            'error': f'HTTP {exc.code}',
+        }
+    except (URLError, TimeoutError, OSError, json.JSONDecodeError) as exc:
+        return {
+            'target': target,
+            'collection_id': collection['id'],
+            'query_url': query_url,
+            'probe_state': 'index_network_error',
+            'rows': [],
+            'error': f'{type(exc).__name__}: {exc}',
+        }
+
+
+def main() -> None:
+    observed_utc = datetime.now(timezone.utc).isoformat()
+    collections = get_json(COLLINFO)
+    collections = [
+        c for c in collections
+        if (collection_year(c.get('id', '')) or 0) >= 2014
+    ]
+    if not collections:
+        raise SystemExit('no Common Crawl collections from 2014 onward')
+
+    results = []
+    with ThreadPoolExecutor(max_workers=WORKERS) as pool:
+        futures = [
+            pool.submit(query_one, collection, target)
+            for collection in collections
+            for target in TARGETS
+        ]
+        for future in as_completed(futures):
+            result = future.result()
+            results.append(result)
+            if result['rows']:
+                print(
+                    result['target']['target_id'],
+                    result['collection_id'],
+                    'captures', len(result['rows']),
+                    flush=True,
+                )
+
+    records: list[dict[str, str]] = []
+    summaries = []
+    for target in TARGETS:
+        target_results = [r for r in results if r['target']['target_id'] == target['target_id']]
+        captures = []
+        for result in target_results:
+            for row in result['rows']:
+                record = {
+                    'discovery_version': VERSION,
+                    'observed_utc': observed_utc,
+                    'target_id': target['target_id'],
+                    'target_kind': target['target_kind'],
+                    'viewer_key': target['viewer_key'],
+                    'collection_id': result['collection_id'],
+                    'probe_state': result['probe_state'],
+                    'query_url': result['query_url'],
+                    'timestamp': str(row.get('timestamp', '')),
+                    'url': str(row.get('url', '')),
+                    'status': str(row.get('status', '')),
+                    'mime': str(row.get('mime', '')),
+                    'mime_detected': str(row.get('mime-detected', '')),
+                    'digest': str(row.get('digest', '')),
+                    'length': str(row.get('length', '')),
+                    'offset': str(row.get('offset', '')),
+                    'filename': str(row.get('filename', '')),
+                }
+                captures.append(record)
+                records.append(record)
+        timestamps = sorted(r['timestamp'] for r in captures if r['timestamp'])
+        states: dict[str, int] = {}
+        for result in target_results:
+            states[result['probe_state']] = states.get(result['probe_state'], 0) + 1
+        summaries.append({
+            **target,
+            'collections_queried': len(target_results),
+            'index_ok': states.get('index_ok', 0),
+            'index_errors': len(target_results) - states.get('index_ok', 0),
+            'capture_count': len(captures),
+            'first_capture': timestamps[0] if timestamps else '',
+            'last_capture': timestamps[-1] if timestamps else '',
+        })
+
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    fields = [
+        'discovery_version', 'observed_utc', 'target_id', 'target_kind',
+        'viewer_key', 'collection_id', 'probe_state', 'query_url', 'timestamp',
+        'url', 'status', 'mime', 'mime_detected', 'digest', 'length', 'offset',
+        'filename',
+    ]
+    with OUT.open('w', encoding='utf-8', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader(); writer.writerows(records)
+
+    lines = [
+        '# LTMD-U1 W7 — descubrimiento Common Crawl de fuentes retenidas',
+        '',
+        f'Versión: `{VERSION}`.',
+        '',
+        f'Observado UTC: `{observed_utc}`.',
+        '',
+        f'Colecciones Common Crawl consultadas desde 2014: **{len(collections)}**.',
+        '',
+        'La consulta usa únicamente URIs institucionales exactos. Una captura es evidencia de que Common Crawl observó ese URI en una colección; no es por sí sola prueba de identidad bibliográfica. Cero capturas, si las consultas de índice fueron válidas, sólo significa ausencia en las colecciones consultadas.',
+        '',
+        '## Resumen',
+        '',
+        '| objetivo | colecciones | índice OK | errores | capturas | primera | última |',
+        '|---|---:|---:|---:|---:|---|---|',
+    ]
+    for item in summaries:
+        lines.append(
+            f"| `{item['target_id']}` | {item['collections_queried']} | {item['index_ok']} | "
+            f"{item['index_errors']} | {item['capture_count']} | `{item['first_capture']}` | `{item['last_capture']}` |"
+        )
+
+    h2014 = next(item for item in summaries if item['target_id'] == 'H2014P5FCA_page104')
+    lines += [
+        '',
+        '## Página 104 de H2014P5FCA',
+        '',
+        f"El URI exacto produjo **{h2014['capture_count']}** captura(s) en Common Crawl, con **{h2014['index_ok']}/{h2014['collections_queried']}** consultas de índice válidas.",
+        '',
+        'Si existen capturas, los campos `filename`, `offset`, `length` y `digest` del CSV permiten una recuperación WARC dirigida y verificable. No se incorpora ningún byte al corpus en esta etapa.',
+        '',
+        '## Límite epistemológico',
+        '',
+        'No se consultan títulos, ediciones parecidas ni claves 2019 como sustitutos. Los cuatro visores 2018 se buscan por su URI institucional exacto; la fuente productiva permanece retenida hasta que la evidencia permita reconstruir el objeto sin imputación.',
+    ]
+    REPORT.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+
+
+if __name__ == '__main__':
+    main()
