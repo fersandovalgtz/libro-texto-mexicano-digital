@@ -1,13 +1,15 @@
 # LTMD — observaciones bibliográficas reproducibles
 
-Versión: `LTMD_BIBLIOGRAPHIC_OBSERVATIONS_0.3`.
+Versión: `LTMD_BIBLIOGRAPHIC_OBSERVATIONS_0.4`.
 
 - Observaciones semánticas materializadas: **95**.
 - Objetos con ≥1 observación: **26**.
 - Filas de evidencia página/SHA: **97**.
 - Observaciones añadidas por recuperación OCR estrecha: **2**.
 
-0.3 conserva las 93 observaciones de 0.2 y añade únicamente dos `reprint_history_statement` cuya palabra `reimpresión` fue afectada por la confusión OCR documentada `i→l/I/1`. Cada recuperación tiene ≥2 PSM, página institucional SHA-verificada y año igual al inicio de un ciclo escolar ya observado. **No se habilita fuzzy matching general.**
+0.4 conserva las 93 observaciones de 0.2 y añade únicamente dos `reprint_history_statement` cuya palabra `reimpresión` fue afectada por la confusión OCR documentada `i→l/I/1`. Cada recuperación tiene ≥2 PSM, página institucional SHA-verificada y año igual al inicio de un ciclo escolar ya observado. **No se habilita fuzzy matching general.**
+
+La procedencia de recovery es ahora `LTMD_U1_W7_REPRINT_OCR_CONFUSION_RECOVERY_0.2`, que deriva sus cinco targets desde el audit pre-recovery y elimina la dependencia circular con la tabla final de candidatos.
 
 Recuperaciones incorporadas:
 
@@ -28,7 +30,7 @@ Recuperaciones incorporadas:
 ## Contrato
 
 - Las declaraciones de edición/reimpresión siguen siendo historia bibliográfica observada, no selección automática de la edición efectiva.
-- Las dos recuperaciones 0.3 preservan token OCR bruto, PSM y regla de normalización en el artefacto de recovery.
+- Las dos recuperaciones 0.4 preservan token OCR bruto, PSM y regla de normalización en el artefacto de recovery.
 - `catalog_generation` permanece fuera de la inferencia.
 - `human_validated=0` permanece explícito.
 - Cualquier otra corrección OCR futura requiere una regla separada, acotada y versionada.
