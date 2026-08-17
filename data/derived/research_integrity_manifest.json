@@ -1,10 +1,10 @@
 {
-  "integrity_version": "LTMD_INTEGRITY_0.11",
-  "generated_utc": "2026-08-17T05:11:20.650275+00:00",
-  "git_head": "c79888a308fb9b4b531feaa4b8aa7d43e183a921",
-  "scope": "LTMD v0.11: frozen v0.10 perimeter plus a causally reproducible bibliographic instance-candidate chain (support audit -> narrow OCR recovery 0.2 -> observations 0.4 -> candidates 0.3), publication-safe candidate evidence tiers, and explicit supersession of the older instance-resolution interpretation",
-  "critical_count": 405,
-  "critical_present_count": 405,
+  "integrity_version": "LTMD_INTEGRITY_0.12",
+  "generated_utc": "2026-08-17T05:12:14.600144+00:00",
+  "git_head": "454126bba82f2534ca3965a787322c382a3b9db1",
+  "scope": "LTMD v0.12: frozen v0.11 perimeter plus the 30-identity W7 source-versus-bibliographic-readiness matrix and a bounded, source-verified logical-pages-13..20 school-cycle probe for the 12 admitted W7 objects without a strong cycle observation",
+  "critical_count": 414,
+  "critical_present_count": 414,
   "missing_critical": [],
   "optional_present_count": 9,
   "optional_missing": [
@@ -1007,7 +1007,7 @@
     {
       "path": ".github/workflows/build-research-integrity-manifest.yml",
       "bytes": 3254,
-      "sha256": "9bffa6dc24573d515695e624334169e5644ff00f6ac94485623bf1ea886616f5",
+      "sha256": "819cba782ff3e01612dcd6509b6f25bf82367a668fa96224b511878bd14894ee",
       "required": true
     },
     {
@@ -2442,6 +2442,60 @@
       "path": "scripts/build_research_integrity_manifest_v11.py",
       "bytes": 3541,
       "sha256": "aba345f952f141bbee5376aa00753e645e9bfec00d6d517c7da466ab127929f5",
+      "required": true
+    },
+    {
+      "path": "data/derived/ltmd_u1_w7_bibliographic_coverage.csv",
+      "bytes": 7400,
+      "sha256": "33e1e0e1d5f11bc7c925c8704a77f4c6beaacc6ca0815bcfb7e2de3ff2f9214c",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W7_BIBLIOGRAPHIC_COVERAGE.md",
+      "bytes": 5514,
+      "sha256": "8a2b767a7d1e130c1fd21b29da75c35a32217dac37c4828ac5758c04414ffaf0",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w7_bibliographic_coverage_matrix.py",
+      "bytes": 9087,
+      "sha256": "2087e7c0c3248951f9fd73e49fb49050fd9208cdf4a468ecdbfb1075de7f48b7",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w7-bibliographic-coverage.yml",
+      "bytes": 1990,
+      "sha256": "1b834c623a2d8a6f2ace80d7119187a25cc2609d40af4b8421966a2f20fdf3a3",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w7_missing_cycle_window_13_20.csv",
+      "bytes": 15432,
+      "sha256": "736565c75f67bd8a90245858d5632b730d22722706333126090eba95f244066d",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w7_missing_cycle_window_13_20.md",
+      "bytes": 1454,
+      "sha256": "e608102f70735f4f36689d602b800ff822684b6f8bd8f662f72d44c070f3b9bb",
+      "required": true
+    },
+    {
+      "path": "scripts/probe_ltmd_u1_w7_missing_cycle_window_13_20.py",
+      "bytes": 11087,
+      "sha256": "fd15cbd744785db26c60268b090fd524cdce347c415182e14cc72244a5c7aa49",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/probe-ltmd-u1-w7-missing-cycle-window-13-20.yml",
+      "bytes": 2070,
+      "sha256": "4721c011ef29857149976a823fa3b8d965b8a1c55e19726d926fa1a6d3ac1984",
+      "required": true
+    },
+    {
+      "path": "scripts/build_research_integrity_manifest_v12.py",
+      "bytes": 2806,
+      "sha256": "b7d3db261120c4b28099296f217c70622bf2a86b70f537080697aae550007de1",
       "required": true
     },
     {

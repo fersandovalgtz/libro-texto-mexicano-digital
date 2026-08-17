@@ -1,12 +1,12 @@
 # Manifiesto de integridad científica LTMD
 
-Versión: `LTMD_INTEGRITY_0.11`.
+Versión: `LTMD_INTEGRITY_0.12`.
 
-Commit observado: `c79888a308fb9b4b531feaa4b8aa7d43e183a921`.
+Commit observado: `454126bba82f2534ca3965a787322c382a3b9db1`.
 
-Alcance: perímetro v0.10 congelado + cadena causal reproducible de candidatos de instancia bibliográfica (audit de soporte → recovery OCR estrecho 0.2 → observaciones 0.4 → candidatos 0.3), tiers de evidencia seguros para publicación y supersesión explícita de la interpretación antigua de instance-resolution.
+Alcance: perímetro v0.11 congelado + matriz W7 de 30 identidades que separa readiness de fuente y cronología bibliográfica + probe acotado, verificado contra fuente, de páginas lógicas 13–20 para los 12 objetos admitidos sin observación fuerte de ciclo escolar.
 
-Archivos críticos presentes: **405/405**.
+Archivos críticos presentes: **414/414**.
 Artefactos opcionales presentes: **9**.
 
 Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; la desaparición de un artefacto crítico hace fallar el workflow.
@@ -178,7 +178,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/build_research_integrity_manifest.py` — 13838 bytes — `c4a8f2f9b884a4ea2c8776329e5829fa3bd6eb9cfea55b5350ff62ee7de2cd1c`
 - `scripts/build_research_integrity_manifest_v06.py` — 1363 bytes — `28468c6873055c7089bce221b98e67d1fbcc3b941aac56a18ed746a329d30069`
 - `.github/workflows/check-release-candidate.yml` — 2195 bytes — `ea162ccdde5fedc6af6b023d6e8d0a081aecca08686f59d4c69af9a173c2fbe7`
-- `.github/workflows/build-research-integrity-manifest.yml` — 3254 bytes — `9bffa6dc24573d515695e624334169e5644ff00f6ac94485623bf1ea886616f5`
+- `.github/workflows/build-research-integrity-manifest.yml` — 3254 bytes — `819cba782ff3e01612dcd6509b6f25bf82367a668fa96224b511878bd14894ee`
 - `docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md` — 4193 bytes — `29e09613813214d2ea3e00c4d10c6a7f5c5786452629be779af899e20e81638f`
 - `docs/LTMD_STATUS_2026-08-16.md` — 24473 bytes — `b665681131350e97de1c7d277b727032534cbf55bde9c03084a578642f6803ce`
 - `data/catalog/ltmd_u1_w3_scope.csv` — 16769 bytes — `0d630fc85a3e709092174b5bb16b2a224527a9c067f36bcd4de4af19183a2038`
@@ -418,6 +418,15 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `.github/workflows/build-ltmd-bibliographic-instance-candidates.yml` — 1942 bytes — `bb7385b4d4d98317f7681321829e02b19763a4e763412e9f10d62c9a30bf662f`
 - `docs/LTMD_BIBLIOGRAPHIC_INSTANCE_POLICY_0_1.md` — 5848 bytes — `2f033a549b8f2a7f963d9d1e18d9246ce1f9a855cc4fffff46a32f1d4422562b`
 - `scripts/build_research_integrity_manifest_v11.py` — 3541 bytes — `aba345f952f141bbee5376aa00753e645e9bfec00d6d517c7da466ab127929f5`
+- `data/derived/ltmd_u1_w7_bibliographic_coverage.csv` — 7400 bytes — `33e1e0e1d5f11bc7c925c8704a77f4c6beaacc6ca0815bcfb7e2de3ff2f9214c`
+- `docs/LTMD_U1_W7_BIBLIOGRAPHIC_COVERAGE.md` — 5514 bytes — `8a2b767a7d1e130c1fd21b29da75c35a32217dac37c4828ac5758c04414ffaf0`
+- `scripts/build_ltmd_u1_w7_bibliographic_coverage_matrix.py` — 9087 bytes — `2087e7c0c3248951f9fd73e49fb49050fd9208cdf4a468ecdbfb1075de7f48b7`
+- `.github/workflows/build-ltmd-u1-w7-bibliographic-coverage.yml` — 1990 bytes — `1b834c623a2d8a6f2ace80d7119187a25cc2609d40af4b8421966a2f20fdf3a3`
+- `data/catalog/ltmd_u1_w7_missing_cycle_window_13_20.csv` — 15432 bytes — `736565c75f67bd8a90245858d5632b730d22722706333126090eba95f244066d`
+- `data/catalog/ltmd_u1_w7_missing_cycle_window_13_20.md` — 1454 bytes — `e608102f70735f4f36689d602b800ff822684b6f8bd8f662f72d44c070f3b9bb`
+- `scripts/probe_ltmd_u1_w7_missing_cycle_window_13_20.py` — 11087 bytes — `fd15cbd744785db26c60268b090fd524cdce347c415182e14cc72244a5c7aa49`
+- `.github/workflows/probe-ltmd-u1-w7-missing-cycle-window-13-20.yml` — 2070 bytes — `4721c011ef29857149976a823fa3b8d965b8a1c55e19726d926fa1a6d3ac1984`
+- `scripts/build_research_integrity_manifest_v12.py` — 2806 bytes — `b7d3db261120c4b28099296f217c70622bf2a86b70f537080697aae550007de1`
 
 ## Artefactos derivados adicionales presentes
 
