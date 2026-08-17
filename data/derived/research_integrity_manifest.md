@@ -1,12 +1,12 @@
 # Manifiesto de integridad científica LTMD
 
-Versión: `LTMD_INTEGRITY_0.10`.
+Versión: `LTMD_INTEGRITY_0.11`.
 
-Commit observado: `587b4fc0fd6168c2ed2ce5beff1b9cf41d763373`.
+Commit observado: `13cac65f6fb1494ec4ef6776de3941446d8ed792`.
 
-Alcance: perímetro v0.9 congelado + separación explícita entre cohorte de catálogo y tiempo bibliográfico, observaciones bibliográficas con evidencia normalizada, huellas W7 y auditoría multipsm/checksum, evidencia reproducible de presencia/criterios de aceptación para las cinco identidades W7 retenidas, comparación técnica no semántica W3↔W4↔W7 y contratos de modelo/gobernanza/análisis histórico correspondientes.
+Alcance: perímetro v0.10 congelado + cadena causal reproducible de candidatos de instancia bibliográfica (audit de soporte → recovery OCR estrecho 0.2 → observaciones 0.4 → candidatos 0.3), tiers de evidencia seguros para publicación y supersesión explícita de la interpretación antigua de instance-resolution.
 
-Archivos críticos presentes: **392/392**.
+Archivos críticos presentes: **405/405**.
 Artefactos opcionales presentes: **9**.
 
 Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una nueva huella auditable; la desaparición de un artefacto crítico hace fallar el workflow.
@@ -178,7 +178,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/build_research_integrity_manifest.py` — 13838 bytes — `c4a8f2f9b884a4ea2c8776329e5829fa3bd6eb9cfea55b5350ff62ee7de2cd1c`
 - `scripts/build_research_integrity_manifest_v06.py` — 1363 bytes — `28468c6873055c7089bce221b98e67d1fbcc3b941aac56a18ed746a329d30069`
 - `.github/workflows/check-release-candidate.yml` — 2195 bytes — `ea162ccdde5fedc6af6b023d6e8d0a081aecca08686f59d4c69af9a173c2fbe7`
-- `.github/workflows/build-research-integrity-manifest.yml` — 3254 bytes — `ea56c957ebed590abff45857f0867fdc397c1d80bd3ee0569bda33b478e7cc6d`
+- `.github/workflows/build-research-integrity-manifest.yml` — 3254 bytes — `9bffa6dc24573d515695e624334169e5644ff00f6ac94485623bf1ea886616f5`
 - `docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md` — 4193 bytes — `29e09613813214d2ea3e00c4d10c6a7f5c5786452629be779af899e20e81638f`
 - `docs/LTMD_STATUS_2026-08-16.md` — 20154 bytes — `34bbea27715134db7ad9464e0421160169ae94d3c3bb8354166c9a8b90e17557`
 - `data/catalog/ltmd_u1_w3_scope.csv` — 16769 bytes — `0d630fc85a3e709092174b5bb16b2a224527a9c067f36bcd4de4af19183a2038`
@@ -405,6 +405,19 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `scripts/compare_ltmd_u1_w3_w4_w7_technical_profiles.py` — 11889 bytes — `c93d93df2baabd9a56e11ed332b4a8511ef988510f435bb451194b4c6eb6f78d`
 - `.github/workflows/analyze-ltmd-u1-w3-w4-w7-technical-comparison.yml` — 2787 bytes — `6f0d68422c8baa5cf956e29e9fbe2c56b7e2527576848319584f5d7c873fb835`
 - `scripts/build_research_integrity_manifest_v10.py` — 5497 bytes — `5e0c00bd597ad630dc548356cfad92b78821e28b1e1a67e504c055709ff77f70`
+- `data/catalog/ltmd_u1_w7_reprint_ocr_confusion_recovery.csv` — 1130 bytes — `b91f163ad9d0691eccf9414342cfe891053000bde0d7965aa788707294938113`
+- `data/catalog/ltmd_u1_w7_reprint_ocr_confusion_recovery.md` — 1669 bytes — `842af74ee1c9330c4854b765cfbf151b32226ca7e3327679a0cae0f8ec3e2af2`
+- `scripts/recover_ltmd_u1_w7_reprint_ocr_confusions_v02.py` — 10381 bytes — `7f599a8d96237a399c432f30942ae4b60dba4e0854587afba299df2ff0d9034b`
+- `.github/workflows/recover-ltmd-u1-w7-reprint-ocr-confusions.yml` — 1921 bytes — `097295616ff74444631cf4e3a4f01c63cdf98bb0abe6365d753130738f7b8ba8`
+- `scripts/build_ltmd_bibliographic_observations_v03.py` — 8317 bytes — `eaf006dee3d1377bf4e2a5ab7246a3e8039e182b7a642b12a78f65329a717ddd`
+- `scripts/build_ltmd_bibliographic_observations_v04.py` — 1671 bytes — `3d6d84fb8489c57e61f7347b36669d72ffbc3b6c72da32399a7b039f51e95a6d`
+- `data/catalog/ltmd_bibliographic_instance_candidates.csv` — 5700 bytes — `28e25f572b8b301e8779506204d1dc157a845b706a73714c3b2998657fe9d524`
+- `data/catalog/ltmd_bibliographic_instance_candidates.md` — 3868 bytes — `ace5421a839a477868b86e2828adcbc1291eeb4ec7b92e8beb2bc04ab822449b`
+- `scripts/build_ltmd_bibliographic_instance_candidates_v02.py` — 13283 bytes — `74711c2ba38ce13878f75a0cc704f4802ca50f80daa68289cd00537dbe9d14d8`
+- `scripts/build_ltmd_bibliographic_instance_candidates_v03.py` — 1727 bytes — `3393d87c15b12c98501af706c68f9b479ac7ae2c444c8d3a3f143c9158bfeeaf`
+- `.github/workflows/build-ltmd-bibliographic-instance-candidates.yml` — 1942 bytes — `bb7385b4d4d98317f7681321829e02b19763a4e763412e9f10d62c9a30bf662f`
+- `docs/LTMD_BIBLIOGRAPHIC_INSTANCE_POLICY_0_1.md` — 5039 bytes — `99f1f754f33f28b1bf54a00e373e2833818f071ff08d5c1d7f0dd7cad0bcfd2f`
+- `scripts/build_research_integrity_manifest_v11.py` — 3541 bytes — `aba345f952f141bbee5376aa00753e645e9bfec00d6d517c7da466ab127929f5`
 
 ## Artefactos derivados adicionales presentes
 
