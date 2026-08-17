@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.9",
-  "generated_utc": "2026-08-17T03:01:01.037900+00:00",
-  "git_head": "5a56876a434a7332a5ee971e92af18fb04038aef",
+  "generated_utc": "2026-08-17T03:02:33.944603+00:00",
+  "git_head": "cc32bd88fbf472a52eaecf3fef32be9066c71963",
   "scope": "LTMD v0.9: frozen v0.8 perimeter plus completed W3 Spanish/Language FRAGSEG, exact-text reuse/document-dependence evidence, and validated technical closure; W7 source-admissible technical closure and the nonsemantic W4-W7 technical comparison remain frozen from v0.8",
   "critical_count": 359,
   "critical_present_count": 359,
