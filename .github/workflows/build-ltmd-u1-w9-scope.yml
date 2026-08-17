@@ -1,0 +1,58 @@
+name: build-ltmd-u1-w9-scope
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w9-scope.yml'
+      - 'scripts/build_ltmd_u1_w9_educacion_fisica_scope.py'
+      - 'data/catalog/ltmd_u1_wave_queue.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w9-scope
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build W9 frozen scope
+        run: python3 scripts/build_ltmd_u1_w9_educacion_fisica_scope.py
+      - name: Verify scope contract
+        run: |
+          python3 - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w9_scope.csv',encoding='utf-8')))
+          assert len(rows)==4
+          assert {r['viewer_key'] for r in rows}=={'H2008P1ED252','H2008P2ED260','H2008P5ED280','H2008P6ED287'}
+          assert {r['catalog_generation'] for r in rows}=={'2008'}
+          assert {r['operational_domain'] for r in rows}=={'educacion_fisica'}
+          print('W9 scope contract PASS: 4 identities')
+          PY
+      - name: Publish scope when changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w9_scope.csv /tmp/ltmd_u1_w9_scope.csv
+          cp data/catalog/ltmd_u1_w9_scope.md /tmp/ltmd_u1_w9_scope.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w9_scope.csv data/catalog/
+            cp /tmp/ltmd_u1_w9_scope.md data/catalog/
+            git add data/catalog/ltmd_u1_w9_scope.csv data/catalog/ltmd_u1_w9_scope.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w9): publish frozen physical-education scope'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
