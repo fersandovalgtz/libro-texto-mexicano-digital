@@ -8,6 +8,12 @@ El proyecto opera temporalmente **sin referencia humana disponible**. Esto no bl
 
 Permanecen no validados o estacionados CER/WER contra referencia humana, confiabilidad intercodificador, consenso humano, validación SEMB03 y cualquier afirmación histórica primaria que dependa de categorías semánticas automáticas no validadas. Véase `docs/NO_HUMAN_REFERENCE_OPERATING_MODE_0_1.md`.
 
+## Semántica temporal del catálogo
+
+`catalog_generation` se interpreta como **etiqueta institucional de cohorte/navegación** y no como fecha bibliográfica automática. `H2014P5FCA` constituye evidencia falsadora directa del supuesto `catalog_generation == publication_year`: su página legal institucional, verificada contra SHA-256 y tamaño, declara **Primera edición 2014** y **Tercera reimpresión 2017 (ciclo escolar 2017–2018)**.
+
+Por ello, primera edición, reimpresión y ciclo escolar deben modelarse en una capa bibliográfica separada y con evidencia del objeto. Véase `docs/LTMD_CATALOG_GENERATION_SEMANTICS_0_1.md`.
+
 ## Ciencias Naturales y W2 Matemáticas
 
 El piloto y las expansiones de Ciencias Naturales permanecen como base metodológica. W2 Matemáticas está técnicamente cerrado con **64 visores**, **60/64** identidades con activos resueltos, **57** objetos canónicos, **3** aliases byte-idénticos, **11,945** páginas OCR SHA-verificadas, **10,145** páginas elegibles y **135,727** fragmentos técnicos. Las cuatro excepciones DMA 2018 permanecen explícitas y no se imputan.
@@ -145,7 +151,25 @@ Cierre: `docs/LTMD_U1_W4_COMPLETION.md`.
 - Terminales sintéticos excluidos: **25**.
 - Pares de libros completos byte-idénticos entre los 25 admitidos: **0**.
 
-El visor oficial construye la ruta `./c/{ag_clave}/{ag_page}.jpg` con numeración a tres dígitos. El probe mínimo de conformidad produjo **12/12 HTTP 404** en cuatro visores 2018 y **12/12 HTTP 200** en los controles 2019 del mismo grado. Esto descarta, para el muestreo, un error general de fórmula de LTMD y documenta un subárbol oficial 2018 no servido en esa ruta; **no demuestra inexistencia de las obras ni autoriza sustituirlas por 2019**. `H2014P5FCA` permanece retenido por un hueco interno aislado.
+El visor oficial construye la ruta `./c/{ag_clave}/{ag_page}.jpg` con numeración a tres dígitos. El probe mínimo de conformidad produjo **12/12 HTTP 404** en cuatro visores 2018 y **12/12 HTTP 200** en los controles 2019 del mismo grado. Esto descarta, para el muestreo, un error general de fórmula de LTMD y documenta un subárbol oficial 2018 no servido en esa ruta; **no demuestra inexistencia de las obras ni autoriza sustituirlas por 2019**.
+
+`H2014P5FCA` está retenido por un único hueco interno: **página lógica 104 / `104.jpg`**, con **224/225** JPEG institucionales servidos. La comparación SHA-256 contra otros libros W7 de quinto dio **0 coincidencias byte-exactas** con `H2019P5FCA` en las 224 posiciones comparables; no existe base para un alias de recuperación.
+
+### Investigación de las cinco fuentes retenidas — 0.2
+
+La huella bibliográfica de `H2014P5FCA`, extraída de las páginas lógicas 1–12 después de verificar **12/12 SHA-256 y tamaños**, identifica en su página legal:
+
+- **Primera edición, 2014**.
+- **Tercera reimpresión, 2017**.
+- Ciclo escolar **2017–2018**.
+
+El ISBN no se leyó con fiabilidad suficiente y no se imputa desde fuentes secundarias.
+
+Dos vías archivísticas quedaron no concluyentes por infraestructura: Wayback CDX devolvió HTTP 503/timeouts y el probe Common Crawl 2017–2020 obtuvo **0/8 consultas de índice válidas por objetivo**. Esos ceros no se interpretan como ausencia histórica.
+
+Se evaluó además un espejo externo del ciclo 2017–2018 como posible fuente de una reconstrucción derivada. Tres runs (`31990532400`, `31990634303`, `31990733990`) terminaron antes de publicar evidencia porque el HTML servido a GitHub Actions no permitió autoverificar reproduciblemente la página candidata. No se aceptó ninguna imagen externa; el workflow quedó `workflow_dispatch` manual-only para evitar reintentos y, sobre todo, para no rebajar el gate.
+
+Estado final de este corte: **25/30 admitidas; 5/30 retenidas; 0 aliases nuevos; 0 reconstrucciones externas aceptadas**. Véanse `docs/LTMD_U1_W7_WITHHELD_SOURCE_RESEARCH_0_2.md` y `docs/LTMD_U1_W7_H2014P5_EXTERNAL_MIRROR_STATUS_0_1.md`.
 
 ### OCR 0.1 — cerrado
 
@@ -215,19 +239,22 @@ Estas diferencias son descriptivas de dos conjuntos con dominios, generaciones e
 
 `LTMD_INTEGRITY_0.9` preserva el perímetro 0.8 y promueve a críticos los nueve productos W3 que habían permanecido opcionales hasta materializarse: manifiesto y resumen FRAGSEG, auditoría de huecos de secuencia, reporte FRAGSEG, unidades textuales exactas, proyección identidad-contenido, solapamiento exacto entre visores, reporte de reuso exacto y cierre técnico W3. El propio constructor 0.9 forma parte del perímetro. Cada artefacto crítico conserva tamaño y SHA-256; la desaparición de cualquiera hace fallar el workflow de integridad.
 
+Los nuevos diagnósticos W7 no modifican retrospectivamente ese perímetro congelado. Al final de cada corte debe comprobarse que 0.9 siga reproduciendo **359/359** críticos antes de considerar estable el estado maestro.
+
 ## Orquestación y recuperación
 
 Las cadenas costosas separan fuente, OCR, PAGESTRUCT y FRAGSEG. W7 fue migrado a una orquestación explícita: cada etapa downstream se lanza mediante `workflow_dispatch` con el gate `pipeline=true`. Esto evita depender de pushes del bot, elimina cascadas implícitas de `workflow_run` y evita su límite de profundidad. Los workflows de procesamiento no se autoejecutan por modificaciones de su propio YAML.
 
-Los recoveries reutilizan artifacts válidos y recomputan únicamente visores faltantes cuando esa infraestructura existe. Un cambio descriptivo o de documentación no debe volver a lanzar OCR masivo.
+Los recoveries reutilizan artifacts válidos y recomputan únicamente visores faltantes cuando esa infraestructura existe. Un cambio descriptivo o de documentación no debe volver a lanzar OCR masivo. Los probes externos que no puedan autoverificarse reproduciblemente deben quedar manuales, no auto-reintentarse.
 
 ## Prioridades inmediatas
 
-1. Validar y congelar `LTMD_INTEGRITY_0.9` con el cierre W3 ya incorporado al perímetro crítico.
-2. Investigar las cinco retenciones de fuente W7 mediante evidencia documental o descubrimiento de fuente, sin aliases heurísticos: el hueco `H2014P5FCA` y los cuatro subárboles 2018.
-3. Diseñar, sólo si aporta valor científico, un comparador técnico W3↔W4↔W7 estrictamente descriptivo y no semántico.
-4. Mantener sincronizados el tablero maestro, los reportes de cierre y el manifiesto de integridad después de cada cambio de perímetro.
-5. Incorporar W3, W7 y la comparación W4↔W7 al artículo metodológico como evidencia técnica/descriptiva, manteniendo separada cualquier validación humana/semántica futura.
+1. Confirmar que `LTMD_INTEGRITY_0.9` continúa en **359/359** después del nuevo expediente W7 y del contrato temporal.
+2. Para `H2014P5FCA`, buscar una fuente reproducible de la **tercera reimpresión 2017 / ciclo 2017–2018** y demostrar la correspondencia de la página 104 sin convertir una copia externa en `source_jpeg` institucional.
+3. Para los cuatro `H2018...`, priorizar routing histórico, relocalización o huellas bibliográficas documentales; mantener la retención si no aparece evidencia suficiente y evitar aliases 2019 heurísticos.
+4. Diseñar una capa bibliográfica reproducible que separe `catalog_generation`, primera edición, reimpresión y ciclo escolar, comenzando por observaciones primarias ya demostradas.
+5. Diseñar, sólo si aporta valor científico, un comparador técnico W3↔W4↔W7 estrictamente descriptivo y no semántico.
+6. Incorporar W3, W7 y la comparación W4↔W7 al artículo metodológico como evidencia técnica/descriptiva, manteniendo separada cualquier validación humana/semántica futura.
 
 ## Principio de publicación
 
