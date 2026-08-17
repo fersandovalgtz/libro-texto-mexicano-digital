@@ -1,12 +1,12 @@
 {
-  "integrity_version": "LTMD_INTEGRITY_0.8",
-  "generated_utc": "2026-08-17T00:28:45.371440+00:00",
-  "git_head": "9f66c8566b0632e2c0af81e5df186c20bafa78b4",
-  "scope": "LTMD v0.8: frozen v0.7 perimeter plus W7 Civics/Ethics historical scope, page-level source provenance, resolved viewer routing, 2018 source-conformance evidence, 30-identity/25-canonical source-admissible processing topology, completed SHA-verified OCR, PAGESTRUCT, FRAGSEG, exact-text reuse, admitted-cohort technical closure, nonsemantic W4-W7 technical comparison, and master status",
-  "critical_count": 349,
-  "critical_present_count": 349,
+  "integrity_version": "LTMD_INTEGRITY_0.9",
+  "generated_utc": "2026-08-17T02:52:40.801556+00:00",
+  "git_head": "3d54a59136bf9290c512fe5b8419731a32e7188f",
+  "scope": "LTMD v0.9: frozen v0.8 perimeter plus completed W3 Spanish/Language FRAGSEG, exact-text reuse/document-dependence evidence, and validated technical closure; W7 source-admissible technical closure and the nonsemantic W4-W7 technical comparison remain frozen from v0.8",
+  "critical_count": 359,
+  "critical_present_count": 359,
   "missing_critical": [],
-  "optional_present_count": 18,
+  "optional_present_count": 9,
   "optional_missing": [
     "data/validation/semb03_human_reference_consensus.csv",
     "data/validation/semb03_locked_validation_reference.csv",
@@ -1007,7 +1007,7 @@
     {
       "path": ".github/workflows/build-research-integrity-manifest.yml",
       "bytes": 3252,
-      "sha256": "1bc49cfe49a0b0b78d91d14f5768e563277d6f9a9e7941da8eec3c5902cef844",
+      "sha256": "4b1a6a739bbd807435d102dd283cfd2e8c157a82dd07ad46ed23b4ea16ade3b0",
       "required": true
     },
     {
@@ -2109,6 +2109,66 @@
       "required": true
     },
     {
+      "path": "data/catalog/ltmd_u1_w3_spanish_fragment_manifest.csv",
+      "bytes": 55713959,
+      "sha256": "5052d7bfd5904d045e29e22123dff3c949ab717f592a97b7c1d633ff181dc648",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w3_spanish_fragment_manifest_summary.csv",
+      "bytes": 9210,
+      "sha256": "5a2742cd22de66ed635bc2fe963e64ce0920353aecd045376819c3891b70d3c3",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w3_spanish_fragment_sequence_gaps.csv",
+      "bytes": 29027,
+      "sha256": "efe714acc5f0ca6abe5b83a1cd85befe2f6ae4c12867da20af3f9e05b534943f",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w3_spanish_fragment_manifest.md",
+      "bytes": 1515,
+      "sha256": "23e1bda20b2a6926de8f2d1f92e0d79ff322583da6c3cb28646cd9a5dd435b3a",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w3_spanish_exact_content_units.csv",
+      "bytes": 20929214,
+      "sha256": "31ab6362dc07dbbb7511f8b5730f00a8f8b0f6264c2bbf808ebebf3f6ea0f648",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w3_spanish_identity_content_projection.csv",
+      "bytes": 15909,
+      "sha256": "e47b7992a89d4c29f0457fc57a70bf59b5c249d288a0246639cd8d4a97d65aa9",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w3_spanish_exact_viewer_overlap.csv",
+      "bytes": 754139,
+      "sha256": "843f34d5a222c04fbc1702de57fd42cd3babf37e8e28b3a511d6b5fa341e8a20",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w3_spanish_exact_reuse.md",
+      "bytes": 2957,
+      "sha256": "76d4a0cb07d50aa753aa9dc8bea34d05072f5f26d30ddace761ab59878e95faf",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W3_COMPLETION.md",
+      "bytes": 2555,
+      "sha256": "765b5d815dff75240484b37340b48374007692df0fc4495ea23d9488de49bc4b",
+      "required": true
+    },
+    {
+      "path": "scripts/build_research_integrity_manifest_v09.py",
+      "bytes": 2640,
+      "sha256": "51509f8f15e74f0c656e04c8e7104dcda18712eed3a7a914f85e8541e7b18b38",
+      "required": true
+    },
+    {
       "path": "data/derived/semb03_sample_coverage.csv",
       "bytes": 2102,
       "sha256": "6cdea905d802d8ecd817e28805b7eed24841c36a600341706fbd3ed1d1373bd8",
@@ -2160,60 +2220,6 @@
       "path": "data/expansion/cn46_no_text_visual_proxies.csv",
       "bytes": 1341,
       "sha256": "57df19506750abb2ea7fd0a4fefff3f43149418d78e9e67cfef22a5ffaae132b",
-      "required": false
-    },
-    {
-      "path": "data/catalog/ltmd_u1_w3_spanish_fragment_manifest.csv",
-      "bytes": 55713959,
-      "sha256": "5052d7bfd5904d045e29e22123dff3c949ab717f592a97b7c1d633ff181dc648",
-      "required": false
-    },
-    {
-      "path": "data/catalog/ltmd_u1_w3_spanish_fragment_manifest_summary.csv",
-      "bytes": 9210,
-      "sha256": "5a2742cd22de66ed635bc2fe963e64ce0920353aecd045376819c3891b70d3c3",
-      "required": false
-    },
-    {
-      "path": "data/catalog/ltmd_u1_w3_spanish_fragment_sequence_gaps.csv",
-      "bytes": 29027,
-      "sha256": "efe714acc5f0ca6abe5b83a1cd85befe2f6ae4c12867da20af3f9e05b534943f",
-      "required": false
-    },
-    {
-      "path": "data/catalog/ltmd_u1_w3_spanish_fragment_manifest.md",
-      "bytes": 1515,
-      "sha256": "23e1bda20b2a6926de8f2d1f92e0d79ff322583da6c3cb28646cd9a5dd435b3a",
-      "required": false
-    },
-    {
-      "path": "data/catalog/ltmd_u1_w3_spanish_exact_content_units.csv",
-      "bytes": 20929214,
-      "sha256": "31ab6362dc07dbbb7511f8b5730f00a8f8b0f6264c2bbf808ebebf3f6ea0f648",
-      "required": false
-    },
-    {
-      "path": "data/catalog/ltmd_u1_w3_spanish_identity_content_projection.csv",
-      "bytes": 15909,
-      "sha256": "e47b7992a89d4c29f0457fc57a70bf59b5c249d288a0246639cd8d4a97d65aa9",
-      "required": false
-    },
-    {
-      "path": "data/catalog/ltmd_u1_w3_spanish_exact_viewer_overlap.csv",
-      "bytes": 754139,
-      "sha256": "843f34d5a222c04fbc1702de57fd42cd3babf37e8e28b3a511d6b5fa341e8a20",
-      "required": false
-    },
-    {
-      "path": "data/catalog/ltmd_u1_w3_spanish_exact_reuse.md",
-      "bytes": 2957,
-      "sha256": "76d4a0cb07d50aa753aa9dc8bea34d05072f5f26d30ddace761ab59878e95faf",
-      "required": false
-    },
-    {
-      "path": "docs/LTMD_U1_W3_COMPLETION.md",
-      "bytes": 2555,
-      "sha256": "765b5d815dff75240484b37340b48374007692df0fc4495ea23d9488de49bc4b",
       "required": false
     }
   ]
