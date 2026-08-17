@@ -2,11 +2,9 @@ name: build-ltmd-u1-w7-civics-ethics-fragseg
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'data/catalog/ltmd_u1_w7_civics_ethics_page_structure.csv'
-      - 'data/catalog/ltmd_u1_w7_civics_ethics_page_structure_summary.csv'
-      - 'data/catalog/ltmd_u1_w7_civics_ethics_page_structure.md'
+  workflow_run:
+    workflows: ['build-ltmd-u1-w7-civics-ethics-pagestruct']
+    types: [completed]
 
 permissions:
   contents: write
@@ -20,6 +18,7 @@ concurrency:
 
 jobs:
   matrix:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-24.04
     outputs:
       viewers: ${{ steps.make.outputs.viewers }}
