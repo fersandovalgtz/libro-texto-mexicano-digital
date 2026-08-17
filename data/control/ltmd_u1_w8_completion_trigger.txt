@@ -1,0 +1,13 @@
+LTMD_U1_W8_COMPLETION_DISPATCH_0.1
+prerequisite_topology=LTMD_U1_W8_ARTES_PROCESSING_TOPOLOGY_0.1
+prerequisite_ocr=LTMD_U1_W8_ARTES_OCR_0.1
+prerequisite_pagestruct=PAGESTRUCT_LTMD_U1_W8_ARTES_0.1
+prerequisite_fragseg=FRAGSEG_LTMD_U1_W8_ARTES_0.1
+prerequisite_exact_reuse=LTMD_U1_W8_ARTES_EXACT_REUSE_0.1
+identities=20
+canonical_viewers=16
+withheld_viewers=4
+source_pages=1490
+fragseg_eligible_pages=1025
+fragments=14060
+decision=VALIDATE_SOURCE_ADMITTED_TECHNICAL_COMPLETION
