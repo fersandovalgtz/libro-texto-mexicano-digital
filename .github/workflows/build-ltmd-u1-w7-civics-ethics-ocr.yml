@@ -105,4 +105,4 @@ jobs:
           done
           exit 1
       - name: Dispatch W7 PAGESTRUCT
-        run: gh workflow run build-ltmd-u1-w7-civics-ethics-pagestruct.yml --repo "$GITHUB_REPOSITORY" --ref main
+        run: gh workflow run build-ltmd-u1-w7-civics-ethics-pagestruct.yml --repo "$GITHUB_REPOSITORY" --ref main -f pipeline=true
