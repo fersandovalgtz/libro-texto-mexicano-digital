@@ -1,26 +1,28 @@
 # LTMD — candidatos de instancia bibliográfica
 
-Versión: `LTMD_BIBLIOGRAPHIC_INSTANCE_CANDIDATES_0.1`.
+Versión: `LTMD_BIBLIOGRAPHIC_INSTANCE_CANDIDATES_0.2`.
 
 - Objetos evaluados: **26**.
-- Candidatos técnicos con año: **9**.
-- Sin candidato estricto: **17**.
-- Tier A, evidencia independiente entre páginas: **0**.
-- Tier B, declaración conjunta + corroboración adicional de ciclo: **2**.
-- Tier C, declaración conjunta en una sola página: **7**.
-- Candidatos cuyo año difiere de `catalog_generation`: **4/9**.
+- Candidatos técnicos con año: **11**.
+- Sin candidato estricto: **15**.
+- Tier A, páginas independientes: **0**.
+- Tier B, declaración conjunta + página corroborante adicional: **2**.
+- Tier C, declaración conjunta en una sola página: **9**.
+- Candidatos cuyo año difiere de `catalog_generation`: **6/11**.
 
-Esta capa corrige deliberadamente la terminología de `LTMD_BIBLIOGRAPHIC_INSTANCE_RESOLUTION_0.1`. Las nueve coincidencias son **candidatos bibliográficos técnicamente resueltos**, no fechas históricas definitivamente validadas. Ninguna tiene actualmente Tier A de corroboración independiente entre páginas.
+0.2 se reconstruye directamente desde `LTMD_BIBLIOGRAPHIC_OBSERVATIONS_0.3`; ya no depende de la tabla de “resolution” 0.1. Las dos recuperaciones OCR estrechas incorporadas en Observaciones 0.3 elevan la cobertura de **9 a 11** candidatos sin cambiar la regla temporal.
 
 ## Candidatos
 
 | objeto | cohorte | ciclo | declaración | año candidato | tier | difiere de cohorte |
 |---|---:|---|---|---:|---|---|
 | `H2008P1CI250` | 2008 | `2010-2011` | `third_edition:2010` | 2010 | `C_joint_same_page_only` | sí |
-| `H2008P2CI257` | 2008 | `2008-2009` | `first_edition:2008` | 2008 | `B_joint_plus_extra_cycle_page` | no |
-| `H2008P6CI286` | 2008 | `2008-2009` | `first_edition:2008` | 2008 | `B_joint_plus_extra_cycle_page` | no |
+| `H2008P2CI257` | 2008 | `2008-2009` | `first_edition:2008` | 2008 | `B_joint_plus_extra_page_corroboration` | no |
+| `H2008P6CI286` | 2008 | `2008-2009` | `first_edition:2008` | 2008 | `B_joint_plus_extra_page_corroboration` | no |
 | `H2011P1CI294` | 2011 | `2013-2014` | `fourth_edition:2013` | 2013 | `C_joint_same_page_only` | sí |
 | `H2011P2CI301` | 2011 | `2013-2014` | `fourth_edition:2013` | 2013 | `C_joint_same_page_only` | sí |
+| `H2011P5CI326` | 2011 | `2013-2014` | `third_reprint:2013` | 2013 | `C_joint_same_page_only` | sí |
+| `H2014P4FCA` | 2014 | `2017-2018` | `third_reprint:2017` | 2017 | `C_joint_same_page_only` | sí |
 | `H2014P5FCA` | 2014 | `2017-2018` | `third_reprint:2017` | 2017 | `C_joint_same_page_only` | sí |
 | `H2019P4FCA` | 2019 | `2019-2020` | `fifth_edition:2019` | 2019 | `C_joint_same_page_only` | no |
 | `H2019P5FCA` | 2019 | `2019-2020` | `second_edition:2019` | 2019 | `C_joint_same_page_only` | no |
@@ -37,21 +39,17 @@ Esta capa corrige deliberadamente la terminología de `LTMD_BIBLIOGRAPHIC_INSTAN
 | `H2008P5CI278` | 2008 | `no_candidate_no_statement_matches_cycle_start` | `2008-2009` |
 | `H2011P3CI308` | 2011 | `no_candidate_no_school_cycle` | `—` |
 | `H2011P4CI315` | 2011 | `no_candidate_no_statement_matches_cycle_start` | `2013-2014` |
-| `H2011P5CI326` | 2011 | `no_candidate_no_statement_matches_cycle_start` | `2013-2014` |
 | `H2011P6CI336` | 2011 | `no_candidate_no_statement_matches_cycle_start` | `2013-2014` |
 | `H2014P1FCA` | 2014 | `no_candidate_no_school_cycle` | `—` |
 | `H2014P2FCA` | 2014 | `no_candidate_no_school_cycle` | `—` |
 | `H2014P3FCA` | 2014 | `no_candidate_no_school_cycle` | `—` |
-| `H2014P4FCA` | 2014 | `no_candidate_no_statement_matches_cycle_start` | `2017-2018` |
 | `H2014P6FCA` | 2014 | `no_candidate_no_school_cycle` | `—` |
 | `H2019P1FCA` | 2019 | `no_candidate_no_school_cycle` | `—` |
 | `H2019P2FCA` | 2019 | `no_candidate_no_school_cycle` | `—` |
 | `H2019P3FCA` | 2019 | `no_candidate_no_school_cycle` | `—` |
 
-## Uso permitido
+## Interpretación
 
-Los nueve años pueden usarse como **candidatos de cronología de ejemplar** en controles de calidad, planificación de verificación y análisis de sensibilidad. Tier B conserva una corroboración adicional del ciclo en otra página; Tier C no.
+Estos años son **candidatos técnicos de cronología de ejemplar**, no fechas humanas validadas. Tier B incluye una página adicional que corrobora parte de la declaración temporal; Tier C no. Actualmente no existe ningún Tier A con declaración editorial y ciclo respaldados por páginas completamente independientes.
 
-## Uso no permitido
-
-No presentar estos años como fechas bibliográficas humanas validadas ni como prueba de circulación nacional. No usar `catalog_generation` para completar los 17 objetos sin candidato. No seleccionar el año u ordinal mayor entre las declaraciones históricas observadas.
+Los 15 objetos sin candidato permanecen sin año efectivo. En particular, tres tienen ciclo escolar pero ninguna declaración editorial/reimpresión compatible aun después de la recuperación OCR estrecha; doce carecen de ciclo escolar fuerte en la ventana bibliográfica auditada.
