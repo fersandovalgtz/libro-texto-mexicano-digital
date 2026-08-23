@@ -7,6 +7,14 @@ on:
     paths:
       - '.github/workflows/report-ltmd-u1-w11-pipeline-status.yml'
       - 'scripts/report_ltmd_u1_w11_pipeline_status.py'
+  workflow_run:
+    workflows:
+      - 'build-ltmd-u1-w11-ocr'
+      - 'build-ltmd-u1-w11-pagestruct'
+      - 'build-ltmd-u1-w11-fragseg'
+      - 'build-ltmd-u1-w11-exact-reuse'
+      - 'build-ltmd-u1-w11-completion'
+    types: [completed]
 
 permissions:
   actions: read
