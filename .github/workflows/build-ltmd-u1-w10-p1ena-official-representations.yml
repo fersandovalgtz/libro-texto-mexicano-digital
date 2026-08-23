@@ -1,0 +1,51 @@
+name: build-ltmd-u1-w10-p1ena-official-representations
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w10-p1ena-official-representations.yml'
+      - 'scripts/compare_ltmd_u1_w10_p1ena_official_representations.py'
+      - 'data/catalog/ltmd_u1_w10_asset_manifest.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w10-p1ena-official-representations
+  cancel-in-progress: false
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Refresh authoritative main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+      - name: Compare official P1ENA representations
+        run: python3 scripts/compare_ltmd_u1_w10_p1ena_official_representations.py
+      - name: Publish P1ENA comparison race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w10_p1ena_official_representation_comparison.csv /tmp/ltmd_u1_w10_p1ena_official_representation_comparison.csv
+          cp docs/LTMD_U1_W10_P1ENA_OFFICIAL_REPRESENTATION_COMPARISON.md /tmp/LTMD_U1_W10_P1ENA_OFFICIAL_REPRESENTATION_COMPARISON.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w10_p1ena_official_representation_comparison.csv data/catalog/
+            cp /tmp/LTMD_U1_W10_P1ENA_OFFICIAL_REPRESENTATION_COMPARISON.md docs/
+            git add data/catalog/ltmd_u1_w10_p1ena_official_representation_comparison.csv docs/LTMD_U1_W10_P1ENA_OFFICIAL_REPRESENTATION_COMPARISON.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w10): publish exact P1ENA official comparison'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
