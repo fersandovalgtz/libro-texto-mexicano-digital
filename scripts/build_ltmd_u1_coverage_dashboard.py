@@ -7,7 +7,7 @@ from pathlib import Path
 QUEUE=Path('data/catalog/ltmd_u1_wave_queue.csv')
 OUT=Path('data/catalog/ltmd_u1_coverage_summary.csv')
 REPORT=Path('data/catalog/ltmd_u1_coverage.md')
-VERSION='LTMD_U1_COVERAGE_0.7'
+VERSION='LTMD_U1_COVERAGE_0.9'
 EXPECTED_TOTAL=542
 
 WAVES=[
@@ -17,8 +17,8 @@ WAVES=[
  ('W4','ciencias_sociales',Path('docs/LTMD_U1_W4_COMPLETION.md')),
  ('W5','historia',Path('docs/LTMD_U1_W5_COMPLETION.md')),
  ('W6','geografia_atlas',Path('docs/LTMD_U1_W6_COMPLETION.md')),
- ('W7','civica_etica',None),
- ('W8','artes',None),
+ ('W7','civica_etica',Path('docs/LTMD_U1_W7_COMPLETION.md')),
+ ('W8','artes',Path('docs/LTMD_U1_W8_COMPLETION.md')),
  ('W9','educacion_fisica',None),
  ('W10','integrados_multiarea',None),
  ('W11','otros_no_clasificados',None),
@@ -48,9 +48,32 @@ def completed_metrics(wave,text,planned):
         eff,total=grab(text,r'Identidades históricas técnicamente cubiertas:\s*\*\*([\d,]+)/([\d,]+)\*\*',f'{wave} effective')
         (can,)=grab(text,r'Objetos canónicos de procesamiento:\s*\*\*([\d,]+)\*\*',f'{wave} canonical')
         total2=total
-    else: raise AssertionError(wave)
-    if total!=planned or total2!=planned: raise SystemExit(f'{wave} completion/queue drift: completion={total}/{total2}, queue-domain={planned}')
+    elif wave in {'W7','W8'}:
+        hist,total=grab(text,r'Identidades históricas preservadas:\s*\*\*([\d,]+)/([\d,]+)\*\*',f'{wave} historical scope')
+        (can,)=grab(text,r'Canónicos procesados:\s*\*\*([\d,]+)\*\*',f'{wave} canonical')
+        (retained,)=grab(text,r'Identidades retenidas por fuente:\s*\*\*([\d,]+)\*\*',f'{wave} retained')
+        if hist!=total:
+            raise SystemExit(f'{wave} historical identity preservation drift: {hist}/{total}')
+        eff=total-retained; total2=total
+        if can>eff:
+            raise SystemExit(f'{wave} canonical objects exceed effective identities: canonical={can}, effective={eff}')
+    else:
+        raise AssertionError(wave)
+    if total!=planned or total2!=planned:
+        raise SystemExit(f'{wave} completion/queue drift: completion={total}/{total2}, queue-domain={planned}')
     return eff,can
+
+def w9_ocr_state(planned):
+    summary=Path('data/catalog/ltmd_u1_w9_educacion_fisica_ocr_summary.csv')
+    report=Path('data/catalog/ltmd_u1_w9_educacion_fisica_ocr.md')
+    if not summary.exists() or not report.exists():
+        return 0,0,'queued','data/catalog/ltmd_u1_wave_queue.csv'
+    rows=list(csv.DictReader(summary.open(encoding='utf-8',newline='')))
+    if len(rows)!=planned or len({r['viewer_key'] for r in rows})!=planned:
+        raise SystemExit(f'W9 OCR/queue drift: rows={len(rows)}, unique={len({r["viewer_key"] for r in rows})}, planned={planned}')
+    if any(int(r['unresolved'])!=0 or int(r['sha_verified'])!=int(r['pages']) for r in rows):
+        raise SystemExit('W9 OCR state is not fully SHA-verified/resolved')
+    return 0,0,'ocr_complete_downstream_pending',str(report)
 
 def main():
     queue=list(csv.DictReader(QUEUE.open(encoding='utf-8',newline='')))
@@ -67,19 +90,29 @@ def main():
         if doc:
             text=doc.read_text(encoding='utf-8')
             eff,can=completed_metrics(wave,text,planned)
-            stage='closed' if eff==planned else 'partial_with_preserved_exceptions'
+            if eff==planned:
+                stage='closed'
+            elif wave in {'W7','W8'}:
+                stage='source_admitted_cohort_closed_with_retentions'
+            else:
+                stage='partial_with_preserved_exceptions'
             evidence=str(doc)
+        elif wave=='W9':
+            eff,can,stage,evidence=w9_ocr_state(planned)
         else:
             eff=can=0; stage='queued'; evidence='data/catalog/ltmd_u1_wave_queue.csv'
         rows.append({'coverage_version':VERSION,'wave':wave,'operational_domain':domain,'planned_identities':planned,'effective_technical_identities':eff,'canonical_processing_objects':can,'remaining_to_effective':planned-eff,'stage':stage,'evidence':evidence})
-    if sum(r['planned_identities'] for r in rows)!=EXPECTED_TOTAL: raise SystemExit('operational-domain partition does not sum to 542')
+    if sum(r['planned_identities'] for r in rows)!=EXPECTED_TOTAL:
+        raise SystemExit('operational-domain partition does not sum to 542')
     eff=sum(r['effective_technical_identities'] for r in rows); can=sum(r['canonical_processing_objects'] for r in rows)
-    if eff!=304 or can!=273: raise SystemExit(f'post-W6 coverage invariant failed: effective={eff}, canonical={can}')
+    if eff!=345 or can!=314:
+        raise SystemExit(f'post-W8 coverage invariant failed: effective={eff}, canonical={can}')
     with OUT.open('w',encoding='utf-8',newline='') as f:
         w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
-    lines=['# LTMD-U1 — tablero de cobertura técnica','',f'Versión: `{VERSION}`.','','Este tablero se recompone desde la cola maestra por `operational_domain` y desde las actas de cierre W1–W6. **Cobertura técnica no equivale a preparación semántica.**','','## Totales','',f'- Universo U1: **{EXPECTED_TOTAL}/{EXPECTED_TOTAL}** identidades catalogadas.',f'- Cobertura técnica efectiva cerrada o resuelta: **{eff}/{EXPECTED_TOTAL} ({100*eff/EXPECTED_TOTAL:.2f}%)**.',f'- Objetos canónicos de procesamiento: **{can}/{EXPECTED_TOTAL} ({100*can/EXPECTED_TOTAL:.2f}%)**.',f'- Cobertura semántica humana validada incorporada al tablero: **0/{EXPECTED_TOTAL}**.','', '## Por ola','', '| ola | dominio operacional | plan | efectiva | canónicos | restantes | estado |','|---|---|---:|---:|---:|---:|---|']
-    for r in rows: lines.append(f"| {r['wave']} | `{r['operational_domain']}` | {r['planned_identities']} | {r['effective_technical_identities']} | {r['canonical_processing_objects']} | {r['remaining_to_effective']} | `{r['stage']}` |")
-    lines += ['', '## Lectura correcta', '', 'W1, W3, W4, W5 y W6 están cerradas técnicamente. W2 conserva cuatro excepciones de routing sin imputación. W7–W11 permanecen en cola.', '', '`wave_label` no se usa para reconstruir la partición científica porque la cola también codifica estados de ejecución como materialización y aliases; la partición se deriva de `operational_domain`.', '', '`effective_technical_identities` puede incluir identidades documentales cubiertas mediante aliases o rutas demostradas criptográficamente; `canonical_processing_objects` evita duplicar procesamiento de contenido cuando la evidencia de identidad/reutilización lo permite.', '', '`WAITING_HUMAN_REFERENCE` sigue vigente. PAGESTRUCT, FRAGSEG y la igualdad de hashes son infraestructura técnica; no validan por sí mismos categorías semánticas, continuidad curricular ni equivalencia pedagógica.']
+    lines=['# LTMD-U1 — tablero de cobertura técnica','',f'Versión: `{VERSION}`.','','Este tablero se recompone desde la cola maestra por `operational_domain` y desde las actas/cortes técnicos W1–W9. **Cobertura técnica no equivale a preparación semántica.** W9 se reconoce como OCR técnicamente completo, pero no suma todavía a la cobertura efectiva mientras PAGESTRUCT/FRAGSEG y su cierre técnico permanezcan pendientes.','','## Totales','',f'- Universo U1: **{EXPECTED_TOTAL}/{EXPECTED_TOTAL}** identidades catalogadas.',f'- Cobertura técnica efectiva cerrada o resuelta: **{eff}/{EXPECTED_TOTAL} ({100*eff/EXPECTED_TOTAL:.2f}%)**.',f'- Objetos canónicos de procesamiento cerrados: **{can}/{EXPECTED_TOTAL} ({100*can/EXPECTED_TOTAL:.2f}%)**.',f'- Cobertura semántica humana validada incorporada al tablero: **0/{EXPECTED_TOTAL}**.','', '## Por ola','', '| ola | dominio operacional | plan | efectiva | canónicos | restantes | estado |','|---|---|---:|---:|---:|---:|---|']
+    for r in rows:
+        lines.append(f"| {r['wave']} | `{r['operational_domain']}` | {r['planned_identities']} | {r['effective_technical_identities']} | {r['canonical_processing_objects']} | {r['remaining_to_effective']} | `{r['stage']}` |")
+    lines += ['', '## Lectura correcta', '', 'W1, W3, W4, W5 y W6 están cerradas técnicamente. W2 conserva cuatro excepciones de routing sin imputación. W7 tiene cierre técnico de su cohorte fuente-admitida: 25/30 identidades y cinco retenciones explícitas. W8 tiene cierre técnico de su cohorte fuente-admitida: 16/20 identidades y cuatro retenciones explícitas. W9 conserva 4/4 fuentes canónicas y OCR SHA-verificado, pero permanece fuera del numerador principal hasta completar PAGESTRUCT, FRAGSEG y el cierre técnico. W10–W11 permanecen en cola.', '', '`wave_label` no se usa para reconstruir la partición científica porque la cola también codifica estados de ejecución; la partición se deriva de `operational_domain`.', '', '`effective_technical_identities` puede incluir identidades documentales cubiertas mediante aliases o rutas demostradas criptográficamente; `canonical_processing_objects` evita duplicar procesamiento de contenido cuando la evidencia de identidad/reutilización lo permite. En W7 y W8 las retenciones de fuente no se sustituyen por aliases heurísticos.', '', '`WAITING_HUMAN_REFERENCE` sigue vigente. OCR, PAGESTRUCT, FRAGSEG y la igualdad de hashes son infraestructura técnica; no validan por sí mismos categorías semánticas, continuidad curricular ni equivalencia pedagógica.']
     REPORT.write_text('\n'.join(lines)+'\n',encoding='utf-8')
     print(REPORT.read_text(encoding='utf-8'))
 
