@@ -1,0 +1,54 @@
+name: build-ltmd-u1-w9-educacion-fisica-exact-reuse
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w9-educacion-fisica-exact-reuse.yml'
+      - 'scripts/analyze_ltmd_u1_w9_educacion_fisica_exact_reuse.py'
+      - 'data/catalog/ltmd_u1_w9_educacion_fisica_fragment_manifest.csv'
+      - 'data/catalog/ltmd_u1_w9_educacion_fisica_fragment_manifest_summary.csv'
+  workflow_run:
+    workflows: ['build-ltmd-u1-w9-educacion-fisica-fragseg']
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w9-educacion-fisica-exact-reuse
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build exact fragment-reuse views
+        run: python3 scripts/analyze_ltmd_u1_w9_educacion_fisica_exact_reuse.py
+      - name: Publish W9 exact-reuse analysis race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/w9-reuse
+          mkdir -p /tmp/w9-reuse
+          cp data/catalog/ltmd_u1_w9_educacion_fisica_exact_content_units.csv /tmp/w9-reuse/
+          cp data/catalog/ltmd_u1_w9_educacion_fisica_exact_viewer_overlap.csv /tmp/w9-reuse/
+          cp data/catalog/ltmd_u1_w9_educacion_fisica_exact_reuse.md /tmp/w9-reuse/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w9-reuse/* data/catalog/
+            git add data/catalog/ltmd_u1_w9_educacion_fisica_exact_content_units.csv data/catalog/ltmd_u1_w9_educacion_fisica_exact_viewer_overlap.csv data/catalog/ltmd_u1_w9_educacion_fisica_exact_reuse.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Publish LTMD-U1 W9 Educación Física exact-reuse analysis'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
