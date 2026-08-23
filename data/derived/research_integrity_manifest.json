@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.14",
-  "generated_utc": "2026-08-23T14:10:37.077820+00:00",
-  "git_head": "31984de26fef0fbb0801024194ff57d5a258d554",
+  "generated_utc": "2026-08-23T14:11:32.467748+00:00",
+  "git_head": "8f77553d906fe5af8fde7a23d11966c1a4986ec1",
   "scope": "LTMD v0.14: frozen v0.13 W8 technical-closure perimeter plus the closed, strictly descriptive LTMD-U1 W3-W4-W7-W8 technical comparison across PAGESTRUCT, FRAGSEG and exact-text reuse/dependence, including its reproducible script, explicit dispatch control and workflow",
   "critical_count": 474,
   "critical_present_count": 474,
