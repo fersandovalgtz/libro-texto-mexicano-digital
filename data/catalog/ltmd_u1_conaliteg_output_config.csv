@@ -1,0 +1,17 @@
+probe_version,target_code,match_mode,json_path,field,value,source_url,source_sha256
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3COL,value,2022/P3COL/ag_clave,ag_clave,P3COL,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3COL,value,2022/P3COL/ag_clave,ag_pages,179,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3COL,key,2022/P3COL,ag_clave,P3COL,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3COL,key,2022/P3COL,ag_pages,179,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3COL,value,20/P3COL/ag_clave,ag_clave,P3COL,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3COL,value,20/P3COL/ag_clave,ag_pages,178,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3COL,key,20/P3COL,ag_clave,P3COL,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3COL,key,20/P3COL,ag_pages,178,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3COL,value,2021/P3COL/ag_clave,ag_clave,P3COL,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3COL,value,2021/P3COL/ag_clave,ag_pages,178,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3COL,key,2021/P3COL,ag_clave,P3COL,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3COL,key,2021/P3COL,ag_pages,178,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3MOR,value,./P3MOR/ag_clave,ag_clave,P3MOR,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3MOR,value,./P3MOR/ag_clave,ag_pages,162,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3MOR,key,./P3MOR,ag_clave,P3MOR,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
+LTMD_U1_CONALITEG_OUTPUT_CONFIG_0.1,P3MOR,key,./P3MOR,ag_pages,162,https://libros.conaliteg.gob.mx/output.json,eacbd29aa3db86fa2703208766900c8b65fc4c107d2af3dbf8b534e9c1415d91
