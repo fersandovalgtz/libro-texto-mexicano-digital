@@ -1,0 +1,55 @@
+name: build-ltmd-u1-exception-triage
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-exception-triage.yml'
+      - 'scripts/build_ltmd_u1_exception_triage.py'
+      - 'data/catalog/ltmd_u1_preserved_exceptions.csv'
+  workflow_run:
+    workflows: ['build-ltmd-u1-preserved-exceptions-register']
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-exception-triage
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Refresh authoritative main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+      - name: Build technical exception triage
+        run: python3 scripts/build_ltmd_u1_exception_triage.py
+      - name: Publish triage race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_exception_triage.csv /tmp/ltmd_u1_exception_triage.csv
+          cp docs/LTMD_U1_EXCEPTION_TRIAGE.md /tmp/LTMD_U1_EXCEPTION_TRIAGE.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_exception_triage.csv data/catalog/
+            cp /tmp/LTMD_U1_EXCEPTION_TRIAGE.md docs/
+            git add data/catalog/ltmd_u1_exception_triage.csv docs/LTMD_U1_EXCEPTION_TRIAGE.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(u1): publish technical exception triage'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
