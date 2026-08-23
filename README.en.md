@@ -4,7 +4,7 @@
 
 <p align="center">
   <strong>Open research infrastructure for the longitudinal study of Mexican textbooks through history of education, digital humanities, computational analysis, and open science.</strong><br>
-  <sub>Document identity · SHA-256 integrity · OCR · segmentation · documentary dependence · human validation · reproducibility</sub>
+  <sub>Document identity · SHA-256 integrity · OCR · full-text search · segmentation · documentary dependence · human validation · reproducibility</sub>
 </p>
 
 <p align="center">
@@ -59,7 +59,7 @@ document identity / viewer_key / book_id
         ↓
 asset resolution + SHA-256
         ↓
-temporary OCR
+temporary OCR / local reconstructible FTRL
         ↓
 PAGESTRUCT
         ↓
@@ -75,6 +75,24 @@ historical analysis
 ```
 
 LTMD preserves relations of reuse, revision, replacement, and aliasing rather than assuming independence among editorial generations. See [`PROVENANCE.md`](PROVENANCE.md) and [`GOVERNANCE.md`](GOVERNANCE.md).
+
+## Full-Text Research Layer (FTRL)
+
+LTMD has started `LTMD_FTRL_0.1`, a **local, reconstructible, page-searchable OCR layer**. The initial pilot targets W5 History. Source JPEGs are accepted for OCR only after SHA-256 verification against the existing asset manifest; raw OCR and normalized search text receive independent hashes and are indexed with SQLite FTS5.
+
+The layer can return page identity, canonical viewer, associated historical identities, generation, grade, snippet, OCR confidence, and cryptographic hashes. Proven byte-exact aliases are not OCRed redundantly.
+
+> [!CAUTION]
+> `ocr_available != text_verified`, `search_hit != historical_claim`, and `zero_hits != demonstrated_absence`. Search output is traceable candidate evidence, not automatically a historical conclusion.
+
+Complete OCR text, reconstructed assets, and SQLite databases live under `local/` and are **not versioned by default**. Public GitHub retains the reconstruction code, schema, hashes, and research methodology rather than a mass text dump of source works.
+
+See:
+
+- [`docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md`](docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md)
+- [`docs/LTMD_SEARCH_METHODOLOGY.md`](docs/LTMD_SEARCH_METHODOLOGY.md)
+- [`docs/LTMD_OCR_PROVENANCE.md`](docs/LTMD_OCR_PROVENANCE.md)
+- [`schemas/ltmd_page_ocr.schema.json`](schemas/ltmd_page_ocr.schema.json)
 
 ## Reproducibility and quality
 
