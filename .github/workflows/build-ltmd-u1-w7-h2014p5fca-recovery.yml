@@ -1,0 +1,51 @@
+name: build-ltmd-u1-w7-h2014p5fca-recovery
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w7-h2014p5fca-recovery.yml'
+      - 'scripts/audit_ltmd_u1_w7_h2014p5fca_recovery.py'
+      - 'data/catalog/ltmd_u1_w7_civics_ethics_asset_manifest.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w7-h2014p5fca-recovery
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Refresh authoritative main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+      - name: Audit exact official and archival recovery evidence
+        run: python3 scripts/audit_ltmd_u1_w7_h2014p5fca_recovery.py
+      - name: Publish W7 recovery evidence race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w7_h2014p5fca_recovery_audit.csv /tmp/ltmd_u1_w7_h2014p5fca_recovery_audit.csv
+          cp docs/LTMD_U1_W7_H2014P5FCA_RECOVERY_AUDIT.md /tmp/LTMD_U1_W7_H2014P5FCA_RECOVERY_AUDIT.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w7_h2014p5fca_recovery_audit.csv data/catalog/
+            cp /tmp/LTMD_U1_W7_H2014P5FCA_RECOVERY_AUDIT.md docs/
+            git add data/catalog/ltmd_u1_w7_h2014p5fca_recovery_audit.csv docs/LTMD_U1_W7_H2014P5FCA_RECOVERY_AUDIT.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w7): publish exact H2014P5FCA recovery audit'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
