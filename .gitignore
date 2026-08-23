@@ -10,6 +10,9 @@ private/
 *.jp2
 *.zip
 
+# LTMD Full-Text Research Layer: corpus reconstruible local, no redistribuido
+local/
+
 # Python
 __pycache__/
 *.py[cod]
