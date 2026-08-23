@@ -23,10 +23,15 @@ jobs:
   probe:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Refresh authoritative main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
       - id: ready
         shell: bash
         run: |
@@ -40,6 +45,7 @@ jobs:
         run: |
           set -euo pipefail
           cp data/catalog/ltmd_u1_w11_wayback_capture_candidates.csv /tmp/ltmd_u1_w11_wayback_capture_candidates.csv
+          cp data/catalog/ltmd_u1_w11_wayback_query_log.csv /tmp/ltmd_u1_w11_wayback_query_log.csv
           cp docs/LTMD_U1_W11_WAYBACK_PROBE.md /tmp/LTMD_U1_W11_WAYBACK_PROBE.md
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -47,10 +53,11 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
             cp /tmp/ltmd_u1_w11_wayback_capture_candidates.csv data/catalog/
+            cp /tmp/ltmd_u1_w11_wayback_query_log.csv data/catalog/
             cp /tmp/LTMD_U1_W11_WAYBACK_PROBE.md docs/
-            git add data/catalog/ltmd_u1_w11_wayback_capture_candidates.csv docs/LTMD_U1_W11_WAYBACK_PROBE.md
+            git add data/catalog/ltmd_u1_w11_wayback_capture_candidates.csv data/catalog/ltmd_u1_w11_wayback_query_log.csv docs/LTMD_U1_W11_WAYBACK_PROBE.md
             if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'data(w11): publish exact-URL Wayback capture probe'
+            git commit -m 'data(w11): publish bounded exact-URL Wayback probe'
             if git push origin HEAD:main; then exit 0; fi
             sleep $((attempt*2))
           done
