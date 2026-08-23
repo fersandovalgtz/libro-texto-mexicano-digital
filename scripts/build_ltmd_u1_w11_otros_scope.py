@@ -10,7 +10,7 @@ OUT = Path('data/catalog/ltmd_u1_w11_scope.csv')
 REPORT = Path('docs/LTMD_U1_W11_FREEZE.md')
 VERSION = 'LTMD_U1_W11_OTROS_SCOPE_0.1'
 DOMAIN = 'otros_no_clasificados'
-WAVE = 'U1-W11-otros_no_clasificados'
+WAVE = 'U1-W11-otros_revision'
 EXPECTED = 111
 FIELDS = ['scope_version','viewer_key','catalog_generation','grade_code','title_core','source_url','operational_domain']
 
@@ -54,6 +54,7 @@ def main() -> None:
         f'- Identidades congeladas: **{EXPECTED}/{EXPECTED}**.',
         f'- SHA-256 del snapshot normalizado: `{digest}`.',
         '- Autoridad de origen: `data/catalog/ltmd_u1_wave_queue.csv`.',
+        f'- `wave_label` autoritativo: `{WAVE}`.',
         '- Dominio operacional: `otros_no_clasificados`.',
         '- Estado semántico: `WAITING_HUMAN_REFERENCE`.', '',
         '## Distribución por generación de catálogo'
