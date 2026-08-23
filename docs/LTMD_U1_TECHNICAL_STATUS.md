@@ -1,6 +1,6 @@
 # LTMD-U1 — estado técnico derivado por máquina
 
-Versión: `LTMD_U1_TECHNICAL_STATUS_0.2`.
+Versión: `LTMD_U1_TECHNICAL_STATUS_0.3`.
 
 Corte de referencia: **23 de agosto de 2026**.
 
@@ -17,40 +17,36 @@ El proyecto opera todavía sin referencia humana incorporada al tablero U1. OCR,
 | Universo histórico operativo | **542/542** |
 | Cobertura técnica efectiva cerrada o resuelta | **524/542 (96.68%)** |
 | Objetos canónicos de procesamiento cerrados | **492/542 (90.77%)** |
-| Identidades retenidas por deuda de fuente | **18/542 (3.32%)** |
+| Residual fuera de cobertura efectiva | **18/542 (3.32%)** |
+| Retenciones activas | **13/542 (2.40%)** |
+| Excepciones técnicas finales | **5/542 (0.92%)** |
 | Validación semántica humana incorporada | **0/542** |
 
 `effective_technical_identities` puede incluir identidades documentales cubiertas mediante relaciones de fuente o aliases demostrados. `canonical_processing_objects` evita reprocesamiento redundante cuando existe evidencia suficiente, sin borrar identidades históricas.
 
 ## Estado por ola
 
-| ola | dominio operacional | plan | efectiva | canónicos | restantes | estado técnico |
-|---|---|---:|---:|---:|---:|---|
-| W1 | `ciencias_naturales` | 40 | 40 | 36 | 0 | `closed` |
-| W2 | `matematicas` | 64 | 60 | 57 | 4 | `partial_with_preserved_exceptions` |
-| W3 | `espanol_lengua` | 130 | 130 | 114 | 0 | `closed` |
-| W4 | `ciencias_sociales` | 14 | 14 | 14 | 0 | `closed` |
-| W5 | `historia` | 18 | 18 | 15 | 0 | `closed` |
-| W6 | `geografia_atlas` | 42 | 42 | 37 | 0 | `closed` |
-| W7 | `civica_etica` | 30 | 25 | 25 | 5 | `source_admitted_cohort_closed_with_retentions` |
-| W8 | `artes` | 20 | 16 | 16 | 4 | `source_admitted_cohort_closed_with_retentions` |
-| W9 | `educacion_fisica` | 4 | 4 | 4 | 0 | `closed` |
-| W10 | `integrados_multiarea` | 69 | 68 | 68 | 1 | `source_admitted_cohort_closed_with_retentions` |
-| W11 | `otros_no_clasificados` | 111 | 107 | 106 | 4 | `source_admitted_cohort_closed_with_retentions` |
+| ola | dominio operacional | plan | efectiva | canónicos | residual | ciclo residual | estado técnico |
+|---|---|---:|---:|---:|---:|---|---|
+| W1 | `ciencias_naturales` | 40 | 40 | 36 | 0 | — | `closed` |
+| W2 | `matematicas` | 64 | 60 | 57 | 4 | 4 activas | `partial_with_preserved_exceptions` |
+| W3 | `espanol_lengua` | 130 | 130 | 114 | 0 | — | `closed` |
+| W4 | `ciencias_sociales` | 14 | 14 | 14 | 0 | — | `closed` |
+| W5 | `historia` | 18 | 18 | 15 | 0 | — | `closed` |
+| W6 | `geografia_atlas` | 42 | 42 | 37 | 0 | — | `closed` |
+| W7 | `civica_etica` | 30 | 25 | 25 | 5 | 5 activas | `source_admitted_cohort_closed_with_retentions` |
+| W8 | `artes` | 20 | 16 | 16 | 4 | 4 activas | `source_admitted_cohort_closed_with_retentions` |
+| W9 | `educacion_fisica` | 4 | 4 | 4 | 0 | — | `closed` |
+| W10 | `integrados_multiarea` | 69 | 68 | 68 | 1 | 1 final | `source_admitted_cohort_closed_with_retentions` |
+| W11 | `otros_no_clasificados` | 111 | 107 | 106 | 4 | 4 finales | `source_admitted_cohort_closed_with_retentions` |
 
-## Retenciones activas
+## Residual de fuente
 
 Las **18 identidades** fuera de la cobertura técnica efectiva están consolidadas en `data/catalog/ltmd_u1_retained_source_register.csv` y explicadas en `docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md`.
 
-Distribución:
+Trece permanecen como `active_retention` y constituyen trabajo técnico abierto: cuatro W2, cinco W7 y cuatro W8. Las otras cinco ya son `final_exception`: `H2014P1ENA` en W10 y cuatro identidades W11 (`H2014P1EAM`, `H2014P2EAM`, `H2014P3COL`, `H2014P3MOR`). Sus issues especializados #11, #13 y #14 cerraron la investigación disponible de fuente mediante búsquedas acotadas y reproducibles sin recuperación admisible.
 
-- W2 Matemáticas: 4;
-- W7 Formación Cívica y Ética: 5;
-- W8 Artes: 4;
-- W10 Integrados / Multiarea: 1;
-- W11 Otros / No clasificados: 4.
-
-Una retención no se resuelve por semejanza de título, año, grado, cardinalidad, OCR o similitud visual. La promoción exige evidencia institucional, archivística o criptográfica reproducible suficiente. Si una búsqueda acotada termina sin esa evidencia, la identidad puede cerrarse como excepción técnica final explícita en vez de imputarse.
+Una excepción final no se considera cubierta ni procesada. Permanece en el residual U1 para que la cifra 524/542 no oculte límites de fuente, pero deja de tratarse como trabajo ordinario pendiente. Sólo debe reabrirse si aparece evidencia institucional o archivística nueva con correspondencia suficiente.
 
 ## Actas de cierre y evidencia
 
