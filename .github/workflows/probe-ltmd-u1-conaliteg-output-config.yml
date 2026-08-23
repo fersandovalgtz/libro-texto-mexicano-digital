@@ -1,0 +1,46 @@
+name: probe-ltmd-u1-conaliteg-output-config
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/probe-ltmd-u1-conaliteg-output-config.yml'
+      - 'scripts/probe_ltmd_u1_conaliteg_output_config.py'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: probe-ltmd-u1-conaliteg-output-config
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Probe selective output.json records
+        run: python3 scripts/probe_ltmd_u1_conaliteg_output_config.py
+      - name: Publish selective config metadata race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_conaliteg_output_config.csv /tmp/ltmd_u1_conaliteg_output_config.csv
+          cp docs/LTMD_U1_CONALITEG_OUTPUT_CONFIG.md /tmp/LTMD_U1_CONALITEG_OUTPUT_CONFIG.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_conaliteg_output_config.csv data/catalog/
+            cp /tmp/LTMD_U1_CONALITEG_OUTPUT_CONFIG.md docs/
+            git add data/catalog/ltmd_u1_conaliteg_output_config.csv docs/LTMD_U1_CONALITEG_OUTPUT_CONFIG.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(u1): publish selective CONALITEG config metadata'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
