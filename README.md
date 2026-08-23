@@ -19,8 +19,8 @@
 <p align="center">
   <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions"><img src="https://img.shields.io/github/actions/workflow/status/fersandovalgtz/libro-texto-mexicano-digital/release-preflight.yml?branch=main&style=flat-square&label=CI%20%2F%20QA" alt="CI QA"></a>
   <img src="https://img.shields.io/badge/universo%20U1-542%20visores-455B55?style=flat-square" alt="542 visores U1">
-  <img src="https://img.shields.io/badge/cobertura%20técnica-349%2F542%20·%2064.39%25-455B55?style=flat-square" alt="349 de 542 cobertura técnica">
-  <img src="https://img.shields.io/badge/canónicos-318%2F542%20·%2058.67%25-5b4b8a?style=flat-square" alt="318 objetos canónicos">
+  <img src="https://img.shields.io/badge/cobertura%20técnica-417%2F542%20·%2076.94%25-455B55?style=flat-square" alt="417 de 542 cobertura técnica">
+  <img src="https://img.shields.io/badge/canónicos-386%2F542%20·%2071.22%25-5b4b8a?style=flat-square" alt="386 objetos canónicos">
   <img src="https://img.shields.io/badge/validación%20semántica%20humana-0%2F542-b7791f?style=flat-square" alt="0 de 542 validados semánticamente por humanos">
 </p>
 
@@ -60,8 +60,8 @@ Corte documental de referencia: **23 de agosto de 2026**.
 | Indicador | Estado |
 |---|---:|
 | Universo histórico operativo LTMD-U1 | **542 / 542 visores censados** |
-| Cobertura técnica efectiva cerrada o resuelta | **349 / 542 (64.39%)** |
-| Objetos canónicos de procesamiento | **318 / 542 (58.67%)** |
+| Cobertura técnica efectiva cerrada o resuelta | **417 / 542 (76.94%)** |
+| Objetos canónicos de procesamiento | **386 / 542 (71.22%)** |
 | Validación semántica humana | **0 / 542** |
 | Release metodológica publicada | **v0.1.0-rc.1** |
 | DOI de LTMD | **pendiente; no se anticipa** |
@@ -79,7 +79,7 @@ Corte documental de referencia: **23 de agosto de 2026**.
 | W7 | Formación Cívica y Ética | cohorte fuente-admitida cerrada; 5 retenidas (25/30) |
 | W8 | Artes | cohorte fuente-admitida cerrada; 4 retenidas (16/20) |
 | W9 | Educación Física | cerrada técnicamente (4/4) |
-| W10 | Integrados / Multiarea | reutilización exacta completa; cierre técnico pendiente |
+| W10 | Integrados / Multiarea | cohorte fuente-admitida cerrada; 1 retenidas (68/69) |
 | W11 | Otros / No clasificados | en cola (111) |
 
 El tablero reproducible se mantiene en [`data/catalog/ltmd_u1_coverage.md`](data/catalog/ltmd_u1_coverage.md) y el programa general en [`docs/LTMD_U1_MASTER_PLAN_0_1.md`](docs/LTMD_U1_MASTER_PLAN_0_1.md).
