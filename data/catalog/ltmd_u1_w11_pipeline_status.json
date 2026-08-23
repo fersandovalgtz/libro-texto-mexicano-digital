@@ -1,8 +1,8 @@
 {
   "report_version": "LTMD_U1_W11_PIPELINE_STATUS_0.2",
-  "observed_at_utc": "2026-08-23T21:58:48.826043Z",
+  "observed_at_utc": "2026-08-23T22:13:41.428652Z",
   "repository": "fersandovalgtz/libro-texto-mexicano-digital",
-  "observer_run_id": "32669154482",
+  "observer_run_id": "32669933425",
   "observer_job_id": "",
   "stages": [
     {
@@ -76,11 +76,11 @@
     {
       "gate": "G7 completion",
       "workflow": "build-ltmd-u1-w11-completion.yml",
-      "run_id": 32664265395,
-      "event": "workflow_run",
+      "run_id": 32669912469,
+      "event": "push",
       "status": "completed",
       "conclusion": "success",
-      "head_sha": "59b3afecadcf036af293c221760ccbf77d14b553",
+      "head_sha": "7bbf59d26b14f6c57fa20a334075ee0df7e613f3",
       "jobs": 1,
       "jobs_completed": 1,
       "jobs_success": 1,
@@ -88,7 +88,7 @@
       "jobs_queued": 0,
       "job_failures": 0,
       "job_cancelled": 0,
-      "updated_at": "2026-08-23T20:23:44Z"
+      "updated_at": "2026-08-23T22:13:28Z"
     }
   ]
 }
