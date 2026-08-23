@@ -48,6 +48,8 @@ Reference cut: **23 August 2026**.
 | Published methodological release | **v0.1.0-rc.1** |
 | LTMD DOI | **pending; not pre-declared** |
 
+The current operational plan is [`docs/LTMD_U1_MASTER_PLAN_0_3.md`](docs/LTMD_U1_MASTER_PLAN_0_3.md). The **18 identities** still outside effective technical coverage are consolidated one-by-one in [`data/catalog/ltmd_u1_retained_source_register.csv`](data/catalog/ltmd_u1_retained_source_register.csv), with resolution policy and provenance requirements in [`docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md`](docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md).
+
 ## Evidence architecture
 
 ```text
