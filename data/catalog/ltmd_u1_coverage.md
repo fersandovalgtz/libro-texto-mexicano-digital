@@ -1,14 +1,14 @@
 # LTMD-U1 — tablero de cobertura técnica
 
-Versión: `LTMD_U1_COVERAGE_0.8`.
+Versión: `LTMD_U1_COVERAGE_0.9`.
 
-Este tablero se recompone desde la cola maestra por `operational_domain` y desde las actas de cierre W1–W7. **Cobertura técnica no equivale a preparación semántica.** En W7, la cobertura técnica registra exclusivamente la cohorte con fuente admitida; las cinco identidades retenidas por fuente continúan fuera de la cobertura efectiva y no se imputan.
+Este tablero se recompone desde la cola maestra por `operational_domain` y desde las actas/cortes técnicos W1–W9. **Cobertura técnica no equivale a preparación semántica.** W9 se reconoce como OCR técnicamente completo, pero no suma todavía a la cobertura efectiva mientras PAGESTRUCT/FRAGSEG y su cierre técnico permanezcan pendientes.
 
 ## Totales
 
 - Universo U1: **542/542** identidades catalogadas.
-- Cobertura técnica efectiva cerrada o resuelta: **329/542 (60.70%)**.
-- Objetos canónicos de procesamiento: **298/542 (54.98%)**.
+- Cobertura técnica efectiva cerrada o resuelta: **345/542 (63.65%)**.
+- Objetos canónicos de procesamiento cerrados: **314/542 (57.93%)**.
 - Cobertura semántica humana validada incorporada al tablero: **0/542**.
 
 ## Por ola
@@ -21,20 +21,18 @@ Este tablero se recompone desde la cola maestra por `operational_domain` y desde
 | W4 | `ciencias_sociales` | 14 | 14 | 14 | 0 | `closed` |
 | W5 | `historia` | 18 | 18 | 15 | 0 | `closed` |
 | W6 | `geografia_atlas` | 42 | 42 | 37 | 0 | `closed` |
-| W7 | `civica_etica` | 30 | 25 | 25 | 5 | `partial_with_preserved_source_retentions` |
-| W8 | `artes` | 20 | 0 | 0 | 20 | `queued` |
-| W9 | `educacion_fisica` | 4 | 0 | 0 | 4 | `queued` |
+| W7 | `civica_etica` | 30 | 25 | 25 | 5 | `source_admitted_cohort_closed_with_retentions` |
+| W8 | `artes` | 20 | 16 | 16 | 4 | `source_admitted_cohort_closed_with_retentions` |
+| W9 | `educacion_fisica` | 4 | 0 | 0 | 4 | `ocr_complete_downstream_pending` |
 | W10 | `integrados_multiarea` | 69 | 0 | 0 | 69 | `queued` |
 | W11 | `otros_no_clasificados` | 111 | 0 | 0 | 111 | `queued` |
 
 ## Lectura correcta
 
-W1, W3, W4, W5 y W6 están cerradas técnicamente. W2 conserva cuatro excepciones de routing sin imputación. **W7 tiene cierre técnico de su cohorte fuente-admitida: 25/30 identidades y 25 objetos canónicos. No constituye un cierre histórico 30/30.** Permanecen retenidas cinco identidades: `H2014P5FCA`, por un hueco interno aislado en la página lógica 104, y `H2018P3FCA`–`H2018P6FCA`, porque sus visores/configuración institucionales están presentes pero el subárbol oficial de activos observado no se sirve. Ninguna de esas cinco identidades se sustituye por similitud, cardinalidad, ciclo o fuente externa no verificada.
+W1, W3, W4, W5 y W6 están cerradas técnicamente. W2 conserva cuatro excepciones de routing sin imputación. W7 tiene cierre técnico de su cohorte fuente-admitida: 25/30 identidades y cinco retenciones explícitas. W8 tiene cierre técnico de su cohorte fuente-admitida: 16/20 identidades y cuatro retenciones explícitas. W9 conserva 4/4 fuentes canónicas y OCR SHA-verificado, pero permanece fuera del numerador principal hasta completar PAGESTRUCT, FRAGSEG y el cierre técnico. W10–W11 permanecen en cola.
 
-W8–W11 permanecen en cola.
+`wave_label` no se usa para reconstruir la partición científica porque la cola también codifica estados de ejecución; la partición se deriva de `operational_domain`.
 
-`wave_label` no se usa para reconstruir la partición científica porque la cola también codifica estados de ejecución como materialización y aliases; la partición se deriva de `operational_domain`.
+`effective_technical_identities` puede incluir identidades documentales cubiertas mediante aliases o rutas demostradas criptográficamente; `canonical_processing_objects` evita duplicar procesamiento de contenido cuando la evidencia de identidad/reutilización lo permite. En W7 y W8 las retenciones de fuente no se sustituyen por aliases heurísticos.
 
-`effective_technical_identities` puede incluir identidades documentales cubiertas mediante aliases o rutas demostradas criptográficamente; `canonical_processing_objects` evita duplicar procesamiento de contenido cuando la evidencia de identidad/reutilización lo permite. En W7 no se usa ningún alias para las cinco retenciones de fuente: las 25 identidades efectivas corresponden a 25 objetos procesados directamente.
-
-`WAITING_HUMAN_REFERENCE` sigue vigente. PAGESTRUCT, FRAGSEG y la igualdad de hashes son infraestructura técnica; no validan por sí mismos categorías semánticas, continuidad curricular ni equivalencia pedagógica.
+`WAITING_HUMAN_REFERENCE` sigue vigente. OCR, PAGESTRUCT, FRAGSEG y la igualdad de hashes son infraestructura técnica; no validan por sí mismos categorías semánticas, continuidad curricular ni equivalencia pedagógica.
