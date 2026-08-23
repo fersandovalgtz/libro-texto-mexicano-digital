@@ -19,11 +19,21 @@ on:
     workflows:
       - 'build-ltmd-u1-w6-geography-atlas-completion-report'
       - 'build-ltmd-u1-w9-educacion-fisica-completion-report'
+      - 'build-ltmd-u1-w10-source-admissibility'
+      - 'build-ltmd-u1-w10-processing-topology'
+      - 'build-ltmd-u1-w10-integrados-ocr'
+      - 'build-ltmd-u1-w10-integrados-pagestruct'
+      - 'build-ltmd-u1-w10-integrados-fragseg'
+      - 'build-ltmd-u1-w10-integrados-exact-reuse'
       - 'build-ltmd-u1-w10-completion'
     types: [completed]
 
 permissions:
   contents: write
+
+concurrency:
+  group: build-ltmd-u1-coverage-dashboard
+  cancel-in-progress: false
 
 jobs:
   build:
