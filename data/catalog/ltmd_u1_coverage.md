@@ -1,14 +1,14 @@
 # LTMD-U1 — tablero de cobertura técnica
 
-Versión: `LTMD_U1_COVERAGE_0.9`.
+Versión: `LTMD_U1_COVERAGE_0.10`.
 
 Este tablero se recompone desde la cola maestra por `operational_domain` y desde las actas/cortes técnicos W1–W9. **Cobertura técnica no equivale a preparación semántica.** La promoción de W9 al numerador sólo ocurre cuando existe y pasa su acta de cierre técnico reproducible.
 
 ## Totales
 
 - Universo U1: **542/542** identidades catalogadas.
-- Cobertura técnica efectiva cerrada o resuelta: **345/542 (63.65%)**.
-- Objetos canónicos de procesamiento cerrados: **314/542 (57.93%)**.
+- Cobertura técnica efectiva cerrada o resuelta: **349/542 (64.39%)**.
+- Objetos canónicos de procesamiento cerrados: **318/542 (58.67%)**.
 - Cobertura semántica humana validada incorporada al tablero: **0/542**.
 
 ## Por ola
@@ -23,13 +23,13 @@ Este tablero se recompone desde la cola maestra por `operational_domain` y desde
 | W6 | `geografia_atlas` | 42 | 42 | 37 | 0 | `closed` |
 | W7 | `civica_etica` | 30 | 25 | 25 | 5 | `source_admitted_cohort_closed_with_retentions` |
 | W8 | `artes` | 20 | 16 | 16 | 4 | `source_admitted_cohort_closed_with_retentions` |
-| W9 | `educacion_fisica` | 4 | 0 | 0 | 4 | `ocr_complete_downstream_pending` |
+| W9 | `educacion_fisica` | 4 | 4 | 4 | 0 | `closed` |
 | W10 | `integrados_multiarea` | 69 | 0 | 0 | 69 | `queued` |
 | W11 | `otros_no_clasificados` | 111 | 0 | 0 | 111 | `queued` |
 
 ## Lectura correcta
 
-W1, W3, W4, W5 y W6 están cerradas técnicamente. W2 conserva cuatro excepciones de routing sin imputación. W7 tiene cierre técnico de su cohorte fuente-admitida: 25/30 identidades y cinco retenciones explícitas. W8 tiene cierre técnico de su cohorte fuente-admitida: 16/20 identidades y cuatro retenciones explícitas. W9 conserva 4/4 fuentes canónicas y OCR SHA-verificado, pero permanece fuera del numerador principal hasta completar PAGESTRUCT, FRAGSEG, reutilización exacta y el cierre técnico. W10–W11 permanecen en cola.
+W1, W3, W4, W5 y W6 están cerradas técnicamente. W2 conserva cuatro excepciones de routing sin imputación. W7 tiene cierre técnico de su cohorte fuente-admitida: 25/30 identidades y cinco retenciones explícitas. W8 tiene cierre técnico de su cohorte fuente-admitida: 16/20 identidades y cuatro retenciones explícitas. W9 está cerrada técnicamente en 4/4 identidades y cuatro objetos canónicos. W10–W11 permanecen en cola.
 
 `wave_label` no se usa para reconstruir la partición científica porque la cola también codifica estados de ejecución; la partición se deriva de `operational_domain`.
 
