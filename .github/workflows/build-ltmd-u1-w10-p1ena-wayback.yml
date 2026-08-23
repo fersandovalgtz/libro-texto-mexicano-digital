@@ -1,0 +1,46 @@
+name: build-ltmd-u1-w10-p1ena-wayback
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w10-p1ena-wayback.yml'
+      - 'scripts/probe_ltmd_u1_w10_p1ena_wayback.py'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w10-p1ena-wayback
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Probe exact historical source URL
+        run: python3 scripts/probe_ltmd_u1_w10_p1ena_wayback.py
+      - name: Publish Wayback probe race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w10_p1ena_wayback_probe.csv /tmp/ltmd_u1_w10_p1ena_wayback_probe.csv
+          cp docs/LTMD_U1_W10_P1ENA_WAYBACK_PROBE.md /tmp/LTMD_U1_W10_P1ENA_WAYBACK_PROBE.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w10_p1ena_wayback_probe.csv data/catalog/
+            cp /tmp/LTMD_U1_W10_P1ENA_WAYBACK_PROBE.md docs/
+            git add data/catalog/ltmd_u1_w10_p1ena_wayback_probe.csv docs/LTMD_U1_W10_P1ENA_WAYBACK_PROBE.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w10): publish exact P1ENA Wayback probe'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
