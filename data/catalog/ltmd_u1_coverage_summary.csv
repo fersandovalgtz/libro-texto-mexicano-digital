@@ -9,4 +9,4 @@ LTMD_U1_COVERAGE_0.13,W7,civica_etica,30,25,25,5,source_admitted_cohort_closed_w
 LTMD_U1_COVERAGE_0.13,W8,artes,20,16,16,4,source_admitted_cohort_closed_with_retentions,docs/LTMD_U1_W8_COMPLETION.md
 LTMD_U1_COVERAGE_0.13,W9,educacion_fisica,4,4,4,0,closed,docs/LTMD_U1_W9_COMPLETION.md
 LTMD_U1_COVERAGE_0.13,W10,integrados_multiarea,69,68,68,1,source_admitted_cohort_closed_with_retentions,docs/LTMD_U1_W10_COMPLETION.md
-LTMD_U1_COVERAGE_0.13,W11,otros_no_clasificados,111,0,0,111,asset_audit_complete_admissibility_pending,docs/LTMD_U1_W11_STANDARD_ASSET_AUDIT.md
+LTMD_U1_COVERAGE_0.13,W11,otros_no_clasificados,111,0,0,111,source_admissibility_complete_topology_pending,docs/LTMD_U1_W11_SOURCE_ADMISSIBILITY.md
