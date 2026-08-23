@@ -52,7 +52,7 @@ def main():
         topo.append({'topology_version':VERSION,'viewer_key':key,'catalog_generation':s['catalog_generation'],'grade_code':s['grade_code'],'title_core':s['title_core'],'source_admitted':admitted,'is_canonical_processing_object':iscan,'processing_mode':mode,'canonical_viewer_key':canon,'source_sequence_sha256':sig,'source_pages':a['source_jpegs'],'terminal_synthetic_candidates':a['terminal_synthetic_candidates'],'source_state':a['source_state']})
     with TOPO.open('w',encoding='utf-8',newline='') as f:
         w=csv.DictWriter(f,fieldnames=list(topo[0]));w.writeheader();w.writerows(topo)
-    canonical={r['viewer_key'] for r in topo if r['is_canonical_processing_object']=='1'}
+    canonical={r['viewer_key'] for r in topo if int(r['is_canonical_processing_object'])==1}
     aliases={r['viewer_key'] for r in topo if r['processing_mode']=='exact_source_alias'}
     rows=[]
     for key in sorted(canonical,key=lambda k:(int(scope[k]['catalog_generation']),int(scope[k]['grade_code']),k)):
