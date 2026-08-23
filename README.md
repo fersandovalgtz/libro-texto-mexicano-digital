@@ -4,7 +4,7 @@
 
 <p align="center">
   <strong>Infraestructura abierta para estudiar longitudinalmente los libros de texto mexicanos con historia de la educación, humanidades digitales, análisis computacional y ciencia abierta.</strong><br>
-  <sub>Identidad documental · integridad SHA-256 · OCR · segmentación · dependencia documental · validación humana · reproducibilidad</sub>
+  <sub>Identidad documental · integridad SHA-256 · OCR · búsqueda full-text · segmentación · dependencia documental · validación humana · reproducibilidad</sub>
 </p>
 
 <p align="center">
@@ -35,6 +35,7 @@
   <a href="#qué-es-ltmd"><strong>Qué es</strong></a> ·
   <a href="#estado-científico"><strong>Estado científico</strong></a> ·
   <a href="#arquitectura-de-evidencia">Arquitectura</a> ·
+  <a href="#full-text-research-layer-ftrl">Full-text</a> ·
   <a href="#reproducibilidad">Reproducibilidad</a> ·
   <a href="#derechos-y-licencias">Derechos</a> ·
   <a href="#citación">Citar</a> ·
@@ -97,7 +98,7 @@ identidad documental / viewer_key / book_id
         ↓
 resolución de activos + SHA-256
         ↓
-OCR temporal
+OCR temporal / FTRL local reconstruible
         ↓
 PAGESTRUCT
         ↓
@@ -115,6 +116,28 @@ análisis histórico
 LTMD conserva relaciones de reutilización, revisión, reemplazo y alias en lugar de presumir independencia entre generaciones editoriales. Las vistas de objeto, contenido único y revisión permiten estudiar dependencia documental sin borrar la identidad histórica de los visores.
 
 Consulte [`PROVENANCE.md`](PROVENANCE.md) y [`GOVERNANCE.md`](GOVERNANCE.md).
+
+## Full-Text Research Layer (FTRL)
+
+LTMD ha iniciado `LTMD_FTRL_0.1`, una capa **local, reconstruible y searchable por página**. El piloto parte de W5 Historia y utiliza los `asset manifests` ya verificados: cada JPEG se comprueba contra su SHA-256 antes de OCR, se conserva el OCR bruto con hash propio y se genera una representación normalizada independiente para SQLite FTS5.
+
+La capa permite concordancias reproducibles por personaje, institución, expresión o conjunto de variantes y devuelve página, identidad canónica, identidades históricas relacionadas, generación, grado, snippet, confianza OCR y hashes. Los aliases demostrados no se OCRizan redundantemente.
+
+> [!CAUTION]
+> `ocr_available != text_verified`, `search_hit != historical_claim` y `zero_hits != demonstrated_absence`. Un resultado de búsqueda es un candidato trazable; las afirmaciones históricas deben verificar la página fuente y declarar el alcance técnico efectivo.
+
+El OCR íntegro, la caché de activos y la base SQLite se reconstruyen bajo `local/` y **no se versionan por defecto**, para mantener separada la infraestructura pública de la redistribución de texto fuente extenso.
+
+Documentación y utilidades:
+
+- [`docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md`](docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md)
+- [`docs/LTMD_SEARCH_METHODOLOGY.md`](docs/LTMD_SEARCH_METHODOLOGY.md)
+- [`docs/LTMD_OCR_PROVENANCE.md`](docs/LTMD_OCR_PROVENANCE.md)
+- [`schemas/ltmd_page_ocr.schema.json`](schemas/ltmd_page_ocr.schema.json)
+- `scripts/build_page_ocr_corpus.py`
+- `scripts/build_search_index.py`
+- `scripts/query_ocr_corpus.py`
+- `scripts/validate_ocr_corpus.py`
 
 ## Principios de integridad científica
 
