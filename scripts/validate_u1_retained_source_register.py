@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTER = ROOT / "data/catalog/ltmd_u1_retained_source_register.csv"
 COVERAGE = ROOT / "data/catalog/ltmd_u1_coverage.md"
 
-REGISTER_VERSION = "LTMD_U1_RETAINED_SOURCE_REGISTER_0.1"
+REGISTER_VERSION = "LTMD_U1_RETAINED_SOURCE_REGISTER_0.2"
 EXPECTED_COLUMNS = [
     "register_version",
     "wave",
@@ -30,7 +30,15 @@ EXPECTED_COLUMNS = [
     "status",
 ]
 EXPECTED_WAVE_COUNTS = {"W2": 4, "W7": 5, "W8": 4, "W10": 1, "W11": 4}
+EXPECTED_STATUS_COUNTS = {"active_retention": 13, "final_exception": 5}
 EXPECTED_ISSUES = {"4", "5", "9", "11", "13", "14"}
+EXPECTED_FINAL_EXCEPTION_KEYS = {
+    "H2014P1ENA",
+    "H2014P1EAM",
+    "H2014P2EAM",
+    "H2014P3COL",
+    "H2014P3MOR",
+}
 VIEWER_KEY_RE = re.compile(r"^H\d{4}P\d[A-Z0-9]+$")
 
 
@@ -113,9 +121,19 @@ def main() -> None:
     if empty_required:
         fail(f"rows contain empty required fields: {empty_required}")
 
-    statuses = {row["status"] for row in rows}
-    if statuses != {"retained"}:
-        fail(f"unexpected status values: {sorted(statuses)!r}")
+    status_counts = Counter(row["status"] for row in rows)
+    if dict(status_counts) != EXPECTED_STATUS_COUNTS:
+        fail(
+            "retention lifecycle distribution mismatch: "
+            f"register={dict(status_counts)}, expected={EXPECTED_STATUS_COUNTS}"
+        )
+
+    final_keys = {row["viewer_key"] for row in rows if row["status"] == "final_exception"}
+    if final_keys != EXPECTED_FINAL_EXCEPTION_KEYS:
+        fail(
+            "final-exception identity mismatch: "
+            f"register={sorted(final_keys)}, expected={sorted(EXPECTED_FINAL_EXCEPTION_KEYS)}"
+        )
 
     issues = {row["tracking_issue"] for row in rows}
     if not issues.issubset(EXPECTED_ISSUES):
@@ -148,7 +166,8 @@ def main() -> None:
     print("LTMD-U1 retained-source register: OK")
     print(f"Universe: {universe}")
     print(f"Effective technical coverage: {effective}")
-    print(f"Retained identities: {len(rows)}")
+    print(f"Residual identities: {len(rows)}")
+    print(f"Lifecycle: {dict(status_counts)}")
     print(f"Wave distribution: {dict(register_wave_counts)}")
 
 
