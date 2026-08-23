@@ -1,0 +1,71 @@
+name: build-ltmd-u1-w11-completion
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w11-completion.yml'
+      - 'scripts/build_ltmd_u1_w11_completion_report.py'
+      - 'data/catalog/ltmd_u1_w11_exact_content_units.csv'
+      - 'data/catalog/ltmd_u1_w11_exact_viewer_overlap.csv'
+  workflow_run:
+    workflows: ['build-ltmd-u1-w11-exact-reuse']
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w11-completion
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: ready
+        shell: bash
+        run: |
+          files=(
+            data/catalog/ltmd_u1_w11_processing_inventory.csv
+            data/catalog/ltmd_u1_w11_canonical_page_manifest.csv
+            data/catalog/ltmd_u1_w11_ocr_metrics.csv
+            data/catalog/ltmd_u1_w11_ocr_summary.csv
+            data/catalog/ltmd_u1_w11_page_structure.csv
+            data/catalog/ltmd_u1_w11_page_structure_summary.csv
+            data/catalog/ltmd_u1_w11_fragment_manifest.csv
+            data/catalog/ltmd_u1_w11_fragment_manifest_summary.csv
+            data/catalog/ltmd_u1_w11_fragment_sequence_gaps.csv
+            data/catalog/ltmd_u1_w11_exact_content_units.csv
+            data/catalog/ltmd_u1_w11_exact_viewer_overlap.csv
+          )
+          ready=true
+          for f in "${files[@]}"; do [[ -f "$f" ]] || ready=false; done
+          echo "ready=$ready" >> "$GITHUB_OUTPUT"
+      - name: Validate complete W11 chain
+        if: steps.ready.outputs.ready == 'true'
+        run: python3 scripts/build_ltmd_u1_w11_completion_report.py
+      - name: Publish W11 completion report race-safely
+        if: steps.ready.outputs.ready == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp docs/LTMD_U1_W11_COMPLETION.md /tmp/LTMD_U1_W11_COMPLETION.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/LTMD_U1_W11_COMPLETION.md docs/
+            git add docs/LTMD_U1_W11_COMPLETION.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w11): publish technical completion report'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
