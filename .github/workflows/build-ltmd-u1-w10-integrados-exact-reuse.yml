@@ -1,0 +1,50 @@
+name: build-ltmd-u1-w10-integrados-exact-reuse
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/catalog/ltmd_u1_w10_integrados_fragment_manifest.csv'
+      - 'data/catalog/ltmd_u1_w10_integrados_fragment_manifest_summary.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w10-integrados-exact-reuse
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Analyze exact W10 textual reuse
+        run: python3 scripts/analyze_ltmd_u1_w10_integrados_exact_reuse.py
+      - name: Publish W10 exact-reuse products race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/w10-reuse
+          mkdir -p /tmp/w10-reuse
+          cp data/catalog/ltmd_u1_w10_integrados_exact_content_units.csv /tmp/w10-reuse/
+          cp data/catalog/ltmd_u1_w10_integrados_exact_viewer_overlap.csv /tmp/w10-reuse/
+          cp docs/LTMD_U1_W10_EXACT_REUSE.md /tmp/w10-reuse/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w10-reuse/ltmd_u1_w10_integrados_exact_content_units.csv data/catalog/
+            cp /tmp/w10-reuse/ltmd_u1_w10_integrados_exact_viewer_overlap.csv data/catalog/
+            cp /tmp/w10-reuse/LTMD_U1_W10_EXACT_REUSE.md docs/
+            git add data/catalog/ltmd_u1_w10_integrados_exact_content_units.csv data/catalog/ltmd_u1_w10_integrados_exact_viewer_overlap.csv docs/LTMD_U1_W10_EXACT_REUSE.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w10): publish exact fragment-reuse analysis'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
