@@ -1,22 +1,26 @@
 {
-  "report_version": "LTMD_U1_W11_PIPELINE_STATUS_0.1",
-  "observed_at_utc": "2026-08-23T20:57:04.579811Z",
+  "report_version": "LTMD_U1_W11_PIPELINE_STATUS_0.2",
+  "observed_at_utc": "2026-08-23T21:06:29.374411Z",
   "repository": "fersandovalgtz/libro-texto-mexicano-digital",
+  "observer_run_id": "32666468541",
+  "observer_job_id": "",
   "stages": [
     {
       "gate": "G5 OCR",
       "workflow": "build-ltmd-u1-w11-ocr.yml",
-      "run_id": 32664121168,
-      "event": "push",
+      "run_id": 32663100831,
+      "event": "workflow_run",
       "status": "completed",
       "conclusion": "success",
-      "head_sha": "72c4e3235cc4f2aa0e0bb8a04f6eea8446e8b194",
-      "jobs": 3,
-      "jobs_completed": 3,
+      "head_sha": "ccad68d5ed22f7b2a7016d68aebbd69cdf45ba46",
+      "jobs": 108,
+      "jobs_completed": 108,
+      "jobs_success": 108,
       "jobs_in_progress": 0,
       "jobs_queued": 0,
       "job_failures": 0,
-      "updated_at": "2026-08-23T20:55:44Z"
+      "job_cancelled": 0,
+      "updated_at": "2026-08-23T20:55:31Z"
     },
     {
       "gate": "G6 PAGESTRUCT",
@@ -27,10 +31,12 @@
       "conclusion": "",
       "head_sha": "ddf3055a49dc1f02c1ac9dc6d1e4aa4fdcd6aa1a",
       "jobs": 107,
-      "jobs_completed": 9,
+      "jobs_completed": 81,
+      "jobs_success": 81,
       "jobs_in_progress": 8,
-      "jobs_queued": 90,
+      "jobs_queued": 18,
       "job_failures": 0,
+      "job_cancelled": 0,
       "updated_at": "2026-08-23T20:56:01Z"
     },
     {
@@ -43,9 +49,11 @@
       "head_sha": "59b3afecadcf036af293c221760ccbf77d14b553",
       "jobs": 3,
       "jobs_completed": 3,
+      "jobs_success": 1,
       "jobs_in_progress": 0,
       "jobs_queued": 0,
       "job_failures": 0,
+      "job_cancelled": 0,
       "updated_at": "2026-08-23T20:23:17Z"
     },
     {
@@ -58,9 +66,11 @@
       "head_sha": "59b3afecadcf036af293c221760ccbf77d14b553",
       "jobs": 1,
       "jobs_completed": 1,
+      "jobs_success": 1,
       "jobs_in_progress": 0,
       "jobs_queued": 0,
       "job_failures": 0,
+      "job_cancelled": 0,
       "updated_at": "2026-08-23T20:23:32Z"
     },
     {
@@ -73,9 +83,11 @@
       "head_sha": "59b3afecadcf036af293c221760ccbf77d14b553",
       "jobs": 1,
       "jobs_completed": 1,
+      "jobs_success": 1,
       "jobs_in_progress": 0,
       "jobs_queued": 0,
       "job_failures": 0,
+      "job_cancelled": 0,
       "updated_at": "2026-08-23T20:23:44Z"
     }
   ]
