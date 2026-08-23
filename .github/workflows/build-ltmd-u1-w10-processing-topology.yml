@@ -5,6 +5,8 @@ on:
   push:
     branches: [main]
     paths:
+      - '.github/workflows/build-ltmd-u1-w10-processing-topology.yml'
+      - 'scripts/build_ltmd_u1_w10_processing_topology.py'
       - 'data/catalog/ltmd_u1_w10_source_admissibility.csv'
 
 permissions:
