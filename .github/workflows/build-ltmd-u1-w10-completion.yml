@@ -5,6 +5,7 @@ on:
   push:
     branches: [main]
     paths:
+      - '.github/workflows/build-ltmd-u1-w10-completion.yml'
       - 'data/catalog/ltmd_u1_w10_integrados_exact_content_units.csv'
       - 'data/catalog/ltmd_u1_w10_integrados_exact_viewer_overlap.csv'
   workflow_run:
