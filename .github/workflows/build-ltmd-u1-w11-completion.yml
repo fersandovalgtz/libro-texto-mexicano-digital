@@ -9,6 +9,7 @@ on:
       - 'scripts/build_ltmd_u1_w11_completion_report.py'
       - 'data/catalog/ltmd_u1_w11_exact_content_units.csv'
       - 'data/catalog/ltmd_u1_w11_exact_viewer_overlap.csv'
+      - 'docs/LTMD_U1_W11_EXACT_REUSE.md'
   workflow_run:
     workflows: ['build-ltmd-u1-w11-exact-reuse']
     types: [completed]
@@ -51,6 +52,11 @@ jobs:
           ready=true
           for f in "${files[@]}"; do [[ -f "$f" ]] || ready=false; done
           echo "ready=$ready" >> "$GITHUB_OUTPUT"
+      - name: Require complete evidence on downstream trigger
+        if: github.event_name == 'workflow_run' && steps.ready.outputs.ready != 'true'
+        run: |
+          echo 'W11 completion was triggered downstream but the required evidence set is incomplete.' >&2
+          exit 1
       - name: Validate complete W11 chain
         if: steps.ready.outputs.ready == 'true'
         run: python3 scripts/build_ltmd_u1_w11_completion_report.py
