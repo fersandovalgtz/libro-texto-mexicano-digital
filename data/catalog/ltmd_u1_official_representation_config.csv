@@ -1,0 +1,3 @@
+wave,viewer_key,hole_page,official_code,config_url,config_sha256,config_key,config_value,historical_manifest,historical_rows,historical_index_min,historical_index_max,error
+W11,H2014P3COL,130,P3COL,https://libros.conaliteg.gob.mx/2022/x.js,ba93f5bfa61541bfc54271b7b8eb21bb0d54d690fa6ffcfb82000005f3a1209a,,,ltmd_u1_w11_standard_asset_manifest.csv,161,0,161,
+W11,H2014P3MOR,15,P3MOR,https://libros.conaliteg.gob.mx/x.js,ff795d0aa986540eec669fea57146db26b0da8f8d7043a9d8538700a498ddad2,,,ltmd_u1_w11_standard_asset_manifest.csv,161,0,161,
