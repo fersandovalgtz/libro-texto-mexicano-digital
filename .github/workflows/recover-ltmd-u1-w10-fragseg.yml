@@ -9,7 +9,7 @@ on:
 
 permissions:
   actions: write
-  contents: read
+  contents: write
 
 concurrency:
   group: recover-ltmd-u1-w10-fragseg
@@ -25,30 +25,27 @@ jobs:
       PREFLIGHT: preflight-ltmd-u1-w10-fragseg.yml
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Inspect FRAGSEG run state and dispatch only when needed
+        id: recover
         shell: bash
         run: |
           set -euo pipefail
-          gh api "repos/$REPO/actions/workflows/$TARGET/runs?branch=main&per_page=10" > /tmp/runs.json
-          python3 - <<'PY'
-          import json
-          d=json.load(open('/tmp/runs.json'))
-          rows=d.get('workflow_runs',[])
-          for r in rows[:10]:
-              print(r['id'], r['status'], r.get('conclusion'), r.get('event'), r.get('created_at'))
-          PY
+          gh api "repos/$REPO/actions/workflows/$TARGET/runs?branch=main&per_page=10" > /tmp/runs-before.json
           active=$(python3 - <<'PY'
           import json
-          rows=json.load(open('/tmp/runs.json')).get('workflow_runs',[])
+          rows=json.load(open('/tmp/runs-before.json')).get('workflow_runs',[])
           print(int(any(r.get('status') in {'queued','in_progress','waiting','requested','pending'} for r in rows)))
           PY
           )
           success=$(python3 - <<'PY'
           import json
-          rows=json.load(open('/tmp/runs.json')).get('workflow_runs',[])
+          rows=json.load(open('/tmp/runs-before.json')).get('workflow_runs',[])
           print(int(any(r.get('status')=='completed' and r.get('conclusion')=='success' for r in rows[:5])))
           PY
           )
+          dispatched=0
           if [[ "$active" == 1 ]]; then
             echo 'FRAGSEG already active; no duplicate dispatch.'
           elif [[ "$success" == 1 ]]; then
@@ -56,7 +53,11 @@ jobs:
           else
             echo 'No active/recent-successful FRAGSEG run; dispatching recovery run.'
             gh workflow run "$TARGET" --repo "$REPO" --ref main
+            dispatched=1
+            sleep 3
           fi
+          gh api "repos/$REPO/actions/workflows/$TARGET/runs?branch=main&per_page=10" > /tmp/runs-after.json
+          echo "dispatched=$dispatched" >> "$GITHUB_OUTPUT"
       - name: Ensure static FRAGSEG preflight has a run
         shell: bash
         run: |
@@ -77,3 +78,43 @@ jobs:
           if [[ "$active" == 0 && "$success" == 0 ]]; then
             gh workflow run "$PREFLIGHT" --repo "$REPO" --ref main
           fi
+      - name: Build auditable Actions-state snapshot
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json,os
+          rows=json.load(open('/tmp/runs-after.json')).get('workflow_runs',[])
+          compact=[]
+          for r in rows[:10]:
+              compact.append({k:r.get(k) for k in ('id','status','conclusion','event','created_at','updated_at','run_attempt','head_sha','html_url')})
+          out={
+              'target_workflow':os.environ['TARGET'],
+              'recovery_dispatch_performed':int('${{ steps.recover.outputs.dispatched }}'),
+              'active_runs':sum(r.get('status') in {'queued','in_progress','waiting','requested','pending'} for r in rows),
+              'recent_successes':sum(r.get('status')=='completed' and r.get('conclusion')=='success' for r in rows[:5]),
+              'latest_runs':compact,
+              'note':'Operational Actions snapshot only; not scientific corpus evidence and not a substitute for FRAGSEG outputs.'
+          }
+          os.makedirs('data/control',exist_ok=True)
+          open('data/control/ltmd_u1_w10_fragseg_actions_state.json','w',encoding='utf-8').write(json.dumps(out,indent=2)+'\n')
+          print(json.dumps(out,indent=2))
+          PY
+      - name: Publish Actions-state snapshot race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/control/ltmd_u1_w10_fragseg_actions_state.json /tmp/ltmd_u1_w10_fragseg_actions_state.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/control
+            cp /tmp/ltmd_u1_w10_fragseg_actions_state.json data/control/
+            git add data/control/ltmd_u1_w10_fragseg_actions_state.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'qa(w10): publish FRAGSEG Actions state'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
