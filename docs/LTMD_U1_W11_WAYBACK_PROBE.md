@@ -6,8 +6,8 @@ Versión: `LTMD_U1_W11_WAYBACK_PROBE_0.2`.
 - Consultas exactas/transportes ejecutadas: **10/10**.
 - Huecos con ≥1 captura CDX 200: **0/5**.
 - Registros de captura únicos por digest/consulta: **0**.
-- Consultas concluyentes sin captura: **7**.
-- Consultas fallidas tras reintentos: **3**.
+- Consultas concluyentes sin captura: **10**.
+- Consultas fallidas tras reintentos: **0**.
 
 ## Resultado por posición
 
@@ -18,11 +18,6 @@ Versión: `LTMD_U1_W11_WAYBACK_PROBE_0.2`.
 | `H2014P2EAM` | 17 | 17 | 0 | — | — | — |
 | `H2014P3COL` | 130 | 130 | 0 | — | — | — |
 | `H2014P3MOR` | 15 | 15 | 0 | — | — | — |
-
-## Consultas no concluyentes
-- `H2014P3COL` página 130, `exact_https` — `TimeoutError: The read operation timed out`.
-- `H2014P3MOR` página 15, `exact_https` — `URLError: <urlopen error timed out>`.
-- `H2014P3MOR` página 15, `http_transport_variant` — `URLError: <urlopen error timed out>`.
 
 ## Regla
 

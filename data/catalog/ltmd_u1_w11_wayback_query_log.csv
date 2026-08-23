@@ -1,0 +1,11 @@
+probe_version,viewer_key,viewer_page,source_image_index,query_role,queried_url,query_state,attempts_used,capture_count,error
+LTMD_U1_W11_WAYBACK_PROBE_0.2,H2014P1EAM,41,41,exact_https,https://historico.conaliteg.gob.mx/c/H2014P1EAM/041.jpg,success_no_capture,1,0,
+LTMD_U1_W11_WAYBACK_PROBE_0.2,H2014P1EAM,41,41,http_transport_variant,http://historico.conaliteg.gob.mx/c/H2014P1EAM/041.jpg,success_no_capture,1,0,
+LTMD_U1_W11_WAYBACK_PROBE_0.2,H2014P2EAM,13,13,exact_https,https://historico.conaliteg.gob.mx/c/H2014P2EAM/013.jpg,success_no_capture,1,0,
+LTMD_U1_W11_WAYBACK_PROBE_0.2,H2014P2EAM,13,13,http_transport_variant,http://historico.conaliteg.gob.mx/c/H2014P2EAM/013.jpg,success_no_capture,1,0,
+LTMD_U1_W11_WAYBACK_PROBE_0.2,H2014P2EAM,17,17,exact_https,https://historico.conaliteg.gob.mx/c/H2014P2EAM/017.jpg,success_no_capture,1,0,
+LTMD_U1_W11_WAYBACK_PROBE_0.2,H2014P2EAM,17,17,http_transport_variant,http://historico.conaliteg.gob.mx/c/H2014P2EAM/017.jpg,success_no_capture,1,0,
+LTMD_U1_W11_WAYBACK_PROBE_0.2,H2014P3COL,130,130,exact_https,https://historico.conaliteg.gob.mx/c/H2014P3COL/130.jpg,success_no_capture,1,0,
+LTMD_U1_W11_WAYBACK_PROBE_0.2,H2014P3COL,130,130,http_transport_variant,http://historico.conaliteg.gob.mx/c/H2014P3COL/130.jpg,success_no_capture,1,0,
+LTMD_U1_W11_WAYBACK_PROBE_0.2,H2014P3MOR,15,15,exact_https,https://historico.conaliteg.gob.mx/c/H2014P3MOR/015.jpg,success_no_capture,1,0,
+LTMD_U1_W11_WAYBACK_PROBE_0.2,H2014P3MOR,15,15,http_transport_variant,http://historico.conaliteg.gob.mx/c/H2014P3MOR/015.jpg,success_no_capture,1,0,
