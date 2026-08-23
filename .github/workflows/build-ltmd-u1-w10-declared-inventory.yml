@@ -1,0 +1,59 @@
+name: build-ltmd-u1-w10-declared-inventory
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w10-declared-inventory.yml'
+      - 'scripts/build_ltmd_u1_w10_integrados_declared_inventory.py'
+      - 'data/catalog/ltmd_u1_w10_viewer_architecture.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w10-declared-inventory
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build declared inventory from official configuration
+        run: python3 scripts/build_ltmd_u1_w10_integrados_declared_inventory.py
+      - name: Verify W10 declared-inventory contract
+        run: |
+          python3 - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w10_declared_inventory.csv',encoding='utf-8')))
+          assert len(rows)==69 and len({r['viewer_key'] for r in rows})==69
+          assert all(int(r['declared_positions'])>0 and r['ag_clave'] for r in rows)
+          assert {r['inventory_version'] for r in rows}=={'LTMD_U1_W10_DECLARED_INVENTORY_0.1'}
+          print('W10 declared inventory PASS: 69 configured viewers')
+          PY
+      - name: Publish W10 declared inventory race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w10_declared_inventory.csv /tmp/ltmd_u1_w10_declared_inventory.csv
+          cp data/catalog/ltmd_u1_w10_declared_inventory_summary.csv /tmp/ltmd_u1_w10_declared_inventory_summary.csv
+          cp docs/LTMD_U1_W10_DECLARED_INVENTORY.md /tmp/LTMD_U1_W10_DECLARED_INVENTORY.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w10_declared_inventory.csv data/catalog/ltmd_u1_w10_declared_inventory.csv
+            cp /tmp/ltmd_u1_w10_declared_inventory_summary.csv data/catalog/ltmd_u1_w10_declared_inventory_summary.csv
+            cp /tmp/LTMD_U1_W10_DECLARED_INVENTORY.md docs/LTMD_U1_W10_DECLARED_INVENTORY.md
+            git add data/catalog/ltmd_u1_w10_declared_inventory.csv data/catalog/ltmd_u1_w10_declared_inventory_summary.csv docs/LTMD_U1_W10_DECLARED_INVENTORY.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w10): publish declared integrated-multiarea inventory'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
