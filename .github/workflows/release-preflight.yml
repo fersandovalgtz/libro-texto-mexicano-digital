@@ -30,6 +30,8 @@ jobs:
           required = [
               'README.md',
               'README.en.md',
+              'assets/repository-header-es.svg',
+              'assets/repository-header-en.svg',
               'CITATION.cff',
               'codemeta.json',
               'LICENSE',
@@ -110,6 +112,12 @@ jobs:
           for marker in ('FAIR_ASSESSMENT.md', 'GOVERNANCE.md', 'PROVENANCE.md', 'CITATION.cff', 'codemeta.json'):
               if marker not in readme:
                   raise SystemExit(f'README.md does not link to {marker}')
+          if 'assets/repository-header-es.svg' not in readme:
+              raise SystemExit('README.md does not use the Spanish repository header')
+          if 'assets/repository-header-en.svg' not in readme_en:
+              raise SystemExit('README.en.md does not use the English repository header')
+          if 'assets/repository-header-es.svg' in readme_en:
+              raise SystemExit('README.en.md still references the Spanish repository header')
           release_ref = f'releases/tag/v{version}'
           if release_ref not in readme or release_ref not in readme_en:
               raise SystemExit(f'published release v{version} is not linked consistently from both READMEs')
@@ -118,4 +126,5 @@ jobs:
           print(f'Version alignment: {version}')
           print(f'Author/ORCID alignment: {cff_given} {cff_family} — {cff_orcid}')
           print(f'Release date alignment: {cff_date}')
+          print('Bilingual repository headers: OK')
           PY
