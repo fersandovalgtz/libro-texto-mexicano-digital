@@ -79,7 +79,7 @@ Corte documental de referencia: **23 de agosto de 2026**.
 | W7 | Formación Cívica y Ética | cohorte fuente-admitida cerrada; 5 retenidas (25/30) |
 | W8 | Artes | cohorte fuente-admitida cerrada; 4 retenidas (16/20) |
 | W9 | Educación Física | cerrada técnicamente (4/4) |
-| W10 | Integrados / Multiarea | activos auditados; admisibilidad pendiente |
+| W10 | Integrados / Multiarea | PAGESTRUCT completo; FRAGSEG pendiente |
 | W11 | Otros / No clasificados | en cola (111) |
 
 El tablero reproducible se mantiene en [`data/catalog/ltmd_u1_coverage.md`](data/catalog/ltmd_u1_coverage.md) y el programa general en [`docs/LTMD_U1_MASTER_PLAN_0_1.md`](docs/LTMD_U1_MASTER_PLAN_0_1.md).
