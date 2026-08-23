@@ -1,0 +1,96 @@
+name: prioritize-ltmd-u1-w10
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/prioritize-ltmd-u1-w10.yml'
+
+permissions:
+  actions: write
+  contents: write
+
+concurrency:
+  group: prioritize-ltmd-u1-w10
+  cancel-in-progress: false
+
+jobs:
+  prioritize:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      CURRENT_RUN: ${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Cancel only redundant refresh runs
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$REPO/actions/runs?branch=main&per_page=100" > /tmp/runs-before.json
+          python3 - <<'PY' > /tmp/cancel_ids.txt
+          import json,os
+          safe={
+            'build-research-integrity-manifest',
+            'build-ltmd-u1-coverage-dashboard',
+            'sync-readme-coverage',
+          }
+          current=int(os.environ['CURRENT_RUN'])
+          rows=json.load(open('/tmp/runs-before.json')).get('workflow_runs',[])
+          for r in rows:
+              if r['id']==current:continue
+              if r.get('name') in safe and r.get('status') in {'queued','in_progress','waiting','requested','pending'}:
+                  print(r['id'])
+          PY
+          while read -r id; do
+            [[ -z "$id" ]] && continue
+            echo "Cancelling redundant refresh run $id"
+            gh api --method POST "repos/$REPO/actions/runs/$id/cancel" >/dev/null || true
+          done < /tmp/cancel_ids.txt
+          sleep 4
+          gh api "repos/$REPO/actions/runs?branch=main&per_page=100" > /tmp/runs-after.json
+      - name: Publish scheduler snapshot
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json,os
+          def compact(path):
+              rows=json.load(open(path)).get('workflow_runs',[])
+              return [
+                  {k:r.get(k) for k in ('id','name','status','conclusion','event','created_at','updated_at','html_url')}
+                  for r in rows if r.get('status') in {'queued','in_progress','waiting','requested','pending'}
+              ]
+          before=compact('/tmp/runs-before.json');after=compact('/tmp/runs-after.json')
+          out={
+              'snapshot':'LTMD_U1_W10_ACTIONS_PRIORITY_0.1',
+              'cancelled_refresh_run_ids':[int(x) for x in open('/tmp/cancel_ids.txt').read().split() if x.strip()],
+              'active_before':before,
+              'active_after':after,
+              'policy':'Only redundant integrity-0.14 / coverage-dashboard / README-refresh runs may be cancelled. Scientific W10 processing runs are never cancelled.',
+          }
+          os.makedirs('data/control',exist_ok=True)
+          open('data/control/ltmd_u1_w10_actions_priority.json','w',encoding='utf-8').write(json.dumps(out,indent=2)+'\n')
+          print(json.dumps(out,indent=2))
+          PY
+      - name: Publish priority evidence race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/control/ltmd_u1_w10_actions_priority.json /tmp/ltmd_u1_w10_actions_priority.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/control
+            cp /tmp/ltmd_u1_w10_actions_priority.json data/control/
+            git add data/control/ltmd_u1_w10_actions_priority.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'qa(w10): publish Actions priority snapshot'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
