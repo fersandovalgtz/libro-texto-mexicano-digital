@@ -1,0 +1,48 @@
+name: preflight-ltmd-u1-w10-fragseg
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/preflight_ltmd_u1_w10_fragseg.py'
+      - '.github/workflows/preflight-ltmd-u1-w10-fragseg.yml'
+      - 'data/catalog/ltmd_u1_w10_processing_inventory.csv'
+      - 'data/catalog/ltmd_u1_w10_canonical_page_manifest.csv'
+      - 'data/catalog/ltmd_u1_w10_integrados_page_structure.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: preflight-ltmd-u1-w10-fragseg
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate W10 FRAGSEG static invariants
+        run: python3 scripts/preflight_ltmd_u1_w10_fragseg.py
+      - name: Publish preflight evidence race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/control/ltmd_u1_w10_fragseg_preflight.json /tmp/ltmd_u1_w10_fragseg_preflight.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p data/control
+            cp /tmp/ltmd_u1_w10_fragseg_preflight.json data/control/
+            git add data/control/ltmd_u1_w10_fragseg_preflight.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'qa(w10): publish FRAGSEG preflight evidence'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
