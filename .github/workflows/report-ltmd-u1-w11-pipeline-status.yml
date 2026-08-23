@@ -1,0 +1,49 @@
+name: report-ltmd-u1-w11-pipeline-status
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/report-ltmd-u1-w11-pipeline-status.yml'
+      - 'scripts/report_ltmd_u1_w11_pipeline_status.py'
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: report-ltmd-u1-w11-pipeline-status
+  cancel-in-progress: true
+
+jobs:
+  report:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Observe W11 downstream chain
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/report_ltmd_u1_w11_pipeline_status.py
+      - name: Publish observer output race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w11_pipeline_status.json /tmp/ltmd_u1_w11_pipeline_status.json
+          cp docs/LTMD_U1_W11_PIPELINE_STATUS.md /tmp/LTMD_U1_W11_PIPELINE_STATUS.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w11_pipeline_status.json data/catalog/
+            cp /tmp/LTMD_U1_W11_PIPELINE_STATUS.md docs/
+            git add data/catalog/ltmd_u1_w11_pipeline_status.json docs/LTMD_U1_W11_PIPELINE_STATUS.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'ops(w11): publish downstream pipeline status'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
