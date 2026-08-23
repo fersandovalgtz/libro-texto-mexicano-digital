@@ -1,21 +1,21 @@
 # LTMD-U1 W11 — estado operativo del OCR
 
-Versión: `LTMD_U1_W11_OCR_RUN_STATUS_0.4`. Observado: **2026-08-23T20:38:45.926405Z**.
+Versión: `LTMD_U1_W11_OCR_RUN_STATUS_0.4`. Observado: **2026-08-23T20:39:53.909614Z**.
 
 > Estado operativo solamente; G5 cierra únicamente con el OCR consolidado validado.
 
-- Run observador: **32665037961**; job observador: **97257014465**.
+- Run observador: **32665037961**; job observador: **97257151901**.
 - Run con matriz: **32663100831**.
 - Matriz: **106/106** jobs.
-- Exitosos: **72/106 (67.92%)**.
+- Exitosos: **76/106 (71.70%)**.
 - Fallidos: **0**.
 - Cancelados: **0**.
-- Aún no completados: **34**.
+- Aún no completados: **30**.
 
 ## Estado global de jobs
-- `completed`: **73**.
+- `completed`: **77**.
 - `in_progress`: **8**.
-- `queued`: **26**.
+- `queued`: **22**.
 
 ## Runs activos inspeccionados
 
