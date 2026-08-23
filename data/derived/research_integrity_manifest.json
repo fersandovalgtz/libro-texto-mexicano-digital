@@ -1,10 +1,10 @@
 {
-  "integrity_version": "LTMD_INTEGRITY_0.14",
-  "generated_utc": "2026-08-23T15:46:25.251541+00:00",
-  "git_head": "b27fbc67bb1a3f6199590d81643452ffdaaa9f79",
-  "scope": "LTMD v0.14: frozen v0.13 W8 technical-closure perimeter plus the closed, strictly descriptive LTMD-U1 W3-W4-W7-W8 technical comparison across PAGESTRUCT, FRAGSEG and exact-text reuse/dependence, including its reproducible script, explicit dispatch control and workflow",
-  "critical_count": 474,
-  "critical_present_count": 474,
+  "integrity_version": "LTMD_INTEGRITY_0.15",
+  "generated_utc": "2026-08-23T19:27:11.845358+00:00",
+  "git_head": "393bc69310acdcca667d984ca0ede5cf27d61a58",
+  "scope": "LTMD v0.15: frozen v0.14 perimeter plus complete LTMD-U1 W9 technical closure and the W10 Integrados/Multiarea source-first chain from frozen scope, viewer/source audit and source admissibility through byte-exact processing topology, SHA-verified OCR, conservative PAGESTRUCT, frozen-engine FRAGSEG, exact-text reuse/dependence and evidence-gated technical completion, including explicit source retentions, global U1 coverage reconstruction and Spanish/English landing-page synchronization",
+  "critical_count": 607,
+  "critical_present_count": 607,
   "missing_critical": [],
   "optional_present_count": 9,
   "optional_missing": [
@@ -1006,8 +1006,8 @@
     },
     {
       "path": ".github/workflows/build-research-integrity-manifest.yml",
-      "bytes": 3280,
-      "sha256": "78f10cc997d3db52ce0fb4ee568517c9eccfe14ad50cfafbaa9527bc97260967",
+      "bytes": 1819,
+      "sha256": "566af11593083807e59f972e01c317fb49606407ea6e5cdb940aaa400066d4b3",
       "required": true
     },
     {
@@ -2859,6 +2859,804 @@
       "required": true
     },
     {
+      "path": "docs/LTMD_U1_W9_COMPLETION.md",
+      "bytes": 1861,
+      "sha256": "e8493646c42cb8bf47c99bcc0fefb4e0b3618383402461ca7d30bc57257457f9",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W10_SOURCE_ADMISSIBILITY.md",
+      "bytes": 859,
+      "sha256": "1498a888c30cb8dbc5e6ca22430d65db241c5feb2b5dc1da7d3d9b7b61c39b14",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W10_PROCESSING_TOPOLOGY.md",
+      "bytes": 806,
+      "sha256": "199e82d5c606cd6de0eec53d589b311e96d861e08b93dbea6eeeed06c05bcde3",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W10_OCR.md",
+      "bytes": 999,
+      "sha256": "b75f8ff55046550f36639ea73c005d0588c7fe262e627c92c7d593b9143f9cf9",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W10_PAGESTRUCT.md",
+      "bytes": 857,
+      "sha256": "43a3495838d0b648523f3a15978ea476f4c3f83c5d9be8c160eb96be0180b6d5",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W10_FRAGSEG.md",
+      "bytes": 1128,
+      "sha256": "d18b97b436a0e29c83b4739621c120f680a1e24df3b51650195099f172655c5a",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W10_EXACT_REUSE.md",
+      "bytes": 2624,
+      "sha256": "dae737897d5bc67769db324396565bd15c94996f08e3d017ab4232656b8bc1c9",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W10_COMPLETION.md",
+      "bytes": 2196,
+      "sha256": "bec65fd986c0991d46dd503b8cd7041e0b5f0e31132e24f9d4af2ba0d273b628",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_coverage.md",
+      "bytes": 2918,
+      "sha256": "18d5691544e02d80ca2d488af719f87ce34b2b110b68642267d0d0ddf7cdb077",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_coverage_summary.csv",
+      "bytes": 1300,
+      "sha256": "111ef5f60e441ea77729f701342d8117a74be244b14d9c49864e6c8450075dc1",
+      "required": true
+    },
+    {
+      "path": "README.en.md",
+      "bytes": 6184,
+      "sha256": "5a6b2382fc0bdf1f33acf1bf8d8738c0dcaa9d15bf50a9d8616f04a8120b36da",
+      "required": true
+    },
+    {
+      "path": "scripts/build_research_integrity_manifest_v15.py",
+      "bytes": 5478,
+      "sha256": "2b0f899168b193d2fc4c5321cf42ed3442998dc649d9fc425d9aff4a83f104d3",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_coverage_dashboard.py",
+      "bytes": 11791,
+      "sha256": "107a2f2a5c114273f07767a0d6926baa817df7ff8de3b3bf56298db50917967a",
+      "required": true
+    },
+    {
+      "path": "scripts/sync_readme_coverage.py",
+      "bytes": 7639,
+      "sha256": "2b77859419a038fee51c4a3a8bf95ac08b9aa8586d2fbe6516c9f048bae8293a",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-coverage-dashboard.yml",
+      "bytes": 2455,
+      "sha256": "e71cd445bbaf5e8755c300dd2b9158e27e3738c4fa38cde7ef417fec7b23476b",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/sync-readme-coverage.yml",
+      "bytes": 1611,
+      "sha256": "8ec4b9768c36a449aea92cb66d53ed640346bb5ed2bf9b1e8d3377daf4532b4f",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/research-integrity-manifest-v15.yml",
+      "bytes": 1668,
+      "sha256": "6c01d7ec51526f2e865055d13ab0fcd03ed57cd29265120fdacfaec6d91d8cd0",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W10_SOURCE_ANOMALIES.md",
+      "bytes": 806,
+      "sha256": "a581ff2651f837240a21e76d5111b71df3fc4e31dfba2ab27f8b1d1348101348",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W10_TOPOLOGY_DIAGNOSTIC.md",
+      "bytes": 1247,
+      "sha256": "244c754fb8b9e8f7d598a73b4404a6e30a4880a11047b2da5f4a06b6df4dde95",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_asset_manifest.csv",
+      "bytes": 3892322,
+      "sha256": "d5a422f481f8543bb22517fb308a889e0ca254a7ebd52cf7ae50c782645f11a7",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_asset_summary.csv",
+      "bytes": 10423,
+      "sha256": "e59a9c9bda83de5540c37ca87e30e663428bf0ac231d3088e5d354cadb4de878",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_canonical_page_manifest.csv",
+      "bytes": 4189785,
+      "sha256": "4904d73abee0d8584236fbeb56fb5bd38fde5097e244ee82c451def2fc9c488e",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_declared_inventory.csv",
+      "bytes": 12076,
+      "sha256": "9f78eb2418a016106068e38c9e3ec2d267623c541d325ff9776c80110d363cb5",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_declared_inventory_summary.csv",
+      "bytes": 454,
+      "sha256": "bceffad6b2642d5d8ecb098859b853855bf89bee20c9ba9b09c98b1e18cf723c",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_integrados_exact_content_units.csv",
+      "bytes": 14956590,
+      "sha256": "9f445e59f05628fc4c9dd13579813d0046b68a46a589ca0b6fd16efe6cef9114",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_integrados_exact_viewer_overlap.csv",
+      "bytes": 282173,
+      "sha256": "7887899d6971ca58c8fdd51a10d078c9ae23579c7dca7e8b79f8a3b38716d6b5",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_integrados_fragment_manifest.csv",
+      "bytes": 37106049,
+      "sha256": "66059cfeef4cee6a22e39a3e02dab4b920ce202f2a1f8901719aee55374c7090",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_integrados_fragment_manifest_summary.csv",
+      "bytes": 5939,
+      "sha256": "f1b7cdd1fce9bb407c31d6b421f7e39813292342c99568884ddd38c4596a559e",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_integrados_fragment_sequence_gaps.csv",
+      "bytes": 24501,
+      "sha256": "3567bf5ba4e343132dbd8e06eb47bcfb85f3cac3ca030d324b5823e86b2cd2ac",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_integrados_ocr_metrics.csv",
+      "bytes": 3095823,
+      "sha256": "a3e7ac451aac0e767c3304e42ffd14c089ce792a0ca902b5043b6de780667bd4",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_integrados_ocr_summary.csv",
+      "bytes": 9960,
+      "sha256": "4e2727a2e52caa09fc6c949aa145e0cca746e6bf473a200bef2b2be357ae10dd",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_integrados_page_structure.csv",
+      "bytes": 2560745,
+      "sha256": "fc428d7e1dffaa9922e23e8ac601bd7cca258c0f90e7e0c5d7914f112df39273",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_integrados_page_structure_summary.csv",
+      "bytes": 5183,
+      "sha256": "ef348c4fe3402c6c93634d2a4fde0119553c05fdccce57288ebc8c4676eac784",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_integrados_structural_keyword_flags.csv",
+      "bytes": 314377,
+      "sha256": "21ed8e416d5ab7995db0b14dfde3b3efde104a2d818b03e78cd2fe8c8c418273",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_processing_inventory.csv",
+      "bytes": 15628,
+      "sha256": "3586f4ef0a281f162bb74598f23d23a69c7ed622c412a3698566e0a8c74b80c5",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_scope.csv",
+      "bytes": 12037,
+      "sha256": "f221c4feb079c14f7f1cddf528221466b675543dfebf29d4c1884d0f43cf9c96",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_source_admissibility.csv",
+      "bytes": 10520,
+      "sha256": "c74e3bc88d17626dbc0ec3c5466a29fc0378e2801e11d14a8d0843dd64c1ac76",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_source_anomalies.csv",
+      "bytes": 15732,
+      "sha256": "10a547a5f345e8c6a4919b96d47bab46a56ff4f1fbb1e23e6b30c1e15a4f1a28",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w10_viewer_architecture.csv",
+      "bytes": 11820,
+      "sha256": "57f808a5be7d9b0356cf9e46e915f6fc4b5f7f338c048f734a044f46cb919abd",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_canonical_page_manifest.csv",
+      "bytes": 151110,
+      "sha256": "d5ffe20325bc7926b77c6b32bf0f3c1a03fb64d14077932d4e9120830235070f",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_declared_inventory.csv",
+      "bytes": 716,
+      "sha256": "8c630454372162616766a1e0acc008da8b957fb16893da4be4d922dce6a1a4c0",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_declared_inventory.md",
+      "bytes": 673,
+      "sha256": "ad59293e3554dd3625489a7d2957f735f3835517eea03c09f617d0f9a781d18a",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_declared_inventory_summary.csv",
+      "bytes": 146,
+      "sha256": "61a04804b8d95a50aa869cca83757d7d1d7dcec6ea36dede074f1510a8a6bd41",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_asset_audit.md",
+      "bytes": 1230,
+      "sha256": "0fe2bff23e8bb9663ea4bc26db52a8da2db56c808a130ceaf5f97af4adc92e98",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_asset_manifest.csv",
+      "bytes": 133426,
+      "sha256": "0f6c3b871a2c71e60a6dabcb127c20fc6ff61a981c7f63b8a0cbda2cfd254c8c",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_asset_summary.csv",
+      "bytes": 787,
+      "sha256": "24dbb0b1bee5ece232034c374666fd0aa151be1a7abbb8a538fc638dcf6312b2",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_exact_content_units.csv",
+      "bytes": 482408,
+      "sha256": "556aad48ff2e4b020d2b4dd2b463efb2c6554075e54af0e47306a4851fca0172",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_exact_reuse.md",
+      "bytes": 1499,
+      "sha256": "cdcb996ec4161341ba2cfe1b82a847f01af000259c0ad4e8f5813c1de9f3dbd4",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_exact_viewer_overlap.csv",
+      "bytes": 963,
+      "sha256": "0066cd2c398f62f929263c4f26de2dd9f3c167f35851e12d8eb8b81c0ff3cf65",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_fragment_manifest.csv",
+      "bytes": 966000,
+      "sha256": "01c985143b7b5c219461b9b4cd57d9b8abc8bcbf5787a10d176368606047df9b",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_fragment_manifest.md",
+      "bytes": 995,
+      "sha256": "11af806b0768b6fea3a679d00e458fb88ea067aa3a6f8a1ae362d550c32260c2",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_fragment_manifest_summary.csv",
+      "bytes": 660,
+      "sha256": "415e27ff6c2b9c0bd211a156df8a7f824c258224fbe52cff25c4e28045d06e25",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_fragment_sequence_gaps.csv",
+      "bytes": 954,
+      "sha256": "c08d00651cccef2075d836a65f0e699242e8d66672e71cd08e91f97abc9cf3d6",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_ocr.md",
+      "bytes": 736,
+      "sha256": "7639a9066553d8be8de33a83f8a0a134d1737cc180a90bf8566342ae75e3aec0",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_ocr_metrics.csv",
+      "bytes": 104943,
+      "sha256": "8fa6dd3d81ce20b776fcca45156c94b0f9400513755576127f10eededa2b7572",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_ocr_summary.csv",
+      "bytes": 647,
+      "sha256": "4844e4dc0c7fc5efb2a6ecba60ffc88504b20b7f26b8e4736e520462da438de3",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_page_structure.csv",
+      "bytes": 87688,
+      "sha256": "5b4c1bf614595b385c61bb0a498557d36c5807c98307e23a7f3cc7b4429875d0",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_page_structure.md",
+      "bytes": 862,
+      "sha256": "13bb3f24ca3bc9f90a44df40fa205706e98e4784223e56facb6be698b90a454b",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_page_structure_summary.csv",
+      "bytes": 286,
+      "sha256": "bba3c10f641aee58d00e21deee58b3529ab26c60b248b8e6872676838364c9bc",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_source_admissibility.csv",
+      "bytes": 1673,
+      "sha256": "d980d10dca3ae195f17054b37199337626c0b98ef1abbdf9b23f6139cbc14b14",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_educacion_fisica_structural_keyword_flags.csv",
+      "bytes": 15742,
+      "sha256": "2c2116dfdec6510e4851a946b20dd5a63d91a116deef6c315d8723c1c8e4a8d6",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_processing_inventory.csv",
+      "bytes": 1241,
+      "sha256": "69671c01d5965a32cdba136ada0dde4af8a50a77b6f0ffb64182070a72fcd335",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_scope.csv",
+      "bytes": 613,
+      "sha256": "0ba4799272c851a553221d78510d609f38ce4862da63f66d981776b8882f59b6",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_scope.md",
+      "bytes": 1026,
+      "sha256": "10cc06941f667672156c7fd254030e5fbbb779463e201dc625b2d34504d59d8d",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_viewer_architecture.csv",
+      "bytes": 703,
+      "sha256": "acb032421779b1e08f14447f827967f58f2313cf0696e840835feac7e346ffc1",
+      "required": true
+    },
+    {
+      "path": "data/catalog/ltmd_u1_w9_viewer_architecture.md",
+      "bytes": 558,
+      "sha256": "b30a5427b6ff34a4f671c64c6de4de33241c58525ae079d5c0565ef1362dcb9f",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W10_ARCHITECTURE.md",
+      "bytes": 866,
+      "sha256": "7242e6152012031f63cd7deb038d9f6bce9abe7b20ba4f2e3ec23c54eed872ed",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W10_ASSET_AUDIT.md",
+      "bytes": 6819,
+      "sha256": "bec13618086ab99a5b0fabd14a5c1f1d852fac0a8111a5f10f6431eff4ba28ca",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W10_DECLARED_INVENTORY.md",
+      "bytes": 916,
+      "sha256": "b2af2a7fe23c3610d2d2d4833d0b0d6d18ca084c99c13aaba315a52c8d00ada2",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W10_FREEZE.md",
+      "bytes": 8410,
+      "sha256": "de53b18cbd4d415df9bb349e24a692991d24405bf67a35c7be6520040580bd4c",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W9_EDUCACION_FISICA_PROCESSING_TOPOLOGY.md",
+      "bytes": 797,
+      "sha256": "2123b96cae439a28f5a8d098981ce7220f4d022f6559b66184ac8a2b35f0f55e",
+      "required": true
+    },
+    {
+      "path": "docs/LTMD_U1_W9_EDUCACION_FISICA_SOURCE_ADMISSIBILITY.md",
+      "bytes": 801,
+      "sha256": "993365f5057a83ea0cb62833a4fc308a26580c00ad2f0f0be2e004375c82ea04",
+      "required": true
+    },
+    {
+      "path": "scripts/analyze_ltmd_u1_w10_integrados_exact_reuse.py",
+      "bytes": 6269,
+      "sha256": "36236ed4c984072a4069bff99f672a4c6c4fc29af7241393781822e314fab891",
+      "required": true
+    },
+    {
+      "path": "scripts/analyze_ltmd_u1_w9_educacion_fisica_exact_reuse.py",
+      "bytes": 6245,
+      "sha256": "b209d7c52ab763e7098ac8944a5aeb22f667446b51ca718fa58481aa0ebf0b84",
+      "required": true
+    },
+    {
+      "path": "scripts/audit_ltmd_u1_w10_integrados_architecture.py",
+      "bytes": 4746,
+      "sha256": "fa0884cc7ebcc9f47066c64eb5dbec27c3c94e3d98e4517ce20cbd4cf857cd0a",
+      "required": true
+    },
+    {
+      "path": "scripts/audit_ltmd_u1_w10_integrados_assets_book.py",
+      "bytes": 4497,
+      "sha256": "23117d9a3718b47cbd3c5df0bf2479037f83ba3b2f52d50c009aa5af735a3632",
+      "required": true
+    },
+    {
+      "path": "scripts/audit_ltmd_u1_w9_educacion_fisica_architecture.py",
+      "bytes": 2846,
+      "sha256": "41ce086531f494fbbd59d3bdd9dc6593938760d5e985e5b9fdddc4e5fdb22925",
+      "required": true
+    },
+    {
+      "path": "scripts/audit_ltmd_u1_w9_educacion_fisica_assets_book.py",
+      "bytes": 4290,
+      "sha256": "a0cfbc077aa05433a4aed185c4dc30dc453aa89b7982bee0b051a039099fcbc0",
+      "required": true
+    },
+    {
+      "path": "scripts/audit_ltmd_u1_w9_educacion_fisica_source_admissibility.py",
+      "bytes": 5120,
+      "sha256": "deca3195ec0dd5d9d6ac76e339beb74da9c122eb0f2056dfac75ea71c8069ea2",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w10_completion_report.py",
+      "bytes": 9252,
+      "sha256": "a16d84f460f65501f52e8ada53fca88155ce99e8abc066c696dd0c7923998739",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w10_integrados_declared_inventory.py",
+      "bytes": 4260,
+      "sha256": "532d0c2759438141bb3ab0e3fd0e78498c768d4f3a5b775578c46bcf7851ee8b",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w10_integrados_scope.py",
+      "bytes": 3991,
+      "sha256": "ee89c2a75a4cc9736bafd4d6b324326d96705ac7e3599e76a265c053765d1f20",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w10_processing_topology.py",
+      "bytes": 5952,
+      "sha256": "c2dc2985cba8466c4340b74116cffd55fad39bf84a549bfa708a1e2ae93b607c",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w10_source_admissibility.py",
+      "bytes": 3308,
+      "sha256": "0e756cdfcc3daebc38aed9378334d580f0b516c9f771131f0c3d6db285826c96",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w9_completion_report.py",
+      "bytes": 8498,
+      "sha256": "304726c15febe4045e0e983e334c2f03b59ab7102a7ed60bfd9d41c016f810c7",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w9_educacion_fisica_declared_inventory.py",
+      "bytes": 3298,
+      "sha256": "3d87b5e391a43bdd71702fe721f7d5cff5db8d58f4401de3392113d100210b28",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w9_educacion_fisica_processing_topology.py",
+      "bytes": 5872,
+      "sha256": "cb33ff50a5483e222a95a2fa411c53b71fa7cf66669015b67f3babe9d75b0573",
+      "required": true
+    },
+    {
+      "path": "scripts/build_ltmd_u1_w9_educacion_fisica_scope.py",
+      "bytes": 2747,
+      "sha256": "b7df83c496e9a0549b75154c83a1f67f17f0078ee374bce5a4724ec077f8d5f4",
+      "required": true
+    },
+    {
+      "path": "scripts/classify_ltmd_u1_w10_integrados_page_structure.py",
+      "bytes": 6699,
+      "sha256": "d0c2f304674968a5bf12528a4f56d15280c46a19d597db21fa73bbe50d7c6b89",
+      "required": true
+    },
+    {
+      "path": "scripts/classify_ltmd_u1_w9_educacion_fisica_page_structure.py",
+      "bytes": 5992,
+      "sha256": "4b2e1dc6aea896da913e21fac5d8dfd1c703bc565f29072c3b2a14a040287b76",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_ltmd_u1_w10_integrados_asset_shards.py",
+      "bytes": 6391,
+      "sha256": "cda852319c4e92477ccdf4ba1b7927afb1a3728c2839b14d4ff9de7c40289bbf",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_ltmd_u1_w10_integrados_fragment_shards.py",
+      "bytes": 7100,
+      "sha256": "aa0ba512e961c1ffe497437807c07608ed45e7ab72147ad4f4b5f43eccdc0957",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_ltmd_u1_w10_integrados_ocr.py",
+      "bytes": 6380,
+      "sha256": "d6ee8f68594164816211bd9e491365a5907b4d5732e946c56481f25c3da53c68",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_ltmd_u1_w10_integrados_structural_flags.py",
+      "bytes": 2262,
+      "sha256": "db713b0226c479b0408dbda070bb4720ce35cc60b0898770f8794aa8a0c1c70b",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_ltmd_u1_w9_educacion_fisica_asset_shards.py",
+      "bytes": 5945,
+      "sha256": "831d2a0e4daa736d887a0cfd0974b4dac436e0bef56c6b77475743df96cc59ee",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_ltmd_u1_w9_educacion_fisica_fragment_shards.py",
+      "bytes": 6338,
+      "sha256": "35de93610f612f0686aa4a3ab89ce4568ab8ed0db0b143ccd25a686e6992d910",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_ltmd_u1_w9_educacion_fisica_ocr.py",
+      "bytes": 5010,
+      "sha256": "bb35fa5d099e0540286cfac90266a0970cfc352ee04994aa50cf6698de620c16",
+      "required": true
+    },
+    {
+      "path": "scripts/combine_ltmd_u1_w9_educacion_fisica_structural_flags.py",
+      "bytes": 2593,
+      "sha256": "1e97e63459c1866cb8047cebb01821e2d94b78a55b44943e5d518e7331737b0e",
+      "required": true
+    },
+    {
+      "path": "scripts/extract_ltmd_u1_w10_integrados_structural_flags_book.py",
+      "bytes": 5351,
+      "sha256": "f025e4b8657633d2a8becf9fcbcae6c2938ed5c9e5239cf9bf868a30a5054a6b",
+      "required": true
+    },
+    {
+      "path": "scripts/extract_ltmd_u1_w9_educacion_fisica_structural_flags_book.py",
+      "bytes": 1317,
+      "sha256": "d835e54099ebefde2cfdd6b28d035e6b24c071549dd7bf09d30df866da015c7f",
+      "required": true
+    },
+    {
+      "path": "scripts/ocr_ltmd_u1_w10_integrados_book.py",
+      "bytes": 8888,
+      "sha256": "201aa2d82bf7ab5198e3902fafb4ad7c17b479e80b2c418a8787916a317f790c",
+      "required": true
+    },
+    {
+      "path": "scripts/ocr_ltmd_u1_w9_educacion_fisica_book.py",
+      "bytes": 7445,
+      "sha256": "9db9ae44624dfea0bd6065b9c6dda192153a18c9ce6ac84c184005ac83fbd086",
+      "required": true
+    },
+    {
+      "path": "scripts/preflight_ltmd_u1_w10_fragseg.py",
+      "bytes": 4318,
+      "sha256": "6ccf216e9ebc8be990c764af72854d5f79d1660bcd6701e17a19e15f67b501cb",
+      "required": true
+    },
+    {
+      "path": "scripts/segment_ltmd_u1_w10_integrados_fragments.py",
+      "bytes": 1126,
+      "sha256": "b67f838669228cc5762d8be1860a6562c4a7b2454b931199e53a438d66143fb8",
+      "required": true
+    },
+    {
+      "path": "scripts/segment_ltmd_u1_w9_educacion_fisica_fragments.py",
+      "bytes": 1260,
+      "sha256": "7bae3c138f3fcf2340815335194a65603714aa27dbf54e0f64f5afe6efe0e84c",
+      "required": true
+    },
+    {
+      "path": "scripts/summarize_ltmd_u1_w10_source_anomalies.py",
+      "bytes": 3412,
+      "sha256": "7470e45d295e6257e5d3687dc9124b5fedec5d5585736e945f95f583071b2c65",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/audit-ltmd-u1-w9-architecture.yml",
+      "bytes": 2162,
+      "sha256": "230279a3fbf0fe40cfd851f2d1748d24ff0ce4ba3d6f71343c4069e1391476c3",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/audit-ltmd-u1-w9-assets.yml",
+      "bytes": 3393,
+      "sha256": "25750b988673e9ea1df7511f763bcea5ce97ddeb1dd2ff62249e75cff9f2f8af",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/audit-ltmd-u1-w9-source-admissibility.yml",
+      "bytes": 2545,
+      "sha256": "88c1a536265bd341ac295942ef66ba6db827e65b752000ede5ea169444bdd629",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w10-architecture.yml",
+      "bytes": 2226,
+      "sha256": "390d6d61c689b6772d55a04b9dc7c48e2649327cdb20bf5ec446fe26eaa56f6b",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w10-assets.yml",
+      "bytes": 3505,
+      "sha256": "5ba7f107aa339fa5e475ae953f4100421c11cfa5ed661737d7a1fec3981da330",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w10-completion.yml",
+      "bytes": 1627,
+      "sha256": "72c48c13482849494dbdaa58ea6363cd8bd544c20c74985c2b8eadb17f02adc8",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w10-declared-inventory.yml",
+      "bytes": 2691,
+      "sha256": "f294b0ff23373299c391a9a0760a38c3046cd9ad8a9c23558bd8276f319c4918",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w10-integrados-exact-reuse.yml",
+      "bytes": 2251,
+      "sha256": "0b0f7bca0fa6d4aae1c6c5e5967454edf65aed4a9c9e000bfd0469a5f4ebfda0",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w10-integrados-fragseg.yml",
+      "bytes": 4703,
+      "sha256": "b873c802e3d6cf0ef9d96f693d1810d1eb1bce845d88b74885e02c265a031cc2",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w10-integrados-ocr.yml",
+      "bytes": 4586,
+      "sha256": "02230b438b3a757b5e91e992094d6ebe4f36c5d9e6d14a1fbf39abf902a26ce4",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w10-integrados-pagestruct.yml",
+      "bytes": 4567,
+      "sha256": "109e0f079286304fea46c07b5e47b846b72f7d0eb8a74e0ebfc782a96d1ec433",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w10-processing-topology.yml",
+      "bytes": 2283,
+      "sha256": "4c0d872d0b7814cd726f22e7e122fc0f7073e0f6819341a6dd29f150a03cde0e",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w10-scope.yml",
+      "bytes": 2059,
+      "sha256": "8e47af47ed13d9339c442c1b2bfe4ac4cd0d923f8bf4956d36d8105c086cf571",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w10-source-admissibility.yml",
+      "bytes": 1849,
+      "sha256": "b897476382e6080c008caf597217d13409471d3ebbec5d3c4c846e473efdc5ab",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w10-source-anomalies.yml",
+      "bytes": 1685,
+      "sha256": "fe5a95628f1aeec652dc6a70fbd6a10c2137c8c070a030262cc785f8b26c889f",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w10-topology-diagnostic.yml",
+      "bytes": 3124,
+      "sha256": "833a452cc1f9f0b2b3a46a1bb7ec0cf5d42f9ac8673740f6c6a4d99c2640fc20",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w9-declared-inventory.yml",
+      "bytes": 2407,
+      "sha256": "acc42f38c492ff3f4ef5e810f5a9c8c9be595b897f3254837db53c9e085c1211",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w9-educacion-fisica-completion-report.yml",
+      "bytes": 1898,
+      "sha256": "340eb0c0096df243bc7746ae9539e63938b06cec5693da3569881d2bd27a9367",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w9-educacion-fisica-exact-reuse.yml",
+      "bytes": 2229,
+      "sha256": "728448eaf0297eda5c84866cd2149e4db00c02e70d2487208a50e927ca1b7b2a",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w9-educacion-fisica-fragseg.yml",
+      "bytes": 4971,
+      "sha256": "e7e92a13a51876b8de3b90e33a6482d044f913532f480438f47ccc97cc276ff9",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w9-educacion-fisica-ocr.yml",
+      "bytes": 4040,
+      "sha256": "dd8d667f107204d12f5dbd94f5a20baacffdf37537ac01918885a49879ddb860",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w9-educacion-fisica-pagestruct.yml",
+      "bytes": 5111,
+      "sha256": "4fb5d44694621c34f738c3615e2382d2c9df62687d7098995685ed56d3c67cfd",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w9-processing-topology.yml",
+      "bytes": 2739,
+      "sha256": "a416e56efd8b842147ae7ec23e27e9572af2e24b278ee9797936eaaaa23af299",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/build-ltmd-u1-w9-scope.yml",
+      "bytes": 2103,
+      "sha256": "56c48836210a4bf542f4c070648a0370276caa2f1615f9d31c92c07dba176315",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/preflight-ltmd-u1-w10-fragseg.yml",
+      "bytes": 1653,
+      "sha256": "fa28b8fb04d9b762d72322d8a678ed16c739827fe7d60471d24f4e7782c0b2c9",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/prioritize-ltmd-u1-w10.yml",
+      "bytes": 3839,
+      "sha256": "e4f197004cb98309d0786d0b266e2e3f95dc739d7655a1384a078d0c4c1c2b6f",
+      "required": true
+    },
+    {
+      "path": ".github/workflows/recover-ltmd-u1-w10-fragseg.yml",
+      "bytes": 5150,
+      "sha256": "dafc8cabb91789c1091f5a38864c403080842d2de02b03e22fd006d253f5118c",
+      "required": true
+    },
+    {
       "path": "data/derived/semb03_sample_coverage.csv",
       "bytes": 2102,
       "sha256": "6cdea905d802d8ecd817e28805b7eed24841c36a600341706fbd3ed1d1373bd8",
@@ -2912,5 +3710,6 @@
       "sha256": "57df19506750abb2ea7fd0a4fefff3f43149418d78e9e67cfef22a5ffaae132b",
       "required": false
     }
-  ]
+  ],
+  "semantic_validation_status": "WAITING_HUMAN_REFERENCE"
 }
