@@ -1,0 +1,51 @@
+name: profile-ltmd-u1-w11-heterogeneity
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/profile-ltmd-u1-w11-heterogeneity.yml'
+      - 'scripts/profile_ltmd_u1_w11_heterogeneity.py'
+      - 'data/catalog/ltmd_u1_w11_scope.csv'
+  workflow_run:
+    workflows: ['build-ltmd-u1-w11-scope']
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-ltmd-u1-w11-heterogeneity
+  cancel-in-progress: false
+
+jobs:
+  profile:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Profile W11 heterogeneity without semantic reclassification
+        run: python3 scripts/profile_ltmd_u1_w11_heterogeneity.py
+      - name: Publish W11 heterogeneity products race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w11_heterogeneity.csv /tmp/ltmd_u1_w11_heterogeneity.csv
+          cp docs/LTMD_U1_W11_HETEROGENEITY.md /tmp/LTMD_U1_W11_HETEROGENEITY.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w11_heterogeneity.csv data/catalog/ltmd_u1_w11_heterogeneity.csv
+            cp /tmp/LTMD_U1_W11_HETEROGENEITY.md docs/LTMD_U1_W11_HETEROGENEITY.md
+            git add data/catalog/ltmd_u1_w11_heterogeneity.csv docs/LTMD_U1_W11_HETEROGENEITY.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w11): publish deterministic heterogeneity profile'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
