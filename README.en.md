@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/repository-header-es.svg" alt="Libro de Texto Mexicano Digital — open research infrastructure" width="100%">
+  <img src="assets/repository-header-en.svg" alt="Libro de Texto Mexicano Digital — open research infrastructure" width="100%">
 </p>
 
 <p align="center">
