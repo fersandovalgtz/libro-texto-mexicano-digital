@@ -1,0 +1,82 @@
+{
+  "report_version": "LTMD_U1_W11_PIPELINE_STATUS_0.1",
+  "observed_at_utc": "2026-08-23T20:57:04.579811Z",
+  "repository": "fersandovalgtz/libro-texto-mexicano-digital",
+  "stages": [
+    {
+      "gate": "G5 OCR",
+      "workflow": "build-ltmd-u1-w11-ocr.yml",
+      "run_id": 32664121168,
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "72c4e3235cc4f2aa0e0bb8a04f6eea8446e8b194",
+      "jobs": 3,
+      "jobs_completed": 3,
+      "jobs_in_progress": 0,
+      "jobs_queued": 0,
+      "job_failures": 0,
+      "updated_at": "2026-08-23T20:55:44Z"
+    },
+    {
+      "gate": "G6 PAGESTRUCT",
+      "workflow": "build-ltmd-u1-w11-pagestruct.yml",
+      "run_id": 32665919946,
+      "event": "workflow_run",
+      "status": "queued",
+      "conclusion": "",
+      "head_sha": "ddf3055a49dc1f02c1ac9dc6d1e4aa4fdcd6aa1a",
+      "jobs": 107,
+      "jobs_completed": 9,
+      "jobs_in_progress": 8,
+      "jobs_queued": 90,
+      "job_failures": 0,
+      "updated_at": "2026-08-23T20:56:01Z"
+    },
+    {
+      "gate": "G6 FRAGSEG",
+      "workflow": "build-ltmd-u1-w11-fragseg.yml",
+      "run_id": 32664240478,
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "59b3afecadcf036af293c221760ccbf77d14b553",
+      "jobs": 3,
+      "jobs_completed": 3,
+      "jobs_in_progress": 0,
+      "jobs_queued": 0,
+      "job_failures": 0,
+      "updated_at": "2026-08-23T20:23:17Z"
+    },
+    {
+      "gate": "G6 exact reuse",
+      "workflow": "build-ltmd-u1-w11-exact-reuse.yml",
+      "run_id": 32664253728,
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "59b3afecadcf036af293c221760ccbf77d14b553",
+      "jobs": 1,
+      "jobs_completed": 1,
+      "jobs_in_progress": 0,
+      "jobs_queued": 0,
+      "job_failures": 0,
+      "updated_at": "2026-08-23T20:23:32Z"
+    },
+    {
+      "gate": "G7 completion",
+      "workflow": "build-ltmd-u1-w11-completion.yml",
+      "run_id": 32664265395,
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "59b3afecadcf036af293c221760ccbf77d14b553",
+      "jobs": 1,
+      "jobs_completed": 1,
+      "jobs_in_progress": 0,
+      "jobs_queued": 0,
+      "job_failures": 0,
+      "updated_at": "2026-08-23T20:23:44Z"
+    }
+  ]
+}
