@@ -1,0 +1,63 @@
+name: build-ltmd-u1-technical-closure-audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/LTMD_U1_W11_COMPLETION.md'
+      - 'data/catalog/ltmd_u1_coverage_summary.csv'
+      - 'data/catalog/ltmd_u1_preserved_exceptions.csv'
+      - 'scripts/build_ltmd_u1_technical_closure_audit.py'
+  workflow_run:
+    workflows:
+      - 'build-ltmd-u1-w11-completion'
+      - 'build-ltmd-u1-preserved-exceptions-register'
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-technical-closure-audit
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Refresh authoritative main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+      - id: ready
+        run: |
+          if [[ -f docs/LTMD_U1_W11_COMPLETION.md && -f data/catalog/ltmd_u1_preserved_exceptions.csv ]]; then echo 'ready=true' >> "$GITHUB_OUTPUT"; else echo 'ready=false' >> "$GITHUB_OUTPUT"; fi
+      - name: Audit technical U1 cut
+        if: steps.ready.outputs.ready == 'true'
+        run: python3 scripts/build_ltmd_u1_technical_closure_audit.py
+      - name: Publish audit race-safely
+        if: steps.ready.outputs.ready == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp docs/LTMD_U1_TECHNICAL_CLOSURE_AUDIT.md /tmp/LTMD_U1_TECHNICAL_CLOSURE_AUDIT.md
+          cp data/catalog/ltmd_u1_technical_closure_audit.json /tmp/ltmd_u1_technical_closure_audit.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/LTMD_U1_TECHNICAL_CLOSURE_AUDIT.md docs/
+            cp /tmp/ltmd_u1_technical_closure_audit.json data/catalog/
+            git add docs/LTMD_U1_TECHNICAL_CLOSURE_AUDIT.md data/catalog/ltmd_u1_technical_closure_audit.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'qa(u1): publish technical-closure audit'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
