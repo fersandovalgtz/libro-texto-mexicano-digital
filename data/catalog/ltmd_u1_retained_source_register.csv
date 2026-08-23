@@ -1,19 +1,19 @@
 register_version,wave,operational_domain,viewer_key,catalog_generation,grade_code,retention_class,retention_detail,tracking_issue,status
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W2,matematicas,H2018P3DMA,2018,3,routing_anomaly_all_or_near_all,"declared viewer route serves 0 JPEG; alternate institutional asset route unresolved",4,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W2,matematicas,H2018P4DMA,2018,4,routing_anomaly_all_or_near_all,"declared viewer route serves 0 JPEG; alternate institutional asset route unresolved",4,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W2,matematicas,H2018P5DMA,2018,5,routing_anomaly_all_or_near_all,"declared viewer route serves 0 JPEG; alternate institutional asset route unresolved",4,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W2,matematicas,H2018P6DMA,2018,6,routing_anomaly_all_or_near_all,"declared viewer route serves 0 JPEG; alternate institutional asset route unresolved",4,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W7,civica_etica,H2014P5FCA,2014,5,withheld_source_gap,"one isolated internal gap at logical page 104 / 104.jpg",5,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W7,civica_etica,H2018P3FCA,2018,3,withheld_source_subtree_unserved,"viewer/configuration present but official page-asset subtree is not served",5,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W7,civica_etica,H2018P4FCA,2018,4,withheld_source_subtree_unserved,"viewer/configuration present but official page-asset subtree is not served",5,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W7,civica_etica,H2018P5FCA,2018,5,withheld_source_subtree_unserved,"viewer/configuration present but official page-asset subtree is not served",5,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W7,civica_etica,H2018P6FCA,2018,6,withheld_source_subtree_unserved,"viewer/configuration present but official page-asset subtree is not served",5,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W8,artes,H2018P3EAA,2018,3,withheld_source_unresolved,"source representation not reproducibly resolved; no heuristic substitution accepted",9,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W8,artes,H2018P4EAA,2018,4,withheld_source_unresolved,"source representation not reproducibly resolved; no heuristic substitution accepted",9,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W8,artes,H2018P5EAA,2018,5,withheld_source_unresolved,"source representation not reproducibly resolved; no heuristic substitution accepted",9,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W8,artes,H2018P6EAA,2018,6,withheld_source_unresolved,"source representation not reproducibly resolved; no heuristic substitution accepted",9,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W10,integrados_multiarea,H2014P1ENA,2014,1,withheld_internal_unserved,"169 positions declared; 168 official JPEG served; one internal position remains unserved",11,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W11,otros_no_clasificados,H2014P1EAM,2014,1,withheld_internal_unserved,"page/index 41 missing; official asset URL returns HTTP 404",13,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W11,otros_no_clasificados,H2014P2EAM,2014,2,withheld_internal_unserved,"page/indexes 13 and 17 missing; official asset URLs return HTTP 404",13,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W11,otros_no_clasificados,H2014P3COL,2014,3,withheld_internal_unserved,"page/index 130 missing; official asset URL returns HTTP 404",14,retained
-LTMD_U1_RETAINED_SOURCE_REGISTER_0.1,W11,otros_no_clasificados,H2014P3MOR,2014,3,withheld_internal_unserved,"page/index 15 missing; official asset URL returns HTTP 404",14,retained
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W2,matematicas,H2018P3DMA,2018,3,routing_anomaly_all_or_near_all,"declared viewer route serves 0 JPEG; alternate institutional asset route unresolved",4,active_retention
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W2,matematicas,H2018P4DMA,2018,4,routing_anomaly_all_or_near_all,"declared viewer route serves 0 JPEG; alternate institutional asset route unresolved",4,active_retention
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W2,matematicas,H2018P5DMA,2018,5,routing_anomaly_all_or_near_all,"declared viewer route serves 0 JPEG; alternate institutional asset route unresolved",4,active_retention
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W2,matematicas,H2018P6DMA,2018,6,routing_anomaly_all_or_near_all,"declared viewer route serves 0 JPEG; alternate institutional asset route unresolved",4,active_retention
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W7,civica_etica,H2014P5FCA,2014,5,withheld_source_gap,"one isolated internal gap at logical page 104 / 104.jpg",5,active_retention
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W7,civica_etica,H2018P3FCA,2018,3,withheld_source_subtree_unserved,"viewer/configuration present but official page-asset subtree is not served",5,active_retention
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W7,civica_etica,H2018P4FCA,2018,4,withheld_source_subtree_unserved,"viewer/configuration present but official page-asset subtree is not served",5,active_retention
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W7,civica_etica,H2018P5FCA,2018,5,withheld_source_subtree_unserved,"viewer/configuration present but official page-asset subtree is not served",5,active_retention
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W7,civica_etica,H2018P6FCA,2018,6,withheld_source_subtree_unserved,"viewer/configuration present but official page-asset subtree is not served",5,active_retention
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W8,artes,H2018P3EAA,2018,3,withheld_source_unresolved,"source representation not reproducibly resolved; no heuristic substitution accepted",9,active_retention
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W8,artes,H2018P4EAA,2018,4,withheld_source_unresolved,"source representation not reproducibly resolved; no heuristic substitution accepted",9,active_retention
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W8,artes,H2018P5EAA,2018,5,withheld_source_unresolved,"source representation not reproducibly resolved; no heuristic substitution accepted",9,active_retention
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W8,artes,H2018P6EAA,2018,6,withheld_source_unresolved,"source representation not reproducibly resolved; no heuristic substitution accepted",9,active_retention
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W10,integrados_multiarea,H2014P1ENA,2014,1,withheld_internal_unserved,"169 positions declared; 168 official JPEG served; one internal position remains unserved; bounded official/archive search closed without admissible recovery",11,final_exception
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W11,otros_no_clasificados,H2014P1EAM,2014,1,withheld_internal_unserved,"page/index 41 missing; bounded official/Wayback search closed without admissible recovery",13,final_exception
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W11,otros_no_clasificados,H2014P2EAM,2014,2,withheld_internal_unserved,"page/indexes 13 and 17 missing; bounded official/Wayback search closed without admissible recovery",13,final_exception
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W11,otros_no_clasificados,H2014P3COL,2014,3,withheld_internal_unserved,"page/index 130 missing; current official candidates differ cryptographically; bounded archive/official comparison closed",14,final_exception
+LTMD_U1_RETAINED_SOURCE_REGISTER_0.2,W11,otros_no_clasificados,H2014P3MOR,2014,3,withheld_internal_unserved,"page/index 15 missing; current official representation not recoverable by exact sequence; bounded archive/official comparison closed",14,final_exception
