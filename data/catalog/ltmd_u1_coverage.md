@@ -1,8 +1,8 @@
 # LTMD-U1 — tablero de cobertura técnica
 
-Versión: `LTMD_U1_COVERAGE_0.10`.
+Versión: `LTMD_U1_COVERAGE_0.11`.
 
-Este tablero se recompone desde la cola maestra por `operational_domain` y desde las actas/cortes técnicos W1–W9. **Cobertura técnica no equivale a preparación semántica.** La promoción de W9 al numerador sólo ocurre cuando existe y pasa su acta de cierre técnico reproducible.
+Este tablero se recompone desde la cola maestra por `operational_domain` y desde las actas/cortes técnicos W1–W10. **Cobertura técnica no equivale a preparación semántica ni a fase de ejecución.** Una ola puede encontrarse activamente en auditoría de fuente y seguir aportando cero al numerador hasta cumplir su cierre técnico.
 
 ## Totales
 
@@ -24,12 +24,12 @@ Este tablero se recompone desde la cola maestra por `operational_domain` y desde
 | W7 | `civica_etica` | 30 | 25 | 25 | 5 | `source_admitted_cohort_closed_with_retentions` |
 | W8 | `artes` | 20 | 16 | 16 | 4 | `source_admitted_cohort_closed_with_retentions` |
 | W9 | `educacion_fisica` | 4 | 4 | 4 | 0 | `closed` |
-| W10 | `integrados_multiarea` | 69 | 0 | 0 | 69 | `queued` |
+| W10 | `integrados_multiarea` | 69 | 0 | 0 | 69 | `source_asset_audit_in_progress` |
 | W11 | `otros_no_clasificados` | 111 | 0 | 0 | 111 | `queued` |
 
 ## Lectura correcta
 
-W1, W3, W4, W5 y W6 están cerradas técnicamente. W2 conserva cuatro excepciones de routing sin imputación. W7 tiene cierre técnico de su cohorte fuente-admitida: 25/30 identidades y cinco retenciones explícitas. W8 tiene cierre técnico de su cohorte fuente-admitida: 16/20 identidades y cuatro retenciones explícitas. W9 está cerrada técnicamente en 4/4 identidades y cuatro objetos canónicos. W10–W11 permanecen en cola.
+W1, W3, W4, W5 y W6 están cerradas técnicamente. W2 conserva cuatro excepciones de routing sin imputación. W7 tiene cierre técnico de su cohorte fuente-admitida: 25/30 identidades y cinco retenciones explícitas. W8 tiene cierre técnico de su cohorte fuente-admitida: 16/20 identidades y cuatro retenciones explícitas. W9 está cerrada técnicamente en 4/4 identidades y cuatro objetos canónicos. W10 no suma aún al numerador y se encuentra en `source_asset_audit_in_progress`; su evidencia vigente es `docs/LTMD_U1_W10_DECLARED_INVENTORY.md`. W11 permanece en cola.
 
 `wave_label` no se usa para reconstruir la partición científica porque la cola también codifica estados de ejecución; la partición se deriva de `operational_domain`.
 
