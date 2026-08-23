@@ -29,6 +29,7 @@ jobs:
           root = pathlib.Path('.')
           required = [
               'README.md',
+              'README.en.md',
               'CITATION.cff',
               'codemeta.json',
               'LICENSE',
@@ -52,26 +53,69 @@ jobs:
               sys.exit(1)
 
           codemeta = json.loads((root / 'codemeta.json').read_text(encoding='utf-8'))
-          for key in ('@context', '@type', 'name', 'codeRepository', 'version', 'license', 'author'):
+          for key in ('@context', '@type', 'name', 'codeRepository', 'version', 'datePublished', 'license', 'author'):
               if key not in codemeta:
                   raise SystemExit(f'codemeta.json is missing required project field: {key}')
 
           version = (root / 'VERSION').read_text(encoding='utf-8').strip()
           cff = (root / 'CITATION.cff').read_text(encoding='utf-8')
-          match = re.search(r'^version:\s*["\']?([^"\'\n]+)', cff, flags=re.MULTILINE)
-          if not match:
-              raise SystemExit('CITATION.cff does not expose a version field')
-          cff_version = match.group(1).strip()
+
+          def cff_scalar(key: str) -> str:
+              m = re.search(rf'^\s*{re.escape(key)}:\s*(.+?)\s*$', cff, flags=re.MULTILINE)
+              if not m:
+                  raise SystemExit(f'CITATION.cff does not expose {key}')
+              value = m.group(1).strip()
+              if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
+                  value = value[1:-1]
+              return value
+
+          cff_version = cff_scalar('version')
           if version != cff_version:
               raise SystemExit(f'VERSION ({version}) != CITATION.cff version ({cff_version})')
           if codemeta.get('version') != version:
               raise SystemExit(f'VERSION ({version}) != codemeta.json version ({codemeta.get("version")})')
 
+          cff_title = cff_scalar('title')
+          if cff_title != codemeta.get('name'):
+              raise SystemExit(f'CITATION.cff title ({cff_title}) != CodeMeta name ({codemeta.get("name")})')
+
+          cff_date = cff_scalar('date-released')
+          if cff_date != str(codemeta.get('datePublished')):
+              raise SystemExit(f'CITATION.cff date-released ({cff_date}) != CodeMeta datePublished ({codemeta.get("datePublished")})')
+
+          cff_repo = cff_scalar('repository-code')
+          if cff_repo != codemeta.get('codeRepository'):
+              raise SystemExit('CITATION.cff repository-code != CodeMeta codeRepository')
+
+          cff_license = cff_scalar('license')
+          cm_license = str(codemeta.get('license') or '')
+          if cff_license != 'Apache-2.0' or not cm_license.rstrip('/').endswith('/Apache-2.0'):
+              raise SystemExit(f'license alignment failed: CFF={cff_license}, CodeMeta={cm_license}')
+
+          author = codemeta.get('author')
+          if not isinstance(author, dict):
+              raise SystemExit('CodeMeta author must be a single structured Person for this release')
+          cff_family = cff_scalar('family-names')
+          cff_given = cff_scalar('given-names')
+          cff_orcid = cff_scalar('orcid')
+          if author.get('familyName') != cff_family or author.get('givenName') != cff_given:
+              raise SystemExit('CFF and CodeMeta author names are not aligned')
+          if author.get('@id') != cff_orcid:
+              raise SystemExit('CFF and CodeMeta ORCID values are not aligned')
+          if not re.fullmatch(r'https://orcid\.org/\d{4}-\d{4}-\d{4}-[\dX]{4}', cff_orcid):
+              raise SystemExit(f'invalid ORCID URI format in metadata: {cff_orcid}')
+
           readme = (root / 'README.md').read_text(encoding='utf-8')
+          readme_en = (root / 'README.en.md').read_text(encoding='utf-8')
           for marker in ('FAIR_ASSESSMENT.md', 'GOVERNANCE.md', 'PROVENANCE.md', 'CITATION.cff', 'codemeta.json'):
               if marker not in readme:
                   raise SystemExit(f'README.md does not link to {marker}')
+          release_ref = f'releases/tag/v{version}'
+          if release_ref not in readme or release_ref not in readme_en:
+              raise SystemExit(f'published release v{version} is not linked consistently from both READMEs')
 
           print('Scientific publication surface: OK')
           print(f'Version alignment: {version}')
+          print(f'Author/ORCID alignment: {cff_given} {cff_family} — {cff_orcid}')
+          print(f'Release date alignment: {cff_date}')
           PY
