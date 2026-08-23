@@ -1,0 +1,112 @@
+admissibility_version,viewer_key,catalog_generation,grade_code,title_core,technical_route,source_state,ocr_source_admitted,declared_positions,source_jpegs,terminal_synthetic_candidates,internal_unserved,probe_errors,source_bytes,unique_source_hashes
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1960P1ES001,1960,1,MI CUADERNO DE TRABAJO DE 1ER AÑO,standard_dynamic_claves,admitted_direct,1,219,218,1,0,0,12075150,218
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1960P1ES002,1960,1,MI LIBRO DE 1ER AÑO,standard_dynamic_claves,admitted_direct,1,195,194,1,0,0,8850269,194
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1960P2ES004,1960,2,MI LIBRO DE 2° AÑO,standard_dynamic_claves,admitted_direct,1,195,194,1,0,0,10790189,194
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1966P1ES346,1966,1,MI LIBRO DE 1er AÑO,standard_dynamic_claves,admitted_direct,1,195,194,1,0,0,8360529,194
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1966P2ES348,1966,2,MI LIBRO DE 2° AÑO,standard_dynamic_claves,admitted_direct,1,195,194,1,0,0,9907410,194
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1982P1ES096,1982,1,MI LIBRO RECORTABLE PARTE 1,standard_dynamic_claves,admitted_direct,1,131,130,1,0,0,4788488,77
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1982P1ES097,1982,1,MI LIBRO RECORTABLE PARTE 2,standard_dynamic_claves,admitted_direct,1,115,114,1,0,0,4439965,64
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1982P1ES098,1982,1,MI LIBRO PARTE 2,standard_dynamic_claves,admitted_direct,1,241,240,1,0,0,12071625,240
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1982P1ES099,1982,1,MI LIBRO PARTE 1,standard_dynamic_claves,admitted_direct,1,243,242,1,0,0,10818171,242
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1982P2ES101,1982,2,MI LIBRO PARTE 2,standard_dynamic_claves,admitted_direct,1,323,322,1,0,0,17153026,322
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1982P2ES102,1982,2,MI LIBRO DE SEGUNDO,standard_dynamic_claves,admitted_direct,1,83,82,1,0,0,4460514,82
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1988P1ES108,1988,1,"MI LIBRO DE 1°, PARTE 1",standard_dynamic_claves,admitted_direct,1,243,242,1,0,0,10896833,242
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1988P1ES109,1988,1,"MI LIBRO DE 1°, PARTE 2",standard_dynamic_claves,admitted_direct,1,243,242,1,0,0,12167495,242
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1988P1ES110,1988,1,"MI LIBRO DE 1° RECORTABLE, PARTE 1",standard_dynamic_claves,admitted_direct,1,131,130,1,0,0,4777426,81
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1988P1ES111,1988,1,"MI LIBRO DE 1°, RECORTABLE PARTE 2",standard_dynamic_claves,admitted_direct,1,115,114,1,0,0,4422123,63
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1988P2CI112,1988,2,"MI LIBRO DE 2°, PARTE 2",standard_dynamic_claves,admitted_direct,1,323,322,1,0,0,17070966,322
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1988P2CI113,1988,2,MI LIBRO DE 2° PARTE 1,standard_dynamic_claves,admitted_direct,1,321,320,1,0,0,17262311,320
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P1LI140,1993,1,Libro Integrado,standard_dynamic_claves,admitted_direct,1,179,178,1,0,0,9850293,178
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P1LI141,1993,1,Libro Integrado recortable,standard_dynamic_claves,admitted_direct,1,51,50,1,0,0,2887278,50
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P2LI149,1993,2,Libro Integrado,standard_dynamic_claves,admitted_direct,1,179,178,1,0,0,12380640,178
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P2LI150,1993,2,Libro Integrado Recortable,standard_dynamic_claves,admitted_direct,1,51,50,1,0,0,2464602,50
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P4CI192,1993,4,Conoce nuestra constitución,nonstandard_html_diagnostics,admitted_direct,1,67,66,1,0,0,18316588,66
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI215,1993,6,MONOGRAFÍA ESTATAL AGUASCALIENTES,standard_dynamic_claves,admitted_direct,1,171,170,1,0,0,11862816,170
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI216,1993,6,MONOGRAFÍA ESTATAL BAJA CALIFORNIA,standard_dynamic_claves,admitted_direct,1,211,210,1,0,0,13379283,210
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI217,1993,6,MONOGRAFÍA ESTATAL BAJA CALIFORNIA SUR,standard_dynamic_claves,admitted_direct,1,251,250,1,0,0,16040492,250
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI218,1993,6,MONOGRAFÍA ESTATAL COAHUILA,standard_dynamic_claves,admitted_direct,1,259,258,1,0,0,16147437,258
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI219,1993,6,MONOGRAFÍA ESTATAL COLIMA,standard_dynamic_claves,admitted_direct,1,291,290,1,0,0,18665539,290
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI220,1993,6,MONOGRAFÍA ESTATAL CAMPECHE,standard_dynamic_claves,admitted_direct,1,263,262,1,0,0,16415824,262
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI221,1993,6,MONOGRAFÍA ESTATAL CHIAPAS,standard_dynamic_claves,admitted_direct,1,267,266,1,0,0,15829576,266
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI222,1993,6,MONOGRAFÍA ESTATAL CHIHUAHUA,standard_dynamic_claves,admitted_direct,1,255,254,1,0,0,16032542,254
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI223,1993,6,MONOGRAFÍA ESTATAL DISTRITO FEDERAL,standard_dynamic_claves,admitted_direct,1,283,282,1,0,0,19820169,282
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI224,1993,6,MONOGRAFÍA ESTATAL DURANGO,standard_dynamic_claves,admitted_direct,1,267,266,1,0,0,18667472,264
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI225,1993,6,MONOGRAFÍA ESTATAL ESTADO DE MÉXICO,standard_dynamic_claves,admitted_direct,1,283,282,1,0,0,17540583,282
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI226,1993,6,MONOGRAFÍA ESTATAL GUANAJUATO,standard_dynamic_claves,admitted_direct,1,251,250,1,0,0,16017390,250
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI227,1993,6,MONOGRAFÍA ESTATAL GUERRERO,standard_dynamic_claves,admitted_direct,1,283,282,1,0,0,19140113,282
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI228,1993,6,MONOGRAFÍA ESTATAL HIDALGO,standard_dynamic_claves,admitted_direct,1,291,290,1,0,0,19029096,290
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI229,1993,6,MONOGRAFÍA ESTATAL JALISCO,standard_dynamic_claves,admitted_direct,1,283,282,1,0,0,19714209,282
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI230,1993,6,MONOGRAFÍA ESTATAL MICHOACÁN,standard_dynamic_claves,admitted_direct,1,275,274,1,0,0,17984035,274
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI231,1993,6,MONOGRAFÍA ESTATAL MORELOS,standard_dynamic_claves,admitted_direct,1,291,290,1,0,0,18458576,278
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI232,1993,6,MONOGRAFÍA ESTATAL NAYARIT,standard_dynamic_claves,admitted_direct,1,213,212,1,0,0,12788347,212
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI233,1993,6,MONOGRAFÍA ESTATAL NUEVO LEÓN,standard_dynamic_claves,admitted_direct,1,225,224,1,0,0,14576472,224
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI234,1993,6,MONOGRAFÍA ESTATAL OAXACA,standard_dynamic_claves,admitted_direct,1,291,290,1,0,0,18132437,282
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI235,1993,6,MONOGRAFÍA ESTATAL PUEBLA,standard_dynamic_claves,admitted_direct,1,275,274,1,0,0,18111837,274
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI236,1993,6,MONOGRAFÍA ESTATAL QUERÉTARO,standard_dynamic_claves,admitted_direct,1,261,260,1,0,0,16246271,260
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI237,1993,6,MONOGRAFÍA ESTATAL QUINTANA ROO,standard_dynamic_claves,admitted_direct,1,289,288,1,0,0,20879013,288
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI238,1993,6,MONOGRAFÍA ESTATAL SAN LUIS POTOSÍ,standard_dynamic_claves,admitted_direct,1,219,218,1,0,0,13102815,218
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI239,1993,6,MONOGRAFÍA ESTATAL SINALOA,standard_dynamic_claves,admitted_direct,1,199,198,1,0,0,12899107,198
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI240,1993,6,MONOGRAFÍA ESTATAL SONORA,standard_dynamic_claves,admitted_direct,1,259,258,1,0,0,15388346,258
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI241,1993,6,MONOGRAFÍA ESTATAL TABASCO,standard_dynamic_claves,admitted_direct,1,275,274,1,0,0,17247857,274
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI242,1993,6,MONOGRAFÍA ESTATAL TAMAULIPAS,standard_dynamic_claves,admitted_direct,1,219,218,1,0,0,12879836,218
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI243,1993,6,MONOGRAFÍA ESTATAL TLAXCALA,standard_dynamic_claves,admitted_direct,1,219,218,1,0,0,13920449,218
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI244,1993,6,MONOGRAFÍA ESTATAL VERACRUZ,standard_dynamic_claves,admitted_direct,1,291,290,1,0,0,19531254,290
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI245,1993,6,MONOGRAFÍA ESTATAL YUCATÁN,standard_dynamic_claves,admitted_direct,1,279,278,1,0,0,16987192,278
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H1993P6HI246,1993,6,MONOGRAFÍA ESTATAL ZACATECAS,standard_dynamic_claves,admitted_direct,1,259,258,1,0,0,16707529,258
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2008P4CI270,2008,4,CONOCE NUESTRA CONSTITUCIÓN,nonstandard_html_diagnostics,admitted_direct,1,67,66,1,0,0,18316588,66
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2008P5MA285,2008,5,MATEMAÁTICAS,standard_dynamic_claves,admitted_direct,1,195,194,1,0,0,45755586,194
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2011P1ED296,2011,1,EDUCACIÓN FÍSCIA,standard_dynamic_claves,admitted_direct,1,106,105,1,0,0,9595497,105
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2011P2ED303,2011,2,EDUCACIÓN FÍSCIA,standard_dynamic_claves,admitted_direct,1,90,89,1,0,0,7987349,89
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2011P3ED310,2011,3,EDUCACIÓN FÍSCIA,standard_dynamic_claves,admitted_direct,1,114,113,1,0,0,31768448,113
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2011P4CI316,2011,4,CONOCE NUESTRA CONSTITICIÓN,nonstandard_html_diagnostics,admitted_direct,1,66,65,1,0,0,21855050,65
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2011P4ED318,2011,4,EDUCACIÓN FÍSCIA,standard_dynamic_claves,admitted_direct,1,114,113,1,0,0,35560679,113
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2011P5ED328,2011,5,EDUCACIÓN FÍSCIA,standard_dynamic_claves,admitted_direct,1,106,105,1,0,0,32822013,105
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2011P6ED338,2011,6,EDUCACIÓN FÍSCIA,standard_dynamic_claves,admitted_direct,1,114,113,1,0,0,37819467,113
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P1CAM,2014,1,"Material de apoyo a la alfabetización inicial, Tiras recortables y cartel con el alfabeto",nonstandard_html_diagnostics,admitted_direct,1,115,114,1,0,0,25612012,114
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P1EAM,2014,1,Fichero didactico (incluye DVD),nonstandard_html_diagnostics,withheld_internal_unserved,0,49,48,0,1,0,76415624,48
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P2EAM,2014,2,Fichero didactico (incluye DVD),nonstandard_html_diagnostics,withheld_internal_unserved,0,19,17,0,2,0,31020222,17
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3AGS,2014,3,La entidad donde vivo Aguascalientes,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,90079583,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3BCN,2014,3,La entidad donde vivo Baja California Norte,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,72938880,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3BCS,2014,3,La entidad donde vivo Baja California Sur,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,72768247,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3CAM,2014,3,La entidad donde vivo Campeche,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,86112200,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3CDM,2014,3,La entidad donde vivo Ciudad de México,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,96807314,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3CHH,2014,3,La entidad donde vivo Chihuahua,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,87121794,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3CHP,2014,3,La entidad donde vivo Chiapas,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,88529360,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3COA,2014,3,La entidad donde vivo Coahuila,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,85742469,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3COL,2014,3,La entidad donde vivo Colima,standard_dynamic_claves,withheld_internal_unserved,0,161,160,0,1,0,70547098,160
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3DUR,2014,3,La entidad donde vivo Durango,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,62189621,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3GRO,2014,3,La entidad donde vivo Guerrero,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,77940839,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3GTO,2014,3,La entidad donde vivo Guanajuato,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,70496165,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3HID,2014,3,La entidad donde vivo Hidalgo,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,77713156,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3JAL,2014,3,La entidad donde vivo Jalisco,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,68634840,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3MEX,2014,3,La entidad donde vivo México,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,117950241,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3MIC,2014,3,La entidad donde vivo Michoacán,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,88961060,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3MOR,2014,3,La entidad donde vivo Morelos,standard_dynamic_claves,withheld_internal_unserved,0,161,160,0,1,0,88892551,160
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3NAY,2014,3,La entidad donde vivo Nayarit,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,132426639,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3NLE,2014,3,La entidad donde vivo Nuevo León,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,91071834,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3OAX,2014,3,La entidad donde vivo Oaxaca,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,91267780,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3PUE,2014,3,La entidad donde vivo Puebla,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,119988182,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3QRO,2014,3,La entidad donde vivo Quintana Roo,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,99792146,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3QUE,2014,3,La entidad donde vivo Querétaro,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,97584024,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3SIN,2014,3,La entidad donde vivo Sinaloa,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,84680962,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3SLP,2014,3,La entidad donde vivo San Luis Potosí,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,96820633,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3SON,2014,3,La entidad donde vivo Sonora,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,101912712,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3TAB,2014,3,La entidad donde vivo Tabasco,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,119962062,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3TAM,2014,3,La entidad donde vivo Tamaulipas,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,102178643,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3TLA,2014,3,La entidad donde vivo Tlaxcala,standard_dynamic_claves,admitted_direct,1,122,121,1,0,0,60904299,121
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3VER,2014,3,La entidad donde vivo Veracruz,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,253908736,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3YUC,2014,3,La entidad donde vivo Yucatán,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,269515271,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P3ZAC,2014,3,La entidad donde vivo Zacatecas,standard_dynamic_claves,admitted_direct,1,162,161,1,0,0,96582749,161
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2014P4CCA,2014,4,Conoce nuestra Constitución,nonstandard_html_diagnostics,admitted_direct,1,66,65,1,0,0,39457383,65
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2018P1CAM,2018,1,Material de apoyo a la alfabetización Inicial. Tiras recortables,nonstandard_html_diagnostics,admitted_direct,1,114,113,1,0,0,16931170,112
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2018P1COA,2018,1,Conocimiento del medio,standard_dynamic_claves,admitted_direct,1,178,177,1,0,0,59553458,177
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2018P1COM,2018,1,Conocimiento del medio. Docente,standard_dynamic_claves,admitted_direct,1,154,153,1,0,0,88894554,153
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2018P2COA,2018,2,Conocimiento del medio,standard_dynamic_claves,admitted_direct,1,178,177,1,0,0,53134925,177
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2018P2COM,2018,2,Conocimiento del medio. Docente,standard_dynamic_claves,admitted_direct,1,178,177,1,0,0,54150656,177
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2018P4CCA,2018,4,Conoce Nuestra Constitución,nonstandard_html_diagnostics,admitted_direct,1,66,65,1,0,0,19815366,65
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2019P1CAM,2019,1,Material de apoyo a la alfabetización Inicial. Tiras recortables. PrImer grado,nonstandard_html_diagnostics,admitted_direct,1,154,153,1,0,0,13346711,153
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2019P1COA,2019,1,Conocimiento del medio,standard_dynamic_claves,admitted_direct,1,178,177,1,0,0,18856258,177
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2019P1COM,2019,1,Conocimiento del medio. Docente,standard_dynamic_claves,admitted_direct,1,154,153,1,0,0,25574952,153
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2019P2COA,2019,2,Conocimiento del medio,standard_dynamic_claves,admitted_direct,1,178,177,1,0,0,17228103,177
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2019P2COM,2019,2,Conocimiento del medio. Docente,standard_dynamic_claves,admitted_direct,1,178,177,1,0,0,29050829,177
+LTMD_U1_W11_SOURCE_ADMISSIBILITY_0.1,H2019P4CCA,2019,4,Conoce nuestra Constitución,nonstandard_html_diagnostics,admitted_direct,1,66,65,1,0,0,27342239,65
