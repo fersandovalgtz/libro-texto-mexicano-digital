@@ -1,0 +1,71 @@
+{
+  "report_version": "LTMD_U1_W11_OCR_RUN_STATUS_0.1",
+  "repository": "fersandovalgtz/libro-texto-mexicano-digital",
+  "workflow": "build-ltmd-u1-w11-ocr.yml",
+  "selected_run_id": 32664121168,
+  "html_url": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions/runs/32664121168",
+  "event": "push",
+  "status": "pending",
+  "conclusion": null,
+  "head_sha": "72c4e3235cc4f2aa0e0bb8a04f6eea8446e8b194",
+  "created_at": "2026-08-23T20:20:41Z",
+  "updated_at": "2026-08-23T20:20:42Z",
+  "jobs_total": 0,
+  "job_status_counts": {},
+  "job_conclusion_counts": {},
+  "matrix_jobs_detected": 0,
+  "matrix_status_counts": {},
+  "matrix_conclusion_counts": {},
+  "recent_runs": [
+    {
+      "id": 32664121168,
+      "event": "push",
+      "status": "pending",
+      "conclusion": null,
+      "head_sha": "72c4e3235cc4f2aa0e0bb8a04f6eea8446e8b194",
+      "created_at": "2026-08-23T20:20:41Z",
+      "updated_at": "2026-08-23T20:20:42Z",
+      "html_url": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions/runs/32664121168"
+    },
+    {
+      "id": 32663389201,
+      "event": "push",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "head_sha": "8969ee679e061969db115b32489547ef692e029e",
+      "created_at": "2026-08-23T20:06:37Z",
+      "updated_at": "2026-08-23T20:20:42Z",
+      "html_url": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions/runs/32663389201"
+    },
+    {
+      "id": 32663190003,
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "head_sha": "ecab90ec15631eb61ebfa6c3f916aacb71448aca",
+      "created_at": "2026-08-23T20:03:04Z",
+      "updated_at": "2026-08-23T20:06:38Z",
+      "html_url": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions/runs/32663190003"
+    },
+    {
+      "id": 32663100831,
+      "event": "workflow_run",
+      "status": "queued",
+      "conclusion": null,
+      "head_sha": "ccad68d5ed22f7b2a7016d68aebbd69cdf45ba46",
+      "created_at": "2026-08-23T20:01:24Z",
+      "updated_at": "2026-08-23T20:01:42Z",
+      "html_url": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions/runs/32663100831"
+    },
+    {
+      "id": 32662604095,
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "83138d88d535e87122ac177c96c91e3ad33039b0",
+      "created_at": "2026-08-23T19:52:08Z",
+      "updated_at": "2026-08-23T19:52:28Z",
+      "html_url": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions/runs/32662604095"
+    }
+  ]
+}
