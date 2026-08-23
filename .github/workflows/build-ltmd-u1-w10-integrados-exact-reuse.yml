@@ -5,6 +5,7 @@ on:
   push:
     branches: [main]
     paths:
+      - '.github/workflows/build-ltmd-u1-w10-integrados-exact-reuse.yml'
       - 'data/catalog/ltmd_u1_w10_integrados_fragment_manifest.csv'
       - 'data/catalog/ltmd_u1_w10_integrados_fragment_manifest_summary.csv'
   workflow_run:
