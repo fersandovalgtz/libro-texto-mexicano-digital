@@ -7,10 +7,19 @@ on:
       - '.github/workflows/build-ltmd-u1-coverage-dashboard.yml'
       - 'scripts/build_ltmd_u1_coverage_dashboard.py'
       - 'docs/LTMD_U1_W9_COMPLETION.md'
+      - 'docs/LTMD_U1_W10_ASSET_AUDIT.md'
+      - 'docs/LTMD_U1_W10_SOURCE_ADMISSIBILITY.md'
+      - 'docs/LTMD_U1_W10_PROCESSING_TOPOLOGY.md'
+      - 'docs/LTMD_U1_W10_OCR.md'
+      - 'docs/LTMD_U1_W10_PAGESTRUCT.md'
+      - 'docs/LTMD_U1_W10_FRAGSEG.md'
+      - 'docs/LTMD_U1_W10_EXACT_REUSE.md'
+      - 'docs/LTMD_U1_W10_COMPLETION.md'
   workflow_run:
     workflows:
       - 'build-ltmd-u1-w6-geography-atlas-completion-report'
       - 'build-ltmd-u1-w9-educacion-fisica-completion-report'
+      - 'build-ltmd-u1-w10-completion'
     types: [completed]
 
 permissions:
