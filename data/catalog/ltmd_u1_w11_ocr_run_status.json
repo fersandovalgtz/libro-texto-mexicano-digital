@@ -1,6 +1,8 @@
 {
-  "report_version": "LTMD_U1_W11_OCR_RUN_STATUS_0.3",
-  "observed_at_utc": "2026-08-23T20:36:42.053142Z",
+  "report_version": "LTMD_U1_W11_OCR_RUN_STATUS_0.4",
+  "observed_at_utc": "2026-08-23T20:38:45.926405Z",
+  "observer_run_id": 32665037961,
+  "observer_job_id": 97257014465,
   "repository": "fersandovalgtz/libro-texto-mexicano-digital",
   "workflow": "build-ltmd-u1-w11-ocr.yml",
   "selected_run_id": 32663100831,
@@ -9,21 +11,17 @@
   "head_sha": "ccad68d5ed22f7b2a7016d68aebbd69cdf45ba46",
   "matrix_expected": 106,
   "matrix_jobs_detected": 106,
-  "matrix_success": 70,
+  "matrix_success": 72,
   "matrix_failure": 0,
   "matrix_cancelled": 0,
-  "matrix_active": 36,
-  "progress_percent": 66.04,
+  "matrix_active": 34,
+  "progress_percent": 67.92,
   "failed_jobs": [],
   "cancelled_jobs": [],
   "job_status_counts": {
-    "completed": 71,
+    "completed": 73,
     "in_progress": 8,
-    "queued": 28
-  },
-  "matrix_conclusion_counts": {
-    "success": 70,
-    "pending": 36
+    "queued": 26
   },
   "active_runs_inspected": [
     {
@@ -37,48 +35,6 @@
       "status": "queued",
       "jobs": 107,
       "matrix_jobs": 106
-    }
-  ],
-  "recent_runs": [
-    {
-      "id": 32664121168,
-      "event": "push",
-      "status": "pending",
-      "conclusion": null,
-      "head_sha": "72c4e3235cc4f2aa0e0bb8a04f6eea8446e8b194",
-      "created_at": "2026-08-23T20:20:41Z"
-    },
-    {
-      "id": 32663389201,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "head_sha": "8969ee679e061969db115b32489547ef692e029e",
-      "created_at": "2026-08-23T20:06:37Z"
-    },
-    {
-      "id": 32663190003,
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "head_sha": "ecab90ec15631eb61ebfa6c3f916aacb71448aca",
-      "created_at": "2026-08-23T20:03:04Z"
-    },
-    {
-      "id": 32663100831,
-      "event": "workflow_run",
-      "status": "queued",
-      "conclusion": null,
-      "head_sha": "ccad68d5ed22f7b2a7016d68aebbd69cdf45ba46",
-      "created_at": "2026-08-23T20:01:24Z"
-    },
-    {
-      "id": 32662604095,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "83138d88d535e87122ac177c96c91e3ad33039b0",
-      "created_at": "2026-08-23T19:52:08Z"
     }
   ]
 }
