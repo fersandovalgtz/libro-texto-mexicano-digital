@@ -5,8 +5,14 @@ on:
   push:
     branches: [main]
     paths:
+      - '.github/workflows/build-ltmd-u1-w10-integrados-ocr.yml'
+      - 'scripts/ocr_ltmd_u1_w10_integrados_book.py'
+      - 'scripts/combine_ltmd_u1_w10_integrados_ocr.py'
       - 'data/catalog/ltmd_u1_w10_processing_inventory.csv'
       - 'data/catalog/ltmd_u1_w10_canonical_page_manifest.csv'
+  workflow_run:
+    workflows: ['build-ltmd-u1-w10-processing-topology']
+    types: [completed]
 
 permissions:
   contents: write
@@ -20,6 +26,7 @@ env:
 
 jobs:
   matrix:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     outputs:
       viewers: ${{ steps.make.outputs.viewers }}
