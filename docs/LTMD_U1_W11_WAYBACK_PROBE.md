@@ -1,11 +1,13 @@
 # LTMD-U1 W11 — sondeo archivístico de URLs fuente retenidas
 
-Versión: `LTMD_U1_W11_WAYBACK_PROBE_0.1`.
+Versión: `LTMD_U1_W11_WAYBACK_PROBE_0.2`.
 
 - Huecos consultados: **5/5**.
+- Consultas exactas/transportes ejecutadas: **10/10**.
 - Huecos con ≥1 captura CDX 200: **0/5**.
 - Registros de captura únicos por digest/consulta: **0**.
-- Consultas fallidas tras reintentos: **4**.
+- Consultas concluyentes sin captura: **7**.
+- Consultas fallidas tras reintentos: **3**.
 
 ## Resultado por posición
 
@@ -18,13 +20,12 @@ Versión: `LTMD_U1_W11_WAYBACK_PROBE_0.1`.
 | `H2014P3MOR` | 15 | 15 | 0 | — | — | — |
 
 ## Consultas no concluyentes
-- `H2014P2EAM` página 13, `exact_https` — `CDX probe failed for https://historico.conaliteg.gob.mx/c/H2014P2EAM/013.jpg: URLError: <urlopen error [Errno 111] Connection refused>`.
-- `H2014P2EAM` página 17, `exact_https` — `CDX probe failed for https://historico.conaliteg.gob.mx/c/H2014P2EAM/017.jpg: URLError: <urlopen error [Errno 111] Connection refused>`.
-- `H2014P3COL` página 130, `http_transport_variant` — `CDX probe failed for http://historico.conaliteg.gob.mx/c/H2014P3COL/130.jpg: URLError: <urlopen error [Errno 111] Connection refused>`.
-- `H2014P3MOR` página 15, `exact_https` — `CDX probe failed for https://historico.conaliteg.gob.mx/c/H2014P3MOR/015.jpg: URLError: <urlopen error [Errno 111] Connection refused>`.
+- `H2014P3COL` página 130, `exact_https` — `TimeoutError: The read operation timed out`.
+- `H2014P3MOR` página 15, `exact_https` — `URLError: <urlopen error timed out>`.
+- `H2014P3MOR` página 15, `http_transport_variant` — `URLError: <urlopen error timed out>`.
 
 ## Regla
 
-Una captura CDX sólo demuestra que Internet Archive indexó una respuesta 200 para la misma ruta institucional (o su variante de transporte HTTP). No demuestra todavía que el cuerpo archivado sea un JPEG válido ni autoriza su incorporación. Cualquier candidato deberá descargarse de forma temporal desde la captura identificada, verificarse por tipo/tamaño/SHA-256 y conservar timestamp, URL original y procedencia archivística. No se consultan páginas de otros libros como sustitutos.
+Una captura CDX sólo demuestra que Internet Archive indexó una respuesta 200 para la misma ruta institucional (o su variante de transporte HTTP). No demuestra todavía que el cuerpo archivado sea un JPEG válido ni autoriza su incorporación. Cualquier candidato debe verificarse temporalmente por firma JPEG, tamaño, SHA-256 y digest CDX, conservando timestamp, URL original y procedencia archivística. No se consultan páginas de otros libros como sustitutos.
 
-La ausencia de captura en este sondeo se conserva como resultado negativo acotado; no prueba que nunca haya existido otra copia fuera de los índices consultados.
+El log de consultas distingue `success_no_capture` de `error`: un timeout o fallo del servicio no se interpreta como ausencia de captura. La ausencia concluyente en este sondeo sigue siendo un resultado negativo acotado, no prueba de inexistencia de otras copias.
