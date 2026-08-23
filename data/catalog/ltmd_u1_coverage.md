@@ -24,12 +24,12 @@ Este tablero se recompone desde la cola maestra por `operational_domain` y desde
 | W7 | `civica_etica` | 30 | 25 | 25 | 5 | `source_admitted_cohort_closed_with_retentions` |
 | W8 | `artes` | 20 | 16 | 16 | 4 | `source_admitted_cohort_closed_with_retentions` |
 | W9 | `educacion_fisica` | 4 | 4 | 4 | 0 | `closed` |
-| W10 | `integrados_multiarea` | 69 | 0 | 0 | 69 | `asset_audit_complete_admissibility_pending` |
+| W10 | `integrados_multiarea` | 69 | 0 | 0 | 69 | `pagestruct_complete_fragseg_pending` |
 | W11 | `otros_no_clasificados` | 111 | 0 | 0 | 111 | `queued` |
 
 ## Lectura correcta
 
-W1, W3, W4, W5 y W6 están cerradas técnicamente. W2 conserva cuatro excepciones de routing sin imputación. W7 tiene cierre técnico de su cohorte fuente-admitida: 25/30 identidades y cinco retenciones explícitas. W8 tiene cierre técnico de su cohorte fuente-admitida: 16/20 identidades y cuatro retenciones explícitas. W9 está cerrada técnicamente en 4/4 identidades y cuatro objetos canónicos. W10 no suma aún al numerador y se encuentra en `asset_audit_complete_admissibility_pending`; su evidencia vigente es `docs/LTMD_U1_W10_ASSET_AUDIT.md`. W11 permanece en cola.
+W1, W3, W4, W5 y W6 están cerradas técnicamente. W2 conserva cuatro excepciones de routing sin imputación. W7 tiene cierre técnico de su cohorte fuente-admitida: 25/30 identidades y cinco retenciones explícitas. W8 tiene cierre técnico de su cohorte fuente-admitida: 16/20 identidades y cuatro retenciones explícitas. W9 está cerrada técnicamente en 4/4 identidades y cuatro objetos canónicos. W10 no suma aún al numerador y se encuentra en `pagestruct_complete_fragseg_pending`; su evidencia vigente es `docs/LTMD_U1_W10_PAGESTRUCT.md`. W11 permanece en cola.
 
 `wave_label` no se usa para reconstruir la partición científica porque la cola también codifica estados de ejecución; la partición se deriva de `operational_domain`.
 
