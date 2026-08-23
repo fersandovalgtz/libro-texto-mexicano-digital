@@ -1,5 +1,9 @@
 route_version,resource_label,resource_url,resource_sha256,normalized_expression,route_template,error
-LTMD_U1_CONALITEG_ASSET_ROUTE_0.2,root-x,https://libros.conaliteg.gob.mx/x.js,ff795d0aa986540eec669fea57146db26b0da8f8d7043a9d8538700a498ddad2,,,
-LTMD_U1_CONALITEG_ASSET_ROUTE_0.2,root-js,https://libros.conaliteg.gob.mx/js.js,f9a9e09cea856d0621d37c00835ee2cc08e70845a0a6d8f13cfddc917b44a690,,,
-LTMD_U1_CONALITEG_ASSET_ROUTE_0.2,2022-x,https://libros.conaliteg.gob.mx/2022/x.js,ba93f5bfa61541bfc54271b7b8eb21bb0d54d690fa6ffcfb82000005f3a1209a,,,
-LTMD_U1_CONALITEG_ASSET_ROUTE_0.2,2022-js,https://libros.conaliteg.gob.mx/2022/js.js,f9a9e09cea856d0621d37c00835ee2cc08e70845a0a6d8f13cfddc917b44a690,,,
+LTMD_U1_CONALITEG_ASSET_ROUTE_0.3,root-x,https://libros.conaliteg.gob.mx/x.js,ff795d0aa986540eec669fea57146db26b0da8f8d7043a9d8538700a498ddad2,,,
+LTMD_U1_CONALITEG_ASSET_ROUTE_0.3,root-js,https://libros.conaliteg.gob.mx/js.js,f9a9e09cea856d0621d37c00835ee2cc08e70845a0a6d8f13cfddc917b44a690,,,
+LTMD_U1_CONALITEG_ASSET_ROUTE_0.3,root-magazine,https://libros.conaliteg.gob.mx/magazine.js,5806fc2748e1a81be2b3ee60a09fe0af7af7837b36c099b406eb6927fe8be245,// crea el string 001.jpg,,
+LTMD_U1_CONALITEG_ASSET_ROUTE_0.3,root-magazine,https://libros.conaliteg.gob.mx/magazine.js,5806fc2748e1a81be2b3ee60a09fe0af7af7837b36c099b406eb6927fe8be245,"img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg')",{base}/c/{ag_clave}/{page}.jpg,
+LTMD_U1_CONALITEG_ASSET_ROUTE_0.3,2022-x,https://libros.conaliteg.gob.mx/2022/x.js,ba93f5bfa61541bfc54271b7b8eb21bb0d54d690fa6ffcfb82000005f3a1209a,,,
+LTMD_U1_CONALITEG_ASSET_ROUTE_0.3,2022-js,https://libros.conaliteg.gob.mx/2022/js.js,f9a9e09cea856d0621d37c00835ee2cc08e70845a0a6d8f13cfddc917b44a690,,,
+LTMD_U1_CONALITEG_ASSET_ROUTE_0.3,2022-magazine,https://libros.conaliteg.gob.mx/2022/magazine.js,bc490ee5abc49ccc33630647ca36b2c926fec0609dbb10210b6e63e68e76664c,// crea el string 001.jpg,,
+LTMD_U1_CONALITEG_ASSET_ROUTE_0.3,2022-magazine,https://libros.conaliteg.gob.mx/2022/magazine.js,bc490ee5abc49ccc33630647ca36b2c926fec0609dbb10210b6e63e68e76664c,"img.attr('src', './c/' + ag_clave + '/' + ag_page +'.jpg')",{base}/c/{ag_clave}/{page}.jpg,
