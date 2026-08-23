@@ -33,8 +33,16 @@ jobs:
       viewers: ${{ steps.make.outputs.viewers }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Refresh authoritative main before idempotence check
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
       - id: make
         shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import csv,json,os
@@ -52,6 +60,19 @@ jobs:
           assert len(man)==expected,(len(man),expected)
           assert len({r['page_id'] for r in man})==len(man)
           assert all(r['asset_status']=='source_jpeg' and len(r['sha256'])==64 and int(r['byte_size'])>0 for r in man)
+          metrics_path='data/catalog/ltmd_u1_w11_ocr_metrics.csv'
+          summary_path='data/catalog/ltmd_u1_w11_ocr_summary.csv'
+          report_path='docs/LTMD_U1_W11_OCR.md'
+          if os.environ.get('EVENT_NAME')!='workflow_dispatch' and all(os.path.exists(p) for p in [metrics_path,summary_path,report_path]):
+              metrics=list(csv.DictReader(open(metrics_path,encoding='utf-8')))
+              summary=list(csv.DictReader(open(summary_path,encoding='utf-8')))
+              current_pages={r['page_id'] for r in man}
+              complete=(len(metrics)==len(man) and {r['page_id'] for r in metrics}==current_pages and
+                        {r['ocr_version'] for r in metrics}=={'LTMD_U1_W11_OCR_0.1'} and
+                        all(r['source_sha256_verified']=='1' and r['ocr_status']=='ok' and r['ocr_class']!='unresolved' for r in metrics) and
+                        len(summary)==len(keys) and sum(int(r['pages']) for r in summary)==len(man))
+              if complete:
+                  print('ready=false');print('viewers=[]');raise SystemExit(0)
           print('ready=true');print('viewers='+json.dumps(keys,separators=(',',':')))
           PY
 
