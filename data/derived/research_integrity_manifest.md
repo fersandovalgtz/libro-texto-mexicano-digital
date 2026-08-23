@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.14`.
 
-Commit observado: `a11d55fc8a8bd26e15f96e7696c683a0814faf79`.
+Commit observado: `326801e6a4673396061a26ce106b3beb4749862d`.
 
 Alcance: perímetro v0.13 de cierre técnico W8 congelado + comparación técnica W3–W4–W7–W8 cerrada y estrictamente descriptiva sobre PAGESTRUCT, FRAGSEG y reutilización/dependencia textual exacta, incluido su script reproducible, control explícito de despacho y workflow.
 
@@ -13,7 +13,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 
 ## Archivos críticos
 
-- `README.md` — 10833 bytes — `3d1650bd58df6b21a0233d04ca6f5a0fd2c3381a72edd31f7b5c59c89360b7a5`
+- `README.md` — 10871 bytes — `7c97ef350889dba756ab523bf1ed6f62ad197837dd6823fb1070d7cfce1695ab`
 - `CITATION.cff` — 1024 bytes — `8e418bc83fb1ac019f5fa0147d59fa31230bad543fbf2d3ec08805221b37ea4a`
 - `data/book_inventory.csv` — 3003 bytes — `4b9ae106d4b3ed2e1b30203e46d46f6280e1c3f6b22b62791beaab1e677446c4`
 - `data/derived/page_structure.csv` — 107957 bytes — `9528558068ac52b45f05fa9c75b9336a8150d57bf2b3a9a9225b816ed68e82ad`
