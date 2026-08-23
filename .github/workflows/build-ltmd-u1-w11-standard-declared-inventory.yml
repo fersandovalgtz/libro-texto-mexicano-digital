@@ -1,0 +1,54 @@
+name: build-ltmd-u1-w11-standard-declared-inventory
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w11-standard-declared-inventory.yml'
+      - 'scripts/build_ltmd_u1_w11_standard_declared_inventory.py'
+      - 'data/catalog/ltmd_u1_w11_technical_routing.csv'
+  workflow_run:
+    workflows: ['build-ltmd-u1-w11-technical-routing']
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w11-standard-declared-inventory
+  cancel-in-progress: false
+
+jobs:
+  inventory:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build W11 official declared inventory for standard route
+        run: python3 scripts/build_ltmd_u1_w11_standard_declared_inventory.py
+      - name: Publish W11 standard inventory race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w11-inventory
+          cp data/catalog/ltmd_u1_w11_standard_declared_inventory.csv /tmp/w11-inventory/
+          cp data/catalog/ltmd_u1_w11_standard_declared_inventory_summary.csv /tmp/w11-inventory/
+          cp docs/LTMD_U1_W11_STANDARD_DECLARED_INVENTORY.md /tmp/w11-inventory/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w11-inventory/ltmd_u1_w11_standard_declared_inventory.csv data/catalog/
+            cp /tmp/w11-inventory/ltmd_u1_w11_standard_declared_inventory_summary.csv data/catalog/
+            cp /tmp/w11-inventory/LTMD_U1_W11_STANDARD_DECLARED_INVENTORY.md docs/
+            git add data/catalog/ltmd_u1_w11_standard_declared_inventory.csv data/catalog/ltmd_u1_w11_standard_declared_inventory_summary.csv docs/LTMD_U1_W11_STANDARD_DECLARED_INVENTORY.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w11): publish standard-route declared inventory'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
