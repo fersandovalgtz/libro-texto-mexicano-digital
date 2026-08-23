@@ -1,49 +1,12 @@
 name: build-research-integrity-manifest
 
+# Transitional freeze: LTMD_INTEGRITY_0.14 remains the current published
+# integrity snapshot while W10 is still incomplete. Automatic regeneration is
+# deliberately paused so intermediate W10 commits cannot blur the perimeter of
+# the frozen 0.14 snapshot. After W10 technical closure this workflow is promoted
+# to the gated 0.15 builder and its normal automatic triggers are restored.
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - '.github/workflows/build-research-integrity-manifest.yml'
-      - '.github/workflows/check-release-candidate.yml'
-      - '.github/workflows/build-cn-family-asset-readiness.yml'
-      - '.github/workflows/audit-cn2018-2019-asset-identity.yml'
-      - '.github/workflows/audit-cn2008-internal-unserved.yml'
-      - '.github/workflows/build-cn-wave2-ingestion.yml'
-      - '.github/workflows/ocr-cn-wave2.yml'
-      - '.github/workflows/page-structure-cn-wave2.yml'
-      - '.github/workflows/recover-page-structure-cn-wave2.yml'
-      - '.github/workflows/fragment-cn-wave2.yml'
-      - '.github/workflows/verify-methods-article-claims.yml'
-      - 'VERSION'
-      - 'CITATION.cff'
-      - 'CHANGELOG.md'
-      - 'LICENSE'
-      - 'DATA_LICENSE.md'
-      - 'requirements-release.txt'
-      - 'README.md'
-      - 'docs/**'
-      - 'scripts/**'
-      - 'data/book_inventory.csv'
-      - 'data/validation/**'
-      - 'data/catalog/**'
-      - 'data/control/**'
-      - 'data/expansion/**'
-      - 'data/derived/page_structure.csv'
-      - 'data/derived/fragment_manifest.csv'
-      - 'data/derived/fragment_manifest_fragtype03_shadow.csv'
-      - 'data/derived/semantic_B02_development_result.json'
-      - 'data/derived/semantic_B02_validation_result.json'
-      - 'data/derived/fragment_labels_B_summary.csv'
-      - 'data/derived/semb02_uncertainty_diagnostic.md'
-      - 'data/derived/fragseg_heading_candidate_audit.md'
-      - 'data/derived/semb02_synthetic_stress_result.json'
-      - 'data/derived/methods_article_claim_check.json'
-      - 'data/derived/semb03_sample_coverage.csv'
-      - 'data/derived/semb03_sample_token_coverage.csv'
-      - 'data/derived/fragseg_layout_proxy_summary.csv'
-      - 'data/derived/semb03_gate_synthetic_development.json'
-      - 'data/derived/semb03_label_heads_synthetic_development.json'
 
 concurrency:
   group: ltmd-research-integrity-manifest
@@ -59,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Build integrity manifest 0.14
+      - name: Build frozen integrity manifest 0.14
         run: python3 scripts/build_research_integrity_manifest_v14.py
       - name: Publish integrity manifest race-safely
         run: |
