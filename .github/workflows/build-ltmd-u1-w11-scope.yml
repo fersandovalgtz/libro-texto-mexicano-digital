@@ -1,0 +1,47 @@
+name: build-ltmd-u1-w11-scope
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w11-scope.yml'
+      - 'scripts/build_ltmd_u1_w11_otros_scope.py'
+      - 'data/catalog/ltmd_u1_wave_queue.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w11-scope
+  cancel-in-progress: false
+
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Freeze authoritative W11 scope
+        run: python3 scripts/build_ltmd_u1_w11_otros_scope.py
+      - name: Publish W11 scope race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w11_scope.csv /tmp/ltmd_u1_w11_scope.csv
+          cp docs/LTMD_U1_W11_FREEZE.md /tmp/LTMD_U1_W11_FREEZE.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w11_scope.csv data/catalog/ltmd_u1_w11_scope.csv
+            cp /tmp/LTMD_U1_W11_FREEZE.md docs/LTMD_U1_W11_FREEZE.md
+            git add data/catalog/ltmd_u1_w11_scope.csv docs/LTMD_U1_W11_FREEZE.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w11): publish frozen residual cohort scope'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
