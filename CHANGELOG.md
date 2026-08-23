@@ -2,6 +2,47 @@
 
 Todos los cambios notables de **Libro de Texto Mexicano Digital (LTMD)** se documentan aquí. El proyecto permanece en fase pre-1.0; las releases candidatas pueden cambiar antes de una primera liberación estable.
 
+## [Unreleased] — 2026-08-23
+
+Cambios acumulados en `main` posteriores a `v0.1.0-rc.1`. Esta sección **no** modifica retrospectivamente el alcance de la release del 15 de agosto de 2026.
+
+### Expansión LTMD-U1
+
+- Cerrado el censo operativo en **542/542 identidades** del universo U1.
+- Elevada la cobertura técnica efectiva a **524/542 (96.68%)**.
+- Cerrados **492/542 (90.77%)** objetos canónicos de procesamiento.
+- Completadas técnicamente W1, W3, W4, W5, W6 y W9.
+- Cerradas las cohortes fuente-admitidas de W7, W8, W10 y W11, preservando sus retenciones sin imputación.
+- W2 permanece con cierre parcial y cuatro excepciones de routing explícitas.
+- La validación semántica humana permanece en **0/542** y `WAITING_HUMAN_REFERENCE` sigue vigente.
+
+### Procesamiento técnico
+
+- Extendidos OCR temporal, PAGESTRUCT, FRAGSEG y análisis de reutilización textual exacta a las cohortes técnicamente admisibles de U1.
+- Preservadas identidades históricas separadas de objetos canónicos cuando existen aliases o relaciones de reutilización demostradas.
+- Mantenida la política de no promover coincidencias nominales, visuales, OCR o textuales a identidad documental sin evidencia suficiente.
+
+### Excepciones y trazabilidad
+
+- Consolidado `data/catalog/ltmd_u1_retained_source_register.csv` con las **18 identidades** que explican exactamente el residual técnico de U1.
+- Añadido `docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md` con clases de retención, evidencia aceptable y reglas de cierre.
+- Añadido `scripts/validate_u1_retained_source_register.py` y CI para exigir sincronía entre el registro residual y `data/catalog/ltmd_u1_coverage.md`.
+- Cerrado el issue #12 de W11 después de completar PAGESTRUCT, FRAGSEG, reutilización exacta y el acta técnica correspondiente; las cuatro fuentes retenidas continúan separadamente en #13 y #14.
+
+### Integridad y documentación científica
+
+- Añadido un ledger direccionado por contenido de la evidencia pública U1 con ruta, clase de artefacto, tamaño y SHA-256.
+- Automatizada la regeneración del ledger de integridad cuando cambia la superficie pública relevante.
+- Publicado `docs/LTMD_U1_MASTER_PLAN_0_3.md`, que reemplaza operativamente la línea base obsoleta del plan 0.2 sin reescribir el documento histórico.
+- Sincronizadas las cifras públicas principales del estado U1 en documentación de cobertura y superficie del repositorio.
+
+### Límites vigentes
+
+- Las **18 retenciones** no se sustituyen por inferencia; requieren evidencia institucional, archivística o criptográfica suficiente, o deben cerrarse posteriormente como excepciones técnicas finales documentadas.
+- No se redistribuyen páginas fuente, JPEG ni OCR íntegro restringido.
+- No se presenta como hallazgo histórico semántico ninguna salida automática que no haya pasado la referencia humana preregistrada.
+- No se declara DOI de LTMD hasta que exista un depósito real y verificable.
+
 ## [0.1.0-rc.1] — 2026-08-15
 
 Primera candidata de liberación metodológica y de infraestructura científica.
