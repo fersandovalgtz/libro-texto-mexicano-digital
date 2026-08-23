@@ -5,6 +5,8 @@ on:
   push:
     branches: [main]
     paths:
+      - '.github/workflows/build-ltmd-u1-w10-source-admissibility.yml'
+      - 'scripts/build_ltmd_u1_w10_source_admissibility.py'
       - 'data/catalog/ltmd_u1_w10_asset_summary.csv'
       - 'data/catalog/ltmd_u1_w10_asset_manifest.csv'
 
