@@ -19,8 +19,8 @@
 <p align="center">
   <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions"><img src="https://img.shields.io/github/actions/workflow/status/fersandovalgtz/libro-texto-mexicano-digital/release-preflight.yml?branch=main&style=flat-square&label=CI%20%2F%20QA" alt="CI QA"></a>
   <img src="https://img.shields.io/badge/universo%20U1-542%20visores-455B55?style=flat-square" alt="542 visores U1">
-  <img src="https://img.shields.io/badge/cobertura%20técnica-329%2F542%20·%2060.70%25-455B55?style=flat-square" alt="329 de 542 cobertura técnica">
-  <img src="https://img.shields.io/badge/canónicos-298%2F542%20·%2054.98%25-5b4b8a?style=flat-square" alt="298 objetos canónicos">
+  <img src="https://img.shields.io/badge/cobertura%20técnica-349%2F542%20·%2064.39%25-455B55?style=flat-square" alt="349 de 542 cobertura técnica">
+  <img src="https://img.shields.io/badge/canónicos-318%2F542%20·%2058.67%25-5b4b8a?style=flat-square" alt="318 objetos canónicos">
   <img src="https://img.shields.io/badge/validación%20semántica%20humana-0%2F542-b7791f?style=flat-square" alt="0 de 542 validados semánticamente por humanos">
 </p>
 
@@ -55,13 +55,13 @@ El proyecto no trata un visor de catálogo, un archivo, una generación editoria
 
 ## Estado científico
 
-Corte documental de referencia: **17 de agosto de 2026**.
+Corte documental de referencia: **23 de agosto de 2026**.
 
 | Indicador | Estado |
 |---|---:|
 | Universo histórico operativo LTMD-U1 | **542 / 542 visores censados** |
-| Cobertura técnica efectiva cerrada o resuelta | **329 / 542 (60.70%)** |
-| Objetos canónicos de procesamiento | **298 / 542 (54.98%)** |
+| Cobertura técnica efectiva cerrada o resuelta | **349 / 542 (64.39%)** |
+| Objetos canónicos de procesamiento | **318 / 542 (58.67%)** |
 | Validación semántica humana | **0 / 542** |
 | Release metodológica publicada | **v0.1.0-rc.1** |
 | DOI de LTMD | **pendiente; no se anticipa** |
@@ -70,14 +70,17 @@ Corte documental de referencia: **17 de agosto de 2026**.
 
 | Ola | Dominio | Estado |
 |---|---|---|
-| W1 | Ciencias Naturales | cerrada técnicamente |
-| W2 | Matemáticas | parcial; 4 excepciones de routing preservadas |
-| W3 | Español / Lengua | cerrada técnicamente |
-| W4 | Ciencias Sociales | cerrada técnicamente |
-| W5 | Historia | cerrada técnicamente |
-| W6 | Geografía / Atlas | cerrada técnicamente |
-| W7 | Formación Cívica y Ética | cohorte fuente-admitida cerrada; 5 identidades retenidas |
-| W8–W11 | Artes, Educación Física, Integrados y Otros | programa U1 en evolución |
+| W1 | Ciencias Naturales | cerrada técnicamente (40/40) |
+| W2 | Matemáticas | parcial; 4 excepciones preservadas (60/64) |
+| W3 | Español / Lengua | cerrada técnicamente (130/130) |
+| W4 | Ciencias Sociales | cerrada técnicamente (14/14) |
+| W5 | Historia | cerrada técnicamente (18/18) |
+| W6 | Geografía / Atlas | cerrada técnicamente (42/42) |
+| W7 | Formación Cívica y Ética | cohorte fuente-admitida cerrada; 5 retenidas (25/30) |
+| W8 | Artes | cohorte fuente-admitida cerrada; 4 retenidas (16/20) |
+| W9 | Educación Física | cerrada técnicamente (4/4) |
+| W10 | Integrados / Multiarea | en cola (69) |
+| W11 | Otros / No clasificados | en cola (111) |
 
 El tablero reproducible se mantiene en [`data/catalog/ltmd_u1_coverage.md`](data/catalog/ltmd_u1_coverage.md) y el programa general en [`docs/LTMD_U1_MASTER_PLAN_0_1.md`](docs/LTMD_U1_MASTER_PLAN_0_1.md).
 

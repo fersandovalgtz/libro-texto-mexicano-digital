@@ -19,8 +19,8 @@
 <p align="center">
   <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions"><img src="https://img.shields.io/github/actions/workflow/status/fersandovalgtz/libro-texto-mexicano-digital/release-preflight.yml?branch=main&style=flat-square&label=CI%20%2F%20QA" alt="CI QA"></a>
   <img src="https://img.shields.io/badge/U1%20universe-542%20viewers-455B55?style=flat-square" alt="542 U1 viewers">
-  <img src="https://img.shields.io/badge/technical%20coverage-329%2F542%20·%2060.70%25-455B55?style=flat-square" alt="329 of 542 technical coverage">
-  <img src="https://img.shields.io/badge/canonical-298%2F542%20·%2054.98%25-5b4b8a?style=flat-square" alt="298 canonical objects">
+  <img src="https://img.shields.io/badge/technical%20coverage-349%2F542%20·%2064.39%25-455B55?style=flat-square" alt="349 of 542 technical coverage">
+  <img src="https://img.shields.io/badge/canonical-318%2F542%20·%2058.67%25-5b4b8a?style=flat-square" alt="318 canonical objects">
   <img src="https://img.shields.io/badge/human%20semantic%20validation-0%2F542-b7791f?style=flat-square" alt="0 of 542 human semantic validation">
 </p>
 
@@ -37,13 +37,13 @@ The project keeps **document identity**, **asset resolution**, **technical proce
 
 ## Scientific status
 
-Reference cut: **17 August 2026**.
+Reference cut: **23 August 2026**.
 
 | Indicator | Status |
 |---|---:|
 | LTMD-U1 historical universe | **542 / 542 viewers inventoried** |
-| Closed or resolved technical coverage | **329 / 542 (60.70%)** |
-| Canonical processing objects | **298 / 542 (54.98%)** |
+| Closed or resolved technical coverage | **349 / 542 (64.39%)** |
+| Canonical processing objects | **318 / 542 (58.67%)** |
 | Human semantic validation | **0 / 542** |
 | Published methodological release | **v0.1.0-rc.1** |
 | LTMD DOI | **pending; not pre-declared** |
