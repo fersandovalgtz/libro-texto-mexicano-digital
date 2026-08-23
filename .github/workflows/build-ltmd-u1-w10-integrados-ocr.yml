@@ -1,0 +1,108 @@
+name: build-ltmd-u1-w10-integrados-ocr
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/catalog/ltmd_u1_w10_processing_inventory.csv'
+      - 'data/catalog/ltmd_u1_w10_canonical_page_manifest.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w10-integrados-ocr
+  cancel-in-progress: false
+
+env:
+  OMP_THREAD_LIMIT: '1'
+
+jobs:
+  matrix:
+    runs-on: ubuntu-24.04
+    outputs:
+      viewers: ${{ steps.make.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: make
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import csv,json
+          proc=list(csv.DictReader(open('data/catalog/ltmd_u1_w10_processing_inventory.csv',encoding='utf-8')))
+          man=list(csv.DictReader(open('data/catalog/ltmd_u1_w10_canonical_page_manifest.csv',encoding='utf-8')))
+          assert len(proc)==69 and len({r['viewer_key'] for r in proc})==69
+          assert {r['topology_version'] for r in proc}=={'LTMD_U1_W10_PROCESSING_TOPOLOGY_0.1'}
+          keys=sorted(r['viewer_key'] for r in proc if r['source_admitted']=='1' and r['is_canonical_processing_object']=='1')
+          assert keys and {r['viewer_key'] for r in man}==set(keys)
+          assert {r['manifest_version'] for r in man}=={'LTMD_U1_W10_PROCESSING_TOPOLOGY_0.1'}
+          expected=sum(int(r['source_pages']) for r in proc if r['viewer_key'] in set(keys))
+          assert len(man)==expected, (len(man),expected)
+          assert len({r['page_id'] for r in man})==len(man)
+          assert all(r['asset_status']=='source_jpeg' and len(r['sha256'])==64 and int(r['byte_size'])>0 for r in man)
+          print('viewers='+json.dumps(keys,separators=(',',':')))
+          PY
+
+  ocr:
+    needs: matrix
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.matrix.outputs.viewers) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
+      - name: OCR one canonical W10 viewer
+        run: python3 scripts/ocr_ltmd_u1_w10_integrados_book.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w10-ocr-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w10_integrados_ocr/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  combine:
+    needs: ocr
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w10-ocr-*
+          path: data/work/ltmd_u1_w10_integrados_ocr
+          merge-multiple: true
+      - name: Combine exact W10 OCR coverage
+        run: python3 scripts/combine_ltmd_u1_w10_integrados_ocr.py
+      - name: Publish W10 OCR metrics race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/w10-ocr
+          mkdir -p /tmp/w10-ocr
+          cp data/catalog/ltmd_u1_w10_integrados_ocr_metrics.csv /tmp/w10-ocr/
+          cp data/catalog/ltmd_u1_w10_integrados_ocr_summary.csv /tmp/w10-ocr/
+          cp docs/LTMD_U1_W10_OCR.md /tmp/w10-ocr/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w10-ocr/ltmd_u1_w10_integrados_ocr_metrics.csv data/catalog/
+            cp /tmp/w10-ocr/ltmd_u1_w10_integrados_ocr_summary.csv data/catalog/
+            cp /tmp/w10-ocr/LTMD_U1_W10_OCR.md docs/
+            git add data/catalog/ltmd_u1_w10_integrados_ocr_metrics.csv data/catalog/ltmd_u1_w10_integrados_ocr_summary.csv docs/LTMD_U1_W10_OCR.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w10): publish topology-driven OCR metrics'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
