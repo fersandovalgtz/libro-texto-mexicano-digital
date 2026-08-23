@@ -1,0 +1,47 @@
+name: build-ltmd-u1-w10-processing-topology
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/catalog/ltmd_u1_w10_source_admissibility.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w10-processing-topology
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build byte-exact W10 processing topology
+        run: python3 scripts/build_ltmd_u1_w10_processing_topology.py
+      - name: Publish W10 topology and canonical manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w10_processing_inventory.csv /tmp/ltmd_u1_w10_processing_inventory.csv
+          cp data/catalog/ltmd_u1_w10_canonical_page_manifest.csv /tmp/ltmd_u1_w10_canonical_page_manifest.csv
+          cp docs/LTMD_U1_W10_PROCESSING_TOPOLOGY.md /tmp/LTMD_U1_W10_PROCESSING_TOPOLOGY.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w10_processing_inventory.csv data/catalog/ltmd_u1_w10_processing_inventory.csv
+            cp /tmp/ltmd_u1_w10_canonical_page_manifest.csv data/catalog/ltmd_u1_w10_canonical_page_manifest.csv
+            cp /tmp/LTMD_U1_W10_PROCESSING_TOPOLOGY.md docs/LTMD_U1_W10_PROCESSING_TOPOLOGY.md
+            git add data/catalog/ltmd_u1_w10_processing_inventory.csv data/catalog/ltmd_u1_w10_canonical_page_manifest.csv docs/LTMD_U1_W10_PROCESSING_TOPOLOGY.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w10): publish byte-exact processing topology'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
