@@ -1,0 +1,52 @@
+name: build-ltmd-u1-w11-architecture
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w11-architecture.yml'
+      - 'scripts/audit_ltmd_u1_w11_architecture.py'
+      - 'data/catalog/ltmd_u1_w11_scope.csv'
+      - 'docs/LTMD_U1_W11_HETEROGENEITY.md'
+  workflow_run:
+    workflows: ['profile-ltmd-u1-w11-heterogeneity']
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w11-architecture
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Audit W11 viewer architecture
+        run: python3 scripts/audit_ltmd_u1_w11_architecture.py
+      - name: Publish W11 architecture products race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w11_viewer_architecture.csv /tmp/ltmd_u1_w11_viewer_architecture.csv
+          cp docs/LTMD_U1_W11_ARCHITECTURE.md /tmp/LTMD_U1_W11_ARCHITECTURE.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w11_viewer_architecture.csv data/catalog/ltmd_u1_w11_viewer_architecture.csv
+            cp /tmp/LTMD_U1_W11_ARCHITECTURE.md docs/LTMD_U1_W11_ARCHITECTURE.md
+            git add data/catalog/ltmd_u1_w11_viewer_architecture.csv docs/LTMD_U1_W11_ARCHITECTURE.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w11): publish viewer architecture audit'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
