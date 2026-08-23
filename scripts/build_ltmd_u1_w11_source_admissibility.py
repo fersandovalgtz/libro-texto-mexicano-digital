@@ -56,7 +56,7 @@ def main()->None:
     for route,n in sorted(routes.items()):lines.append(f'- `{route}`: **{n}** identidades.')
     lines+=['','## Estados']
     for state,n in sorted(states.items()):lines.append(f'- `{state}`: **{n}**.')
-    bad=[r for r in rows if r['ocr_source_admitted']=='0']
+    bad=[r for r in rows if int(r['ocr_source_admitted'])==0]
     lines+=['','## Retenciones explícitas']
     if bad:
         for r in bad:lines.append(f"- `{r['viewer_key']}` — `{r['source_state']}`; ruta `{r['technical_route']}`; JPEG {r['source_jpegs']}/{r['declared_positions']}, huecos internos {r['internal_unserved']}.")
