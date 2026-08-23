@@ -47,7 +47,9 @@ def stage_es(r):
  s=r['stage'];eff=int(r['effective_technical_identities']);plan=int(r['planned_identities']);rem=int(r['remaining_to_effective'])
  if s=='closed':return f'cerrada técnicamente ({eff}/{plan})'
  if s=='partial_with_preserved_exceptions':return f'parcial; {rem} excepciones preservadas ({eff}/{plan})'
- if s=='source_admitted_cohort_closed_with_retentions':return f'cohorte fuente-admitida cerrada; {rem} retenidas ({eff}/{plan})'
+ if s=='source_admitted_cohort_closed_with_retentions':
+  noun='retenida' if rem==1 else 'retenidas'
+  return f'cohorte fuente-admitida cerrada; {rem} {noun} ({eff}/{plan})'
  if s in ES_STAGE:return ES_STAGE[s]
  return f'en cola ({plan})'
 
