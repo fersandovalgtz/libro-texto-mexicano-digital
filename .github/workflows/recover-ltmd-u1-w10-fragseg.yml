@@ -1,0 +1,79 @@
+name: recover-ltmd-u1-w10-fragseg
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/recover-ltmd-u1-w10-fragseg.yml'
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: recover-ltmd-u1-w10-fragseg
+  cancel-in-progress: false
+
+jobs:
+  inspect-and-recover:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      TARGET: build-ltmd-u1-w10-integrados-fragseg.yml
+      PREFLIGHT: preflight-ltmd-u1-w10-fragseg.yml
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect FRAGSEG run state and dispatch only when needed
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$REPO/actions/workflows/$TARGET/runs?branch=main&per_page=10" > /tmp/runs.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/runs.json'))
+          rows=d.get('workflow_runs',[])
+          for r in rows[:10]:
+              print(r['id'], r['status'], r.get('conclusion'), r.get('event'), r.get('created_at'))
+          PY
+          active=$(python3 - <<'PY'
+          import json
+          rows=json.load(open('/tmp/runs.json')).get('workflow_runs',[])
+          print(int(any(r.get('status') in {'queued','in_progress','waiting','requested','pending'} for r in rows)))
+          PY
+          )
+          success=$(python3 - <<'PY'
+          import json
+          rows=json.load(open('/tmp/runs.json')).get('workflow_runs',[])
+          print(int(any(r.get('status')=='completed' and r.get('conclusion')=='success' for r in rows[:5])))
+          PY
+          )
+          if [[ "$active" == 1 ]]; then
+            echo 'FRAGSEG already active; no duplicate dispatch.'
+          elif [[ "$success" == 1 ]]; then
+            echo 'A recent successful FRAGSEG run exists; no dispatch.'
+          else
+            echo 'No active/recent-successful FRAGSEG run; dispatching recovery run.'
+            gh workflow run "$TARGET" --repo "$REPO" --ref main
+          fi
+      - name: Ensure static FRAGSEG preflight has a run
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$REPO/actions/workflows/$PREFLIGHT/runs?branch=main&per_page=5" > /tmp/preflight-runs.json
+          active=$(python3 - <<'PY'
+          import json
+          rows=json.load(open('/tmp/preflight-runs.json')).get('workflow_runs',[])
+          print(int(any(r.get('status') in {'queued','in_progress','waiting','requested','pending'} for r in rows)))
+          PY
+          )
+          success=$(python3 - <<'PY'
+          import json
+          rows=json.load(open('/tmp/preflight-runs.json')).get('workflow_runs',[])
+          print(int(any(r.get('status')=='completed' and r.get('conclusion')=='success' for r in rows[:5])))
+          PY
+          )
+          if [[ "$active" == 0 && "$success" == 0 ]]; then
+            gh workflow run "$PREFLIGHT" --repo "$REPO" --ref main
+          fi
