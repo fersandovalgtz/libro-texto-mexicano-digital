@@ -1,0 +1,112 @@
+name: Validate LTMD Full-Text Research Layer
+
+on:
+  push:
+    paths:
+      - 'scripts/build_page_ocr_corpus.py'
+      - 'scripts/build_search_index.py'
+      - 'scripts/query_ocr_corpus.py'
+      - 'scripts/validate_ocr_corpus.py'
+      - 'schemas/ltmd_page_ocr.schema.json'
+      - 'docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md'
+      - 'docs/LTMD_SEARCH_METHODOLOGY.md'
+      - 'docs/LTMD_OCR_PROVENANCE.md'
+      - '.github/workflows/validate-full-text-research-layer.yml'
+  pull_request:
+    paths:
+      - 'scripts/build_page_ocr_corpus.py'
+      - 'scripts/build_search_index.py'
+      - 'scripts/query_ocr_corpus.py'
+      - 'scripts/validate_ocr_corpus.py'
+      - 'schemas/ltmd_page_ocr.schema.json'
+      - 'docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md'
+      - 'docs/LTMD_SEARCH_METHODOLOGY.md'
+      - 'docs/LTMD_OCR_PROVENANCE.md'
+      - '.github/workflows/validate-full-text-research-layer.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile FTRL scripts
+        run: |
+          python -m py_compile \
+            scripts/build_page_ocr_corpus.py \
+            scripts/build_search_index.py \
+            scripts/query_ocr_corpus.py \
+            scripts/validate_ocr_corpus.py
+      - name: Build synthetic page corpus
+        run: |
+          mkdir -p local
+          python - <<'PY'
+          import hashlib
+          import json
+          import re
+
+          def record(page_id, index, text):
+              search = re.sub(r"\s+", " ", text).strip()
+              return {
+                  "schema_version": "LTMD_PAGE_OCR_0.1",
+                  "pipeline_version": "LTMD_FTRL_OCR_0.1",
+                  "page_id": page_id,
+                  "viewer_key": "H1993P6HI214",
+                  "canonical_viewer_key": "H1993P6HI214",
+                  "wave": "W5",
+                  "catalog_generation": 1993,
+                  "grade_code": 6,
+                  "title_core": "Historia",
+                  "page_index": index,
+                  "viewer_page": index,
+                  "source_asset_url": f"https://example.invalid/{index:03d}.jpg",
+                  "source_sha256": "a" * 64,
+                  "source_byte_size": 123,
+                  "ocr_engine": "tesseract",
+                  "ocr_engine_version": "synthetic-test",
+                  "ocr_language": "spa",
+                  "ocr_psm": 3,
+                  "ocr_text_raw": text,
+                  "ocr_sha256": hashlib.sha256(text.encode()).hexdigest(),
+                  "search_text": search,
+                  "search_text_sha256": hashlib.sha256(search.encode()).hexdigest(),
+                  "ocr_confidence_mean": 95.0,
+                  "ocr_char_count": len(text),
+                  "ocr_word_count": len(re.findall(r"\S+", text)),
+                  "generated_at": "2026-08-23T00:00:00+00:00",
+              }
+
+          rows = [
+              record("H1993P6HI214:src0032", 32, "Las logias masónicas del rito escocés."),
+              record("H1993P6HI214:src0033", 33, "Los yorkinos participaron en la vida política."),
+          ]
+          with open("local/ftrl-smoke.jsonl", "w", encoding="utf-8") as fh:
+              for row in rows:
+                  fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+          PY
+      - name: Build and validate FTS5 index
+        run: |
+          python scripts/build_search_index.py \
+            --input local/ftrl-smoke.jsonl \
+            --output local/ftrl-smoke.sqlite
+          python scripts/validate_ocr_corpus.py \
+            --input local/ftrl-smoke.jsonl \
+            --db local/ftrl-smoke.sqlite
+      - name: Query smoke index
+        run: |
+          python scripts/query_ocr_corpus.py \
+            --db local/ftrl-smoke.sqlite \
+            --query 'masónica OR masonería' \
+            --format json | tee local/query.json
+          python - <<'PY'
+          import json
+          rows = json.load(open("local/query.json", encoding="utf-8"))
+          assert len(rows) == 1
+          assert rows[0]["page_id"] == "H1993P6HI214:src0032"
+          PY
