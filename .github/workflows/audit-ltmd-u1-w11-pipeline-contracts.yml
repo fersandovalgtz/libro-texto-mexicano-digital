@@ -1,0 +1,53 @@
+name: audit-ltmd-u1-w11-pipeline-contracts
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/audit-ltmd-u1-w11-pipeline-contracts.yml'
+      - 'scripts/audit_ltmd_u1_w11_pipeline_contracts.py'
+      - 'data/catalog/ltmd_u1_w11_source_admissibility.csv'
+      - 'data/catalog/ltmd_u1_w11_processing_inventory.csv'
+      - 'data/catalog/ltmd_u1_w11_canonical_page_manifest.csv'
+      - 'data/catalog/ltmd_u1_w11_retained_source_holes.csv'
+      - 'data/catalog/ltmd_u1_coverage_summary.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: audit-ltmd-u1-w11-pipeline-contracts
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Refresh authoritative main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+      - name: Audit W11 contracts
+        run: python3 scripts/audit_ltmd_u1_w11_pipeline_contracts.py
+      - name: Publish audit report race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp docs/LTMD_U1_W11_PIPELINE_AUDIT.md /tmp/LTMD_U1_W11_PIPELINE_AUDIT.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/LTMD_U1_W11_PIPELINE_AUDIT.md docs/
+            git add docs/LTMD_U1_W11_PIPELINE_AUDIT.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'qa(w11): publish pipeline contract audit'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
