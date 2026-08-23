@@ -1,6 +1,6 @@
 {
   "report_version": "LTMD_U1_W11_PIPELINE_STATUS_0.2",
-  "observed_at_utc": "2026-08-23T21:06:29.374411Z",
+  "observed_at_utc": "2026-08-23T21:07:29.801012Z",
   "repository": "fersandovalgtz/libro-texto-mexicano-digital",
   "observer_run_id": "32666468541",
   "observer_job_id": "",
@@ -31,10 +31,10 @@
       "conclusion": "",
       "head_sha": "ddf3055a49dc1f02c1ac9dc6d1e4aa4fdcd6aa1a",
       "jobs": 107,
-      "jobs_completed": 81,
-      "jobs_success": 81,
+      "jobs_completed": 88,
+      "jobs_success": 88,
       "jobs_in_progress": 8,
-      "jobs_queued": 18,
+      "jobs_queued": 11,
       "job_failures": 0,
       "job_cancelled": 0,
       "updated_at": "2026-08-23T20:56:01Z"
