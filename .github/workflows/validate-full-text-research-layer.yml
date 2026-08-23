@@ -7,6 +7,7 @@ on:
       - 'scripts/build_search_index.py'
       - 'scripts/query_ocr_corpus.py'
       - 'scripts/validate_ocr_corpus.py'
+      - 'scripts/run_ftrl_w5_pilot.py'
       - 'schemas/ltmd_page_ocr.schema.json'
       - 'docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md'
       - 'docs/LTMD_SEARCH_METHODOLOGY.md'
@@ -18,6 +19,7 @@ on:
       - 'scripts/build_search_index.py'
       - 'scripts/query_ocr_corpus.py'
       - 'scripts/validate_ocr_corpus.py'
+      - 'scripts/run_ftrl_w5_pilot.py'
       - 'schemas/ltmd_page_ocr.schema.json'
       - 'docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md'
       - 'docs/LTMD_SEARCH_METHODOLOGY.md'
@@ -42,7 +44,8 @@ jobs:
             scripts/build_page_ocr_corpus.py \
             scripts/build_search_index.py \
             scripts/query_ocr_corpus.py \
-            scripts/validate_ocr_corpus.py
+            scripts/validate_ocr_corpus.py \
+            scripts/run_ftrl_w5_pilot.py
       - name: Build synthetic page corpus
         run: |
           mkdir -p local
