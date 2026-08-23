@@ -2,7 +2,7 @@
 """Profile documentary heterogeneity in frozen LTMD-U1 W11 without semantic reclassification."""
 from __future__ import annotations
 import csv, re, unicodedata
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -10,7 +10,7 @@ SCOPE=Path('data/catalog/ltmd_u1_w11_scope.csv')
 OUT=Path('data/catalog/ltmd_u1_w11_heterogeneity.csv')
 REPORT=Path('docs/LTMD_U1_W11_HETEROGENEITY.md')
 SCOPE_VERSION='LTMD_U1_W11_OTROS_SCOPE_0.1'
-VERSION='LTMD_U1_W11_HETEROGENEITY_0.1'
+VERSION='LTMD_U1_W11_HETEROGENEITY_0.2'
 EXPECTED=111
 SIGNALS=[
     'generic_grade_book','recortable','libro_integrado','monografia_estatal',
@@ -28,7 +28,7 @@ def norm(s:str)->str:
 def flags(title:str)->dict[str,int]:
     t=norm(title)
     return {
-        'generic_grade_book': int(bool(re.search(r'^MI (?:CUADERNO DE TRABAJO|LIBRO).*?(?:ANO|1ER|1°|2°|PARTE)',t))),
+        'generic_grade_book': int(bool(re.search(r'^MI (?:CUADERNO DE TRABAJO|LIBRO).*?(?:ANO|1ER|1°|2°|PARTE|SEGUNDO)',t))),
         'recortable': int('RECORTABLE' in t),
         'libro_integrado': int('LIBRO INTEGRADO' in t),
         'monografia_estatal': int(t.startswith('MONOGRAFIA ESTATAL')),
@@ -38,7 +38,8 @@ def flags(title:str)->dict[str,int]:
         'material_alfabetizacion': int('MATERIAL DE APOYO A LA ALFABETIZACION' in t),
         'fichero_didactico': int('FICHERO DIDACT' in t),
         'conocimiento_medio': int('CONOCIMIENTO DEL MEDIO' in t),
-        'matematicas_literal': int('MATEMAT' in t),
+        # Stemming is intentionally literal/orthographic: it captures catalog spellings such as MATEMAÁTICAS without correcting the source title.
+        'matematicas_literal': int('MATEMA' in t),
     }
 
 def path_shape(url:str)->str:
@@ -70,7 +71,7 @@ def main()->None:
     hosts=Counter(r['source_host'] for r in out);shapes=Counter(r['source_path_shape'] for r in out)
     signal_counts={s:sum(int(r[s]) for r in out) for s in SIGNALS};sigs=Counter(r['signal_signature'] for r in out)
     no_signal=sum(r['signal_signature']=='no_declared_signal' for r in out)
-    multi=sum(r['signal_signature'].count('+')>=1 for r in out)
+    multi=sum('+' in r['signal_signature'] for r in out)
     prefix=Counter(re.match(r'^(H\d{4}P\d+)([A-Z]+)',r['viewer_key']).group(2) if re.match(r'^(H\d{4}P\d+)([A-Z]+)',r['viewer_key']) else 'OTHER' for r in out)
     lines=['# LTMD-U1 W11 — perfil de heterogeneidad documental','',f'Versión: `{VERSION}`.','',
            f'- Identidades perfiladas: **{len(out)}/{EXPECTED}**.','- Base: alcance W11 congelado; ninguna fila se agrega ni se elimina.','- Propósito: QA operacional y diseño de ejecución, no reclasificación semántica.','',
@@ -80,7 +81,7 @@ def main()->None:
     for k,v in sorted(grades.items(),key=lambda x:int(x[0])):lines.append(f'- grado {k}: **{v}**.')
     lines+=['','## Señales documentales literales/deterministas']
     for s in SIGNALS:lines.append(f'- `{s}`: **{signal_counts[s]}**.')
-    lines += ['',f'- Sin ninguna señal declarada: **{no_signal}**.','- Con ≥2 señales simultáneas: **{}**.'.format(multi),'',
+    lines += ['',f'- Sin ninguna señal declarada: **{no_signal}**.',f'- Con ≥2 señales simultáneas: **{multi}**.','',
               '## Firmas de señales']
     for k,v in sigs.most_common():lines.append(f'- `{k}`: **{v}**.')
     lines+=['','## Patrones técnicos de identificador']
