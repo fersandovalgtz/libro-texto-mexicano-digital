@@ -1,0 +1,38 @@
+name: Validate U1 retained source register
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'data/catalog/ltmd_u1_coverage.md'
+      - 'docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md'
+      - 'scripts/validate_u1_retained_source_register.py'
+      - '.github/workflows/validate-u1-retained-source-register.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'data/catalog/ltmd_u1_coverage.md'
+      - 'docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md'
+      - 'scripts/validate_u1_retained_source_register.py'
+      - '.github/workflows/validate-u1-retained-source-register.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  retained-source-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate retained-source register against U1 coverage
+        run: python scripts/validate_u1_retained_source_register.py
