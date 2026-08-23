@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.15",
-  "generated_utc": "2026-08-23T19:27:11.845358+00:00",
-  "git_head": "393bc69310acdcca667d984ca0ede5cf27d61a58",
+  "generated_utc": "2026-08-23T19:27:33.628221+00:00",
+  "git_head": "91d34100626f6bde071907a3d73b46cdeae29ef8",
   "scope": "LTMD v0.15: frozen v0.14 perimeter plus complete LTMD-U1 W9 technical closure and the W10 Integrados/Multiarea source-first chain from frozen scope, viewer/source audit and source admissibility through byte-exact processing topology, SHA-verified OCR, conservative PAGESTRUCT, frozen-engine FRAGSEG, exact-text reuse/dependence and evidence-gated technical completion, including explicit source retentions, global U1 coverage reconstruction and Spanish/English landing-page synchronization",
   "critical_count": 607,
   "critical_present_count": 607,
@@ -16,8 +16,8 @@
   "files": [
     {
       "path": "README.md",
-      "bytes": 10859,
-      "sha256": "aabe550a0daf1e29064d984ecc37bb1fec53530b0d39b5cdc4ce12ec9425b3e8",
+      "bytes": 10878,
+      "sha256": "4921b6c07de8765d9e0a89a85bf421caa7e81ecab9ecdb87a0e3c95bbb731437",
       "required": true
     },
     {
@@ -2908,14 +2908,14 @@
     },
     {
       "path": "data/catalog/ltmd_u1_coverage.md",
-      "bytes": 2918,
-      "sha256": "18d5691544e02d80ca2d488af719f87ce34b2b110b68642267d0d0ddf7cdb077",
+      "bytes": 2913,
+      "sha256": "6e3fa589fc566a0b442702545ddc2984b9c30eb9dc84cda25f9fc9e8fb385111",
       "required": true
     },
     {
       "path": "data/catalog/ltmd_u1_coverage_summary.csv",
-      "bytes": 1300,
-      "sha256": "111ef5f60e441ea77729f701342d8117a74be244b14d9c49864e6c8450075dc1",
+      "bytes": 1306,
+      "sha256": "baf376feaf67cf45438041d8fc935d3fb7161c8e544575ff9571dce5e32e91ad",
       "required": true
     },
     {
@@ -3526,8 +3526,8 @@
     },
     {
       "path": ".github/workflows/build-ltmd-u1-w10-completion.yml",
-      "bytes": 1627,
-      "sha256": "72c48c13482849494dbdaa58ea6363cd8bd544c20c74985c2b8eadb17f02adc8",
+      "bytes": 1688,
+      "sha256": "5e3f3cfefbbf8e6429d0215db21b16048a05b05d3ccb4fe513f1cf4d98057087",
       "required": true
     },
     {

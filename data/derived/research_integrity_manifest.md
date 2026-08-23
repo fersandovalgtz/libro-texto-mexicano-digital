@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.15`.
 
-Commit observado: `393bc69310acdcca667d984ca0ede5cf27d61a58`.
+Commit observado: `91d34100626f6bde071907a3d73b46cdeae29ef8`.
 
 Alcance: perímetro v0.14 congelado + cierre técnico completo LTMD-U1 W9 y cadena source-first W10 Integrados/Multiarea desde alcance congelado, auditoría de visor/fuente y admisibilidad hasta topología byte-exacta, OCR verificado por SHA, PAGESTRUCT conservador, FRAGSEG con motor congelado, reutilización/dependencia textual exacta y cierre técnico condicionado a evidencia, incluidas retenciones explícitas, reconstrucción global de cobertura U1 y sincronización de las portadas en español/inglés.
 
@@ -13,7 +13,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 
 ## Archivos críticos
 
-- `README.md` — 10859 bytes — `aabe550a0daf1e29064d984ecc37bb1fec53530b0d39b5cdc4ce12ec9425b3e8`
+- `README.md` — 10878 bytes — `4921b6c07de8765d9e0a89a85bf421caa7e81ecab9ecdb87a0e3c95bbb731437`
 - `CITATION.cff` — 1024 bytes — `8e418bc83fb1ac019f5fa0147d59fa31230bad543fbf2d3ec08805221b37ea4a`
 - `data/book_inventory.csv` — 3003 bytes — `4b9ae106d4b3ed2e1b30203e46d46f6280e1c3f6b22b62791beaab1e677446c4`
 - `data/derived/page_structure.csv` — 107957 bytes — `9528558068ac52b45f05fa9c75b9336a8150d57bf2b3a9a9225b816ed68e82ad`
@@ -495,8 +495,8 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `docs/LTMD_U1_W10_FRAGSEG.md` — 1128 bytes — `d18b97b436a0e29c83b4739621c120f680a1e24df3b51650195099f172655c5a`
 - `docs/LTMD_U1_W10_EXACT_REUSE.md` — 2624 bytes — `dae737897d5bc67769db324396565bd15c94996f08e3d017ab4232656b8bc1c9`
 - `docs/LTMD_U1_W10_COMPLETION.md` — 2196 bytes — `bec65fd986c0991d46dd503b8cd7041e0b5f0e31132e24f9d4af2ba0d273b628`
-- `data/catalog/ltmd_u1_coverage.md` — 2918 bytes — `18d5691544e02d80ca2d488af719f87ce34b2b110b68642267d0d0ddf7cdb077`
-- `data/catalog/ltmd_u1_coverage_summary.csv` — 1300 bytes — `111ef5f60e441ea77729f701342d8117a74be244b14d9c49864e6c8450075dc1`
+- `data/catalog/ltmd_u1_coverage.md` — 2913 bytes — `6e3fa589fc566a0b442702545ddc2984b9c30eb9dc84cda25f9fc9e8fb385111`
+- `data/catalog/ltmd_u1_coverage_summary.csv` — 1306 bytes — `baf376feaf67cf45438041d8fc935d3fb7161c8e544575ff9571dce5e32e91ad`
 - `README.en.md` — 6184 bytes — `5a6b2382fc0bdf1f33acf1bf8d8738c0dcaa9d15bf50a9d8616f04a8120b36da`
 - `scripts/build_research_integrity_manifest_v15.py` — 5478 bytes — `2b0f899168b193d2fc4c5321cf42ed3442998dc649d9fc425d9aff4a83f104d3`
 - `scripts/build_ltmd_u1_coverage_dashboard.py` — 11791 bytes — `107a2f2a5c114273f07767a0d6926baa817df7ff8de3b3bf56298db50917967a`
@@ -598,7 +598,7 @@ Cada entrada conserva tamaño y SHA-256. Una modificación legítima produce una
 - `.github/workflows/audit-ltmd-u1-w9-source-admissibility.yml` — 2545 bytes — `88c1a536265bd341ac295942ef66ba6db827e65b752000ede5ea169444bdd629`
 - `.github/workflows/build-ltmd-u1-w10-architecture.yml` — 2226 bytes — `390d6d61c689b6772d55a04b9dc7c48e2649327cdb20bf5ec446fe26eaa56f6b`
 - `.github/workflows/build-ltmd-u1-w10-assets.yml` — 3505 bytes — `5ba7f107aa339fa5e475ae953f4100421c11cfa5ed661737d7a1fec3981da330`
-- `.github/workflows/build-ltmd-u1-w10-completion.yml` — 1627 bytes — `72c48c13482849494dbdaa58ea6363cd8bd544c20c74985c2b8eadb17f02adc8`
+- `.github/workflows/build-ltmd-u1-w10-completion.yml` — 1688 bytes — `5e3f3cfefbbf8e6429d0215db21b16048a05b05d3ccb4fe513f1cf4d98057087`
 - `.github/workflows/build-ltmd-u1-w10-declared-inventory.yml` — 2691 bytes — `f294b0ff23373299c391a9a0760a38c3046cd9ad8a9c23558bd8276f319c4918`
 - `.github/workflows/build-ltmd-u1-w10-integrados-exact-reuse.yml` — 2251 bytes — `0b0f7bca0fa6d4aae1c6c5e5967454edf65aed4a9c9e000bfd0469a5f4ebfda0`
 - `.github/workflows/build-ltmd-u1-w10-integrados-fragseg.yml` — 4703 bytes — `b873c802e3d6cf0ef9d96f693d1810d1eb1bce845d88b74885e02c265a031cc2`
