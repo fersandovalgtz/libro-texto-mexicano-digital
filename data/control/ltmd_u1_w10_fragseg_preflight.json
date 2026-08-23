@@ -1,0 +1,13 @@
+{
+  "preflight_version": "LTMD_U1_W10_FRAGSEG_PREFLIGHT_0.1",
+  "status": "PASS",
+  "historical_identities": 69,
+  "canonical_objects": 68,
+  "retained_identities": 1,
+  "canonical_source_pages": 11937,
+  "pagestruct_pages": 11937,
+  "fragseg_eligible_pages": 10366,
+  "canonical_viewers_with_eligible_pages": 68,
+  "failures": [],
+  "epistemic_limit": "Static topology/source validation only; not OCR, FRAGSEG or semantic validation."
+}
