@@ -6,9 +6,10 @@ Source images are temporary, byte-size/SHA-256 verified, and never persisted.
 Only technical OCR metrics are written.
 """
 from __future__ import annotations
-import argparse,csv,hashlib,os,statistics,subprocess,tempfile
+import argparse,csv,hashlib,os,statistics,subprocess,tempfile,time
 from pathlib import Path
 from urllib.request import Request,urlopen
+from urllib.error import HTTPError,URLError
 
 MAN=Path('data/catalog/ltmd_u1_w11_canonical_page_manifest.csv')
 PROC=Path('data/catalog/ltmd_u1_w11_processing_inventory.csv')
@@ -17,6 +18,8 @@ VERSION='LTMD_U1_W11_OCR_0.1'
 UA='LibroTextoMexicanoDigital/U1-W11 OCR 0.1'
 FALLBACK_MIN_WORDS=5
 TIMEOUT=60
+SOURCE_ATTEMPTS=3
+SOURCE_TIMEOUT=45
 EXPECTED_IDENTITIES=111
 FIELDS=['ocr_version','page_id','viewer_key','catalog_generation','grade','title_core','viewer_page','source_image_index','processing_mode','source_provenance','source_bytes','source_sha256_verified','attempts','selected_psm','recognized_words','ocr_chars','mean_word_confidence','median_word_confidence','low_confidence_word_rate','ocr_class','ocr_status','error']
 
@@ -41,16 +44,23 @@ def load_topology()->set[str]:
         if n!=int(pmap[k]['source_pages']):raise SystemExit(f'W11 source-page count mismatch {k}: {n}/{pmap[k]["source_pages"]}')
     return canonical
 
-def download_verify(row:dict[str,str],target:Path)->int:
-    h=hashlib.sha256();total=0
-    with urlopen(Request(row['source_asset_url'],headers={'User-Agent':UA}),timeout=45) as response,target.open('wb') as f:
-        while True:
-            b=response.read(1024*1024)
-            if not b:break
-            h.update(b);total+=len(b);f.write(b)
-    if h.hexdigest()!=row['sha256']:raise RuntimeError('SHA256 mismatch')
-    if total!=int(row['byte_size']):raise RuntimeError('byte-size mismatch')
-    return total
+def download_verify(row:dict[str,str],target:Path)->tuple[int,int]:
+    last=''
+    for attempt in range(1,SOURCE_ATTEMPTS+1):
+        target.unlink(missing_ok=True);h=hashlib.sha256();total=0
+        try:
+            with urlopen(Request(row['source_asset_url'],headers={'User-Agent':UA}),timeout=SOURCE_TIMEOUT) as response,target.open('wb') as f:
+                while True:
+                    b=response.read(1024*1024)
+                    if not b:break
+                    h.update(b);total+=len(b);f.write(b)
+            if h.hexdigest()!=row['sha256']:raise RuntimeError('SHA256 mismatch')
+            if total!=int(row['byte_size']):raise RuntimeError('byte-size mismatch')
+            return total,attempt
+        except (HTTPError,URLError,TimeoutError,OSError,RuntimeError) as exc:
+            last=f'{type(exc).__name__}: {exc}';target.unlink(missing_ok=True)
+            if attempt<SOURCE_ATTEMPTS:time.sleep(attempt)
+    raise RuntimeError(f'source verification failed after {SOURCE_ATTEMPTS} attempts: {last}')
 
 def run_ocr(image:Path,psm:int)->dict[str,object]:
     env=os.environ.copy();env['OMP_THREAD_LIMIT']='1'
@@ -72,7 +82,7 @@ def process(row:dict[str,str],tmp:Path)->dict[str,object]:
     base={'ocr_version':VERSION,'page_id':pid,'viewer_key':row['viewer_key'],'catalog_generation':row['catalog_generation'],'grade':row['grade_code'],'title_core':row['title_core'],'viewer_page':row['viewer_page'],'source_image_index':row['source_image_index'],'processing_mode':row['processing_mode'],'source_provenance':row['source_provenance']}
     empty={'recognized_words':'','ocr_chars':'','mean_word_confidence':'','median_word_confidence':'','low_confidence_word_rate':''}
     try:
-        size=download_verify(row,image);baseline=None
+        size,source_attempts=download_verify(row,image);attempts.append(f'source:ok:{source_attempts}');baseline=None
         try:baseline=run_ocr(image,3);attempts.append(f"psm3:ok:{baseline['recognized_words']}")
         except subprocess.TimeoutExpired:attempts.append('psm3:timeout');errors.append(f'psm3 timeout>{TIMEOUT}s')
         except Exception as exc:attempts.append('psm3:error');errors.append(f'psm3 {type(exc).__name__}: {exc}')
@@ -93,7 +103,7 @@ def process(row:dict[str,str],tmp:Path)->dict[str,object]:
             _,m=max(observed,key=lambda x:score(x[1]));return {**base,'source_bytes':size,'source_sha256_verified':1,'attempts':';'.join(attempts),'selected_psm':'',**m,'ocr_class':'no_text_detected','ocr_status':'ok','error':' | '.join(errors)}
         return {**base,'source_bytes':size,'source_sha256_verified':1,'attempts':';'.join(attempts),'selected_psm':'',**empty,'ocr_class':'unresolved','ocr_status':'error','error':' | '.join(errors)}
     except Exception as exc:
-        return {**base,'source_bytes':'','source_sha256_verified':0,'attempts':';'.join(attempts),'selected_psm':'',**empty,'ocr_class':'unresolved','ocr_status':'error','error':f'{type(exc).__name__}: {exc}'}
+        attempts.append('source:error');return {**base,'source_bytes':'','source_sha256_verified':0,'attempts':';'.join(attempts),'selected_psm':'',**empty,'ocr_class':'unresolved','ocr_status':'error','error':f'{type(exc).__name__}: {exc}'}
     finally:image.unlink(missing_ok=True)
 
 def main()->None:
