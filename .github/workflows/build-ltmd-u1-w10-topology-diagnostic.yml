@@ -1,0 +1,76 @@
+name: build-ltmd-u1-w10-topology-diagnostic
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w10-topology-diagnostic.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Execute W10 topology builder and capture result
+        id: run
+        shell: bash
+        run: |
+          set +e
+          python3 scripts/build_ltmd_u1_w10_processing_topology.py > /tmp/w10-topology.log 2>&1
+          status=$?
+          cat /tmp/w10-topology.log
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          if [ "$status" -ne 0 ]; then
+            {
+              echo '# LTMD-U1 W10 — diagnóstico de topología'
+              echo
+              echo 'La ejecución del builder de topología falló antes de publicar artefactos.'
+              echo
+              echo '```text'
+              tail -n 80 /tmp/w10-topology.log
+              echo '```'
+            } > /tmp/LTMD_U1_W10_TOPOLOGY_DIAGNOSTIC.md
+          fi
+          exit 0
+      - name: Stage successful topology products
+        if: steps.run.outputs.status == '0'
+        shell: bash
+        run: |
+          mkdir -p /tmp/w10-topology-success
+          cp data/catalog/ltmd_u1_w10_processing_inventory.csv /tmp/w10-topology-success/
+          cp data/catalog/ltmd_u1_w10_canonical_page_manifest.csv /tmp/w10-topology-success/
+          cp docs/LTMD_U1_W10_PROCESSING_TOPOLOGY.md /tmp/w10-topology-success/
+      - name: Publish diagnostic or successful products
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            git reset --hard origin/main
+            if [ '${{ steps.run.outputs.status }}' = '0' ]; then
+              cp /tmp/w10-topology-success/ltmd_u1_w10_processing_inventory.csv data/catalog/
+              cp /tmp/w10-topology-success/ltmd_u1_w10_canonical_page_manifest.csv data/catalog/
+              cp /tmp/w10-topology-success/LTMD_U1_W10_PROCESSING_TOPOLOGY.md docs/
+              rm -f docs/LTMD_U1_W10_TOPOLOGY_DIAGNOSTIC.md
+              git add data/catalog/ltmd_u1_w10_processing_inventory.csv data/catalog/ltmd_u1_w10_canonical_page_manifest.csv docs/LTMD_U1_W10_PROCESSING_TOPOLOGY.md
+              git add -u docs/LTMD_U1_W10_TOPOLOGY_DIAGNOSTIC.md 2>/dev/null || true
+              msg='data(w10): recover and publish byte-exact processing topology'
+            else
+              cp /tmp/LTMD_U1_W10_TOPOLOGY_DIAGNOSTIC.md docs/LTMD_U1_W10_TOPOLOGY_DIAGNOSTIC.md
+              git add docs/LTMD_U1_W10_TOPOLOGY_DIAGNOSTIC.md
+              msg='audit(w10): publish topology diagnostic'
+            fi
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "$msg"
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
