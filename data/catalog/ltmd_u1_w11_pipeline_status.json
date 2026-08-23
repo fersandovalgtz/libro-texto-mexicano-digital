@@ -1,8 +1,8 @@
 {
   "report_version": "LTMD_U1_W11_PIPELINE_STATUS_0.2",
-  "observed_at_utc": "2026-08-23T21:48:54.703686Z",
+  "observed_at_utc": "2026-08-23T21:58:48.826043Z",
   "repository": "fersandovalgtz/libro-texto-mexicano-digital",
-  "observer_run_id": "32666722428",
+  "observer_run_id": "32669154482",
   "observer_job_id": "",
   "stages": [
     {
@@ -44,26 +44,26 @@
       "workflow": "build-ltmd-u1-w11-fragseg.yml",
       "run_id": 32666722394,
       "event": "workflow_run",
-      "status": "queued",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "head_sha": "4d71e56b15b71f716613dc8e694f0afe3183a540",
-      "jobs": 107,
-      "jobs_completed": 87,
-      "jobs_success": 87,
-      "jobs_in_progress": 8,
-      "jobs_queued": 12,
+      "jobs": 108,
+      "jobs_completed": 108,
+      "jobs_success": 108,
+      "jobs_in_progress": 0,
+      "jobs_queued": 0,
       "job_failures": 0,
       "job_cancelled": 0,
-      "updated_at": "2026-08-23T21:11:10Z"
+      "updated_at": "2026-08-23T21:58:36Z"
     },
     {
       "gate": "G6 exact reuse",
       "workflow": "build-ltmd-u1-w11-exact-reuse.yml",
-      "run_id": 32664253728,
+      "run_id": 32669154481,
       "event": "workflow_run",
       "status": "completed",
       "conclusion": "success",
-      "head_sha": "59b3afecadcf036af293c221760ccbf77d14b553",
+      "head_sha": "5960396ebe197290bc63bc748e31ee71e7e9ae54",
       "jobs": 1,
       "jobs_completed": 1,
       "jobs_success": 1,
@@ -71,7 +71,7 @@
       "jobs_queued": 0,
       "job_failures": 0,
       "job_cancelled": 0,
-      "updated_at": "2026-08-23T20:23:32Z"
+      "updated_at": "2026-08-23T21:59:01Z"
     },
     {
       "gate": "G7 completion",
