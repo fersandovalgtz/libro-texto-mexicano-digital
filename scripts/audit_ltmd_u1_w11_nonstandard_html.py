@@ -14,17 +14,20 @@ OUT=Path('data/catalog/ltmd_u1_w11_nonstandard_html_diagnostics.csv')
 RES=Path('data/catalog/ltmd_u1_w11_nonstandard_resource_candidates.csv')
 REPORT=Path('docs/LTMD_U1_W11_NONSTANDARD_HTML.md')
 ROUTING_VERSION='LTMD_U1_W11_TECHNICAL_ROUTING_0.1'
-VERSION='LTMD_U1_W11_NONSTANDARD_HTML_0.1'
+VERSION='LTMD_U1_W11_NONSTANDARD_HTML_0.2'
 EXPECTED_TOTAL=111
 EXPECTED_NONSTANDARD=11
-UA='LibroTextoMexicanoDigital/U1-W11 nonstandard HTML diagnostics 0.1'
+UA='LibroTextoMexicanoDigital/U1-W11 nonstandard HTML diagnostics 0.2'
+UI_PATHS={'/pics/der.png','/pics/go.png','/pics/h.png','/pics/izq.png'}
+ATTRS={'href','src','data','action','poster','background'}
+RESOURCE_RE=re.compile(r'''["']([^"']+\.(?:pdf|jpe?g|png|gif|webp|swf|zip|mp4|json)(?:\?[^"']*)?)["']''',re.I)
 
 class Parser(HTMLParser):
     def __init__(self):super().__init__();self.refs=[];self.tags=Counter()
     def handle_starttag(self,tag,attrs):
-        self.tags[tag.lower()]+=1
+        tag=tag.lower();self.tags[tag]+=1
         for k,v in attrs:
-            if k.lower() in {'href','src','data'} and v:self.refs.append((tag.lower(),k.lower(),v.strip()))
+            if v and k.lower() in ATTRS:self.refs.append((tag,k.lower(),v.strip(),'attribute'))
 
 def get(url:str)->tuple[int,str]:
     try:
@@ -38,11 +41,16 @@ def classify(url:str)->str:
         if path.endswith(ext):return ext[1:]
     return 'other'
 
-def candidate(url:str,tag:str)->bool:
+def is_candidate(url:str,tag:str)->bool:
     u=url.lower();kind=classify(url)
     if kind in {'pdf','jpg','jpeg','png','gif','webp','swf','zip','mp4','json'}:return True
     if tag in {'iframe','embed','object'}:return True
     return any(token in u for token in ['/c/','viewer','book','libro','magazine','flip','page','media','asset'])
+
+def role(url:str)->str:
+    p=urlparse(url)
+    if p.netloc.lower()=='historico.conaliteg.gob.mx' and p.path.lower() in UI_PATHS:return 'shared_ui_control'
+    return 'source_or_document_candidate'
 
 def main()->None:
     routing=list(csv.DictReader(ROUTING.open(encoding='utf-8',newline='')))
@@ -53,33 +61,32 @@ def main()->None:
     rows=[];resources=[]
     for r in cohort:
         status,html=get(r['source_url']);p=Parser();p.feed(html)
-        normalized=[]
-        for tag,attr,raw in p.refs:
-            if raw.lower().startswith(('javascript:','data:','mailto:','#')):continue
-            url=urljoin(r['source_url'],raw);normalized.append((tag,attr,url))
+        refs=list(p.refs)
+        for raw in RESOURCE_RE.findall(html):refs.append(('inline','literal',raw.strip(),'inline_literal'))
         seen=set();candidates=[]
-        for tag,attr,url in normalized:
-            key=(tag,attr,url)
+        for tag,attr,raw,method in refs:
+            if raw.lower().startswith(('javascript:','data:','mailto:','#')):continue
+            url=urljoin(r['source_url'],raw);key=(tag,attr,url,method)
             if key in seen:continue
             seen.add(key)
-            if candidate(url,tag):
-                candidates.append((tag,attr,url));resources.append({'diagnostic_version':VERSION,'viewer_key':r['viewer_key'],'catalog_generation':r['catalog_generation'],'grade_code':r['grade_code'],'tag':tag,'attribute':attr,'resource_type':classify(url),'resource_url':url})
-        kinds=Counter(classify(u) for _,_,u in candidates)
-        text=html.lower()
-        rows.append({'diagnostic_version':VERSION,'routing_version':ROUTING_VERSION,'viewer_key':r['viewer_key'],'catalog_generation':r['catalog_generation'],'grade_code':r['grade_code'],'title_core':r['title_core'],'html_status':status,'declared_ref_count':len(seen),'candidate_resource_count':len(candidates),'iframe_count':p.tags['iframe'],'embed_count':p.tags['embed'],'object_count':p.tags['object'],'img_count':p.tags['img'],'pdf_candidate_count':kinds['pdf'],'image_candidate_count':sum(kinds[k] for k in ['jpg','jpeg','png','gif','webp']),'json_candidate_count':kinds['json'],'inline_pdf_signal':int('pdf' in text),'inline_claves_signal':int('claves.json' in text),'inline_magazine_signal':int('magazine' in text),'source_url':r['source_url']})
-    rows.sort(key=lambda r:(int(r['catalog_generation']),r['viewer_key']));resources.sort(key=lambda r:(r['viewer_key'],r['resource_type'],r['resource_url']))
+            if is_candidate(url,tag):
+                rr=(tag,attr,url,method,role(url));candidates.append(rr)
+                resources.append({'diagnostic_version':VERSION,'viewer_key':r['viewer_key'],'catalog_generation':r['catalog_generation'],'grade_code':r['grade_code'],'discovery_method':method,'tag':tag,'attribute':attr,'resource_type':classify(url),'candidate_role':rr[4],'resource_url':url})
+        kinds=Counter(classify(u) for _,_,u,_,_ in candidates);roles=Counter(ro for *_,ro in candidates);text=html.lower()
+        rows.append({'diagnostic_version':VERSION,'routing_version':ROUTING_VERSION,'viewer_key':r['viewer_key'],'catalog_generation':r['catalog_generation'],'grade_code':r['grade_code'],'title_core':r['title_core'],'html_status':status,'declared_or_inline_ref_count':len(seen),'candidate_resource_count':len(candidates),'shared_ui_control_count':roles['shared_ui_control'],'source_or_document_candidate_count':roles['source_or_document_candidate'],'iframe_count':p.tags['iframe'],'embed_count':p.tags['embed'],'object_count':p.tags['object'],'img_count':p.tags['img'],'pdf_candidate_count':kinds['pdf'],'image_candidate_count':sum(kinds[k] for k in ['jpg','jpeg','png','gif','webp']),'json_candidate_count':kinds['json'],'inline_pdf_signal':int('pdf' in text),'inline_claves_signal':int('claves.json' in text),'inline_magazine_signal':int('magazine' in text),'source_url':r['source_url']})
+    rows.sort(key=lambda r:(int(r['catalog_generation']),r['viewer_key']));resources.sort(key=lambda r:(r['viewer_key'],r['candidate_role'],r['resource_type'],r['resource_url']))
     OUT.parent.mkdir(parents=True,exist_ok=True)
     with OUT.open('w',encoding='utf-8',newline='') as f:w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
-    res_fields=['diagnostic_version','viewer_key','catalog_generation','grade_code','tag','attribute','resource_type','resource_url']
+    res_fields=['diagnostic_version','viewer_key','catalog_generation','grade_code','discovery_method','tag','attribute','resource_type','candidate_role','resource_url']
     with RES.open('w',encoding='utf-8',newline='') as f:w=csv.DictWriter(f,fieldnames=res_fields);w.writeheader();w.writerows(resources)
-    type_counts=Counter(r['resource_type'] for r in resources)
-    lines=['# LTMD-U1 W11 — diagnóstico HTML de la ruta no estándar','',f'Versión: `{VERSION}`.','',f'- Visores no estándar auditados: **{len(rows)}/{EXPECTED_NONSTANDARD}**.',f'- HTML 200: **{sum(int(r["html_status"])==200 for r in rows)}/{EXPECTED_NONSTANDARD}**.',f'- Recursos candidatos declarados en HTML: **{len(resources)}**.','','## Tipos de recurso candidato']
+    type_counts=Counter(r['resource_type'] for r in resources);role_counts=Counter(r['candidate_role'] for r in resources)
+    lines=['# LTMD-U1 W11 — diagnóstico HTML de la ruta no estándar','',f'Versión: `{VERSION}`.','',f'- Visores no estándar auditados: **{len(rows)}/{EXPECTED_NONSTANDARD}**.',f'- HTML 200: **{sum(int(r["html_status"])==200 for r in rows)}/{EXPECTED_NONSTANDARD}**.',f'- Recursos candidatos observados: **{len(resources)}**.',f'- Controles UI compartidos: **{role_counts["shared_ui_control"]}**.',f'- Candidatos de fuente/documento no-UI: **{role_counts["source_or_document_candidate"]}**.','','## Tipos de recurso observado']
     if type_counts:
         for k,v in sorted(type_counts.items()):lines.append(f'- `{k}`: **{v}**.')
     else:lines.append('- Ninguno detectado por las reglas declaradas.')
-    lines+=['','## Por visor','','| viewer | HTML | refs | candidatos | iframe | embed | object | PDF | imágenes | JSON |','|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|']
-    for r in rows:lines.append(f"| `{r['viewer_key']}` | {r['html_status']} | {r['declared_ref_count']} | {r['candidate_resource_count']} | {r['iframe_count']} | {r['embed_count']} | {r['object_count']} | {r['pdf_candidate_count']} | {r['image_candidate_count']} | {r['json_candidate_count']} |")
-    lines+=['','## Límite de esta compuerta','El diagnóstico sólo lee HTML y registra URLs que el propio visor declara. No descarga ni valida los recursos candidatos y no convierte su presencia en fuente admitida. La siguiente fase debe verificar cada candidato explícitamente y conservar cualquier ausencia o ambigüedad como retención.']
+    lines+=['','## Por visor','','| viewer | HTML | refs | candidatos | UI | fuente/doc | iframe | embed | object | PDF | imágenes | JSON |','|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|']
+    for r in rows:lines.append(f"| `{r['viewer_key']}` | {r['html_status']} | {r['declared_or_inline_ref_count']} | {r['candidate_resource_count']} | {r['shared_ui_control_count']} | {r['source_or_document_candidate_count']} | {r['iframe_count']} | {r['embed_count']} | {r['object_count']} | {r['pdf_candidate_count']} | {r['image_candidate_count']} | {r['json_candidate_count']} |")
+    lines+=['','## Regla de interpretación','Los cuatro recursos `/pics/der.png`, `/pics/go.png`, `/pics/h.png` y `/pics/izq.png` se clasifican de forma explícita como controles UI compartidos, no como fuente documental. El diagnóstico examina atributos de recursos y literales con extensiones documentales/multimedia en el HTML; no descarga ni valida activos candidatos. La ausencia de candidato no demuestra por sí sola inexistencia de fuente: debe contrastarse además con la configuración oficial y cualquier otra evidencia servida reproduciblemente.']
     REPORT.parent.mkdir(parents=True,exist_ok=True);REPORT.write_text('\n'.join(lines)+'\n',encoding='utf-8');print(REPORT.read_text(encoding='utf-8'))
 
 if __name__=='__main__':main()
