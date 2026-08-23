@@ -1,0 +1,46 @@
+name: discover-ltmd-u1-isolated-official-representations
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/discover-ltmd-u1-isolated-official-representations.yml'
+      - 'scripts/discover_ltmd_u1_isolated_official_representations.py'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: discover-ltmd-u1-isolated-official-representations
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Discover official viewer architecture
+        run: python3 scripts/discover_ltmd_u1_isolated_official_representations.py
+      - name: Publish discovery metadata race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_isolated_official_representation_discovery.csv /tmp/ltmd_u1_isolated_official_representation_discovery.csv
+          cp docs/LTMD_U1_ISOLATED_OFFICIAL_REPRESENTATION_DISCOVERY.md /tmp/LTMD_U1_ISOLATED_OFFICIAL_REPRESENTATION_DISCOVERY.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_isolated_official_representation_discovery.csv data/catalog/
+            cp /tmp/LTMD_U1_ISOLATED_OFFICIAL_REPRESENTATION_DISCOVERY.md docs/
+            git add data/catalog/ltmd_u1_isolated_official_representation_discovery.csv docs/LTMD_U1_ISOLATED_OFFICIAL_REPRESENTATION_DISCOVERY.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(u1): publish official representation discovery'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
