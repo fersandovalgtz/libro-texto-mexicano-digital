@@ -1,0 +1,54 @@
+name: audit-ltmd-u1-w11-nonstandard-html
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/audit-ltmd-u1-w11-nonstandard-html.yml'
+      - 'scripts/audit_ltmd_u1_w11_nonstandard_html.py'
+      - 'data/catalog/ltmd_u1_w11_technical_routing.csv'
+  workflow_run:
+    workflows: ['build-ltmd-u1-w11-technical-routing']
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: audit-ltmd-u1-w11-nonstandard-html
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Inspect only resources declared by nonstandard viewer HTML
+        run: python3 scripts/audit_ltmd_u1_w11_nonstandard_html.py
+      - name: Publish nonstandard HTML diagnostics race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/w11-nonstandard
+          cp data/catalog/ltmd_u1_w11_nonstandard_html_diagnostics.csv /tmp/w11-nonstandard/
+          cp data/catalog/ltmd_u1_w11_nonstandard_resource_candidates.csv /tmp/w11-nonstandard/
+          cp docs/LTMD_U1_W11_NONSTANDARD_HTML.md /tmp/w11-nonstandard/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/w11-nonstandard/ltmd_u1_w11_nonstandard_html_diagnostics.csv data/catalog/
+            cp /tmp/w11-nonstandard/ltmd_u1_w11_nonstandard_resource_candidates.csv data/catalog/
+            cp /tmp/w11-nonstandard/LTMD_U1_W11_NONSTANDARD_HTML.md docs/
+            git add data/catalog/ltmd_u1_w11_nonstandard_html_diagnostics.csv data/catalog/ltmd_u1_w11_nonstandard_resource_candidates.csv docs/LTMD_U1_W11_NONSTANDARD_HTML.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w11): publish nonstandard HTML resource diagnostics'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
