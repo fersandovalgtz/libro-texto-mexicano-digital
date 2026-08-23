@@ -25,11 +25,11 @@ Este tablero se recompone desde la cola maestra por `operational_domain` y desde
 | W8 | `artes` | 20 | 16 | 16 | 4 | `source_admitted_cohort_closed_with_retentions` |
 | W9 | `educacion_fisica` | 4 | 4 | 4 | 0 | `closed` |
 | W10 | `integrados_multiarea` | 69 | 68 | 68 | 1 | `source_admitted_cohort_closed_with_retentions` |
-| W11 | `otros_no_clasificados` | 111 | 0 | 0 | 111 | `architecture_complete_inventory_pending` |
+| W11 | `otros_no_clasificados` | 111 | 0 | 0 | 111 | `source_asset_audit_in_progress` |
 
 ## Lectura correcta
 
-W1, W3, W4, W5 y W6 están cerradas técnicamente. W2 conserva cuatro excepciones de routing sin imputación. W7 tiene cierre técnico de su cohorte fuente-admitida: 25/30 identidades y cinco retenciones explícitas. W8 tiene cierre técnico de su cohorte fuente-admitida: 16/20 identidades y cuatro retenciones explícitas. W9 está cerrada técnicamente en 4/4 identidades y cuatro objetos canónicos. W10 cerró técnicamente su cohorte fuente-admitida en 68/69 identidades y 68 objetos canónicos; las retenciones permanecen explícitas. W11 está activa en `architecture_complete_inventory_pending` con evidencia `docs/LTMD_U1_W11_ARCHITECTURE.md`, pero aporta 0/111 al numerador hasta completar una cadena técnica defendible.
+W1, W3, W4, W5 y W6 están cerradas técnicamente. W2 conserva cuatro excepciones de routing sin imputación. W7 tiene cierre técnico de su cohorte fuente-admitida: 25/30 identidades y cinco retenciones explícitas. W8 tiene cierre técnico de su cohorte fuente-admitida: 16/20 identidades y cuatro retenciones explícitas. W9 está cerrada técnicamente en 4/4 identidades y cuatro objetos canónicos. W10 cerró técnicamente su cohorte fuente-admitida en 68/69 identidades y 68 objetos canónicos; las retenciones permanecen explícitas. W11 está activa en `source_asset_audit_in_progress` con evidencia `docs/LTMD_U1_W11_STANDARD_DECLARED_INVENTORY.md`, pero aporta 0/111 al numerador hasta completar una cadena técnica defendible.
 
 `wave_label` no se usa para reconstruir la partición científica porque la cola también codifica estados de ejecución; la partición se deriva de `operational_domain`.
 
