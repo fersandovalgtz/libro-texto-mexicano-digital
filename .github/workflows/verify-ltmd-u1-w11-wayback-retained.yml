@@ -1,0 +1,57 @@
+name: verify-ltmd-u1-w11-wayback-retained
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/verify-ltmd-u1-w11-wayback-retained.yml'
+      - 'scripts/verify_ltmd_u1_w11_wayback_candidates.py'
+      - 'data/catalog/ltmd_u1_w11_wayback_capture_candidates.csv'
+  workflow_run:
+    workflows: ['probe-ltmd-u1-w11-wayback-retained']
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: verify-ltmd-u1-w11-wayback-retained
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: ready
+        shell: bash
+        run: |
+          if [[ -f data/catalog/ltmd_u1_w11_wayback_capture_candidates.csv && -f data/catalog/ltmd_u1_w11_retained_source_holes.csv ]]; then echo 'ready=true' >> "$GITHUB_OUTPUT"; else echo 'ready=false' >> "$GITHUB_OUTPUT"; fi
+      - name: Verify archived candidate bodies transiently
+        if: steps.ready.outputs.ready == 'true'
+        run: python3 scripts/verify_ltmd_u1_w11_wayback_candidates.py
+      - name: Publish archive verification metadata race-safely
+        if: steps.ready.outputs.ready == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w11_wayback_verified_candidates.csv /tmp/ltmd_u1_w11_wayback_verified_candidates.csv
+          cp docs/LTMD_U1_W11_WAYBACK_VERIFICATION.md /tmp/LTMD_U1_W11_WAYBACK_VERIFICATION.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w11_wayback_verified_candidates.csv data/catalog/
+            cp /tmp/LTMD_U1_W11_WAYBACK_VERIFICATION.md docs/
+            git add data/catalog/ltmd_u1_w11_wayback_verified_candidates.csv docs/LTMD_U1_W11_WAYBACK_VERIFICATION.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w11): publish verified archived-body metadata'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
