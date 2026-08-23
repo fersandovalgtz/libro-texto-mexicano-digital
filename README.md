@@ -82,7 +82,7 @@ Corte documental de referencia: **23 de agosto de 2026**.
 | W10 | Integrados / Multiarea | cohorte fuente-admitida cerrada; 1 retenida (68/69) |
 | W11 | Otros / No clasificados | cohorte fuente-admitida cerrada; 4 retenidas (107/111) |
 
-El tablero reproducible se mantiene en [`data/catalog/ltmd_u1_coverage.md`](data/catalog/ltmd_u1_coverage.md) y el programa general en [`docs/LTMD_U1_MASTER_PLAN_0_1.md`](docs/LTMD_U1_MASTER_PLAN_0_1.md).
+El tablero reproducible se mantiene en [`data/catalog/ltmd_u1_coverage.md`](data/catalog/ltmd_u1_coverage.md) y el plan operativo vigente en [`docs/LTMD_U1_MASTER_PLAN_0_3.md`](docs/LTMD_U1_MASTER_PLAN_0_3.md). Las **18 identidades** todavía fuera de cobertura técnica efectiva están consolidadas, una por una, en [`data/catalog/ltmd_u1_retained_source_register.csv`](data/catalog/ltmd_u1_retained_source_register.csv), con política de resolución y trazabilidad en [`docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md`](docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md).
 
 ## Pregunta general
 
