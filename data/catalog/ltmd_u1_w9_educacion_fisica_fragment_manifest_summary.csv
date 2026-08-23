@@ -1,0 +1,6 @@
+segmenter_version,viewer_key,fragment_count,segmented_page_count,activity_candidate,assessment_candidate,experiment_candidate,expository_candidate,instruction_candidate,project_candidate,question_candidate,short_residual_candidate
+FRAGSEG_LTMD_U1_W9_EDUCACION_FISICA_0.1,H2008P1ED252,823,98,54,1,13,79,121,0,85,470
+FRAGSEG_LTMD_U1_W9_EDUCACION_FISICA_0.1,H2008P2ED260,1061,94,58,1,18,90,182,0,98,614
+FRAGSEG_LTMD_U1_W9_EDUCACION_FISICA_0.1,H2008P5ED280,1009,101,47,1,14,141,195,1,122,488
+FRAGSEG_LTMD_U1_W9_EDUCACION_FISICA_0.1,H2008P6ED287,822,96,68,3,11,96,107,4,118,415
+FRAGSEG_LTMD_U1_W9_EDUCACION_FISICA_0.1,ALL,3715,389,227,6,56,406,605,5,423,1987
