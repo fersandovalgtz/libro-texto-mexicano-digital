@@ -1,6 +1,6 @@
 # LTMD-U1 W11 — estado operativo de la cadena downstream
 
-Versión: `LTMD_U1_W11_PIPELINE_STATUS_0.2`. Observado: **2026-08-23T21:37:25.001487Z**.
+Versión: `LTMD_U1_W11_PIPELINE_STATUS_0.2`. Observado: **2026-08-23T21:40:30.972801Z**.
 
 > Observación operativa; no sustituye los reportes científicos de cada compuerta.
 
@@ -10,7 +10,7 @@ Versión: `LTMD_U1_W11_PIPELINE_STATUS_0.2`. Observado: **2026-08-23T21:37:25.00
 |---|---:|---|---|---:|---:|---:|---:|---:|
 | G5 OCR | 32663100831 | `completed` | `success` | 108 | 108 | 0 | 0 | 0 |
 | G6 PAGESTRUCT | 32665919946 | `completed` | `success` | 108 | 108 | 0 | 0 | 0 |
-| G6 FRAGSEG | 32666722394 | `queued` | `pendiente` | 107 | 63 | 8 | 36 | 0 |
+| G6 FRAGSEG | 32666722394 | `queued` | `pendiente` | 107 | 69 | 8 | 30 | 0 |
 | G6 exact reuse | 32664253728 | `completed` | `success` | 1 | 1 | 0 | 0 | 0 |
 | G7 completion | 32664265395 | `completed` | `success` | 1 | 1 | 0 | 0 | 0 |
 
