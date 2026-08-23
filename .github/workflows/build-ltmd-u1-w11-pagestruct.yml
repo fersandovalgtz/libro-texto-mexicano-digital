@@ -33,8 +33,16 @@ jobs:
       viewers: ${{ steps.make.outputs.viewers }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Refresh authoritative main before idempotence check
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
       - id: make
         shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import csv,json,os
@@ -45,6 +53,15 @@ jobs:
           keys=sorted({r['viewer_key'] for r in rows});expected={r['viewer_key'] for r in proc if r['source_admitted']=='1' and r['is_canonical_processing_object']=='1'}
           assert keys and set(keys)==expected and len({r['page_id'] for r in rows})==len(rows)
           assert all(r['source_sha256_verified']=='1' and r['ocr_status']=='ok' for r in rows)
+          struct_path='data/catalog/ltmd_u1_w11_page_structure.csv';summary_path='data/catalog/ltmd_u1_w11_page_structure_summary.csv';report_path='docs/LTMD_U1_W11_PAGESTRUCT.md'
+          if os.environ.get('EVENT_NAME')!='workflow_dispatch' and all(os.path.exists(x) for x in [struct_path,summary_path,report_path]):
+              struct=list(csv.DictReader(open(struct_path,encoding='utf-8')));summary=list(csv.DictReader(open(summary_path,encoding='utf-8')))
+              allrow=[r for r in summary if r['viewer_key']=='ALL']
+              complete=(len(struct)==len(rows) and {r['page_id'] for r in struct}=={r['page_id'] for r in rows} and
+                        {r['classifier_version'] for r in struct}=={'PAGESTRUCT_LTMD_U1_W11_0.1'} and
+                        {r['viewer_key'] for r in struct}==set(keys) and len(allrow)==1 and int(allrow[0]['n_pages'])==len(rows))
+              if complete:
+                  print('ready=false');print('viewers=[]');raise SystemExit(0)
           print('ready=true');print('viewers='+json.dumps(keys,separators=(',',':')))
           PY
 
