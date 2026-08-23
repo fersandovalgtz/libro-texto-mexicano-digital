@@ -1,0 +1,61 @@
+name: build-ltmd-u1-preserved-exceptions-register
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-preserved-exceptions-register.yml'
+      - 'scripts/build_ltmd_u1_preserved_exceptions_register.py'
+      - 'data/catalog/ltmd_u1_w2_math_asset_states.csv'
+      - 'data/catalog/ltmd_u1_w7_source_admissibility.csv'
+      - 'data/catalog/ltmd_u1_w8_processing_inventory.csv'
+      - 'data/catalog/ltmd_u1_w10_source_admissibility.csv'
+      - 'data/catalog/ltmd_u1_w11_source_admissibility.csv'
+      - 'docs/LTMD_U1_W11_COMPLETION.md'
+      - 'data/catalog/ltmd_u1_coverage_summary.csv'
+  workflow_run:
+    workflows: ['build-ltmd-u1-w11-completion']
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-preserved-exceptions-register
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Refresh authoritative main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+      - name: Build reproducible U1 exception register
+        run: python3 scripts/build_ltmd_u1_preserved_exceptions_register.py
+      - name: Publish register race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_preserved_exceptions.csv /tmp/ltmd_u1_preserved_exceptions.csv
+          cp docs/LTMD_U1_PRESERVED_EXCEPTIONS.md /tmp/LTMD_U1_PRESERVED_EXCEPTIONS.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_preserved_exceptions.csv data/catalog/
+            cp /tmp/LTMD_U1_PRESERVED_EXCEPTIONS.md docs/
+            git add data/catalog/ltmd_u1_preserved_exceptions.csv docs/LTMD_U1_PRESERVED_EXCEPTIONS.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(u1): publish preserved technical exceptions register'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
