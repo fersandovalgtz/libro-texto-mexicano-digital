@@ -9,17 +9,19 @@ import csv,hashlib,re
 from pathlib import Path
 from urllib.request import Request,urlopen
 
-VERSION='LTMD_U1_CONALITEG_ASSET_ROUTE_0.2'
-UA='LibroTextoMexicanoDigital/U1 route discovery 0.2'
+VERSION='LTMD_U1_CONALITEG_ASSET_ROUTE_0.3'
+UA='LibroTextoMexicanoDigital/U1 route discovery 0.3'
 RESOURCES=[
  ('root-x','https://libros.conaliteg.gob.mx/x.js'),
  ('root-js','https://libros.conaliteg.gob.mx/js.js'),
+ ('root-magazine','https://libros.conaliteg.gob.mx/magazine.js'),
  ('2022-x','https://libros.conaliteg.gob.mx/2022/x.js'),
  ('2022-js','https://libros.conaliteg.gob.mx/2022/js.js'),
+ ('2022-magazine','https://libros.conaliteg.gob.mx/2022/magazine.js'),
 ]
 OUT=Path('data/catalog/ltmd_u1_conaliteg_asset_route.csv')
 REPORT=Path('docs/LTMD_U1_CONALITEG_ASSET_ROUTE.md')
-JPG_CONTEXT=re.compile(r'''(?i)[^\n;]{0,260}(?:\.jpg|\.jpeg)[^\n;]{0,260}''')
+IMG_CONTEXT=re.compile(r'''(?i)[^\n;]{0,280}(?:\.jpg|\.jpeg|\.webp|\.png)[^\n;]{0,280}''')
 
 def fetch(url):
     with urlopen(Request(url,headers={'User-Agent':UA}),timeout=45) as r:data=r.read(2_000_001)
@@ -27,26 +29,26 @@ def fetch(url):
     return data
 
 def normalize(expr):
-    return re.sub(r'\s+',' ',expr.strip())[:520]
+    return re.sub(r'\s+',' ',expr.strip())[:560]
 
 def infer(expr):
     low=expr.lower()
-    if 'ag_clave' not in low or '.jpg' not in low:return ''
-    if '/c/' in low:return '{base}/c/{ag_clave}/{page}.jpg'
-    if 'c/' in low:return '{base}/c/{ag_clave}/{page}.jpg'
-    # Preserve a weaker template only when the expression visibly combines the
-    # book key and a page/index variable with a JPEG suffix.
-    if any(tok in low for tok in ('page','pagina','ag_page')):
-        return '{base}/{ag_clave}/{page}.jpg'
+    if 'ag_clave' not in low:return ''
+    ext=''
+    for e in ('.jpg','.jpeg','.webp','.png'):
+        if e in low:ext=e;break
+    if not ext:return ''
+    if '/c/' in low or 'c/' in low:return '{base}/c/{ag_clave}/{page}'+ext
+    if any(tok in low for tok in ('page','pagina','ag_page')):return '{base}/{ag_clave}/{page}'+ext
     return ''
 
 def main():
     rows=[];lines=['# LTMD-U1 — descubrimiento del patrón de activos CONALITEG','',f'Versión: `{VERSION}`.','',
-      'Se inspeccionan temporalmente los módulos oficiales del visor y se retienen únicamente expresiones normalizadas relacionadas con JPEG. No se persiste el código completo ni imágenes.','']
+      'Se inspeccionan temporalmente los módulos oficiales del visor y se retienen únicamente expresiones normalizadas relacionadas con imágenes. No se persiste el código completo ni imágenes fuente.','']
     for label,url in RESOURCES:
         try:
             data=fetch(url);text=data.decode('utf-8','replace');sha=hashlib.sha256(data).hexdigest();contexts=[];error=''
-            for m in JPG_CONTEXT.finditer(text):
+            for m in IMG_CONTEXT.finditer(text):
                 expr=normalize(m.group(0));template=infer(expr);contexts.append((expr,template))
             uniq=[];seen=set()
             for expr,t in contexts:
@@ -54,7 +56,7 @@ def main():
                 if k not in seen:seen.add(k);uniq.append(k)
         except Exception as exc:
             sha='';uniq=[];error=f'{type(exc).__name__}: {exc}'
-        lines += [f'## `{label}`','',f'- URL: `{url}`.',f'- SHA-256: `{sha or "—"}`.',f'- Expresiones JPEG observadas: **{len(uniq)}**.',f'- Error: `{error or "ninguno"}`.','']
+        lines += [f'## `{label}`','',f'- URL: `{url}`.',f'- SHA-256: `{sha or "—"}`.',f'- Expresiones de imagen observadas: **{len(uniq)}**.',f'- Error: `{error or "ninguno"}`.','']
         for expr,t in uniq:
             rows.append({'route_version':VERSION,'resource_label':label,'resource_url':url,'resource_sha256':sha,'normalized_expression':expr,'route_template':t,'error':error})
             lines.append(f'- expresión: `{expr}`')
