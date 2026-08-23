@@ -1,0 +1,6 @@
+diagnostic_version,viewer_key,catalog_generation,grade_code,title_core,technical_route,viewer_page,source_image_index,source_asset_url,http_status,probe_state,asset_status
+LTMD_U1_W11_RETAINED_SOURCE_HOLES_0.1,H2014P1EAM,2014,1,Fichero didactico (incluye DVD),nonstandard_html_diagnostics,41,41,https://historico.conaliteg.gob.mx/c/H2014P1EAM/041.jpg,404,http_404,internal_unserved
+LTMD_U1_W11_RETAINED_SOURCE_HOLES_0.1,H2014P2EAM,2014,2,Fichero didactico (incluye DVD),nonstandard_html_diagnostics,13,13,https://historico.conaliteg.gob.mx/c/H2014P2EAM/013.jpg,404,http_404,internal_unserved
+LTMD_U1_W11_RETAINED_SOURCE_HOLES_0.1,H2014P2EAM,2014,2,Fichero didactico (incluye DVD),nonstandard_html_diagnostics,17,17,https://historico.conaliteg.gob.mx/c/H2014P2EAM/017.jpg,404,http_404,internal_unserved
+LTMD_U1_W11_RETAINED_SOURCE_HOLES_0.1,H2014P3COL,2014,3,La entidad donde vivo Colima,standard_dynamic_claves,130,130,https://historico.conaliteg.gob.mx/c/H2014P3COL/130.jpg,404,http_404,internal_unserved
+LTMD_U1_W11_RETAINED_SOURCE_HOLES_0.1,H2014P3MOR,2014,3,La entidad donde vivo Morelos,standard_dynamic_claves,15,15,https://historico.conaliteg.gob.mx/c/H2014P3MOR/015.jpg,404,http_404,internal_unserved
