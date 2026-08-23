@@ -16,21 +16,31 @@ LABEL_EN={'W1':'Natural Sciences','W2':'Mathematics','W3':'Spanish / Language','
 
 ES_STAGE={
  'ocr_complete_downstream_pending':'OCR completo; capas downstream pendientes',
+ 'ocr_complete_pagestruct_pending':'OCR completo; PAGESTRUCT pendiente',
+ 'pagestruct_complete_fragseg_pending':'PAGESTRUCT completo; FRAGSEG pendiente',
+ 'fragseg_complete_exact_reuse_pending':'FRAGSEG completo; reutilización exacta pendiente',
+ 'exact_reuse_complete_completion_pending':'reutilización exacta completa; cierre técnico pendiente',
  'scope_frozen_source_audit_pending':'alcance congelado; auditoría de fuente pendiente',
  'architecture_complete_inventory_pending':'arquitectura auditada; inventario pendiente',
  'source_asset_audit_in_progress':'inventario cerrado; auditoría de activos en curso',
  'asset_audit_complete_admissibility_pending':'activos auditados; admisibilidad pendiente',
  'source_admissibility_complete_topology_pending':'admisibilidad cerrada; topología pendiente',
  'source_topology_ready_processing_pending':'topología de fuente lista; procesamiento downstream pendiente',
+ 'source_topology_ready_ocr_pending':'topología de fuente lista; OCR pendiente',
 }
 EN_STAGE={
  'ocr_complete_downstream_pending':'OCR complete; downstream layers pending',
+ 'ocr_complete_pagestruct_pending':'OCR complete; PAGESTRUCT pending',
+ 'pagestruct_complete_fragseg_pending':'PAGESTRUCT complete; FRAGSEG pending',
+ 'fragseg_complete_exact_reuse_pending':'FRAGSEG complete; exact reuse pending',
+ 'exact_reuse_complete_completion_pending':'exact reuse complete; technical closure pending',
  'scope_frozen_source_audit_pending':'scope frozen; source audit pending',
  'architecture_complete_inventory_pending':'architecture audited; inventory pending',
  'source_asset_audit_in_progress':'inventory closed; asset audit in progress',
  'asset_audit_complete_admissibility_pending':'assets audited; admissibility pending',
  'source_admissibility_complete_topology_pending':'admissibility closed; topology pending',
  'source_topology_ready_processing_pending':'source topology ready; downstream processing pending',
+ 'source_topology_ready_ocr_pending':'source topology ready; OCR pending',
 }
 
 def stage_es(r):
