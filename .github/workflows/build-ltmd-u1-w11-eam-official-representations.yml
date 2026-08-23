@@ -1,0 +1,51 @@
+name: build-ltmd-u1-w11-eam-official-representations
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w11-eam-official-representations.yml'
+      - 'scripts/compare_ltmd_u1_w11_eam_official_representations.py'
+      - 'data/catalog/ltmd_u1_w11_nonstandard_asset_manifest.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w11-eam-official-representations
+  cancel-in-progress: false
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Refresh authoritative main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+      - name: Compare official EAM representations
+        run: python3 scripts/compare_ltmd_u1_w11_eam_official_representations.py
+      - name: Publish EAM comparison race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w11_eam_official_representation_comparison.csv /tmp/ltmd_u1_w11_eam_official_representation_comparison.csv
+          cp docs/LTMD_U1_W11_EAM_OFFICIAL_REPRESENTATION_COMPARISON.md /tmp/LTMD_U1_W11_EAM_OFFICIAL_REPRESENTATION_COMPARISON.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w11_eam_official_representation_comparison.csv data/catalog/
+            cp /tmp/LTMD_U1_W11_EAM_OFFICIAL_REPRESENTATION_COMPARISON.md docs/
+            git add data/catalog/ltmd_u1_w11_eam_official_representation_comparison.csv docs/LTMD_U1_W11_EAM_OFFICIAL_REPRESENTATION_COMPARISON.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w11): publish exact EAM official comparison'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
