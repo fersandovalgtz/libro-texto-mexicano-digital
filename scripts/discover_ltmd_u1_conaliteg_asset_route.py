@@ -9,15 +9,17 @@ import csv,hashlib,re
 from pathlib import Path
 from urllib.request import Request,urlopen
 
-VERSION='LTMD_U1_CONALITEG_ASSET_ROUTE_0.1'
-UA='LibroTextoMexicanoDigital/U1 route discovery 0.1'
+VERSION='LTMD_U1_CONALITEG_ASSET_ROUTE_0.2'
+UA='LibroTextoMexicanoDigital/U1 route discovery 0.2'
 RESOURCES=[
- ('root','https://libros.conaliteg.gob.mx/x.js'),
- ('2022','https://libros.conaliteg.gob.mx/2022/x.js'),
+ ('root-x','https://libros.conaliteg.gob.mx/x.js'),
+ ('root-js','https://libros.conaliteg.gob.mx/js.js'),
+ ('2022-x','https://libros.conaliteg.gob.mx/2022/x.js'),
+ ('2022-js','https://libros.conaliteg.gob.mx/2022/js.js'),
 ]
 OUT=Path('data/catalog/ltmd_u1_conaliteg_asset_route.csv')
 REPORT=Path('docs/LTMD_U1_CONALITEG_ASSET_ROUTE.md')
-JPG_CONTEXT=re.compile(r'''(?i)[^\n;]{0,220}(?:\.jpg|\.jpeg)[^\n;]{0,220}''')
+JPG_CONTEXT=re.compile(r'''(?i)[^\n;]{0,260}(?:\.jpg|\.jpeg)[^\n;]{0,260}''')
 
 def fetch(url):
     with urlopen(Request(url,headers={'User-Agent':UA}),timeout=45) as r:data=r.read(2_000_001)
@@ -25,37 +27,42 @@ def fetch(url):
     return data
 
 def normalize(expr):
-    x=re.sub(r'\s+',' ',expr.strip())
-    # Keep only route-relevant lexical information; remove unrelated function code.
-    return x[:440]
+    return re.sub(r'\s+',' ',expr.strip())[:520]
 
 def infer(expr):
     low=expr.lower()
     if 'ag_clave' not in low or '.jpg' not in low:return ''
-    prefix='/c/' if '/c/' in low else ('c/' if 'c/' in low else '')
-    if not prefix:return ''
-    # The viewer uses a page/index variable concatenated with ag_clave. Preserve
-    # a symbolic template rather than attempting to execute third-party code.
-    return '{base}'+('/c/' if '/c/' in low else 'c/')+'{ag_clave}/{page}.jpg'
+    if '/c/' in low:return '{base}/c/{ag_clave}/{page}.jpg'
+    if 'c/' in low:return '{base}/c/{ag_clave}/{page}.jpg'
+    # Preserve a weaker template only when the expression visibly combines the
+    # book key and a page/index variable with a JPEG suffix.
+    if any(tok in low for tok in ('page','pagina','ag_page')):
+        return '{base}/{ag_clave}/{page}.jpg'
+    return ''
 
 def main():
     rows=[];lines=['# LTMD-U1 — descubrimiento del patrón de activos CONALITEG','',f'Versión: `{VERSION}`.','',
-      'Se inspeccionan temporalmente los JavaScript oficiales y se retienen únicamente expresiones normalizadas relacionadas con JPEG. No se persiste el código completo ni imágenes.','']
+      'Se inspeccionan temporalmente los módulos oficiales del visor y se retienen únicamente expresiones normalizadas relacionadas con JPEG. No se persiste el código completo ni imágenes.','']
     for label,url in RESOURCES:
-        data=fetch(url);text=data.decode('utf-8','replace');sha=hashlib.sha256(data).hexdigest();contexts=[]
-        for m in JPG_CONTEXT.finditer(text):
-            expr=normalize(m.group(0));template=infer(expr)
-            if template or 'ag_clave' in expr.lower():contexts.append((expr,template))
-        uniq=[];seen=set()
-        for expr,t in contexts:
-            k=(expr,t)
-            if k not in seen:seen.add(k);uniq.append(k)
-        lines += [f'## `{label}`','',f'- URL: `{url}`.',f'- SHA-256: `{sha}`.',f'- Expresiones JPEG relevantes: **{len(uniq)}**.','']
+        try:
+            data=fetch(url);text=data.decode('utf-8','replace');sha=hashlib.sha256(data).hexdigest();contexts=[];error=''
+            for m in JPG_CONTEXT.finditer(text):
+                expr=normalize(m.group(0));template=infer(expr);contexts.append((expr,template))
+            uniq=[];seen=set()
+            for expr,t in contexts:
+                k=(expr,t)
+                if k not in seen:seen.add(k);uniq.append(k)
+        except Exception as exc:
+            sha='';uniq=[];error=f'{type(exc).__name__}: {exc}'
+        lines += [f'## `{label}`','',f'- URL: `{url}`.',f'- SHA-256: `{sha or "—"}`.',f'- Expresiones JPEG observadas: **{len(uniq)}**.',f'- Error: `{error or "ninguno"}`.','']
         for expr,t in uniq:
-            rows.append({'route_version':VERSION,'resource_label':label,'resource_url':url,'resource_sha256':sha,'normalized_expression':expr,'route_template':t})
-            lines.append(f'- plantilla: `{t or "no_resuelta"}`')
+            rows.append({'route_version':VERSION,'resource_label':label,'resource_url':url,'resource_sha256':sha,'normalized_expression':expr,'route_template':t,'error':error})
+            lines.append(f'- expresión: `{expr}`')
+            lines.append(f'  - plantilla: `{t or "no_resuelta"}`')
+        if not uniq:
+            rows.append({'route_version':VERSION,'resource_label':label,'resource_url':url,'resource_sha256':sha,'normalized_expression':'','route_template':'','error':error})
         lines.append('')
-    fields=['route_version','resource_label','resource_url','resource_sha256','normalized_expression','route_template']
+    fields=['route_version','resource_label','resource_url','resource_sha256','normalized_expression','route_template','error']
     OUT.parent.mkdir(parents=True,exist_ok=True)
     with OUT.open('w',encoding='utf-8',newline='') as f:w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
     templates=sorted({r['route_template'] for r in rows if r['route_template']})
