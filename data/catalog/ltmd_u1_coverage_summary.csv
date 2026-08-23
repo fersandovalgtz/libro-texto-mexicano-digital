@@ -8,5 +8,5 @@ LTMD_U1_COVERAGE_0.11,W6,geografia_atlas,42,42,37,0,closed,docs/LTMD_U1_W6_COMPL
 LTMD_U1_COVERAGE_0.11,W7,civica_etica,30,25,25,5,source_admitted_cohort_closed_with_retentions,docs/LTMD_U1_W7_COMPLETION.md
 LTMD_U1_COVERAGE_0.11,W8,artes,20,16,16,4,source_admitted_cohort_closed_with_retentions,docs/LTMD_U1_W8_COMPLETION.md
 LTMD_U1_COVERAGE_0.11,W9,educacion_fisica,4,4,4,0,closed,docs/LTMD_U1_W9_COMPLETION.md
-LTMD_U1_COVERAGE_0.11,W10,integrados_multiarea,69,0,0,69,pagestruct_complete_fragseg_pending,docs/LTMD_U1_W10_PAGESTRUCT.md
+LTMD_U1_COVERAGE_0.11,W10,integrados_multiarea,69,0,0,69,exact_reuse_complete_completion_pending,docs/LTMD_U1_W10_EXACT_REUSE.md
 LTMD_U1_COVERAGE_0.11,W11,otros_no_clasificados,111,0,0,111,queued,data/catalog/ltmd_u1_wave_queue.csv
