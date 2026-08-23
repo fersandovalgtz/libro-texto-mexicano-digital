@@ -18,6 +18,15 @@ on:
       - 'docs/LTMD_U1_W11_FREEZE.md'
       - 'docs/LTMD_U1_W11_HETEROGENEITY.md'
       - 'docs/LTMD_U1_W11_ARCHITECTURE.md'
+      - 'docs/LTMD_U1_W11_STANDARD_ASSET_AUDIT.md'
+      - 'docs/LTMD_U1_W11_NONSTANDARD_ASSET_AUDIT.md'
+      - 'docs/LTMD_U1_W11_SOURCE_ADMISSIBILITY.md'
+      - 'docs/LTMD_U1_W11_PROCESSING_TOPOLOGY.md'
+      - 'docs/LTMD_U1_W11_OCR.md'
+      - 'docs/LTMD_U1_W11_PAGESTRUCT.md'
+      - 'docs/LTMD_U1_W11_FRAGSEG.md'
+      - 'docs/LTMD_U1_W11_EXACT_REUSE.md'
+      - 'docs/LTMD_U1_W11_COMPLETION.md'
   workflow_run:
     workflows:
       - 'build-ltmd-u1-w6-geography-atlas-completion-report'
@@ -32,6 +41,15 @@ on:
       - 'build-ltmd-u1-w11-scope'
       - 'profile-ltmd-u1-w11-heterogeneity'
       - 'build-ltmd-u1-w11-architecture'
+      - 'build-ltmd-u1-w11-standard-assets'
+      - 'build-ltmd-u1-w11-nonstandard-assets'
+      - 'build-ltmd-u1-w11-source-admissibility'
+      - 'build-ltmd-u1-w11-processing-topology'
+      - 'build-ltmd-u1-w11-ocr'
+      - 'build-ltmd-u1-w11-pagestruct'
+      - 'build-ltmd-u1-w11-fragseg'
+      - 'build-ltmd-u1-w11-exact-reuse'
+      - 'build-ltmd-u1-w11-completion'
     types: [completed]
 
 permissions:
