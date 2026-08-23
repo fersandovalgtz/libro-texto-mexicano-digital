@@ -1,0 +1,93 @@
+name: build-ltmd-u1-w10-assets
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w10-assets.yml'
+      - 'scripts/audit_ltmd_u1_w10_integrados_assets_book.py'
+      - 'scripts/combine_ltmd_u1_w10_integrados_asset_shards.py'
+      - 'data/catalog/ltmd_u1_w10_declared_inventory.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w10-assets
+  cancel-in-progress: false
+
+jobs:
+  matrix:
+    runs-on: ubuntu-24.04
+    outputs:
+      viewers: ${{ steps.make.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: make
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import csv,json
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w10_declared_inventory.csv',encoding='utf-8')))
+          assert len(rows)==69 and len({r['viewer_key'] for r in rows})==69
+          assert sum(int(r['declared_positions']) for r in rows)==12174
+          print('viewers='+json.dumps([r['viewer_key'] for r in rows],separators=(',',':')))
+          PY
+
+  audit:
+    needs: matrix
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.matrix.outputs.viewers) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit one W10 viewer without persisting images
+        run: python3 scripts/audit_ltmd_u1_w10_integrados_assets_book.py --viewer-key '${{ matrix.viewer_key }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w10-assets-${{ matrix.viewer_key }}
+          path: data/work/ltmd_u1_w10_integrados_assets/*.csv
+          if-no-files-found: error
+          retention-days: 1
+
+  combine:
+    needs: audit
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w10-assets-*
+          path: data/work/ltmd_u1_w10_integrados_assets
+          merge-multiple: true
+      - name: Combine exact 69-viewer audit
+        run: python3 scripts/combine_ltmd_u1_w10_integrados_asset_shards.py
+      - name: Publish W10 asset audit race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w10_asset_manifest.csv /tmp/ltmd_u1_w10_asset_manifest.csv
+          cp data/catalog/ltmd_u1_w10_asset_summary.csv /tmp/ltmd_u1_w10_asset_summary.csv
+          cp docs/LTMD_U1_W10_ASSET_AUDIT.md /tmp/LTMD_U1_W10_ASSET_AUDIT.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w10_asset_manifest.csv data/catalog/ltmd_u1_w10_asset_manifest.csv
+            cp /tmp/ltmd_u1_w10_asset_summary.csv data/catalog/ltmd_u1_w10_asset_summary.csv
+            cp /tmp/LTMD_U1_W10_ASSET_AUDIT.md docs/LTMD_U1_W10_ASSET_AUDIT.md
+            git add data/catalog/ltmd_u1_w10_asset_manifest.csv data/catalog/ltmd_u1_w10_asset_summary.csv docs/LTMD_U1_W10_ASSET_AUDIT.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w10): publish strict integrated-multiarea asset audit'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
