@@ -1,0 +1,107 @@
+ocr_version,viewer_key,catalog_generation,grade_code,title_core,technical_route,processing_mode,pages,sha_verified,text_detected,no_text_detected,unresolved,recognized_words,ocr_chars
+LTMD_U1_W11_OCR_0.1,H1960P1ES001,1960,1,MI CUADERNO DE TRABAJO DE 1ER AÑO,standard_dynamic_claves,direct_canonical,218,218,212,6,0,4976,26110
+LTMD_U1_W11_OCR_0.1,H1960P1ES002,1960,1,MI LIBRO DE 1ER AÑO,standard_dynamic_claves,direct_canonical,194,194,193,1,0,8801,41067
+LTMD_U1_W11_OCR_0.1,H1960P2ES004,1960,2,MI LIBRO DE 2° AÑO,standard_dynamic_claves,direct_canonical,194,194,194,0,0,21009,130813
+LTMD_U1_W11_OCR_0.1,H1966P1ES346,1966,1,MI LIBRO DE 1er AÑO,standard_dynamic_claves,direct_canonical,194,194,194,0,0,9192,50289
+LTMD_U1_W11_OCR_0.1,H1966P2ES348,1966,2,MI LIBRO DE 2° AÑO,standard_dynamic_claves,direct_canonical,194,194,194,0,0,21274,121856
+LTMD_U1_W11_OCR_0.1,H1982P1ES096,1982,1,MI LIBRO RECORTABLE PARTE 1,standard_dynamic_claves,direct_canonical,130,130,130,0,0,6108,78367
+LTMD_U1_W11_OCR_0.1,H1982P1ES097,1982,1,MI LIBRO RECORTABLE PARTE 2,standard_dynamic_claves,direct_canonical,114,114,114,0,0,2624,24820
+LTMD_U1_W11_OCR_0.1,H1982P1ES098,1982,1,MI LIBRO PARTE 2,standard_dynamic_claves,direct_canonical,240,240,240,0,0,8641,46462
+LTMD_U1_W11_OCR_0.1,H1982P1ES099,1982,1,MI LIBRO PARTE 1,standard_dynamic_claves,direct_canonical,242,242,242,0,0,6802,38091
+LTMD_U1_W11_OCR_0.1,H1982P2ES101,1982,2,MI LIBRO PARTE 2,standard_dynamic_claves,direct_canonical,322,322,321,1,0,18996,113155
+LTMD_U1_W11_OCR_0.1,H1982P2ES102,1982,2,MI LIBRO DE SEGUNDO,standard_dynamic_claves,direct_canonical,82,82,82,0,0,3757,19211
+LTMD_U1_W11_OCR_0.1,H1988P1ES108,1988,1,"MI LIBRO DE 1°, PARTE 1",standard_dynamic_claves,direct_canonical,242,242,242,0,0,6207,34095
+LTMD_U1_W11_OCR_0.1,H1988P1ES109,1988,1,"MI LIBRO DE 1°, PARTE 2",standard_dynamic_claves,direct_canonical,242,242,242,0,0,8560,54981
+LTMD_U1_W11_OCR_0.1,H1988P1ES110,1988,1,"MI LIBRO DE 1° RECORTABLE, PARTE 1",standard_dynamic_claves,direct_canonical,130,130,128,2,0,5786,73568
+LTMD_U1_W11_OCR_0.1,H1988P1ES111,1988,1,"MI LIBRO DE 1°, RECORTABLE PARTE 2",standard_dynamic_claves,direct_canonical,114,114,112,2,0,13943,26948
+LTMD_U1_W11_OCR_0.1,H1988P2CI112,1988,2,"MI LIBRO DE 2°, PARTE 2",standard_dynamic_claves,direct_canonical,322,322,319,3,0,18768,104719
+LTMD_U1_W11_OCR_0.1,H1988P2CI113,1988,2,MI LIBRO DE 2° PARTE 1,standard_dynamic_claves,direct_canonical,320,320,319,1,0,15293,103447
+LTMD_U1_W11_OCR_0.1,H1993P1LI140,1993,1,Libro Integrado,standard_dynamic_claves,direct_canonical,178,178,178,0,0,5701,33738
+LTMD_U1_W11_OCR_0.1,H1993P1LI141,1993,1,Libro Integrado recortable,standard_dynamic_claves,direct_canonical,50,50,41,9,0,2445,7626
+LTMD_U1_W11_OCR_0.1,H1993P2LI149,1993,2,Libro Integrado,standard_dynamic_claves,direct_canonical,178,178,176,2,0,11631,62556
+LTMD_U1_W11_OCR_0.1,H1993P2LI150,1993,2,Libro Integrado Recortable,standard_dynamic_claves,direct_canonical,50,50,43,7,0,3356,17716
+LTMD_U1_W11_OCR_0.1,H1993P4CI192,1993,4,Conoce nuestra constitución,nonstandard_html_diagnostics,direct_canonical,66,66,65,1,0,5479,28710
+LTMD_U1_W11_OCR_0.1,H1993P6HI215,1993,6,MONOGRAFÍA ESTATAL AGUASCALIENTES,standard_dynamic_claves,direct_canonical,170,170,169,1,0,41479,221805
+LTMD_U1_W11_OCR_0.1,H1993P6HI216,1993,6,MONOGRAFÍA ESTATAL BAJA CALIFORNIA,standard_dynamic_claves,direct_canonical,210,210,209,1,0,49811,340000
+LTMD_U1_W11_OCR_0.1,H1993P6HI217,1993,6,MONOGRAFÍA ESTATAL BAJA CALIFORNIA SUR,standard_dynamic_claves,direct_canonical,250,250,249,1,0,52416,288404
+LTMD_U1_W11_OCR_0.1,H1993P6HI218,1993,6,MONOGRAFÍA ESTATAL COAHUILA,standard_dynamic_claves,direct_canonical,258,258,254,4,0,55742,343944
+LTMD_U1_W11_OCR_0.1,H1993P6HI219,1993,6,MONOGRAFÍA ESTATAL COLIMA,standard_dynamic_claves,direct_canonical,290,290,290,0,0,70892,372749
+LTMD_U1_W11_OCR_0.1,H1993P6HI220,1993,6,MONOGRAFÍA ESTATAL CAMPECHE,standard_dynamic_claves,direct_canonical,262,262,261,1,0,55155,396432
+LTMD_U1_W11_OCR_0.1,H1993P6HI221,1993,6,MONOGRAFÍA ESTATAL CHIAPAS,standard_dynamic_claves,direct_canonical,266,266,264,2,0,52805,364563
+LTMD_U1_W11_OCR_0.1,H1993P6HI222,1993,6,MONOGRAFÍA ESTATAL CHIHUAHUA,standard_dynamic_claves,direct_canonical,254,254,252,2,0,56857,337137
+LTMD_U1_W11_OCR_0.1,H1993P6HI223,1993,6,MONOGRAFÍA ESTATAL DISTRITO FEDERAL,standard_dynamic_claves,direct_canonical,282,282,282,0,0,63358,366975
+LTMD_U1_W11_OCR_0.1,H1993P6HI224,1993,6,MONOGRAFÍA ESTATAL DURANGO,standard_dynamic_claves,direct_canonical,266,266,265,1,0,62597,362249
+LTMD_U1_W11_OCR_0.1,H1993P6HI225,1993,6,MONOGRAFÍA ESTATAL ESTADO DE MÉXICO,standard_dynamic_claves,direct_canonical,282,282,269,13,0,55694,342384
+LTMD_U1_W11_OCR_0.1,H1993P6HI226,1993,6,MONOGRAFÍA ESTATAL GUANAJUATO,standard_dynamic_claves,direct_canonical,250,250,242,8,0,53849,311506
+LTMD_U1_W11_OCR_0.1,H1993P6HI227,1993,6,MONOGRAFÍA ESTATAL GUERRERO,standard_dynamic_claves,direct_canonical,282,282,280,2,0,67648,418359
+LTMD_U1_W11_OCR_0.1,H1993P6HI228,1993,6,MONOGRAFÍA ESTATAL HIDALGO,standard_dynamic_claves,direct_canonical,290,290,290,0,0,72976,418692
+LTMD_U1_W11_OCR_0.1,H1993P6HI229,1993,6,MONOGRAFÍA ESTATAL JALISCO,standard_dynamic_claves,direct_canonical,282,282,281,1,0,70888,464178
+LTMD_U1_W11_OCR_0.1,H1993P6HI230,1993,6,MONOGRAFÍA ESTATAL MICHOACÁN,standard_dynamic_claves,direct_canonical,274,274,270,4,0,62217,341721
+LTMD_U1_W11_OCR_0.1,H1993P6HI231,1993,6,MONOGRAFÍA ESTATAL MORELOS,standard_dynamic_claves,direct_canonical,290,290,288,2,0,65026,366340
+LTMD_U1_W11_OCR_0.1,H1993P6HI232,1993,6,MONOGRAFÍA ESTATAL NAYARIT,standard_dynamic_claves,direct_canonical,212,212,207,5,0,47996,317054
+LTMD_U1_W11_OCR_0.1,H1993P6HI233,1993,6,MONOGRAFÍA ESTATAL NUEVO LEÓN,standard_dynamic_claves,direct_canonical,224,224,223,1,0,47682,273225
+LTMD_U1_W11_OCR_0.1,H1993P6HI234,1993,6,MONOGRAFÍA ESTATAL OAXACA,standard_dynamic_claves,direct_canonical,290,290,287,3,0,63452,362837
+LTMD_U1_W11_OCR_0.1,H1993P6HI235,1993,6,MONOGRAFÍA ESTATAL PUEBLA,standard_dynamic_claves,direct_canonical,274,274,271,3,0,60393,420337
+LTMD_U1_W11_OCR_0.1,H1993P6HI236,1993,6,MONOGRAFÍA ESTATAL QUERÉTARO,standard_dynamic_claves,direct_canonical,260,260,259,1,0,51210,307669
+LTMD_U1_W11_OCR_0.1,H1993P6HI237,1993,6,MONOGRAFÍA ESTATAL QUINTANA ROO,standard_dynamic_claves,direct_canonical,288,288,287,1,0,77776,451467
+LTMD_U1_W11_OCR_0.1,H1993P6HI238,1993,6,MONOGRAFÍA ESTATAL SAN LUIS POTOSÍ,standard_dynamic_claves,direct_canonical,218,218,217,1,0,44496,231213
+LTMD_U1_W11_OCR_0.1,H1993P6HI239,1993,6,MONOGRAFÍA ESTATAL SINALOA,standard_dynamic_claves,direct_canonical,198,198,198,0,0,44162,251362
+LTMD_U1_W11_OCR_0.1,H1993P6HI240,1993,6,MONOGRAFÍA ESTATAL SONORA,standard_dynamic_claves,direct_canonical,258,258,257,1,0,49430,258986
+LTMD_U1_W11_OCR_0.1,H1993P6HI241,1993,6,MONOGRAFÍA ESTATAL TABASCO,standard_dynamic_claves,direct_canonical,274,274,274,0,0,57151,339576
+LTMD_U1_W11_OCR_0.1,H1993P6HI242,1993,6,MONOGRAFÍA ESTATAL TAMAULIPAS,standard_dynamic_claves,direct_canonical,218,218,215,3,0,45468,270335
+LTMD_U1_W11_OCR_0.1,H1993P6HI243,1993,6,MONOGRAFÍA ESTATAL TLAXCALA,standard_dynamic_claves,direct_canonical,218,218,215,3,0,49093,343501
+LTMD_U1_W11_OCR_0.1,H1993P6HI244,1993,6,MONOGRAFÍA ESTATAL VERACRUZ,standard_dynamic_claves,direct_canonical,290,290,286,4,0,70689,465601
+LTMD_U1_W11_OCR_0.1,H1993P6HI245,1993,6,MONOGRAFÍA ESTATAL YUCATÁN,standard_dynamic_claves,direct_canonical,278,278,275,3,0,65069,382620
+LTMD_U1_W11_OCR_0.1,H1993P6HI246,1993,6,MONOGRAFÍA ESTATAL ZACATECAS,standard_dynamic_claves,direct_canonical,258,258,256,2,0,58655,334287
+LTMD_U1_W11_OCR_0.1,H2008P5MA285,2008,5,MATEMAÁTICAS,standard_dynamic_claves,direct_canonical,194,194,191,3,0,19949,128443
+LTMD_U1_W11_OCR_0.1,H2011P1ED296,2011,1,EDUCACIÓN FÍSCIA,standard_dynamic_claves,direct_canonical,105,105,104,1,0,8753,50544
+LTMD_U1_W11_OCR_0.1,H2011P2ED303,2011,2,EDUCACIÓN FÍSCIA,standard_dynamic_claves,direct_canonical,89,89,88,1,0,8663,45117
+LTMD_U1_W11_OCR_0.1,H2011P3ED310,2011,3,EDUCACIÓN FÍSCIA,standard_dynamic_claves,direct_canonical,113,113,113,0,0,10708,85482
+LTMD_U1_W11_OCR_0.1,H2011P4CI316,2011,4,CONOCE NUESTRA CONSTITICIÓN,nonstandard_html_diagnostics,direct_canonical,65,65,61,4,0,5968,31164
+LTMD_U1_W11_OCR_0.1,H2011P4ED318,2011,4,EDUCACIÓN FÍSCIA,standard_dynamic_claves,direct_canonical,113,113,112,1,0,14389,94582
+LTMD_U1_W11_OCR_0.1,H2011P5ED328,2011,5,EDUCACIÓN FÍSCIA,standard_dynamic_claves,direct_canonical,105,105,105,0,0,14555,85751
+LTMD_U1_W11_OCR_0.1,H2011P6ED338,2011,6,EDUCACIÓN FÍSCIA,standard_dynamic_claves,direct_canonical,113,113,111,2,0,12379,86823
+LTMD_U1_W11_OCR_0.1,H2014P1CAM,2014,1,"Material de apoyo a la alfabetización inicial, Tiras recortables y cartel con el alfabeto",nonstandard_html_diagnostics,direct_canonical,114,114,60,54,0,2221,9522
+LTMD_U1_W11_OCR_0.1,H2014P3AGS,2014,3,La entidad donde vivo Aguascalientes,standard_dynamic_claves,direct_canonical,161,161,161,0,0,35139,212037
+LTMD_U1_W11_OCR_0.1,H2014P3BCN,2014,3,La entidad donde vivo Baja California Norte,standard_dynamic_claves,direct_canonical,161,161,161,0,0,28373,218715
+LTMD_U1_W11_OCR_0.1,H2014P3BCS,2014,3,La entidad donde vivo Baja California Sur,standard_dynamic_claves,direct_canonical,161,161,160,1,0,39292,251519
+LTMD_U1_W11_OCR_0.1,H2014P3CAM,2014,3,La entidad donde vivo Campeche,standard_dynamic_claves,direct_canonical,161,161,161,0,0,38269,262566
+LTMD_U1_W11_OCR_0.1,H2014P3CDM,2014,3,La entidad donde vivo Ciudad de México,standard_dynamic_claves,direct_canonical,161,161,161,0,0,44518,277853
+LTMD_U1_W11_OCR_0.1,H2014P3CHH,2014,3,La entidad donde vivo Chihuahua,standard_dynamic_claves,direct_canonical,161,161,161,0,0,27650,198282
+LTMD_U1_W11_OCR_0.1,H2014P3CHP,2014,3,La entidad donde vivo Chiapas,standard_dynamic_claves,direct_canonical,161,161,161,0,0,30701,211844
+LTMD_U1_W11_OCR_0.1,H2014P3COA,2014,3,La entidad donde vivo Coahuila,standard_dynamic_claves,direct_canonical,161,161,161,0,0,42963,299176
+LTMD_U1_W11_OCR_0.1,H2014P3DUR,2014,3,La entidad donde vivo Durango,standard_dynamic_claves,direct_canonical,161,161,160,1,0,34316,191218
+LTMD_U1_W11_OCR_0.1,H2014P3GRO,2014,3,La entidad donde vivo Guerrero,standard_dynamic_claves,direct_canonical,161,161,161,0,0,31186,172503
+LTMD_U1_W11_OCR_0.1,H2014P3GTO,2014,3,La entidad donde vivo Guanajuato,standard_dynamic_claves,direct_canonical,161,161,161,0,0,37986,204905
+LTMD_U1_W11_OCR_0.1,H2014P3HID,2014,3,La entidad donde vivo Hidalgo,standard_dynamic_claves,direct_canonical,161,161,161,0,0,32292,195100
+LTMD_U1_W11_OCR_0.1,H2014P3JAL,2014,3,La entidad donde vivo Jalisco,standard_dynamic_claves,direct_canonical,161,161,159,2,0,30681,209873
+LTMD_U1_W11_OCR_0.1,H2014P3MEX,2014,3,La entidad donde vivo México,standard_dynamic_claves,direct_canonical,161,161,161,0,0,48950,324255
+LTMD_U1_W11_OCR_0.1,H2014P3MIC,2014,3,La entidad donde vivo Michoacán,standard_dynamic_claves,direct_canonical,161,161,161,0,0,33489,219584
+LTMD_U1_W11_OCR_0.1,H2014P3NAY,2014,3,La entidad donde vivo Nayarit,standard_dynamic_claves,direct_canonical,161,161,161,0,0,27307,166157
+LTMD_U1_W11_OCR_0.1,H2014P3NLE,2014,3,La entidad donde vivo Nuevo León,standard_dynamic_claves,direct_canonical,161,161,161,0,0,26488,173549
+LTMD_U1_W11_OCR_0.1,H2014P3OAX,2014,3,La entidad donde vivo Oaxaca,standard_dynamic_claves,direct_canonical,161,161,161,0,0,32701,217146
+LTMD_U1_W11_OCR_0.1,H2014P3PUE,2014,3,La entidad donde vivo Puebla,standard_dynamic_claves,direct_canonical,161,161,161,0,0,38973,349091
+LTMD_U1_W11_OCR_0.1,H2014P3QRO,2014,3,La entidad donde vivo Quintana Roo,standard_dynamic_claves,direct_canonical,161,161,160,1,0,41097,280742
+LTMD_U1_W11_OCR_0.1,H2014P3QUE,2014,3,La entidad donde vivo Querétaro,standard_dynamic_claves,direct_canonical,161,161,161,0,0,33562,173377
+LTMD_U1_W11_OCR_0.1,H2014P3SIN,2014,3,La entidad donde vivo Sinaloa,standard_dynamic_claves,direct_canonical,161,161,159,2,0,32147,206214
+LTMD_U1_W11_OCR_0.1,H2014P3SLP,2014,3,La entidad donde vivo San Luis Potosí,standard_dynamic_claves,direct_canonical,161,161,161,0,0,34289,246341
+LTMD_U1_W11_OCR_0.1,H2014P3SON,2014,3,La entidad donde vivo Sonora,standard_dynamic_claves,direct_canonical,161,161,161,0,0,36080,235104
+LTMD_U1_W11_OCR_0.1,H2014P3TAB,2014,3,La entidad donde vivo Tabasco,standard_dynamic_claves,direct_canonical,161,161,161,0,0,35498,224979
+LTMD_U1_W11_OCR_0.1,H2014P3TAM,2014,3,La entidad donde vivo Tamaulipas,standard_dynamic_claves,direct_canonical,161,161,161,0,0,42161,306093
+LTMD_U1_W11_OCR_0.1,H2014P3TLA,2014,3,La entidad donde vivo Tlaxcala,standard_dynamic_claves,direct_canonical,121,121,120,1,0,26021,162167
+LTMD_U1_W11_OCR_0.1,H2014P3VER,2014,3,La entidad donde vivo Veracruz,standard_dynamic_claves,direct_canonical,161,161,161,0,0,39733,228837
+LTMD_U1_W11_OCR_0.1,H2014P3YUC,2014,3,La entidad donde vivo Yucatán,standard_dynamic_claves,direct_canonical,161,161,161,0,0,37776,273199
+LTMD_U1_W11_OCR_0.1,H2014P3ZAC,2014,3,La entidad donde vivo Zacatecas,standard_dynamic_claves,direct_canonical,161,161,161,0,0,38038,239292
+LTMD_U1_W11_OCR_0.1,H2014P4CCA,2014,4,Conoce nuestra Constitución,nonstandard_html_diagnostics,direct_canonical,65,65,60,5,0,4931,27955
+LTMD_U1_W11_OCR_0.1,H2018P1CAM,2018,1,Material de apoyo a la alfabetización Inicial. Tiras recortables,nonstandard_html_diagnostics,direct_canonical,113,113,57,56,0,1286,8268
+LTMD_U1_W11_OCR_0.1,H2018P1COA,2018,1,Conocimiento del medio,standard_dynamic_claves,direct_canonical,177,177,177,0,0,15091,72836
+LTMD_U1_W11_OCR_0.1,H2018P1COM,2018,1,Conocimiento del medio. Docente,standard_dynamic_claves,direct_canonical,153,153,153,0,0,69252,396105
+LTMD_U1_W11_OCR_0.1,H2018P2COA,2018,2,Conocimiento del medio,standard_dynamic_claves,direct_canonical,177,177,177,0,0,13652,63651
+LTMD_U1_W11_OCR_0.1,H2018P2COM,2018,2,Conocimiento del medio. Docente,standard_dynamic_claves,direct_canonical,177,177,177,0,0,79375,452161
+LTMD_U1_W11_OCR_0.1,H2018P4CCA,2018,4,Conoce Nuestra Constitución,nonstandard_html_diagnostics,direct_canonical,65,65,60,5,0,5109,25097
+LTMD_U1_W11_OCR_0.1,H2019P1CAM,2019,1,Material de apoyo a la alfabetización Inicial. Tiras recortables. PrImer grado,nonstandard_html_diagnostics,direct_canonical,153,153,98,55,0,17924,161922
+LTMD_U1_W11_OCR_0.1,H2019P1COA,2019,1,Conocimiento del medio,standard_dynamic_claves,direct_canonical,177,177,177,0,0,13666,67673
+LTMD_U1_W11_OCR_0.1,H2019P1COM,2019,1,Conocimiento del medio. Docente,standard_dynamic_claves,direct_canonical,153,153,153,0,0,68110,425948
+LTMD_U1_W11_OCR_0.1,H2019P2COA,2019,2,Conocimiento del medio,standard_dynamic_claves,direct_canonical,177,177,177,0,0,13635,66121
+LTMD_U1_W11_OCR_0.1,H2019P2COM,2019,2,Conocimiento del medio. Docente,standard_dynamic_claves,direct_canonical,177,177,177,0,0,79419,435241
+LTMD_U1_W11_OCR_0.1,H2019P4CCA,2019,4,Conoce nuestra Constitución,nonstandard_html_diagnostics,direct_canonical,65,65,59,6,0,5818,28518
