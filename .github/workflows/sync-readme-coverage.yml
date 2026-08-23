@@ -8,6 +8,9 @@ on:
       - '.github/workflows/sync-readme-coverage.yml'
       - 'scripts/sync_readme_coverage.py'
       - 'data/catalog/ltmd_u1_coverage_summary.csv'
+  workflow_run:
+    workflows: ['build-ltmd-u1-coverage-dashboard']
+    types: [completed]
 
 permissions:
   contents: write
@@ -18,6 +21,7 @@ concurrency:
 
 jobs:
   sync:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
