@@ -1,0 +1,69 @@
+{
+  "snapshot": "LTMD_U1_W10_ACTIONS_PRIORITY_0.1",
+  "cancelled_refresh_run_ids": [],
+  "active_before": [
+    {
+      "id": 32649732700,
+      "name": "Scientific release preflight",
+      "status": "in_progress",
+      "conclusion": null,
+      "event": "push",
+      "created_at": "2026-08-23T15:49:04Z",
+      "updated_at": "2026-08-23T15:49:07Z",
+      "html_url": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions/runs/32649732700"
+    },
+    {
+      "id": 32649732699,
+      "name": "prioritize-ltmd-u1-w10",
+      "status": "in_progress",
+      "conclusion": null,
+      "event": "push",
+      "created_at": "2026-08-23T15:49:04Z",
+      "updated_at": "2026-08-23T15:49:08Z",
+      "html_url": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions/runs/32649732699"
+    },
+    {
+      "id": 32648799048,
+      "name": "build-ltmd-u1-w10-integrados-fragseg",
+      "status": "queued",
+      "conclusion": null,
+      "event": "workflow_run",
+      "created_at": "2026-08-23T15:31:03Z",
+      "updated_at": "2026-08-23T15:31:18Z",
+      "html_url": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions/runs/32648799048"
+    }
+  ],
+  "active_after": [
+    {
+      "id": 32649732700,
+      "name": "Scientific release preflight",
+      "status": "in_progress",
+      "conclusion": null,
+      "event": "push",
+      "created_at": "2026-08-23T15:49:04Z",
+      "updated_at": "2026-08-23T15:49:07Z",
+      "html_url": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions/runs/32649732700"
+    },
+    {
+      "id": 32649732699,
+      "name": "prioritize-ltmd-u1-w10",
+      "status": "in_progress",
+      "conclusion": null,
+      "event": "push",
+      "created_at": "2026-08-23T15:49:04Z",
+      "updated_at": "2026-08-23T15:49:08Z",
+      "html_url": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions/runs/32649732699"
+    },
+    {
+      "id": 32648799048,
+      "name": "build-ltmd-u1-w10-integrados-fragseg",
+      "status": "queued",
+      "conclusion": null,
+      "event": "workflow_run",
+      "created_at": "2026-08-23T15:31:03Z",
+      "updated_at": "2026-08-23T15:31:18Z",
+      "html_url": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions/runs/32648799048"
+    }
+  ],
+  "policy": "Only redundant integrity-0.14 / coverage-dashboard / README-refresh runs may be cancelled. Scientific W10 processing runs are never cancelled."
+}
