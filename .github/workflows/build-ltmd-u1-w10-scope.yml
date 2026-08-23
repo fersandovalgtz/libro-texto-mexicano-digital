@@ -1,0 +1,57 @@
+name: build-ltmd-u1-w10-scope
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w10-scope.yml'
+      - 'scripts/build_ltmd_u1_w10_integrados_scope.py'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w10-scope
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Freeze W10 scope from master queue
+        run: python3 scripts/build_ltmd_u1_w10_integrados_scope.py
+      - name: Verify W10 scope contract
+        run: |
+          python3 - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w10_scope.csv',encoding='utf-8')))
+          assert len(rows)==69
+          assert len({r['viewer_key'] for r in rows})==69
+          assert {r['operational_domain'] for r in rows}=={'integrados_multiarea'}
+          assert all(r['source_url'] for r in rows)
+          print('W10 G0 scope contract PASS: 69 unique identities')
+          PY
+      - name: Publish frozen W10 scope race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w10_scope.csv /tmp/ltmd_u1_w10_scope.csv
+          cp docs/LTMD_U1_W10_FREEZE.md /tmp/LTMD_U1_W10_FREEZE.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w10_scope.csv data/catalog/ltmd_u1_w10_scope.csv
+            cp /tmp/LTMD_U1_W10_FREEZE.md docs/LTMD_U1_W10_FREEZE.md
+            git add data/catalog/ltmd_u1_w10_scope.csv docs/LTMD_U1_W10_FREEZE.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w10): publish frozen integrated-multiarea scope'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
