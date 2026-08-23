@@ -22,6 +22,17 @@ Cambios acumulados en `main` posteriores a `v0.1.0-rc.1`. Esta sección **no** m
 - Preservadas identidades históricas separadas de objetos canónicos cuando existen aliases o relaciones de reutilización demostradas.
 - Mantenida la política de no promover coincidencias nominales, visuales, OCR o textuales a identidad documental sin evidencia suficiente.
 
+### Full-Text Research Layer (FTRL)
+
+- Iniciada `LTMD_FTRL_0.1`, una capa local y reconstruible de OCR completo por página orientada a concordancias históricas reproducibles.
+- Añadido `scripts/build_page_ocr_corpus.py` con recuperación de activos fuente-admitidos, verificación SHA-256, Tesseract TXT+TSV, hashes de OCR y normalización conservadora; la ejecución admite reanudación segura.
+- Añadidos `scripts/build_search_index.py`, `scripts/query_ocr_corpus.py` y `scripts/validate_ocr_corpus.py` para construir SQLite FTS5, consultar por texto/filtros y verificar integridad de corpus e índice.
+- Añadido `schemas/ltmd_page_ocr.schema.json` como contrato de registro canónico por página.
+- Documentadas arquitectura, procedencia y metodología en `docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md`, `docs/LTMD_OCR_PROVENANCE.md` y `docs/LTMD_SEARCH_METHODOLOGY.md`.
+- Añadido CI de humo con corpus sintético para compilar scripts, construir/validar FTS5 y comprobar recuperación textual.
+- Fijadas las reglas `ocr_available != text_verified`, `search_hit != historical_claim` y `zero_hits != demonstrated_absence`.
+- El piloto operativo se inicia con W5 Historia; los OCR íntegros, assets reconstruidos y SQLite permanecen bajo `local/` y no se versionan por defecto.
+
 ### Excepciones y trazabilidad
 
 - Consolidado `data/catalog/ltmd_u1_retained_source_register.csv` con las **18 identidades** que explican exactamente el residual técnico de U1.
@@ -39,8 +50,8 @@ Cambios acumulados en `main` posteriores a `v0.1.0-rc.1`. Esta sección **no** m
 ### Límites vigentes
 
 - Las **18 retenciones** no se sustituyen por inferencia; requieren evidencia institucional, archivística o criptográfica suficiente, o deben cerrarse posteriormente como excepciones técnicas finales documentadas.
-- No se redistribuyen páginas fuente, JPEG ni OCR íntegro restringido.
-- No se presenta como hallazgo histórico semántico ninguna salida automática que no haya pasado la referencia humana preregistrada.
+- No se redistribuyen páginas fuente, JPEG ni OCR íntegro restringido; FTRL mantiene esos artefactos como reconstrucciones locales por defecto.
+- No se presenta como hallazgo histórico semántico ninguna salida automática que no haya pasado la referencia humana preregistrada o la verificación exigida por su protocolo de consulta.
 - No se declara DOI de LTMD hasta que exista un depósito real y verificable.
 
 ## [0.1.0-rc.1] — 2026-08-15
