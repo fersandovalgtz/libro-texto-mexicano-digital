@@ -1,0 +1,52 @@
+name: build-ltmd-u1-w11-colima-official-sequences
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w11-colima-official-sequences.yml'
+      - 'scripts/compare_ltmd_u1_w11_colima_official_sequences.py'
+      - 'data/catalog/ltmd_u1_w11_standard_asset_manifest.csv'
+      - 'data/catalog/ltmd_u1_conaliteg_output_config.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w11-colima-official-sequences
+  cancel-in-progress: false
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Refresh authoritative main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+      - name: Compare bounded official Colima representations
+        run: python3 scripts/compare_ltmd_u1_w11_colima_official_sequences.py
+      - name: Publish comparison race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w11_colima_official_sequence_comparison.csv /tmp/ltmd_u1_w11_colima_official_sequence_comparison.csv
+          cp docs/LTMD_U1_W11_COLIMA_OFFICIAL_SEQUENCE_COMPARISON.md /tmp/LTMD_U1_W11_COLIMA_OFFICIAL_SEQUENCE_COMPARISON.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w11_colima_official_sequence_comparison.csv data/catalog/
+            cp /tmp/LTMD_U1_W11_COLIMA_OFFICIAL_SEQUENCE_COMPARISON.md docs/
+            git add data/catalog/ltmd_u1_w11_colima_official_sequence_comparison.csv docs/LTMD_U1_W11_COLIMA_OFFICIAL_SEQUENCE_COMPARISON.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w11): publish Colima exact-sequence comparison'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
