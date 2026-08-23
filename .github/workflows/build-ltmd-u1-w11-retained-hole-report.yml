@@ -1,0 +1,63 @@
+name: build-ltmd-u1-w11-retained-hole-report
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-ltmd-u1-w11-retained-hole-report.yml'
+      - 'scripts/build_ltmd_u1_w11_retained_hole_report.py'
+      - 'data/catalog/ltmd_u1_w11_source_admissibility.csv'
+      - 'data/catalog/ltmd_u1_w11_standard_asset_manifest.csv'
+      - 'data/catalog/ltmd_u1_w11_nonstandard_asset_manifest.csv'
+  workflow_run:
+    workflows: ['build-ltmd-u1-w11-source-admissibility']
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-w11-retained-hole-report
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: ready
+        shell: bash
+        run: |
+          if [[ -f data/catalog/ltmd_u1_w11_source_admissibility.csv && -f data/catalog/ltmd_u1_w11_standard_asset_manifest.csv && -f data/catalog/ltmd_u1_w11_nonstandard_asset_manifest.csv ]]; then
+            echo 'ready=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'ready=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Materialize exact retained positions
+        if: steps.ready.outputs.ready == 'true'
+        run: python3 scripts/build_ltmd_u1_w11_retained_hole_report.py
+      - name: Publish retained-hole diagnostics race-safely
+        if: steps.ready.outputs.ready == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_w11_retained_source_holes.csv /tmp/ltmd_u1_w11_retained_source_holes.csv
+          cp docs/LTMD_U1_W11_RETAINED_SOURCE_HOLES.md /tmp/LTMD_U1_W11_RETAINED_SOURCE_HOLES.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_w11_retained_source_holes.csv data/catalog/
+            cp /tmp/LTMD_U1_W11_RETAINED_SOURCE_HOLES.md docs/
+            git add data/catalog/ltmd_u1_w11_retained_source_holes.csv docs/LTMD_U1_W11_RETAINED_SOURCE_HOLES.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(w11): publish exact retained source positions'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
