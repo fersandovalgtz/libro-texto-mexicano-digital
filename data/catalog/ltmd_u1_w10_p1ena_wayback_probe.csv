@@ -1,0 +1,3 @@
+probe_version,role,query_url,query_state,attempts,error,timestamp,original,statuscode,mimetype,digest,length
+LTMD_U1_W10_P1ENA_WAYBACK_PROBE_0.1,http_transport,http://historico.conaliteg.gob.mx/c/H2014P1ENA/114.jpg,success_no_capture,1,,,,,,,
+LTMD_U1_W10_P1ENA_WAYBACK_PROBE_0.1,https_exact,https://historico.conaliteg.gob.mx/c/H2014P1ENA/114.jpg,success_no_capture,1,,,,,,,
