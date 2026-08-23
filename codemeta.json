@@ -1,0 +1,30 @@
+{
+  "@context": "https://w3id.org/codemeta/3.1",
+  "@type": "SoftwareSourceCode",
+  "name": "Libro de Texto Mexicano Digital",
+  "alternateName": "LTMD",
+  "description": "Infraestructura abierta de investigación para el estudio longitudinal de los libros de texto mexicanos mediante historia de la educación, humanidades digitales, análisis computacional y ciencia abierta.",
+  "codeRepository": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital",
+  "issueTracker": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/issues",
+  "version": "0.1.0-rc.1",
+  "datePublished": "2026-08-15",
+  "developmentStatus": "active",
+  "programmingLanguage": ["Python"],
+  "license": "https://spdx.org/licenses/Apache-2.0",
+  "author": {
+    "@type": "Person",
+    "givenName": "Fernando",
+    "familyName": "Sandoval Gutierrez",
+    "@id": "https://orcid.org/0000-0002-3168-6725"
+  },
+  "keywords": [
+    "libros de texto",
+    "historia de la educación",
+    "humanidades digitales",
+    "análisis computacional",
+    "ciencia abierta",
+    "México"
+  ],
+  "continuousIntegration": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions",
+  "readme": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/blob/main/README.md"
+}

@@ -1,0 +1,77 @@
+name: Scientific release preflight
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scientific-metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate scientific publication surface
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import pathlib
+          import re
+          import sys
+
+          root = pathlib.Path('.')
+          required = [
+              'README.md',
+              'CITATION.cff',
+              'codemeta.json',
+              'LICENSE',
+              'DATA_LICENSE.md',
+              'VERSION',
+              'CHANGELOG.md',
+              'CONTRIBUTING.md',
+              'CODE_OF_CONDUCT.md',
+              'SECURITY.md',
+              'GOVERNANCE.md',
+              'PROVENANCE.md',
+              'FAIR_ASSESSMENT.md',
+              'SCIENTIFIC_REPOSITORY_STANDARD.md',
+          ]
+
+          missing = [name for name in required if not (root / name).exists()]
+          if missing:
+              print('Missing required scientific publication files:')
+              for name in missing:
+                  print(f' - {name}')
+              sys.exit(1)
+
+          codemeta = json.loads((root / 'codemeta.json').read_text(encoding='utf-8'))
+          for key in ('@context', '@type', 'name', 'codeRepository', 'version', 'license', 'author'):
+              if key not in codemeta:
+                  raise SystemExit(f'codemeta.json is missing required project field: {key}')
+
+          version = (root / 'VERSION').read_text(encoding='utf-8').strip()
+          cff = (root / 'CITATION.cff').read_text(encoding='utf-8')
+          match = re.search(r'^version:\s*["\']?([^"\'\n]+)', cff, flags=re.MULTILINE)
+          if not match:
+              raise SystemExit('CITATION.cff does not expose a version field')
+          cff_version = match.group(1).strip()
+          if version != cff_version:
+              raise SystemExit(f'VERSION ({version}) != CITATION.cff version ({cff_version})')
+          if codemeta.get('version') != version:
+              raise SystemExit(f'VERSION ({version}) != codemeta.json version ({codemeta.get("version")})')
+
+          readme = (root / 'README.md').read_text(encoding='utf-8')
+          for marker in ('FAIR_ASSESSMENT.md', 'GOVERNANCE.md', 'PROVENANCE.md', 'CITATION.cff', 'codemeta.json'):
+              if marker not in readme:
+                  raise SystemExit(f'README.md does not link to {marker}')
+
+          print('Scientific publication surface: OK')
+          print(f'Version alignment: {version}')
+          PY

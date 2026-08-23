@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+  <title id="title">Libro de Texto Mexicano Digital</title>
+  <desc id="desc">Cabecera visual para la infraestructura científica LTMD</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101827"/>
+      <stop offset="0.55" stop-color="#172033"/>
+      <stop offset="1" stop-color="#5f2033"/>
+    </linearGradient>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M36 0H0V36" fill="none" stroke="#ffffff" stroke-opacity="0.055" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d4b56a"/>
+      <stop offset="1" stop-color="#f0dfae"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="300" rx="24" fill="url(#bg)"/>
+  <rect width="1200" height="300" rx="24" fill="url(#grid)"/>
+  <circle cx="1055" cy="68" r="155" fill="#ffffff" opacity="0.025"/>
+  <circle cx="1100" cy="255" r="190" fill="#000000" opacity="0.09"/>
+
+  <g transform="translate(72 54)">
+    <rect x="0" y="0" width="92" height="120" rx="9" fill="none" stroke="url(#accent)" stroke-width="3"/>
+    <path d="M18 25h54M18 45h54M18 65h40M18 91h22" stroke="#f0dfae" stroke-opacity="0.8" stroke-width="4" stroke-linecap="round"/>
+    <path d="M105 12v99M105 111c28-22 53-22 81 0V12c-28-22-53-22-81 0Zm0 0c-28-22-53-22-81 0" transform="translate(16 4)" fill="none" stroke="#d4b56a" stroke-width="2.5" opacity="0.72"/>
+  </g>
+
+  <text x="286" y="102" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" letter-spacing="0.2">Libro de Texto Mexicano Digital</text>
+  <text x="289" y="140" fill="#f0dfae" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" letter-spacing="1.2">LTMD · INFRAESTRUCTURA ABIERTA DE INVESTIGACIÓN</text>
+  <text x="289" y="181" fill="#dce3ee" font-family="Arial, Helvetica, sans-serif" font-size="19">Historia de la educación · humanidades digitales · análisis computacional · ciencia abierta</text>
+
+  <g transform="translate(289 215)" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600">
+    <rect width="145" height="34" rx="17" fill="#ffffff" opacity="0.09"/><text x="72.5" y="22" text-anchor="middle" fill="#ffffff">542 visores U1</text>
+    <rect x="158" width="188" height="34" rx="17" fill="#ffffff" opacity="0.09"/><text x="252" y="22" text-anchor="middle" fill="#ffffff">procedencia verificable</text>
+    <rect x="359" width="175" height="34" rx="17" fill="#ffffff" opacity="0.09"/><text x="446.5" y="22" text-anchor="middle" fill="#ffffff">reproducibilidad</text>
+    <rect x="547" width="212" height="34" rx="17" fill="#ffffff" opacity="0.09"/><text x="653" y="22" text-anchor="middle" fill="#ffffff">validación diferenciada</text>
+  </g>
+</svg>

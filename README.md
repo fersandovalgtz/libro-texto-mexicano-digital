@@ -1,102 +1,91 @@
-# Libro de Texto Mexicano Digital
+<p align="center">
+  <img src="assets/repository-header-es.svg" alt="Libro de Texto Mexicano Digital — infraestructura abierta de investigación" width="100%">
+</p>
 
-Infraestructura abierta de investigación para estudiar longitudinalmente los libros de texto mexicanos mediante historia de la educación, humanidades digitales, análisis computacional y ciencia abierta.
+<p align="center">
+  <strong>Infraestructura abierta para estudiar longitudinalmente los libros de texto mexicanos con historia de la educación, humanidades digitales, análisis computacional y ciencia abierta.</strong><br>
+  <sub>Identidad documental · integridad SHA-256 · OCR · segmentación · dependencia documental · validación humana · reproducibilidad</sub>
+</p>
 
-## Estado actual
+<p align="center">
+  <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.1.0-rc.1"><img src="https://img.shields.io/badge/release-v0.1.0--rc.1-172033?style=flat-square" alt="Release v0.1.0-rc.1"></a>
+  <a href="CITATION.cff"><img src="https://img.shields.io/badge/citación-CFF%201.2-4b5563?style=flat-square" alt="CFF 1.2"></a>
+  <a href="codemeta.json"><img src="https://img.shields.io/badge/metadatos-CodeMeta%203.1-3b5b92?style=flat-square" alt="CodeMeta 3.1"></a>
+  <a href="FAIR_ASSESSMENT.md"><img src="https://img.shields.io/badge/FAIR%2FFAIR4RS-autoevaluación-2d6a4f?style=flat-square" alt="FAIR FAIR4RS"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/software-Apache--2.0-172033?style=flat-square" alt="Apache 2.0"></a>
+  <a href="DATA_LICENSE.md"><img src="https://img.shields.io/badge/derivados-CC%20BY%204.0-7a263a?style=flat-square" alt="CC BY 4.0"></a>
+</p>
 
-**LTMD adopta como objetivo de su primera gran fase la cobertura integral del universo histórico disponible en el snapshot U1 del Catálogo Histórico de CONALITEG: 542 visores. W1 Ciencias Naturales, W3 Español/Lengua, W4 Ciencias Sociales, W5 Historia y W6 Geografía/Atlas están cerradas técnicamente; W2 Matemáticas conserva cuatro excepciones de routing sin imputación; W7 Formación Cívica y Ética tiene cierre técnico de su cohorte fuente-admitida (25/30), con cinco identidades retenidas explícitamente por limitaciones de fuente.**
+<p align="center">
+  <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/actions"><img src="https://img.shields.io/github/actions/workflow/status/fersandovalgtz/libro-texto-mexicano-digital/release-preflight.yml?branch=main&style=flat-square&label=CI%20%2F%20QA" alt="CI QA"></a>
+  <img src="https://img.shields.io/badge/universo%20U1-542%20visores-455B55?style=flat-square" alt="542 visores U1">
+  <img src="https://img.shields.io/badge/cobertura%20técnica-329%2F542%20·%2060.70%25-455B55?style=flat-square" alt="329 de 542 cobertura técnica">
+  <img src="https://img.shields.io/badge/canónicos-298%2F542%20·%2054.98%25-5b4b8a?style=flat-square" alt="298 objetos canónicos">
+  <img src="https://img.shields.io/badge/validación%20semántica%20humana-0%2F542-b7791f?style=flat-square" alt="0 de 542 validados semánticamente por humanos">
+</p>
 
-Corte documental de esta actualización: **17 de agosto de 2026**.
+<p align="center">
+  <a href="https://orcid.org/0000-0002-3168-6725"><img src="https://img.shields.io/badge/ORCID-0000--0002--3168--6725-A6CE39?style=flat-square&logo=orcid&logoColor=white" alt="ORCID"></a>
+  <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/commits/main"><img src="https://img.shields.io/github/last-commit/fersandovalgtz/libro-texto-mexicano-digital?style=flat-square&label=último%20commit" alt="Último commit"></a>
+  <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/stargazers"><img src="https://img.shields.io/github/stars/fersandovalgtz/libro-texto-mexicano-digital?style=flat-square&logo=github" alt="Stars"></a>
+  <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/issues"><img src="https://img.shields.io/github/issues/fersandovalgtz/libro-texto-mexicano-digital?style=flat-square" alt="Issues"></a>
+</p>
 
-El tablero reproducible `LTMD_U1_COVERAGE_0.8`, recompuesto desde la cola maestra y las actas/cortes técnicos W1–W7, reporta:
+<p align="center">
+  <a href="#qué-es-ltmd"><strong>Qué es</strong></a> ·
+  <a href="#estado-científico"><strong>Estado científico</strong></a> ·
+  <a href="#arquitectura-de-evidencia">Arquitectura</a> ·
+  <a href="#reproducibilidad">Reproducibilidad</a> ·
+  <a href="#derechos-y-licencias">Derechos</a> ·
+  <a href="#citación">Citar</a> ·
+  <a href="FAIR_ASSESSMENT.md">FAIR</a> ·
+  <a href="GOVERNANCE.md">Gobernanza</a> ·
+  <a href="PROVENANCE.md">Procedencia</a> ·
+  <a href="README.en.md">English</a>
+</p>
 
-- universo U1 censado: **542/542** identidades documentales;
-- cobertura técnica efectiva cerrada o resuelta: **329/542 (60.70%)**;
-- objetos canónicos de procesamiento: **298/542 (54.98%)**;
-- cobertura semántica humana validada: **0/542**;
-- W7 Formación Cívica y Ética: **25/30** identidades técnicamente procesadas y **5/30** retenidas sin imputación.
+## Qué es LTMD
 
-`corpus_ready` **no equivale** a `semantic_ready`. Las ocurrencias técnicas de fragmento tampoco equivalen a observaciones históricas independientes: LTMD representa explícitamente reutilización, revisión, reemplazo, aliases y dependencia documental.
+**Libro de Texto Mexicano Digital (LTMD)** es una infraestructura de investigación para construir un corpus histórico-computacional trazable de libros de texto mexicanos y estudiar cambios en currículo, lenguaje pedagógico, actividades escolares, valores, representaciones sociales y recursos visuales.
 
-## Objetivo maestro LTMD-U1: 542/542
+El proyecto no trata un visor de catálogo, un archivo, una generación editorial y un contenido textual como si fueran la misma unidad. Mantiene separadas la **identidad documental**, la **resolución de activos**, el **procesamiento técnico**, los **datos derivados**, la **validación humana** y la **interpretación histórica**.
 
-El universo operativo **LTMD-U1** está fijado en **542 visores únicos**. El tablero vivo [`data/catalog/ltmd_u1_coverage.md`](data/catalog/ltmd_u1_coverage.md) mantiene dos denominadores distintos: identidades documentales técnicamente representadas y objetos canónicos realmente procesados. Esta distinción impide inflar el corpus cuando una identidad se resuelve mediante un alias o una ruta criptográficamente demostrada.
+> [!IMPORTANT]
+> `corpus_ready` **no equivale** a `semantic_ready`. Una ola técnicamente cerrada puede ser reproducible y completa dentro de su alcance sin constituir todavía evidencia semántica validada por personas expertas.
 
-| Ola | Dominio operacional | Plan | Cobertura efectiva | Canónicos | Estado |
-|---|---|---:|---:|---:|---|
-| W1 | `ciencias_naturales` | 40 | 40 | 36 | cerrada |
-| W2 | `matematicas` | 64 | 60 | 57 | parcial; 4 excepciones preservadas |
-| W3 | `espanol_lengua` | 130 | 130 | 114 | cerrada |
-| W4 | `ciencias_sociales` | 14 | 14 | 14 | cerrada |
-| W5 | `historia` | 18 | 18 | 15 | cerrada |
-| W6 | `geografia_atlas` | 42 | 42 | 37 | cerrada |
-| W7 | `civica_etica` | 30 | 25 | 25 | parcial; 5 retenciones de fuente preservadas |
-| W8 | `artes` | 20 | 0 | 0 | en cola |
-| W9 | `educacion_fisica` | 4 | 0 | 0 | en cola |
-| W10 | `integrados_multiarea` | 69 | 0 | 0 | en cola |
-| W11 | `otros_no_clasificados` | 111 | 0 | 0 | en cola |
+## Estado científico
 
-La meta U1 es alcanzar **542/542 visores técnicamente representados**, mediante procesamiento directo o relaciones de fuente demostradas, conservando siempre identidad documental y excepciones. Este objetivo no autoriza a extrapolar clasificadores semánticos de un dominio a otro sin validación humana propia.
+Corte documental de referencia: **17 de agosto de 2026**.
 
-El programa completo está en **[`docs/LTMD_U1_MASTER_PLAN_0_1.md`](docs/LTMD_U1_MASTER_PLAN_0_1.md)**, el tablero vivo en **[`data/catalog/ltmd_u1_coverage.md`](data/catalog/ltmd_u1_coverage.md)** y la cola integral en `data/catalog/ltmd_u1_wave_queue.csv`.
+| Indicador | Estado |
+|---|---:|
+| Universo histórico operativo LTMD-U1 | **542 / 542 visores censados** |
+| Cobertura técnica efectiva cerrada o resuelta | **329 / 542 (60.70%)** |
+| Objetos canónicos de procesamiento | **298 / 542 (54.98%)** |
+| Validación semántica humana | **0 / 542** |
+| Release metodológica publicada | **v0.1.0-rc.1** |
+| DOI de LTMD | **pendiente; no se anticipa** |
 
-### U1-W1 — Ciencias Naturales: CERRADA
+### Cobertura U1
 
-El dominio operativo `ciencias_naturales` contiene **40 visores** y queda en **40/40 de cobertura efectiva**. Treinta y seis están procesados directamente hasta FRAGSEG y cuatro son aliases 2018→2019 demostrados byte por byte. El cierre detallado está en [`docs/LTMD_U1_W1_COMPLETION_2026-08-15.md`](docs/LTMD_U1_W1_COMPLETION_2026-08-15.md).
+| Ola | Dominio | Estado |
+|---|---|---|
+| W1 | Ciencias Naturales | cerrada técnicamente |
+| W2 | Matemáticas | parcial; 4 excepciones de routing preservadas |
+| W3 | Español / Lengua | cerrada técnicamente |
+| W4 | Ciencias Sociales | cerrada técnicamente |
+| W5 | Historia | cerrada técnicamente |
+| W6 | Geografía / Atlas | cerrada técnicamente |
+| W7 | Formación Cívica y Ética | cohorte fuente-admitida cerrada; 5 identidades retenidas |
+| W8–W11 | Artes, Educación Física, Integrados y Otros | programa U1 en evolución |
 
-W1 incorporó además dos materiales de *Estudio de la Naturaleza* de 1966 y resolvió criptográficamente las tres posiciones internas no servidas de los dos libros 2008 sin borrar la anomalía original ni falsear procedencia.
-
-### U1-W2 — Matemáticas: PARCIAL CON EXCEPCIONES PRESERVADAS
-
-W2 está congelada en **64 visores**. Tiene **60/64 identidades con activos efectivamente resueltos** y **57 objetos canónicos computados**. Cuatro visores DMA 2018 conservan excepciones de routing no resueltas; no se imputan ni se sustituyen por similitud de título, año o cardinalidad. La capa FRAGSEG directamente computada contiene **135,727 fragmentos técnicos**. El cierre vigente está en [`docs/LTMD_U1_W2_COMPLETION.md`](docs/LTMD_U1_W2_COMPLETION.md).
-
-### U1-W3 — Español/Lengua: CERRADA
-
-W3 cubre **130/130 identidades** mediante **114 objetos canónicos** y 16 aliases/provenance relations demostradas. Se verificaron **20,765 páginas**, PAGESTRUCT habilitó **17,337 páginas** y FRAGSEG produjo **222,490 fragmentos técnicos**. El análisis de reutilización exacta conserva la dependencia documental en lugar de asumir independencia entre generaciones. Véase [`docs/LTMD_U1_W3_COMPLETION.md`](docs/LTMD_U1_W3_COMPLETION.md).
-
-### U1-W4 — Ciencias Sociales: CERRADA
-
-W4 cubre **14/14 identidades y objetos canónicos**. Se procesaron **2,414 páginas**, PAGESTRUCT habilitó **2,018 páginas** y FRAGSEG produjo **21,380 fragmentos técnicos**. Véase [`docs/LTMD_U1_W4_COMPLETION.md`](docs/LTMD_U1_W4_COMPLETION.md).
-
-### U1-W5 — Historia: CERRADA
-
-W5 cubre **18/18 identidades históricas** mediante **15 objetos canónicos**. Tres entradas 2018 se resuelven operacionalmente a rutas 2019 después de revalidar **523/523 activos** por SHA-256 y tamaño, sin fusionar las identidades documentales de catálogo. OCR verificó **2,653/2,653 páginas**, PAGESTRUCT habilitó **2,243** y FRAGSEG produjo **32,645 fragmentos técnicos**. El análisis de reutilización exacta obtuvo **25,492 unidades textuales exactas únicas** y **105 pares de visores** con al menos una unidad compartida. Véase [`docs/LTMD_U1_W5_COMPLETION.md`](docs/LTMD_U1_W5_COMPLETION.md).
-
-### U1-W6 — Geografía/Atlas: CERRADA
-
-W6 está congelada en **42 identidades** y queda en **42/42 de cobertura técnica efectiva**, mediante **37 objetos canónicos**. La ola conserva sus relaciones de fuente y excepciones documentales de manera explícita; su cierre eleva la cobertura U1 sin modificar el estado `WAITING_HUMAN_REFERENCE` ni convertir procesamiento técnico en validación semántica.
-
-### U1-W7 — Formación Cívica y Ética: COHORTE ADMISIBLE CERRADA; 5 RETENCIONES
-
-W7 preserva **30/30 identidades históricas**. La cohorte con fuente admisible comprende **25/30 identidades**, todas procesadas técnicamente como **25 objetos canónicos**. Sobre **3,261 páginas fuente** se verificaron **3,261/3,261 SHA-256**; OCR detectó texto en **3,255 (99.82%)** y FRAGSEG produjo **33,451 fragmentos técnicos**. El cierre detallado está en [`docs/LTMD_U1_W7_COMPLETION.md`](docs/LTMD_U1_W7_COMPLETION.md).
-
-Este cierre **no equivale a 30/30 histórico**. Permanecen retenidas `H2014P5FCA` —224/225 JPEG institucionales servidos, con hueco en la página lógica 104— y `H2018P3FCA`–`H2018P6FCA`, cuyos visores/configuración institucionales están presentes pero cuyo subárbol oficial de activos observado no se sirve. No se crean aliases por semejanza, cardinalidad o proximidad temporal.
-
-La investigación de fuente continúa bajo umbral estricto. El corte [`docs/LTMD_U1_W7_WITHHELD_SOURCE_RESEARCH_0_4.md`](docs/LTMD_U1_W7_WITHHELD_SOURCE_RESEARCH_0_4.md) registra reproducciones externas contemporáneas del ciclo 2018–2019 como **candidatas de investigación**, sin incorporarlas como fuente canónica ni modificar `ocr_source_admitted`.
-
-## Release publicada
-
-La primera release candidate metodológica pública es **[`v0.1.0-rc.1`](https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.1.0-rc.1)**.
-
-Antes de crear el tag, el preflight reproducible demostró `rc_technical_ready=true`, `publish_ready=true`, cero failures/blockers, `LTMD_INTEGRITY_0.6` 166/166 y recomputación SHA-256 completa en PASS. El tag conserva ese corte histórico; el programa U1 posterior evoluciona en `main` y no modifica retroactivamente la release.
-
-**El DOI de Zenodo está pendiente hasta que exista un registro real del depósito.** LTMD no anticipa ni inventa identificadores persistentes.
-
-Documentos del paquete de release:
-
-- [`VERSION`](VERSION)
-- [`CHANGELOG.md`](CHANGELOG.md)
-- [`LICENSE`](LICENSE) — software propio, Apache License 2.0
-- [`DATA_LICENSE.md`](DATA_LICENSE.md) — derivados originales licenciables, CC BY 4.0
-- [`docs/RELEASE_NOTES_v0.1.0-rc.1.md`](docs/RELEASE_NOTES_v0.1.0-rc.1.md)
-- [`docs/REPRODUCIBILITY_REPORT_v0.1.0-rc.1.md`](docs/REPRODUCIBILITY_REPORT_v0.1.0-rc.1.md)
-- [`data/derived/release_candidate_preflight.json`](data/derived/release_candidate_preflight.json)
+El tablero reproducible se mantiene en [`data/catalog/ltmd_u1_coverage.md`](data/catalog/ltmd_u1_coverage.md) y el programa general en [`docs/LTMD_U1_MASTER_PLAN_0_1.md`](docs/LTMD_U1_MASTER_PLAN_0_1.md).
 
 ## Pregunta general
 
-¿Cómo se transforman, a través del tiempo, el currículo, el lenguaje pedagógico, las actividades escolares, los valores, las representaciones sociales y los recursos visuales presentes en los libros de texto mexicanos?
+> ¿Cómo se transforman, a través del tiempo, el currículo, el lenguaje pedagógico, las actividades escolares, los valores, las representaciones sociales y los recursos visuales presentes en los libros de texto mexicanos?
 
-## Arquitectura científica
+## Arquitectura de evidencia
 
 ```text
 catálogo institucional
@@ -111,77 +100,72 @@ PAGESTRUCT
         ↓
 FRAGSEG
         ↓
-metadatos y hashes
+metadatos, relaciones y hashes
         ↓
-validación humana de constructo
+validación humana del constructo
         ↓
 clasificación validada
         ↓
 análisis histórico
 ```
 
-Para dependencia documental se mantienen vistas reversibles: **object view**, **unique-content view** y **revision view**.
+LTMD conserva relaciones de reutilización, revisión, reemplazo y alias en lugar de presumir independencia entre generaciones editoriales. Las vistas de objeto, contenido único y revisión permiten estudiar dependencia documental sin borrar la identidad histórica de los visores.
 
-## Ciencias Naturales — primer dominio U1 cerrado
+Consulte [`PROVENANCE.md`](PROVENANCE.md) y [`GOVERNANCE.md`](GOVERNANCE.md).
 
-La familia estricta contiene 37 visores; la taxonomía operativa U1 incorpora además materiales afines de *Estudio de la Naturaleza*, para un dominio de **40 visores**.
+## Principios de integridad científica
 
-El cierre W1 dejó:
+1. **La fuente no se corrige silenciosamente.** Fallos, huecos y excepciones permanecen documentados.
+2. **La similitud no crea identidad documental.** Los aliases requieren evidencia verificable.
+3. **La automatización no fabrica referencia humana.** Las etiquetas humanas solo existen cuando fueron producidas mediante el protocolo correspondiente.
+4. **Los resultados negativos cuentan.** Incertidumbre, baja precisión o ausencia de evidencia se preservan como resultados metodológicos.
+5. **Una release es un corte histórico.** El avance posterior de `main` no se atribuye retroactivamente a un tag publicado.
 
-- 40/40 activos completamente resueltos;
-- 36/40 procesados directamente hasta FRAGSEG;
-- 4/40 cubiertos mediante aliases 2018→2019 byte-idénticos;
-- 0/40 restantes efectivos.
+## Reproducibilidad
 
-Los cuatro aliases 2018→2019 se fundamentan en **652/652 pares byte-idénticos**. Los dos libros 2008 originalmente presentaban tres posiciones internas no servidas; las tres fueron recuperadas unívocamente mediante alineamiento criptográfico con seis anchors vecinos y cero discrepancias, preservando en el manifiesto reconciliado tanto la URL original fallida como la fuente efectiva.
+La infraestructura utiliza scripts versionados, GitHub Actions, manifiestos, hashes SHA-256, documentación por ola y reportes de integridad. La candidata metodológica pública [`v0.1.0-rc.1`](https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.1.0-rc.1) conserva un corte reproducible anterior a la expansión U1 posterior.
 
-## Piloto CN5 y SEMB
+Para reconstrucción de releases se documentan dependencias en [`requirements-release.txt`](requirements-release.txt). Los protocolos, manuales, reportes y planes científicos se encuentran en [`docs/`](docs/).
 
-El piloto utiliza _Ciencias Naturales_ de quinto grado en generaciones 1972, 1988, 1993 y 2014. Es la única capa que llega actualmente a Rule A, SEMB 0.2 y comparación semántica exploratoria.
+La política general de calidad está en [`SCIENTIFIC_REPOSITORY_STANDARD.md`](SCIENTIFIC_REPOSITORY_STANDARD.md) y la autoevaluación FAIR/FAIR4RS en [`FAIR_ASSESSMENT.md`](FAIR_ASSESSMENT.md).
 
-SEMB 0.2 produjo **99.49% de incertidumbre global** y se conserva como resultado metodológico negativo/diagnóstico. No se bajaron umbrales retrospectivamente para maximizar diferencias históricas.
+## Publicación y metadatos
 
-## SEMB 0.3: referencia humana preregistrada
+LTMD expone metadatos para humanos y máquinas mediante:
 
-La infraestructura prehumana contiene **480 casos**: 320 `development`, 160 `locked_validation` y 120 reservados para doble codificación de fiabilidad. Los criterios de aceptación, arquitecturas candidatas y stage gates quedaron congelados antes de observar anotaciones humanas.
+- [`CITATION.cff`](CITATION.cff), compatible con la función **Cite this repository** de GitHub;
+- [`codemeta.json`](codemeta.json), en CodeMeta 3.1;
+- [`VERSION`](VERSION) y [`CHANGELOG.md`](CHANGELOG.md);
+- releases de GitHub con notas y reportes de reproducibilidad;
+- documentación de procedencia, gobernanza y licencias.
 
-Etapa actual: **`WAITING_HUMAN_REFERENCE`**.
+**No se declara DOI de LTMD hasta que exista un depósito real y verificable.** Esta decisión evita crear identificadores ficticios o inconsistentes entre GitHub y un archivo de preservación.
 
-La expansión U1 puede continuar técnicamente, pero no se usa para fabricar etiquetas humanas ni para transformar tendencias exploratorias de SEMB 0.2 en narrativa histórica confirmada. Matemáticas, Español, Historia y otros dominios requerirán validación semántica específica cuando sus preguntas analíticas lo exijan.
+## Derechos y licencias
 
-## Dependencia documental
+El software original de LTMD se distribuye bajo **Apache License 2.0**. Los datos derivados originales sobre los que exista capacidad jurídica para licenciar se ofrecen bajo las condiciones descritas en [`DATA_LICENSE.md`](DATA_LICENSE.md).
 
-LTMD no supone independencia por `catalog_generation`. En CN4 1972↔1988, 188/214 páginas alineables son byte-idénticas en la misma posición. Las relaciones documentales, reutilizaciones, reemplazos y aliases forman parte del estimando y de la trazabilidad.
+Estas licencias **no** se extienden automáticamente a libros, PDF, JPEG, portadas, ilustraciones, texto fuente, marcas u otros materiales de SEP/CONALITEG o terceros. La estrategia de procesamiento prioriza reconstrucción temporal, verificación de integridad y no redistribución de fuentes cuando los derechos no lo permiten.
 
-## Catálogo maestro reproducible
+## Contribución y gobernanza
 
-El snapshot institucional indexado contiene **542 claves de visor, 542/542 visores alcanzables, 542/542 títulos recuperados y 191 familias de título nuclear**. La identidad documental se fundamenta en `book_id` + `viewer_key`; `catalog_generation` no se usa automáticamente como `edition_year`.
-
-## Derechos, licencias y reutilización
-
-El software original de LTMD se distribuye bajo **Apache License 2.0**. Los datos derivados originales sobre los cuales el licenciante posea o controle derechos necesarios se ofrecen bajo **CC BY 4.0**.
-
-Estas licencias no se aplican a libros, PDF, JPEG, páginas, portadas, ilustraciones, texto fuente, OCR sustitutivo, marcas ni otros materiales de CONALITEG/SEP o terceros. Las fuentes necesarias se reconstruyen temporalmente, se verifican contra SHA-256 y se eliminan después del procesamiento.
-
-## Reproducibilidad e integridad científica
-
-El corte publicado `v0.1.0-rc.1` utiliza `LTMD_INTEGRITY_0.6`. Los artefactos U1 posteriores pertenecen a la evolución de `main` y deberán integrarse en un corte de integridad posterior; nunca se atribuyen retroactivamente al tag publicado.
-
-## Publicación científica
-
-LTMD separa dos productos:
-
-1. **artículo de método/recurso digital** — [`docs/METHODS_ARTICLE_DRAFT_0_2.md`](docs/METHODS_ARTICLE_DRAFT_0_2.md);
-2. **artículo histórico-educativo** — bloqueado hasta superar SEMB 0.3 y reconstruir la inferencia bajo unidades documentales defendibles.
-
-## Documentación central
-
-La entrada recomendada es el **[Índice maestro de método](docs/METHOD_INDEX.md)**. Para la expansión integral, consulte el **[Plan Maestro LTMD-U1](docs/LTMD_U1_MASTER_PLAN_0_1.md)**, el **[tablero vivo](data/catalog/ltmd_u1_coverage.md)** y las actas/cortes técnicos W1–W7.
-
-## Regla epistemológica
-
-LTMD privilegia una regla sencilla: **una cifra reproducible no es automáticamente una afirmación válida**. Cada salto —fuente, identidad documental, OCR, estructura, fragmentación, clasificación e inferencia— debe conservar evidencia suficiente para ser auditado independientemente.
+Las contribuciones son bienvenidas cuando preservan procedencia, reproducibilidad y separación entre estados técnicos y semánticos. Véanse [`CONTRIBUTING.md`](CONTRIBUTING.md), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), [`SECURITY.md`](SECURITY.md) y [`GOVERNANCE.md`](GOVERNANCE.md).
 
 ## Citación
 
-Mientras no exista un DOI versionado real, use la metadata de [`CITATION.cff`](CITATION.cff), el tag `v0.1.0-rc.1` y la GitHub Release correspondiente. Cuando Zenodo archive la release, deberá utilizarse el DOI versionado real de ese corte científico.
+GitHub puede generar citas desde [`CITATION.cff`](CITATION.cff). Para la candidata metodológica publicada:
+
+> Sandoval Gutierrez, Fernando. 2026. *Libro de Texto Mexicano Digital*, versión 0.1.0-rc.1. GitHub release. https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.1.0-rc.1
+
+Cuando exista un depósito real en Zenodo u otro archivo con identificador persistente, el DOI deberá incorporarse de forma coherente a `CITATION.cff`, `codemeta.json`, la release y esta sección.
+
+## Responsable
+
+**Fernando Sandoval Gutierrez**  
+ORCID: [0000-0002-3168-6725](https://orcid.org/0000-0002-3168-6725)
+
+---
+
+<p align="center">
+  <strong>LTMD documenta lo que sabe, lo que infiere y lo que todavía no puede afirmar.</strong>
+</p>
