@@ -15,6 +15,9 @@ on:
       - 'docs/LTMD_U1_W10_FRAGSEG.md'
       - 'docs/LTMD_U1_W10_EXACT_REUSE.md'
       - 'docs/LTMD_U1_W10_COMPLETION.md'
+      - 'docs/LTMD_U1_W11_FREEZE.md'
+      - 'docs/LTMD_U1_W11_HETEROGENEITY.md'
+      - 'docs/LTMD_U1_W11_ARCHITECTURE.md'
   workflow_run:
     workflows:
       - 'build-ltmd-u1-w6-geography-atlas-completion-report'
@@ -26,6 +29,9 @@ on:
       - 'build-ltmd-u1-w10-integrados-fragseg'
       - 'build-ltmd-u1-w10-integrados-exact-reuse'
       - 'build-ltmd-u1-w10-completion'
+      - 'build-ltmd-u1-w11-scope'
+      - 'profile-ltmd-u1-w11-heterogeneity'
+      - 'build-ltmd-u1-w11-architecture'
     types: [completed]
 
 permissions:
