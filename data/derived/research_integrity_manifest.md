@@ -2,7 +2,7 @@
 
 Versión: `LTMD_INTEGRITY_0.14`.
 
-Commit observado: `9b6e89f840bc938fa7b92a08c44f0c4481a749cf`.
+Commit observado: `577b2a1183a79b3808d301690104728a3b4171d0`.
 
 Alcance: perímetro v0.13 de cierre técnico W8 congelado + comparación técnica W3–W4–W7–W8 cerrada y estrictamente descriptiva sobre PAGESTRUCT, FRAGSEG y reutilización/dependencia textual exacta, incluido su script reproducible, control explícito de despacho y workflow.
 
