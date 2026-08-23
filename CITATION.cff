@@ -3,12 +3,14 @@ message: "Si utiliza este proyecto, cite la versión archivada correspondiente. 
 title: "Libro de Texto Mexicano Digital"
 type: software
 authors:
-  - family-names: "Sandoval Gutiérrez"
+  - family-names: "Sandoval Gutierrez"
     given-names: "Fernando"
+    orcid: "https://orcid.org/0000-0002-3168-6725"
 version: "0.1.0-rc.1"
 date-released: 2026-08-15
 repository-code: "https://github.com/fersandovalgtz/libro-texto-mexicano-digital"
 url: "https://github.com/fersandovalgtz/libro-texto-mexicano-digital"
+license: "Apache-2.0"
 keywords:
   - libros de texto
   - historia de la educación
