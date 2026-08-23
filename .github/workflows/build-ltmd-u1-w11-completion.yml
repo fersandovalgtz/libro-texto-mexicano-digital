@@ -28,6 +28,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Refresh authoritative main before readiness gate
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
       - id: ready
         shell: bash
         run: |
