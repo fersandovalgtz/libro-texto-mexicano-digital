@@ -1,6 +1,6 @@
 # LTMD-U1 W11 — perfil de heterogeneidad documental
 
-Versión: `LTMD_U1_W11_HETEROGENEITY_0.1`.
+Versión: `LTMD_U1_W11_HETEROGENEITY_0.2`.
 
 - Identidades perfiladas: **111/111**.
 - Base: alcance W11 congelado; ninguna fila se agrega ni se elimina.
@@ -27,7 +27,7 @@ Versión: `LTMD_U1_W11_HETEROGENEITY_0.1`.
 - grado 6: **33**.
 
 ## Señales documentales literales/deterministas
-- `generic_grade_book`: **16**.
+- `generic_grade_book`: **17**.
 - `recortable`: **9**.
 - `libro_integrado`: **4**.
 - `monografia_estatal`: **32**.
@@ -37,24 +37,25 @@ Versión: `LTMD_U1_W11_HETEROGENEITY_0.1`.
 - `material_alfabetizacion`: **3**.
 - `fichero_didactico`: **2**.
 - `conocimiento_medio`: **8**.
-- `matematicas_literal`: **0**.
+- `matematicas_literal`: **1**.
 
-- Sin ninguna señal declarada: **3**.
+- Sin ninguna señal declarada: **1**.
 - Con ≥2 señales simultáneas: **9**.
 
 ## Firmas de señales
 - `monografia_estatal`: **32**.
 - `entidad_donde_vivo`: **32**.
-- `generic_grade_book`: **12**.
+- `generic_grade_book`: **13**.
 - `conocimiento_medio`: **8**.
 - `educacion_fisica_literal`: **6**.
 - `constitucion_literal`: **5**.
 - `generic_grade_book+recortable`: **4**.
-- `no_declared_signal`: **3**.
 - `recortable+material_alfabetizacion`: **3**.
 - `libro_integrado`: **2**.
 - `recortable+libro_integrado`: **2**.
 - `fichero_didactico`: **2**.
+- `matematicas_literal`: **1**.
+- `no_declared_signal`: **1**.
 
 ## Patrones técnicos de identificador
 - `HI`: **32**.
