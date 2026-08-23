@@ -1,0 +1,62 @@
+name: build-ltmd-u1-evidence-integrity
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/*ltmd_u1*.py'
+      - '.github/workflows/*ltmd-u1*.yml'
+      - '.github/workflows/*ltmd-u1*.yaml'
+      - 'data/catalog/ltmd_u1_*'
+      - '!data/catalog/ltmd_u1_evidence_integrity.csv'
+      - 'docs/LTMD_U1_*.md'
+      - '!docs/LTMD_U1_EVIDENCE_INTEGRITY.md'
+      - 'README.md'
+      - 'README.en.md'
+      - 'CITATION.cff'
+      - 'codemeta.json'
+  workflow_run:
+    workflows:
+      - 'build-ltmd-u1-coverage-dashboard'
+      - 'sync-readme-coverage'
+      - 'build-ltmd-u1-w10-completion'
+      - 'build-ltmd-u1-w11-completion'
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-ltmd-u1-evidence-integrity
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build and publish deterministic integrity ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            python3 scripts/build_ltmd_u1_evidence_integrity.py
+            git add data/catalog/ltmd_u1_evidence_integrity.csv docs/LTMD_U1_EVIDENCE_INTEGRITY.md
+            if git diff --cached --quiet; then
+              exit 0
+            fi
+            git commit -m 'data: refresh U1 public evidence integrity ledger'
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          exit 1
