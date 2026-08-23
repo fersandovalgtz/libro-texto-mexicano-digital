@@ -1,7 +1,7 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.14",
-  "generated_utc": "2026-08-23T15:32:41.109026+00:00",
-  "git_head": "a15babca618ebe1f3c430edb12a3bd013ed2fa43",
+  "generated_utc": "2026-08-23T15:35:27.384429+00:00",
+  "git_head": "58d9d0e0276b4dc4beef4a447a83f1bd1c199b68",
   "scope": "LTMD v0.14: frozen v0.13 W8 technical-closure perimeter plus the closed, strictly descriptive LTMD-U1 W3-W4-W7-W8 technical comparison across PAGESTRUCT, FRAGSEG and exact-text reuse/dependence, including its reproducible script, explicit dispatch control and workflow",
   "critical_count": 474,
   "critical_present_count": 474,
@@ -16,8 +16,8 @@
   "files": [
     {
       "path": "README.md",
-      "bytes": 10871,
-      "sha256": "7c97ef350889dba756ab523bf1ed6f62ad197837dd6823fb1070d7cfce1695ab",
+      "bytes": 10859,
+      "sha256": "aabe550a0daf1e29064d984ecc37bb1fec53530b0d39b5cdc4ce12ec9425b3e8",
       "required": true
     },
     {
