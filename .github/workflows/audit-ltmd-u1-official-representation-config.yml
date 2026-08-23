@@ -1,0 +1,48 @@
+name: audit-ltmd-u1-official-representation-config
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/audit-ltmd-u1-official-representation-config.yml'
+      - 'scripts/audit_ltmd_u1_official_representation_config.py'
+      - 'data/catalog/ltmd_u1_w11_standard_asset_manifest.csv'
+      - 'data/catalog/ltmd_u1_w11_nonstandard_asset_manifest.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: audit-ltmd-u1-official-representation-config
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Audit official configuration against W11 manifests
+        run: python3 scripts/audit_ltmd_u1_official_representation_config.py
+      - name: Publish configuration audit race-safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/catalog/ltmd_u1_official_representation_config.csv /tmp/ltmd_u1_official_representation_config.csv
+          cp docs/LTMD_U1_OFFICIAL_REPRESENTATION_CONFIG.md /tmp/LTMD_U1_OFFICIAL_REPRESENTATION_CONFIG.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/ltmd_u1_official_representation_config.csv data/catalog/
+            cp /tmp/LTMD_U1_OFFICIAL_REPRESENTATION_CONFIG.md docs/
+            git add data/catalog/ltmd_u1_official_representation_config.csv docs/LTMD_U1_OFFICIAL_REPRESENTATION_CONFIG.md
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'data(u1): publish official representation config audit'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
