@@ -2,6 +2,10 @@ name: Validate FTRL W1 full corpus
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/research/ltmd_u1_w1_full_run_stamp.json'
 
 permissions:
   contents: read
