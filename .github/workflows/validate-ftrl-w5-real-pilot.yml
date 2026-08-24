@@ -1,4 +1,4 @@
-name: Validate FTRL W5 real 10-page pilot
+name: Validate FTRL W5 real integration
 
 on:
   pull_request:
@@ -10,7 +10,9 @@ on:
       - 'scripts/validate_ocr_corpus.py'
       - 'scripts/summarize_ftrl_run.py'
       - 'scripts/run_ftrl_w5_pilot.py'
+      - 'scripts/run_ftrl_w5_parallel.py'
       - 'schemas/ltmd_ftrl_run_manifest.schema.json'
+      - 'schemas/ltmd_ftrl_parallel_run.schema.json'
       - 'data/catalog/ltmd_u1_w5_history_asset_manifest.csv'
       - 'data/catalog/ltmd_u1_w5_history_processing_inventory.csv'
   workflow_dispatch:
@@ -38,13 +40,13 @@ jobs:
           tesseract --version | head -n 1
           tesseract --list-langs | grep -Fx spa
 
-      - name: Run real W5 10-page pilot
+      - name: Run real W5 10-page serial pilot
         run: |
           python scripts/run_ftrl_w5_pilot.py \
             --pages 10 \
             --output-dir local/ftrl
 
-      - name: Assert text-free provenance result
+      - name: Assert serial pilot provenance
         run: |
           python - <<'PY'
           import json
@@ -85,24 +87,82 @@ jobs:
           }, ensure_ascii=False, sort_keys=True))
           PY
 
+      - name: Run bounded two-shard parallel integration
+        run: |
+          python scripts/run_ftrl_w5_parallel.py \
+            --workers 2 \
+            --viewer-key H1993P4HI198 \
+            --viewer-key H1993P5HI206 \
+            --max-pages-per-viewer 2 \
+            --output-dir local/ftrl-parallel-smoke
+
+      - name: Assert parallel merge invariants
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('local/ftrl-parallel-smoke')
+          manifest = json.loads((root / 'ltmd_u1_w5_full_run_manifest.json').read_text(encoding='utf-8'))
+          summary = json.loads((root / 'ltmd_u1_w5_full_parallel_summary.json').read_text(encoding='utf-8'))
+          assert manifest['status'] == 'validated'
+          assert manifest['corpus']['page_records'] == 4
+          assert manifest['corpus']['canonical_viewers'] == 2
+          assert manifest['database']['page_rows'] == 4
+          assert manifest['database']['fts_rows'] == 4
+          assert manifest['database']['historical_identities'] == 2
+          assert manifest['database']['sqlite_integrity'] == 'ok'
+          assert summary['schema_version'] == 'LTMD_FTRL_PARALLEL_RUN_0.1'
+          assert summary['complete_w5'] is False
+          assert summary['canonical_viewers'] == 2
+          assert summary['expected_pages'] == 4
+          assert summary['observed_pages'] == 4
+          assert len(summary['shards']) == 2
+          assert all(shard['expected_pages'] == shard['observed_pages'] == 2 for shard in summary['shards'])
+          assert manifest['execution']['ci']['sha'] == manifest['execution']['vcs']['commit']
+          PY
+
+      - name: Assert partial runs cannot execute preregistered protocol
+        run: |
+          if python scripts/run_ftrl_w5_parallel.py \
+            --workers 1 \
+            --viewer-key H1993P4HI198 \
+            --max-pages-per-viewer 1 \
+            --run-preregistered-queries \
+            --output-dir local/should-not-run; then
+            echo 'Partial run unexpectedly accepted preregistered queries' >&2
+            exit 1
+          else
+            echo 'Partial-query guard: OK'
+          fi
+
       - name: Prove no restricted local corpus is staged for publication
         run: |
           test -f local/ftrl/ltmd_u1_w5_pilot_10_page_ocr.jsonl
           test -f local/ftrl/ltmd_u1_w5_pilot_10_ocr_search.sqlite
           test -f local/ftrl/ltmd_u1_w5_pilot_10_run_manifest.json
+          test -f local/ftrl-parallel-smoke/ltmd_u1_w5_full_page_ocr.jsonl
+          test -f local/ftrl-parallel-smoke/ltmd_u1_w5_full_ocr_search.sqlite
+          test -f local/ftrl-parallel-smoke/ltmd_u1_w5_full_run_manifest.json
+          test -f local/ftrl-parallel-smoke/ltmd_u1_w5_full_parallel_summary.json
           git status --short --untracked-files=all | tee local/git-status.txt
           if git check-ignore -q local/ftrl/ltmd_u1_w5_pilot_10_page_ocr.jsonl \
-             && git check-ignore -q local/ftrl/ltmd_u1_w5_pilot_10_ocr_search.sqlite; then
+             && git check-ignore -q local/ftrl/ltmd_u1_w5_pilot_10_ocr_search.sqlite \
+             && git check-ignore -q local/ftrl-parallel-smoke/ltmd_u1_w5_full_page_ocr.jsonl \
+             && git check-ignore -q local/ftrl-parallel-smoke/ltmd_u1_w5_full_ocr_search.sqlite; then
             echo 'Restricted local OCR/index outputs remain ignored: OK'
           else
             echo 'Expected local OCR/index outputs are not ignored' >&2
             exit 1
           fi
 
-      - name: Upload text-free run manifest only
+      - name: Upload text-free integration evidence only
         uses: actions/upload-artifact@v4
         with:
-          name: ltmd-u1-w5-pilot-10-run-manifest
-          path: local/ftrl/ltmd_u1_w5_pilot_10_run_manifest.json
+          name: ltmd-u1-w5-real-integration-evidence
+          path: |
+            local/ftrl/ltmd_u1_w5_pilot_10_run_manifest.json
+            local/ftrl-parallel-smoke/ltmd_u1_w5_full_run_manifest.json
+            local/ftrl-parallel-smoke/ltmd_u1_w5_full_parallel_summary.json
           if-no-files-found: error
           retention-days: 30
