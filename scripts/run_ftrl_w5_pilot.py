@@ -11,6 +11,7 @@ from pathlib import Path
 
 ASSET_MANIFEST = Path("data/catalog/ltmd_u1_w5_history_asset_manifest.csv")
 PROCESSING_INVENTORY = Path("data/catalog/ltmd_u1_w5_history_processing_inventory.csv")
+QUERY_PROTOCOL = Path("data/research/ltmd_ftrl_w5_preregistered_queries.csv")
 
 
 def require_environment() -> None:
@@ -58,13 +59,23 @@ def main() -> None:
     )
     parser.add_argument(
         "--query",
-        help="Optional FTS5 query to execute after validation",
+        help="Optional ad hoc FTS5 query to execute after validation",
+    )
+    parser.add_argument(
+        "--run-preregistered-queries",
+        action="store_true",
+        help="Execute the frozen W5 historiographic query protocol after a full run",
     )
     args = parser.parse_args()
 
     if args.pages < 1:
         raise SystemExit("--pages must be >= 1")
-    for path in (ASSET_MANIFEST, PROCESSING_INVENTORY):
+    if args.run_preregistered_queries and not args.full:
+        raise SystemExit("--run-preregistered-queries requires --full")
+    required_paths = [ASSET_MANIFEST, PROCESSING_INVENTORY]
+    if args.run_preregistered_queries:
+        required_paths.append(QUERY_PROTOCOL)
+    for path in required_paths:
         if not path.exists():
             raise SystemExit(f"Run from the repository root; missing {path}")
     require_environment()
@@ -73,6 +84,7 @@ def main() -> None:
     label = "full" if args.full else f"pilot_{args.pages}"
     jsonl = args.output_dir / f"ltmd_u1_w5_{label}_page_ocr.jsonl"
     db = args.output_dir / f"ltmd_u1_w5_{label}_ocr_search.sqlite"
+    run_manifest = args.output_dir / f"ltmd_u1_w5_{label}_run_manifest.json"
     cache = args.output_dir / "w5" / "assets"
 
     build = [
@@ -116,6 +128,24 @@ def main() -> None:
             str(db),
         ]
     )
+    run(
+        [
+            sys.executable,
+            "scripts/summarize_ftrl_run.py",
+            "--input",
+            str(jsonl),
+            "--db",
+            str(db),
+            "--asset-manifest",
+            str(ASSET_MANIFEST),
+            "--processing-inventory",
+            str(PROCESSING_INVENTORY),
+            "--label",
+            label,
+            "--output",
+            str(run_manifest),
+        ]
+    )
 
     if args.query:
         run(
@@ -131,7 +161,26 @@ def main() -> None:
             ]
         )
 
+    if args.run_preregistered_queries:
+        candidates = args.output_dir / "ltmd_u1_w5_query_candidates.json"
+        query_summary = args.output_dir / "ltmd_u1_w5_query_summary.json"
+        run(
+            [
+                sys.executable,
+                "scripts/run_ftrl_query_protocol.py",
+                "--db",
+                str(db),
+                "--protocol",
+                str(QUERY_PROTOCOL),
+                "--output",
+                str(candidates),
+                "--summary-output",
+                str(query_summary),
+            ]
+        )
+
     print(f"FTRL W5 {label} ready: {db}")
+    print(f"Run provenance manifest: {run_manifest}")
 
 
 if __name__ == "__main__":
