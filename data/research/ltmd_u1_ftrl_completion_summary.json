@@ -1,8 +1,9 @@
 {
   "archival_status": {
+    "archival_complete": 18,
     "not_applicable_final_exception": 5,
     "not_started": 479,
-    "preservation_in_progress": 58
+    "preservation_in_progress": 40
   },
   "canonical_processing_objects_by_ftrl_status": {
     "in_progress": 36,
