@@ -6,6 +6,20 @@
   "retained_source_register": "data/catalog/ltmd_u1_retained_source_register.csv",
   "governing_protocol": "docs/FTRL_U1_EXHAUSTIVE_EXECUTION_PROTOCOL_0_2.md",
   "identity_key": "viewer_key",
+  "wave_assignment_basis": "operational_domain",
+  "domain_to_wave": {
+    "ciencias_naturales": "W1",
+    "matematicas": "W2",
+    "espanol_lengua": "W3",
+    "ciencias_sociales": "W4",
+    "historia": "W5",
+    "geografia_atlas": "W6",
+    "civica_etica": "W7",
+    "artes": "W8",
+    "educacion_fisica": "W9",
+    "integrados_multiarea": "W10",
+    "otros_no_clasificados": "W11"
+  },
   "expected_universe_identities": 542,
   "expected_effective_technical_coverage": 524,
   "expected_active_retentions": 13,
@@ -41,6 +55,7 @@
   "aliases_remain_distinct_historical_identities": true,
   "canonical_processing_may_deduplicate_demonstrated_identical_bytes": true,
   "source_admitted_cohort_may_not_replace_project_denominator": true,
+  "queue_labels_are_not_wave_identity": true,
   "interpretive_limits": [
     "corpus_ready != semantic_ready",
     "ocr_available != text_verified",
