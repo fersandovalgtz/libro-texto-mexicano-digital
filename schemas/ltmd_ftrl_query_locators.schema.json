@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_ftrl_query_locators.schema.json",
+  "title": "LTMD FTRL query candidate locators",
+  "description": "Text-free locators for candidates returned by a versioned FTRL query protocol.",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "protocol_sha256", "rights_note", "queries"],
+  "properties": {
+    "schema_version": {"const": "LTMD_FTRL_QUERY_PROTOCOL_0.1"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "protocol_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "rights_note": {"type": "string", "minLength": 1},
+    "queries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "query_id",
+          "hit_pages_exact",
+          "candidate_rows_materialized",
+          "candidate_rows_truncated",
+          "locators"
+        ],
+        "properties": {
+          "query_id": {"type": "string", "minLength": 1},
+          "hit_pages_exact": {"type": "integer", "minimum": 0},
+          "candidate_rows_materialized": {"type": "integer", "minimum": 0},
+          "candidate_rows_truncated": {"type": "boolean"},
+          "locators": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "page_id",
+                "canonical_viewer_key",
+                "historical_viewers",
+                "wave",
+                "catalog_generation",
+                "grade_code",
+                "title_core",
+                "page_index",
+                "viewer_page",
+                "source_asset_url",
+                "source_sha256",
+                "ocr_sha256",
+                "ocr_confidence_mean",
+                "rank"
+              ],
+              "properties": {
+                "page_id": {"type": "string", "minLength": 1},
+                "canonical_viewer_key": {"type": "string", "minLength": 1},
+                "historical_viewers": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {"type": "string", "minLength": 1}
+                },
+                "wave": {"type": "string", "minLength": 1},
+                "catalog_generation": {"type": "integer"},
+                "grade_code": {"type": "integer"},
+                "title_core": {"type": "string"},
+                "page_index": {"type": "integer", "minimum": 0},
+                "viewer_page": {"type": ["integer", "null"]},
+                "source_asset_url": {"type": "string", "minLength": 1},
+                "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "ocr_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "ocr_confidence_mean": {"type": ["number", "null"]},
+                "rank": {"type": "number"}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
