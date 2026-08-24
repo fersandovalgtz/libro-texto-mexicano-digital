@@ -21,7 +21,6 @@ EXPECTED_SECTIONS = [
     "05_Checksums_y_evidencia",
 ]
 TEXT_SUFFIXES = {".md", ".txt", ".json", ".yml", ".yaml", ".py", ".sh", ".toml", ".ini", ".cfg", ".pem"}
-SKIP_TOP = {".git", "local", "private", "data/raw", "data/work"}
 
 
 def sha256(path: Path) -> str:
@@ -30,6 +29,10 @@ def sha256(path: Path) -> str:
 
 def scan_for_private_keys() -> list[str]:
     hits: list[str] = []
+    # Construct the PEM sentinels at runtime so this validator does not contain
+    # the exact secret marker that it is designed to detect.
+    generic_marker = "-----BEGIN " + "PRIVATE KEY-----"
+    rsa_marker = "-----BEGIN RSA " + "PRIVATE KEY-----"
     for path in Path(".").rglob("*"):
         if not path.is_file():
             continue
@@ -42,7 +45,7 @@ def scan_for_private_keys() -> list[str]:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             continue
-        if "-----BEGIN PRIVATE KEY-----" in text or "-----BEGIN RSA PRIVATE KEY-----" in text:
+        if generic_marker in text or rsa_marker in text:
             hits.append(posix)
     return sorted(hits)
 
