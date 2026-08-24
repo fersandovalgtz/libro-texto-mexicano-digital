@@ -5,9 +5,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import platform
 import sqlite3
 import statistics
+import subprocess
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -29,6 +31,56 @@ def portable_path(path: Path) -> str:
         return str(resolved.relative_to(Path.cwd().resolve()))
     except ValueError:
         return path.name
+
+
+def git_command(*args: str) -> tuple[bool, str]:
+    try:
+        result = subprocess.run(
+            ["git", *args],
+            cwd=Path.cwd(),
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return False, ""
+    return result.returncode == 0, result.stdout.strip()
+
+
+def execution_context() -> dict:
+    ok_commit, commit = git_command("rev-parse", "HEAD")
+    vcs = None
+    if ok_commit and commit:
+        ok_ref, symbolic_ref = git_command("symbolic-ref", "--quiet", "--short", "HEAD")
+        ok_status, tracked_status = git_command(
+            "status", "--porcelain", "--untracked-files=no"
+        )
+        vcs = {
+            "system": "git",
+            "commit": commit,
+            "ref": os.environ.get("GITHUB_REF") or (symbolic_ref if ok_ref else None),
+            "dirty_tracked_worktree": bool(tracked_status) if ok_status else None,
+        }
+
+    ci = None
+    if os.environ.get("GITHUB_ACTIONS", "").lower() == "true":
+        ci = {"provider": "github-actions"}
+        env_fields = {
+            "repository": "GITHUB_REPOSITORY",
+            "workflow": "GITHUB_WORKFLOW",
+            "run_id": "GITHUB_RUN_ID",
+            "run_attempt": "GITHUB_RUN_ATTEMPT",
+            "event_name": "GITHUB_EVENT_NAME",
+            "ref": "GITHUB_REF",
+            "sha": "GITHUB_SHA",
+        }
+        for output_key, env_key in env_fields.items():
+            value = os.environ.get(env_key)
+            if value:
+                ci[output_key] = value
+
+    return {"vcs": vcs, "ci": ci}
 
 
 def summarize_jsonl(path: Path) -> dict:
@@ -209,6 +261,7 @@ def main() -> None:
             "sqlite_version": sqlite3.sqlite_version,
             "platform": platform.platform(),
         },
+        "execution": execution_context(),
         "files": files,
         "corpus": corpus,
         "database": database,
@@ -228,6 +281,8 @@ def main() -> None:
                 "run_manifest": portable_path(args.output),
                 "page_records": corpus["page_records"],
                 "historical_identities": database["historical_identities"],
+                "git_commit": (manifest["execution"]["vcs"] or {}).get("commit"),
+                "ci_run_id": (manifest["execution"]["ci"] or {}).get("run_id"),
             },
             ensure_ascii=False,
             sort_keys=True,
