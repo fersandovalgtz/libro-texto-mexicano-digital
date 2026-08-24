@@ -180,6 +180,7 @@ def main() -> None:
         label = f"pilot_{len(rows)}"
         pilot_manifest = args.output_dir / f"ltmd_u1_w1_{label}_asset_manifest.csv"
         write_rows(pilot_manifest, rows)
+        provenance_asset_manifest = pilot_manifest
         jsonl = args.output_dir / f"ltmd_u1_w1_{label}_page_ocr.jsonl"
         run(
             [
@@ -200,6 +201,7 @@ def main() -> None:
         )
     else:
         label = "full"
+        provenance_asset_manifest = asset_manifest
         jsonl = run_ocr_shards(
             rows=rows,
             processing_inventory=processing_inventory,
@@ -243,7 +245,7 @@ def main() -> None:
             "--db",
             str(db),
             "--asset-manifest",
-            str(asset_manifest),
+            str(provenance_asset_manifest),
             "--processing-inventory",
             str(processing_inventory),
             "--label",
