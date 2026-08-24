@@ -1,0 +1,17 @@
+{
+  "schema": "LTMD_FTRL_W5_PRIVATE_PRESERVATION_ACTIVATION_0.1",
+  "effective_date": "2026-08-24",
+  "wave": "W5",
+  "domain": "Historia",
+  "historical_identities": 18,
+  "canonical_processing_objects": 15,
+  "source_admitted_jpegs": 2653,
+  "destination": "private_google_drive",
+  "logical_destination": "LTMD-U1 — corpus FTRL privado/W5 — Historia/run_32748987531__e200b252__2026-08-24",
+  "encryption_handoff": "required",
+  "archive_public_key_sha256": "78852eafbaa332247f99e23508ac157b5b906c6c3bf3aeb0af1dfe8d57579c2d",
+  "source_validated_run_id": "32748987531",
+  "source_validated_run_commit": "e200b252d3acadf4b56cee33d6ff92f4040d8e1c",
+  "reason": "W5 was computationally validated before persistent private preservation became canonical; this reproducible rerun closes the archival debt.",
+  "rule": "This stamp authorizes a preservation rerun only. It does not alter the validated W5 scientific cohort or semantic status."
+}
