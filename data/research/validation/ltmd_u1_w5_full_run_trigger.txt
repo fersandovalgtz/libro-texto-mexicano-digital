@@ -1,9 +1,10 @@
 LTMD FTRL W5 FULL RUN TRIGGER
 
-requested_at_local=2026-08-24T09:12:00-06:00
+requested_at_local=2026-08-24T09:14:00-06:00
 scope=W5 Historia
 expected_canonical_objects=15
 expected_historical_identities=18
 expected_source_pages=2443
 purpose=Observable first complete preregistered FTRL execution over W5
+trigger_event=pull_request_synchronize
 publication_policy=text-free evidence only
