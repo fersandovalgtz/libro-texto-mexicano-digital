@@ -1,0 +1,95 @@
+name: Validate FTRL W5 real 10-page pilot
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/validate-ftrl-w5-real-pilot.yml'
+      - 'scripts/build_page_ocr_corpus.py'
+      - 'scripts/build_search_index.py'
+      - 'scripts/validate_ocr_corpus.py'
+      - 'scripts/summarize_ftrl_run.py'
+      - 'scripts/run_ftrl_w5_pilot.py'
+      - 'data/catalog/ltmd_u1_w5_history_asset_manifest.csv'
+      - 'data/catalog/ltmd_u1_w5_history_processing_inventory.csv'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  real-w5-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Spanish Tesseract data
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+          tesseract --version | head -n 1
+          tesseract --list-langs | grep -Fx spa
+
+      - name: Run real W5 10-page pilot
+        run: |
+          python scripts/run_ftrl_w5_pilot.py \
+            --pages 10 \
+            --output-dir local/ftrl
+
+      - name: Assert text-free provenance result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('local/ftrl/ltmd_u1_w5_pilot_10_run_manifest.json')
+          row = json.loads(path.read_text(encoding='utf-8'))
+          assert row['schema_version'] == 'LTMD_FTRL_RUN_0.1'
+          assert row['status'] == 'validated'
+          assert row['corpus']['page_records'] == 10
+          assert row['database']['page_rows'] == 10
+          assert row['database']['fts_rows'] == 10
+          assert row['database']['sqlite_integrity'] == 'ok'
+          assert row['corpus']['waves'] == ['W5']
+          assert row['corpus']['source_byte_size_missing_pages'] == 0
+          print(json.dumps({
+              'status': row['status'],
+              'page_records': row['corpus']['page_records'],
+              'canonical_viewers': row['corpus']['canonical_viewers'],
+              'catalog_generations': row['corpus']['catalog_generations'],
+              'grade_codes': row['corpus']['grade_codes'],
+              'zero_search_text_pages': row['corpus']['zero_search_text_pages'],
+              'ocr_confidence': row['corpus']['ocr_confidence'],
+              'historical_identities': row['database']['historical_identities'],
+              'sqlite_integrity': row['database']['sqlite_integrity'],
+          }, ensure_ascii=False, sort_keys=True))
+          PY
+
+      - name: Prove no restricted local corpus is staged for publication
+        run: |
+          test -f local/ftrl/ltmd_u1_w5_pilot_10_page_ocr.jsonl
+          test -f local/ftrl/ltmd_u1_w5_pilot_10_ocr_search.sqlite
+          test -f local/ftrl/ltmd_u1_w5_pilot_10_run_manifest.json
+          git status --short --untracked-files=all | tee local/git-status.txt
+          if git check-ignore -q local/ftrl/ltmd_u1_w5_pilot_10_page_ocr.jsonl \
+             && git check-ignore -q local/ftrl/ltmd_u1_w5_pilot_10_ocr_search.sqlite; then
+            echo 'Restricted local OCR/index outputs remain ignored: OK'
+          else
+            echo 'Expected local OCR/index outputs are not ignored' >&2
+            exit 1
+          fi
+
+      - name: Upload text-free run manifest only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w5-pilot-10-run-manifest
+          path: local/ftrl/ltmd_u1_w5_pilot_10_run_manifest.json
+          if-no-files-found: error
+          retention-days: 30
