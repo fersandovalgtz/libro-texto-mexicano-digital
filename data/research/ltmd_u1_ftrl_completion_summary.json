@@ -6,10 +6,12 @@
   },
   "canonical_processing_objects_by_ftrl_status": {
     "in_progress": 36,
+    "pending": 114,
     "validated": 15
   },
   "canonical_source_pages_by_ftrl_status": {
     "in_progress": 6516,
+    "pending": 20765,
     "validated": 2653
   },
   "corpus_ready_identities": 18,
@@ -20,6 +22,8 @@
   },
   "documentary_identities": 542,
   "epistemic_guards": [
+    "topology_ready != corpus_ready",
+    "preflight_ready != ftrl_validated",
     "corpus_ready != semantic_ready",
     "ocr_available != text_verified",
     "search_hit != historical_claim",
@@ -39,10 +43,16 @@
     "final_exceptions": 5,
     "reason": "active retentions and unfinished FTRL waves remain; archival completion is also incomplete"
   },
-  "ledger_version": "LTMD_U1_FTRL_COMPLETION_LEDGER_0.1",
+  "known_processing_topology_identities": 188,
+  "ledger_version": "LTMD_U1_FTRL_COMPLETION_LEDGER_0.2",
   "ocr_available_identities": 18,
-  "schema": "LTMD_U1_FTRL_COMPLETION_SUMMARY_0.1",
+  "schema": "LTMD_U1_FTRL_COMPLETION_SUMMARY_0.2",
   "semantic_ready_identities": 0,
+  "source_readiness": {
+    "full": 223,
+    "partial": 7,
+    "unresolved": 312
+  },
   "status": "valid",
   "text_verified_identities": 0,
   "wave_denominators": {
