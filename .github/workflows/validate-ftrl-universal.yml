@@ -1,0 +1,147 @@
+name: Validate universal FTRL contract
+
+on:
+  pull_request:
+    paths:
+      - 'data/catalog/ltmd_u1_ftrl_source_registry.csv'
+      - 'data/catalog/ltmd_u1_coverage.csv'
+      - 'data/catalog/ltmd_u1_wave_queue.csv'
+      - 'data/catalog/*manifest.csv'
+      - 'scripts/normalize_ftrl_sources.py'
+      - 'scripts/build_page_ocr_corpus.py'
+      - 'scripts/build_search_index.py'
+      - 'scripts/query_ocr_corpus.py'
+      - 'scripts/validate_ocr_corpus.py'
+      - 'scripts/run_ftrl_universal.py'
+      - '.github/workflows/validate-ftrl-universal.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'data/catalog/ltmd_u1_ftrl_source_registry.csv'
+      - 'data/catalog/ltmd_u1_coverage.csv'
+      - 'data/catalog/ltmd_u1_wave_queue.csv'
+      - 'data/catalog/*manifest.csv'
+      - 'scripts/normalize_ftrl_sources.py'
+      - 'scripts/build_page_ocr_corpus.py'
+      - 'scripts/build_search_index.py'
+      - 'scripts/query_ocr_corpus.py'
+      - 'scripts/validate_ocr_corpus.py'
+      - 'scripts/run_ftrl_universal.py'
+      - '.github/workflows/validate-ftrl-universal.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile universal FTRL scripts
+        run: |
+          python -m py_compile \
+            scripts/normalize_ftrl_sources.py \
+            scripts/build_page_ocr_corpus.py \
+            scripts/build_search_index.py \
+            scripts/query_ocr_corpus.py \
+            scripts/validate_ocr_corpus.py \
+            scripts/run_ftrl_universal.py
+
+      - name: Normalize and plan the complete registered execution universe
+        run: |
+          python scripts/run_ftrl_universal.py \
+            --work-dir local/ftrl-u1-ci \
+            --plan-only | tee local/ftrl-u1-ci-plan.log
+
+      - name: Build synthetic cross-wave/cross-domain corpus
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+
+          rows = []
+          fixtures = [
+              ('W3', 'espanol_lengua', 3, 5, 'viewer-es', 'La lectura transforma la experiencia escolar.'),
+              ('W6', 'geografia_atlas', 6, 4, 'viewer-geo', 'El territorio se representa mediante mapas y escalas.'),
+          ]
+          for wave, domain, generation, grade, viewer, text in fixtures:
+              raw = text + '\n'
+              search = text
+              digest_raw = hashlib.sha256(raw.encode()).hexdigest()
+              digest_search = hashlib.sha256(search.encode()).hexdigest()
+              source_sha = hashlib.sha256((viewer + ':source').encode()).hexdigest()
+              rows.append({
+                  'schema_version': 'LTMD_PAGE_OCR_0.1',
+                  'pipeline_version': 'LTMD_FTRL_OCR_TEST',
+                  'page_id': f'{viewer}:src0001',
+                  'viewer_key': viewer,
+                  'canonical_viewer_key': viewer,
+                  'wave': wave,
+                  'operational_domain': domain,
+                  'catalog_generation': generation,
+                  'grade_code': grade,
+                  'title_core': f'Fixture {viewer}',
+                  'page_index': 1,
+                  'viewer_page': 1,
+                  'source_asset_url': f'https://example.invalid/{viewer}/1.jpg',
+                  'source_sha256': source_sha,
+                  'source_byte_size': 1,
+                  'source_ids': f'fixture_{wave.lower()}',
+                  'source_manifest_paths': 'synthetic-ci',
+                  'ocr_engine': 'fixture',
+                  'ocr_engine_version': 'fixture-1',
+                  'ocr_language': 'spa',
+                  'ocr_psm': 3,
+                  'ocr_text_raw': raw,
+                  'ocr_sha256': digest_raw,
+                  'search_text': search,
+                  'search_text_sha256': digest_search,
+                  'ocr_confidence_mean': 99.0,
+                  'ocr_char_count': len(raw),
+                  'ocr_word_count': len(raw.split()),
+                  'generated_at': '2000-01-01T00:00:00+00:00',
+              })
+          path = Path('local/ftrl-u1-ci/synthetic.jsonl')
+          path.parent.mkdir(parents=True, exist_ok=True)
+          path.write_text(''.join(json.dumps(r, ensure_ascii=False, sort_keys=True) + '\n' for r in rows), encoding='utf-8')
+          PY
+
+      - name: Validate universal index and query filters
+        run: |
+          python scripts/build_search_index.py \
+            --input local/ftrl-u1-ci/synthetic.jsonl \
+            --output local/ftrl-u1-ci/synthetic.sqlite
+          python scripts/validate_ocr_corpus.py \
+            --input local/ftrl-u1-ci/synthetic.jsonl \
+            --db local/ftrl-u1-ci/synthetic.sqlite
+          python scripts/query_ocr_corpus.py \
+            --db local/ftrl-u1-ci/synthetic.sqlite \
+            --query territorio \
+            --wave W6 \
+            --domain geografia_atlas \
+            --format json > local/ftrl-u1-ci/query.json
+          python - <<'PY'
+          import json
+          rows = json.load(open('local/ftrl-u1-ci/query.json', encoding='utf-8'))
+          assert len(rows) == 1, rows
+          assert rows[0]['wave'] == 'W6', rows
+          assert rows[0]['operational_domain'] == 'geografia_atlas', rows
+          assert rows[0]['canonical_viewer_key'] == 'viewer-geo', rows
+          PY
+
+      - name: Upload text-free normalization evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ftrl-universal-normalization-evidence
+          path: |
+            local/ftrl-u1-ci/metadata/normalization_summary.json
+            local/ftrl-u1-ci-plan.log
+          if-no-files-found: error
+          retention-days: 30
