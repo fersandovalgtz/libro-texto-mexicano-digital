@@ -1,10 +1,12 @@
 {
   "schema": "LTMD_REPO_SNAPSHOT_DRIVE_0.1",
   "effective_date": "2026-08-24",
+  "snapshot_sequence": 2,
   "source_branch": "main",
+  "source_commit_expected_before_trigger": "e215bd28d46022b3432e05fe6c7609a5c0e48f8b",
   "destination": "private_google_drive",
   "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/01_REPO_SNAPSHOTS",
   "include": "versioned repository tree excluding .git and private/local/raw workspaces",
   "required_outputs": ["repository_tar_gz", "commit_sha", "git_status", "sha256sums"],
-  "reason": "Maintain a private Drive backup of the scientific infrastructure in addition to GitHub as the public source of truth."
+  "reason": "Refresh the private Drive backup after adding the exhaustive 542/542 FTRL completion ledger and its validation gate."
 }
