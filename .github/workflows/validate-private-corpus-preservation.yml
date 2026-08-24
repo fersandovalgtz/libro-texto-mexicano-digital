@@ -7,10 +7,12 @@ on:
       - 'docs/LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md'
       - 'data/research/ltmd_private_corpus_storage_contract.json'
       - 'data/research/ltmd_u1_w1_private_preservation_stamp.json'
+      - 'data/research/ltmd_u1_w5_private_preservation_stamp.json'
       - 'security/ltmd_archive_public.pem'
       - 'scripts/validate_private_corpus_storage_contract.py'
       - '.github/workflows/validate-private-corpus-preservation.yml'
       - '.github/workflows/preserve-ftrl-w1-private.yml'
+      - '.github/workflows/preserve-ftrl-w5-private.yml'
       - '.gitignore'
   workflow_dispatch:
 
