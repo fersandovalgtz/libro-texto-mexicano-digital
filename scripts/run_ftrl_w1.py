@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run LTMD-U1 W1 Ciencias Naturales through the FTRL pipeline."""
+"""Run exhaustive LTMD-U1 W1 Ciencias Naturales through the FTRL pipeline."""
 from __future__ import annotations
 
 import argparse
@@ -10,6 +10,8 @@ import sqlite3
 import subprocess
 import sys
 from pathlib import Path
+
+EXPECTED_W1_SOURCE_PAGES = 6516
 
 
 def require_environment() -> None:
@@ -52,7 +54,9 @@ def write_rows(path: Path, rows: list[dict[str, str]]) -> None:
         writer.writerows(rows)
 
 
-def balanced_shards(rows: list[dict[str, str]], count: int) -> list[list[dict[str, str]]]:
+def balanced_shards(
+    rows: list[dict[str, str]], count: int
+) -> list[list[dict[str, str]]]:
     count = max(1, min(count, len(rows)))
     base, remainder = divmod(len(rows), count)
     shards: list[list[dict[str, str]]] = []
@@ -123,13 +127,19 @@ def run_ocr_shards(
                     record = json.loads(line)
                     page_id = str(record["page_id"])
                     if page_id in page_ids:
-                        raise SystemExit(f"duplicate OCR page_id across shards: {page_id}")
+                        raise SystemExit(
+                            f"duplicate OCR page_id across shards: {page_id}"
+                        )
                     page_ids.add(page_id)
-                    out.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+                    out.write(
+                        json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n"
+                    )
                     count += 1
     temp.replace(combined)
     if count != len(rows):
-        raise SystemExit(f"combined OCR cardinality mismatch: {count} != {len(rows)}")
+        raise SystemExit(
+            f"combined OCR cardinality mismatch: {count} != {len(rows)}"
+        )
     return combined
 
 
@@ -173,8 +183,11 @@ def main() -> None:
     )
 
     rows = read_rows(asset_manifest)
-    if len(rows) != 5926:
-        raise SystemExit(f"normalized W1 asset cardinality drifted: {len(rows)}")
+    if len(rows) != EXPECTED_W1_SOURCE_PAGES:
+        raise SystemExit(
+            "normalized exhaustive W1 asset cardinality drifted: "
+            f"{len(rows)} != {EXPECTED_W1_SOURCE_PAGES}"
+        )
     if not args.full:
         rows = rows[: args.pages]
         label = f"pilot_{len(rows)}"
