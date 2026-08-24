@@ -1,0 +1,51 @@
+{
+  "schema_version": "LTMD_FTRL_U1_EXHAUSTIVE_SCOPE_0.2",
+  "snapshot": "LTMD-U1",
+  "snapshot_date": "2026-08-24",
+  "master_inventory": "data/catalog/ltmd_u1_coverage.csv",
+  "retained_source_register": "data/catalog/ltmd_u1_retained_source_register.csv",
+  "governing_protocol": "docs/FTRL_U1_EXHAUSTIVE_EXECUTION_PROTOCOL_0_2.md",
+  "identity_key": "viewer_key",
+  "expected_universe_identities": 542,
+  "expected_effective_technical_coverage": 524,
+  "expected_active_retentions": 13,
+  "expected_final_exceptions": 5,
+  "expected_residual_identities": 18,
+  "expected_wave_denominators": {
+    "W1": 40,
+    "W2": 64,
+    "W3": 130,
+    "W4": 14,
+    "W5": 18,
+    "W6": 42,
+    "W7": 30,
+    "W8": 20,
+    "W9": 4,
+    "W10": 69,
+    "W11": 111
+  },
+  "expected_retained_by_wave": {
+    "W2": 4,
+    "W7": 5,
+    "W8": 4,
+    "W10": 1,
+    "W11": 4
+  },
+  "allowed_identity_dispositions": [
+    "required_ftrl_processing",
+    "active_retention",
+    "final_exception"
+  ],
+  "global_closure_requires_active_retentions": 0,
+  "final_exceptions_remain_in_denominator": true,
+  "aliases_remain_distinct_historical_identities": true,
+  "canonical_processing_may_deduplicate_demonstrated_identical_bytes": true,
+  "source_admitted_cohort_may_not_replace_project_denominator": true,
+  "interpretive_limits": [
+    "corpus_ready != semantic_ready",
+    "ocr_available != text_verified",
+    "search_hit != historical_claim",
+    "zero_hits != demonstrated_absence",
+    "final_exception != source_resolved"
+  ]
+}
