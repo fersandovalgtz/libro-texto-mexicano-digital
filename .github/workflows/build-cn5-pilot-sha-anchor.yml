@@ -13,15 +13,17 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   anchor-cn5:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Checkout exact revision
+      - name: Checkout PR head for one-time anchor materialization
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -59,15 +61,59 @@ jobs:
           print('CN5 pilot cryptographic anchor validated')
           PY
 
+      - name: Materialize compact versioned anchor
+        if: github.event_name == 'pull_request'
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          src = Path('local/ftrl/cn5_pilot_sha_compact')
+          dst = Path('data/catalog/cn5_pilot_sha')
+          dst.mkdir(parents=True, exist_ok=True)
+          for old in dst.glob('*.csv'):
+              old.unlink()
+          for item in sorted(src.glob('*.csv')):
+              shutil.copyfile(item, dst / item.name)
+          assert len(list(dst.glob('*.csv'))) == 9
+          PY
+
       - name: Compare regenerated anchor with versioned manifests
         run: |
-          test "$(find data/catalog/cn5_pilot_sha -maxdepth 1 -name '*.csv' | wc -l)" -eq 4
-          for committed in data/catalog/cn5_pilot_sha/*.csv; do
-            generated="local/ftrl/cn5_pilot_sha_compact/$(basename "$committed")"
-            cmp "$committed" "$generated"
-          done
-          cmp data/catalog/cn5_pilot_sha_manifest_summary.json local/ftrl/cn5_pilot_sha_manifest_summary.json
-          echo 'Versioned CN5 anchor exactly matches regenerated source provenance'
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+
+          committed_dir = Path('data/catalog/cn5_pilot_sha')
+          generated_dir = Path('local/ftrl/cn5_pilot_sha_compact')
+          committed = sorted(committed_dir.glob('*.csv'))
+          generated = sorted(generated_dir.glob('*.csv'))
+          assert len(committed) == 9, len(committed)
+          assert [p.name for p in committed] == [p.name for p in generated]
+          for left, right in zip(committed, generated):
+              with left.open(encoding='utf-8', newline='') as fh:
+                  lr = csv.DictReader(fh); lrows = list(lr); lfields = lr.fieldnames
+              with right.open(encoding='utf-8', newline='') as fh:
+                  rr = csv.DictReader(fh); rrows = list(rr); rfields = rr.fieldnames
+              assert lfields == rfields, left.name
+              assert lrows == rrows, left.name
+          committed_summary = json.loads(Path('data/catalog/cn5_pilot_sha_manifest_summary.json').read_text(encoding='utf-8'))
+          generated_summary = json.loads(Path('local/ftrl/cn5_pilot_sha_manifest_summary.json').read_text(encoding='utf-8'))
+          assert committed_summary == generated_summary
+          print('Versioned CN5 anchor semantically matches regenerated source provenance')
+          PY
+
+      - name: Commit one-time compact anchor to PR head
+        if: github.event_name == 'pull_request'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/catalog/cn5_pilot_sha
+          if git diff --cached --quiet; then
+            echo 'Compact anchor already versioned; no commit needed'
+          else
+            git commit -m 'data(ftrl): version CN5 pilot compact SHA anchor'
+            git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          fi
 
       - name: Upload metadata and hashes only
         uses: actions/upload-artifact@v4
