@@ -1,0 +1,89 @@
+name: Validate FTRL OCR QC queue
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/build_ftrl_qc_queue.py'
+      - '.github/workflows/validate-ftrl-qc-queue.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qc-queue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build synthetic restricted corpus
+        run: |
+          mkdir -p local/ftrl
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          def h(text):
+              return hashlib.sha256(text.encode()).hexdigest()
+
+          rows = [
+              dict(page_id='A:src0000', viewer_key='A', canonical_viewer_key='A', wave='W5', catalog_generation=1993, grade_code=4, page_index=0, viewer_page=1, source_sha256=h('s0'), ocr_sha256=h('o0'), ocr_confidence_mean=None, ocr_char_count=0, ocr_word_count=0, ocr_text_raw='', search_text=''),
+              dict(page_id='A:src0001', viewer_key='A', canonical_viewer_key='A', wave='W5', catalog_generation=1993, grade_code=4, page_index=1, viewer_page=2, source_sha256=h('s1'), ocr_sha256=h('o1'), ocr_confidence_mean=65.0, ocr_char_count=40, ocr_word_count=8, ocr_text_raw='RESTRICTED LOW CONFIDENCE SAMPLE', search_text='restricted low confidence sample'),
+              dict(page_id='A:src0002', viewer_key='A', canonical_viewer_key='A', wave='W5', catalog_generation=1993, grade_code=4, page_index=2, viewer_page=3, source_sha256=h('s2'), ocr_sha256=h('o2'), ocr_confidence_mean=75.0, ocr_char_count=500, ocr_word_count=90, ocr_text_raw='RESTRICTED REVIEW SAMPLE', search_text='restricted review sample'),
+              dict(page_id='B:src0001', viewer_key='B', canonical_viewer_key='B', wave='W5', catalog_generation=2019, grade_code=5, page_index=1, viewer_page=2, source_sha256=h('s3'), ocr_sha256=h('o3'), ocr_confidence_mean=92.0, ocr_char_count=900, ocr_word_count=160, ocr_text_raw='RESTRICTED GOOD SAMPLE', search_text='restricted good sample'),
+              dict(page_id='B:src0002', viewer_key='B', canonical_viewer_key='B', wave='W5', catalog_generation=2019, grade_code=5, page_index=2, viewer_page=3, source_sha256=h('s4'), ocr_sha256=h('o4'), ocr_confidence_mean=88.0, ocr_char_count=80, ocr_word_count=14, ocr_text_raw='RESTRICTED SHORT SAMPLE', search_text='restricted short sample'),
+          ]
+          path = Path('local/ftrl/synthetic_page_ocr.jsonl')
+          path.write_text(''.join(json.dumps(row) + '\n' for row in rows), encoding='utf-8')
+          PY
+
+      - name: Generate QC queue and summary
+        run: |
+          python scripts/build_ftrl_qc_queue.py \
+            --input local/ftrl/synthetic_page_ocr.jsonl \
+            --queue-output local/ftrl/qc_queue.json \
+            --summary-output local/ftrl/qc_summary.json
+
+      - name: Assert diagnostics and text exclusion
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          queue = json.loads(Path('local/ftrl/qc_queue.json').read_text())
+          summary = json.loads(Path('local/ftrl/qc_summary.json').read_text())
+
+          assert queue['schema_version'] == 'LTMD_FTRL_QC_0.1'
+          assert summary['schema_version'] == 'LTMD_FTRL_QC_0.1'
+          assert summary['page_records'] == 5
+          assert summary['pages_flagged'] == 4
+          assert summary['pages_unflagged'] == 1
+          assert summary['flag_counts']['zero_search_text'] == 1
+          assert summary['flag_counts']['missing_confidence'] == 1
+          assert summary['flag_counts']['low_confidence_critical'] == 1
+          assert summary['flag_counts']['low_confidence_review'] == 1
+          assert summary['flag_counts']['very_short_text'] == 2
+          assert summary['flag_counts']['zero_ocr_chars'] == 1
+          assert summary['flag_counts']['zero_ocr_words'] == 1
+          assert queue['pages'][0]['page_id'] == 'A:src0000'
+
+          serialized = json.dumps({'queue': queue, 'summary': summary})
+          for forbidden in ('ocr_text_raw', 'search_text', 'RESTRICTED'):
+              assert forbidden not in serialized, forbidden
+          print(json.dumps(summary['flag_counts'], sort_keys=True))
+          PY
+
+      - name: Confirm outputs stay under ignored local path
+        run: |
+          git check-ignore -q local/ftrl/qc_queue.json
+          git check-ignore -q local/ftrl/qc_summary.json
+          git check-ignore -q local/ftrl/synthetic_page_ocr.jsonl
