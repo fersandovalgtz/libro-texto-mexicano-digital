@@ -1,0 +1,7 @@
+{
+  "schema": "LTMD_FTRL_W1_FULL_RUN_LOOKUP_0.1",
+  "requested_date": "2026-08-24",
+  "target_head_sha": "d3ad64f789570fb7a2b8557dcb0c69c7a2beca6d",
+  "workflow": ".github/workflows/validate-ftrl-w1-full.yml",
+  "purpose": "Recover metadata for the already-triggered exhaustive W1 full run without re-running OCR."
+}
