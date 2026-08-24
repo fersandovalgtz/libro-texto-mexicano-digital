@@ -1,0 +1,40 @@
+name: Report exhaustive FTRL W1 full-run completion
+
+on:
+  workflow_run:
+    workflows: ['Validate exhaustive FTRL W1 full corpus']
+    types: [completed]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  report-w1-full-run:
+    if: >-
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish text-free run checkpoint to issue 15
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const run = context.payload.workflow_run;
+            const body = [
+              '### FTRL W1 — cierre automático de corrida integral exhaustiva',
+              '',
+              `- Workflow run: ${run.id}`,
+              `- Conclusion: \`${run.conclusion}\``,
+              `- Event: \`${run.event}\``,
+              `- Head SHA: \`${run.head_sha}\``,
+              `- Run URL: ${run.html_url}`,
+              '',
+              'Este checkpoint es exclusivamente técnico y text-free. Una conclusión `success` no promueve por sí sola W1 a `text_verified` ni `semantic_ready`; primero debe validarse la evidencia agregada de la corrida.'
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 15,
+              body,
+            });
