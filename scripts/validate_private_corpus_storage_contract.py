@@ -11,6 +11,7 @@ from pathlib import Path
 
 CONTRACT = Path("data/research/ltmd_private_corpus_storage_contract.json")
 CANON = Path("docs/LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md")
+TOTAL_CANON = Path("docs/LTMD_TOTAL_PRESERVATION_CANON_0_1.md")
 PUBLIC_KEY = Path("security/ltmd_archive_public.pem")
 EXPECTED_PUBLIC_KEY_SHA256 = "78852eafbaa332247f99e23508ac157b5b906c6c3bf3aeb0af1dfe8d57579c2d"
 EXPECTED_SECTIONS = [
@@ -29,8 +30,6 @@ def sha256(path: Path) -> str:
 
 def scan_for_private_keys() -> list[str]:
     hits: list[str] = []
-    # Construct the PEM sentinels at runtime so this validator does not contain
-    # the exact secret marker that it is designed to detect.
     generic_marker = "-----BEGIN " + "PRIVATE KEY-----"
     rsa_marker = "-----BEGIN RSA " + "PRIVATE KEY-----"
     for path in Path(".").rglob("*"):
@@ -51,11 +50,13 @@ def scan_for_private_keys() -> list[str]:
 
 
 def main() -> None:
-    if not CONTRACT.exists() or not CANON.exists() or not PUBLIC_KEY.exists():
+    if not CONTRACT.exists() or not CANON.exists() or not TOTAL_CANON.exists() or not PUBLIC_KEY.exists():
         raise SystemExit("private corpus preservation canon is incomplete")
 
     contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
-    assert contract["schema"] == "LTMD_PRIVATE_CORPUS_STORAGE_0.1"
+    assert contract["schema"] == "LTMD_PRIVATE_CORPUS_STORAGE_0.2"
+    assert contract["canonical_document"] == TOTAL_CANON.as_posix()
+    assert contract["private_corpus_canonical_document"] == CANON.as_posix()
     assert contract["persistent_private_storage"]["provider"] == "google_drive"
     assert contract["persistent_private_storage"]["visibility"] == "private_owner_controlled"
     assert contract["persistent_private_storage"]["required_sections"] == EXPECTED_SECTIONS
@@ -69,6 +70,11 @@ def main() -> None:
     assert policy["text_free_evidence_allowed"] is True
     assert policy["archive_public_key"] == PUBLIC_KEY.as_posix()
 
+    total = contract["project_total_preservation"]
+    assert total["required"] is True
+    assert total["chat_is_never_single_source_of_truth"] is True
+    assert total["actions_artifacts_are_never_persistent_archive"] is True
+
     inv = contract["invariants"]
     required_true = {
         "computational_validation_does_not_imply_archival_completion",
@@ -76,8 +82,11 @@ def main() -> None:
         "encrypted_actions_artifact_is_temporary_handoff_only",
         "plaintext_restricted_outputs_must_not_be_uploaded_to_public_actions",
         "drive_copy_must_be_bound_to_run_id_and_commit",
+        "drive_copy_integrity_must_be_verified",
         "private_key_must_never_enter_public_repository",
         "prior_validated_runs_without_persistent_copy_are_archival_debt",
+        "substantive_main_changes_require_persistent_repository_snapshot",
+        "github_only_is_not_sufficient_for_project_preservation",
     }
     assert required_true <= set(inv)
     assert all(inv[k] is True for k in required_true)
@@ -93,6 +102,7 @@ def main() -> None:
         raise SystemExit(f"private key material detected in public repository paths: {private_key_hits}")
 
     canon_text = CANON.read_text(encoding="utf-8")
+    total_text = TOTAL_CANON.read_text(encoding="utf-8")
     for phrase in (
         "Google Drive",
         "archival_complete",
@@ -101,6 +111,15 @@ def main() -> None:
         "nunca se versionará la clave privada",
     ):
         assert phrase in canon_text, phrase
+    for phrase in (
+        "preservación total",
+        "GitHub",
+        "Google Drive",
+        "Notion",
+        "chat",
+        "Actions artifacts",
+    ):
+        assert phrase in total_text, phrase
 
     result = {
         "schema": contract["schema"],
@@ -109,7 +128,8 @@ def main() -> None:
         "required_sections": len(EXPECTED_SECTIONS),
         "public_key_sha256": actual_key_sha,
         "private_key_material_in_public_tree": 0,
-        "retroactive_archival_debt_entries": len(contract["retroactive_scope"]),
+        "retroactive_scope_entries": len(contract["retroactive_scope"]),
+        "total_preservation_required": total["required"],
     }
     print(json.dumps(result, indent=2, sort_keys=True))
 
