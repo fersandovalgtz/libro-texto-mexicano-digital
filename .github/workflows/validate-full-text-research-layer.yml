@@ -120,7 +120,7 @@ jobs:
         run: |
           python scripts/query_ocr_corpus.py \
             --db local/ftrl-smoke.sqlite \
-            --query 'masónica OR masonería' \
+            --query 'masónicas OR masonería' \
             --format json | tee local/query.json
           python - <<'PY'
           import json
