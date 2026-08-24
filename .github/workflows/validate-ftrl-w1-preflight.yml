@@ -8,6 +8,10 @@ on:
       - 'data/catalog/ciencias_naturales_pending_page_manifest_summary.csv'
       - 'data/expansion/cn46_page_manifest_summary.csv'
       - 'data/book_inventory.csv'
+      - 'data/derived/ocr_page_metrics.csv'
+      - 'data/catalog/cn5_pilot_sha/**'
+      - 'data/catalog/cn5_pilot_sha_manifest_summary.json'
+      - 'data/catalog/cn5_pilot_sha_provenance.json'
       - '.github/workflows/validate-ftrl-w1-preflight.yml'
   workflow_dispatch:
 
@@ -31,44 +35,66 @@ jobs:
         run: |
           python scripts/preflight_ftrl_w1.py --output local/ftrl/ltmd_u1_w1_preflight.json
 
-      - name: Assert text-free diagnosis and exact cardinalities
+      - name: Assert text-free ready state and exact cardinalities
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
           p = Path('local/ftrl/ltmd_u1_w1_preflight.json')
           d = json.loads(p.read_text(encoding='utf-8'))
-          assert d['schema'] == 'LTMD_FTRL_W1_PREFLIGHT_0.1'
+          assert d['schema'] == 'LTMD_FTRL_W1_PREFLIGHT_0.2'
           assert d['wave'] == 'W1'
           assert d['historical_identities'] == 37
           assert d['canonical_processing_objects'] == 33
           assert d['byte_identical_aliases'] == 4
           assert d['source_admitted_jpegs'] == 5926
           assert d['internal_unserved_positions'] == 3
-          assert d['status'] == 'blocked_missing_versioned_pilot_sha_manifest'
-          assert len(d['unanchored_pilot_objects']) == 4
+          assert d['status'] == 'ready'
+          assert d['pilot_sha256_objects'] == 4
+          assert d['pilot_sha256_pages'] == 759
+          assert d['pilot_prior_ocr_byte_matches'] == 759
+          assert d['pilot_anchor_files_validated'] == 9
+          assert d['pilot_anchor_summary_validated'] is True
+          assert d['unanchored_pilot_objects'] == []
           raw = p.read_text(encoding='utf-8').lower()
           for forbidden in ('ocr_text_raw', 'search_text', 'snippet'):
               assert forbidden not in raw
-          print('W1 preflight diagnosis validated')
+          print('W1 cryptographic readiness validated')
           PY
 
-      - name: Prove fail-closed FTRL gate
+      - name: Prove positive cryptographic-ready gate
         run: |
+          python scripts/preflight_ftrl_w1.py --require-cryptographic-ready \
+            --output local/ftrl/ltmd_u1_w1_gate.json
+
+      - name: Prove fail-closed behavior on one-row mutation
+        run: |
+          rm -rf /tmp/cn5_pilot_sha_mutated
+          cp -R data/catalog/cn5_pilot_sha /tmp/cn5_pilot_sha_mutated
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('/tmp/cn5_pilot_sha_mutated/LTMD-CN5-G1972-part01.csv')
+          lines = p.read_text(encoding='utf-8').splitlines()
+          p.write_text('\n'.join(lines[:-1]) + '\n', encoding='utf-8')
+          PY
           set +e
-          python scripts/preflight_ftrl_w1.py --require-cryptographic-ready > /tmp/w1_gate.log 2>&1
+          python scripts/preflight_ftrl_w1.py \
+            --pilot-sha-dir /tmp/cn5_pilot_sha_mutated \
+            --require-cryptographic-ready \
+            --output /tmp/should_not_validate.json > /tmp/w1_negative.log 2>&1
           code=$?
           set -e
           if [ "$code" -eq 0 ]; then
-            echo 'ERROR: W1 full-FTRL gate unexpectedly passed without versioned pilot SHA manifests'
+            echo 'ERROR: mutated W1 anchor unexpectedly passed'
             exit 1
           fi
-          grep -q 'not cryptographically ready' /tmp/w1_gate.log
-          echo 'Fail-closed gate behaved as expected'
+          echo 'Fail-closed mutation test behaved as expected'
 
       - name: Upload text-free preflight evidence
         uses: actions/upload-artifact@v4
         with:
           name: ltmd-u1-w1-preflight-text-free
-          path: local/ftrl/ltmd_u1_w1_preflight.json
+          path: |
+            local/ftrl/ltmd_u1_w1_preflight.json
+            local/ftrl/ltmd_u1_w1_gate.json
           if-no-files-found: error
