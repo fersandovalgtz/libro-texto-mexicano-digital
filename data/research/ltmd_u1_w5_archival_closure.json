@@ -1,0 +1,47 @@
+{
+  "schema": "LTMD_FTRL_ARCHIVAL_CLOSURE_0.1",
+  "effective_date": "2026-08-24",
+  "wave": "W5",
+  "domain": "Historia",
+  "ftrl": {
+    "status": "validated",
+    "run_id": "32748987531",
+    "commit": "e200b252d3acadf4b56cee33d6ff92f4040d8e1c",
+    "historical_identities": 18,
+    "canonical_processing_objects": 15,
+    "page_records": 2653
+  },
+  "preservation": {
+    "run_id": "32784373399",
+    "source_commit": "12762129580d523b30d2b362cf8d9e2d97247c9d",
+    "workflow_conclusion": "success",
+    "artifact_name": "ltmd-u1-w5-private-encrypted-handoff",
+    "artifact_id": "9542450764",
+    "artifact_zip_name": "LTMD_W5_private_handoff__32784373399.zip",
+    "artifact_zip_bytes": 6740331,
+    "artifact_zip_sha256": "45e6b93fab9833a955060df5459620a66a18316909fdd10cdec6e1cd34185fe6",
+    "encrypted_payload_bytes": 6736240,
+    "encrypted_payload_sha256": "aad39f56f2d1d59e4d4cb7aed059e960dfd053af10075a709c39a47e1d9a5182",
+    "wrapped_passphrase_bytes": 512,
+    "wrapped_passphrase_sha256": "19d085126dab9743315b889469bcff89f6967dbcc1adde22dc6aeb521a0bfed3"
+  },
+  "persistent_archive": {
+    "provider": "google_drive",
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/W5 — Historia/run_32748987531__e200b252__2026-08-24/00_HANDOFF_CIFRADO__preservation_run_32784373399/LTMD_W5_private_handoff__32784373399.zip",
+    "copied": true,
+    "destination_shared": false,
+    "destination_bytes": 6740331,
+    "redownload_verified": true,
+    "redownload_sha256": "45e6b93fab9833a955060df5459620a66a18316909fdd10cdec6e1cd34185fe6",
+    "matches_origin_artifact": true
+  },
+  "security": {
+    "payload_encryption": "AES-256-CBC + PBKDF2-SHA256, 250000 iterations",
+    "key_wrap": "RSA-4096 OAEP SHA-256",
+    "public_key_sha256": "78852eafbaa332247f99e23508ac157b5b906c6c3bf3aeb0af1dfe8d57579c2d",
+    "private_key_stored_outside_public_repository": true,
+    "plaintext_restricted_outputs_published": false
+  },
+  "archival_complete": true,
+  "interpretive_limit": "Archival closure is a technical preservation claim only. It does not promote text_verified or semantic_ready."
+}
