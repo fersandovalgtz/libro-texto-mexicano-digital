@@ -25,6 +25,7 @@ PILOT_BOOKS = {
     "LTMD-CN5-G2014",
 }
 COMPACT_FIELDS = ("viewer_page", "source_image_index", "byte_size", "sha256")
+COMPACT_CHUNK_ROWS = 90
 FIELDS = (
     "manifest_version",
     "page_id",
@@ -182,7 +183,12 @@ def main() -> None:
         compact_dir.mkdir(parents=True, exist_ok=True)
         for bid in sorted(PILOT_BOOKS):
             rows = [r for r in results if r["book_id"] == bid]
-            write_compact_anchor(compact_dir / f"{bid}.csv", rows)
+            for start in range(0, len(rows), COMPACT_CHUNK_ROWS):
+                part = start // COMPACT_CHUNK_ROWS + 1
+                write_compact_anchor(
+                    compact_dir / f"{bid}-part{part:02d}.csv",
+                    rows[start : start + COMPACT_CHUNK_ROWS],
+                )
 
     by_book: dict[str, dict[str, int]] = {}
     for bid in sorted(PILOT_BOOKS):
