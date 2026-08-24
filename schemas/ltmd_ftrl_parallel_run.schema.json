@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_ftrl_parallel_run.schema.json",
+  "title": "LTMD FTRL W5 parallel run summary",
+  "description": "Text-free operational summary for a canonical-object-sharded W5 FTRL execution.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "started_at",
+    "finished_at",
+    "elapsed_seconds",
+    "workers",
+    "complete_w5",
+    "canonical_viewers",
+    "expected_pages",
+    "observed_pages",
+    "expected_historical_identities",
+    "rights_note",
+    "shards"
+  ],
+  "properties": {
+    "schema_version": {"const": "LTMD_FTRL_PARALLEL_RUN_0.1"},
+    "started_at": {"type": "string", "format": "date-time"},
+    "finished_at": {"type": "string", "format": "date-time"},
+    "elapsed_seconds": {"type": "number", "minimum": 0},
+    "workers": {"type": "integer", "minimum": 1},
+    "complete_w5": {"type": "boolean"},
+    "canonical_viewers": {"type": "integer", "minimum": 1},
+    "expected_pages": {"type": "integer", "minimum": 1},
+    "observed_pages": {"type": "integer", "minimum": 1},
+    "expected_historical_identities": {"type": "integer", "minimum": 1},
+    "rights_note": {"type": "string", "minLength": 1},
+    "shards": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "viewer_key",
+          "catalog_generation",
+          "grade_code",
+          "expected_pages",
+          "observed_pages",
+          "elapsed_seconds"
+        ],
+        "properties": {
+          "viewer_key": {"type": "string", "minLength": 1},
+          "catalog_generation": {"type": "integer"},
+          "grade_code": {"type": "integer"},
+          "expected_pages": {"type": "integer", "minimum": 1},
+          "observed_pages": {"type": "integer", "minimum": 1},
+          "elapsed_seconds": {"type": "number", "minimum": 0}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
