@@ -1,0 +1,60 @@
+name: Validate FTRL U1 readiness
+
+on:
+  pull_request:
+    paths:
+      - 'data/derived/ltmd_u1_ftrl_readiness.csv'
+      - 'data/catalog/ltmd_u1_coverage.md'
+      - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'scripts/validate_ftrl_u1_readiness.py'
+      - 'docs/FTRL_U1_READINESS_MATRIX.md'
+      - '.github/workflows/validate-ftrl-u1-readiness.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'data/derived/ltmd_u1_ftrl_readiness.csv'
+      - 'data/catalog/ltmd_u1_coverage.md'
+      - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'scripts/validate_ftrl_u1_readiness.py'
+      - 'docs/FTRL_U1_READINESS_MATRIX.md'
+      - '.github/workflows/validate-ftrl-u1-readiness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate readiness against canonical U1 state
+        run: python scripts/validate_ftrl_u1_readiness.py
+
+      - name: Confirm readiness artifacts are text-free metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e local
+          python - <<'PY'
+          from pathlib import Path
+
+          targets = [
+              Path('data/derived/ltmd_u1_ftrl_readiness.csv'),
+              Path('docs/FTRL_U1_READINESS_MATRIX.md'),
+          ]
+          forbidden = ('ocr_text', 'raw_text', 'normalized_text', 'snippet')
+          for path in targets:
+              text = path.read_text(encoding='utf-8').lower()
+              found = [key for key in forbidden if key in text]
+              if found:
+                  raise SystemExit(f'{path}: forbidden restricted-text field names: {found}')
+          print('FTRL readiness artifacts: text-free metadata only')
+          PY
