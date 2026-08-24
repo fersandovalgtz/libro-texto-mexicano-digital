@@ -10,14 +10,18 @@ on:
       - 'scripts/summarize_ftrl_run.py'
       - 'scripts/run_ftrl_query_protocol.py'
       - 'scripts/run_ftrl_w5_pilot.py'
+      - 'scripts/run_ftrl_w5_parallel.py'
       - 'schemas/ltmd_page_ocr.schema.json'
       - 'schemas/ltmd_ftrl_run_manifest.schema.json'
+      - 'schemas/ltmd_ftrl_parallel_run.schema.json'
+      - 'schemas/ltmd_ftrl_query_locators.schema.json'
       - 'data/research/ltmd_ftrl_w5_preregistered_queries.csv'
       - 'docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md'
       - 'docs/LTMD_SEARCH_METHODOLOGY.md'
       - 'docs/LTMD_OCR_PROVENANCE.md'
       - 'docs/LTMD_FTRL_RUN_PROVENANCE.md'
       - 'docs/FTRL_W5_QUERY_PREREGISTRATION.md'
+      - 'docs/FTRL_W5_FULL_PARALLEL_EXECUTION.md'
       - '.github/workflows/validate-full-text-research-layer.yml'
   pull_request:
     paths:
@@ -28,14 +32,18 @@ on:
       - 'scripts/summarize_ftrl_run.py'
       - 'scripts/run_ftrl_query_protocol.py'
       - 'scripts/run_ftrl_w5_pilot.py'
+      - 'scripts/run_ftrl_w5_parallel.py'
       - 'schemas/ltmd_page_ocr.schema.json'
       - 'schemas/ltmd_ftrl_run_manifest.schema.json'
+      - 'schemas/ltmd_ftrl_parallel_run.schema.json'
+      - 'schemas/ltmd_ftrl_query_locators.schema.json'
       - 'data/research/ltmd_ftrl_w5_preregistered_queries.csv'
       - 'docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md'
       - 'docs/LTMD_SEARCH_METHODOLOGY.md'
       - 'docs/LTMD_OCR_PROVENANCE.md'
       - 'docs/LTMD_FTRL_RUN_PROVENANCE.md'
       - 'docs/FTRL_W5_QUERY_PREREGISTRATION.md'
+      - 'docs/FTRL_W5_FULL_PARALLEL_EXECUTION.md'
       - '.github/workflows/validate-full-text-research-layer.yml'
   workflow_dispatch:
 
@@ -50,7 +58,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Compile FTRL scripts
+      - name: Compile FTRL scripts and schemas
         run: |
           python -m py_compile \
             scripts/build_page_ocr_corpus.py \
@@ -59,8 +67,11 @@ jobs:
             scripts/validate_ocr_corpus.py \
             scripts/summarize_ftrl_run.py \
             scripts/run_ftrl_query_protocol.py \
-            scripts/run_ftrl_w5_pilot.py
+            scripts/run_ftrl_w5_pilot.py \
+            scripts/run_ftrl_w5_parallel.py
           python -m json.tool schemas/ltmd_ftrl_run_manifest.schema.json >/dev/null
+          python -m json.tool schemas/ltmd_ftrl_parallel_run.schema.json >/dev/null
+          python -m json.tool schemas/ltmd_ftrl_query_locators.schema.json >/dev/null
           python - <<'PY'
           import json
           schema = json.load(open('schemas/ltmd_ftrl_run_manifest.schema.json', encoding='utf-8'))
@@ -170,10 +181,20 @@ jobs:
             --db local/ftrl-smoke.sqlite \
             --protocol local/query-protocol.csv \
             --output local/query-candidates.json \
-            --summary-output local/query-summary.json
+            --summary-output local/query-summary.json \
+            --locator-output local/query-locators.json
           python - <<'PY'
           import json
-          row = json.load(open("local/query-summary.json", encoding="utf-8"))
-          assert row["schema_version"] == "LTMD_FTRL_QUERY_PROTOCOL_0.1"
-          assert [q["hit_pages_exact"] for q in row["queries"]] == [1, 1]
+          summary = json.load(open("local/query-summary.json", encoding="utf-8"))
+          locators = json.load(open("local/query-locators.json", encoding="utf-8"))
+          assert summary["schema_version"] == "LTMD_FTRL_QUERY_PROTOCOL_0.1"
+          assert [q["hit_pages_exact"] for q in summary["queries"]] == [1, 1]
+          assert [q["hit_pages_exact"] for q in locators["queries"]] == [1, 1]
+          encoded = json.dumps(locators, ensure_ascii=False)
+          assert "snippet" not in encoded
+          assert "query_expression" not in encoded
+          for query in locators["queries"]:
+              assert len(query["locators"]) == 1
+              assert len(query["locators"][0]["source_sha256"]) == 64
+              assert len(query["locators"][0]["ocr_sha256"]) == 64
           PY
