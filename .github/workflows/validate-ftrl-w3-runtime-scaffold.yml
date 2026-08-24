@@ -1,0 +1,94 @@
+name: Validate FTRL W3 runtime scaffold
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/guard_ftrl_w3_activation.py'
+      - 'scripts/run_ftrl_w3.py'
+      - 'data/research/ltmd_u1_w3_runtime_readiness.json'
+      - 'docs/FTRL_W3_RUNTIME_READINESS_PROTOCOL_0_1.md'
+      - '.github/workflows/validate-ftrl-w3-runtime-pilot.yml'
+      - '.github/workflows/validate-ftrl-w3-runtime-scaffold.yml'
+      - 'scripts/preflight_ftrl_w3.py'
+      - 'scripts/build_ftrl_w3_inputs.py'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/guard_ftrl_w3_activation.py'
+      - 'scripts/run_ftrl_w3.py'
+      - 'data/research/ltmd_u1_w3_runtime_readiness.json'
+      - 'docs/FTRL_W3_RUNTIME_READINESS_PROTOCOL_0_1.md'
+      - '.github/workflows/validate-ftrl-w3-runtime-pilot.yml'
+      - '.github/workflows/validate-ftrl-w3-runtime-scaffold.yml'
+      - 'scripts/preflight_ftrl_w3.py'
+      - 'scripts/build_ftrl_w3_inputs.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-runtime-scaffold:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile W3 runtime code
+        run: |
+          python -m py_compile \
+            scripts/guard_ftrl_w3_activation.py \
+            scripts/run_ftrl_w3.py \
+            scripts/preflight_ftrl_w3.py \
+            scripts/build_ftrl_w3_inputs.py
+
+      - name: Revalidate exhaustive W3 inputs without OCR
+        run: |
+          python scripts/preflight_ftrl_w3.py --output local/ftrl/ltmd_u1_w3_preflight.json
+          python scripts/build_ftrl_w3_inputs.py \
+            --asset-output local/ftrl/ltmd_u1_w3_asset_manifest.csv \
+            --processing-output local/ftrl/ltmd_u1_w3_processing_inventory.csv
+
+      - name: Assert non-bypassable sequencing and inactive full run
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+
+          readiness = json.loads(Path('data/research/ltmd_u1_w3_runtime_readiness.json').read_text(encoding='utf-8'))
+          assert readiness['schema'] == 'LTMD_U1_W3_RUNTIME_READINESS_0.1'
+          assert readiness['historical_identities'] == 130
+          assert readiness['canonical_processing_objects'] == 114
+          assert readiness['canonical_source_pages'] == 20765
+          assert readiness['activation_gate']['required_predecessor'] == 'W1'
+          assert readiness['activation_gate']['required_w1_validated_identities'] == 40
+          assert readiness['activation_gate']['bypass_allowed'] is False
+          assert readiness['runtime']['full_execution_activated'] is False
+          assert readiness['runtime']['full_execution_topology_frozen'] is False
+          assert readiness['preservation']['required_before_full_activation'] is True
+
+          runner = Path('scripts/run_ftrl_w3.py').read_text(encoding='utf-8')
+          guard = Path('scripts/guard_ftrl_w3_activation.py').read_text(encoding='utf-8')
+          pilot = Path('.github/workflows/validate-ftrl-w3-runtime-pilot.yml').read_text(encoding='utf-8')
+          assert '--skip-w1-gate' not in runner
+          assert 'guard_ftrl_w3_activation.py' in runner
+          assert 'EXPECTED_W1_IDENTITIES = 40' in guard
+          assert 'workflow_dispatch:' in pilot
+          assert 'push:' not in pilot
+          assert '--full' not in pilot
+
+          with Path('local/ftrl/ltmd_u1_w3_processing_inventory.csv').open(encoding='utf-8', newline='') as fh:
+              processing = list(csv.DictReader(fh))
+          with Path('local/ftrl/ltmd_u1_w3_asset_manifest.csv').open(encoding='utf-8', newline='') as fh:
+              pages = list(csv.DictReader(fh))
+          assert len(processing) == 130
+          assert sum(int(r['is_canonical_processing_object']) for r in processing) == 114
+          assert len(pages) == 20765
+          print('W3 runtime scaffold is guarded, exhaustive, and not activated')
+          PY

@@ -1,0 +1,111 @@
+name: Validate guarded FTRL W3 runtime pilot
+
+on:
+  workflow_dispatch:
+    inputs:
+      pages:
+        description: 'Number of canonical W3 pages to process after W1 gate'
+        required: true
+        default: '12'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ftrl-w3-runtime-pilot
+  cancel-in-progress: false
+
+jobs:
+  pilot-w3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Spanish Tesseract data
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+          tesseract --list-langs | grep -Fx spa
+
+      - name: Execute W3 pilot only after canonical W1 gate
+        env:
+          PILOT_PAGES: ${{ inputs.pages }}
+        run: |
+          case "$PILOT_PAGES" in
+            ''|*[!0-9]*) echo 'pages must be a positive integer' >&2; exit 1 ;;
+          esac
+          test "$PILOT_PAGES" -ge 1
+          test "$PILOT_PAGES" -le 100
+          python scripts/run_ftrl_w3.py \
+            --pages "$PILOT_PAGES" \
+            --output-dir local/ftrl
+
+      - name: Assert pilot integrity and no epistemic promotion
+        env:
+          PILOT_PAGES: ${{ inputs.pages }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          pages = int(os.environ['PILOT_PAGES'])
+          label = f'pilot_{pages}'
+          manifest = json.loads(Path(f'local/ftrl/ltmd_u1_w3_{label}_run_manifest.json').read_text(encoding='utf-8'))
+          qc = json.loads(Path(f'local/ftrl/ltmd_u1_w3_{label}_qc_summary.json').read_text(encoding='utf-8'))
+          preflight = json.loads(Path('local/ftrl/ltmd_u1_w3_preflight.json').read_text(encoding='utf-8'))
+          assert preflight['schema'] == 'LTMD_FTRL_W3_PREFLIGHT_0.1'
+          assert preflight['historical_identities'] == 130
+          assert preflight['canonical_processing_objects'] == 114
+          assert preflight['canonical_source_pages'] == 20765
+          assert preflight['ftrl_runtime_activated'] is False
+          assert preflight['corpus_ready'] is False
+          assert preflight['semantic_ready'] is False
+          assert manifest['schema_version'] == 'LTMD_FTRL_RUN_0.1'
+          assert manifest['status'] == 'validated'
+          assert manifest['corpus']['page_records'] == pages
+          assert manifest['database']['page_rows'] == pages
+          assert manifest['database']['fts_rows'] == pages
+          assert manifest['database']['sqlite_integrity'] == 'ok'
+          assert manifest['corpus']['waves'] == ['W3']
+          assert manifest['corpus']['source_byte_size_missing_pages'] == 0
+          assert qc['schema_version'] == 'LTMD_FTRL_QC_0.1'
+          assert qc['page_records'] == pages
+          print('Guarded W3 pilot validated; no full-corpus promotion implied')
+          PY
+
+      - name: Prove restricted pilot outputs remain non-publishable
+        env:
+          PILOT_PAGES: ${{ inputs.pages }}
+        run: |
+          label="pilot_${PILOT_PAGES}"
+          for path in \
+            "local/ftrl/ltmd_u1_w3_${label}_page_ocr.jsonl" \
+            "local/ftrl/ltmd_u1_w3_${label}_ocr_search.sqlite" \
+            "local/ftrl/ltmd_u1_w3_${label}_qc_queue.json"; do
+            test -f "$path"
+            git check-ignore -q "$path"
+          done
+
+      - name: Upload text-free pilot evidence only
+        env:
+          PILOT_PAGES: ${{ inputs.pages }}
+        run: |
+          mkdir -p local/w3-pilot-evidence
+          label="pilot_${PILOT_PAGES}"
+          cp local/ftrl/ltmd_u1_w3_preflight.json local/w3-pilot-evidence/
+          cp "local/ftrl/ltmd_u1_w3_${label}_run_manifest.json" local/w3-pilot-evidence/
+          cp "local/ftrl/ltmd_u1_w3_${label}_qc_summary.json" local/w3-pilot-evidence/
+
+      - name: Publish text-free pilot evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w3-runtime-pilot-text-free-evidence
+          path: local/w3-pilot-evidence/
+          if-no-files-found: error
+          retention-days: 30
