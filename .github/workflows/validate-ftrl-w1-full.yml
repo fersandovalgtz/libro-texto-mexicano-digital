@@ -1,0 +1,137 @@
+name: Validate FTRL W1 full corpus
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ftrl-w1-full
+  cancel-in-progress: false
+
+jobs:
+  full-w1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Spanish Tesseract data
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+          tesseract --version | head -n 1
+          tesseract --list-langs | grep -Fx spa
+
+      - name: Execute complete source-admitted W1 FTRL
+        run: |
+          python scripts/run_ftrl_w1.py \
+            --full \
+            --workers 2 \
+            --output-dir local/ftrl
+
+      - name: Assert complete W1 corpus and index
+        run: |
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          manifest = json.loads(Path('local/ftrl/ltmd_u1_w1_full_run_manifest.json').read_text(encoding='utf-8'))
+          qc = json.loads(Path('local/ftrl/ltmd_u1_w1_full_qc_summary.json').read_text(encoding='utf-8'))
+          preflight = json.loads(Path('local/ftrl/ltmd_u1_w1_preflight.json').read_text(encoding='utf-8'))
+          with Path('local/ftrl/ltmd_u1_w1_processing_inventory.csv').open(encoding='utf-8', newline='') as fh:
+              processing = list(csv.DictReader(fh))
+
+          assert preflight['schema'] == 'LTMD_FTRL_W1_PREFLIGHT_0.2'
+          assert preflight['status'] == 'ready'
+          assert preflight['historical_identities'] == 37
+          assert preflight['canonical_processing_objects'] == 33
+          assert preflight['byte_identical_aliases'] == 4
+          assert preflight['source_admitted_jpegs'] == 5926
+          assert preflight['internal_unserved_positions'] == 3
+
+          canonical = [r for r in processing if r['is_canonical_processing_object'] == '1']
+          historical = [r for r in processing if r['technical_identity_covered'] == '1']
+          assert len(processing) == 37
+          assert len(historical) == 37
+          assert len(canonical) == 33
+          assert sum(int(r['direct_source_jpegs']) for r in canonical) == 5926
+          assert sum(int(r['persistent_unresolved_source_gaps']) for r in canonical) == 3
+
+          assert manifest['schema_version'] == 'LTMD_FTRL_RUN_0.1'
+          assert manifest['status'] == 'validated'
+          assert manifest['corpus']['page_records'] == 5926
+          assert manifest['database']['page_rows'] == 5926
+          assert manifest['database']['fts_rows'] == 5926
+          assert manifest['database']['sqlite_integrity'] == 'ok'
+          assert manifest['corpus']['waves'] == ['W1']
+          assert manifest['corpus']['canonical_viewers'] == 33
+          assert manifest['database']['historical_identities'] == 37
+          assert manifest['corpus']['source_byte_size_missing_pages'] == 0
+
+          vcs = manifest['execution']['vcs']
+          ci = manifest['execution']['ci']
+          assert vcs['system'] == 'git'
+          assert len(vcs['commit']) == 40
+          assert vcs['dirty_tracked_worktree'] is False
+          assert ci['provider'] == 'github-actions'
+          assert ci['repository'] == 'fersandovalgtz/libro-texto-mexicano-digital'
+          assert ci['run_id']
+          assert ci['sha'] == vcs['commit']
+
+          assert qc['schema_version'] == 'LTMD_FTRL_QC_0.1'
+          assert qc['page_records'] == 5926
+          assert qc['rights_note'].startswith('Text-free OCR quality-control summary')
+
+          forbidden = {'ocr_text_raw', 'search_text', 'snippet'}
+          def walk(value):
+              if isinstance(value, dict):
+                  assert not (forbidden & set(value)), forbidden & set(value)
+                  for child in value.values():
+                      walk(child)
+              elif isinstance(value, list):
+                  for child in value:
+                      walk(child)
+          walk(manifest)
+          walk(qc)
+          walk(preflight)
+          print('Complete W1 FTRL corpus validated with text-free public evidence')
+          PY
+
+      - name: Prove restricted outputs remain non-publishable
+        run: |
+          test -f local/ftrl/ltmd_u1_w1_full_page_ocr.jsonl
+          test -f local/ftrl/ltmd_u1_w1_full_ocr_search.sqlite
+          test -f local/ftrl/ltmd_u1_w1_full_qc_queue.json
+          test -f local/ftrl/ltmd_u1_w1_full_run_manifest.json
+          test -f local/ftrl/ltmd_u1_w1_full_qc_summary.json
+          git status --short --untracked-files=all | tee local/git-status-w1.txt
+          for path in \
+            local/ftrl/ltmd_u1_w1_full_page_ocr.jsonl \
+            local/ftrl/ltmd_u1_w1_full_ocr_search.sqlite \
+            local/ftrl/ltmd_u1_w1_full_qc_queue.json; do
+            if ! git check-ignore -q "$path"; then
+              echo "Restricted output is not ignored: $path" >&2
+              exit 1
+            fi
+          done
+          echo 'Restricted W1 OCR, SQLite, and QC queue remain ignored: OK'
+
+      - name: Upload text-free evidence only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w1-full-text-free-evidence
+          path: |
+            local/ftrl/ltmd_u1_w1_preflight.json
+            local/ftrl/ltmd_u1_w1_full_run_manifest.json
+            local/ftrl/ltmd_u1_w1_full_qc_summary.json
+          if-no-files-found: error
+          retention-days: 30
