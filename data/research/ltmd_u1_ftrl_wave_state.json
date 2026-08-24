@@ -1,7 +1,7 @@
 {
   "schema": "LTMD_U1_FTRL_WAVE_STATE_0.1",
   "effective_date": "2026-08-24",
-  "note": "Metadata-only operational state. Update only from verified GitHub Actions evidence; never infer semantic readiness from OCR availability.",
+  "note": "Metadata-only operational state. Update only from verified GitHub Actions and persistent-archive evidence; never infer semantic readiness from OCR availability.",
   "waves": {
     "W1": {
       "domain": "ciencias_naturales",
@@ -20,9 +20,10 @@
       "ftrl_status": "validated",
       "ftrl_run_id": "32748987531",
       "ftrl_commit": "e200b252d3acadf4b56cee33d6ff92f4040d8e1c",
-      "archival_status": "preservation_in_progress",
+      "archival_status": "archival_complete",
       "preservation_run_id": "32784373399",
-      "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W5 — Historia/run_32748987531__e200b252__2026-08-24"
+      "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W5 — Historia/run_32748987531__e200b252__2026-08-24",
+      "archival_closure_evidence": "data/research/ltmd_u1_w5_archival_closure.json"
     },
     "W6": {"domain": "geografia_atlas", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
     "W7": {"domain": "civica_etica", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
