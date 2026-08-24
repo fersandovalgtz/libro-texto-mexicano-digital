@@ -1,0 +1,133 @@
+name: Run FTRL W5 complete corpus
+
+on:
+  workflow_dispatch:
+    inputs:
+      workers:
+        description: 'Parallel canonical-object workers'
+        required: true
+        default: '4'
+        type: choice
+        options:
+          - '2'
+          - '3'
+          - '4'
+
+permissions:
+  contents: read
+
+jobs:
+  full-w5:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Spanish Tesseract data
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+          tesseract --version | head -n 1
+          tesseract --list-langs | grep -Fx spa
+
+      - name: Run complete W5 corpus and preregistered protocol
+        run: |
+          python scripts/run_ftrl_w5_parallel.py \
+            --workers '${{ inputs.workers }}' \
+            --run-preregistered-queries \
+            --output-dir local/ftrl
+
+      - name: Assert complete W5 cardinalities and provenance
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('local/ftrl')
+          manifest = json.loads((root / 'ltmd_u1_w5_full_run_manifest.json').read_text(encoding='utf-8'))
+          parallel = json.loads((root / 'ltmd_u1_w5_full_parallel_summary.json').read_text(encoding='utf-8'))
+          query_summary = json.loads((root / 'ltmd_u1_w5_query_summary.json').read_text(encoding='utf-8'))
+          locators = json.loads((root / 'ltmd_u1_w5_query_locators.json').read_text(encoding='utf-8'))
+
+          assert manifest['schema_version'] == 'LTMD_FTRL_RUN_0.1'
+          assert manifest['status'] == 'validated'
+          assert manifest['corpus']['page_records'] == 2653
+          assert manifest['corpus']['canonical_viewers'] == 15
+          assert manifest['database']['page_rows'] == 2653
+          assert manifest['database']['fts_rows'] == 2653
+          assert manifest['database']['historical_identities'] == 18
+          assert manifest['database']['sqlite_integrity'] == 'ok'
+          assert manifest['corpus']['waves'] == ['W5']
+          assert manifest['corpus']['source_byte_size_missing_pages'] == 0
+          assert manifest['execution']['ci']['provider'] == 'github-actions'
+          assert manifest['execution']['ci']['run_id']
+          assert manifest['execution']['ci']['sha'] == manifest['execution']['vcs']['commit']
+
+          assert parallel['schema_version'] == 'LTMD_FTRL_PARALLEL_RUN_0.1'
+          assert parallel['complete_w5'] is True
+          assert parallel['canonical_viewers'] == 15
+          assert parallel['expected_pages'] == 2653
+          assert parallel['observed_pages'] == 2653
+          assert parallel['expected_historical_identities'] == 18
+          assert len(parallel['shards']) == 15
+          assert all(s['expected_pages'] == s['observed_pages'] for s in parallel['shards'])
+
+          expected_queries = [
+              'W5-MASONRY-PRIMARY',
+              'W5-MASONRY-SENSITIVITY',
+              'W5-JUAREZ-CONTROL',
+          ]
+          assert query_summary['schema_version'] == 'LTMD_FTRL_QUERY_PROTOCOL_0.1'
+          assert [q['query_id'] for q in query_summary['queries']] == expected_queries
+          assert [q['query_id'] for q in locators['queries']] == expected_queries
+          assert all(not q['candidate_rows_truncated'] for q in query_summary['queries'])
+          assert all(not q['candidate_rows_truncated'] for q in locators['queries'])
+          encoded = json.dumps(locators, ensure_ascii=False)
+          assert 'snippet' not in encoded
+          assert 'query_expression' not in encoded
+
+          print(json.dumps({
+              'status': 'validated',
+              'pages': manifest['corpus']['page_records'],
+              'canonical_viewers': manifest['corpus']['canonical_viewers'],
+              'historical_identities': manifest['database']['historical_identities'],
+              'zero_search_text_pages': manifest['corpus']['zero_search_text_pages'],
+              'ocr_confidence': manifest['corpus']['ocr_confidence'],
+              'elapsed_seconds': parallel['elapsed_seconds'],
+              'query_hits': {q['query_id']: q['hit_pages_exact'] for q in query_summary['queries']},
+              'git_commit': manifest['execution']['vcs']['commit'],
+              'ci_run_id': manifest['execution']['ci']['run_id'],
+          }, ensure_ascii=False, sort_keys=True))
+          PY
+
+      - name: Prove restricted corpus remains local
+        run: |
+          test -f local/ftrl/ltmd_u1_w5_full_page_ocr.jsonl
+          test -f local/ftrl/ltmd_u1_w5_full_ocr_search.sqlite
+          test -f local/ftrl/ltmd_u1_w5_query_candidates.json
+          if git check-ignore -q local/ftrl/ltmd_u1_w5_full_page_ocr.jsonl \
+             && git check-ignore -q local/ftrl/ltmd_u1_w5_full_ocr_search.sqlite \
+             && git check-ignore -q local/ftrl/ltmd_u1_w5_query_candidates.json; then
+            echo 'Restricted OCR/index/snippet outputs remain ignored: OK'
+          else
+            echo 'Restricted FTRL outputs are not all ignored' >&2
+            exit 1
+          fi
+
+      - name: Upload text-free W5 evidence only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w5-full-text-free-evidence
+          path: |
+            local/ftrl/ltmd_u1_w5_full_run_manifest.json
+            local/ftrl/ltmd_u1_w5_full_parallel_summary.json
+            local/ftrl/ltmd_u1_w5_query_summary.json
+            local/ftrl/ltmd_u1_w5_query_locators.json
+          if-no-files-found: error
+          retention-days: 30
