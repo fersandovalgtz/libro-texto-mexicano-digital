@@ -1,0 +1,65 @@
+name: Build CN5 pilot SHA anchor
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/build_cn5_pilot_sha_manifest.py'
+      - 'data/book_inventory.csv'
+      - 'data/derived/ocr_page_metrics.csv'
+      - '.github/workflows/build-cn5-pilot-sha-anchor.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  anchor-cn5:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Rebuild page-level SHA-256 provenance
+        run: |
+          python scripts/build_cn5_pilot_sha_manifest.py \
+            --output local/ftrl/cn5_pilot_sha_manifest.csv \
+            --summary local/ftrl/cn5_pilot_sha_manifest_summary.json
+
+      - name: Assert text-free provenance artifact
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          manifest = Path('local/ftrl/cn5_pilot_sha_manifest.csv')
+          summary = Path('local/ftrl/cn5_pilot_sha_manifest_summary.json')
+          rows = list(csv.DictReader(manifest.open(encoding='utf-8', newline='')))
+          s = json.loads(summary.read_text(encoding='utf-8'))
+          assert len(rows) == 759
+          assert len({r['page_id'] for r in rows}) == 759
+          assert all(r['asset_status'] == 'source_jpeg' for r in rows)
+          assert all(len(r['sha256']) == 64 for r in rows)
+          assert s['status'] == 'validated'
+          assert s['books'] == 4
+          assert s['source_jpegs'] == 759
+          assert s['prior_ocr_metric_byte_matches'] == 759
+          assert s['source_byte_drift'] == 0
+          raw = manifest.read_text(encoding='utf-8').lower() + summary.read_text(encoding='utf-8').lower()
+          for forbidden in ('ocr_text_raw', 'search_text', 'snippet'):
+              assert forbidden not in raw
+          print('CN5 pilot cryptographic anchor validated')
+          PY
+
+      - name: Upload metadata and hashes only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-cn5-pilot-sha-anchor
+          path: |
+            local/ftrl/cn5_pilot_sha_manifest.csv
+            local/ftrl/cn5_pilot_sha_manifest_summary.json
+          if-no-files-found: error
