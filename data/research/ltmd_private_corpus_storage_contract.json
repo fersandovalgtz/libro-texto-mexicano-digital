@@ -1,7 +1,34 @@
 {
-  "schema": "LTMD_PRIVATE_CORPUS_STORAGE_0.1",
+  "schema": "LTMD_PRIVATE_CORPUS_STORAGE_0.2",
   "effective_date": "2026-08-24",
-  "canonical_document": "docs/LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md",
+  "canonical_document": "docs/LTMD_TOTAL_PRESERVATION_CANON_0_1.md",
+  "private_corpus_canonical_document": "docs/LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md",
+  "project_total_preservation": {
+    "required": true,
+    "principle": "Every artifact needed to understand, reproduce, audit, continue, or scientifically defend LTMD must have a persistent verified archive location, or a persistent negative record when the original bytes cannot lawfully be retained.",
+    "systems": {
+      "github": "versioned reproducible public scientific surface",
+      "google_drive": "persistent integral archive, private where required",
+      "notion": "human continuity, decisions, state, and restart instructions"
+    },
+    "required_categories": [
+      "repository_snapshots",
+      "source_inventories_and_manifests",
+      "lawfully_retained_source_files_when_applicable",
+      "restricted_run_products",
+      "derived_datasets_and_exports",
+      "text_free_run_evidence",
+      "checksums_and_provenance",
+      "github_operational_metadata",
+      "issues_prs_releases_tags_and_control_comments",
+      "workflow_logs_or_auditable_summaries",
+      "rights_and_source_exceptions",
+      "preservation_audits",
+      "notion_continuity"
+    ],
+    "chat_is_never_single_source_of_truth": true,
+    "actions_artifacts_are_never_persistent_archive": true
+  },
   "public_repository_policy": {
     "full_ocr_allowed": false,
     "sqlite_allowed": false,
@@ -15,6 +42,9 @@
     "provider": "google_drive",
     "visibility": "private_owner_controlled",
     "logical_root": "LTMD-U1 — corpus FTRL privado",
+    "canon_folder": "00_CANON_y_manifiestos",
+    "repository_snapshot_folder": "00_CANON_y_manifiestos/01_REPO_SNAPSHOTS",
+    "github_metadata_folder": "00_CANON_y_manifiestos/02_GITHUB_METADATA_EXPORTS",
     "run_folder_pattern": "run_<run_id>__<short_commit>__<YYYY-MM-DD>",
     "required_sections": [
       "01_OCR_por_pagina",
@@ -32,11 +62,14 @@
     "processing_inventory",
     "text_free_run_manifest",
     "text_free_qc_summary",
-    "sha256_checksums"
+    "sha256_checksums",
+    "encrypted_handoff",
+    "repository_snapshot",
+    "github_metadata_export"
   ],
   "states": {
     "computationally_validated": "all technical FTRL gates passed",
-    "archival_complete": "restricted products copied to private Drive and checksums verified"
+    "archival_complete": "all required persistent products copied to private Drive, bound to run/commit, and integrity/privacy verified"
   },
   "invariants": {
     "computational_validation_does_not_imply_archival_completion": true,
@@ -44,10 +77,22 @@
     "encrypted_actions_artifact_is_temporary_handoff_only": true,
     "plaintext_restricted_outputs_must_not_be_uploaded_to_public_actions": true,
     "drive_copy_must_be_bound_to_run_id_and_commit": true,
+    "drive_copy_integrity_must_be_verified": true,
     "private_key_must_never_enter_public_repository": true,
-    "prior_validated_runs_without_persistent_copy_are_archival_debt": true
+    "prior_validated_runs_without_persistent_copy_are_archival_debt": true,
+    "substantive_main_changes_require_persistent_repository_snapshot": true,
+    "github_only_is_not_sufficient_for_project_preservation": true,
+    "drive_only_is_not_sufficient_for_versioned_scientific_truth": true,
+    "notion_only_is_not_sufficient_for_data_or_code_preservation": true
   },
+  "continuity_order": [
+    "notion_canonical_procedure_and_project_state",
+    "github_main_ledger_protocols_workflows_and_issue_15",
+    "google_drive_preservation_audit_and_persistent_archive",
+    "active_workflow_runs_and_temporary_artifacts"
+  ],
   "retroactive_scope": [
+    "entire LTMD repository and scientific history",
     "W5 Historia full validated run",
     "W1 Ciencias Naturales exhaustive full run"
   ]
