@@ -1,0 +1,84 @@
+name: Preserve LTMD GitHub operational history
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/research/ltmd_github_operational_archive_stamp.json'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  issues: read
+  pull-requests: read
+
+concurrency:
+  group: preserve-ltmd-github-operational-history
+  cancel-in-progress: false
+
+jobs:
+  export-github-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify GitHub CLI authentication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh auth status
+          gh api rate_limit > /tmp/rate-limit-before.json
+
+      - name: Export exhaustive operational metadata and retained logs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/export_github_operational_archive.py \
+            --repository "$GITHUB_REPOSITORY" \
+            --output-dir local/github-operational-archive
+
+      - name: Package provider export without altering source bytes
+        run: |
+          set -euo pipefail
+          tar -C local -czf local/ltmd_github_operational_archive.tar.gz github-operational-archive
+          sha256sum local/ltmd_github_operational_archive.tar.gz > local/ARCHIVE_SHA256.txt
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('local/github-operational-archive/archive_manifest.json')
+          m = json.loads(p.read_text(encoding='utf-8'))
+          assert m['schema'] == 'LTMD_GITHUB_OPERATIONAL_EXPORT_0.1'
+          assert m['repository'] == 'fersandovalgtz/libro-texto-mexicano-digital'
+          assert m['source_commit']
+          assert m['workflow_run_id']
+          assert m['actions_runs_exported'] >= 1
+          assert m['files']
+          print(json.dumps({k: m[k] for k in ('pull_requests_exported','actions_runs_exported','actions_log_available_count','actions_log_unavailable_count','negative_result_count')}, sort_keys=True))
+          PY
+
+      - name: Prove export contains no LTMD restricted corpus workspace
+        run: |
+          test ! -e local/github-operational-archive/local/ftrl
+          test ! -e local/github-operational-archive/private
+          ! find local/github-operational-archive -type f \( -name '*page_ocr*.jsonl' -o -name '*ocr_search*.sqlite' -o -name '*qc_queue*.json' \) | grep .
+
+      - name: Upload temporary handoff for persistent Drive copy
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-github-operational-archive
+          path: |
+            local/ltmd_github_operational_archive.tar.gz
+            local/ARCHIVE_SHA256.txt
+            local/github-operational-archive/archive_manifest.json
+            local/github-operational-archive/SHA256SUMS.txt
+            local/github-operational-archive/negative_results.jsonl
+          if-no-files-found: error
+          retention-days: 2
