@@ -1,0 +1,39 @@
+{
+  "schema": "LTMD_U1_W3_RUNTIME_READINESS_0.1",
+  "effective_date": "2026-08-24",
+  "wave": "W3",
+  "operational_domain": "espanol_lengua",
+  "historical_identities": 130,
+  "canonical_processing_objects": 114,
+  "canonical_source_pages": 20765,
+  "documented_internal_source_gaps": 8,
+  "activation_gate": {
+    "required_predecessor": "W1",
+    "required_w1_validated_identities": 40,
+    "required_w1_corpus_ready_identities": 40,
+    "required_w1_ocr_available_identities": 40,
+    "guard_script": "scripts/guard_ftrl_w3_activation.py",
+    "bypass_allowed": false
+  },
+  "runtime": {
+    "runner": "scripts/run_ftrl_w3.py",
+    "pilot_workflow": ".github/workflows/validate-ftrl-w3-runtime-pilot.yml",
+    "full_execution_activated": false,
+    "full_execution_topology_frozen": false,
+    "topology_decision_basis": "Freeze only after W1 observed wall time and a post-W1 W3 pilot establish whether a single hosted job can safely process 20,765 pages within platform limits."
+  },
+  "preservation": {
+    "required_before_full_activation": true,
+    "canonical_policy": "docs/LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md",
+    "destination": "private_google_drive",
+    "archival_complete": false
+  },
+  "epistemic_guards": [
+    "runtime_ready != runtime_activated",
+    "preflight_ready != corpus_ready",
+    "prior_ocr_anchor != ftrl_validated",
+    "computationally_validated != archival_complete",
+    "ocr_available != text_verified",
+    "corpus_ready != semantic_ready"
+  ]
+}
