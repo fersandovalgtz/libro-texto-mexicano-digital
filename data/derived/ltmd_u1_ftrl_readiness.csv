@@ -1,0 +1,12 @@
+schema_version,wave,domain,plan_identities,effective_coverage,canonical_objects,residual_active,residual_final,ftrl_status,allowed_scope,next_gate
+LTMD_FTRL_U1_READINESS_0.1,W1,Ciencias Naturales,40,40,36,0,0,PREFLIGHT_REQUIRED,36 canonical objects,freeze manifests and exact page cardinality
+LTMD_FTRL_U1_READINESS_0.1,W2,Matemáticas,64,60,57,4,0,PREFLIGHT_REQUIRED_WITH_EXCLUSIONS,57 canonical objects; exclude 4 active retentions,freeze admitted cohort manifests and exact page cardinality
+LTMD_FTRL_U1_READINESS_0.1,W3,Español / Lengua,130,130,114,0,0,PREFLIGHT_REQUIRED,114 canonical objects,freeze manifests and exact page cardinality
+LTMD_FTRL_U1_READINESS_0.1,W4,Ciencias Sociales,14,14,14,0,0,PREFLIGHT_REQUIRED,14 canonical objects,freeze manifests and exact page cardinality
+LTMD_FTRL_U1_READINESS_0.1,W5,Historia,18,18,15,0,0,REFERENCE_FULL_VALIDATION,15 canonical objects / 18 historical identities,close full W5 validation and human OCR/source audit
+LTMD_FTRL_U1_READINESS_0.1,W6,Geografía / Atlas,42,42,37,0,0,PREFLIGHT_REQUIRED,37 canonical objects,freeze manifests and exact page cardinality
+LTMD_FTRL_U1_READINESS_0.1,W7,Formación Cívica y Ética,30,25,25,5,0,PREFLIGHT_REQUIRED_WITH_EXCLUSIONS,25 canonical objects; exclude 5 active retentions,freeze admitted cohort manifests and exact page cardinality
+LTMD_FTRL_U1_READINESS_0.1,W8,Artes,20,16,16,4,0,PREFLIGHT_REQUIRED_WITH_EXCLUSIONS,16 canonical objects; exclude 4 active retentions,freeze admitted cohort manifests and exact page cardinality
+LTMD_FTRL_U1_READINESS_0.1,W9,Educación Física,4,4,4,0,0,PREFLIGHT_REQUIRED,4 canonical objects,freeze manifests and exact page cardinality
+LTMD_FTRL_U1_READINESS_0.1,W10,Integrados / Multiarea,69,68,68,0,1,PREFLIGHT_REQUIRED_WITH_EXCLUSIONS,68 canonical objects; exclude 1 final exception,freeze admitted cohort manifests and exact page cardinality
+LTMD_FTRL_U1_READINESS_0.1,W11,Otros / No clasificados,111,107,106,0,4,PREFLIGHT_REQUIRED_WITH_EXCLUSIONS,106 canonical objects; preserve identity/canonical distinction; exclude 4 final exceptions,freeze admitted cohort manifests and exact page cardinality
