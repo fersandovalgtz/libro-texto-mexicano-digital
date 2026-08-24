@@ -1,0 +1,83 @@
+name: Validate exhaustive FTRL-U1 scope
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/FTRL_U1_EXHAUSTIVE_EXECUTION_PROTOCOL_0_2.md'
+      - 'docs/FTRL_U1_SCALING_ROADMAP_0_1.md'
+      - 'data/research/ltmd_u1_exhaustive_scope_contract.json'
+      - 'data/catalog/ltmd_u1_coverage.csv'
+      - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'scripts/validate_ftrl_u1_exhaustive_scope.py'
+      - '.github/workflows/validate-ftrl-u1-exhaustive-scope.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exhaustive-scope:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate exhaustive 542-identity denominator
+        run: |
+          python scripts/validate_ftrl_u1_exhaustive_scope.py \
+            --output local/ftrl/ltmd_u1_exhaustive_scope_validation.json
+
+      - name: Assert current exhaustive disposition and open blockers
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = Path('local/ftrl/ltmd_u1_exhaustive_scope_validation.json')
+          d = json.loads(p.read_text(encoding='utf-8'))
+          assert d['schema_version'] == 'LTMD_FTRL_U1_EXHAUSTIVE_SCOPE_0.2'
+          assert d['status'] == 'scope_validated'
+          assert d['universe_identities'] == 542
+          assert d['identity_dispositions'] == {
+              'required_ftrl_processing': 524,
+              'active_retention': 13,
+              'final_exception': 5,
+          }
+          assert sum(d['wave_denominators'].values()) == 542
+          assert d['all_identities_have_disposition'] is True
+          assert d['global_closure_ready'] is False
+          assert d['global_closure_blockers']['active_retentions'] == 13
+          raw = p.read_text(encoding='utf-8').lower()
+          for forbidden in ('ocr_text_raw', 'search_text', 'snippet'):
+              assert forbidden not in raw
+          print('Exhaustive FTRL-U1 scope validated: 542/542 identities remain in denominator')
+          PY
+
+      - name: Prove global closure fails while active retentions remain
+        run: |
+          set +e
+          python scripts/validate_ftrl_u1_exhaustive_scope.py \
+            --require-global-closure > /tmp/exhaustive-closure.log 2>&1
+          code=$?
+          set -e
+          if [ "$code" -eq 0 ]; then
+            echo 'ERROR: global exhaustive closure passed with active retentions' >&2
+            exit 1
+          fi
+          grep -q 'not globally exhaustive yet: 13 active retention' /tmp/exhaustive-closure.log
+          echo 'Fail-closed global completion gate behaved as expected'
+
+      - name: Upload text-free scope evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-exhaustive-scope-text-free
+          path: local/ftrl/ltmd_u1_exhaustive_scope_validation.json
+          if-no-files-found: error
+          retention-days: 30
