@@ -1,0 +1,11 @@
+{
+  "schema": "LTMD_GITHUB_OPERATIONAL_ARCHIVE_ACTIVATION_0.1",
+  "effective_date": "2026-08-24",
+  "archive_sequence": 1,
+  "source_branch": "main",
+  "source_commit_expected_before_trigger": "ec73beff1047fb2c192722d58995c484c506ae98",
+  "destination": "private_google_drive",
+  "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/02_GITHUB_METADATA_EXPORTS",
+  "scope": "exhaustive GitHub operational metadata and retained Actions logs according to LTMD_GITHUB_OPERATIONAL_ARCHIVE_0.1",
+  "rights": "GitHub-hosted public project metadata only; no restricted LTMD OCR corpus is introduced by this archive flow."
+}
