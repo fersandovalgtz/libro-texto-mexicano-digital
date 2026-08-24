@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
-"""Build a local, page-level OCR corpus from an LTMD source-asset manifest.
+"""Build a local page-level OCR corpus from an LTMD source manifest.
 
-The output contains complete OCR text and is intentionally designed for local,
-reconstructible research use. Do not commit the generated JSONL by default.
+The preferred input is the universal normalized manifest produced by
+`scripts/normalize_ftrl_sources.py`. Legacy per-wave manifests remain supported
+through explicit --wave / --operational-domain overrides and, when needed, a
+legacy processing inventory.
+
+Complete OCR text is intended for local, reconstructible research use and is not
+committed by default.
 """
 from __future__ import annotations
 
@@ -23,6 +28,7 @@ from typing import Iterable
 VERSION = "LTMD_FTRL_OCR_0.1"
 DEFAULT_USER_AGENT = "LTMD-FTRL/0.1 (+https://github.com/fersandovalgtz/libro-texto-mexicano-digital)"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+WAVE_RE = re.compile(r"^W[0-9]+$")
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -131,6 +137,7 @@ def download_verified(
 
 
 def load_canonical_keys(path: Path | None) -> set[str] | None:
+    """Load canonical viewers from a legacy per-wave processing inventory."""
     if path is None:
         return None
     rows = list(csv.DictReader(path.open(encoding="utf-8", newline="")))
@@ -153,9 +160,11 @@ def load_canonical_keys(path: Path | None) -> set[str] | None:
 def iter_source_rows(
     manifest: Path,
     canonical_keys: set[str] | None,
-    wave: str,
+    wave_override: str | None,
+    domain_override: str | None,
+    viewer_keys: set[str] | None,
 ) -> Iterable[dict[str, str]]:
-    rows = csv.DictReader(manifest.open(encoding="utf-8", newline=""))
+    rows = csv.DictReader(manifest.open(encoding="utf-8-sig", newline=""))
     required = {
         "viewer_key",
         "catalog_generation",
@@ -168,24 +177,70 @@ def iter_source_rows(
     }
     if rows.fieldnames is None or not required <= set(rows.fieldnames):
         raise SystemExit(f"asset manifest lacks required columns: {sorted(required)}")
+
+    has_wave = "wave" in rows.fieldnames
+    has_domain = "operational_domain" in rows.fieldnames
     for row in rows:
         if row["asset_status"] != "source_jpeg":
             continue
-        if canonical_keys is not None and row["viewer_key"] not in canonical_keys:
+        viewer = row["viewer_key"]
+        if canonical_keys is not None and viewer not in canonical_keys:
+            continue
+        if viewer_keys is not None and viewer not in viewer_keys:
             continue
         if not SHA256_RE.fullmatch(row["sha256"]):
             raise SystemExit(
-                f"invalid source SHA-256 for {row['viewer_key']}:{row['source_image_index']}"
+                f"invalid source SHA-256 for {viewer}:{row['source_image_index']}"
             )
+
+        row_wave = (row.get("wave") or "").strip() if has_wave else ""
+        wave = wave_override or row_wave
+        if not wave:
+            raise SystemExit(
+                f"wave is missing for {viewer}; use a normalized manifest or provide --wave"
+            )
+        if not WAVE_RE.fullmatch(wave):
+            raise SystemExit(f"invalid wave {wave!r} for {viewer}")
+        if wave_override and row_wave and row_wave != wave_override:
+            raise SystemExit(
+                f"wave override mismatch for {viewer}: manifest={row_wave} override={wave_override}"
+            )
+
+        row_domain = (row.get("operational_domain") or "").strip() if has_domain else ""
+        domain = domain_override or row_domain
+        if domain_override and row_domain and row_domain != domain_override:
+            raise SystemExit(
+                f"domain override mismatch for {viewer}: "
+                f"manifest={row_domain} override={domain_override}"
+            )
+
         row["_wave"] = wave
+        row["_operational_domain"] = domain
         yield row
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--asset-manifest", type=Path, required=True)
-    parser.add_argument("--processing-inventory", type=Path)
-    parser.add_argument("--wave", required=True, help="LTMD wave identifier, e.g. W5")
+    parser.add_argument(
+        "--processing-inventory",
+        type=Path,
+        help="Legacy per-wave canonical inventory; unnecessary for normalized FTRL manifests",
+    )
+    parser.add_argument(
+        "--wave",
+        help="Optional wave override for legacy manifests, e.g. W5",
+    )
+    parser.add_argument(
+        "--operational-domain",
+        help="Optional operational-domain override for legacy manifests",
+    )
+    parser.add_argument(
+        "--viewer-key",
+        action="append",
+        dest="viewer_keys",
+        help="Restrict OCR to a canonical viewer_key; repeat to select several",
+    )
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--cache-dir", type=Path, required=True)
     parser.add_argument("--tesseract", default="tesseract")
@@ -206,11 +261,32 @@ def main() -> None:
         raise SystemExit(f"Tesseract executable not found: {args.tesseract}")
     if args.max_pages is not None and args.max_pages < 1:
         raise SystemExit("--max-pages must be >= 1")
+    if args.wave and not WAVE_RE.fullmatch(args.wave):
+        raise SystemExit("--wave must match W<number>")
 
     canonical_keys = load_canonical_keys(args.processing_inventory)
-    rows = list(iter_source_rows(args.asset_manifest, canonical_keys, args.wave))
+    selected_viewers = set(args.viewer_keys) if args.viewer_keys else None
+    if selected_viewers is not None and canonical_keys is not None:
+        unknown = sorted(selected_viewers - canonical_keys)
+        if unknown:
+            raise SystemExit(
+                "requested viewer_key values are not canonical source-admitted objects: "
+                + ", ".join(unknown)
+            )
+
+    rows = list(
+        iter_source_rows(
+            args.asset_manifest,
+            canonical_keys,
+            args.wave,
+            args.operational_domain,
+            selected_viewers,
+        )
+    )
     rows.sort(
         key=lambda r: (
+            r["_wave"],
+            r["_operational_domain"],
             int(r["catalog_generation"]),
             int(r["grade_code"]),
             r["viewer_key"],
@@ -253,6 +329,10 @@ def main() -> None:
             seen.add(page_key)
 
             source_sha = row["sha256"]
+            wave = row["_wave"]
+            operational_domain = row["_operational_domain"]
+            source_ids = (row.get("source_ids") or "").strip()
+            source_manifest_paths = (row.get("source_manifest_paths") or "").strip()
             previous = reusable.get(page_key)
             if (
                 previous
@@ -261,6 +341,10 @@ def main() -> None:
                 and previous.get("ocr_engine_version") == engine_version
                 and previous.get("ocr_language") == args.language
                 and int(previous.get("ocr_psm", -1)) == args.psm
+                and previous.get("wave") == wave
+                and previous.get("operational_domain", "") == operational_domain
+                and previous.get("source_ids", "") == source_ids
+                and previous.get("source_manifest_paths", "") == source_manifest_paths
             ):
                 out.write(json.dumps(previous, ensure_ascii=False, sort_keys=True) + "\n")
                 print(f"[{number}/{len(rows)}] {previous['page_id']} reused")
@@ -290,8 +374,9 @@ def main() -> None:
                 "pipeline_version": VERSION,
                 "page_id": f"{viewer_key}:src{page_index:04d}",
                 "viewer_key": viewer_key,
-                "canonical_viewer_key": viewer_key,
-                "wave": args.wave,
+                "canonical_viewer_key": (row.get("canonical_viewer_key") or viewer_key),
+                "wave": wave,
+                "operational_domain": operational_domain,
                 "catalog_generation": int(row["catalog_generation"]),
                 "grade_code": int(row["grade_code"]),
                 "title_core": row["title_core"],
@@ -308,6 +393,8 @@ def main() -> None:
                     if (row.get("byte_size") or "").isdigit()
                     else None
                 ),
+                "source_ids": source_ids,
+                "source_manifest_paths": source_manifest_paths,
                 "ocr_engine": "tesseract",
                 "ocr_engine_version": engine_version,
                 "ocr_language": args.language,
