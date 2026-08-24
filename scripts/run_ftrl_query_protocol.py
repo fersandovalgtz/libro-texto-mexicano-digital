@@ -134,6 +134,29 @@ def summarize_hits(
     }
 
 
+def locator_from_hit(hit: dict) -> dict:
+    return {
+        "page_id": hit["page_id"],
+        "canonical_viewer_key": hit["canonical_viewer_key"],
+        "historical_viewers": [
+            key
+            for key in str(hit.get("historical_viewers") or "").split("|")
+            if key
+        ],
+        "wave": hit["wave"],
+        "catalog_generation": hit["catalog_generation"],
+        "grade_code": hit["grade_code"],
+        "title_core": hit["title_core"],
+        "page_index": hit["page_index"],
+        "viewer_page": hit["viewer_page"],
+        "source_asset_url": hit["source_asset_url"],
+        "source_sha256": hit["source_sha256"],
+        "ocr_sha256": hit["ocr_sha256"],
+        "ocr_confidence_mean": hit["ocr_confidence_mean"],
+        "rank": hit["rank"],
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--db", type=Path, required=True)
@@ -146,6 +169,14 @@ def main() -> None:
         type=Path,
         required=True,
         help="Text-free aggregate summary JSON",
+    )
+    parser.add_argument(
+        "--locator-output",
+        type=Path,
+        help=(
+            "Optional text-free candidate locator JSON: source/page identifiers and hashes only, "
+            "without OCR snippets or query expressions"
+        ),
     )
     parser.add_argument("--max-hits", type=int, default=5000)
     parser.add_argument("--context-tokens", type=int, default=24)
@@ -163,6 +194,7 @@ def main() -> None:
     try:
         results = []
         summaries = []
+        locator_queries = []
         for row in protocol:
             query = row["query_expression"]
             wave = row["scope_wave"] or None
@@ -185,6 +217,15 @@ def main() -> None:
                 }
             )
             summaries.append(summarize_hits(row, hits, exact_count, args.max_hits))
+            locator_queries.append(
+                {
+                    "query_id": row["query_id"],
+                    "hit_pages_exact": exact_count,
+                    "candidate_rows_materialized": len(hits),
+                    "candidate_rows_truncated": exact_count > args.max_hits,
+                    "locators": [locator_from_hit(hit) for hit in hits],
+                }
+            )
     finally:
         conn.close()
 
@@ -207,11 +248,25 @@ def main() -> None:
         "rights_note": "Text-free aggregate query summary; contains no OCR snippets.",
         "queries": summaries,
     }
+    locator_payload = {
+        "schema_version": VERSION,
+        "generated_at": generated_at,
+        "protocol_sha256": protocol_sha256,
+        "rights_note": (
+            "Text-free candidate locators for source verification. Contains identifiers, source "
+            "URLs, hashes, OCR confidence, and ranking only; no OCR snippets or query expressions."
+        ),
+        "queries": locator_queries,
+    }
 
-    for path, payload in (
+    outputs = [
         (args.output, full_payload),
         (args.summary_output, summary_payload),
-    ):
+    ]
+    if args.locator_output is not None:
+        outputs.append((args.locator_output, locator_payload))
+
+    for path, payload in outputs:
         path.parent.mkdir(parents=True, exist_ok=True)
         temp = path.with_name(path.name + ".tmp")
         temp.write_text(
@@ -228,6 +283,7 @@ def main() -> None:
                 "total_exact_hits_across_queries": sum(
                     item["hit_pages_exact"] for item in summaries
                 ),
+                "locator_output": str(args.locator_output) if args.locator_output else None,
             },
             ensure_ascii=False,
             sort_keys=True,
