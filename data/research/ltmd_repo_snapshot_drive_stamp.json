@@ -1,12 +1,12 @@
 {
   "schema": "LTMD_REPO_SNAPSHOT_DRIVE_0.1",
   "effective_date": "2026-08-24",
-  "snapshot_sequence": 4,
+  "snapshot_sequence": 5,
   "source_branch": "main",
-  "source_commit_expected_before_trigger": "280bcf475efca8eef4265a2732b34b038be38b2f",
+  "source_commit_expected_before_trigger": "1fbee7fc9120abfa27a2ada5064984732f020312",
   "destination": "private_google_drive",
   "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/01_REPO_SNAPSHOTS",
   "include": "versioned repository tree excluding .git and private/local/raw workspaces",
   "required_outputs": ["repository_tar_gz", "commit_sha", "git_status", "sha256sums"],
-  "reason": "Refresh the private Drive backup after merging the guarded W3 runtime scaffold and non-bypassable W1 activation gate."
+  "reason": "Refresh the private Drive backup after merging completion ledger 0.2 with explicit W3 processing topology while preserving W3 as FTRL-pending."
 }
