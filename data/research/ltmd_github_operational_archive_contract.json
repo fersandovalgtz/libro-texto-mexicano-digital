@@ -1,0 +1,62 @@
+{
+  "schema": "LTMD_GITHUB_OPERATIONAL_ARCHIVE_0.1",
+  "effective_date": "2026-08-24",
+  "purpose": "Persist GitHub-hosted project history that is not fully represented by a working-tree repository snapshot or Git bundle.",
+  "repository": "fersandovalgtz/libro-texto-mexicano-digital",
+  "persistent_destination_logical": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/02_GITHUB_METADATA_EXPORTS",
+  "archive_surface": [
+    "repository_metadata",
+    "issues_all_states",
+    "issue_comments",
+    "issue_events",
+    "pull_requests_all_states",
+    "pull_request_reviews",
+    "pull_request_review_comments",
+    "releases",
+    "tags",
+    "branches",
+    "labels",
+    "milestones",
+    "commit_comments",
+    "contributors",
+    "actions_workflows",
+    "actions_workflow_runs",
+    "actions_run_jobs",
+    "actions_run_logs_when_provider_retains_them",
+    "actions_artifact_inventory"
+  ],
+  "pagination_policy": "exhaustive provider pagination for every collection endpoint",
+  "actions_logs_policy": {
+    "attempt_all_known_runs": true,
+    "unavailable_or_expired_logs": "record negative result with run id; never fabricate",
+    "logs_are_archived_as_provider_bytes": true
+  },
+  "actions_artifacts_policy": {
+    "inventory_all": true,
+    "bulk_duplicate_artifact_bytes_here": false,
+    "reason": "Canonical artifact bytes are preserved by their product-specific or repository-snapshot flows; this archive records the complete Actions artifact inventory and linkage so duplication does not create a competing archive authority."
+  },
+  "required_outputs": [
+    "github_operational_metadata_tar_gz",
+    "archive_manifest_json",
+    "sha256sums",
+    "negative_results_jsonl"
+  ],
+  "manifest_requirements": [
+    "repository",
+    "source_commit",
+    "workflow_run_id",
+    "generated_at_utc",
+    "exported_files_with_sha256_and_bytes",
+    "actions_log_available_count",
+    "actions_log_unavailable_count"
+  ],
+  "invariants": {
+    "chat_is_not_archive": true,
+    "git_bundle_does_not_replace_operational_metadata_archive": true,
+    "operational_metadata_archive_does_not_replace_git_bundle": true,
+    "actions_artifact_inventory_does_not_replace_product_archival": true,
+    "unavailable_history_must_be_recorded_negatively": true,
+    "persistent_drive_copy_required": true
+  }
+}
