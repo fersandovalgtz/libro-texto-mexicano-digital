@@ -33,7 +33,7 @@ jobs:
           python scripts/build_cn5_pilot_sha_manifest.py \
             --output local/ftrl/cn5_pilot_sha_manifest.csv \
             --summary local/ftrl/cn5_pilot_sha_manifest_summary.json \
-            --split-output-dir local/ftrl/cn5_pilot_sha_split
+            --compact-output-dir local/ftrl/cn5_pilot_sha_compact
 
       - name: Assert text-free provenance artifact
         run: |
@@ -63,7 +63,7 @@ jobs:
         run: |
           test "$(find data/catalog/cn5_pilot_sha -maxdepth 1 -name '*.csv' | wc -l)" -eq 4
           for committed in data/catalog/cn5_pilot_sha/*.csv; do
-            generated="local/ftrl/cn5_pilot_sha_split/$(basename "$committed")"
+            generated="local/ftrl/cn5_pilot_sha_compact/$(basename "$committed")"
             cmp "$committed" "$generated"
           done
           cmp data/catalog/cn5_pilot_sha_manifest_summary.json local/ftrl/cn5_pilot_sha_manifest_summary.json
