@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 concurrency:
   group: preserve-ftrl-w1-private
@@ -21,6 +22,12 @@ jobs:
     steps:
       - name: Checkout exact revision
         uses: actions/checkout@v4
+
+      - name: Announce private preservation run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment 15 --repo "$GITHUB_REPOSITORY" --body "FTRL W1 — preservación privada iniciada. Run ${GITHUB_RUN_ID}; commit ${GITHUB_SHA}; alcance 40 identidades / 36 objetos canónicos / 6,516 páginas. La salida restringida sólo se cargará como handoff cifrado; destino canónico final: Google Drive privado. Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -154,3 +161,33 @@ jobs:
             local/private-handoff/ltmd_u1_w1_private_handoff_manifest.json
           if-no-files-found: error
           retention-days: 2
+
+      - name: Report encrypted handoff ready
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          m = json.loads(Path('local/private-handoff/ltmd_u1_w1_private_handoff_manifest.json').read_text(encoding='utf-8'))
+          payload = next(x for x in m['files'] if x['name'].endswith('.tar.gz.enc'))
+          repo = os.environ['GITHUB_REPOSITORY']
+          run_id = os.environ['GITHUB_RUN_ID']
+          body = (
+              f"FTRL W1 — handoff privado cifrado LISTO. Run {run_id}; "
+              f"6,516/6,516 páginas validadas; SHA-256 del payload cifrado: `{payload['sha256']}`; "
+              f"artifact: `ltmd-u1-w1-private-encrypted-handoff`. "
+              f"Este estado todavía es `archival_complete=no` hasta verificar la copia persistente en Google Drive privado. "
+              f"Run: https://github.com/{repo}/actions/runs/{run_id}"
+          )
+          Path('local/private-handoff/issue15-ready.txt').write_text(body, encoding='utf-8')
+          PY
+          gh issue comment 15 --repo "$GITHUB_REPOSITORY" --body-file local/private-handoff/issue15-ready.txt
+
+      - name: Report private preservation failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment 15 --repo "$GITHUB_REPOSITORY" --body "FTRL W1 — preservación privada FALLÓ en run ${GITHUB_RUN_ID}. No se declara `archival_complete`. No se debe sustituir por un archivo parcial ni por OCR no verificado. Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
