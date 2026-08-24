@@ -5,7 +5,7 @@ Estado: **especificación operativa para ejecuciones locales FTRL**.
 
 ## Propósito
 
-Cada ejecución de la Full-Text Research Layer debe producir, además del corpus OCR local y del índice SQLite FTS5, un **manifiesto de corrida sin texto fuente**. El manifiesto registra qué artefactos y versiones intervinieron, qué cardinalidades resultaron, qué entorno de software se observó y qué hashes identifican las entradas y salidas locales.
+Cada ejecución de la Full-Text Research Layer debe producir, además del corpus OCR local y del índice SQLite FTS5, un **manifiesto de corrida sin texto fuente**. El manifiesto registra qué artefactos y versiones intervinieron, qué cardinalidades resultaron, qué entorno de software se observó, qué código se ejecutó y qué hashes identifican las entradas y salidas locales.
 
 El objetivo es que una afirmación del tipo “la búsqueda se ejecutó sobre W5” pueda traducirse a una cadena auditable: manifiesto de activos → inventario de procesamiento → corpus OCR → índice FTS5 → manifiesto de corrida → protocolo de consulta → verificación humana de candidatos.
 
@@ -51,7 +51,22 @@ El manifiesto registra:
 - páginas con `search_text` vacío;
 - integridad SQLite, cardinalidad FTS e identidades históricas representadas.
 
+Las ejecuciones producidas con el código actual añaden además `execution`, un bloque de procedencia computacional con:
+
+- commit Git exacto del árbol ejecutado;
+- ref conocida —por ejemplo, `refs/pull/<n>/merge` en GitHub Actions— cuando existe;
+- señal de cambios rastreados sin confirmar en el worktree;
+- contexto de GitHub Actions cuando la corrida ocurre en CI: repositorio, workflow, `run_id`, intento, evento, ref y SHA.
+
+No se registra la URL remota de Git ni variables de entorno arbitrarias, para evitar capturar credenciales o rutas privadas. El contexto CI se limita a identificadores públicos y técnicos explícitamente permitidos.
+
 Los paths se serializan de forma portable: se prefieren rutas relativas al repositorio y, si una entrada se encuentra fuera de él, se conserva sólo el nombre de archivo para evitar filtrar rutas personales del sistema.
+
+## Compatibilidad dentro de `LTMD_FTRL_RUN_0.1`
+
+El bloque `execution` es una extensión **aditiva y opcional** del contrato 0.1. Los manifiestos 0.1 producidos antes de incorporar esta captura —incluida la evidencia preservada del primer piloto real de 10 páginas— siguen siendo válidos frente al esquema actual. Las nuevas corridas sí deben emitir `execution`, salvo que no exista un repositorio Git detectable; en ese caso `vcs` puede ser `null`. Fuera de GitHub Actions, `ci` es `null`.
+
+Un cambio que hiciera obligatoria una propiedad ausente de los manifiestos 0.1 históricos o alterara el significado de campos existentes requeriría una nueva versión de esquema.
 
 ## Validaciones duras
 
@@ -78,6 +93,8 @@ La versión inicial es `LTMD_FTRL_RUN_0.1`. Cambios incompatibles requieren una 
 
 Este manifiesto operacionaliza el principio de que los datos y metadatos reutilizables deben conservar procedencia detallada y, cuando sea posible, legible por máquina. No pretende sustituir un modelo formal completo de procedencia; sirve como capa mínima y verificable que puede mapearse posteriormente a PROV-O o empaquetarse dentro de un RO-Crate.
 
+La captura de commit/ref y del identificador de corrida CI hace posible enlazar un resultado derivado con el árbol de código realmente ejecutado, no sólo con la versión declarada del pipeline. Esta distinción es importante en PRs, donde GitHub Actions puede probar un merge ref distinto del SHA de la rama de trabajo.
+
 ## Límites epistemológicos
 
 El manifiesto no convierte:
@@ -87,4 +104,4 @@ El manifiesto no convierte:
 - ausencia de hits en ausencia demostrada;
 - alias técnico en equivalencia bibliográfica o semántica.
 
-Su función es hacer reproducible **qué se procesó, con qué versión y con qué integridad**, manteniendo separada la interpretación.
+Su función es hacer reproducible **qué se procesó, con qué código, en qué entorno y con qué integridad**, manteniendo separada la interpretación.
