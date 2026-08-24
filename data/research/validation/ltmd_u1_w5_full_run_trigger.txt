@@ -1,9 +1,10 @@
 LTMD FTRL W5 FULL RUN TRIGGER
 
-requested_at_local=2026-08-24T09:09:00-06:00
+requested_at_local=2026-08-24T09:16:00-06:00
 scope=W5 Historia
 expected_canonical_objects=15
 expected_historical_identities=18
-expected_source_pages=2443
-purpose=First complete preregistered FTRL execution over W5 with connector-observable PR check
+expected_source_pages=2653
+cardinality_correction_basis=run_32743452417_preflight_sum_direct_source_jpegs
+purpose=First complete preregistered FTRL execution over W5 with self-reporting
 publication_policy=text-free evidence only
