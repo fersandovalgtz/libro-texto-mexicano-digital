@@ -56,6 +56,7 @@ jobs:
 
       - name: Normalize and plan the complete registered execution universe
         run: |
+          mkdir -p local/ftrl-u1-ci
           python scripts/run_ftrl_universal.py \
             --work-dir local/ftrl-u1-ci \
             --plan-only | tee local/ftrl-u1-ci-plan.log
