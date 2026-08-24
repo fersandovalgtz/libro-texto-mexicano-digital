@@ -12,8 +12,7 @@ from pathlib import Path
 
 def resolve_viewer(conn: sqlite3.Connection, viewer_key: str) -> str:
     row = conn.execute(
-        "SELECT canonical_viewer_key FROM identities WHERE viewer_key=?",
-        (viewer_key,),
+        "SELECT canonical_viewer_key FROM identities WHERE viewer_key=?", (viewer_key,)
     ).fetchone()
     return row[0] if row else viewer_key
 
@@ -25,13 +24,15 @@ def query_rows(
     wave: str | None,
     generation: int | None,
     grade_code: int | None,
+    operational_domain: str | None,
+    source_id: str | None,
     limit: int,
     context_tokens: int,
 ) -> list[dict]:
     where = ["pages_fts MATCH ?"]
     params: list[object] = [query]
     if viewer_key:
-        where.append("p.viewer_key = ?")
+        where.append("p.canonical_viewer_key = ?")
         params.append(resolve_viewer(conn, viewer_key))
     if wave:
         where.append("p.wave = ?")
@@ -42,17 +43,26 @@ def query_rows(
     if grade_code is not None:
         where.append("p.grade_code = ?")
         params.append(grade_code)
+    if operational_domain:
+        where.append("p.operational_domain = ?")
+        params.append(operational_domain)
+    if source_id:
+        where.append("('|' || p.source_ids || '|') LIKE ?")
+        params.append(f"%|{source_id}|%")
 
     sql = f"""
         SELECT
             p.page_id,
-            p.viewer_key AS canonical_viewer_key,
+            p.canonical_viewer_key,
             p.wave,
+            p.operational_domain,
             p.catalog_generation,
             p.grade_code,
             p.title_core,
             p.page_index,
             p.viewer_page,
+            p.source_ids,
+            p.source_manifest_paths,
             p.source_asset_url,
             p.source_sha256,
             p.ocr_sha256,
@@ -62,12 +72,13 @@ def query_rows(
             COALESCE((
                 SELECT group_concat(i.viewer_key, '|')
                 FROM identities i
-                WHERE i.canonical_viewer_key = p.viewer_key
-            ), p.viewer_key) AS historical_viewers
+                WHERE i.canonical_viewer_key = p.canonical_viewer_key
+            ), p.canonical_viewer_key) AS historical_viewers
         FROM pages_fts
         JOIN pages p ON p.id = pages_fts.rowid
         WHERE {' AND '.join(where)}
-        ORDER BY rank, p.catalog_generation, p.grade_code, p.viewer_key, p.page_index
+        ORDER BY rank, p.wave, p.operational_domain, p.catalog_generation,
+                 p.grade_code, p.canonical_viewer_key, p.page_index
         LIMIT ?
     """
     params.append(limit)
@@ -92,18 +103,26 @@ def emit(rows: list[dict], output_format: str) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
+        description="Search arbitrary terms/phrases in an LTMD universal FTS5 index.",
         epilog=(
-            'FTS5 examples: --query \'"Benito Juárez"\' ; '
-            "--query 'masonería OR masón OR masones' ; "
-            "--query 'NEAR(logia yorkino, 20)'"
-        )
+            'FTS5 examples: --query \'"revolución mexicana"\' ; '
+            "--query 'agricultura OR industria' ; "
+            "--query 'NEAR(territorio población, 20)'"
+        ),
     )
     parser.add_argument("--db", type=Path, required=True)
     parser.add_argument("--query", required=True)
     parser.add_argument("--viewer-key")
     parser.add_argument("--wave")
     parser.add_argument("--generation", type=int)
-    parser.add_argument("--grade-code", type=int)
+    parser.add_argument("--grade-code", "--grade", dest="grade_code", type=int)
+    parser.add_argument(
+        "--operational-domain", "--domain", dest="operational_domain",
+        help="Restrict to one normalized LTMD operational domain",
+    )
+    parser.add_argument(
+        "--source-id", help="Restrict to one source dataset recorded in source_ids provenance"
+    )
     parser.add_argument("--limit", type=int, default=100)
     parser.add_argument("--context-tokens", type=int, default=24)
     parser.add_argument("--format", choices=("tsv", "csv", "json"), default="tsv")
@@ -117,14 +136,9 @@ def main() -> None:
     conn = sqlite3.connect(f"file:{args.db}?mode=ro", uri=True)
     try:
         rows = query_rows(
-            conn,
-            args.query,
-            args.viewer_key,
-            args.wave,
-            args.generation,
-            args.grade_code,
-            args.limit,
-            args.context_tokens,
+            conn, args.query, args.viewer_key, args.wave, args.generation,
+            args.grade_code, args.operational_domain, args.source_id,
+            args.limit, args.context_tokens,
         )
     except sqlite3.OperationalError as exc:
         raise SystemExit(f"FTS query failed: {exc}") from exc
