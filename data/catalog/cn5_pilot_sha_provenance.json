@@ -1,0 +1,18 @@
+{
+  "schema": "LTMD_CN5_PILOT_SHA_PROVENANCE_0.1",
+  "source_workflow_run_id": 32753747129,
+  "source_workflow_head_sha": "9c790da66a1bd2f8d4b9204967154e908bcc7343",
+  "artifact_id": 9530048680,
+  "artifact_name": "ltmd-cn5-pilot-sha-anchor",
+  "artifact_digest": "sha256:2b9e024ee99400f12983b15df8731e04bcf03fd1984c190fe165c468aa13db44",
+  "combined_manifest_sha256": "e1363fc725aa39a4f3936b2da12ca95f33401d535773349de7daa0d2646ce38d",
+  "summary_sha256": "036c7dc7491e369e17de42e97cb4af08a41e82cc1eac993522cafa19660a9ec5",
+  "split_manifests": {
+    "LTMD-CN5-G1972.csv": "7f344651a7483e61e47f3d9fd489f79e84523954619abbc16cc247ca24c58f19",
+    "LTMD-CN5-G1988.csv": "83ea1c4c1365ce51b12662b402eccfe3247f25951ea7c596132e37f0f5427dff",
+    "LTMD-CN5-G1993.csv": "0acfba9fbf3be22048d536665ef5330e1048608849fd2f0fcd329c6eca952409",
+    "LTMD-CN5-G2014.csv": "c3126a54d2813ee45353295b18a11b7695eb642d21821595367ee6b61b3f4187"
+  },
+  "publication_scope": "metadata_and_hashes_only_no_source_bytes_no_ocr_text",
+  "note": "Versioned from the validated text-free GitHub Actions artifact generated before W1 FTRL execution. Source images and OCR text are not included."
+}
