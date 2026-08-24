@@ -1,7 +1,7 @@
 # Protocolo de ejecución integral FTRL W5 Historia
 
-Versión operativa: 0.1  
-Estado: preregistrado antes de la primera corrida integral W5  
+Versión operativa: 0.2  
+Estado: preregistrado y corregido antes de la primera corrida OCR integral W5  
 Alcance: LTMD-U1, ola W5 Historia
 
 ## Propósito
@@ -10,13 +10,19 @@ Este protocolo fija las condiciones de la primera ejecución integral de la Full
 
 La corrida integral no constituye por sí misma validación semántica ni demuestra afirmaciones historiográficas. Produce una infraestructura de recuperación trazable que deberá someter cada candidato relevante a verificación contra la página fuente.
 
+## Corrección preregistrada de cardinalidad — 24 de agosto de 2026
+
+La primera activación integral, GitHub Actions run `32743452417`, se detuvo deliberadamente en el preflight **antes de ejecutar OCR**. El gate calculó directamente desde `data/catalog/ltmd_u1_w5_history_processing_inventory.csv` la suma de `direct_source_jpegs` para los 15 objetos marcados como `is_canonical_processing_object=1` y obtuvo **2,653 páginas**.
+
+La expectativa previa de 2,443 páginas era un error aritmético de la preparación del workflow. No provenía del inventario y no se modifica para acomodar un resultado observado: la corrección se realiza precisamente porque el gate reproducible rechazó esa cifra antes de procesar el corpus completo. Por tanto, la cardinalidad preregistrada vigente es **2,653**.
+
 ## Cohorte congelada
 
 La topología de procesamiento vigente contiene:
 
 - 18 identidades históricas técnicamente cubiertas;
 - 15 objetos canónicos de procesamiento;
-- 2,443 JPEG fuente admitidos para OCR;
+- 2,653 JPEG fuente admitidos para OCR;
 - tres identidades 2018 representadas técnicamente mediante relaciones de alias de ruta demostradas hacia 2019, sin borrar su identidad histórica.
 
 La cardinalidad esperada se deriva de `data/catalog/ltmd_u1_w5_history_processing_inventory.csv` y no debe ajustarse para hacer coincidir una corrida incompleta.
@@ -38,9 +44,9 @@ El workflow `.github/workflows/validate-ftrl-w5-full.yml` reproduce este procedi
 
 Una corrida integral sólo puede clasificarse como validada si cumple simultáneamente:
 
-1. 2,443 registros de página FTRL;
-2. 2,443 filas en la tabla `pages` de SQLite;
-3. 2,443 filas FTS5;
+1. 2,653 registros de página FTRL;
+2. 2,653 filas en la tabla `pages` de SQLite;
+3. 2,653 filas FTS5;
 4. `PRAGMA integrity_check = ok`;
 5. 15 visores canónicos de procesamiento;
 6. 18 identidades históricas representadas en el índice;
