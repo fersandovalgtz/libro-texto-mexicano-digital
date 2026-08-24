@@ -6,13 +6,18 @@ on:
     branches: [main]
     paths:
       - 'data/research/validation/ltmd_u1_w5_full_run_trigger.txt'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'data/research/validation/ltmd_u1_w5_full_run_trigger.txt'
+      - '.github/workflows/validate-ftrl-w5-full.yml'
 
 permissions:
   contents: read
 
 concurrency:
   group: ftrl-w5-full
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   full-w5:
