@@ -125,15 +125,16 @@ def main() -> None:
     parser.add_argument("--pages", type=int, default=12)
     parser.add_argument("--workers", type=int, default=2)
     parser.add_argument("--output-dir", type=Path, default=Path("local/ftrl"))
-    parser.add_argument("--skip-w1-gate", action="store_true", help="Local developer escape hatch only; CI workflows must never use this")
     args = parser.parse_args()
 
     if args.pages < 1:
         raise SystemExit("--pages must be >= 1")
     if args.workers < 1:
         raise SystemExit("--workers must be >= 1")
-    if not args.skip_w1_gate:
-        run([sys.executable, "scripts/guard_ftrl_w3_activation.py", "--json"])
+
+    # Non-bypassable project gate: W3 OCR must never start before W1 is
+    # canonically promoted to validated/corpus_ready/ocr_available for 40/40.
+    run([sys.executable, "scripts/guard_ftrl_w3_activation.py", "--json"])
     require_environment()
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
