@@ -1,0 +1,93 @@
+{
+  "corpus": {
+    "canonical_viewers": 15,
+    "catalog_generations": [1993, 2008, 2011, 2014, 2019],
+    "grade_codes": [4, 5, 6],
+    "ocr_characters_total": 3745043,
+    "ocr_confidence": {
+      "maximum": 96.838142,
+      "mean": 88.384798,
+      "median": 91.571332,
+      "minimum": 20.722095,
+      "missing_pages": 84,
+      "observed_pages": 2569
+    },
+    "ocr_engine_versions": ["tesseract 5.3.4"],
+    "ocr_languages": ["spa"],
+    "ocr_psm_values": [3],
+    "ocr_words_total": 609832,
+    "page_records": 2653,
+    "pages_by_generation": {"1993": 510, "2008": 534, "2011": 563, "2014": 523, "2019": 523},
+    "pages_by_grade": {"4": 951, "5": 983, "6": 719},
+    "pipeline_versions": ["LTMD_FTRL_OCR_0.1"],
+    "record_generated_at_max": "2026-08-24T15:15:36+00:00",
+    "record_generated_at_min": "2026-08-24T15:15:36+00:00",
+    "schema_versions": ["LTMD_PAGE_OCR_0.1"],
+    "source_byte_size_missing_pages": 0,
+    "source_bytes_total_known": 764819675,
+    "waves": ["W5"],
+    "zero_search_text_pages": 84
+  },
+  "database": {
+    "fts_rows": 2653,
+    "historical_identities": 18,
+    "index_metadata": {
+      "index_version": "LTMD_FTRL_INDEX_0.1",
+      "page_count": "2653",
+      "source_jsonl": "local/ftrl/ltmd_u1_w5_full_page_ocr.jsonl"
+    },
+    "page_rows": 2653,
+    "sqlite_integrity": "ok"
+  },
+  "environment": {
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "python_implementation": "CPython",
+    "python_version": "3.12.14",
+    "sqlite_version": "3.45.1"
+  },
+  "execution": {
+    "ci": {
+      "event_name": "pull_request",
+      "provider": "github-actions",
+      "ref": "refs/pull/26/merge",
+      "repository": "fersandovalgtz/libro-texto-mexicano-digital",
+      "run_attempt": "1",
+      "run_id": "32743689286",
+      "sha": "6c515fb66928c65a27a59691739f9fe9cd7ab3b7",
+      "workflow": "Validate FTRL W5 full corpus"
+    },
+    "vcs": {
+      "commit": "6c515fb66928c65a27a59691739f9fe9cd7ab3b7",
+      "dirty_tracked_worktree": false,
+      "ref": "refs/pull/26/merge",
+      "system": "git"
+    }
+  },
+  "files": {
+    "asset_manifest": {
+      "byte_size": 855485,
+      "path": "data/catalog/ltmd_u1_w5_history_asset_manifest.csv",
+      "sha256": "120ea791e91938ef2cdcab7f790c7fac10a16abe53aef057d36658a059320f14"
+    },
+    "ocr_jsonl": {
+      "byte_size": 10214205,
+      "path": "local/ftrl/ltmd_u1_w5_full_page_ocr.jsonl",
+      "sha256": "da57daa60a5d99d65dd8d2373edef2a8fd6148bb26f623cd82c03d80b3203bad"
+    },
+    "processing_inventory": {
+      "byte_size": 6421,
+      "path": "data/catalog/ltmd_u1_w5_history_processing_inventory.csv",
+      "sha256": "66982ca6e1d61fcbf3e2ff56dd34a819ede16fa675c8cf16ff1c19b1443d207f"
+    },
+    "sqlite_index": {
+      "byte_size": 13115392,
+      "path": "local/ftrl/ltmd_u1_w5_full_ocr_search.sqlite",
+      "sha256": "e80775b5ecb4d24faa857d627f98ae3404b4ef9d19564270bd6bd352c53bd14e"
+    }
+  },
+  "generated_at": "2026-08-24T16:05:36+00:00",
+  "rights_note": "This manifest contains metadata, hashes, cardinalities, and software/environment information only; it intentionally excludes OCR text and source images.",
+  "run_label": "full",
+  "schema_version": "LTMD_FTRL_RUN_0.1",
+  "status": "validated"
+}
