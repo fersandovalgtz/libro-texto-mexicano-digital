@@ -3,13 +3,14 @@ name: Validate exhaustive FTRL-U1 completion ledger
 on:
   push:
     branches:
-      - ftrl/u1-completion-ledger
-      - ftrl/ledger-w3-topology
+      - 'ftrl/**'
+      - 'preservation/**'
     paths:
       - 'scripts/build_ltmd_u1_ftrl_completion_ledger.py'
       - 'scripts/build_ltmd_u1_ftrl_completion_ledger_v2.py'
       - 'data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv'
       - 'data/research/ltmd_u1_ftrl_wave_state.json'
+      - 'data/research/ltmd_u1_w5_archival_closure.json'
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_1.md'
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_2.md'
       - '.github/workflows/validate-ftrl-u1-completion-ledger.yml'
@@ -28,6 +29,7 @@ on:
       - 'data/expansion/cn46_page_manifest.csv'
       - 'data/expansion/cn46_page_manifest_summary.csv'
       - 'data/research/ltmd_u1_ftrl_wave_state.json'
+      - 'data/research/ltmd_u1_w5_archival_closure.json'
       - 'data/research/ltmd_u1_ftrl_completion_ledger.csv'
       - 'data/research/ltmd_u1_ftrl_completion_summary.json'
       - 'scripts/build_ftrl_w1_inputs.py'
@@ -70,7 +72,7 @@ jobs:
           diff -u data/research/ltmd_u1_ftrl_completion_ledger.csv /tmp/ltmd_u1_ftrl_completion_ledger.csv
           diff -u data/research/ltmd_u1_ftrl_completion_summary.json /tmp/ltmd_u1_ftrl_completion_summary.json
 
-      - name: Assert exhaustive scientific invariants and W3 topology
+      - name: Assert exhaustive scientific invariants, W3 topology, and W5 archive closure
         run: |
           python - <<'PY'
           import csv, json
@@ -101,17 +103,33 @@ jobs:
           assert sum(int(r['text_verified']) for r in w3) == 0
           assert sum(int(r['semantic_ready']) for r in w3) == 0
 
+          w5 = [r for r in rows if r['wave'] == 'W5']
+          assert len(w5) == 18
+          assert Counter(r['ftrl_status'] for r in w5) == Counter({'validated': 18})
+          assert Counter(r['archival_status'] for r in w5) == Counter({'archival_complete': 18})
+          assert sum(int(r['corpus_ready']) for r in w5) == 18
+          assert sum(int(r['ocr_available']) for r in w5) == 18
+          assert sum(int(r['text_verified']) for r in w5) == 0
+          assert sum(int(r['semantic_ready']) for r in w5) == 0
+
           assert summary['schema'] == 'LTMD_U1_FTRL_COMPLETION_SUMMARY_0.2'
           assert summary['ledger_version'] == 'LTMD_U1_FTRL_COMPLETION_LEDGER_0.2'
           assert summary['documentary_identities'] == 542
           assert summary['canonical_processing_objects_by_ftrl_status']['pending'] == 114
           assert summary['canonical_source_pages_by_ftrl_status']['pending'] == 20765
           assert summary['known_processing_topology_identities'] >= 188
+          assert summary['archival_status'] == {
+              'archival_complete': 18,
+              'not_applicable_final_exception': 5,
+              'not_started': 479,
+              'preservation_in_progress': 40,
+          }
           assert summary['text_verified_identities'] == 0
           assert summary['semantic_ready_identities'] == 0
           assert summary['global_closure']['eligible'] is False
           assert summary['global_closure']['active_retentions'] == 13
           print(summary['ftrl_identity_status'])
+          print(summary['archival_status'])
           PY
 
       - name: Commit generated ledger on branch push
