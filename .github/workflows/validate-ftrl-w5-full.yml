@@ -32,7 +32,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh issue comment 15 --repo "$GITHUB_REPOSITORY" --body "FTRL W5 integral — corrida ${GITHUB_RUN_ID} iniciada sobre commit ${GITHUB_SHA}. Alcance preregistrado: 15 objetos canónicos, 18 identidades históricas y 2,443 páginas fuente admitidas. Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          gh issue comment 15 --repo "$GITHUB_REPOSITORY" --body "FTRL W5 integral — corrida ${GITHUB_RUN_ID} iniciada sobre commit ${GITHUB_SHA}. Alcance preregistrado corregido antes de OCR completo: 15 objetos canónicos, 18 identidades históricas y 2,653 páginas fuente admitidas. Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -59,7 +59,7 @@ jobs:
           expected_pages = sum(int(r['direct_source_jpegs']) for r in canonical)
           assert len(canonical) == 15, len(canonical)
           assert len(historical) == 18, len(historical)
-          assert expected_pages == 2443, expected_pages
+          assert expected_pages == 2653, expected_pages
           print({
               'canonical_processing_objects': len(canonical),
               'historical_identities': len(historical),
@@ -87,9 +87,9 @@ jobs:
 
           assert manifest['schema_version'] == 'LTMD_FTRL_RUN_0.1'
           assert manifest['status'] == 'validated'
-          assert manifest['corpus']['page_records'] == 2443
-          assert manifest['database']['page_rows'] == 2443
-          assert manifest['database']['fts_rows'] == 2443
+          assert manifest['corpus']['page_records'] == 2653
+          assert manifest['database']['page_rows'] == 2653
+          assert manifest['database']['fts_rows'] == 2653
           assert manifest['database']['sqlite_integrity'] == 'ok'
           assert manifest['corpus']['waves'] == ['W5']
           assert manifest['corpus']['canonical_viewers'] == 15
@@ -175,7 +175,7 @@ jobs:
           repo = os.environ['GITHUB_REPOSITORY']
           body = (
               f"FTRL W5 integral — corrida {run_id} VALIDADA. "
-              f"Páginas: {c['page_records']}/2443; objetos canónicos: {c['canonical_viewers']}/15; "
+              f"Páginas: {c['page_records']}/2653; objetos canónicos: {c['canonical_viewers']}/15; "
               f"identidades históricas: {d['historical_identities']}/18; SQLite: {d['sqlite_integrity']}; "
               f"páginas con search_text vacío: {c['zero_search_text_pages']}; "
               f"consultas preregistradas ejecutadas: {len(summary['queries'])}. "
