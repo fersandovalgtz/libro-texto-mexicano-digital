@@ -1,0 +1,142 @@
+name: Validate FTRL W5 full corpus
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ftrl-w5-full
+  cancel-in-progress: false
+
+jobs:
+  full-w5:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Spanish Tesseract data
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+          tesseract --version | head -n 1
+          tesseract --list-langs | grep -Fx spa
+
+      - name: Preflight W5 canonical cardinality
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+
+          path = Path('data/catalog/ltmd_u1_w5_history_processing_inventory.csv')
+          rows = list(csv.DictReader(path.open(encoding='utf-8', newline='')))
+          canonical = [r for r in rows if r['is_canonical_processing_object'] == '1']
+          historical = [r for r in rows if r['technical_identity_covered'] == '1']
+          expected_pages = sum(int(r['direct_source_jpegs']) for r in canonical)
+          assert len(canonical) == 15, len(canonical)
+          assert len(historical) == 18, len(historical)
+          assert expected_pages == 2443, expected_pages
+          print({
+              'canonical_processing_objects': len(canonical),
+              'historical_identities': len(historical),
+              'expected_source_pages': expected_pages,
+          })
+          PY
+
+      - name: Run complete W5 FTRL and preregistered queries
+        run: |
+          python scripts/run_ftrl_w5_pilot.py \
+            --full \
+            --run-preregistered-queries \
+            --output-dir local/ftrl
+
+      - name: Assert complete text-free provenance result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          manifest_path = Path('local/ftrl/ltmd_u1_w5_full_run_manifest.json')
+          summary_path = Path('local/ftrl/ltmd_u1_w5_query_summary.json')
+          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+          summary = json.loads(summary_path.read_text(encoding='utf-8'))
+
+          assert manifest['schema_version'] == 'LTMD_FTRL_RUN_0.1'
+          assert manifest['status'] == 'validated'
+          assert manifest['corpus']['page_records'] == 2443
+          assert manifest['database']['page_rows'] == 2443
+          assert manifest['database']['fts_rows'] == 2443
+          assert manifest['database']['sqlite_integrity'] == 'ok'
+          assert manifest['corpus']['waves'] == ['W5']
+          assert manifest['corpus']['canonical_viewers'] == 15
+          assert manifest['database']['historical_identities'] == 18
+          assert manifest['corpus']['source_byte_size_missing_pages'] == 0
+
+          vcs = manifest['execution']['vcs']
+          ci = manifest['execution']['ci']
+          assert vcs['system'] == 'git'
+          assert len(vcs['commit']) == 40
+          assert vcs['dirty_tracked_worktree'] is False
+          assert ci['provider'] == 'github-actions'
+          assert ci['repository'] == 'fersandovalgtz/libro-texto-mexicano-digital'
+          assert ci['run_id']
+          assert ci['sha'] == vcs['commit']
+
+          assert summary['schema_version'] == 'LTMD_FTRL_QUERY_PROTOCOL_0.1'
+          assert summary['rights_note'].startswith('Text-free aggregate query summary')
+          assert summary['queries']
+          for query in summary['queries']:
+              assert 'query_expression' not in query
+              assert 'snippet' not in query
+              assert 'query_expression_sha256' in query
+
+          print(json.dumps({
+              'status': manifest['status'],
+              'page_records': manifest['corpus']['page_records'],
+              'canonical_viewers': manifest['corpus']['canonical_viewers'],
+              'historical_identities': manifest['database']['historical_identities'],
+              'zero_search_text_pages': manifest['corpus']['zero_search_text_pages'],
+              'sqlite_integrity': manifest['database']['sqlite_integrity'],
+              'preregistered_queries': len(summary['queries']),
+              'git_commit': vcs['commit'],
+              'ci_run_id': ci['run_id'],
+          }, ensure_ascii=False, sort_keys=True))
+          PY
+
+      - name: Prove restricted outputs remain non-publishable
+        run: |
+          test -f local/ftrl/ltmd_u1_w5_full_page_ocr.jsonl
+          test -f local/ftrl/ltmd_u1_w5_full_ocr_search.sqlite
+          test -f local/ftrl/ltmd_u1_w5_query_candidates.json
+          test -f local/ftrl/ltmd_u1_w5_full_run_manifest.json
+          test -f local/ftrl/ltmd_u1_w5_query_summary.json
+
+          git status --short --untracked-files=all | tee local/git-status.txt
+          for path in \
+            local/ftrl/ltmd_u1_w5_full_page_ocr.jsonl \
+            local/ftrl/ltmd_u1_w5_full_ocr_search.sqlite \
+            local/ftrl/ltmd_u1_w5_query_candidates.json; do
+            if ! git check-ignore -q "$path"; then
+              echo "Restricted output is not ignored: $path" >&2
+              exit 1
+            fi
+          done
+          echo 'Restricted OCR, SQLite, and candidate snippets remain ignored: OK'
+
+      - name: Upload text-free evidence only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w5-full-text-free-evidence
+          path: |
+            local/ftrl/ltmd_u1_w5_full_run_manifest.json
+            local/ftrl/ltmd_u1_w5_query_summary.json
+          if-no-files-found: error
+          retention-days: 30
