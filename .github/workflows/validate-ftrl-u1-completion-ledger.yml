@@ -2,17 +2,23 @@ name: Validate exhaustive FTRL-U1 completion ledger
 
 on:
   push:
-    branches: [ftrl/u1-completion-ledger]
+    branches:
+      - ftrl/u1-completion-ledger
+      - ftrl/ledger-w3-topology
     paths:
       - 'scripts/build_ltmd_u1_ftrl_completion_ledger.py'
+      - 'scripts/build_ltmd_u1_ftrl_completion_ledger_v2.py'
+      - 'data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv'
       - 'data/research/ltmd_u1_ftrl_wave_state.json'
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_1.md'
+      - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_2.md'
       - '.github/workflows/validate-ftrl-u1-completion-ledger.yml'
   pull_request:
     branches: [main]
     paths:
       - 'data/catalog/ltmd_u1_coverage.csv'
       - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv'
       - 'data/catalog/ltmd_u1_w5_history_processing_inventory.csv'
       - 'data/catalog/ciencias_naturales_family_asset_readiness.csv'
       - 'data/catalog/ciencias_naturales_pending_page_manifest.csv'
@@ -26,7 +32,9 @@ on:
       - 'data/research/ltmd_u1_ftrl_completion_summary.json'
       - 'scripts/build_ftrl_w1_inputs.py'
       - 'scripts/build_ltmd_u1_ftrl_completion_ledger.py'
+      - 'scripts/build_ltmd_u1_ftrl_completion_ledger_v2.py'
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_1.md'
+      - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_2.md'
       - '.github/workflows/validate-ftrl-u1-completion-ledger.yml'
   workflow_dispatch:
 
@@ -48,12 +56,12 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Build exhaustive ledger
+      - name: Build exhaustive ledger 0.2
         run: |
           if [ "${GITHUB_EVENT_NAME}" = "push" ]; then
-            python scripts/build_ltmd_u1_ftrl_completion_ledger.py
+            python scripts/build_ltmd_u1_ftrl_completion_ledger_v2.py
           else
-            python scripts/build_ltmd_u1_ftrl_completion_ledger.py --output /tmp/ltmd_u1_ftrl_completion_ledger.csv --summary-output /tmp/ltmd_u1_ftrl_completion_summary.json
+            python scripts/build_ltmd_u1_ftrl_completion_ledger_v2.py --output /tmp/ltmd_u1_ftrl_completion_ledger.csv --summary-output /tmp/ltmd_u1_ftrl_completion_summary.json
           fi
 
       - name: Require generated outputs to be current on PR
@@ -62,21 +70,43 @@ jobs:
           diff -u data/research/ltmd_u1_ftrl_completion_ledger.csv /tmp/ltmd_u1_ftrl_completion_ledger.csv
           diff -u data/research/ltmd_u1_ftrl_completion_summary.json /tmp/ltmd_u1_ftrl_completion_summary.json
 
-      - name: Assert exhaustive scientific invariants
+      - name: Assert exhaustive scientific invariants and W3 topology
         run: |
           python - <<'PY'
           import csv, json
           from collections import Counter
           from pathlib import Path
+
           ledger = Path('data/research/ltmd_u1_ftrl_completion_ledger.csv') if Path('data/research/ltmd_u1_ftrl_completion_ledger.csv').exists() else Path('/tmp/ltmd_u1_ftrl_completion_ledger.csv')
           summary_path = Path('data/research/ltmd_u1_ftrl_completion_summary.json') if Path('data/research/ltmd_u1_ftrl_completion_summary.json').exists() else Path('/tmp/ltmd_u1_ftrl_completion_summary.json')
           rows = list(csv.DictReader(ledger.open(encoding='utf-8', newline='')))
           summary = json.loads(summary_path.read_text(encoding='utf-8'))
+
           assert len(rows) == 542
           assert len({r['viewer_key'] for r in rows}) == 542
+          assert {r['ledger_version'] for r in rows} == {'LTMD_U1_FTRL_COMPLETION_LEDGER_0.2'}
           assert Counter(r['documentary_disposition'] for r in rows) == Counter({'required_ftrl_processing': 524, 'active_retention': 13, 'final_exception': 5})
           assert Counter(r['wave'] for r in rows) == Counter({'W1': 40, 'W2': 64, 'W3': 130, 'W4': 14, 'W5': 18, 'W6': 42, 'W7': 30, 'W8': 20, 'W9': 4, 'W10': 69, 'W11': 111})
+
+          w3 = [r for r in rows if r['wave'] == 'W3']
+          assert len(w3) == 130
+          assert Counter(r['ftrl_status'] for r in w3) == Counter({'pending': 130})
+          assert Counter(r['source_ready'] for r in w3) == Counter({'full': 123, 'partial': 7})
+          assert Counter(r['relation_type'] for r in w3) == Counter({'direct_canonical': 107, 'partial_canonical_explicit_gap': 7, 'exact_byte_alias': 8, 'paired_route_alias_2018_to_2019': 8})
+          assert sum(r['is_canonical_processing_object'] == '1' for r in w3) == 114
+          assert sum(int(r['canonical_source_pages'] or 0) for r in w3 if r['is_canonical_processing_object'] == '1') == 20765
+          assert sum(int(r['persistent_unresolved_source_gaps'] or 0) for r in w3 if r['is_canonical_processing_object'] == '1') == 8
+          assert sum(int(r['corpus_ready']) for r in w3) == 0
+          assert sum(int(r['ocr_available']) for r in w3) == 0
+          assert sum(int(r['text_verified']) for r in w3) == 0
+          assert sum(int(r['semantic_ready']) for r in w3) == 0
+
+          assert summary['schema'] == 'LTMD_U1_FTRL_COMPLETION_SUMMARY_0.2'
+          assert summary['ledger_version'] == 'LTMD_U1_FTRL_COMPLETION_LEDGER_0.2'
           assert summary['documentary_identities'] == 542
+          assert summary['canonical_processing_objects_by_ftrl_status']['pending'] == 114
+          assert summary['canonical_source_pages_by_ftrl_status']['pending'] == 20765
+          assert summary['known_processing_topology_identities'] >= 188
           assert summary['text_verified_identities'] == 0
           assert summary['semantic_ready_identities'] == 0
           assert summary['global_closure']['eligible'] is False
@@ -93,6 +123,6 @@ jobs:
           if git diff --cached --quiet; then
             echo 'Generated ledger already current.'
           else
-            git commit -m 'FTRL: generate exhaustive U1 completion ledger'
+            git commit -m 'FTRL: generate exhaustive U1 completion ledger 0.2'
             git push origin HEAD:${GITHUB_REF_NAME}
           fi
