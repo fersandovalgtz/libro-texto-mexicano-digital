@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_ftrl_run_manifest.schema.json",
+  "title": "LTMD FTRL run manifest",
+  "description": "Text-free, machine-readable provenance and validation summary for a local LTMD Full-Text Research Layer run.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_label",
+    "status",
+    "generated_at",
+    "rights_note",
+    "environment",
+    "files",
+    "corpus",
+    "database"
+  ],
+  "properties": {
+    "schema_version": {"const": "LTMD_FTRL_RUN_0.1"},
+    "run_label": {"type": "string", "minLength": 1},
+    "status": {"const": "validated"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "rights_note": {"type": "string", "minLength": 1},
+    "environment": {
+      "type": "object",
+      "required": ["python_version", "python_implementation", "sqlite_version", "platform"],
+      "properties": {
+        "python_version": {"type": "string"},
+        "python_implementation": {"type": "string"},
+        "sqlite_version": {"type": "string"},
+        "platform": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "files": {
+      "type": "object",
+      "required": ["ocr_jsonl", "sqlite_index"],
+      "properties": {
+        "ocr_jsonl": {"$ref": "#/$defs/fileDescriptor"},
+        "sqlite_index": {"$ref": "#/$defs/fileDescriptor"},
+        "asset_manifest": {"$ref": "#/$defs/fileDescriptor"},
+        "processing_inventory": {"$ref": "#/$defs/fileDescriptor"}
+      },
+      "additionalProperties": false
+    },
+    "corpus": {
+      "type": "object",
+      "required": [
+        "page_records",
+        "canonical_viewers",
+        "waves",
+        "catalog_generations",
+        "grade_codes",
+        "pages_by_generation",
+        "pages_by_grade",
+        "schema_versions",
+        "pipeline_versions",
+        "ocr_engine_versions",
+        "ocr_languages",
+        "ocr_psm_values",
+        "ocr_confidence",
+        "source_bytes_total_known",
+        "source_byte_size_missing_pages",
+        "ocr_characters_total",
+        "ocr_words_total",
+        "zero_search_text_pages",
+        "record_generated_at_min",
+        "record_generated_at_max"
+      ],
+      "properties": {
+        "page_records": {"type": "integer", "minimum": 1},
+        "canonical_viewers": {"type": "integer", "minimum": 1},
+        "waves": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "catalog_generations": {"type": "array", "items": {"type": "integer"}, "uniqueItems": true},
+        "grade_codes": {"type": "array", "items": {"type": "integer"}, "uniqueItems": true},
+        "pages_by_generation": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "pages_by_grade": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "schema_versions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "pipeline_versions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "ocr_engine_versions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "ocr_languages": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "ocr_psm_values": {"type": "array", "items": {"type": "integer"}, "uniqueItems": true},
+        "ocr_confidence": {
+          "type": "object",
+          "required": ["observed_pages", "missing_pages", "mean", "median", "minimum", "maximum"],
+          "properties": {
+            "observed_pages": {"type": "integer", "minimum": 0},
+            "missing_pages": {"type": "integer", "minimum": 0},
+            "mean": {"type": ["number", "null"]},
+            "median": {"type": ["number", "null"]},
+            "minimum": {"type": ["number", "null"]},
+            "maximum": {"type": ["number", "null"]}
+          },
+          "additionalProperties": false
+        },
+        "source_bytes_total_known": {"type": "integer", "minimum": 0},
+        "source_byte_size_missing_pages": {"type": "integer", "minimum": 0},
+        "ocr_characters_total": {"type": "integer", "minimum": 0},
+        "ocr_words_total": {"type": "integer", "minimum": 0},
+        "zero_search_text_pages": {"type": "integer", "minimum": 0},
+        "record_generated_at_min": {"type": ["string", "null"]},
+        "record_generated_at_max": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "database": {
+      "type": "object",
+      "required": ["sqlite_integrity", "page_rows", "fts_rows", "historical_identities", "index_metadata"],
+      "properties": {
+        "sqlite_integrity": {"const": "ok"},
+        "page_rows": {"type": "integer", "minimum": 1},
+        "fts_rows": {"type": "integer", "minimum": 1},
+        "historical_identities": {"type": "integer", "minimum": 1},
+        "index_metadata": {"type": "object", "additionalProperties": {"type": "string"}}
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "fileDescriptor": {
+      "type": "object",
+      "required": ["path", "sha256", "byte_size"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "byte_size": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

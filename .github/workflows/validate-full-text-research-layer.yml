@@ -7,11 +7,17 @@ on:
       - 'scripts/build_search_index.py'
       - 'scripts/query_ocr_corpus.py'
       - 'scripts/validate_ocr_corpus.py'
+      - 'scripts/summarize_ftrl_run.py'
+      - 'scripts/run_ftrl_query_protocol.py'
       - 'scripts/run_ftrl_w5_pilot.py'
       - 'schemas/ltmd_page_ocr.schema.json'
+      - 'schemas/ltmd_ftrl_run_manifest.schema.json'
+      - 'data/research/ltmd_ftrl_w5_preregistered_queries.csv'
       - 'docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md'
       - 'docs/LTMD_SEARCH_METHODOLOGY.md'
       - 'docs/LTMD_OCR_PROVENANCE.md'
+      - 'docs/LTMD_FTRL_RUN_PROVENANCE.md'
+      - 'docs/FTRL_W5_QUERY_PREREGISTRATION.md'
       - '.github/workflows/validate-full-text-research-layer.yml'
   pull_request:
     paths:
@@ -19,11 +25,17 @@ on:
       - 'scripts/build_search_index.py'
       - 'scripts/query_ocr_corpus.py'
       - 'scripts/validate_ocr_corpus.py'
+      - 'scripts/summarize_ftrl_run.py'
+      - 'scripts/run_ftrl_query_protocol.py'
       - 'scripts/run_ftrl_w5_pilot.py'
       - 'schemas/ltmd_page_ocr.schema.json'
+      - 'schemas/ltmd_ftrl_run_manifest.schema.json'
+      - 'data/research/ltmd_ftrl_w5_preregistered_queries.csv'
       - 'docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md'
       - 'docs/LTMD_SEARCH_METHODOLOGY.md'
       - 'docs/LTMD_OCR_PROVENANCE.md'
+      - 'docs/LTMD_FTRL_RUN_PROVENANCE.md'
+      - 'docs/FTRL_W5_QUERY_PREREGISTRATION.md'
       - '.github/workflows/validate-full-text-research-layer.yml'
   workflow_dispatch:
 
@@ -45,7 +57,10 @@ jobs:
             scripts/build_search_index.py \
             scripts/query_ocr_corpus.py \
             scripts/validate_ocr_corpus.py \
+            scripts/summarize_ftrl_run.py \
+            scripts/run_ftrl_query_protocol.py \
             scripts/run_ftrl_w5_pilot.py
+          python -m json.tool schemas/ltmd_ftrl_run_manifest.schema.json >/dev/null
       - name: Build synthetic page corpus
         run: |
           mkdir -p local
@@ -87,7 +102,7 @@ jobs:
 
           rows = [
               record("H1993P6HI214:src0032", 32, "Las logias masónicas del rito escocés."),
-              record("H1993P6HI214:src0033", 33, "Los yorkinos participaron en la vida política."),
+              record("H1993P6HI214:src0033", 33, "Benito Juárez participó en la vida política."),
           ]
           with open("local/ftrl-smoke.jsonl", "w", encoding="utf-8") as fh:
               for row in rows:
@@ -105,11 +120,45 @@ jobs:
         run: |
           python scripts/query_ocr_corpus.py \
             --db local/ftrl-smoke.sqlite \
-            --query 'masónica OR masonería' \
+            --query 'masónicas OR masonería' \
             --format json | tee local/query.json
           python - <<'PY'
           import json
           rows = json.load(open("local/query.json", encoding="utf-8"))
           assert len(rows) == 1
           assert rows[0]["page_id"] == "H1993P6HI214:src0032"
+          PY
+      - name: Build text-free run provenance manifest
+        run: |
+          python scripts/summarize_ftrl_run.py \
+            --input local/ftrl-smoke.jsonl \
+            --db local/ftrl-smoke.sqlite \
+            --label synthetic \
+            --output local/ftrl-smoke-run.json
+          python - <<'PY'
+          import json
+          row = json.load(open("local/ftrl-smoke-run.json", encoding="utf-8"))
+          assert row["schema_version"] == "LTMD_FTRL_RUN_0.1"
+          assert row["status"] == "validated"
+          assert row["corpus"]["page_records"] == 2
+          assert row["database"]["page_rows"] == 2
+          assert row["database"]["fts_rows"] == 2
+          PY
+      - name: Execute preregistered query protocol on synthetic index
+        run: |
+          cat > local/query-protocol.csv <<'CSV'
+          query_id,construct,query_expression,role,scope_wave,verification_rule,interpretive_rule
+          TEST-MASONRY,Masonería,masónicas,primary,W5,verify,interpret cautiously
+          TEST-JUAREZ,Juárez,"""Benito Juárez""",control,W5,verify,control only
+          CSV
+          python scripts/run_ftrl_query_protocol.py \
+            --db local/ftrl-smoke.sqlite \
+            --protocol local/query-protocol.csv \
+            --output local/query-candidates.json \
+            --summary-output local/query-summary.json
+          python - <<'PY'
+          import json
+          row = json.load(open("local/query-summary.json", encoding="utf-8"))
+          assert row["schema_version"] == "LTMD_FTRL_QUERY_PROTOCOL_0.1"
+          assert [q["hit_pages_exact"] for q in row["queries"]] == [1, 1]
           PY

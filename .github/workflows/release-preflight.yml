@@ -63,7 +63,13 @@ jobs:
           cff = (root / 'CITATION.cff').read_text(encoding='utf-8')
 
           def cff_scalar(key: str) -> str:
-              m = re.search(rf'^\s*{re.escape(key)}:\s*(.+?)\s*$', cff, flags=re.MULTILINE)
+              # Accept top-level scalars and scalar fields inside YAML sequence items,
+              # e.g. `  - family-names: "Sandoval Gutierrez"`.
+              m = re.search(
+                  rf'^\s*(?:-\s+)?{re.escape(key)}:\s*(.+?)\s*$',
+                  cff,
+                  flags=re.MULTILINE,
+              )
               if not m:
                   raise SystemExit(f'CITATION.cff does not expose {key}')
               value = m.group(1).strip()
