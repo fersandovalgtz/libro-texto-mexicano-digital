@@ -9,12 +9,10 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-import re
 from collections import Counter
 from pathlib import Path
 
 DEFAULT_CONTRACT = Path("data/research/ltmd_u1_exhaustive_scope_contract.json")
-WAVE_RE = re.compile(r"^U1-(W(?:10|11|[1-9]))-")
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -22,14 +20,13 @@ def read_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(fh))
 
 
-def wave_from_coverage(row: dict[str, str]) -> str:
-    label = row.get("wave_label", "")
-    match = WAVE_RE.match(label)
-    if not match:
+def wave_from_domain(row: dict[str, str], domain_to_wave: dict[str, str]) -> str:
+    domain = row.get("operational_domain", "").strip()
+    if domain not in domain_to_wave:
         raise AssertionError(
-            f"coverage identity {row.get('viewer_key')} lacks a valid U1-W1..W11 wave_label: {label!r}"
+            f"coverage identity {row.get('viewer_key')} has unmapped operational_domain: {domain!r}"
         )
-    return match.group(1)
+    return domain_to_wave[domain]
 
 
 def main() -> None:
@@ -48,6 +45,9 @@ def main() -> None:
     retained_path = Path(contract["retained_source_register"])
     coverage = read_csv(coverage_path)
     retained = read_csv(retained_path)
+    domain_to_wave = {
+        str(domain): str(wave) for domain, wave in contract["domain_to_wave"].items()
+    }
 
     expected_universe = int(contract["expected_universe_identities"])
     expected_effective = int(contract["expected_effective_technical_coverage"])
@@ -65,7 +65,7 @@ def main() -> None:
         "every U1 identity must remain cataloged in the master denominator"
     )
 
-    wave_counts = Counter(wave_from_coverage(row) for row in coverage)
+    wave_counts = Counter(wave_from_domain(row, domain_to_wave) for row in coverage)
     expected_wave_counts = {
         str(key): int(value)
         for key, value in contract["expected_wave_denominators"].items()
@@ -87,6 +87,18 @@ def main() -> None:
     assert set(retained_keys) <= set(viewer_keys), (
         "retained-source register contains identity outside frozen U1 universe"
     )
+
+    coverage_by_key = {row["viewer_key"]: row for row in coverage}
+    for row in retained:
+        key = row["viewer_key"]
+        expected_wave = wave_from_domain(coverage_by_key[key], domain_to_wave)
+        assert row["wave"] == expected_wave, (
+            f"retained-source wave/domain mismatch for {key}: "
+            f"register={row['wave']} domain-derived={expected_wave}"
+        )
+        assert row["operational_domain"] == coverage_by_key[key]["operational_domain"], (
+            f"retained-source operational_domain drift for {key}"
+        )
 
     allowed_residual_status = {"active_retention", "final_exception"}
     observed_statuses = {row.get("status", "") for row in retained}
@@ -149,6 +161,7 @@ def main() -> None:
         "status": "scope_validated",
         "universe_identities": expected_universe,
         "identity_dispositions": disposition_counts,
+        "wave_assignment_basis": contract["wave_assignment_basis"],
         "wave_denominators": dict(sorted(wave_counts.items())),
         "retained_by_wave": dict(sorted(retained_wave_counts.items())),
         "all_identities_have_disposition": True,
@@ -159,7 +172,8 @@ def main() -> None:
         "interpretation": (
             "Scope validation does not assert that required_ftrl_processing identities "
             "have completed OCR/FTRL. Active retentions remain mandatory work and block "
-            "global exhaustive closure."
+            "global exhaustive closure. Queue labels (including historical W0 materialized "
+            "states) do not replace operational-domain wave identity."
         ),
     }
 
