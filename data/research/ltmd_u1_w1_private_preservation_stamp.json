@@ -1,0 +1,17 @@
+{
+  "schema": "LTMD_FTRL_W1_PRIVATE_PRESERVATION_ACTIVATION_0.1",
+  "effective_date": "2026-08-24",
+  "wave": "W1",
+  "domain": "Ciencias Naturales",
+  "historical_identities": 40,
+  "canonical_processing_objects": 36,
+  "source_admitted_jpegs": 6516,
+  "destination": "private_google_drive",
+  "logical_destination": "LTMD-U1 — corpus FTRL privado/W1 — Ciencias Naturales/run_32768285396__d3ad64f__2026-08-24",
+  "encryption_handoff": "required",
+  "archive_public_key_sha256": "78852eafbaa332247f99e23508ac157b5b906c6c3bf3aeb0af1dfe8d57579c2d",
+  "source_full_run_id": "32768285396",
+  "source_full_run_commit": "d3ad64f789570fb7a2b8557dcb0c69c7a2beca6d",
+  "reason": "Persistent preservation canon was adopted after the original exhaustive W1 run had started; its ephemeral workspace cannot be retroactively converted into a persistent private archive.",
+  "rule": "This stamp authorizes a reproducible preservation rerun. It does not alter the scientific denominator, OCR methodology, source manifests, or semantic status."
+}
