@@ -1,0 +1,134 @@
+name: Validate FTRL W1 runtime pilot
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/build_ftrl_w1_inputs.py'
+      - 'scripts/run_ftrl_w1.py'
+      - 'scripts/preflight_ftrl_w1.py'
+      - 'scripts/build_page_ocr_corpus.py'
+      - 'scripts/build_search_index.py'
+      - 'scripts/validate_ocr_corpus.py'
+      - 'scripts/summarize_ftrl_run.py'
+      - 'scripts/build_ftrl_qc_queue.py'
+      - 'data/catalog/ciencias_naturales_family_asset_readiness.csv'
+      - 'data/catalog/ciencias_naturales_pending_page_manifest.csv'
+      - 'data/expansion/cn46_page_manifest.csv'
+      - 'data/catalog/cn5_pilot_sha/**'
+      - '.github/workflows/validate-ftrl-w1-runtime.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ftrl-w1-runtime-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  runtime-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Spanish Tesseract data
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+          tesseract --version | head -n 1
+          tesseract --list-langs | grep -Fx spa
+
+      - name: Execute real-source W1 pilot
+        run: |
+          python scripts/run_ftrl_w1.py \
+            --pages 12 \
+            --workers 1 \
+            --output-dir local/ftrl
+
+      - name: Assert exact pilot provenance
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          manifest = json.loads(Path('local/ftrl/ltmd_u1_w1_pilot_12_run_manifest.json').read_text(encoding='utf-8'))
+          qc = json.loads(Path('local/ftrl/ltmd_u1_w1_pilot_12_qc_summary.json').read_text(encoding='utf-8'))
+          preflight = json.loads(Path('local/ftrl/ltmd_u1_w1_preflight.json').read_text(encoding='utf-8'))
+
+          assert preflight['schema'] == 'LTMD_FTRL_W1_PREFLIGHT_0.2'
+          assert preflight['status'] == 'ready'
+          assert preflight['historical_identities'] == 37
+          assert preflight['canonical_processing_objects'] == 33
+          assert preflight['source_admitted_jpegs'] == 5926
+
+          assert manifest['schema_version'] == 'LTMD_FTRL_RUN_0.1'
+          assert manifest['status'] == 'validated'
+          assert manifest['corpus']['page_records'] == 12
+          assert manifest['database']['page_rows'] == 12
+          assert manifest['database']['fts_rows'] == 12
+          assert manifest['database']['sqlite_integrity'] == 'ok'
+          assert manifest['corpus']['waves'] == ['W1']
+          assert manifest['corpus']['canonical_viewers'] == 1
+          assert manifest['database']['historical_identities'] == 1
+          assert manifest['corpus']['source_byte_size_missing_pages'] == 0
+
+          vcs = manifest['execution']['vcs']
+          ci = manifest['execution']['ci']
+          assert vcs['system'] == 'git'
+          assert len(vcs['commit']) == 40
+          assert vcs['dirty_tracked_worktree'] is False
+          assert ci['provider'] == 'github-actions'
+          assert ci['repository'] == 'fersandovalgtz/libro-texto-mexicano-digital'
+          assert ci['run_id']
+          assert ci['sha'] == vcs['commit']
+
+          assert qc['schema_version'] == 'LTMD_FTRL_QC_0.1'
+          assert qc['page_records'] == 12
+          assert qc['rights_note'].startswith('Text-free OCR quality-control summary')
+
+          forbidden = {'ocr_text_raw', 'search_text', 'snippet'}
+          def walk(value):
+              if isinstance(value, dict):
+                  assert not (forbidden & set(value)), forbidden & set(value)
+                  for child in value.values():
+                      walk(child)
+              elif isinstance(value, list):
+                  for child in value:
+                      walk(child)
+          walk(manifest)
+          walk(qc)
+          walk(preflight)
+          print('W1 real-source pilot validated with text-free public evidence')
+          PY
+
+      - name: Prove restricted outputs remain local
+        run: |
+          test -f local/ftrl/ltmd_u1_w1_pilot_12_page_ocr.jsonl
+          test -f local/ftrl/ltmd_u1_w1_pilot_12_ocr_search.sqlite
+          test -f local/ftrl/ltmd_u1_w1_pilot_12_qc_queue.json
+          for path in \
+            local/ftrl/ltmd_u1_w1_pilot_12_page_ocr.jsonl \
+            local/ftrl/ltmd_u1_w1_pilot_12_ocr_search.sqlite \
+            local/ftrl/ltmd_u1_w1_pilot_12_qc_queue.json; do
+            git check-ignore -q "$path"
+          done
+          echo 'Restricted W1 pilot outputs remain ignored: OK'
+
+      - name: Upload text-free pilot evidence only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w1-runtime-pilot-text-free
+          path: |
+            local/ftrl/ltmd_u1_w1_preflight.json
+            local/ftrl/ltmd_u1_w1_pilot_12_run_manifest.json
+            local/ftrl/ltmd_u1_w1_pilot_12_qc_summary.json
+          if-no-files-found: error
+          retention-days: 14
