@@ -114,12 +114,21 @@ def fetch_one(job: dict[str, object], timeout: int, retries: int) -> dict[str, o
     raise RuntimeError(f"failed after {retries} attempts: {url}: {last}")
 
 
+def write_manifest(path: Path, rows: list[dict[str, object]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="") as fh:
+        writer = csv.DictWriter(fh, fieldnames=FIELDS)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--inventory", default="data/book_inventory.csv")
     ap.add_argument("--ocr-metrics", default="data/derived/ocr_page_metrics.csv")
     ap.add_argument("--output", default="local/ftrl/cn5_pilot_sha_manifest.csv")
     ap.add_argument("--summary", default="local/ftrl/cn5_pilot_sha_manifest_summary.json")
+    ap.add_argument("--split-output-dir", default=None)
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--timeout", type=int, default=30)
     ap.add_argument("--retries", type=int, default=4)
@@ -157,12 +166,14 @@ def main() -> None:
     assert len({str(r["page_id"]) for r in results}) == 759
     assert all(len(str(r["sha256"])) == 64 for r in results)
 
-    output = Path(args.output)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    with output.open("w", encoding="utf-8", newline="") as fh:
-        writer = csv.DictWriter(fh, fieldnames=FIELDS)
-        writer.writeheader()
-        writer.writerows(results)
+    write_manifest(Path(args.output), results)
+
+    if args.split_output_dir:
+        split_dir = Path(args.split_output_dir)
+        split_dir.mkdir(parents=True, exist_ok=True)
+        for bid in sorted(PILOT_BOOKS):
+            rows = [r for r in results if r["book_id"] == bid]
+            write_manifest(split_dir / f"{bid}.csv", rows)
 
     by_book: dict[str, dict[str, int]] = {}
     for bid in sorted(PILOT_BOOKS):
