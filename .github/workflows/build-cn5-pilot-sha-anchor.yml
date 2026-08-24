@@ -13,17 +13,15 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   anchor-cn5:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Checkout PR head for one-time anchor materialization
+      - name: Checkout exact revision
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -61,22 +59,6 @@ jobs:
           print('CN5 pilot cryptographic anchor validated')
           PY
 
-      - name: Materialize compact versioned anchor
-        if: github.event_name == 'pull_request'
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import shutil
-          src = Path('local/ftrl/cn5_pilot_sha_compact')
-          dst = Path('data/catalog/cn5_pilot_sha')
-          dst.mkdir(parents=True, exist_ok=True)
-          for old in dst.glob('*.csv'):
-              old.unlink()
-          for item in sorted(src.glob('*.csv')):
-              shutil.copyfile(item, dst / item.name)
-          assert len(list(dst.glob('*.csv'))) == 9
-          PY
-
       - name: Compare regenerated anchor with versioned manifests
         run: |
           python - <<'PY'
@@ -101,19 +83,6 @@ jobs:
           assert committed_summary == generated_summary
           print('Versioned CN5 anchor semantically matches regenerated source provenance')
           PY
-
-      - name: Commit one-time compact anchor to PR head
-        if: github.event_name == 'pull_request'
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/catalog/cn5_pilot_sha
-          if git diff --cached --quiet; then
-            echo 'Compact anchor already versioned; no commit needed'
-          else
-            git commit -m 'data(ftrl): version CN5 pilot compact SHA anchor'
-            git push origin HEAD:${{ github.event.pull_request.head.ref }}
-          fi
 
       - name: Upload metadata and hashes only
         uses: actions/upload-artifact@v4
