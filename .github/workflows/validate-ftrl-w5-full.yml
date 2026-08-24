@@ -2,6 +2,10 @@ name: Validate FTRL W5 full corpus
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/research/validation/ltmd_u1_w5_full_run_trigger.txt'
 
 permissions:
   contents: read
