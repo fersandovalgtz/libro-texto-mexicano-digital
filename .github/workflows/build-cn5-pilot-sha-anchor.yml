@@ -6,6 +6,9 @@ on:
       - 'scripts/build_cn5_pilot_sha_manifest.py'
       - 'data/book_inventory.csv'
       - 'data/derived/ocr_page_metrics.csv'
+      - 'data/catalog/cn5_pilot_sha/**'
+      - 'data/catalog/cn5_pilot_sha_manifest_summary.json'
+      - 'data/catalog/cn5_pilot_sha_provenance.json'
       - '.github/workflows/build-cn5-pilot-sha-anchor.yml'
   workflow_dispatch:
 
@@ -29,7 +32,8 @@ jobs:
         run: |
           python scripts/build_cn5_pilot_sha_manifest.py \
             --output local/ftrl/cn5_pilot_sha_manifest.csv \
-            --summary local/ftrl/cn5_pilot_sha_manifest_summary.json
+            --summary local/ftrl/cn5_pilot_sha_manifest_summary.json \
+            --split-output-dir local/ftrl/cn5_pilot_sha_split
 
       - name: Assert text-free provenance artifact
         run: |
@@ -54,6 +58,16 @@ jobs:
               assert forbidden not in raw
           print('CN5 pilot cryptographic anchor validated')
           PY
+
+      - name: Compare regenerated anchor with versioned manifests
+        run: |
+          test "$(find data/catalog/cn5_pilot_sha -maxdepth 1 -name '*.csv' | wc -l)" -eq 4
+          for committed in data/catalog/cn5_pilot_sha/*.csv; do
+            generated="local/ftrl/cn5_pilot_sha_split/$(basename "$committed")"
+            cmp "$committed" "$generated"
+          done
+          cmp data/catalog/cn5_pilot_sha_manifest_summary.json local/ftrl/cn5_pilot_sha_manifest_summary.json
+          echo 'Versioned CN5 anchor exactly matches regenerated source provenance'
 
       - name: Upload metadata and hashes only
         uses: actions/upload-artifact@v4
