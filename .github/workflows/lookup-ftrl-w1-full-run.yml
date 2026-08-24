@@ -1,0 +1,55 @@
+name: Lookup exhaustive FTRL W1 full run
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/research/ltmd_u1_w1_full_run_lookup_stamp.json'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+
+jobs:
+  lookup-w1-full-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Locate activated exhaustive W1 run and report to issue 15
+        uses: actions/github-script@v7
+        env:
+          TARGET_SHA: d3ad64f789570fb7a2b8557dcb0c69c7a2beca6d
+        with:
+          script: |
+            const targetSha = process.env.TARGET_SHA;
+            const {data} = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'validate-ftrl-w1-full.yml',
+              per_page: 30,
+            });
+            const matches = data.workflow_runs.filter(r => r.head_sha === targetSha);
+            if (matches.length !== 1) {
+              core.setFailed(`Expected exactly one exhaustive W1 run for ${targetSha}; found ${matches.length}`);
+              return;
+            }
+            const run = matches[0];
+            const body = [
+              '### FTRL W1 — lookup metadata-only de corrida integral exhaustiva',
+              '',
+              `- Workflow run: ${run.id}`,
+              `- Status: \`${run.status}\``,
+              `- Conclusion: \`${run.conclusion ?? 'pending'}\``,
+              `- Event: \`${run.event}\``,
+              `- Head SHA: \`${run.head_sha}\``,
+              `- Run URL: ${run.html_url}`,
+              '',
+              'Este lookup no ejecutó OCR ni modificó la cohorte; únicamente recuperó metadatos del run ya activado.'
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 15,
+              body,
+            });
