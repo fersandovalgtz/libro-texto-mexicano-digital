@@ -1,0 +1,72 @@
+name: Validate FTRL W3 preflight
+
+on:
+  pull_request:
+    paths:
+      - 'data/catalog/ltmd_u1_coverage.csv'
+      - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'data/catalog/ltmd_u1_w3_spanish_*.csv'
+      - 'scripts/preflight_ftrl_w3.py'
+      - 'scripts/build_ftrl_w3_inputs.py'
+      - 'docs/FTRL_W3_PREFLIGHT_PROTOCOL_0_1.md'
+      - '.github/workflows/validate-ftrl-w3-preflight.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'data/catalog/ltmd_u1_coverage.csv'
+      - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'data/catalog/ltmd_u1_w3_spanish_*.csv'
+      - 'scripts/preflight_ftrl_w3.py'
+      - 'scripts/build_ftrl_w3_inputs.py'
+      - 'docs/FTRL_W3_PREFLIGHT_PROTOCOL_0_1.md'
+      - '.github/workflows/validate-ftrl-w3-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight-w3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate W3 topology and cryptographic source anchors
+        run: python scripts/preflight_ftrl_w3.py --output local/ftrl/ltmd_u1_w3_preflight.json
+
+      - name: Build normalized W3 FTRL inputs
+        run: |
+          python scripts/build_ftrl_w3_inputs.py \
+            --asset-output local/ftrl/ltmd_u1_w3_asset_manifest.csv \
+            --processing-output local/ftrl/ltmd_u1_w3_processing_inventory.csv
+
+      - name: Assert normalized cardinalities and FTRL contract
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          p=json.loads(Path('local/ftrl/ltmd_u1_w3_preflight.json').read_text())
+          assert p['schema']=='LTMD_FTRL_W3_PREFLIGHT_0.1'
+          assert p['status']=='ready_for_ftrl_runtime_after_w1_gate'
+          assert p['historical_identities']==130
+          assert p['canonical_processing_objects']==114
+          assert p['alias_identities']==16
+          assert p['canonical_source_pages']==20765
+          assert p['documented_internal_source_gaps']==8
+          assert p['identity_level_active_retentions']==0
+          assert p['corpus_ready'] is False and p['semantic_ready'] is False
+          with open('local/ftrl/ltmd_u1_w3_processing_inventory.csv',encoding='utf-8',newline='') as fh: inv=list(csv.DictReader(fh))
+          with open('local/ftrl/ltmd_u1_w3_asset_manifest.csv',encoding='utf-8',newline='') as fh: pages=list(csv.DictReader(fh))
+          assert len(inv)==130
+          assert sum(int(r['is_canonical_processing_object']) for r in inv)==114
+          assert all(r['technical_identity_covered']=='1' for r in inv)
+          assert len(pages)==20765
+          assert all(int(r['byte_size'])>0 for r in pages)
+          PY
