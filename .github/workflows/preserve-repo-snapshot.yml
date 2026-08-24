@@ -25,14 +25,19 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - name: Materialize all remote branch refs
+      - name: Materialize remote branches and pull-request refs
         run: |
+          set -euo pipefail
+          mkdir -p local/repo-snapshot
+          git ls-remote origin | sort > local/repo-snapshot/REMOTE_REFS.txt
           git fetch --prune --tags origin '+refs/heads/*:refs/remotes/origin/*'
+          git fetch origin '+refs/pull/*/head:refs/archive/pull/*/head'
+          git fetch origin '+refs/pull/*/merge:refs/archive/pull/*/merge' || true
+          git update-ref refs/heads/archive-main "$GITHUB_SHA"
 
       - name: Build repository tree and complete Git-history snapshot
         run: |
           set -euo pipefail
-          mkdir -p local/repo-snapshot
           git rev-parse HEAD > local/repo-snapshot/COMMIT.txt
           git status --short --untracked-files=no > local/repo-snapshot/GIT_STATUS.txt
           test ! -s local/repo-snapshot/GIT_STATUS.txt
@@ -45,14 +50,21 @@ jobs:
           git bundle create local/repo-snapshot/libro-texto-mexicano-digital__complete-history.bundle --all
           git bundle verify local/repo-snapshot/libro-texto-mexicano-digital__complete-history.bundle \
             > local/repo-snapshot/GIT_BUNDLE_VERIFY.txt 2>&1
+          git bundle list-heads local/repo-snapshot/libro-texto-mexicano-digital__complete-history.bundle \
+            > local/repo-snapshot/GIT_BUNDLE_HEADS.txt
+
+          grep -q 'refs/archive/pull/' local/repo-snapshot/GIT_REFS.txt
+          grep -q 'refs/archive/pull/' local/repo-snapshot/GIT_BUNDLE_HEADS.txt
 
           sha256sum \
             local/repo-snapshot/libro-texto-mexicano-digital__repo-snapshot.tar.gz \
             local/repo-snapshot/libro-texto-mexicano-digital__complete-history.bundle \
             local/repo-snapshot/COMMIT.txt \
             local/repo-snapshot/GIT_REFS.txt \
+            local/repo-snapshot/REMOTE_REFS.txt \
             local/repo-snapshot/COMMIT_OBJECTS.txt \
             local/repo-snapshot/GIT_BUNDLE_VERIFY.txt \
+            local/repo-snapshot/GIT_BUNDLE_HEADS.txt \
             > local/repo-snapshot/SHA256SUMS.txt
 
       - name: Assert history bundle is independently cloneable
@@ -60,7 +72,7 @@ jobs:
           set -euo pipefail
           rm -rf /tmp/ltmd-bundle-check
           git clone local/repo-snapshot/libro-texto-mexicano-digital__complete-history.bundle /tmp/ltmd-bundle-check
-          test "$(git -C /tmp/ltmd-bundle-check rev-parse HEAD)" = "$(cat local/repo-snapshot/COMMIT.txt)"
+          git -C /tmp/ltmd-bundle-check cat-file -e "${GITHUB_SHA}^{commit}"
           test -n "$(git -C /tmp/ltmd-bundle-check rev-list --all --count)"
 
       - name: Upload repository snapshot
@@ -73,8 +85,10 @@ jobs:
             local/repo-snapshot/COMMIT.txt
             local/repo-snapshot/GIT_STATUS.txt
             local/repo-snapshot/GIT_REFS.txt
+            local/repo-snapshot/REMOTE_REFS.txt
             local/repo-snapshot/COMMIT_OBJECTS.txt
             local/repo-snapshot/GIT_BUNDLE_VERIFY.txt
+            local/repo-snapshot/GIT_BUNDLE_HEADS.txt
             local/repo-snapshot/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 2

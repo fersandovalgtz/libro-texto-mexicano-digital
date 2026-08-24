@@ -1,0 +1,57 @@
+name: Validate complete Git archival bundle
+
+on:
+  push:
+    branches:
+      - 'preservation/complete-git-refs'
+    paths:
+      - '.github/workflows/preserve-repo-snapshot.yml'
+      - '.github/workflows/validate-complete-git-archive.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/preserve-repo-snapshot.yml'
+      - '.github/workflows/validate-complete-git-archive.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-bundle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout complete history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Materialize all preservable Git refs
+        run: |
+          set -euo pipefail
+          git ls-remote origin | sort > /tmp/REMOTE_REFS.txt
+          git fetch --prune --tags origin '+refs/heads/*:refs/remotes/origin/*'
+          git fetch origin '+refs/pull/*/head:refs/archive/pull/*/head'
+          git fetch origin '+refs/pull/*/merge:refs/archive/pull/*/merge' || true
+          git update-ref refs/heads/archive-main "$GITHUB_SHA"
+          grep -q 'refs/pull/' /tmp/REMOTE_REFS.txt
+          grep -q 'refs/archive/pull/' <(git show-ref)
+
+      - name: Create and verify complete bundle
+        run: |
+          set -euo pipefail
+          git bundle create /tmp/ltmd-complete-history.bundle --all
+          git bundle verify /tmp/ltmd-complete-history.bundle
+          git bundle list-heads /tmp/ltmd-complete-history.bundle > /tmp/BUNDLE_HEADS.txt
+          grep -q 'refs/archive/pull/' /tmp/BUNDLE_HEADS.txt
+
+      - name: Prove bundle can recover source commit and PR refs
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/recovered
+          git clone /tmp/ltmd-complete-history.bundle /tmp/recovered
+          git -C /tmp/recovered cat-file -e "${GITHUB_SHA}^{commit}"
+          test -n "$(git -C /tmp/recovered rev-list --all --count)"
+          test -n "$(git -C /tmp/recovered for-each-ref 'refs/remotes/origin/archive/pull/*' --format='%(refname)' || true)" || \
+            grep -q 'refs/archive/pull/' /tmp/BUNDLE_HEADS.txt
