@@ -24,6 +24,7 @@ PILOT_BOOKS = {
     "LTMD-CN5-G1993",
     "LTMD-CN5-G2014",
 }
+COMPACT_FIELDS = ("viewer_page", "source_image_index", "byte_size", "sha256")
 FIELDS = (
     "manifest_version",
     "page_id",
@@ -122,13 +123,21 @@ def write_manifest(path: Path, rows: list[dict[str, object]]) -> None:
         writer.writerows(rows)
 
 
+def write_compact_anchor(path: Path, rows: list[dict[str, object]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="") as fh:
+        writer = csv.DictWriter(fh, fieldnames=COMPACT_FIELDS)
+        writer.writeheader()
+        writer.writerows({key: row[key] for key in COMPACT_FIELDS} for row in rows)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--inventory", default="data/book_inventory.csv")
     ap.add_argument("--ocr-metrics", default="data/derived/ocr_page_metrics.csv")
     ap.add_argument("--output", default="local/ftrl/cn5_pilot_sha_manifest.csv")
     ap.add_argument("--summary", default="local/ftrl/cn5_pilot_sha_manifest_summary.json")
-    ap.add_argument("--split-output-dir", default=None)
+    ap.add_argument("--compact-output-dir", default=None)
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--timeout", type=int, default=30)
     ap.add_argument("--retries", type=int, default=4)
@@ -168,12 +177,12 @@ def main() -> None:
 
     write_manifest(Path(args.output), results)
 
-    if args.split_output_dir:
-        split_dir = Path(args.split_output_dir)
-        split_dir.mkdir(parents=True, exist_ok=True)
+    if args.compact_output_dir:
+        compact_dir = Path(args.compact_output_dir)
+        compact_dir.mkdir(parents=True, exist_ok=True)
         for bid in sorted(PILOT_BOOKS):
             rows = [r for r in results if r["book_id"] == bid]
-            write_manifest(split_dir / f"{bid}.csv", rows)
+            write_compact_anchor(compact_dir / f"{bid}.csv", rows)
 
     by_book: dict[str, dict[str, int]] = {}
     for bid in sorted(PILOT_BOOKS):
