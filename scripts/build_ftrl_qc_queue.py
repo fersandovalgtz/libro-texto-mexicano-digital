@@ -103,26 +103,26 @@ def safe_number(value):
     return number
 
 
-def summarize(records: list[dict], queue: list[dict], thresholds: dict) -> dict:
+def summarize(queue: list[dict], thresholds: dict) -> dict:
     flags = Counter()
     by_generation = defaultdict(Counter)
     by_grade = defaultdict(Counter)
     by_viewer = defaultdict(Counter)
     confidences: list[float] = []
 
-    for source, diagnostic in zip(records, queue):
-        confidence = safe_number(source.get("ocr_confidence_mean"))
+    for diagnostic in queue:
+        confidence = safe_number(diagnostic.get("ocr_confidence_mean"))
         if confidence is not None:
             confidences.append(confidence)
         for flag in diagnostic["flags"]:
             flags[flag] += 1
-            by_generation[str(source["catalog_generation"])][flag] += 1
-            by_grade[str(source["grade_code"])][flag] += 1
-            by_viewer[str(source["canonical_viewer_key"])][flag] += 1
+            by_generation[str(diagnostic["catalog_generation"])][flag] += 1
+            by_grade[str(diagnostic["grade_code"])][flag] += 1
+            by_viewer[str(diagnostic["canonical_viewer_key"])][flag] += 1
 
     confidence_summary = {
         "observed_pages": len(confidences),
-        "missing_pages": len(records) - len(confidences),
+        "missing_pages": len(queue) - len(confidences),
         "minimum": min(confidences) if confidences else None,
         "median": statistics.median(confidences) if confidences else None,
         "mean": statistics.fmean(confidences) if confidences else None,
@@ -133,7 +133,7 @@ def summarize(records: list[dict], queue: list[dict], thresholds: dict) -> dict:
         "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "rights_note": "Text-free OCR quality-control summary; contains no OCR or search text.",
         "thresholds": thresholds,
-        "page_records": len(records),
+        "page_records": len(queue),
         "pages_flagged": sum(1 for item in queue if item["flags"]),
         "pages_unflagged": sum(1 for item in queue if not item["flags"]),
         "flag_counts": dict(sorted(flags.items())),
@@ -219,7 +219,7 @@ def main() -> None:
         "critical_confidence_below": args.critical_confidence,
         "very_short_text_below_chars": args.short_chars,
     }
-    summary = summarize(records, queue, thresholds)
+    summary = summarize(queue, thresholds)
 
     queue_payload = {
         "schema_version": VERSION,
