@@ -47,20 +47,29 @@ python scripts/run_ftrl_query_protocol.py \
   --db local/ftrl/ltmd_u1_w5_full_ocr_search.sqlite \
   --protocol data/research/ltmd_ftrl_w5_preregistered_queries.csv \
   --output local/ftrl/ltmd_u1_w5_query_candidates.json \
-  --summary-output local/ftrl/ltmd_u1_w5_query_summary.json
+  --summary-output local/ftrl/ltmd_u1_w5_query_summary.json \
+  --locator-output local/ftrl/ltmd_u1_w5_query_locators.json
 ```
 
-El orquestador puede ejecutar el mismo protocolo como paso opcional:
+La ruta recomendada para W5 completo es el orquestador paralelo:
+
+```bash
+python scripts/run_ftrl_w5_parallel.py \
+  --workers 4 \
+  --run-preregistered-queries
+```
+
+El orquestador paralelo sólo permite ejecutar el protocolo preregistrado cuando están presentes los **15 objetos canónicos completos**. Una selección parcial o `--max-pages-per-viewer` aborta si se solicita `--run-preregistered-queries`, evitando presentar resultados truncados como prueba historiográfica.
+
+El orquestador serial heredado también conserva la opción:
 
 ```bash
 python scripts/run_ftrl_w5_pilot.py --full --run-preregistered-queries
 ```
 
-La opción se prohíbe en el piloto truncado de 10 páginas para evitar presentar resultados parciales como prueba historiográfica.
+## Tres salidas distintas
 
-## Dos salidas distintas
-
-### Candidatos locales
+### Candidatos locales con snippets
 
 `--output` contiene:
 
@@ -73,9 +82,9 @@ La opción se prohíbe en el piloto truncado de 10 páginas para evitar presenta
 - confianza OCR;
 - snippet FTS y ranking BM25.
 
-Esta salida puede contener OCR textual y permanece bajo `local/` por defecto.
+Esta salida puede contener OCR textual y permanece bajo `local/` por defecto. No debe versionarse ni transferirse como artefacto público sin una evaluación de derechos separada.
 
-### Resumen sin texto
+### Resumen agregado sin texto
 
 `--summary-output` contiene únicamente:
 
@@ -89,6 +98,20 @@ Esta salida puede contener OCR textual y permanece bajo `local/` por defecto.
 
 El resumen está diseñado para poder promoverse posteriormente como evidencia pública derivada, sujeto a la política de publicación vigente.
 
+### Localizadores verificables sin texto
+
+`--locator-output` conserva, por cada candidato materializado:
+
+- `query_id`;
+- `page_id` y objeto canónico;
+- identidades históricas relacionadas;
+- generación, grado e índices de página;
+- URL fuente y SHA-256 del activo;
+- SHA-256 del OCR local;
+- confianza OCR y ranking BM25.
+
+No contiene la expresión textual de la consulta ni snippets OCR. Su función es hacer posible la **verificación visual posterior contra la fuente** sin publicar el corpus reconocido. El archivo conserva además `protocol_sha256`, por lo que cada `query_id` puede vincularse con el protocolo congelado exacto.
+
 ## Reglas de análisis
 
 1. Un mismo contenido OCR puede representar más de una identidad histórica demostrada; por ello no se mezclan `hit_pages`, objetos canónicos e identidades.
@@ -97,6 +120,7 @@ El resumen está diseñado para poder promoverse posteriormente como evidencia p
 4. Un hit irrelevante se conserva como falso positivo metodológico, no se borra del registro de auditoría.
 5. Un cero se reporta como `zero hits under this protocol and technical coverage`, no como ausencia histórica demostrada.
 6. Cualquier nueva variante añadida después de observar resultados debe registrarse como **post hoc** y ejecutarse por separado del protocolo 0.1.
+7. El archivo de localizadores puede orientar la auditoría, pero nunca sustituye la inspección de la imagen fuente.
 
 ## Criterio para pasar a análisis histórico
 
