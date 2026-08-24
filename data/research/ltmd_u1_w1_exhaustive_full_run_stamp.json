@@ -1,0 +1,21 @@
+{
+  "schema": "LTMD_FTRL_W1_EXHAUSTIVE_FULL_ACTIVATION_0.1",
+  "wave": "W1",
+  "domain": "Ciencias Naturales",
+  "activation_date": "2026-08-24",
+  "protocol": "docs/FTRL_W1_FULL_EXECUTION_PROTOCOL_0_2.md",
+  "prepared_by_commit": "926733a9141f4821ce3b101ec25391104d2b26ed",
+  "execution_scope": "exhaustive source-admitted canonical cohort",
+  "expected": {
+    "historical_identities": 40,
+    "canonical_processing_objects": 36,
+    "byte_identical_aliases": 4,
+    "source_admitted_jpegs": 6516,
+    "internal_unserved_positions": 3,
+    "terminal_synthetic_positions": 34
+  },
+  "workers": 2,
+  "publication_policy": "text-free evidence only",
+  "interpretive_limit": "Technical corpus/index validation only; success does not imply text_verified or semantic_ready.",
+  "supersedes_for_exhaustive_execution": "data/research/ltmd_u1_w1_full_run_stamp.json"
+}
