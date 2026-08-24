@@ -1,0 +1,32 @@
+{
+  "schema": "LTMD_CN5_PILOT_SHA_ANCHOR_0.1",
+  "manifest_version": "CN5_PILOT_SHA_MANIFEST_0.1",
+  "status": "validated",
+  "books": 4,
+  "source_jpegs": 759,
+  "prior_ocr_metric_byte_matches": 759,
+  "source_byte_drift": 0,
+  "by_book": {
+    "LTMD-CN5-G1972": {
+      "source_jpegs": 258,
+      "unique_source_hashes": 258,
+      "total_source_bytes": 17881688
+    },
+    "LTMD-CN5-G1988": {
+      "source_jpegs": 162,
+      "unique_source_hashes": 162,
+      "total_source_bytes": 9374628
+    },
+    "LTMD-CN5-G1993": {
+      "source_jpegs": 178,
+      "unique_source_hashes": 178,
+      "total_source_bytes": 14113865
+    },
+    "LTMD-CN5-G2014": {
+      "source_jpegs": 161,
+      "unique_source_hashes": 161,
+      "total_source_bytes": 76092376
+    }
+  },
+  "publication_scope": "metadata_and_hashes_only_no_source_bytes_no_ocr_text"
+}
