@@ -1,11 +1,14 @@
-name: Validate FTRL W1 preflight
+name: Validate exhaustive FTRL W1 preflight
 
 on:
   pull_request:
     paths:
+      - 'scripts/build_ftrl_w1_inputs.py'
       - 'scripts/preflight_ftrl_w1.py'
+      - 'data/catalog/ltmd_u1_coverage.csv'
       - 'data/catalog/ciencias_naturales_family_asset_readiness.csv'
       - 'data/catalog/ciencias_naturales_pending_page_manifest_summary.csv'
+      - 'data/catalog/ltmd_u1_w1_1966_page_manifest_summary.csv'
       - 'data/expansion/cn46_page_manifest_summary.csv'
       - 'data/book_inventory.csv'
       - 'data/derived/ocr_page_metrics.csv'
@@ -31,24 +34,28 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Reconcile W1 documentary layers
+      - name: Reconcile exhaustive W1 documentary layers
         run: |
           python scripts/preflight_ftrl_w1.py --output local/ftrl/ltmd_u1_w1_preflight.json
 
-      - name: Assert text-free ready state and exact cardinalities
+      - name: Assert text-free ready state and exact exhaustive cardinalities
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
           p = Path('local/ftrl/ltmd_u1_w1_preflight.json')
           d = json.loads(p.read_text(encoding='utf-8'))
-          assert d['schema'] == 'LTMD_FTRL_W1_PREFLIGHT_0.2'
+          assert d['schema'] == 'LTMD_FTRL_W1_PREFLIGHT_0.3'
           assert d['wave'] == 'W1'
-          assert d['historical_identities'] == 37
-          assert d['canonical_processing_objects'] == 33
+          assert d['historical_identities'] == 40
+          assert d['canonical_processing_objects'] == 36
           assert d['byte_identical_aliases'] == 4
-          assert d['source_admitted_jpegs'] == 5926
+          assert d['source_admitted_jpegs'] == 6516
           assert d['internal_unserved_positions'] == 3
+          assert d['terminal_synthetic_positions'] == 34
+          assert d['legacy_family_readiness_identities'] == 37
+          assert d['supplemental_historical_identities'] == 3
+          assert d['cn46_objects_outside_w1_readiness'] == []
           assert d['status'] == 'ready'
           assert d['pilot_sha256_objects'] == 4
           assert d['pilot_sha256_pages'] == 759
@@ -59,10 +66,10 @@ jobs:
           raw = p.read_text(encoding='utf-8').lower()
           for forbidden in ('ocr_text_raw', 'search_text', 'snippet'):
               assert forbidden not in raw
-          print('W1 cryptographic readiness validated')
+          print('Exhaustive W1 cryptographic readiness validated')
           PY
 
-      - name: Prove positive cryptographic-ready gate
+      - name: Prove positive exhaustive cryptographic-ready gate
         run: |
           python scripts/preflight_ftrl_w1.py --require-cryptographic-ready \
             --output local/ftrl/ltmd_u1_w1_gate.json
@@ -93,7 +100,7 @@ jobs:
       - name: Upload text-free preflight evidence
         uses: actions/upload-artifact@v4
         with:
-          name: ltmd-u1-w1-preflight-text-free
+          name: ltmd-u1-w1-exhaustive-preflight-text-free
           path: |
             local/ftrl/ltmd_u1_w1_preflight.json
             local/ftrl/ltmd_u1_w1_gate.json
