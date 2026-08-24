@@ -1,12 +1,12 @@
 {
   "schema": "LTMD_REPO_SNAPSHOT_DRIVE_0.1",
   "effective_date": "2026-08-24",
-  "snapshot_sequence": 2,
+  "snapshot_sequence": 3,
   "source_branch": "main",
-  "source_commit_expected_before_trigger": "e215bd28d46022b3432e05fe6c7609a5c0e48f8b",
+  "source_commit_expected_before_trigger": "acebb0d5d88ddf37119e64a68fa8fc103d79b957",
   "destination": "private_google_drive",
   "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/01_REPO_SNAPSHOTS",
   "include": "versioned repository tree excluding .git and private/local/raw workspaces",
   "required_outputs": ["repository_tar_gz", "commit_sha", "git_status", "sha256sums"],
-  "reason": "Refresh the private Drive backup after adding the exhaustive 542/542 FTRL completion ledger and its validation gate."
+  "reason": "Refresh the private Drive backup after merging the exhaustive W3 Español/Lengua FTRL preflight and normalized input contract."
 }
