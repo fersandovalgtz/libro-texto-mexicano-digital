@@ -7,6 +7,8 @@ on:
       - 'scripts/audit_ftrl_w1_exhaustive_denominator.py'
       - 'data/catalog/ltmd_u1_coverage.csv'
       - 'data/catalog/ciencias_naturales_family_asset_readiness.csv'
+      - 'data/catalog/ltmd_u1_w1_1966_page_manifest_summary.csv'
+      - 'data/expansion/cn46_page_manifest_summary.csv'
       - 'data/catalog/ltmd_u1_retained_source_register.csv'
       - '.github/workflows/audit-ftrl-w1-exhaustive-denominator.yml'
   workflow_dispatch:
@@ -27,5 +29,5 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Compare W1 master denominator with FTRL readiness
+      - name: Compare W1 master denominator with explicit FTRL dispositions
         run: python scripts/audit_ftrl_w1_exhaustive_denominator.py
