@@ -1,0 +1,3 @@
+query_id,expression,regex,variant_group,primary_term,control_term,interpretive_scope,verification_rule,absence_rule
+W5-MASONERIA,masoneria,,,masoneria,,retrieval,"Every candidate page must be checked against the source image before use as evidence.","Zero OCR/FTS hits are not evidence of historical absence; inspect coverage, OCR quality, variants, and source pages before making an absence claim."
+W5-MASONERIA-VARIANTS,"mason|masoneria|masonica|masonico|francmason",1,masoneria,masoneria,,retrieval_control,"Use only to diagnose OCR/orthographic sensitivity around the preregistered primary term. Inspect all candidates against source images.","Variant hits may expand manual review but do not replace the primary query or justify an absence claim."
