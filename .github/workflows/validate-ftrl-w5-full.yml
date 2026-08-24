@@ -14,6 +14,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 concurrency:
   group: ftrl-w5-full
@@ -26,6 +27,12 @@ jobs:
     steps:
       - name: Checkout exact revision
         uses: actions/checkout@v4
+
+      - name: Announce observable W5 run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment 15 --repo "$GITHUB_REPOSITORY" --body "FTRL W5 integral — corrida ${GITHUB_RUN_ID} iniciada sobre commit ${GITHUB_SHA}. Alcance preregistrado: 15 objetos canónicos, 18 identidades históricas y 2,443 páginas fuente admitidas. Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -149,3 +156,39 @@ jobs:
             local/ftrl/ltmd_u1_w5_query_summary.json
           if-no-files-found: error
           retention-days: 30
+
+      - name: Report validated W5 result to issue 15
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          manifest = json.loads(Path('local/ftrl/ltmd_u1_w5_full_run_manifest.json').read_text(encoding='utf-8'))
+          summary = json.loads(Path('local/ftrl/ltmd_u1_w5_query_summary.json').read_text(encoding='utf-8'))
+          c = manifest['corpus']
+          d = manifest['database']
+          run_id = os.environ['GITHUB_RUN_ID']
+          repo = os.environ['GITHUB_REPOSITORY']
+          body = (
+              f"FTRL W5 integral — corrida {run_id} VALIDADA. "
+              f"Páginas: {c['page_records']}/2443; objetos canónicos: {c['canonical_viewers']}/15; "
+              f"identidades históricas: {d['historical_identities']}/18; SQLite: {d['sqlite_integrity']}; "
+              f"páginas con search_text vacío: {c['zero_search_text_pages']}; "
+              f"consultas preregistradas ejecutadas: {len(summary['queries'])}. "
+              f"Los artefactos públicos contienen sólo evidencia agregada sin OCR ni snippets. "
+              f"Run: https://github.com/{repo}/actions/runs/{run_id}"
+          )
+          Path('local/ftrl/issue15-success.txt').write_text(body, encoding='utf-8')
+          PY
+          gh issue comment 15 --repo "$GITHUB_REPOSITORY" --body-file local/ftrl/issue15-success.txt
+
+      - name: Report failed W5 result to issue 15
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment 15 --repo "$GITHUB_REPOSITORY" --body "FTRL W5 integral — corrida ${GITHUB_RUN_ID} FALLÓ antes de validar el corpus completo. No se declara W5 completo. Revisar logs y conservar el estado como diagnóstico técnico. Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
