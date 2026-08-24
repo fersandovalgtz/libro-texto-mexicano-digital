@@ -117,7 +117,7 @@ def main() -> None:
         "Google Drive",
         "Notion",
         "chat",
-        "Actions artifacts",
+        "artefactos de GitHub Actions",
     ):
         assert phrase in total_text, phrase
 
