@@ -10,6 +10,7 @@ on:
       - 'scripts/validate_ocr_corpus.py'
       - 'scripts/summarize_ftrl_run.py'
       - 'scripts/run_ftrl_w5_pilot.py'
+      - 'schemas/ltmd_ftrl_run_manifest.schema.json'
       - 'data/catalog/ltmd_u1_w5_history_asset_manifest.csv'
       - 'data/catalog/ltmd_u1_w5_history_processing_inventory.csv'
   workflow_dispatch:
@@ -59,6 +60,15 @@ jobs:
           assert row['database']['sqlite_integrity'] == 'ok'
           assert row['corpus']['waves'] == ['W5']
           assert row['corpus']['source_byte_size_missing_pages'] == 0
+          vcs = row['execution']['vcs']
+          ci = row['execution']['ci']
+          assert vcs['system'] == 'git'
+          assert len(vcs['commit']) == 40
+          assert vcs['dirty_tracked_worktree'] is False
+          assert ci['provider'] == 'github-actions'
+          assert ci['repository'] == 'fersandovalgtz/libro-texto-mexicano-digital'
+          assert ci['run_id']
+          assert ci['sha'] == vcs['commit']
           print(json.dumps({
               'status': row['status'],
               'page_records': row['corpus']['page_records'],
@@ -69,6 +79,9 @@ jobs:
               'ocr_confidence': row['corpus']['ocr_confidence'],
               'historical_identities': row['database']['historical_identities'],
               'sqlite_integrity': row['database']['sqlite_integrity'],
+              'git_commit': vcs['commit'],
+              'git_ref': vcs['ref'],
+              'ci_run_id': ci['run_id'],
           }, ensure_ascii=False, sort_keys=True))
           PY
 
