@@ -1,0 +1,54 @@
+{
+  "schema": "LTMD_PRIVATE_CORPUS_STORAGE_0.1",
+  "effective_date": "2026-08-24",
+  "canonical_document": "docs/LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md",
+  "public_repository_policy": {
+    "full_ocr_allowed": false,
+    "sqlite_allowed": false,
+    "detailed_qc_allowed": false,
+    "private_drive_ids_allowed": false,
+    "private_keys_allowed": false,
+    "text_free_evidence_allowed": true,
+    "archive_public_key": "security/ltmd_archive_public.pem"
+  },
+  "persistent_private_storage": {
+    "provider": "google_drive",
+    "visibility": "private_owner_controlled",
+    "logical_root": "LTMD-U1 — corpus FTRL privado",
+    "run_folder_pattern": "run_<run_id>__<short_commit>__<YYYY-MM-DD>",
+    "required_sections": [
+      "01_OCR_por_pagina",
+      "02_SQLite_FTS5",
+      "03_QC_detallado",
+      "04_Manifiestos_y_procedencia",
+      "05_Checksums_y_evidencia"
+    ]
+  },
+  "required_products_when_present": [
+    "page_ocr_jsonl",
+    "sqlite_fts5",
+    "detailed_qc_queue",
+    "normalized_asset_manifest",
+    "processing_inventory",
+    "text_free_run_manifest",
+    "text_free_qc_summary",
+    "sha256_checksums"
+  ],
+  "states": {
+    "computationally_validated": "all technical FTRL gates passed",
+    "archival_complete": "restricted products copied to private Drive and checksums verified"
+  },
+  "invariants": {
+    "computational_validation_does_not_imply_archival_completion": true,
+    "archival_completion_requires_private_persistent_copy": true,
+    "encrypted_actions_artifact_is_temporary_handoff_only": true,
+    "plaintext_restricted_outputs_must_not_be_uploaded_to_public_actions": true,
+    "drive_copy_must_be_bound_to_run_id_and_commit": true,
+    "private_key_must_never_enter_public_repository": true,
+    "prior_validated_runs_without_persistent_copy_are_archival_debt": true
+  },
+  "retroactive_scope": [
+    "W5 Historia full validated run",
+    "W1 Ciencias Naturales exhaustive full run"
+  ]
+}

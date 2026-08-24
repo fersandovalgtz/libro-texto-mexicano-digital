@@ -1,0 +1,156 @@
+name: Preserve exhaustive FTRL W1 private corpus
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/research/ltmd_u1_w1_private_preservation_stamp.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preserve-ftrl-w1-private
+  cancel-in-progress: false
+
+jobs:
+  preserve-w1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Spanish Tesseract data
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+          tesseract --list-langs | grep -Fx spa
+
+      - name: Validate private preservation canon
+        run: python scripts/validate_private_corpus_storage_contract.py
+
+      - name: Reconstruct complete exhaustive W1 FTRL
+        run: |
+          python scripts/run_ftrl_w1.py \
+            --full \
+            --workers 2 \
+            --output-dir local/ftrl
+
+      - name: Assert validated exhaustive corpus before archiving
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path('local/ftrl/ltmd_u1_w1_full_run_manifest.json').read_text(encoding='utf-8'))
+          qc = json.loads(Path('local/ftrl/ltmd_u1_w1_full_qc_summary.json').read_text(encoding='utf-8'))
+          preflight = json.loads(Path('local/ftrl/ltmd_u1_w1_preflight.json').read_text(encoding='utf-8'))
+          assert preflight['schema'] == 'LTMD_FTRL_W1_PREFLIGHT_0.3'
+          assert preflight['status'] == 'ready'
+          assert preflight['historical_identities'] == 40
+          assert preflight['canonical_processing_objects'] == 36
+          assert preflight['source_admitted_jpegs'] == 6516
+          assert manifest['status'] == 'validated'
+          assert manifest['corpus']['page_records'] == 6516
+          assert manifest['database']['page_rows'] == 6516
+          assert manifest['database']['fts_rows'] == 6516
+          assert manifest['database']['sqlite_integrity'] == 'ok'
+          assert qc['page_records'] == 6516
+          PY
+
+      - name: Build restricted archive locally
+        run: |
+          mkdir -p local/private-handoff
+          tar -C local/ftrl -czf local/private-handoff/ltmd_u1_w1_full_restricted.tar.gz \
+            ltmd_u1_w1_full_page_ocr.jsonl \
+            ltmd_u1_w1_full_ocr_search.sqlite \
+            ltmd_u1_w1_full_qc_queue.json \
+            ltmd_u1_w1_asset_manifest.csv \
+            ltmd_u1_w1_processing_inventory.csv \
+            ltmd_u1_w1_preflight.json \
+            ltmd_u1_w1_full_run_manifest.json \
+            ltmd_u1_w1_full_qc_summary.json
+
+      - name: Encrypt restricted archive for private Drive handoff
+        run: |
+          openssl rand -base64 48 > /tmp/ltmd_archive.pass
+          openssl enc -aes-256-cbc -salt -pbkdf2 -iter 250000 \
+            -in local/private-handoff/ltmd_u1_w1_full_restricted.tar.gz \
+            -out local/private-handoff/ltmd_u1_w1_full_restricted.tar.gz.enc \
+            -pass file:/tmp/ltmd_archive.pass
+          openssl pkeyutl -encrypt \
+            -pubin \
+            -inkey security/ltmd_archive_public.pem \
+            -in /tmp/ltmd_archive.pass \
+            -out local/private-handoff/ltmd_u1_w1_archive_passphrase.rsa-oaep.enc \
+            -pkeyopt rsa_padding_mode:oaep \
+            -pkeyopt rsa_oaep_md:sha256
+          sha256sum \
+            local/private-handoff/ltmd_u1_w1_full_restricted.tar.gz.enc \
+            local/private-handoff/ltmd_u1_w1_archive_passphrase.rsa-oaep.enc \
+            > local/private-handoff/SHA256SUMS.txt
+          rm -f local/private-handoff/ltmd_u1_w1_full_restricted.tar.gz /tmp/ltmd_archive.pass
+
+      - name: Write text-free private handoff manifest
+        env:
+          GH_RUN_ID: ${{ github.run_id }}
+          GH_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          root = Path('local/private-handoff')
+          def digest(name):
+              p = root / name
+              return {'name': name, 'bytes': p.stat().st_size, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()}
+          out = {
+              'schema': 'LTMD_PRIVATE_FTRL_HANDOFF_0.1',
+              'wave': 'W1',
+              'domain': 'Ciencias Naturales',
+              'historical_identities': 40,
+              'canonical_processing_objects': 36,
+              'page_records': 6516,
+              'source_commit': os.environ['GH_SHA'],
+              'workflow_run_id': os.environ['GH_RUN_ID'],
+              'encryption': {
+                  'payload': 'AES-256-CBC + PBKDF2-SHA256, 250000 iterations',
+                  'key_wrap': 'RSA-4096 OAEP SHA-256',
+                  'public_key_sha256': '78852eafbaa332247f99e23508ac157b5b906c6c3bf3aeb0af1dfe8d57579c2d'
+              },
+              'files': [
+                  digest('ltmd_u1_w1_full_restricted.tar.gz.enc'),
+                  digest('ltmd_u1_w1_archive_passphrase.rsa-oaep.enc'),
+                  digest('SHA256SUMS.txt'),
+              ],
+              'destination_policy': 'private Google Drive; encrypted Actions artifact is temporary handoff only',
+              'archival_complete': False
+          }
+          (root / 'ltmd_u1_w1_private_handoff_manifest.json').write_text(json.dumps(out, indent=2) + '\n', encoding='utf-8')
+          PY
+
+      - name: Prove no plaintext restricted archive is uploaded
+        run: |
+          test ! -f local/private-handoff/ltmd_u1_w1_full_restricted.tar.gz
+          test ! -f /tmp/ltmd_archive.pass
+          test -f local/private-handoff/ltmd_u1_w1_full_restricted.tar.gz.enc
+          test -f local/private-handoff/ltmd_u1_w1_archive_passphrase.rsa-oaep.enc
+          grep -q 'BEGIN PUBLIC KEY' security/ltmd_archive_public.pem
+          ! grep -R --exclude='*.enc' --exclude='*.sqlite' --exclude='*.jsonl' 'BEGIN PRIVATE KEY' .
+
+      - name: Upload encrypted private handoff only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w1-private-encrypted-handoff
+          path: |
+            local/private-handoff/ltmd_u1_w1_full_restricted.tar.gz.enc
+            local/private-handoff/ltmd_u1_w1_archive_passphrase.rsa-oaep.enc
+            local/private-handoff/SHA256SUMS.txt
+            local/private-handoff/ltmd_u1_w1_private_handoff_manifest.json
+          if-no-files-found: error
+          retention-days: 2
