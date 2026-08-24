@@ -153,4 +153,19 @@ A partir de esta versión:
 - cada nueva ola FTRL debe heredar este contrato;
 - cualquier cambio futuro del universo requiere una versión U2 o una revisión explícita del snapshot, nunca una modificación silenciosa de U1.
 
-Este protocolo es la autoridad para interpretar el alcance exhaustivo de FTRL-U1.
+## 12. Preservación persistente de productos restringidos
+
+La ejecución exhaustiva y la preservación son obligaciones separadas y acumulativas. Los productos completos restringidos de FTRL —incluidos OCR por página, SQLite/FTS5 y QC detallado— no deben quedar únicamente en almacenamiento efímero después de una corrida integral.
+
+A partir del 24 de agosto de 2026, toda corrida integral queda sujeta además a [`LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md`](LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md) y a `data/research/ltmd_private_corpus_storage_contract.json`.
+
+La bóveda persistente canónica es un espacio privado de Google Drive bajo control del responsable del proyecto. El repositorio público no conserva identificadores, enlaces privados, credenciales ni claves privadas de esa bóveda.
+
+Se distinguen expresamente:
+
+- `computationally_validated`: la corrida pasó los gates técnicos FTRL;
+- `archival_complete`: los productos restringidos fueron copiados a la bóveda privada y sus checksums fueron verificados.
+
+Por tanto, `computationally_validated != archival_complete`. La deuda de preservación de corridas anteriores debe resolverse retroactivamente.
+
+Este protocolo es la autoridad para interpretar el alcance exhaustivo de FTRL-U1; el canon de preservación privada es la autoridad complementaria para la custodia persistente de sus productos completos.
