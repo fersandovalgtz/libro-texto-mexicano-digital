@@ -1,0 +1,95 @@
+{
+  "corpus": {
+    "canonical_viewers": 1,
+    "catalog_generations": [
+      1993
+    ],
+    "grade_codes": [
+      4
+    ],
+    "ocr_characters_total": 16252,
+    "ocr_confidence": {
+      "maximum": 93.864448,
+      "mean": 86.162176,
+      "median": 88.298368,
+      "minimum": 64.661886,
+      "missing_pages": 1,
+      "observed_pages": 9
+    },
+    "ocr_engine_versions": [
+      "tesseract 5.3.4"
+    ],
+    "ocr_languages": [
+      "spa"
+    ],
+    "ocr_psm_values": [
+      3
+    ],
+    "ocr_words_total": 2778,
+    "page_records": 10,
+    "pages_by_generation": {
+      "1993": 10
+    },
+    "pages_by_grade": {
+      "4": 10
+    },
+    "pipeline_versions": [
+      "LTMD_FTRL_OCR_0.1"
+    ],
+    "record_generated_at_max": "2026-08-24T01:29:56+00:00",
+    "record_generated_at_min": "2026-08-24T01:29:56+00:00",
+    "schema_versions": [
+      "LTMD_PAGE_OCR_0.1"
+    ],
+    "source_byte_size_missing_pages": 0,
+    "source_bytes_total_known": 756556,
+    "waves": [
+      "W5"
+    ],
+    "zero_search_text_pages": 1
+  },
+  "database": {
+    "fts_rows": 10,
+    "historical_identities": 1,
+    "index_metadata": {
+      "index_version": "LTMD_FTRL_INDEX_0.1",
+      "page_count": "10",
+      "source_jsonl": "local/ftrl/ltmd_u1_w5_pilot_10_page_ocr.jsonl"
+    },
+    "page_rows": 10,
+    "sqlite_integrity": "ok"
+  },
+  "environment": {
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "python_implementation": "CPython",
+    "python_version": "3.12.14",
+    "sqlite_version": "3.45.1"
+  },
+  "files": {
+    "asset_manifest": {
+      "byte_size": 855485,
+      "path": "data/catalog/ltmd_u1_w5_history_asset_manifest.csv",
+      "sha256": "120ea791e91938ef2cdcab7f790c7fac10a16abe53aef057d36658a059320f14"
+    },
+    "ocr_jsonl": {
+      "byte_size": 42900,
+      "path": "local/ftrl/ltmd_u1_w5_pilot_10_page_ocr.jsonl",
+      "sha256": "a32f22697dfb7a95ea8e3420c15d890cc218eacd2c070799a95a46c934d95628"
+    },
+    "processing_inventory": {
+      "byte_size": 6421,
+      "path": "data/catalog/ltmd_u1_w5_history_processing_inventory.csv",
+      "sha256": "66982ca6e1d61fcbf3e2ff56dd34a819ede16fa675c8cf16ff1c19b1443d207f"
+    },
+    "sqlite_index": {
+      "byte_size": 126976,
+      "path": "local/ftrl/ltmd_u1_w5_pilot_10_ocr_search.sqlite",
+      "sha256": "c74f99f726b1a21eb928e785aed8d96ee4a9aa7811dfeeb693c9daac0ebb2fe5"
+    }
+  },
+  "generated_at": "2026-08-24T01:30:08+00:00",
+  "rights_note": "This manifest contains metadata, hashes, cardinalities, and software/environment information only; it intentionally excludes OCR text and source images.",
+  "run_label": "pilot_10",
+  "schema_version": "LTMD_FTRL_RUN_0.1",
+  "status": "validated"
+}
