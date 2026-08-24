@@ -1,0 +1,56 @@
+{
+  "generated_at": "2026-08-24T16:05:37+00:00",
+  "protocol_sha256": "3a2e88cb9fb14319c648618a6ed3a34d89ef472192e4b7bcb9b1f6d80f7b98bf",
+  "queries": [
+    {
+      "candidate_rows_materialized": 1,
+      "candidate_rows_truncated": false,
+      "canonical_viewers_in_materialized_hits": 1,
+      "construct": "Masonería como referencia explícita",
+      "historical_identities_in_materialized_hits": 1,
+      "hit_pages_exact": 1,
+      "interpretive_rule": "Reportar por separado páginas, objetos canónicos e identidades históricas; un hit no prueba interpretación ni relevancia sustantiva.",
+      "materialized_hits_by_generation": {"1993": 1},
+      "materialized_hits_by_grade": {"6": 1},
+      "query_expression_sha256": "c72bb4983014c8472d1ff62bad9ae9e05bde8e848949a31544e386b9c3b2d35b",
+      "query_id": "W5-MASONRY-PRIMARY",
+      "role": "primary",
+      "scope_wave": "W5",
+      "verification_rule": "Verificar visualmente cada página candidata contra el activo fuente SHA-256 admitido antes de contabilizar una ocurrencia histórica."
+    },
+    {
+      "candidate_rows_materialized": 1,
+      "candidate_rows_truncated": false,
+      "canonical_viewers_in_materialized_hits": 1,
+      "construct": "Recuperación sensible de familia léxica potencialmente afectada por OCR",
+      "historical_identities_in_materialized_hits": 1,
+      "hit_pages_exact": 1,
+      "interpretive_rule": "Los candidatos exclusivos de sensibilidad no se suman al conteo primario hasta verificación visual; documentar falsos positivos y errores OCR.",
+      "materialized_hits_by_generation": {"1993": 1},
+      "materialized_hits_by_grade": {"6": 1},
+      "query_expression_sha256": "051dbe0ee5b527209f464cf111bc95d9df518bac70367f5e042050cc62ca2296",
+      "query_id": "W5-MASONRY-SENSITIVITY",
+      "role": "sensitivity",
+      "scope_wave": "W5",
+      "verification_rule": "Revisar únicamente candidatos no recuperados por W5-MASONRY-PRIMARY y confirmar la lectura en la imagen fuente."
+    },
+    {
+      "candidate_rows_materialized": 70,
+      "candidate_rows_truncated": false,
+      "canonical_viewers_in_materialized_hits": 9,
+      "construct": "Control nominal de recuperación",
+      "historical_identities_in_materialized_hits": 12,
+      "hit_pages_exact": 70,
+      "interpretive_rule": "Funciona como control de recuperación de una frase nominal; no es un patrón oro de exactitud OCR ni una medida de cobertura historiográfica.",
+      "materialized_hits_by_generation": {"1993": 16, "2008": 19, "2011": 14, "2014": 9, "2019": 12},
+      "materialized_hits_by_grade": {"4": 15, "5": 45, "6": 10},
+      "query_expression_sha256": "ecdff5f07843a17518fdb9ffe63cedfa479b29f592f56ef99e0d53f14b1cb73e",
+      "query_id": "W5-JUAREZ-CONTROL",
+      "role": "control",
+      "scope_wave": "W5",
+      "verification_rule": "Verificar una muestra de hits contra la fuente y registrar cualquier falso negativo conocido por inspección dirigida."
+    }
+  ],
+  "rights_note": "Text-free aggregate query summary; contains no OCR snippets.",
+  "schema_version": "LTMD_FTRL_QUERY_PROTOCOL_0.1"
+}
