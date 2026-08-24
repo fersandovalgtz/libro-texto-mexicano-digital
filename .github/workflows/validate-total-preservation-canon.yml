@@ -8,9 +8,13 @@ on:
       - 'docs/LTMD_TOTAL_PRESERVATION_CANON_0_1.md'
       - 'docs/LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md'
       - 'data/research/ltmd_private_corpus_storage_contract.json'
+      - 'data/research/ltmd_github_operational_archive_contract.json'
       - 'data/research/ltmd_u1_ftrl_wave_state.json'
       - 'data/research/ltmd_u1_w5_archival_closure.json'
       - 'scripts/validate_total_preservation_canon.py'
+      - 'scripts/export_github_operational_archive.py'
+      - '.github/workflows/preserve-repo-snapshot.yml'
+      - '.github/workflows/preserve-github-operational-archive.yml'
       - '.github/workflows/validate-total-preservation-canon.yml'
   pull_request:
     branches: [main]
@@ -18,9 +22,13 @@ on:
       - 'docs/LTMD_TOTAL_PRESERVATION_CANON_0_1.md'
       - 'docs/LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md'
       - 'data/research/ltmd_private_corpus_storage_contract.json'
+      - 'data/research/ltmd_github_operational_archive_contract.json'
       - 'data/research/ltmd_u1_ftrl_wave_state.json'
       - 'data/research/ltmd_u1_w5_archival_closure.json'
       - 'scripts/validate_total_preservation_canon.py'
+      - 'scripts/export_github_operational_archive.py'
+      - '.github/workflows/preserve-repo-snapshot.yml'
+      - '.github/workflows/preserve-github-operational-archive.yml'
       - '.github/workflows/validate-total-preservation-canon.yml'
   workflow_dispatch:
 
@@ -40,5 +48,11 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Validate preservation contract and W5 closure
+      - name: Compile preservation exporters and validators
+        run: |
+          python -m py_compile \
+            scripts/validate_total_preservation_canon.py \
+            scripts/export_github_operational_archive.py
+
+      - name: Validate total preservation, Git history, GitHub archive, and W5 closure
         run: python scripts/validate_total_preservation_canon.py
