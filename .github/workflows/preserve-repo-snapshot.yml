@@ -1,0 +1,45 @@
+name: Preserve LTMD repository snapshot
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/research/ltmd_repo_snapshot_drive_stamp.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preserve-ltmd-repo-snapshot
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Build repository snapshot
+        run: |
+          mkdir -p local/repo-snapshot
+          git rev-parse HEAD > local/repo-snapshot/COMMIT.txt
+          git status --short --untracked-files=no > local/repo-snapshot/GIT_STATUS.txt
+          test ! -s local/repo-snapshot/GIT_STATUS.txt
+          tar --exclude='.git' --exclude='local' --exclude='private' --exclude='data/raw' --exclude='data/work' \
+            -czf local/repo-snapshot/libro-texto-mexicano-digital__repo-snapshot.tar.gz .
+          sha256sum local/repo-snapshot/libro-texto-mexicano-digital__repo-snapshot.tar.gz > local/repo-snapshot/SHA256SUMS.txt
+
+      - name: Upload repository snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-repository-snapshot
+          path: |
+            local/repo-snapshot/libro-texto-mexicano-digital__repo-snapshot.tar.gz
+            local/repo-snapshot/COMMIT.txt
+            local/repo-snapshot/GIT_STATUS.txt
+            local/repo-snapshot/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 2
