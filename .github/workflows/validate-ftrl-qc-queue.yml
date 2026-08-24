@@ -76,9 +76,20 @@ jobs:
           assert summary['flag_counts']['zero_ocr_words'] == 1
           assert queue['pages'][0]['page_id'] == 'A:src0000'
 
+          forbidden_keys = {'ocr_text_raw', 'search_text'}
+          def walk(value):
+              if isinstance(value, dict):
+                  assert not (forbidden_keys & set(value)), forbidden_keys & set(value)
+                  for child in value.values():
+                      walk(child)
+              elif isinstance(value, list):
+                  for child in value:
+                      walk(child)
+
+          walk(queue)
+          walk(summary)
           serialized = json.dumps({'queue': queue, 'summary': summary})
-          for forbidden in ('ocr_text_raw', 'search_text', 'RESTRICTED'):
-              assert forbidden not in serialized, forbidden
+          assert 'RESTRICTED' not in serialized
           print(json.dumps(summary['flag_counts'], sort_keys=True))
           PY
 
