@@ -154,6 +154,7 @@ def iter_source_rows(
     manifest: Path,
     canonical_keys: set[str] | None,
     wave: str,
+    viewer_keys: set[str] | None = None,
 ) -> Iterable[dict[str, str]]:
     rows = csv.DictReader(manifest.open(encoding="utf-8", newline=""))
     required = {
@@ -172,6 +173,8 @@ def iter_source_rows(
         if row["asset_status"] != "source_jpeg":
             continue
         if canonical_keys is not None and row["viewer_key"] not in canonical_keys:
+            continue
+        if viewer_keys is not None and row["viewer_key"] not in viewer_keys:
             continue
         if not SHA256_RE.fullmatch(row["sha256"]):
             raise SystemExit(
@@ -194,6 +197,12 @@ def main() -> None:
     parser.add_argument("--timeout", type=int, default=60)
     parser.add_argument("--user-agent", default=DEFAULT_USER_AGENT)
     parser.add_argument("--max-pages", type=int)
+    parser.add_argument(
+        "--viewer-key",
+        action="append",
+        dest="viewer_keys",
+        help="Restrict processing to one canonical viewer_key; repeat to select several",
+    )
     parser.add_argument("--force-download", action="store_true")
     parser.add_argument(
         "--resume",
@@ -208,7 +217,23 @@ def main() -> None:
         raise SystemExit("--max-pages must be >= 1")
 
     canonical_keys = load_canonical_keys(args.processing_inventory)
-    rows = list(iter_source_rows(args.asset_manifest, canonical_keys, args.wave))
+    selected_viewers = set(args.viewer_keys) if args.viewer_keys else None
+    if selected_viewers is not None and canonical_keys is not None:
+        unknown = selected_viewers - canonical_keys
+        if unknown:
+            raise SystemExit(
+                "requested viewer_key values are not canonical source-admitted objects: "
+                + ", ".join(sorted(unknown))
+            )
+
+    rows = list(
+        iter_source_rows(
+            args.asset_manifest,
+            canonical_keys,
+            args.wave,
+            selected_viewers,
+        )
+    )
     rows.sort(
         key=lambda r: (
             int(r["catalog_generation"]),
