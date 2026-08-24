@@ -61,6 +61,12 @@ jobs:
             scripts/run_ftrl_query_protocol.py \
             scripts/run_ftrl_w5_pilot.py
           python -m json.tool schemas/ltmd_ftrl_run_manifest.schema.json >/dev/null
+          python - <<'PY'
+          import json
+          schema = json.load(open('schemas/ltmd_ftrl_run_manifest.schema.json', encoding='utf-8'))
+          assert 'execution' in schema['properties']
+          assert 'execution' not in schema['required'], '0.1 historical manifests must remain valid'
+          PY
       - name: Build synthetic page corpus
         run: |
           mkdir -p local
@@ -143,6 +149,15 @@ jobs:
           assert row["corpus"]["page_records"] == 2
           assert row["database"]["page_rows"] == 2
           assert row["database"]["fts_rows"] == 2
+          vcs = row["execution"]["vcs"]
+          ci = row["execution"]["ci"]
+          assert vcs["system"] == "git"
+          assert len(vcs["commit"]) == 40
+          assert vcs["dirty_tracked_worktree"] is False
+          assert ci["provider"] == "github-actions"
+          assert ci["run_id"]
+          assert ci["repository"] == "fersandovalgtz/libro-texto-mexicano-digital"
+          assert ci["sha"] == vcs["commit"]
           PY
       - name: Execute preregistered query protocol on synthetic index
         run: |
