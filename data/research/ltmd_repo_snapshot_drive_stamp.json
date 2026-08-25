@@ -1,12 +1,12 @@
 {
   "schema": "LTMD_REPO_SNAPSHOT_DRIVE_0.1",
   "effective_date": "2026-08-24",
-  "snapshot_sequence": 7,
+  "snapshot_sequence": 8,
   "source_branch": "main",
-  "source_commit_expected_before_trigger": "56727332076263d1cede70d1de7bfed623926770",
+  "source_commit_expected_before_trigger": "1c3576c32766a9627a6027890fe1909175c1eecc",
   "destination": "private_google_drive",
   "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/01_REPO_SNAPSHOTS",
   "include": "versioned working tree plus complete Git bundle with branches, tags, pull-request refs, ref inventories, commit inventory, and checksums; excludes private/local/raw workspaces from the working-tree tarball",
   "required_outputs": ["repository_tar_gz", "complete_git_history_bundle", "commit_sha", "git_status", "git_refs", "remote_refs", "commit_objects", "bundle_verification", "bundle_heads", "sha256sums"],
-  "reason": "First persistent snapshot using the validated complete Git-history bundle, including preservable pull-request refs, after PR #51."
+  "reason": "Persistent repository preservation checkpoint after integrating PR #52: distributed exhaustive W1 architecture of 16 deterministic shards. This snapshot preserves code and Git history only; it does not declare W1 computational or archival corpus completion and does not activate the W1 OCR run stamp."
 }
