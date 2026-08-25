@@ -1,0 +1,16 @@
+{
+  "schema": "LTMD_U1_W3_CLOSURE_PROMOTION_STAMP_0.1",
+  "effective_date": "2026-08-25",
+  "wave": "W3",
+  "distributed_run_id": "32853375619",
+  "distributed_source_commit": "2a55ec09124054729e9c45a2285686cf4abf8776",
+  "required_archival_closure": "data/research/ltmd_u1_w3_archival_closure.json",
+  "target_state": {
+    "ftrl_status": "validated",
+    "corpus_ready": true,
+    "ocr_available": true,
+    "archival_complete": true,
+    "text_verified": false,
+    "semantic_ready": false
+  }
+}
