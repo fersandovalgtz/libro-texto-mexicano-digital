@@ -29,11 +29,11 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p local/w3-archive/private local/w3-archive/text-free
-          gh api --paginate "/repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/artifacts?per_page=100" > local/artifacts-pages.jsonl
+          gh api --paginate --slurp "/repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/artifacts?per_page=100" > local/artifacts-pages.json
           python - <<'PY'
           import json
           from pathlib import Path
-          pages = [json.loads(line) for line in Path('local/artifacts-pages.jsonl').read_text().splitlines() if line.strip()]
+          pages = json.loads(Path('local/artifacts-pages.json').read_text())
           arts = [a for p in pages for a in p['artifacts']]
           assert len(arts) == 105, len(arts)
           private = [a for a in arts if a['name'].endswith('-private-encrypted')]
