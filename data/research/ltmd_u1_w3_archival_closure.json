@@ -1,0 +1,56 @@
+{
+  "schema": "LTMD_U1_W3_ARCHIVAL_CLOSURE_0.1",
+  "effective_date": "2026-08-25",
+  "wave": "W3",
+  "domain": "Español/Lengua",
+  "distributed_run_id": "32853375619",
+  "distributed_source_commit": "2a55ec09124054729e9c45a2285686cf4abf8776",
+  "historical_identities": 130,
+  "canonical_processing_objects": 114,
+  "page_records": 20765,
+  "shard_count": 52,
+  "shard_page_count_distribution": {"399": 35, "400": 17},
+  "computational_validation": {
+    "status": "distributed_computationally_validated",
+    "page_partition_complete": true,
+    "page_partition_unique": true,
+    "all_shard_sqlite_integrity_ok": true,
+    "all_shard_fts_cardinality_ok": true,
+    "all_shard_qc_cardinality_ok": true,
+    "restricted_outputs_publicly_uploaded_plaintext": false
+  },
+  "persistent_archive": {
+    "destination": "private_google_drive",
+    "logical_path": "LTMD-U1 — corpus FTRL privado/W3 — Español y Lengua/run_32853375619__2a55ec0__2026-08-25",
+    "encrypted_handoff_artifacts_preserved": 52,
+    "text_free_evidence_artifacts_preserved": 53,
+    "exact_handoff_bundles_roundtrip_sha256_verified": true,
+    "private_consolidation_validated": true,
+    "consolidated_page_records": 20765,
+    "consolidated_sqlite_integrity": "ok",
+    "consolidated_fts_rows": 20765,
+    "consolidated_products_roundtrip_sha256_verified": true,
+    "consolidated_products_shared_false": true,
+    "private_closure_roundtrip_sha256_verified": true,
+    "private_closure_shared_false": true,
+    "private_closure_sha256": "f3a5ae3efd205cdc0b790b1ee4106c56371533c89e5881151280c959961f4069"
+  },
+  "qc": {
+    "page_records": 20765,
+    "pages_flagged_for_review": 4025,
+    "interpretation": "QC review queue; does not reduce exhaustive source-page coverage or imply text verification"
+  },
+  "state": {
+    "ftrl_status": "validated",
+    "corpus_ready": true,
+    "ocr_available": true,
+    "archival_complete": true,
+    "text_verified": false,
+    "semantic_ready": false
+  },
+  "epistemic_guards": [
+    "ocr_available != text_verified",
+    "corpus_ready != semantic_ready",
+    "search_hit != historical_claim"
+  ]
+}
