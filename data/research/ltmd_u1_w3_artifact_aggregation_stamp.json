@@ -1,0 +1,15 @@
+{
+  "schema": "LTMD_U1_W3_ARTIFACT_AGGREGATION_STAMP_0.1",
+  "source_run_id": "32853375619",
+  "source_commit": "2a55ec09124054729e9c45a2285686cf4abf8776",
+  "expected_artifact_count": 105,
+  "expected_private_encrypted_artifacts": 52,
+  "expected_text_free_evidence_artifacts": 53,
+  "preservation_intent": "exact_zip_bytes_before_github_expiry",
+  "epistemic_state": {
+    "computationally_validated": true,
+    "archival_complete": false,
+    "text_verified": false,
+    "semantic_ready": false
+  }
+}
