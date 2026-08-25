@@ -1,0 +1,43 @@
+name: Validate LTMD archive closure evidence
+
+on:
+  push:
+    branches:
+      - 'preservation/archive-closures-2026-08-24'
+    paths:
+      - 'data/research/ltmd_github_operational_archive_closure_2026_08_24.json'
+      - 'data/research/ltmd_git_history_snapshot_closure_2026_08_24.json'
+      - 'data/research/ltmd_notion_continuity_snapshot_closure_2026_08_24.json'
+      - 'scripts/validate_ltmd_archive_closures.py'
+      - '.github/workflows/validate-ltmd-archive-closures.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'data/research/ltmd_github_operational_archive_closure_2026_08_24.json'
+      - 'data/research/ltmd_git_history_snapshot_closure_2026_08_24.json'
+      - 'data/research/ltmd_notion_continuity_snapshot_closure_2026_08_24.json'
+      - 'scripts/validate_ltmd_archive_closures.py'
+      - '.github/workflows/validate-ltmd-archive-closures.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-closures:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile validator
+        run: python -m py_compile scripts/validate_ltmd_archive_closures.py
+
+      - name: Validate text-free archive closure evidence
+        run: python scripts/validate_ltmd_archive_closures.py

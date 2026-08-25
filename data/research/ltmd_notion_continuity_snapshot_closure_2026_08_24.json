@@ -1,0 +1,24 @@
+{
+  "schema": "LTMD_NOTION_CONTINUITY_ARCHIVE_CLOSURE_0.1",
+  "effective_date": "2026-08-24",
+  "canonical_notion_page": "LTMD — procedimiento canónico de preservación GitHub ↔ Google Drive",
+  "persistent_archive": {
+    "provider": "google_drive",
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/03_NOTION_CONTINUITY_EXPORTS",
+    "native_snapshot_preserved": true,
+    "immutable_text_snapshot_preserved": true,
+    "immutable_text_file_name": "LTMD_Notion_canon_snapshot__2026-08-24T2124-0600.txt",
+    "immutable_text_bytes": 13181,
+    "immutable_text_sha256": "08a642846906dcd69eace0488ef53120177366f2c40328c40fc8802d4d511b9f",
+    "destination_shared": false,
+    "redownload_verified": true,
+    "redownload_sha256": "08a642846906dcd69eace0488ef53120177366f2c40328c40fc8802d4d511b9f",
+    "matches_exported_source": true
+  },
+  "continuity_rule": {
+    "chat_is_single_source_of_truth": false,
+    "notion_is_single_copy_of_data_or_code": false,
+    "github_drive_notion_are_complementary": true
+  },
+  "archival_complete": true
+}
