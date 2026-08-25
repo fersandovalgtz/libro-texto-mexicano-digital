@@ -1,12 +1,12 @@
 {
   "schema": "LTMD_REPO_SNAPSHOT_DRIVE_0.1",
   "effective_date": "2026-08-24",
-  "snapshot_sequence": 6,
+  "snapshot_sequence": 7,
   "source_branch": "main",
-  "source_commit_expected_before_trigger": "963a7141b037903a32038d51686ef9387225b643",
+  "source_commit_expected_before_trigger": "56727332076263d1cede70d1de7bfed623926770",
   "destination": "private_google_drive",
   "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/01_REPO_SNAPSHOTS",
-  "include": "versioned repository tree excluding .git and private/local/raw workspaces",
-  "required_outputs": ["repository_tar_gz", "commit_sha", "git_status", "sha256sums"],
-  "reason": "Refresh the private Drive backup after merging the total GitHub-Drive-Notion preservation canon and verified W5 archival closure."
+  "include": "versioned working tree plus complete Git bundle with branches, tags, pull-request refs, ref inventories, commit inventory, and checksums; excludes private/local/raw workspaces from the working-tree tarball",
+  "required_outputs": ["repository_tar_gz", "complete_git_history_bundle", "commit_sha", "git_status", "git_refs", "remote_refs", "commit_objects", "bundle_verification", "bundle_heads", "sha256sums"],
+  "reason": "First persistent snapshot using the validated complete Git-history bundle, including preservable pull-request refs, after PR #51."
 }
