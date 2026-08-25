@@ -42,6 +42,10 @@ on:
       - '.github/workflows/validate-ftrl-u1-completion-ledger.yml'
   workflow_dispatch:
 
+concurrency:
+  group: ftrl-u1-ledger-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
