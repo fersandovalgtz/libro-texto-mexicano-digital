@@ -1,36 +1,109 @@
 {
-  "schema": "LTMD_U1_FTRL_WAVE_STATE_0.1",
-  "effective_date": "2026-08-24",
+  "effective_date": "2026-08-25",
   "note": "Metadata-only operational state. Update only from verified computation and persistent-archive evidence; preservation follows docs/PRESERVATION_CANON_0_2.md. Never infer text or semantic readiness from OCR availability.",
+  "schema": "LTMD_U1_FTRL_WAVE_STATE_0.1",
   "waves": {
     "W1": {
-      "domain": "ciencias_naturales",
-      "ftrl_status": "validated",
-      "ftrl_run_id": "32807213503",
-      "ftrl_commit": "d07d0908e4e20ace2e01ba0e254073a3a163b6ce",
+      "archival_closure_evidence": "data/research/ltmd_u1_w1_archival_closure.json",
       "archival_status": "archival_complete",
-      "preservation_run_id": "private_consolidation_2026-08-24",
       "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W1 — Ciencias Naturales/run_32807213503__d07d090__2026-08-24/02_CONSOLIDATED_PRIVATE/LTMD_W1_Ciencias_Naturales_corpus_textual_canonico_v1.zip",
-      "archival_closure_evidence": "data/research/ltmd_u1_w1_archival_closure.json"
-    },
-    "W2": {"domain": "matematicas", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
-    "W3": {"domain": "espanol_lengua", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
-    "W4": {"domain": "ciencias_sociales", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
-    "W5": {
-      "domain": "historia",
+      "domain": "ciencias_naturales",
+      "ftrl_commit": "d07d0908e4e20ace2e01ba0e254073a3a163b6ce",
+      "ftrl_run_id": "32807213503",
       "ftrl_status": "validated",
-      "ftrl_run_id": "32748987531",
-      "ftrl_commit": "e200b252d3acadf4b56cee33d6ff92f4040d8e1c",
-      "archival_status": "archival_complete",
-      "preservation_run_id": "32784373399",
-      "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W5 — Historia/run_32748987531__e200b252__2026-08-24",
-      "archival_closure_evidence": "data/research/ltmd_u1_w5_archival_closure.json"
+      "preservation_run_id": "private_consolidation_2026-08-24"
     },
-    "W6": {"domain": "geografia_atlas", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
-    "W7": {"domain": "civica_etica", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
-    "W8": {"domain": "artes", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
-    "W9": {"domain": "educacion_fisica", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
-    "W10": {"domain": "integrados_multiarea", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
-    "W11": {"domain": "otros_no_clasificados", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""}
+    "W10": {
+      "archival_status": "not_started",
+      "archive_destination_logical": "",
+      "domain": "integrados_multiarea",
+      "ftrl_commit": "",
+      "ftrl_run_id": "",
+      "ftrl_status": "pending",
+      "preservation_run_id": ""
+    },
+    "W11": {
+      "archival_status": "not_started",
+      "archive_destination_logical": "",
+      "domain": "otros_no_clasificados",
+      "ftrl_commit": "",
+      "ftrl_run_id": "",
+      "ftrl_status": "pending",
+      "preservation_run_id": ""
+    },
+    "W2": {
+      "archival_status": "not_started",
+      "archive_destination_logical": "",
+      "domain": "matematicas",
+      "ftrl_commit": "",
+      "ftrl_run_id": "",
+      "ftrl_status": "pending",
+      "preservation_run_id": ""
+    },
+    "W3": {
+      "archival_closure_evidence": "data/research/ltmd_u1_w3_archival_closure.json",
+      "archival_status": "archival_complete",
+      "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W3 — Español y Lengua/run_32853375619__2a55ec0__2026-08-25/02_CONSOLIDATED_PRIVATE",
+      "domain": "espanol_lengua",
+      "ftrl_commit": "2a55ec09124054729e9c45a2285686cf4abf8776",
+      "ftrl_run_id": "32853375619",
+      "ftrl_status": "validated",
+      "preservation_run_id": "private_consolidation_2026-08-25"
+    },
+    "W4": {
+      "archival_status": "not_started",
+      "archive_destination_logical": "",
+      "domain": "ciencias_sociales",
+      "ftrl_commit": "",
+      "ftrl_run_id": "",
+      "ftrl_status": "pending",
+      "preservation_run_id": ""
+    },
+    "W5": {
+      "archival_closure_evidence": "data/research/ltmd_u1_w5_archival_closure.json",
+      "archival_status": "archival_complete",
+      "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W5 — Historia/run_32748987531__e200b252__2026-08-24",
+      "domain": "historia",
+      "ftrl_commit": "e200b252d3acadf4b56cee33d6ff92f4040d8e1c",
+      "ftrl_run_id": "32748987531",
+      "ftrl_status": "validated",
+      "preservation_run_id": "32784373399"
+    },
+    "W6": {
+      "archival_status": "not_started",
+      "archive_destination_logical": "",
+      "domain": "geografia_atlas",
+      "ftrl_commit": "",
+      "ftrl_run_id": "",
+      "ftrl_status": "pending",
+      "preservation_run_id": ""
+    },
+    "W7": {
+      "archival_status": "not_started",
+      "archive_destination_logical": "",
+      "domain": "civica_etica",
+      "ftrl_commit": "",
+      "ftrl_run_id": "",
+      "ftrl_status": "pending",
+      "preservation_run_id": ""
+    },
+    "W8": {
+      "archival_status": "not_started",
+      "archive_destination_logical": "",
+      "domain": "artes",
+      "ftrl_commit": "",
+      "ftrl_run_id": "",
+      "ftrl_status": "pending",
+      "preservation_run_id": ""
+    },
+    "W9": {
+      "archival_status": "not_started",
+      "archive_destination_logical": "",
+      "domain": "educacion_fisica",
+      "ftrl_commit": "",
+      "ftrl_run_id": "",
+      "ftrl_status": "pending",
+      "preservation_run_id": ""
+    }
   }
 }
