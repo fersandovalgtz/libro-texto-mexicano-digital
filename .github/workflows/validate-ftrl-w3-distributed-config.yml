@@ -1,0 +1,101 @@
+name: Validate distributed FTRL W3 configuration
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/run_ftrl_w3_distributed_shard.py'
+      - 'scripts/validate_ftrl_w3_distributed.py'
+      - 'scripts/consolidate_ftrl_w3_distributed.py'
+      - 'data/research/ltmd_u1_w3_distributed_topology.json'
+      - '.github/workflows/run-ftrl-w3-distributed.yml'
+      - '.github/workflows/validate-ftrl-w3-distributed-config.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/run_ftrl_w3_distributed_shard.py'
+      - 'scripts/validate_ftrl_w3_distributed.py'
+      - 'scripts/consolidate_ftrl_w3_distributed.py'
+      - 'data/research/ltmd_u1_w3_distributed_topology.json'
+      - '.github/workflows/run-ftrl-w3-distributed.yml'
+      - '.github/workflows/validate-ftrl-w3-distributed-config.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-distributed-config:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile distributed code
+        run: |
+          python -m py_compile \
+            scripts/run_ftrl_w3_distributed_shard.py \
+            scripts/validate_ftrl_w3_distributed.py \
+            scripts/consolidate_ftrl_w3_distributed.py
+      - name: Rebuild W3 canonical inputs without OCR
+        run: |
+          mkdir -p local/w3-config
+          python scripts/preflight_ftrl_w3.py --output local/w3-config/preflight.json
+          python scripts/build_ftrl_w3_inputs.py \
+            --asset-output local/w3-config/asset_manifest.csv \
+            --processing-output local/w3-config/processing_inventory.csv
+      - name: Assert frozen 52-shard topology
+        run: |
+          python - <<'PY'
+          import csv, json
+          from collections import Counter
+          from pathlib import Path
+          topology = json.loads(Path('data/research/ltmd_u1_w3_distributed_topology.json').read_text(encoding='utf-8'))
+          assert topology['schema'] == 'LTMD_FTRL_W3_DISTRIBUTED_TOPOLOGY_0.1'
+          assert topology['historical_identities'] == 130
+          assert topology['canonical_processing_objects'] == 114
+          assert topology['canonical_source_pages'] == 20765
+          assert topology['pilot']['workflow_run_id'] == '32852599812'
+          assert topology['pilot']['pages'] == 100
+          assert topology['pilot']['execution_step_seconds'] == 81
+          assert topology['pilot']['sqlite_integrity'] == 'ok'
+          assert topology['topology']['shard_count'] == 52
+          assert topology['topology']['max_parallel'] == 8
+          assert topology['topology']['shards_400_pages'] == 17
+          assert topology['topology']['shards_399_pages'] == 35
+          assert topology['full_execution_activated'] is False
+          with Path('local/w3-config/asset_manifest.csv').open(encoding='utf-8', newline='') as fh:
+              rows = list(csv.DictReader(fh))
+          rows.sort(key=lambda r: (int(r['catalog_generation']), int(r['grade_code']), r['viewer_key'], int(r['source_image_index'])))
+          assert len(rows) == 20765
+          base, rem = divmod(len(rows), 52)
+          sizes = [base + (1 if i < rem else 0) for i in range(52)]
+          assert Counter(sizes) == Counter({400: 17, 399: 35})
+          assert sum(sizes) == 20765
+          print('W3 topology validated: 17x400 + 35x399 = 20,765')
+          PY
+      - name: Assert workflow safety and no launch stamp
+        run: |
+          test ! -f data/research/ltmd_u1_w3_distributed_run_stamp.json
+          test ! -f security/ltmd_archive_private.pem
+          python - <<'PY'
+          from pathlib import Path
+          wf = Path('.github/workflows/run-ftrl-w3-distributed.yml').read_text(encoding='utf-8')
+          assert 'workflow_dispatch:' in wf
+          assert "data/research/ltmd_u1_w3_distributed_run_stamp.json" in wf
+          assert 'max-parallel: 8' in wf
+          assert '--shard-count 52' in wf
+          assert 'retention-days: 3' in wf
+          assert 'openssl enc -aes-256-cbc' in wf
+          assert 'RSA-4096 OAEP SHA-256' in wf
+          assert 'Upload encrypted shard handoff only' in wf
+          assert 'Upload text-free shard evidence' in wf
+          assert 'Validate exact exhaustive union of 52 shards' in wf
+          assert '--shard-count 52' in wf
+          assert '20,765/20,765' in wf
+          assert 'private Google Drive' in wf
+          print('W3 distributed workflow safety validated; no productive launch stamp present')
+          PY
