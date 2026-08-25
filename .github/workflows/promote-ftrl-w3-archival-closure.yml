@@ -1,0 +1,76 @@
+name: Promote FTRL W3 archival closure
+
+on:
+  push:
+    branches:
+      - closure/w3-archival-complete
+    paths:
+      - 'data/research/ltmd_u1_w3_closure_promotion_stamp.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: promote-ftrl-w3-archival-closure
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact closure branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Promote only from verified closure evidence
+        run: python scripts/promote_ftrl_w3_archival_closure.py
+
+      - name: Rebuild independently and require deterministic outputs
+        run: |
+          python scripts/build_ltmd_u1_ftrl_completion_ledger_v2.py \
+            --output /tmp/ledger.csv \
+            --summary-output /tmp/summary.json
+          diff -u data/research/ltmd_u1_ftrl_completion_ledger.csv /tmp/ledger.csv
+          diff -u data/research/ltmd_u1_ftrl_completion_summary.json /tmp/summary.json
+
+      - name: Assert no epistemic over-promotion
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          rows=list(csv.DictReader(Path('data/research/ltmd_u1_ftrl_completion_ledger.csv').open(encoding='utf-8',newline='')))
+          w3=[r for r in rows if r['wave']=='W3']
+          assert len(w3)==130
+          assert all(r['ftrl_status']=='validated' for r in w3)
+          assert all(r['archival_status']=='archival_complete' for r in w3)
+          assert all(r['corpus_ready']=='1' and r['ocr_available']=='1' for r in w3)
+          assert all(r['text_verified']=='0' and r['semantic_ready']=='0' for r in w3)
+          closure=json.loads(Path('data/research/ltmd_u1_w3_archival_closure.json').read_text())
+          assert closure['state']['archival_complete'] is True
+          assert closure['state']['text_verified'] is False
+          assert closure['state']['semantic_ready'] is False
+          PY
+
+      - name: Commit generated closure state
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            data/research/ltmd_u1_ftrl_completion_ledger.csv \
+            data/research/ltmd_u1_ftrl_completion_summary.json \
+            data/research/ltmd_u1_ftrl_wave_state.json \
+            data/research/ltmd_u1_w3_runtime_readiness.json
+          if git diff --cached --quiet; then
+            echo 'Closure state already current.'
+          else
+            git commit -m 'FTRL W3: promote validated archival closure'
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
