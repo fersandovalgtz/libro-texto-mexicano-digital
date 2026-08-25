@@ -1,0 +1,46 @@
+{
+  "schema": "LTMD_GITHUB_OPERATIONAL_ARCHIVE_CLOSURE_0.1",
+  "effective_date": "2026-08-24",
+  "repository": "fersandovalgtz/libro-texto-mexicano-digital",
+  "source": {
+    "workflow_run_id": "32791474215",
+    "source_commit": "277a6bbfc2778970cb3a3ec3fab167d66ca0711b",
+    "artifact_id": "9544242907",
+    "artifact_name": "ltmd-github-operational-archive",
+    "artifact_zip_bytes": 26650402,
+    "artifact_zip_sha256": "7145b30407cd8de18b616d005b9f69957b362498108187e5d47e9c598a57f74f",
+    "workflow_conclusion": "success"
+  },
+  "persistent_archive": {
+    "provider": "google_drive",
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/02_GITHUB_METADATA_EXPORTS",
+    "copied": true,
+    "destination_shared": false,
+    "destination_bytes": 26650402,
+    "redownload_verified": true,
+    "redownload_sha256": "7145b30407cd8de18b616d005b9f69957b362498108187e5d47e9c598a57f74f",
+    "matches_origin_artifact": true
+  },
+  "scope": {
+    "provider_visible_metadata": [
+      "issues",
+      "issue_comments_and_events",
+      "pull_requests_reviews_and_review_comments",
+      "releases",
+      "tags",
+      "branches",
+      "labels",
+      "milestones",
+      "commit_comments",
+      "contributors",
+      "workflows",
+      "workflow_runs",
+      "jobs",
+      "retained_logs",
+      "artifact_catalog"
+    ],
+    "unavailable_provider_objects_are_recorded_as_negative_results": true,
+    "restricted_ftrl_plaintext_included": false
+  },
+  "archival_complete": true
+}
