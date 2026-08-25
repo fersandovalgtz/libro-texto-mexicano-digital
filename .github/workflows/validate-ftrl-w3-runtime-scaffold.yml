@@ -6,6 +6,7 @@ on:
       - 'scripts/guard_ftrl_w3_activation.py'
       - 'scripts/run_ftrl_w3.py'
       - 'data/research/ltmd_u1_w3_runtime_readiness.json'
+      - 'data/research/ltmd_u1_w3_runtime_pilot_stamp.json'
       - 'docs/FTRL_W3_RUNTIME_READINESS_PROTOCOL_0_1.md'
       - '.github/workflows/validate-ftrl-w3-runtime-pilot.yml'
       - '.github/workflows/validate-ftrl-w3-runtime-scaffold.yml'
@@ -17,6 +18,7 @@ on:
       - 'scripts/guard_ftrl_w3_activation.py'
       - 'scripts/run_ftrl_w3.py'
       - 'data/research/ltmd_u1_w3_runtime_readiness.json'
+      - 'data/research/ltmd_u1_w3_runtime_pilot_stamp.json'
       - 'docs/FTRL_W3_RUNTIME_READINESS_PROTOCOL_0_1.md'
       - '.github/workflows/validate-ftrl-w3-runtime-pilot.yml'
       - '.github/workflows/validate-ftrl-w3-runtime-scaffold.yml'
@@ -62,6 +64,7 @@ jobs:
           from pathlib import Path
 
           readiness = json.loads(Path('data/research/ltmd_u1_w3_runtime_readiness.json').read_text(encoding='utf-8'))
+          stamp = json.loads(Path('data/research/ltmd_u1_w3_runtime_pilot_stamp.json').read_text(encoding='utf-8'))
           assert readiness['schema'] == 'LTMD_U1_W3_RUNTIME_READINESS_0.1'
           assert readiness['historical_identities'] == 130
           assert readiness['canonical_processing_objects'] == 114
@@ -75,6 +78,17 @@ jobs:
           assert readiness['runtime']['full_execution_topology_frozen'] is False
           assert readiness['preservation']['required_before_full_activation'] is True
 
+          assert stamp['schema'] == 'LTMD_FTRL_W3_RUNTIME_PILOT_STAMP_0.1'
+          assert stamp['wave'] == 'W3'
+          assert stamp['execution_mode'] == 'runtime_pilot_only'
+          assert 1 <= int(stamp['pages']) <= 100
+          assert stamp['prerequisite']['w1_computationally_validated'] is True
+          assert stamp['prerequisite']['w1_archival_complete'] is True
+          assert stamp['full_corpus_activation'] is False
+          assert stamp['corpus_ready'] is False
+          assert stamp['text_verified'] is False
+          assert stamp['semantic_ready'] is False
+
           runner = Path('scripts/run_ftrl_w3.py').read_text(encoding='utf-8')
           guard = Path('scripts/guard_ftrl_w3_activation.py').read_text(encoding='utf-8')
           pilot = Path('.github/workflows/validate-ftrl-w3-runtime-pilot.yml').read_text(encoding='utf-8')
@@ -82,7 +96,10 @@ jobs:
           assert 'guard_ftrl_w3_activation.py' in runner
           assert 'EXPECTED_W1_IDENTITIES = 40' in guard
           assert 'workflow_dispatch:' in pilot
-          assert 'push:' not in pilot
+          assert 'push:' in pilot
+          assert 'branches: [main]' in pilot
+          assert "data/research/ltmd_u1_w3_runtime_pilot_stamp.json" in pilot
+          assert 'full_corpus_activation' in pilot
           assert '--full' not in pilot
 
           with Path('local/ftrl/ltmd_u1_w3_processing_inventory.csv').open(encoding='utf-8', newline='') as fh:
@@ -92,5 +109,5 @@ jobs:
           assert len(processing) == 130
           assert sum(int(r['is_canonical_processing_object']) for r in processing) == 114
           assert len(pages) == 20765
-          print('W3 runtime scaffold is guarded, exhaustive, archive-gated, and not activated')
+          print('W3 runtime scaffold is guarded, stamp-bounded, archive-gated, and not fully activated')
           PY

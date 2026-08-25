@@ -7,6 +7,10 @@ on:
         description: 'Number of canonical W3 pages to process after W1 gate'
         required: true
         default: '12'
+  push:
+    branches: [main]
+    paths:
+      - 'data/research/ltmd_u1_w3_runtime_pilot_stamp.json'
 
 permissions:
   contents: read
@@ -34,22 +38,43 @@ jobs:
           sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
           tesseract --list-langs | grep -Fx spa
 
-      - name: Execute W3 pilot only after canonical W1 gate
+      - name: Resolve guarded pilot page count
         env:
-          PILOT_PAGES: ${{ inputs.pages }}
+          DISPATCH_PAGES: ${{ inputs.pages }}
         run: |
+          set -euo pipefail
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            PILOT_PAGES="$DISPATCH_PAGES"
+          else
+            PILOT_PAGES="$(python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('data/research/ltmd_u1_w3_runtime_pilot_stamp.json')
+          data = json.loads(p.read_text(encoding='utf-8'))
+          assert data['schema'] == 'LTMD_FTRL_W3_RUNTIME_PILOT_STAMP_0.1'
+          assert data['wave'] == 'W3'
+          assert data['execution_mode'] == 'runtime_pilot_only'
+          assert data['full_corpus_activation'] is False
+          assert data['text_verified'] is False
+          assert data['semantic_ready'] is False
+          print(data['pages'])
+          PY
+          )"
+          fi
           case "$PILOT_PAGES" in
             ''|*[!0-9]*) echo 'pages must be a positive integer' >&2; exit 1 ;;
           esac
           test "$PILOT_PAGES" -ge 1
           test "$PILOT_PAGES" -le 100
+          echo "PILOT_PAGES=$PILOT_PAGES" >> "$GITHUB_ENV"
+
+      - name: Execute W3 pilot only after canonical W1 gate
+        run: |
           python scripts/run_ftrl_w3.py \
             --pages "$PILOT_PAGES" \
             --output-dir local/ftrl
 
       - name: Assert pilot integrity and no epistemic promotion
-        env:
-          PILOT_PAGES: ${{ inputs.pages }}
         run: |
           python - <<'PY'
           import json, os
@@ -80,8 +105,6 @@ jobs:
           PY
 
       - name: Prove restricted pilot outputs remain non-publishable
-        env:
-          PILOT_PAGES: ${{ inputs.pages }}
         run: |
           label="pilot_${PILOT_PAGES}"
           for path in \
@@ -93,8 +116,6 @@ jobs:
           done
 
       - name: Upload text-free pilot evidence only
-        env:
-          PILOT_PAGES: ${{ inputs.pages }}
         run: |
           mkdir -p local/w3-pilot-evidence
           label="pilot_${PILOT_PAGES}"
@@ -105,7 +126,7 @@ jobs:
       - name: Publish text-free pilot evidence
         uses: actions/upload-artifact@v4
         with:
-          name: ltmd-u1-w3-runtime-pilot-text-free-evidence
+          name: ltmd-u1-w3-runtime-pilot-${{ env.PILOT_PAGES }}-text-free-evidence
           path: local/w3-pilot-evidence/
           if-no-files-found: error
           retention-days: 30

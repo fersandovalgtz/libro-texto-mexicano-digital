@@ -1,0 +1,23 @@
+{
+  "schema": "LTMD_FTRL_W3_RUNTIME_PILOT_STAMP_0.1",
+  "effective_date": "2026-08-25",
+  "run_sequence": 1,
+  "wave": "W3",
+  "operational_domain": "espanol_lengua",
+  "pages": 100,
+  "canonical_source_pages": 20765,
+  "canonical_processing_objects": 114,
+  "historical_identities": 130,
+  "prerequisite": {
+    "w1_computationally_validated": true,
+    "w1_archival_complete": true,
+    "w1_closure_source": "data/research/ltmd_u1_w1_archival_closure.json"
+  },
+  "execution_mode": "runtime_pilot_only",
+  "purpose": "Measure observed W3 OCR/SQLite/FTS5 wall time after the canonical W1 gate, using the maximum allowed 100-page pilot before freezing full-corpus topology.",
+  "full_corpus_activation": false,
+  "corpus_ready": false,
+  "text_verified": false,
+  "semantic_ready": false,
+  "preservation_policy": "Pilot restricted outputs remain ephemeral and non-publishable; only text-free evidence is uploaded. Full private preservation applies after topology selection and exhaustive W3 execution."
+}
