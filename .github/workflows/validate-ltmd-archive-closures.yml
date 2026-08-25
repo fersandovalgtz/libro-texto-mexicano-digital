@@ -3,10 +3,11 @@ name: Validate LTMD archive closure evidence
 on:
   push:
     branches:
-      - 'preservation/archive-closures-2026-08-24'
+      - 'preservation/**'
     paths:
       - 'data/research/ltmd_github_operational_archive_closure_2026_08_24.json'
       - 'data/research/ltmd_git_history_snapshot_closure_2026_08_24.json'
+      - 'data/research/ltmd_git_history_snapshot_closure_2026_08_24_seq8.json'
       - 'data/research/ltmd_notion_continuity_snapshot_closure_2026_08_24.json'
       - 'scripts/validate_ltmd_archive_closures.py'
       - '.github/workflows/validate-ltmd-archive-closures.yml'
@@ -15,6 +16,7 @@ on:
     paths:
       - 'data/research/ltmd_github_operational_archive_closure_2026_08_24.json'
       - 'data/research/ltmd_git_history_snapshot_closure_2026_08_24.json'
+      - 'data/research/ltmd_git_history_snapshot_closure_2026_08_24_seq8.json'
       - 'data/research/ltmd_notion_continuity_snapshot_closure_2026_08_24.json'
       - 'scripts/validate_ltmd_archive_closures.py'
       - '.github/workflows/validate-ltmd-archive-closures.yml'
