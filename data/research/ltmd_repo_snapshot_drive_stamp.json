@@ -1,12 +1,14 @@
 {
   "schema": "LTMD_REPO_SNAPSHOT_DRIVE_0.1",
-  "effective_date": "2026-08-24",
-  "snapshot_sequence": 10,
+  "effective_date": "2026-08-25",
+  "snapshot_sequence": 11,
   "source_branch": "main",
-  "source_commit_expected_before_trigger": "d07d0908e4e20ace2e01ba0e254073a3a163b6ce",
+  "source_commit_expected_before_trigger": "c2b6b45c2ad20019d2fa7c075e174af0933f59d4",
   "destination": "private_google_drive",
   "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/01_REPO_SNAPSHOTS",
   "include": "versioned working tree plus complete Git bundle with branches, tags, pull-request refs, ref inventories, commit inventory, and checksums; excludes private/local/raw workspaces from the working-tree tarball",
+  "retention_policy": "single_current_complete_snapshot",
+  "supersedes_snapshot_sequence": 10,
   "required_outputs": ["repository_tar_gz", "complete_git_history_bundle", "commit_sha", "git_status", "git_refs", "remote_refs", "commit_objects", "bundle_verification", "bundle_heads", "sha256sums"],
-  "reason": "Post-launch repository preservation checkpoint capturing the exact main state after creation of the W1 distributed run stamp at d07d0908e4e20ace2e01ba0e254073a3a163b6ce. This snapshot records the trigger state only; it does not alter or retrigger W1, does not declare computational validation or archival completion of the W1 corpus, and does not unblock W3."
+  "reason": "Major archival milestone after PR #56: W1 is computationally validated and privately archival-complete under PRESERVATION_CANON_0_2. Generate one replacement complete-history snapshot, verify it in private Google Drive, then remove sequence 10 so Drive retains only one integral repository snapshot. This trigger does not itself promote W3 or imply text_verified/semantic_ready."
 }
