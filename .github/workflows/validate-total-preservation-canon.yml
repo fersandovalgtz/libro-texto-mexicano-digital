@@ -6,10 +6,12 @@ on:
       - 'preservation/**'
     paths:
       - 'docs/LTMD_TOTAL_PRESERVATION_CANON_0_1.md'
+      - 'docs/PRESERVATION_CANON_0_2.md'
       - 'docs/LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md'
       - 'data/research/ltmd_private_corpus_storage_contract.json'
       - 'data/research/ltmd_github_operational_archive_contract.json'
       - 'data/research/ltmd_u1_ftrl_wave_state.json'
+      - 'data/research/ltmd_u1_w1_archival_closure.json'
       - 'data/research/ltmd_u1_w5_archival_closure.json'
       - 'scripts/validate_total_preservation_canon.py'
       - 'scripts/export_github_operational_archive.py'
@@ -20,10 +22,12 @@ on:
     branches: [main]
     paths:
       - 'docs/LTMD_TOTAL_PRESERVATION_CANON_0_1.md'
+      - 'docs/PRESERVATION_CANON_0_2.md'
       - 'docs/LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md'
       - 'data/research/ltmd_private_corpus_storage_contract.json'
       - 'data/research/ltmd_github_operational_archive_contract.json'
       - 'data/research/ltmd_u1_ftrl_wave_state.json'
+      - 'data/research/ltmd_u1_w1_archival_closure.json'
       - 'data/research/ltmd_u1_w5_archival_closure.json'
       - 'scripts/validate_total_preservation_canon.py'
       - 'scripts/export_github_operational_archive.py'
@@ -54,5 +58,5 @@ jobs:
             scripts/validate_total_preservation_canon.py \
             scripts/export_github_operational_archive.py
 
-      - name: Validate total preservation, Git history, GitHub archive, and W5 closure
+      - name: Validate total preservation, Git history, GitHub archive, W1 and W5 closure
         run: python scripts/validate_total_preservation_canon.py
