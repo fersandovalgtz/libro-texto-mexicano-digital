@@ -1,14 +1,14 @@
 {
   "schema": "LTMD_REPO_SNAPSHOT_DRIVE_0.1",
   "effective_date": "2026-08-25",
-  "snapshot_sequence": 13,
+  "snapshot_sequence": 14,
   "source_branch": "main",
-  "source_commit_expected_before_trigger": "bd345d8cd1c9f1927c6a3f6698316771a103e99c",
+  "source_commit_expected_before_trigger": "eb6d38c26248835d0e069b3ca121841427e96c5b",
   "destination": "private_google_drive",
   "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/01_REPO_SNAPSHOTS",
   "include": "versioned working tree plus complete Git bundle with branches, tags, pull-request refs, ref inventories, commit inventory, and checksums; excludes private/local/raw workspaces from the working-tree tarball",
   "retention_policy": "single_current_complete_snapshot",
-  "supersedes_snapshot_sequence": 12,
+  "supersedes_snapshot_sequence": 13,
   "required_outputs": ["repository_tar_gz", "complete_git_history_bundle", "commit_sha", "git_status", "git_refs", "remote_refs", "commit_objects", "bundle_verification", "bundle_heads", "sha256sums"],
-  "reason": "Major archival milestone after PR #59: W3 Español/Lengua is computationally validated and privately archival-complete with 52 shards, 130 historical identities, 114 canonical processing objects, and an exact 20,765-page union. Generate one replacement complete-history snapshot capturing the public text-free W3 closure and its CI validator. This snapshot does not imply text_verified or semantic_ready."
+  "reason": "Post-merge preservation after PR #60: W3 Español/Lengua is now promoted in the canonical wave state and reproducible exhaustive ledger 0.3. The repository records 193/542 identities with terminal disposition (188 validated archival-complete plus 5 final exceptions), while text_verified and semantic_ready remain false. Generate one replacement complete-history snapshot for the new canonical main state."
 }
