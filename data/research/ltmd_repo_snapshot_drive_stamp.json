@@ -1,14 +1,14 @@
 {
   "schema": "LTMD_REPO_SNAPSHOT_DRIVE_0.1",
   "effective_date": "2026-08-25",
-  "snapshot_sequence": 12,
+  "snapshot_sequence": 13,
   "source_branch": "main",
-  "source_commit_expected_before_trigger": "2a55ec09124054729e9c45a2285686cf4abf8776",
+  "source_commit_expected_before_trigger": "bd345d8cd1c9f1927c6a3f6698316771a103e99c",
   "destination": "private_google_drive",
   "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/01_REPO_SNAPSHOTS",
   "include": "versioned working tree plus complete Git bundle with branches, tags, pull-request refs, ref inventories, commit inventory, and checksums; excludes private/local/raw workspaces from the working-tree tarball",
   "retention_policy": "single_current_complete_snapshot",
-  "supersedes_snapshot_sequence": 11,
+  "supersedes_snapshot_sequence": 12,
   "required_outputs": ["repository_tar_gz", "complete_git_history_bundle", "commit_sha", "git_status", "git_refs", "remote_refs", "commit_objects", "bundle_verification", "bundle_heads", "sha256sums"],
-  "reason": "Major archival milestone at exhaustive W3 launch: includes merged PR #57 pilot trigger, successful pilot-derived topology, merged PR #58 distributed architecture, and W3 productive run stamp. Generate one replacement complete-history snapshot; after private Drive verification remove sequence 11. This snapshot does not imply W3 computational or archival completion."
+  "reason": "Major archival milestone after PR #59: W3 Español/Lengua is computationally validated and privately archival-complete with 52 shards, 130 historical identities, 114 canonical processing objects, and an exact 20,765-page union. Generate one replacement complete-history snapshot capturing the public text-free W3 closure and its CI validator. This snapshot does not imply text_verified or semantic_ready."
 }
