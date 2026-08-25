@@ -1,0 +1,110 @@
+{
+  "schema": "LTMD_FTRL_W3_ARCHIVE_CLOSURE_0.1",
+  "effective_date": "2026-08-25",
+  "wave": "W3",
+  "domain": "Español/Lengua",
+  "source": {
+    "workflow_run_id": "32853375619",
+    "source_commit": "2a55ec09124054729e9c45a2285686cf4abf8776",
+    "workflow_conclusion": "success"
+  },
+  "computational_validation": {
+    "shard_count": 52,
+    "historical_identities": 130,
+    "canonical_processing_objects": 114,
+    "page_records": 20765,
+    "page_partition_complete": true,
+    "page_partition_unique": true,
+    "global_union_exact": true,
+    "sqlite_integrity": "ok",
+    "fts_rows": 20765
+  },
+  "persistent_archive": {
+    "destination": "private_google_drive",
+    "destination_shared": false,
+    "encrypted_handoff_bundles": [
+      {
+        "shards": "0-15",
+        "bytes": 10215122,
+        "sha256": "4f6c8a5ebc51f3dbc1450d19e5e02c56fd9c819318b9c4cb05d1906584477872",
+        "redownload_verified": true
+      },
+      {
+        "shards": "16-51",
+        "bytes": 26337085,
+        "sha256": "033020efb0ea3ee27130f9513f60aea7465dd5a4f70b5891334b7d908ceaa1fe",
+        "redownload_verified": true
+      }
+    ],
+    "consolidated_products": [
+      {
+        "name": "ltmd_u1_w3_full_page_ocr.jsonl",
+        "bytes": 53189369,
+        "sha256": "26787657d399f0c393564a03d3e916380d8ea5f8f790077ee2c16df9526d0034",
+        "redownload_verified": true
+      },
+      {
+        "name": "ltmd_u1_w3_full_ocr_search.sqlite",
+        "bytes": 64782336,
+        "sha256": "d0da7b17ff6690c28193e24697723bc2836bc94be56cc1076d8bc48a3965ff1d",
+        "redownload_verified": true,
+        "sqlite_integrity": "ok"
+      },
+      {
+        "name": "ltmd_u1_w3_full_qc_queue.json",
+        "bytes": 12381349,
+        "sha256": "650137665cb36111806e95706a19f7cd364016bfb62264043f6289130b60f266",
+        "redownload_verified": true
+      },
+      {
+        "name": "ltmd_u1_w3_full_qc_summary.json",
+        "bytes": 31994,
+        "sha256": "51112c48d2f46fcb0e496b2f76f08a3d06325186eee7bd4a0928ea297a5c59b0",
+        "redownload_verified": true
+      },
+      {
+        "name": "ltmd_u1_w3_full_asset_manifest.csv",
+        "bytes": 5485489,
+        "sha256": "68856bbc6c02358f9503270388a0ef53f2c1173aa908a294986b8a7a1604359d",
+        "redownload_verified": true
+      },
+      {
+        "name": "ltmd_u1_w3_full_processing_inventory.csv",
+        "bytes": 10029,
+        "sha256": "a9c44dc7e03a0bde143653ab33a7a602d658b236d8618712b40a86bcbbda77d2",
+        "redownload_verified": true
+      },
+      {
+        "name": "ltmd_u1_w3_full_run_manifest.json",
+        "bytes": 1432,
+        "sha256": "6b645ec4f553b7f7b28a5d9ce313ece0ff0fd8e3576f8887f3f3476ebf640df8",
+        "redownload_verified": true
+      }
+    ],
+    "public_text_free_evidence": {
+      "bytes": 1342689,
+      "sha256": "f4d8365f709346325361aec344f9f9980d4215c158e693f518513626806e4fff",
+      "redownload_verified": true,
+      "contains_restricted_ocr_text": false
+    },
+    "all_required_products_present": true,
+    "all_required_products_redownload_verified": true
+  },
+  "quality_control": {
+    "pages_flagged_for_review": 4025,
+    "interpretation": "Quality-control review queue; this count is not a corpus validation failure."
+  },
+  "states": {
+    "ocr_available": true,
+    "computationally_validated": true,
+    "archival_complete": true,
+    "corpus_ready": true,
+    "text_verified": false,
+    "semantic_ready": false
+  },
+  "epistemic_guards": [
+    "ocr_available != text_verified",
+    "corpus_ready != semantic_ready",
+    "computationally_validated != text_verified"
+  ]
+}
