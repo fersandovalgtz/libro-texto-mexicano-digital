@@ -1,11 +1,11 @@
 {
-  "schema": "LTMD_PRIVATE_CORPUS_STORAGE_0.2",
+  "schema": "LTMD_PRIVATE_CORPUS_STORAGE_0.3",
   "effective_date": "2026-08-24",
-  "canonical_document": "docs/LTMD_TOTAL_PRESERVATION_CANON_0_1.md",
+  "canonical_document": "docs/PRESERVATION_CANON_0_2.md",
   "private_corpus_canonical_document": "docs/LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md",
   "project_total_preservation": {
     "required": true,
-    "principle": "Every artifact needed to understand, reproduce, audit, continue, or scientifically defend LTMD must have a persistent verified archive location, or a persistent negative record when the original bytes cannot lawfully be retained.",
+    "principle": "Every artifact needed to understand, reproduce, audit, continue, or scientifically defend LTMD must have a persistent verified archive location or a persistent negative record; redundant snapshots and temporary handoffs are removed after verified canonical consolidation.",
     "systems": {
       "github": "versioned reproducible public scientific surface",
       "google_drive": "persistent integral archive, private where required",
@@ -52,7 +52,18 @@
       "03_QC_detallado",
       "04_Manifiestos_y_procedencia",
       "05_Checksums_y_evidencia"
-    ]
+    ],
+    "repository_snapshot_policy": {
+      "current_complete_history_snapshots": 1,
+      "replace_only_at_major_archival_milestones": true,
+      "delete_superseded_after_verification": true
+    },
+    "u1_final_textual_corpus_policy": {
+      "exactly_one_integral_canonical_copy": true,
+      "private": true,
+      "verified_by_manifest_and_checksums": true,
+      "independent_of_actions_artifacts": true
+    }
   },
   "required_products_when_present": [
     "page_ocr_jsonl",
@@ -80,10 +91,12 @@
     "drive_copy_integrity_must_be_verified": true,
     "private_key_must_never_enter_public_repository": true,
     "prior_validated_runs_without_persistent_copy_are_archival_debt": true,
-    "substantive_main_changes_require_persistent_repository_snapshot": true,
     "github_only_is_not_sufficient_for_project_preservation": true,
     "drive_only_is_not_sufficient_for_versioned_scientific_truth": true,
-    "notion_only_is_not_sufficient_for_data_or_code_preservation": true
+    "notion_only_is_not_sufficient_for_data_or_code_preservation": true,
+    "major_archival_milestones_require_current_complete_history_snapshot": true,
+    "superseded_repository_snapshots_are_removed_after_verified_replacement": true,
+    "u1_final_textual_corpus_has_exactly_one_integral_canonical_private_copy": true
   },
   "continuity_order": [
     "notion_canonical_procedure_and_project_state",
@@ -95,5 +108,6 @@
     "entire LTMD repository and scientific history",
     "W5 Historia full validated run",
     "W1 Ciencias Naturales exhaustive full run"
-  ]
+  ],
+  "legacy_total_canon_document": "docs/LTMD_TOTAL_PRESERVATION_CANON_0_1.md"
 }
