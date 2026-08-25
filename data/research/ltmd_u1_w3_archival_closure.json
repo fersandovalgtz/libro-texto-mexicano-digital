@@ -1,0 +1,43 @@
+{
+  "archival_complete": true,
+  "domain": "Español/Lengua",
+  "effective_date": "2026-08-25",
+  "ftrl": {
+    "canonical_processing_objects": 114,
+    "commit": "2a55ec09124054729e9c45a2285686cf4abf8776",
+    "distributed_shards": 52,
+    "fts_rows": 20765,
+    "global_exact_union": true,
+    "historical_identities": 130,
+    "page_partition_complete": true,
+    "page_partition_unique": true,
+    "page_records": 20765,
+    "run_id": "32853375619",
+    "sqlite_integrity": "ok",
+    "status": "validated"
+  },
+  "interpretive_limit": "Computational and archival closure only; OCR availability does not imply text verification or semantic readiness.",
+  "persistent_archive": {
+    "archive_closure_record_preserved": true,
+    "destination_shared": false,
+    "encrypted_handoffs_preserved": true,
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/W3 — Español y Lengua/run_32853375619__2a55ec0__2026-08-25/02_CONSOLIDATED_PRIVATE",
+    "private_consolidation_validated": true,
+    "provider": "google_drive",
+    "redownload_checksum_verification_complete": true,
+    "restricted_plaintext_publicly_exposed": false,
+    "text_free_evidence_preserved": true
+  },
+  "qc": {
+    "interpretation": "Review queue for OCR quality control; flagged pages do not constitute a corpus coverage failure.",
+    "pages_flagged_for_review": 4025
+  },
+  "schema": "LTMD_FTRL_ARCHIVAL_CLOSURE_0.3",
+  "security": {
+    "plaintext_restricted_outputs_published": false,
+    "private_key_stored_outside_public_repository": true
+  },
+  "semantic_ready": false,
+  "text_verified": false,
+  "wave": "W3"
+}
