@@ -1,0 +1,42 @@
+{
+  "schema": "LTMD_FTRL_W3_DISTRIBUTED_RUN_STAMP_0.1",
+  "effective_date": "2026-08-25",
+  "run_sequence": 1,
+  "source_branch": "main",
+  "architecture_commit": "3de8f695d4a6f1d6b0016a80b91a29ed7df692c6",
+  "wave": "W3",
+  "operational_domain": "espanol_lengua",
+  "historical_identities": 130,
+  "canonical_processing_objects": 114,
+  "expected_source_pages": 20765,
+  "shard_count": 52,
+  "expected_partition": {
+    "shards_400_pages": 17,
+    "shards_399_pages": 35
+  },
+  "max_parallel": 8,
+  "pilot_basis": {
+    "workflow_run_id": "32852599812",
+    "pages": 100,
+    "execution_step_seconds": 81,
+    "sqlite_integrity": "ok",
+    "page_rows": 100,
+    "fts_rows": 100
+  },
+  "prerequisite": {
+    "w1_computationally_validated": true,
+    "w1_archival_complete": true,
+    "w1_closure_source": "data/research/ltmd_u1_w1_archival_closure.json"
+  },
+  "execution_policy": "exhaustive deterministic distributed run; no sampling; exact global union required",
+  "public_evidence_policy": "text-free only",
+  "restricted_output_policy": "encrypted shard handoffs only; private consolidation into one canonical W3 Drive package required before archival_complete",
+  "full_execution_activated": true,
+  "epistemic_state_at_trigger": {
+    "computationally_validated": false,
+    "archival_complete": false,
+    "text_verified": false,
+    "semantic_ready": false
+  },
+  "reason": "Launch W3 only after W1 computational and archival closure, successful 100-page W3 runtime pilot, CI validation of PR #58, and frozen 52-shard topology."
+}
