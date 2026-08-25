@@ -1,0 +1,28 @@
+{
+  "schema": "LTMD_FTRL_W1_DISTRIBUTED_RUN_STAMP_0.1",
+  "effective_date": "2026-08-24",
+  "run_sequence": 1,
+  "source_branch": "main",
+  "pre_run_repository_checkpoint_commit": "efec5fbcbf218a0829345fd54d64d59c1c8e3898",
+  "wave": "W1",
+  "subject": "Ciencias Naturales",
+  "historical_identities": 40,
+  "canonical_objects": 36,
+  "expected_source_pages": 6516,
+  "shard_count": 16,
+  "expected_partition": {
+    "shards_408_pages": 4,
+    "shards_407_pages": 12
+  },
+  "execution_policy": "exhaustive deterministic distributed run; no sampling",
+  "public_evidence_policy": "text-free only",
+  "restricted_output_policy": "encrypted handoff only; private Google Drive archival required before archival_complete",
+  "epistemic_state_at_trigger": {
+    "computationally_validated": false,
+    "archival_complete": false,
+    "text_verified": false,
+    "semantic_ready": false,
+    "w3_unblocked": false
+  },
+  "reason": "Launch the canonical W1 exhaustive distributed FTRL run after PR #52 architecture validation, PR #54 preservation-closure validation, and terminal repository snapshot sequence 9."
+}
