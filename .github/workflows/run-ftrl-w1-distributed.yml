@@ -1,0 +1,244 @@
+name: Run exhaustive distributed FTRL W1
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/research/ltmd_u1_w1_distributed_run_stamp.json'
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: ftrl-w1-distributed-exhaustive
+  cancel-in-progress: false
+
+jobs:
+  shard:
+    name: shard-${{ matrix.shard }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Spanish Tesseract data
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+          tesseract --list-langs | grep -Fx spa
+
+      - name: Validate private preservation canon
+        run: python scripts/validate_private_corpus_storage_contract.py
+
+      - name: Execute deterministic W1 shard
+        run: |
+          python scripts/run_ftrl_w1_distributed_shard.py \
+            --shard-index '${{ matrix.shard }}' \
+            --shard-count 16 \
+            --output-dir local/ftrl-w1-distributed
+
+      - name: Assert public shard evidence contains no restricted text
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          idx = int('${{ matrix.shard }}')
+          p = Path(f'local/ftrl-w1-distributed/shard_{idx:02d}_of_16/w1_shard_{idx:02d}_of_16_evidence.json')
+          data = json.loads(p.read_text(encoding='utf-8'))
+          assert data['schema'] == 'LTMD_FTRL_W1_DISTRIBUTED_SHARD_0.1'
+          assert data['status'] == 'validated'
+          forbidden = {'ocr_text_raw', 'search_text', 'snippet'}
+          def walk(x):
+              if isinstance(x, dict):
+                  assert not (forbidden & set(x)), forbidden & set(x)
+                  for v in x.values(): walk(v)
+              elif isinstance(x, list):
+                  for v in x: walk(v)
+          walk(data)
+          assert data['page_records'] in (407, 408)
+          PY
+
+      - name: Build and encrypt restricted shard archive
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          set -euo pipefail
+          IDX=$(printf '%02d' "$SHARD")
+          DIR="local/ftrl-w1-distributed/shard_${IDX}_of_16"
+          HANDOFF="local/private-handoff-w1-shard-${IDX}"
+          mkdir -p "$HANDOFF"
+          tar -C "$DIR" -czf "$HANDOFF/w1_shard_${IDX}_restricted.tar.gz" \
+            "w1_shard_${IDX}_of_16_page_ocr.jsonl" \
+            "w1_shard_${IDX}_of_16_ocr_search.sqlite" \
+            "w1_shard_${IDX}_of_16_qc_queue.json" \
+            "w1_shard_${IDX}_of_16_asset_manifest.csv" \
+            "w1_shard_${IDX}_of_16_run_manifest.json" \
+            "w1_shard_${IDX}_of_16_qc_summary.json"
+          openssl rand -base64 48 > "/tmp/w1-shard-${IDX}.pass"
+          openssl enc -aes-256-cbc -salt -pbkdf2 -iter 250000 \
+            -in "$HANDOFF/w1_shard_${IDX}_restricted.tar.gz" \
+            -out "$HANDOFF/w1_shard_${IDX}_restricted.tar.gz.enc" \
+            -pass file:"/tmp/w1-shard-${IDX}.pass"
+          openssl pkeyutl -encrypt \
+            -pubin \
+            -inkey security/ltmd_archive_public.pem \
+            -in "/tmp/w1-shard-${IDX}.pass" \
+            -out "$HANDOFF/w1_shard_${IDX}_passphrase.rsa-oaep.enc" \
+            -pkeyopt rsa_padding_mode:oaep \
+            -pkeyopt rsa_oaep_md:sha256
+          sha256sum \
+            "$HANDOFF/w1_shard_${IDX}_restricted.tar.gz.enc" \
+            "$HANDOFF/w1_shard_${IDX}_passphrase.rsa-oaep.enc" \
+            > "$HANDOFF/SHA256SUMS.txt"
+          rm -f "$HANDOFF/w1_shard_${IDX}_restricted.tar.gz" "/tmp/w1-shard-${IDX}.pass"
+
+      - name: Write text-free encrypted handoff manifest
+        env:
+          SHARD: ${{ matrix.shard }}
+          GH_RUN_ID: ${{ github.run_id }}
+          GH_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          idx = int(os.environ['SHARD'])
+          tag = f'{idx:02d}'
+          handoff = Path(f'local/private-handoff-w1-shard-{tag}')
+          evidence = Path(f'local/ftrl-w1-distributed/shard_{tag}_of_16/w1_shard_{tag}_of_16_evidence.json')
+          e = json.loads(evidence.read_text(encoding='utf-8'))
+          def desc(name):
+              p = handoff / name
+              h = hashlib.sha256()
+              with p.open('rb') as fh:
+                  for chunk in iter(lambda: fh.read(1024*1024), b''): h.update(chunk)
+              return {'name': name, 'bytes': p.stat().st_size, 'sha256': h.hexdigest()}
+          payload_name = f'w1_shard_{tag}_restricted.tar.gz.enc'
+          key_name = f'w1_shard_{tag}_passphrase.rsa-oaep.enc'
+          m = {
+              'schema': 'LTMD_PRIVATE_FTRL_SHARD_HANDOFF_0.1',
+              'wave': 'W1',
+              'shard_index': idx,
+              'shard_count': 16,
+              'page_records': e['page_records'],
+              'source_commit': os.environ['GH_SHA'],
+              'workflow_run_id': os.environ['GH_RUN_ID'],
+              'encryption': {
+                  'payload': 'AES-256-CBC + PBKDF2-SHA256, 250000 iterations',
+                  'key_wrap': 'RSA-4096 OAEP SHA-256',
+                  'public_key_sha256': '78852eafbaa332247f99e23508ac157b5b906c6c3bf3aeb0af1dfe8d57579c2d'
+              },
+              'files': [desc(payload_name), desc(key_name), desc('SHA256SUMS.txt')],
+              'plaintext_restricted_outputs_uploaded': False,
+              'destination_policy': 'private Google Drive; Actions artifact is temporary encrypted handoff only',
+              'archival_complete': False,
+          }
+          (handoff / f'w1_shard_{tag}_private_handoff_manifest.json').write_text(json.dumps(m, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+          PY
+
+      - name: Prove no plaintext restricted archive is uploaded
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          IDX=$(printf '%02d' "$SHARD")
+          HANDOFF="local/private-handoff-w1-shard-${IDX}"
+          test ! -f "$HANDOFF/w1_shard_${IDX}_restricted.tar.gz"
+          test -f "$HANDOFF/w1_shard_${IDX}_restricted.tar.gz.enc"
+          test -f "$HANDOFF/w1_shard_${IDX}_passphrase.rsa-oaep.enc"
+          grep -q 'BEGIN PUBLIC KEY' security/ltmd_archive_public.pem
+
+      - name: Upload encrypted shard handoff only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w1-shard-${{ matrix.shard }}-private-encrypted
+          path: local/private-handoff-w1-shard-*/
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Upload text-free shard evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w1-shard-${{ matrix.shard }}-text-free-evidence
+          path: |
+            local/ftrl-w1-distributed/shard_*/w1_shard_*_evidence.json
+            local/ftrl-w1-distributed/shard_*/w1_shard_*_run_manifest.json
+            local/ftrl-w1-distributed/shard_*/w1_shard_*_qc_summary.json
+            local/ftrl-w1-distributed/shard_*/w1_shard_*_asset_manifest.csv
+          if-no-files-found: error
+          retention-days: 30
+
+  aggregate:
+    name: validate-global-distributed-union
+    needs: shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download all text-free shard evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w1-shard-*-text-free-evidence
+          path: local/w1-distributed-evidence
+          merge-multiple: false
+
+      - name: Rebuild canonical expected W1 inputs
+        run: |
+          mkdir -p local/w1-distributed-expected
+          python scripts/build_ftrl_w1_inputs.py \
+            --asset-output local/w1-distributed-expected/asset_manifest.csv \
+            --processing-output local/w1-distributed-expected/processing_inventory.csv
+
+      - name: Validate exact exhaustive union of 16 shards
+        run: |
+          python scripts/validate_ftrl_w1_distributed.py \
+            --evidence-root local/w1-distributed-evidence \
+            --asset-manifest local/w1-distributed-expected/asset_manifest.csv \
+            --processing-inventory local/w1-distributed-expected/processing_inventory.csv \
+            --shard-count 16 \
+            --output local/ltmd_u1_w1_distributed_global_evidence.json
+
+      - name: Upload global text-free distributed evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w1-distributed-global-text-free-evidence
+          path: local/ltmd_u1_w1_distributed_global_evidence.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Report distributed W1 computational validation
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment 15 --repo "$GITHUB_REPOSITORY" --body "FTRL W1 distribuido — validación computacional exhaustiva COMPLETA en run ${GITHUB_RUN_ID}: 16 shards, 40 identidades, 36 objetos canónicos y 6,516/6,516 páginas, unión única y exacta contra el manifiesto canónico; SQLite/FTS5 y QC validados por shard. Los productos restringidos sólo existen en handoffs cifrados. Estado archivístico permanece `archival_complete=no` hasta copiar/verificar todos los handoffs y consolidar el corpus en Google Drive privado. W3 continúa bloqueado hasta ese cierre."
+
+  report-failure:
+    name: report-distributed-failure
+    if: failure()
+    needs: [shard, aggregate]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report W1 distributed failure
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment 15 --repo "$GITHUB_REPOSITORY" --body "FTRL W1 distribuido — corrida ${GITHUB_RUN_ID} NO completó todos sus gates. No se promueve W1, no se declara `archival_complete` y W3 permanece bloqueado. Los shards exitosos cifrados pueden conservarse como evidencia diagnóstica, pero no sustituyen la unión exhaustiva 6,516/6,516."
