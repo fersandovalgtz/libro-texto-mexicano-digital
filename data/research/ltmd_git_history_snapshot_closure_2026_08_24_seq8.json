@@ -1,0 +1,61 @@
+{
+  "schema": "LTMD_COMPLETE_GIT_HISTORY_ARCHIVE_CLOSURE_0.1",
+  "effective_date": "2026-08-24",
+  "repository": "fersandovalgtz/libro-texto-mexicano-digital",
+  "checkpoint": "repository_snapshot_sequence_8_after_pr_52",
+  "source": {
+    "workflow_run_id": "32806500511",
+    "source_commit": "5b988f666f291352021bf10c2a615cb17138da85",
+    "preserved_architecture_commit": "1c3576c32766a9627a6027890fe1909175c1eecc",
+    "artifact_id": "9548322517",
+    "artifact_name": "ltmd-repository-snapshot",
+    "artifact_zip_bytes": 183214572,
+    "artifact_zip_sha256": "2e5de59fb33142649d347d18ba8a2102d654c41ddfb94e8ca5cbec0d014cdd8d",
+    "workflow_conclusion": "success"
+  },
+  "git_history": {
+    "bundle_verified": true,
+    "independently_cloneable": true,
+    "branches_preserved": true,
+    "tags_preserved": true,
+    "pull_request_refs_preserved": true
+  },
+  "persistent_archive": {
+    "provider": "google_drive",
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/01_REPO_SNAPSHOTS",
+    "storage_form": "three reversible binary volumes plus manifest",
+    "volume_count": 3,
+    "volumes": [
+      {
+        "sequence": 0,
+        "bytes": 90000000,
+        "sha256": "3d72d2d64ac4216dd546799444ca283da915750825d14d0c17e3263ff1e73e19"
+      },
+      {
+        "sequence": 1,
+        "bytes": 90000000,
+        "sha256": "1cf06b59da7e74f08626d34562719ed0b049ef8e517adc229d1d725e4191513f"
+      },
+      {
+        "sequence": 2,
+        "bytes": 3214572,
+        "sha256": "46d802dbdc2e49eb8a596ec45c41a4bca25bb02b704be23308547a80297ae8dd"
+      }
+    ],
+    "manifest_present": true,
+    "all_volumes_shared": false,
+    "all_volumes_redownload_verified": true,
+    "reconstructed_bytes": 183214572,
+    "reconstructed_sha256": "2e5de59fb33142649d347d18ba8a2102d654c41ddfb94e8ca5cbec0d014cdd8d",
+    "reconstructed_matches_origin_artifact": true,
+    "zip_integrity_test_passed": true
+  },
+  "scope": {
+    "repository_code_and_git_history_only": true,
+    "w1_exhaustive_distributed_run_launched": false,
+    "w1_computationally_validated": false,
+    "w1_archival_complete": false,
+    "w3_unblocked": false
+  },
+  "archival_complete": true
+}
