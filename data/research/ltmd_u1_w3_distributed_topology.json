@@ -1,0 +1,68 @@
+{
+  "schema": "LTMD_FTRL_W3_DISTRIBUTED_TOPOLOGY_0.1",
+  "effective_date": "2026-08-25",
+  "wave": "W3",
+  "operational_domain": "espanol_lengua",
+  "historical_identities": 130,
+  "canonical_processing_objects": 114,
+  "canonical_source_pages": 20765,
+  "pilot": {
+    "workflow_run_id": "32852599812",
+    "source_commit": "0e972fddce8e4efe4f194447c6e2dd33e81c95e7",
+    "pages": 100,
+    "execution_step_seconds": 81,
+    "observed_seconds_per_page": 0.81,
+    "sqlite_integrity": "ok",
+    "page_rows": 100,
+    "fts_rows": 100,
+    "qc_page_records": 100,
+    "mean_ocr_confidence": 81.6888244,
+    "median_ocr_confidence": 90.023849,
+    "pages_flagged_for_qc": 29,
+    "zero_search_text_pages": 5,
+    "interpretation": "runtime and technical quality anchor only; not text verification or semantic validation"
+  },
+  "cross_wave_runtime_anchor": {
+    "wave": "W1",
+    "distributed_run_id": "32807213503",
+    "pages_per_shard": "407-408",
+    "observed_ocr_execution_seconds_per_page_examples": "approximately 0.94-1.02",
+    "interpretation": "second empirical anchor supporting an approximately 400-page shard target"
+  },
+  "topology": {
+    "algorithm": "stable sort (catalog_generation, grade_code, viewer_key, source_image_index) + balanced contiguous partition",
+    "shard_count": 52,
+    "max_parallel": 8,
+    "shards_400_pages": 17,
+    "shards_399_pages": 35,
+    "expected_total_pages": 20765,
+    "per_job_timeout_minutes": 330,
+    "reason": "Preserve the approximately 400-page shard size already validated operationally in W1 while applying the observed W3 pilot runtime. The topology favors fault isolation and reproducible restartability over minimizing artifact count."
+  },
+  "required_gates": {
+    "w1_computationally_validated": true,
+    "w1_archival_complete": true,
+    "all_52_shards_validated": true,
+    "global_union_exact_20765_of_20765": true,
+    "global_union_unique": true,
+    "same_source_commit_and_workflow_run": true,
+    "all_shard_sqlite_integrity_ok": true,
+    "all_shard_fts_cardinality_ok": true,
+    "all_shard_qc_cardinality_ok": true,
+    "restricted_outputs_plaintext_public_upload": false
+  },
+  "preservation": {
+    "private_handoffs_encrypted_before_upload": true,
+    "actions_artifacts_temporary": true,
+    "drive_final_policy": "consolidate privately into one canonical W3 corpus package, verify checksums/privacy, then remove redundant temporary handoffs",
+    "archival_complete_before_promotion": true
+  },
+  "epistemic_guards": [
+    "distributed_computationally_validated != archival_complete",
+    "ocr_available != text_verified",
+    "corpus_ready != semantic_ready",
+    "search_hit != historical_claim",
+    "zero_hits != demonstrated_absence"
+  ],
+  "full_execution_activated": false
+}
