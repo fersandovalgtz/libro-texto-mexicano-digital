@@ -1,0 +1,100 @@
+name: Aggregate exact W3 run artifacts for preservation
+
+on:
+  push:
+    branches:
+      - preservation/w3-artifact-aggregation
+    paths:
+      - 'data/research/ltmd_u1_w3_artifact_aggregation_stamp.json'
+      - '.github/workflows/archive-w3-run-artifacts.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  aggregate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SOURCE_RUN_ID: '32853375619'
+      SOURCE_COMMIT: '2a55ec09124054729e9c45a2285686cf4abf8776'
+    steps:
+      - name: Checkout exact preservation revision
+        uses: actions/checkout@v4
+
+      - name: Download exact artifact ZIP archives
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p local/w3-archive/private local/w3-archive/text-free
+          gh api --paginate "/repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/artifacts?per_page=100" > local/artifacts-pages.jsonl
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          pages = [json.loads(line) for line in Path('local/artifacts-pages.jsonl').read_text().splitlines() if line.strip()]
+          arts = [a for p in pages for a in p['artifacts']]
+          assert len(arts) == 105, len(arts)
+          private = [a for a in arts if a['name'].endswith('-private-encrypted')]
+          textfree = [a for a in arts if a['name'].endswith('-text-free-evidence')]
+          assert len(private) == 52, len(private)
+          assert len(textfree) == 53, len(textfree)
+          rows=[]
+          for a in arts:
+              if a in private:
+                  cls='private_encrypted'
+              elif a in textfree:
+                  cls='text_free_evidence'
+              else:
+                  raise AssertionError(a['name'])
+              rows.append({'id':a['id'],'name':a['name'],'size_in_bytes':a['size_in_bytes'],'digest':a['digest'],'expires_at':a['expires_at'],'class':cls})
+          Path('local/w3-archive/source_artifact_manifest.json').write_text(json.dumps({'source_run_id':'32853375619','source_commit':'2a55ec09124054729e9c45a2285686cf4abf8776','artifact_count':105,'private_encrypted_count':52,'text_free_evidence_count':53,'artifacts':rows},indent=2,sort_keys=True)+'\n')
+          Path('local/download-list.tsv').write_text('\n'.join(f"{r['id']}\t{r['name']}\t{r['class']}" for r in rows)+'\n')
+          PY
+          while IFS=$'\t' read -r id name cls; do
+            if [ "$cls" = private_encrypted ]; then out="local/w3-archive/private/${name}.zip"; else out="local/w3-archive/text-free/${name}.zip"; fi
+            gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/${id}/zip" > "$out"
+          done < local/download-list.tsv
+
+      - name: Verify every exact ZIP against GitHub digest
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          m=json.loads(Path('local/w3-archive/source_artifact_manifest.json').read_text())
+          for a in m['artifacts']:
+              d='private' if a['class']=='private_encrypted' else 'text-free'
+              p=Path('local/w3-archive')/d/(a['name']+'.zip')
+              assert p.stat().st_size == a['size_in_bytes'], (p,p.stat().st_size,a['size_in_bytes'])
+              h=hashlib.sha256(p.read_bytes()).hexdigest()
+              assert 'sha256:'+h == a['digest'], (p,h,a['digest'])
+          print('All 105 GitHub artifact ZIPs match exact provider digests')
+          PY
+
+      - name: Build reversible preservation bundles
+        run: |
+          set -euo pipefail
+          tar -C local/w3-archive -cf local/ltmd-u1-w3-run-32853375619-private-encrypted-exact.tar private source_artifact_manifest.json
+          tar -C local/w3-archive -cf local/ltmd-u1-w3-run-32853375619-text-free-exact.tar text-free source_artifact_manifest.json
+          sha256sum local/ltmd-u1-w3-run-32853375619-*.tar > local/ltmd-u1-w3-run-32853375619-bundle-sha256.txt
+
+      - name: Upload private encrypted exact bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w3-run-32853375619-private-encrypted-exact
+          path: |
+            local/ltmd-u1-w3-run-32853375619-private-encrypted-exact.tar
+            local/ltmd-u1-w3-run-32853375619-bundle-sha256.txt
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Upload text-free exact bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w3-run-32853375619-text-free-exact
+          path: |
+            local/ltmd-u1-w3-run-32853375619-text-free-exact.tar
+            local/ltmd-u1-w3-run-32853375619-bundle-sha256.txt
+          if-no-files-found: error
+          retention-days: 30
