@@ -1,0 +1,95 @@
+name: Validate distributed FTRL W1 architecture
+
+on:
+  push:
+    branches:
+      - 'ftrl/w1-distributed-16-shard'
+    paths:
+      - 'scripts/run_ftrl_w1_distributed_shard.py'
+      - 'scripts/validate_ftrl_w1_distributed.py'
+      - 'scripts/consolidate_ftrl_w1_distributed.py'
+      - 'docs/FTRL_W1_DISTRIBUTED_EXECUTION_0_1.md'
+      - '.github/workflows/run-ftrl-w1-distributed.yml'
+      - '.github/workflows/validate-ftrl-w1-distributed-config.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/run_ftrl_w1_distributed_shard.py'
+      - 'scripts/validate_ftrl_w1_distributed.py'
+      - 'scripts/consolidate_ftrl_w1_distributed.py'
+      - 'docs/FTRL_W1_DISTRIBUTED_EXECUTION_0_1.md'
+      - '.github/workflows/run-ftrl-w1-distributed.yml'
+      - '.github/workflows/validate-ftrl-w1-distributed-config.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-distributed-architecture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile distributed runner, validator, and consolidator
+        run: |
+          python -m py_compile \
+            scripts/run_ftrl_w1_distributed_shard.py \
+            scripts/validate_ftrl_w1_distributed.py \
+            scripts/consolidate_ftrl_w1_distributed.py
+
+      - name: Rebuild W1 inputs and prove deterministic 16-way partition
+        run: |
+          mkdir -p /tmp/w1-distributed
+          python scripts/build_ftrl_w1_inputs.py \
+            --asset-output /tmp/w1-distributed/asset_manifest.csv \
+            --processing-output /tmp/w1-distributed/processing_inventory.csv
+          python - <<'PY'
+          import importlib.util
+          from collections import Counter
+          from pathlib import Path
+
+          path = Path('scripts/run_ftrl_w1_distributed_shard.py')
+          spec = importlib.util.spec_from_file_location('w1dist', path)
+          mod = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(mod)
+          rows = mod.sorted_source_rows(mod.read_csv(Path('/tmp/w1-distributed/asset_manifest.csv')))
+          assert len(rows) == 6516
+          shards = [mod.balanced_slice(rows, i, 16) for i in range(16)]
+          assert Counter(map(len, shards)) == Counter({407: 12, 408: 4})
+          flat = [r for shard in shards for r in shard]
+          assert len(flat) == 6516
+          hashes = [mod.page_key_hash(r['viewer_key'], int(r['source_image_index'])) for r in flat]
+          assert len(set(hashes)) == 6516
+          print({'pages': len(flat), 'shards': len(shards), 'distribution': Counter(map(len, shards))})
+          PY
+
+      - name: Assert workflow safety and non-bypassable global gate
+        run: |
+          set -euo pipefail
+          WF=.github/workflows/run-ftrl-w1-distributed.yml
+          grep -Fq 'max-parallel: 8' "$WF"
+          grep -Fq 'timeout-minutes: 330' "$WF"
+          grep -Fq 'shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]' "$WF"
+          grep -Fq 'needs: shard' "$WF"
+          grep -Fq 'AES-256-CBC + PBKDF2-SHA256' "$WF"
+          grep -Fq 'RSA-4096 OAEP SHA-256' "$WF"
+          grep -Fq 'ltmd-u1-w1-shard-${{ matrix.shard }}-private-encrypted' "$WF"
+          grep -Fq 'validate_ftrl_w1_distributed.py' "$WF"
+          ! grep -Fq 'BEGIN PRIVATE KEY' "$WF"
+          ! grep -Fq 'BEGIN RSA PRIVATE KEY' "$WF"
+
+      - name: Assert protocol keeps epistemic and archival gates separate
+        run: |
+          DOC=docs/FTRL_W1_DISTRIBUTED_EXECUTION_0_1.md
+          grep -Fq 'distributed_computationally_validated != archival_complete' "$DOC"
+          grep -Fq 'ocr_available != text_verified' "$DOC"
+          grep -Fq 'W3 continúa bloqueado' "$DOC"
+          grep -Fq '6,516/6,516' "$DOC"
