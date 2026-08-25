@@ -1,0 +1,71 @@
+{
+  "schema": "LTMD_FTRL_W6_DISTRIBUTED_TOPOLOGY_0.1",
+  "effective_date": "2026-08-25",
+  "wave": "W6",
+  "operational_domain": "geografia_atlas",
+  "historical_identities": 42,
+  "canonical_processing_objects": 37,
+  "canonical_source_pages": 5258,
+  "source_topology": {
+    "route_aliases_2018_to_2019": 5,
+    "cryptographically_recovered_same_position_pages": 2,
+    "persistent_source_gaps": 0,
+    "prior_ocr_sha_verified_pages": 5258,
+    "prior_ocr_unresolved_pages": 0,
+    "interpretation": "technical source/OCR anchor only; the prior metrics layer did not preserve page OCR text and cannot be promoted as FTRL completion"
+  },
+  "runtime_anchors": {
+    "W3": {
+      "distributed_run_id": "32853375619",
+      "pages_per_shard": "399-400",
+      "status": "computationally_validated_and_archivally_complete"
+    },
+    "W1": {
+      "distributed_run_id": "32807213503",
+      "pages_per_shard": "407-408",
+      "status": "computationally_validated_and_archivally_complete"
+    },
+    "interpretation": "cross-wave runtime anchors justify retaining an approximately 330-400 page shard scale without treating prior W6 OCR metrics as FTRL completion"
+  },
+  "topology": {
+    "algorithm": "stable sort (catalog_generation, grade_code, viewer_key, source_image_index) + balanced contiguous partition",
+    "shard_count": 16,
+    "max_parallel": 8,
+    "shards_329_pages": 10,
+    "shards_328_pages": 6,
+    "expected_total_pages": 5258,
+    "per_job_timeout_minutes": 330,
+    "reason": "Use a deterministic partition near the W1/W3 proven shard scale while limiting artifact count for the smaller W6 denominator."
+  },
+  "required_gates": {
+    "w3_archival_complete": true,
+    "all_16_shards_validated": true,
+    "global_union_exact_5258_of_5258": true,
+    "global_union_unique": true,
+    "same_source_commit_and_workflow_run": true,
+    "all_shard_sqlite_integrity_ok": true,
+    "all_shard_fts_cardinality_ok": true,
+    "all_shard_qc_cardinality_ok": true,
+    "restricted_outputs_plaintext_public_upload": false
+  },
+  "preservation": {
+    "private_handoffs_encrypted_before_upload": true,
+    "actions_artifacts_temporary": true,
+    "drive_final_policy": "consolidate privately into one canonical W6 corpus package, verify checksums/privacy, then remove redundant temporary handoffs",
+    "archival_complete_before_promotion": true
+  },
+  "epistemic_guards": [
+    "distributed_computationally_validated != archival_complete",
+    "ocr_available != text_verified",
+    "corpus_ready != semantic_ready",
+    "search_hit != historical_claim",
+    "zero_hits != demonstrated_absence"
+  ],
+  "activation": {
+    "date": "2026-08-25",
+    "workflow": ".github/workflows/run-ftrl-w6-distributed.yml",
+    "trigger": "data/research/ltmd_u1_w6_distributed_run_stamp.json",
+    "policy": "activate only after merge to main; merge push of run stamp starts exhaustive distributed W6"
+  },
+  "full_execution_activated": true
+}

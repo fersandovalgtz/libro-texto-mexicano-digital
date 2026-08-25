@@ -1,0 +1,15 @@
+{
+  "schema": "LTMD_FTRL_W6_DISTRIBUTED_RUN_STAMP_0.1",
+  "wave": "W6",
+  "domain": "Geografía/Atlas",
+  "activation_date": "2026-08-25",
+  "historical_identities": 42,
+  "canonical_processing_objects": 37,
+  "expected_pages": 5258,
+  "shard_count": 16,
+  "max_parallel": 8,
+  "trigger_policy": "merge to main triggers .github/workflows/run-ftrl-w6-distributed.yml",
+  "archival_complete": false,
+  "text_verified": false,
+  "semantic_ready": false
+}
