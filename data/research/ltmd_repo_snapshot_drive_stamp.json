@@ -1,12 +1,12 @@
 {
   "schema": "LTMD_REPO_SNAPSHOT_DRIVE_0.1",
   "effective_date": "2026-08-24",
-  "snapshot_sequence": 9,
+  "snapshot_sequence": 10,
   "source_branch": "main",
-  "source_commit_expected_before_trigger": "eff60b4bd41abf769043b3dea080ef92ff38987a",
+  "source_commit_expected_before_trigger": "d07d0908e4e20ace2e01ba0e254073a3a163b6ce",
   "destination": "private_google_drive",
   "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/01_REPO_SNAPSHOTS",
   "include": "versioned working tree plus complete Git bundle with branches, tags, pull-request refs, ref inventories, commit inventory, and checksums; excludes private/local/raw workspaces from the working-tree tarball",
   "required_outputs": ["repository_tar_gz", "complete_git_history_bundle", "commit_sha", "git_status", "git_refs", "remote_refs", "commit_objects", "bundle_verification", "bundle_heads", "sha256sums"],
-  "reason": "Terminal repository preservation checkpoint after PR #54 recorded and validated the sequence-8 closure evidence. This sequence captures the distributed W1 architecture plus its preservation tooling and public text-free audit evidence. It does not launch W1 OCR, validate the W1 corpus, complete W1 archival outputs, verify OCR text, or unblock W3."
+  "reason": "Post-launch repository preservation checkpoint capturing the exact main state after creation of the W1 distributed run stamp at d07d0908e4e20ace2e01ba0e254073a3a163b6ce. This snapshot records the trigger state only; it does not alter or retrigger W1, does not declare computational validation or archival completion of the W1 corpus, and does not unblock W3."
 }
