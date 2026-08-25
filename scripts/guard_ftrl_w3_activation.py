@@ -27,6 +27,7 @@ def main() -> None:
     validated = [row for row in rows if row.get("ftrl_status") == "validated"]
     corpus_ready = [row for row in rows if row.get("corpus_ready") == "1"]
     ocr_available = [row for row in rows if row.get("ocr_available") == "1"]
+    archival_complete = [row for row in rows if row.get("archival_status") == "archival_complete"]
     semantic_promotions = [row for row in rows if row.get("semantic_ready") == "1"]
     text_promotions = [row for row in rows if row.get("text_verified") == "1"]
 
@@ -34,6 +35,7 @@ def main() -> None:
         len(validated) == EXPECTED_W1_IDENTITIES
         and len(corpus_ready) == EXPECTED_W1_IDENTITIES
         and len(ocr_available) == EXPECTED_W1_IDENTITIES
+        and len(archival_complete) == EXPECTED_W1_IDENTITIES
         and not semantic_promotions
         and not text_promotions
     )
@@ -44,10 +46,11 @@ def main() -> None:
         "w1_validated_identities": len(validated),
         "w1_corpus_ready_identities": len(corpus_ready),
         "w1_ocr_available_identities": len(ocr_available),
+        "w1_archival_complete_identities": len(archival_complete),
         "w1_text_verified_identities": len(text_promotions),
         "w1_semantic_ready_identities": len(semantic_promotions),
         "w3_runtime_allowed": ready,
-        "rule": "W3 OCR runtime requires exhaustive technical W1 closure; text/semantic validation remain separate",
+        "rule": "W3 OCR runtime requires exhaustive computational and archival W1 closure; text/semantic validation remain separate",
     }
     if args.json:
         print(json.dumps(status, ensure_ascii=False, sort_keys=True))
@@ -56,12 +59,13 @@ def main() -> None:
             "W3 activation gate: "
             f"W1 validated={len(validated)}/{EXPECTED_W1_IDENTITIES}, "
             f"corpus_ready={len(corpus_ready)}/{EXPECTED_W1_IDENTITIES}, "
-            f"ocr_available={len(ocr_available)}/{EXPECTED_W1_IDENTITIES}"
+            f"ocr_available={len(ocr_available)}/{EXPECTED_W1_IDENTITIES}, "
+            f"archival_complete={len(archival_complete)}/{EXPECTED_W1_IDENTITIES}"
         )
 
     if not ready:
         raise SystemExit(
-            "W3 OCR runtime BLOCKED: exhaustive W1 has not yet been promoted to validated/corpus_ready/ocr_available in the canonical ledger"
+            "W3 OCR runtime BLOCKED: exhaustive W1 has not yet reached validated/corpus_ready/ocr_available/archival_complete for 40/40 identities in the canonical ledger"
         )
 
 

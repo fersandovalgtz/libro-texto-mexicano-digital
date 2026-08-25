@@ -4,8 +4,11 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'docs/PRESERVATION_CANON_0_2.md'
       - 'docs/LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md'
+      - 'docs/LTMD_TOTAL_PRESERVATION_CANON_0_1.md'
       - 'data/research/ltmd_private_corpus_storage_contract.json'
+      - 'data/research/ltmd_u1_w1_archival_closure.json'
       - 'data/research/ltmd_u1_w1_private_preservation_stamp.json'
       - 'data/research/ltmd_u1_w5_private_preservation_stamp.json'
       - 'security/ltmd_archive_public.pem'

@@ -68,6 +68,8 @@ jobs:
           assert readiness['canonical_source_pages'] == 20765
           assert readiness['activation_gate']['required_predecessor'] == 'W1'
           assert readiness['activation_gate']['required_w1_validated_identities'] == 40
+          assert readiness['activation_gate']['required_w1_archival_complete_identities'] == 40
+          assert readiness['activation_gate']['satisfied'] is True
           assert readiness['activation_gate']['bypass_allowed'] is False
           assert readiness['runtime']['full_execution_activated'] is False
           assert readiness['runtime']['full_execution_topology_frozen'] is False
@@ -90,5 +92,5 @@ jobs:
           assert len(processing) == 130
           assert sum(int(r['is_canonical_processing_object']) for r in processing) == 114
           assert len(pages) == 20765
-          print('W3 runtime scaffold is guarded, exhaustive, and not activated')
+          print('W3 runtime scaffold is guarded, exhaustive, archive-gated, and not activated')
           PY

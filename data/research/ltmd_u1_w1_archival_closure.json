@@ -1,0 +1,44 @@
+{
+  "archival_complete": true,
+  "domain": "Ciencias Naturales",
+  "effective_date": "2026-08-24",
+  "ftrl": {
+    "canonical_processing_objects": 36,
+    "commit": "d07d0908e4e20ace2e01ba0e254073a3a163b6ce",
+    "distributed_shards": 16,
+    "fts_rows": 6516,
+    "global_exact_union": true,
+    "historical_identities": 40,
+    "page_records": 6516,
+    "run_id": "32807213503",
+    "sqlite_integrity": "ok",
+    "status": "validated"
+  },
+  "interpretive_limit": "Computational and archival closure only; OCR availability does not imply text verification or semantic readiness.",
+  "persistent_archive": {
+    "destination_bytes": 11970034,
+    "destination_shared": false,
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/W1 — Ciencias Naturales/run_32807213503__d07d090__2026-08-24/02_CONSOLIDATED_PRIVATE/LTMD_W1_Ciencias_Naturales_corpus_textual_canonico_v1.zip",
+    "provider": "google_drive",
+    "redownload_sha256": "18e6da83a5c736142dfd313d804b4895862c23bc45562118cb5a50fdf1249dc3",
+    "redownload_verified": true,
+    "single_canonical_consolidated_copy": true,
+    "temporary_encrypted_handoff_absorbed_and_removed": true,
+    "zip_integrity_test_passed": true
+  },
+  "public_text_free_evidence": {
+    "bytes": 655400,
+    "redownload_verified": true,
+    "sha256": "c06de33cb205124a04ad14ac3fb7afdfdce01de3dda8905876e67f2460db010e"
+  },
+  "schema": "LTMD_FTRL_ARCHIVAL_CLOSURE_0.2",
+  "security": {
+    "plaintext_restricted_outputs_published": false,
+    "private_key_in_canonical_corpus": false,
+    "private_key_stored_outside_public_repository": true
+  },
+  "semantic_ready": false,
+  "text_verified": false,
+  "w3_activation_gate_satisfied": true,
+  "wave": "W1"
+}

@@ -1,16 +1,17 @@
 {
   "schema": "LTMD_U1_FTRL_WAVE_STATE_0.1",
   "effective_date": "2026-08-24",
-  "note": "Metadata-only operational state. Update only from verified GitHub Actions and persistent-archive evidence; never infer semantic readiness from OCR availability.",
+  "note": "Metadata-only operational state. Update only from verified computation and persistent-archive evidence; preservation follows docs/PRESERVATION_CANON_0_2.md. Never infer text or semantic readiness from OCR availability.",
   "waves": {
     "W1": {
       "domain": "ciencias_naturales",
-      "ftrl_status": "in_progress",
-      "ftrl_run_id": "32768285396",
-      "ftrl_commit": "d3ad64f789570fb7a2b8557dcb0c69c7a2beca6d",
-      "archival_status": "preservation_in_progress",
-      "preservation_run_id": "32784141182",
-      "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W1 — Ciencias Naturales/run_32768285396__d3ad64f__2026-08-24"
+      "ftrl_status": "validated",
+      "ftrl_run_id": "32807213503",
+      "ftrl_commit": "d07d0908e4e20ace2e01ba0e254073a3a163b6ce",
+      "archival_status": "archival_complete",
+      "preservation_run_id": "private_consolidation_2026-08-24",
+      "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W1 — Ciencias Naturales/run_32807213503__d07d090__2026-08-24/02_CONSOLIDATED_PRIVATE/LTMD_W1_Ciencias_Naturales_corpus_textual_canonico_v1.zip",
+      "archival_closure_evidence": "data/research/ltmd_u1_w1_archival_closure.json"
     },
     "W2": {"domain": "matematicas", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
     "W3": {"domain": "espanol_lengua", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},

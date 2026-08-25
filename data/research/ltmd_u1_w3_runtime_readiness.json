@@ -12,8 +12,13 @@
     "required_w1_validated_identities": 40,
     "required_w1_corpus_ready_identities": 40,
     "required_w1_ocr_available_identities": 40,
+    "required_w1_archival_complete_identities": 40,
     "guard_script": "scripts/guard_ftrl_w3_activation.py",
-    "bypass_allowed": false
+    "bypass_allowed": false,
+    "satisfied": true,
+    "satisfied_by_w1_run_id": "32807213503",
+    "satisfied_by_w1_archival_closure": "data/research/ltmd_u1_w1_archival_closure.json",
+    "verified_date": "2026-08-24"
   },
   "runtime": {
     "runner": "scripts/run_ftrl_w3.py",
@@ -24,7 +29,7 @@
   },
   "preservation": {
     "required_before_full_activation": true,
-    "canonical_policy": "docs/LTMD_PRIVATE_CORPUS_PRESERVATION_CANON_0_1.md",
+    "canonical_policy": "docs/PRESERVATION_CANON_0_2.md",
     "destination": "private_google_drive",
     "archival_complete": false
   },
