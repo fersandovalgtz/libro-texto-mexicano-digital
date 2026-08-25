@@ -1,0 +1,50 @@
+{
+  "schema": "LTMD_COMPLETE_GIT_HISTORY_ARCHIVE_CLOSURE_0.1",
+  "effective_date": "2026-08-24",
+  "repository": "fersandovalgtz/libro-texto-mexicano-digital",
+  "source": {
+    "workflow_run_id": "32791856141",
+    "source_commit": "842a41536c96b5e73486c23e97609a05dcf5de45",
+    "artifact_id": "9543397514",
+    "artifact_name": "ltmd-repository-snapshot",
+    "artifact_zip_bytes": 183170565,
+    "artifact_zip_sha256": "cf1befbf8bdfb25569c47eac5bf545f5111ccaca57973241391e4b32ef9cb447",
+    "workflow_conclusion": "success"
+  },
+  "git_history": {
+    "bundle_verified": true,
+    "independently_cloneable": true,
+    "branches_preserved": true,
+    "tags_preserved": true,
+    "pull_request_refs_preserved": true
+  },
+  "persistent_archive": {
+    "provider": "google_drive",
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/01_REPO_SNAPSHOTS",
+    "storage_form": "three reversible binary volumes plus manifest",
+    "volume_count": 3,
+    "volumes": [
+      {
+        "sequence": 0,
+        "bytes": 90000000,
+        "sha256": "a15c8db996b3e39d3c8f405e26fd249dc71e19a1e64bc2cd487c6c16d837d867"
+      },
+      {
+        "sequence": 1,
+        "bytes": 90000000,
+        "sha256": "deb3c051549d03c7b78b669b298080842e48a60890f43924966f626413ed79d0"
+      },
+      {
+        "sequence": 2,
+        "bytes": 3170565,
+        "sha256": "a8da596fbaa3315d8bd3342536f55c798f8b341f29879d9521b932a99f763c25"
+      }
+    ],
+    "all_volumes_shared": false,
+    "all_volumes_redownload_verified": true,
+    "reconstructed_bytes": 183170565,
+    "reconstructed_sha256": "cf1befbf8bdfb25569c47eac5bf545f5111ccaca57973241391e4b32ef9cb447",
+    "reconstructed_matches_origin_artifact": true
+  },
+  "archival_complete": true
+}
