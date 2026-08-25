@@ -61,5 +61,11 @@
     "search_hit != historical_claim",
     "zero_hits != demonstrated_absence"
   ],
-  "full_execution_activated": false
+  "activation": {
+    "date": "2026-08-25",
+    "workflow": ".github/workflows/run-ftrl-w6-distributed.yml",
+    "trigger": "data/research/ltmd_u1_w6_distributed_run_stamp.json",
+    "policy": "activate only after merge to main; merge push of run stamp starts exhaustive distributed W6"
+  },
+  "full_execution_activated": true
 }
