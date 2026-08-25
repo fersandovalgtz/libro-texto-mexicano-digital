@@ -1,21 +1,18 @@
 {
   "archival_status": {
-    "archival_complete": 18,
+    "archival_complete": 58,
     "not_applicable_final_exception": 5,
-    "not_started": 479,
-    "preservation_in_progress": 40
+    "not_started": 479
   },
   "canonical_processing_objects_by_ftrl_status": {
-    "in_progress": 36,
     "pending": 114,
-    "validated": 15
+    "validated": 51
   },
   "canonical_source_pages_by_ftrl_status": {
-    "in_progress": 6516,
     "pending": 20765,
-    "validated": 2653
+    "validated": 9169
   },
-  "corpus_ready_identities": 18,
+  "corpus_ready_identities": 58,
   "documentary_dispositions": {
     "active_retention": 13,
     "final_exception": 5,
@@ -34,9 +31,8 @@
   "ftrl_identity_status": {
     "blocked_active_retention": 13,
     "final_exception": 5,
-    "in_progress": 40,
     "pending": 466,
-    "validated": 18
+    "validated": 58
   },
   "global_closure": {
     "active_retentions": 13,
@@ -46,7 +42,7 @@
   },
   "known_processing_topology_identities": 188,
   "ledger_version": "LTMD_U1_FTRL_COMPLETION_LEDGER_0.2",
-  "ocr_available_identities": 18,
+  "ocr_available_identities": 58,
   "schema": "LTMD_U1_FTRL_COMPLETION_SUMMARY_0.2",
   "semantic_ready_identities": 0,
   "source_readiness": {
