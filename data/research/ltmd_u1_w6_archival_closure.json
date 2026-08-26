@@ -1,0 +1,41 @@
+{
+  "schema": "LTMD_FTRL_ARCHIVAL_CLOSURE_0.4",
+  "archival_complete": true,
+  "domain": "Geografía/Atlas",
+  "effective_date": "2026-08-25",
+  "ftrl": {
+    "canonical_processing_objects": 37,
+    "commit": "ae785d821e86fcd10f400280eda590b0bbc729f9",
+    "distributed_shards": 16,
+    "fts_rows": 5258,
+    "global_exact_union": true,
+    "historical_identities": 42,
+    "page_partition_complete": true,
+    "page_partition_unique": true,
+    "page_records": 5258,
+    "run_id": "32908105382",
+    "sqlite_integrity": "ok",
+    "status": "validated"
+  },
+  "interpretive_limit": "Computational and archival closure only; OCR availability does not imply text verification or semantic readiness.",
+  "persistent_archive": {
+    "archive_closure_record_preserved": true,
+    "destination_shared": false,
+    "encrypted_handoffs_preserved": true,
+    "encrypted_handoffs_unique": 16,
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/W6 — Geografía y Atlas/run_32908105382__ae785d8__2026-08-25/02_CONSOLIDATED_PRIVATE",
+    "private_consolidation_validated": true,
+    "provider": "google_drive",
+    "redownload_checksum_verification_complete": true,
+    "restricted_plaintext_publicly_exposed": false,
+    "resume_duplicate_copies_removed": 12,
+    "text_free_evidence_preserved": true
+  },
+  "security": {
+    "plaintext_restricted_outputs_published": false,
+    "private_key_stored_outside_public_repository": true
+  },
+  "semantic_ready": false,
+  "text_verified": false,
+  "wave": "W6"
+}

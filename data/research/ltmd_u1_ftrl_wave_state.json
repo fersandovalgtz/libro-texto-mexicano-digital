@@ -53,12 +53,13 @@
     },
     "W6": {
       "domain": "geografia_atlas",
-      "ftrl_status": "pending",
-      "ftrl_run_id": "",
-      "ftrl_commit": "",
-      "archival_status": "not_started",
-      "preservation_run_id": "",
-      "archive_destination_logical": ""
+      "ftrl_status": "validated",
+      "ftrl_run_id": "32908105382",
+      "ftrl_commit": "ae785d821e86fcd10f400280eda590b0bbc729f9",
+      "archival_status": "archival_complete",
+      "preservation_run_id": "private_consolidation_2026-08-25",
+      "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W6 — Geografía y Atlas/run_32908105382__ae785d8__2026-08-25/02_CONSOLIDATED_PRIVATE",
+      "archival_closure_evidence": "data/research/ltmd_u1_w6_archival_closure.json"
     },
     "W7": {
       "domain": "civica_etica",
