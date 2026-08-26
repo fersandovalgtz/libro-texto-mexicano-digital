@@ -30,6 +30,13 @@ on:
       - 'data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv'
       - 'data/catalog/ltmd_u1_w5_history_processing_inventory.csv'
       - 'data/catalog/ltmd_u1_w6_geography_atlas_processing_inventory.csv'
+      - 'data/catalog/ciencias_naturales_family_asset_readiness.csv'
+      - 'data/catalog/ciencias_naturales_pending_page_manifest.csv'
+      - 'data/catalog/ltmd_u1_w1_1966_page_manifest.csv'
+      - 'data/catalog/ltmd_u1_w1_1966_page_manifest_summary.csv'
+      - 'data/catalog/cn5_pilot_sha/**'
+      - 'data/expansion/cn46_page_manifest.csv'
+      - 'data/expansion/cn46_page_manifest_summary.csv'
       - 'data/research/ltmd_u1_ftrl_wave_state.json'
       - 'data/research/ltmd_u1_w1_archival_closure.json'
       - 'data/research/ltmd_u1_w3_archival_closure.json'
@@ -113,6 +120,14 @@ jobs:
               assert sum(int(r['text_verified']) for r in wr) == 0
               assert sum(int(r['semantic_ready']) for r in wr) == 0
 
+          # Preserve all W3 topology assertions from ledger 0.3.
+          w3 = [r for r in rows if r['wave'] == 'W3']
+          assert Counter(r['source_ready'] for r in w3) == Counter({'full': 123, 'partial': 7})
+          assert Counter(r['relation_type'] for r in w3) == Counter({'direct_canonical': 107, 'partial_canonical_explicit_gap': 7, 'exact_byte_alias': 8, 'paired_route_alias_2018_to_2019': 8})
+          assert sum(r['is_canonical_processing_object'] == '1' for r in w3) == 114
+          assert sum(int(r['canonical_source_pages'] or 0) for r in w3 if r['is_canonical_processing_object'] == '1') == 20765
+          assert sum(int(r['persistent_unresolved_source_gaps'] or 0) for r in w3 if r['is_canonical_processing_object'] == '1') == 8
+
           w6 = [r for r in rows if r['wave'] == 'W6']
           assert Counter(r['source_ready'] for r in w6) == Counter({'full': 42})
           assert Counter(r['relation_type'] for r in w6) == Counter({'direct_canonical': 36, 'direct_canonical_reconciled_gap': 1, 'route_alias_to_2019': 5})
@@ -132,6 +147,7 @@ jobs:
           assert summary['text_verified_identities'] == 0
           assert summary['semantic_ready_identities'] == 0
           assert summary['global_closure']['eligible'] is False
+          assert summary['global_closure']['active_retentions'] == 13
           assert summary['strict_identity_progress']['terminal_identities'] == 235
           assert summary['strict_identity_progress']['remaining_identities'] == 307
           assert summary['strict_identity_progress']['processable_pending'] == 294
