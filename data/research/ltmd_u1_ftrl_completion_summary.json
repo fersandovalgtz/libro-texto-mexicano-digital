@@ -1,16 +1,16 @@
 {
   "archival_status": {
-    "archival_complete": 188,
+    "archival_complete": 230,
     "not_applicable_final_exception": 5,
-    "not_started": 349
+    "not_started": 307
   },
   "canonical_processing_objects_by_ftrl_status": {
-    "validated": 165
+    "validated": 202
   },
   "canonical_source_pages_by_ftrl_status": {
-    "validated": 29934
+    "validated": 35192
   },
-  "corpus_ready_identities": 188,
+  "corpus_ready_identities": 230,
   "documentary_dispositions": {
     "active_retention": 13,
     "final_exception": 5,
@@ -29,8 +29,8 @@
   "ftrl_identity_status": {
     "blocked_active_retention": 13,
     "final_exception": 5,
-    "pending": 336,
-    "validated": 188
+    "pending": 294,
+    "validated": 230
   },
   "global_closure": {
     "active_retentions": 13,
@@ -38,25 +38,25 @@
     "final_exceptions": 5,
     "reason": "active retentions and unfinished FTRL waves remain; archival completion is incomplete outside validated waves"
   },
-  "known_processing_topology_identities": 188,
-  "ledger_version": "LTMD_U1_FTRL_COMPLETION_LEDGER_0.3",
-  "ocr_available_identities": 188,
-  "schema": "LTMD_U1_FTRL_COMPLETION_SUMMARY_0.3",
+  "known_processing_topology_identities": 230,
+  "ledger_version": "LTMD_U1_FTRL_COMPLETION_LEDGER_0.4",
+  "ocr_available_identities": 230,
+  "schema": "LTMD_U1_FTRL_COMPLETION_SUMMARY_0.4",
   "semantic_ready_identities": 0,
   "source_readiness": {
-    "full": 223,
+    "full": 265,
     "partial": 7,
-    "unresolved": 312
+    "unresolved": 270
   },
   "status": "valid",
   "strict_identity_progress": {
     "active_retentions": 13,
     "definition": "validated FTRL identities plus documented final exceptions over the fixed 542-identity denominator",
-    "processable_pending": 336,
-    "remaining_fraction": 0.643911,
-    "remaining_identities": 349,
-    "terminal_fraction": 0.356089,
-    "terminal_identities": 193
+    "processable_pending": 294,
+    "remaining_fraction": 0.566421,
+    "remaining_identities": 307,
+    "terminal_fraction": 0.433579,
+    "terminal_identities": 235
   },
   "text_verified_identities": 0,
   "wave_denominators": {
