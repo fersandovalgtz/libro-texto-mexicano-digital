@@ -1,14 +1,14 @@
 {
   "schema": "LTMD_REPO_SNAPSHOT_DRIVE_0.1",
-  "effective_date": "2026-08-25",
-  "snapshot_sequence": 14,
+  "effective_date": "2026-08-26",
+  "snapshot_sequence": 15,
   "source_branch": "main",
-  "source_commit_expected_before_trigger": "eb6d38c26248835d0e069b3ca121841427e96c5b",
+  "source_commit_expected_before_trigger": "58308663f3d3b7f3bbb51df8a4a999e3586b702c",
   "destination": "private_google_drive",
   "logical_destination": "LTMD-U1 — corpus FTRL privado/00_CANON_y_manifiestos/01_REPO_SNAPSHOTS",
   "include": "versioned working tree plus complete Git bundle with branches, tags, pull-request refs, ref inventories, commit inventory, and checksums; excludes private/local/raw workspaces from the working-tree tarball",
   "retention_policy": "single_current_complete_snapshot",
-  "supersedes_snapshot_sequence": 13,
+  "supersedes_snapshot_sequence": 14,
   "required_outputs": ["repository_tar_gz", "complete_git_history_bundle", "commit_sha", "git_status", "git_refs", "remote_refs", "commit_objects", "bundle_verification", "bundle_heads", "sha256sums"],
-  "reason": "Post-merge preservation after PR #60: W3 Español/Lengua is now promoted in the canonical wave state and reproducible exhaustive ledger 0.3. The repository records 193/542 identities with terminal disposition (188 validated archival-complete plus 5 final exceptions), while text_verified and semantic_ready remain false. Generate one replacement complete-history snapshot for the new canonical main state."
+  "reason": "Post-W6 preservation after canonical ledger 0.4 and public evidence integrity refresh: W6 Geografía/Atlas is computationally validated and archival-complete, and LTMD-U1 records 235/542 terminal identities (230 validated archival-complete plus 5 final exceptions). Snapshot sequence 15 captures the resulting canonical main state, was persisted privately as four split parts plus manifest, re-downloaded, reassembled with matching SHA-256, and verified as a complete Git history bundle. This snapshot does not imply text_verified or semantic_ready."
 }
