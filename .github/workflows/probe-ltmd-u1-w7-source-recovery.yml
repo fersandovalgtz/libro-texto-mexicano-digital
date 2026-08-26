@@ -1,0 +1,116 @@
+name: probe-ltmd-u1-w7-source-recovery
+
+on:
+  workflow_dispatch:
+    inputs:
+      identity:
+        description: 'LTMD identity under investigation'
+        required: true
+        default: 'H2014P5FCA'
+        type: string
+      candidate_url:
+        description: 'Candidate source-asset URL (HTTP/HTTPS)'
+        required: true
+        type: string
+      expected_sha256:
+        description: 'Optional expected SHA-256; leave blank when unknown'
+        required: false
+        type: string
+      provenance_status:
+        description: 'Operator-reviewed provenance gate'
+        required: true
+        default: 'unknown'
+        type: choice
+        options:
+          - unknown
+          - verified
+      rights_status:
+        description: 'Operator-reviewed processing-rights gate'
+        required: true
+        default: 'unknown'
+        type: choice
+        options:
+          - unknown
+          - verified
+      allow_host:
+        description: 'Optional exact hostname allowlist (for example libros.conaliteg.gob.mx)'
+        required: false
+        type: string
+  pull_request:
+    paths:
+      - 'scripts/probe_ltmd_u1_w7_source_recovery.py'
+      - 'tests/test_probe_ltmd_u1_w7_source_recovery.py'
+      - 'docs/ltmd_u1_w7_source_recovery_probe.md'
+      - '.github/workflows/probe-ltmd-u1-w7-source-recovery.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run fail-closed probe tests
+        run: python3 -m unittest tests/test_probe_ltmd_u1_w7_source_recovery.py -v
+
+  probe:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    env:
+      LTMD_IDENTITY: ${{ inputs.identity }}
+      LTMD_CANDIDATE_URL: ${{ inputs.candidate_url }}
+      LTMD_EXPECTED_SHA256: ${{ inputs.expected_sha256 }}
+      LTMD_PROVENANCE_STATUS: ${{ inputs.provenance_status }}
+      LTMD_RIGHTS_STATUS: ${{ inputs.rights_status }}
+      LTMD_ALLOW_HOST: ${{ inputs.allow_host }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build one-asset candidate manifest
+        run: |
+          python3 - <<'PY'
+          import csv
+          import os
+          from pathlib import Path
+
+          path = Path('/tmp/ltmd_u1_w7_source_recovery_candidates.csv')
+          with path.open('w', encoding='utf-8', newline='') as fh:
+              writer = csv.DictWriter(
+                  fh,
+                  fieldnames=[
+                      'identity', 'candidate_url', 'sequence_index',
+                      'expected_sequence_length', 'expected_sha256',
+                      'provenance_status', 'rights_status', 'notes',
+                  ],
+              )
+              writer.writeheader()
+              writer.writerow({
+                  'identity': os.environ['LTMD_IDENTITY'],
+                  'candidate_url': os.environ['LTMD_CANDIDATE_URL'],
+                  'sequence_index': 1,
+                  'expected_sequence_length': 1,
+                  'expected_sha256': os.environ.get('LTMD_EXPECTED_SHA256', ''),
+                  'provenance_status': os.environ.get('LTMD_PROVENANCE_STATUS', 'unknown'),
+                  'rights_status': os.environ.get('LTMD_RIGHTS_STATUS', 'unknown'),
+                  'notes': 'workflow_dispatch one-asset probe',
+              })
+          PY
+      - name: Probe candidate source without mutating the ledger
+        run: |
+          set -euo pipefail
+          args=(
+            --candidates /tmp/ltmd_u1_w7_source_recovery_candidates.csv
+            --out-dir artifacts/ltmd_u1_w7_source_recovery
+          )
+          if [ -n "${LTMD_ALLOW_HOST}" ]; then
+            args+=(--allow-host "${LTMD_ALLOW_HOST}")
+          fi
+          python3 scripts/probe_ltmd_u1_w7_source_recovery.py "${args[@]}"
+      - name: Upload source-recovery evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w7-source-recovery-${{ inputs.identity }}
+          path: artifacts/ltmd_u1_w7_source_recovery/
+          if-no-files-found: error
+          retention-days: 30
