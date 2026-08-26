@@ -1,0 +1,137 @@
+name: Preserve LTMD repository snapshot seq15
+
+on:
+  push:
+    branches:
+      - 'preservation/repo-snapshot-seq15'
+    paths:
+      - '.github/workflows/preserve-repo-snapshot-seq15.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SOURCE_SHA: 58308663f3d3b7f3bbb51df8a4a999e3586b702c
+      SNAPSHOT_SEQ: '15'
+    steps:
+      - name: Checkout exact canonical main revision with full history
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Fetch branch, tag, and pull-request refs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --force origin '+refs/heads/*:refs/remotes/origin/*'
+          git fetch --force origin '+refs/tags/*:refs/tags/*'
+          git fetch --force origin '+refs/pull/*/head:refs/remotes/pull/*/head' || true
+          git fetch --force origin '+refs/pull/*/merge:refs/remotes/pull/*/merge' || true
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+
+      - name: Build complete-history preservation payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/ltmd-repo-snapshot-seq15"
+          mkdir -p "$OUT"
+
+          git archive --format=tar.gz --output="$OUT/repository-working-tree.tar.gz" "$SOURCE_SHA"
+          git bundle create "$OUT/repository-complete-history.bundle" --all
+          git bundle verify "$OUT/repository-complete-history.bundle" > "$OUT/bundle-verification.txt" 2>&1
+          git bundle list-heads "$OUT/repository-complete-history.bundle" > "$OUT/bundle-heads.txt"
+          git rev-parse HEAD > "$OUT/commit-sha.txt"
+          git status --porcelain=v1 --branch > "$OUT/git-status.txt"
+          git show-ref > "$OUT/git-refs.txt"
+          git ls-remote origin > "$OUT/remote-refs.txt"
+          git rev-list --all --objects > "$OUT/commit-objects.txt"
+          git log --all --date=iso-strict --pretty=format:'%H%x09%P%x09%aI%x09%cI%x09%s' > "$OUT/commit-inventory.tsv"
+
+          cat > "$OUT/README_REHYDRATE.txt" <<'EOF'
+          LTMD repository snapshot sequence 15.
+          Canonical source is the SHA recorded in commit-sha.txt.
+          repository-working-tree.tar.gz preserves the versioned tree at that SHA.
+          repository-complete-history.bundle preserves all refs fetched by this job.
+          Verify SHA256SUMS.txt before use. To rehydrate Git history:
+            git clone repository-complete-history.bundle rehydrated-repo
+          This snapshot contains repository history only; it does not include private Drive corpus outputs or secret key material.
+          EOF
+
+          (cd "$OUT" && sha256sum repository-working-tree.tar.gz repository-complete-history.bundle commit-sha.txt git-status.txt git-refs.txt remote-refs.txt commit-objects.txt commit-inventory.tsv bundle-verification.txt bundle-heads.txt README_REHYDRATE.txt > SHA256SUMS.txt)
+          (cd "$OUT" && zip -q -9 -r "$RUNNER_TEMP/LTMD_repo_snapshot_seq15.zip" .)
+
+          ARCHIVE="$RUNNER_TEMP/LTMD_repo_snapshot_seq15.zip"
+          split -b 48M -d -a 2 "$ARCHIVE" "$RUNNER_TEMP/LTMD_repo_snapshot_seq15.part-"
+          ARCHIVE_SHA=$(sha256sum "$ARCHIVE" | awk '{print $1}')
+          ARCHIVE_SIZE=$(stat -c%s "$ARCHIVE")
+          {
+            echo 'schema=LTMD_REPO_SNAPSHOT_SPLIT_MANIFEST_0.1'
+            echo 'sequence=15'
+            echo "source_sha=$SOURCE_SHA"
+            echo 'protocol=snapshot-0.2-full-history-bundle'
+            echo "archive_size=$ARCHIVE_SIZE"
+            echo "archive_sha256=$ARCHIVE_SHA"
+            echo 'reassembly=cat LTMD_repo_snapshot_seq15.part-* > LTMD_repo_snapshot_seq15.zip'
+            echo 'parts:'
+            for f in "$RUNNER_TEMP"/LTMD_repo_snapshot_seq15.part-*; do
+              printf '%s\t%s\t%s\n' "$(basename "$f")" "$(stat -c%s "$f")" "$(sha256sum "$f" | awk '{print $1}')"
+            done
+          } > "$RUNNER_TEMP/LTMD_repo_snapshot_seq15.manifest.txt"
+
+          ls -lh "$RUNNER_TEMP"/LTMD_repo_snapshot_seq15.*
+          cat "$RUNNER_TEMP/LTMD_repo_snapshot_seq15.manifest.txt"
+
+      - name: Upload split part 00
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-repo-snapshot-seq15-part-00
+          path: ${{ runner.temp }}/LTMD_repo_snapshot_seq15.part-00
+          retention-days: 3
+          if-no-files-found: error
+
+      - name: Upload split part 01
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-repo-snapshot-seq15-part-01
+          path: ${{ runner.temp }}/LTMD_repo_snapshot_seq15.part-01
+          retention-days: 3
+          if-no-files-found: error
+
+      - name: Upload split part 02
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-repo-snapshot-seq15-part-02
+          path: ${{ runner.temp }}/LTMD_repo_snapshot_seq15.part-02
+          retention-days: 3
+          if-no-files-found: ignore
+
+      - name: Upload split part 03
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-repo-snapshot-seq15-part-03
+          path: ${{ runner.temp }}/LTMD_repo_snapshot_seq15.part-03
+          retention-days: 3
+          if-no-files-found: ignore
+
+      - name: Upload split part 04
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-repo-snapshot-seq15-part-04
+          path: ${{ runner.temp }}/LTMD_repo_snapshot_seq15.part-04
+          retention-days: 3
+          if-no-files-found: ignore
+
+      - name: Upload split manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-repo-snapshot-seq15-manifest
+          path: ${{ runner.temp }}/LTMD_repo_snapshot_seq15.manifest.txt
+          retention-days: 3
+          if-no-files-found: error
