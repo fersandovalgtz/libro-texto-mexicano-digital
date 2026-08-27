@@ -1,47 +1,55 @@
-name: sample-semb03-human-reference
+name: Audit SEMB03 holdout integrity
 
 on:
-  workflow_dispatch:
-  push:
+  pull_request:
+    branches: [main]
     paths:
       - '.github/workflows/sample-semb03-human-reference.yml'
+      - 'scripts/validate_semb03_holdout_integrity.py'
+      - 'scripts/prepare_semb03_private_holdout.py'
+      - 'scripts/lock_semb03_model.py'
       - 'scripts/sample_semb03_human_reference.py'
-      - 'data/derived/fragment_manifest.csv'
+      - 'data/validation/semb03_human_reference_sample.csv'
+      - 'data/validation/semb03_human_reference_annotation_template.csv'
+      - 'data/validation/semb03_holdout_integrity_status.json'
+      - 'data/validation/semb03_acceptance_criteria.json'
+      - 'data/validation/semb03_private_holdout_commitment.json'
+      - 'data/validation/semb03_model_lock.json'
+      - 'data/validation/semb03_locked_validation_result.json'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sample-semb03-human-reference.yml'
+      - 'scripts/validate_semb03_holdout_integrity.py'
+      - 'scripts/prepare_semb03_private_holdout.py'
+      - 'scripts/lock_semb03_model.py'
+      - 'scripts/sample_semb03_human_reference.py'
+      - 'data/validation/semb03_human_reference_sample.csv'
+      - 'data/validation/semb03_human_reference_annotation_template.csv'
+      - 'data/validation/semb03_holdout_integrity_status.json'
+      - 'data/validation/semb03_acceptance_criteria.json'
+      - 'data/validation/semb03_private_holdout_commitment.json'
+      - 'data/validation/semb03_model_lock.json'
+      - 'data/validation/semb03_locked_validation_result.json'
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  sample:
+  integrity:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Build deterministic human-reference sample
-        run: python3 scripts/sample_semb03_human_reference.py
-      - name: Verify sample invariants
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate SEMB03 holdout integrity
+        run: python3 scripts/validate_semb03_holdout_integrity.py
+
+      - name: Verify legacy sampler is not a routine generation path
         run: |
-          python3 - <<'PY'
-          import csv
-          from collections import Counter
-          p='data/validation/semb03_human_reference_sample.csv'
-          r=list(csv.DictReader(open(p,encoding='utf-8')))
-          assert len(r)==480
-          assert len({x['fragment_id'] for x in r})==480
-          assert Counter(x['catalog_generation'] for x in r)==Counter({'1972':120,'1988':120,'1993':120,'2014':120})
-          assert Counter(x['analysis_role'] for x in r)==Counter({'development':320,'locked_validation':160})
-          print('verified',len(r))
-          PY
-      - name: Publish sample manifests
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/validation/semb03_human_reference_sample.csv \
-                  data/validation/semb03_human_reference_annotation_template.csv
-          if git diff --cached --quiet; then
-            echo 'No sample changes to publish.'
-          else
-            git commit -m 'Publish SEMB 0.3 human reference sample'
-            git push
+          if python3 scripts/sample_semb03_human_reference.py; then
+            echo 'Legacy sampler unexpectedly ran without explicit audit flag.' >&2
+            exit 1
           fi
+          echo 'Legacy public sampler correctly refuses routine execution.'
