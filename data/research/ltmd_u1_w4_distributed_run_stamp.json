@@ -1,0 +1,15 @@
+{
+  "schema": "LTMD_FTRL_W4_DISTRIBUTED_RUN_STAMP_0.1",
+  "wave": "W4",
+  "domain": "Ciencias Sociales",
+  "activation_date": "2026-08-26",
+  "historical_identities": 14,
+  "canonical_processing_objects": 14,
+  "expected_pages": 2414,
+  "shard_count": 8,
+  "max_parallel": 8,
+  "trigger_policy": "merge to main triggers .github/workflows/run-ftrl-w4-distributed.yml",
+  "archival_complete": false,
+  "text_verified": false,
+  "semantic_ready": false
+}
