@@ -1,0 +1,398 @@
+{
+  "report_version": "LTMD_U1_RESIDUAL_RECONCILIATION_0.1",
+  "snapshot_date": "2026-08-27",
+  "sources": {
+    "coverage_csv": "data/catalog/ltmd_u1_coverage.csv",
+    "coverage_dashboard": "data/catalog/ltmd_u1_coverage.md",
+    "retained_source_register": "data/catalog/ltmd_u1_retained_source_register.csv",
+    "research_attempt_ledger": "data/catalog/ltmd_u1_retained_source_attempts.csv"
+  },
+  "summary": {
+    "universe_identities": 542,
+    "effective_technical_identities": 524,
+    "effective_technical_coverage_percent": 96.68,
+    "residual_identities": 18,
+    "active_retention": 13,
+    "final_exception": 5,
+    "research_attempts": 26,
+    "final_exceptions_reopened_by_new_evidence": 0,
+    "human_semantic_validated_identities": 0
+  },
+  "per_wave": {
+    "W2": {
+      "residual_identities": 4,
+      "active_retention": 4,
+      "final_exception": 0,
+      "attempts": 8
+    },
+    "W7": {
+      "residual_identities": 5,
+      "active_retention": 5,
+      "final_exception": 0,
+      "attempts": 10
+    },
+    "W8": {
+      "residual_identities": 4,
+      "active_retention": 4,
+      "final_exception": 0,
+      "attempts": 8
+    },
+    "W10": {
+      "residual_identities": 1,
+      "active_retention": 0,
+      "final_exception": 1,
+      "attempts": 0
+    },
+    "W11": {
+      "residual_identities": 4,
+      "active_retention": 0,
+      "final_exception": 4,
+      "attempts": 0
+    }
+  },
+  "residuals": [
+    {
+      "viewer_key": "H2018P3DMA",
+      "wave": "W2",
+      "operational_domain": "matematicas",
+      "catalog_generation": 2018,
+      "grade_code": 3,
+      "retention_class": "routing_anomaly_all_or_near_all",
+      "retention_detail": "declared viewer route serves 0 JPEG; alternate institutional asset route unresolved",
+      "tracking_issue": 4,
+      "status": "active_retention",
+      "resolution_gate": "requires_admissible_reproducible_source_evidence",
+      "attempt_count": 2,
+      "latest_attempt": {
+        "attempt_id": "RS-20260827-014",
+        "attempt_date": "2026-08-27",
+        "method": "exact_key_index_search",
+        "outcome": "no_indexed_result",
+        "admissibility": "discovery_only",
+        "state_after": "active_retention"
+      }
+    },
+    {
+      "viewer_key": "H2018P4DMA",
+      "wave": "W2",
+      "operational_domain": "matematicas",
+      "catalog_generation": 2018,
+      "grade_code": 4,
+      "retention_class": "routing_anomaly_all_or_near_all",
+      "retention_detail": "declared viewer route serves 0 JPEG; alternate institutional asset route unresolved",
+      "tracking_issue": 4,
+      "status": "active_retention",
+      "resolution_gate": "requires_admissible_reproducible_source_evidence",
+      "attempt_count": 2,
+      "latest_attempt": {
+        "attempt_id": "RS-20260827-015",
+        "attempt_date": "2026-08-27",
+        "method": "exact_key_index_search",
+        "outcome": "no_indexed_result",
+        "admissibility": "discovery_only",
+        "state_after": "active_retention"
+      }
+    },
+    {
+      "viewer_key": "H2018P5DMA",
+      "wave": "W2",
+      "operational_domain": "matematicas",
+      "catalog_generation": 2018,
+      "grade_code": 5,
+      "retention_class": "routing_anomaly_all_or_near_all",
+      "retention_detail": "declared viewer route serves 0 JPEG; alternate institutional asset route unresolved",
+      "tracking_issue": 4,
+      "status": "active_retention",
+      "resolution_gate": "requires_admissible_reproducible_source_evidence",
+      "attempt_count": 2,
+      "latest_attempt": {
+        "attempt_id": "RS-20260827-016",
+        "attempt_date": "2026-08-27",
+        "method": "exact_key_index_search",
+        "outcome": "no_indexed_result",
+        "admissibility": "discovery_only",
+        "state_after": "active_retention"
+      }
+    },
+    {
+      "viewer_key": "H2018P6DMA",
+      "wave": "W2",
+      "operational_domain": "matematicas",
+      "catalog_generation": 2018,
+      "grade_code": 6,
+      "retention_class": "routing_anomaly_all_or_near_all",
+      "retention_detail": "declared viewer route serves 0 JPEG; alternate institutional asset route unresolved",
+      "tracking_issue": 4,
+      "status": "active_retention",
+      "resolution_gate": "requires_admissible_reproducible_source_evidence",
+      "attempt_count": 2,
+      "latest_attempt": {
+        "attempt_id": "RS-20260827-017",
+        "attempt_date": "2026-08-27",
+        "method": "exact_key_index_search",
+        "outcome": "no_indexed_result",
+        "admissibility": "discovery_only",
+        "state_after": "active_retention"
+      }
+    },
+    {
+      "viewer_key": "H2014P5FCA",
+      "wave": "W7",
+      "operational_domain": "civica_etica",
+      "catalog_generation": 2014,
+      "grade_code": 5,
+      "retention_class": "withheld_source_gap",
+      "retention_detail": "one isolated internal gap at logical page 104 / 104.jpg",
+      "tracking_issue": 5,
+      "status": "active_retention",
+      "resolution_gate": "requires_admissible_reproducible_source_evidence",
+      "attempt_count": 2,
+      "latest_attempt": {
+        "attempt_id": "RS-20260827-018",
+        "attempt_date": "2026-08-27",
+        "method": "exact_key_index_search",
+        "outcome": "no_indexed_result",
+        "admissibility": "discovery_only",
+        "state_after": "active_retention"
+      }
+    },
+    {
+      "viewer_key": "H2018P3FCA",
+      "wave": "W7",
+      "operational_domain": "civica_etica",
+      "catalog_generation": 2018,
+      "grade_code": 3,
+      "retention_class": "withheld_source_subtree_unserved",
+      "retention_detail": "viewer/configuration present but official page-asset subtree is not served",
+      "tracking_issue": 5,
+      "status": "active_retention",
+      "resolution_gate": "requires_admissible_reproducible_source_evidence",
+      "attempt_count": 2,
+      "latest_attempt": {
+        "attempt_id": "RS-20260827-019",
+        "attempt_date": "2026-08-27",
+        "method": "exact_key_index_search",
+        "outcome": "no_indexed_result",
+        "admissibility": "discovery_only",
+        "state_after": "active_retention"
+      }
+    },
+    {
+      "viewer_key": "H2018P4FCA",
+      "wave": "W7",
+      "operational_domain": "civica_etica",
+      "catalog_generation": 2018,
+      "grade_code": 4,
+      "retention_class": "withheld_source_subtree_unserved",
+      "retention_detail": "viewer/configuration present but official page-asset subtree is not served",
+      "tracking_issue": 5,
+      "status": "active_retention",
+      "resolution_gate": "requires_admissible_reproducible_source_evidence",
+      "attempt_count": 2,
+      "latest_attempt": {
+        "attempt_id": "RS-20260827-020",
+        "attempt_date": "2026-08-27",
+        "method": "exact_key_index_search",
+        "outcome": "no_indexed_result",
+        "admissibility": "discovery_only",
+        "state_after": "active_retention"
+      }
+    },
+    {
+      "viewer_key": "H2018P5FCA",
+      "wave": "W7",
+      "operational_domain": "civica_etica",
+      "catalog_generation": 2018,
+      "grade_code": 5,
+      "retention_class": "withheld_source_subtree_unserved",
+      "retention_detail": "viewer/configuration present but official page-asset subtree is not served",
+      "tracking_issue": 5,
+      "status": "active_retention",
+      "resolution_gate": "requires_admissible_reproducible_source_evidence",
+      "attempt_count": 2,
+      "latest_attempt": {
+        "attempt_id": "RS-20260827-021",
+        "attempt_date": "2026-08-27",
+        "method": "exact_key_index_search",
+        "outcome": "no_indexed_result",
+        "admissibility": "discovery_only",
+        "state_after": "active_retention"
+      }
+    },
+    {
+      "viewer_key": "H2018P6FCA",
+      "wave": "W7",
+      "operational_domain": "civica_etica",
+      "catalog_generation": 2018,
+      "grade_code": 6,
+      "retention_class": "withheld_source_subtree_unserved",
+      "retention_detail": "viewer/configuration present but official page-asset subtree is not served",
+      "tracking_issue": 5,
+      "status": "active_retention",
+      "resolution_gate": "requires_admissible_reproducible_source_evidence",
+      "attempt_count": 2,
+      "latest_attempt": {
+        "attempt_id": "RS-20260827-022",
+        "attempt_date": "2026-08-27",
+        "method": "exact_key_index_search",
+        "outcome": "no_indexed_result",
+        "admissibility": "discovery_only",
+        "state_after": "active_retention"
+      }
+    },
+    {
+      "viewer_key": "H2018P3EAA",
+      "wave": "W8",
+      "operational_domain": "artes",
+      "catalog_generation": 2018,
+      "grade_code": 3,
+      "retention_class": "withheld_source_unresolved",
+      "retention_detail": "source representation not reproducibly resolved; no heuristic substitution accepted",
+      "tracking_issue": 9,
+      "status": "active_retention",
+      "resolution_gate": "requires_admissible_reproducible_source_evidence",
+      "attempt_count": 2,
+      "latest_attempt": {
+        "attempt_id": "RS-20260827-023",
+        "attempt_date": "2026-08-27",
+        "method": "exact_key_index_search",
+        "outcome": "no_indexed_result",
+        "admissibility": "discovery_only",
+        "state_after": "active_retention"
+      }
+    },
+    {
+      "viewer_key": "H2018P4EAA",
+      "wave": "W8",
+      "operational_domain": "artes",
+      "catalog_generation": 2018,
+      "grade_code": 4,
+      "retention_class": "withheld_source_unresolved",
+      "retention_detail": "source representation not reproducibly resolved; no heuristic substitution accepted",
+      "tracking_issue": 9,
+      "status": "active_retention",
+      "resolution_gate": "requires_admissible_reproducible_source_evidence",
+      "attempt_count": 2,
+      "latest_attempt": {
+        "attempt_id": "RS-20260827-024",
+        "attempt_date": "2026-08-27",
+        "method": "exact_key_index_search",
+        "outcome": "no_indexed_result",
+        "admissibility": "discovery_only",
+        "state_after": "active_retention"
+      }
+    },
+    {
+      "viewer_key": "H2018P5EAA",
+      "wave": "W8",
+      "operational_domain": "artes",
+      "catalog_generation": 2018,
+      "grade_code": 5,
+      "retention_class": "withheld_source_unresolved",
+      "retention_detail": "source representation not reproducibly resolved; no heuristic substitution accepted",
+      "tracking_issue": 9,
+      "status": "active_retention",
+      "resolution_gate": "requires_admissible_reproducible_source_evidence",
+      "attempt_count": 2,
+      "latest_attempt": {
+        "attempt_id": "RS-20260827-025",
+        "attempt_date": "2026-08-27",
+        "method": "exact_key_index_search",
+        "outcome": "no_indexed_result",
+        "admissibility": "discovery_only",
+        "state_after": "active_retention"
+      }
+    },
+    {
+      "viewer_key": "H2018P6EAA",
+      "wave": "W8",
+      "operational_domain": "artes",
+      "catalog_generation": 2018,
+      "grade_code": 6,
+      "retention_class": "withheld_source_unresolved",
+      "retention_detail": "source representation not reproducibly resolved; no heuristic substitution accepted",
+      "tracking_issue": 9,
+      "status": "active_retention",
+      "resolution_gate": "requires_admissible_reproducible_source_evidence",
+      "attempt_count": 2,
+      "latest_attempt": {
+        "attempt_id": "RS-20260827-026",
+        "attempt_date": "2026-08-27",
+        "method": "exact_key_index_search",
+        "outcome": "no_indexed_result",
+        "admissibility": "discovery_only",
+        "state_after": "active_retention"
+      }
+    },
+    {
+      "viewer_key": "H2014P1ENA",
+      "wave": "W10",
+      "operational_domain": "integrados_multiarea",
+      "catalog_generation": 2014,
+      "grade_code": 1,
+      "retention_class": "withheld_internal_unserved",
+      "retention_detail": "169 positions declared; 168 official JPEG served; one internal position remains unserved; bounded official/archive search closed without admissible recovery",
+      "tracking_issue": 11,
+      "status": "final_exception",
+      "resolution_gate": "requires_new_evidence_trigger_review",
+      "attempt_count": 0,
+      "latest_attempt": null
+    },
+    {
+      "viewer_key": "H2014P1EAM",
+      "wave": "W11",
+      "operational_domain": "otros_no_clasificados",
+      "catalog_generation": 2014,
+      "grade_code": 1,
+      "retention_class": "withheld_internal_unserved",
+      "retention_detail": "page/index 41 missing; bounded official/Wayback search closed without admissible recovery",
+      "tracking_issue": 13,
+      "status": "final_exception",
+      "resolution_gate": "requires_new_evidence_trigger_review",
+      "attempt_count": 0,
+      "latest_attempt": null
+    },
+    {
+      "viewer_key": "H2014P2EAM",
+      "wave": "W11",
+      "operational_domain": "otros_no_clasificados",
+      "catalog_generation": 2014,
+      "grade_code": 2,
+      "retention_class": "withheld_internal_unserved",
+      "retention_detail": "page/indexes 13 and 17 missing; bounded official/Wayback search closed without admissible recovery",
+      "tracking_issue": 13,
+      "status": "final_exception",
+      "resolution_gate": "requires_new_evidence_trigger_review",
+      "attempt_count": 0,
+      "latest_attempt": null
+    },
+    {
+      "viewer_key": "H2014P3COL",
+      "wave": "W11",
+      "operational_domain": "otros_no_clasificados",
+      "catalog_generation": 2014,
+      "grade_code": 3,
+      "retention_class": "withheld_internal_unserved",
+      "retention_detail": "page/index 130 missing; current official candidates differ cryptographically; bounded archive/official comparison closed",
+      "tracking_issue": 14,
+      "status": "final_exception",
+      "resolution_gate": "requires_new_evidence_trigger_review",
+      "attempt_count": 0,
+      "latest_attempt": null
+    },
+    {
+      "viewer_key": "H2014P3MOR",
+      "wave": "W11",
+      "operational_domain": "otros_no_clasificados",
+      "catalog_generation": 2014,
+      "grade_code": 3,
+      "retention_class": "withheld_internal_unserved",
+      "retention_detail": "page/index 15 missing; current official representation not recoverable by exact sequence; bounded archive/official comparison closed",
+      "tracking_issue": 14,
+      "status": "final_exception",
+      "resolution_gate": "requires_new_evidence_trigger_review",
+      "attempt_count": 0,
+      "latest_attempt": null
+    }
+  ]
+}
