@@ -24,6 +24,12 @@ def fail(msg: str) -> None:
     raise SystemExit(f"SEMB03 holdout integrity: FAIL — {msg}")
 
 
+def valid_hex(value: object, n: int) -> bool:
+    if not isinstance(value, str) or len(value) != n:
+        return False
+    return all(c in "0123456789abcdef" for c in value.lower())
+
+
 def main() -> None:
     if not STATUS.exists():
         fail("missing integrity status")
@@ -76,11 +82,13 @@ def main() -> None:
             "commitment_version", "created_utc", "selection_algorithm_version",
             "holdout_n", "per_generation", "legacy_sample_excluded",
             "ids_public", "private_manifest_sha256", "private_manifest_bytes",
-            "source_manifest_git_blob_sha", "notes",
+            "source_manifest_sha256", "source_manifest_git_blob_sha", "notes",
         }
         extra = set(commitment) - allowed_keys
         if extra:
             fail(f"public commitment contains unsupported fields: {sorted(extra)}")
+        if commitment.get("commitment_version") != "SEMB03_PRIVATE_HOLDOUT_COMMITMENT_0.1":
+            fail("unexpected private holdout commitment version")
         if commitment.get("holdout_n") != 160:
             fail("private holdout commitment must document holdout_n=160")
         pg = commitment.get("per_generation")
@@ -90,9 +98,14 @@ def main() -> None:
             fail("commitment must assert exclusion of all 480 legacy identities")
         if commitment.get("ids_public") is not False:
             fail("commitment must assert ids_public=false")
-        digest = commitment.get("private_manifest_sha256", "")
-        if len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest.lower()):
+        if not valid_hex(commitment.get("private_manifest_sha256"), 64):
             fail("invalid private manifest SHA-256 commitment")
+        if not isinstance(commitment.get("private_manifest_bytes"), int) or commitment["private_manifest_bytes"] <= 0:
+            fail("private manifest byte count must be a positive integer")
+        if not valid_hex(commitment.get("source_manifest_sha256"), 64):
+            fail("invalid source manifest SHA-256")
+        if not valid_hex(commitment.get("source_manifest_git_blob_sha"), 40):
+            fail("invalid source manifest Git blob SHA")
 
     if LOCK.exists():
         if not COMMITMENT.exists():
