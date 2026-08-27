@@ -1,29 +1,29 @@
 {
-  "readiness_version": "SEMB03_READINESS_0.3",
+  "readiness_version": "SEMB03_READINESS_0.4",
   "stage": "WAITING_HUMAN_REFERENCE",
   "infrastructure_checks": [
     {
-      "check": "sample_n_480",
+      "check": "legacy_sample_n_480",
       "status": "PASS",
       "detail": "n=480"
     },
     {
-      "check": "sample_unique_ids",
+      "check": "legacy_sample_unique_ids",
       "status": "PASS",
       "detail": "sample_id unique"
     },
     {
-      "check": "sample_unique_fragments",
+      "check": "legacy_sample_unique_fragments",
       "status": "PASS",
       "detail": "fragment_id unique"
     },
     {
-      "check": "roles_320_160",
+      "check": "legacy_roles_320_160",
       "status": "PASS",
       "detail": "{'development': 320, 'locked_validation': 160}"
     },
     {
-      "check": "generations_balanced",
+      "check": "legacy_generations_balanced",
       "status": "PASS",
       "detail": "{'1972': 120, '1988': 120, '1993': 120, '2014': 120}"
     },
@@ -71,6 +71,21 @@
       "check": "development_grouped_by_page",
       "status": "PASS",
       "detail": "{'method': 'GroupKFold', 'n_splits': 5, 'group': 'page_id'}"
+    },
+    {
+      "check": "holdout_integrity_version",
+      "status": "PASS",
+      "detail": "SEMB03_HOLDOUT_INTEGRITY_0.1"
+    },
+    {
+      "check": "legacy_final_holdout_invalidated",
+      "status": "PASS",
+      "detail": "invalidated_by_prelock_public_exposure"
+    },
+    {
+      "check": "replacement_holdout_contract",
+      "status": "PASS",
+      "detail": "160 = 40/generation; legacy 480 excluded"
     }
   ],
   "prehuman_modules": {
@@ -89,17 +104,22 @@
     "frontmatter_bibliographic_audit": true,
     "research_integrity_manifest": true,
     "synthetic_gate_candidate": true,
-    "synthetic_label_head_candidate": true
+    "synthetic_label_head_candidate": true,
+    "holdout_integrity_status": true
   },
-  "prehuman_modules_present": 16,
-  "prehuman_modules_total": 16,
+  "prehuman_modules_present": 17,
+  "prehuman_modules_total": 17,
   "later_stage_artifacts": {
     "human_reference_consensus": false,
     "development_result": false,
+    "private_holdout_commitment": false,
     "model_lock": false,
     "locked_validation_result": false,
     "production_manifest": false
   },
+  "legacy_public_locked_validation_admissible": false,
+  "final_holdout_protocol": "replacement_private_committed",
+  "private_holdout_commitment_valid": false,
   "human_blocker": "A genuine human reference is required before validated model development.",
   "safe_to_open_locked_validation": false
 }
