@@ -1,0 +1,72 @@
+{
+  "schema": "LTMD_FTRL_W4_DISTRIBUTED_TOPOLOGY_0.1",
+  "effective_date": "2026-08-26",
+  "wave": "W4",
+  "operational_domain": "ciencias_sociales",
+  "historical_identities": 14,
+  "canonical_processing_objects": 14,
+  "canonical_source_pages": 2414,
+  "source_topology": {
+    "direct_canonical_objects": 14,
+    "whole_book_aliases": 0,
+    "persistent_source_gaps": 0,
+    "terminal_synthetic_positions_excluded_from_ocr": 14,
+    "page_renumbering": false
+  },
+  "runtime_anchors": {
+    "W6": {
+      "pages": 5258,
+      "shards": 16,
+      "pages_per_shard": "328-329",
+      "status": "computationally_validated_and_archivally_complete"
+    },
+    "W3": {
+      "pages": 20765,
+      "shards": 52,
+      "pages_per_shard": "399-400",
+      "status": "computationally_validated_and_archivally_complete"
+    },
+    "interpretation": "W4 retains the proven distributed architecture while reducing shard count to keep each job near the validated W6/W3 scale."
+  },
+  "topology": {
+    "algorithm": "stable sort (catalog_generation, grade_code, viewer_key, source_image_index) + balanced contiguous partition",
+    "shard_count": 8,
+    "max_parallel": 8,
+    "shards_302_pages": 6,
+    "shards_301_pages": 2,
+    "expected_total_pages": 2414,
+    "per_job_timeout_minutes": 330,
+    "reason": "Eight deterministic shards preserve the proven approximately 300-400 page job scale and permit a single concurrent wave."
+  },
+  "required_gates": {
+    "w6_archival_complete": true,
+    "all_8_shards_validated": true,
+    "global_union_exact_2414_of_2414": true,
+    "global_union_unique": true,
+    "same_source_commit_and_workflow_run": true,
+    "all_shard_sqlite_integrity_ok": true,
+    "all_shard_fts_cardinality_ok": true,
+    "all_shard_qc_cardinality_ok": true,
+    "restricted_outputs_plaintext_public_upload": false
+  },
+  "preservation": {
+    "private_handoffs_encrypted_before_upload": true,
+    "actions_artifacts_temporary": true,
+    "drive_final_policy": "consolidate privately into one canonical W4 corpus package, verify checksums/privacy and re-download before archival promotion",
+    "archival_complete_before_promotion": true
+  },
+  "epistemic_guards": [
+    "distributed_computationally_validated != archival_complete",
+    "ocr_available != text_verified",
+    "corpus_ready != semantic_ready",
+    "search_hit != historical_claim",
+    "zero_hits != demonstrated_absence"
+  ],
+  "activation": {
+    "date": "2026-08-26",
+    "workflow": ".github/workflows/run-ftrl-w4-distributed.yml",
+    "trigger": "data/research/ltmd_u1_w4_distributed_run_stamp.json",
+    "policy": "activate only after merge to main; merge push of run stamp starts exhaustive distributed W4"
+  },
+  "full_execution_activated": true
+}
