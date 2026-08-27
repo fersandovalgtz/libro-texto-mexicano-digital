@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
-"""Create the preregistered SEMB 0.3 human-reference sample from FRAGSEG metadata only.
+"""Rebuild the legacy public SEMB 0.3 human-reference sample for audit only.
 
-Scientific invariant: this script must never read semantic classifier outputs or
+The SEMB03_SAMPLE_0.2 split was published before model lock, so its 160 rows
+labelled ``locked_validation`` are no longer admissible as a blind final holdout.
+This script is retained only to reproduce that historical artifact. It must not
+be used to create a final validation set. For the replacement holdout use
+``scripts/prepare_semb03_private_holdout.py``.
+
+Scientific invariant: this script never reads semantic classifier outputs or
 historical comparison files. Selection is deterministic from manifest metadata
-and fragment_id hashes. Annotator-facing IDs are opaque: they disclose neither
-generation nor development/validation role.
+and fragment_id hashes.
 """
 from __future__ import annotations
 
+import argparse
 import csv
 import hashlib
 from pathlib import Path
@@ -39,11 +45,10 @@ def pick(rows,n,salt,used):
 
 
 def opaque_sample_id(fragment_id):
-    # 16 hex chars are ample for 480 deterministic IDs and reveal no generation.
     return 'S03-'+h(fragment_id,VERSION+':opaque')[:16].upper()
 
 
-def main():
+def rebuild_legacy_artifact():
     rows=list(csv.DictReader(MANIFEST.open(encoding='utf-8')))
     assert len(rows)==9594
     sample=[]
@@ -78,8 +83,6 @@ def main():
     with OUT.open('w',encoding='utf-8',newline='') as f:
         w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(sample)
 
-    # Annotator-facing template deliberately omits generation, page, candidate type,
-    # token/character counts and development/validation role.
     afields=['sample_id','annotator_id','annotation_round','actionable','action_labels',
              'position_labels','annotation_confidence','ambiguity_note']
     with ANNOT.open('w',encoding='utf-8',newline='') as f:
@@ -88,7 +91,24 @@ def main():
             w.writerow({'sample_id':r['sample_id'],'annotator_id':'','annotation_round':'',
                         'actionable':'','action_labels':'','position_labels':'',
                         'annotation_confidence':'','ambiguity_note':''})
-    print('sample',len(sample),'development',sum(r['analysis_role']=='development' for r in sample),
-          'locked_validation',sum(r['analysis_role']=='locked_validation' for r in sample))
+    print('legacy audit sample rebuilt:',len(sample),'development',sum(r['analysis_role']=='development' for r in sample),
+          'nominal_locked_validation_exposed',sum(r['analysis_role']=='locked_validation' for r in sample))
+
+
+def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument(
+        '--legacy-audit-rebuild', action='store_true',
+        help='explicitly reproduce the already-public historical 480-row artifact; never creates a valid final holdout',
+    )
+    args=parser.parse_args()
+    if not args.legacy_audit_rebuild:
+        raise SystemExit(
+            'Refusing routine public sample generation: SEMB03_SAMPLE_0.2 contains an exposed nominal holdout. '
+            'Use scripts/prepare_semb03_private_holdout.py for future final validation, or pass '
+            '--legacy-audit-rebuild only to reproduce the historical artifact.'
+        )
+    rebuild_legacy_artifact()
+
 
 if __name__=='__main__': main()
