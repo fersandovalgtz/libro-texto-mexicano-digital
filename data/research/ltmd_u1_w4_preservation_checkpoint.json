@@ -1,0 +1,45 @@
+{
+  "schema": "LTMD_FTRL_PRESERVATION_CHECKPOINT_0.1",
+  "wave": "W4",
+  "domain": "Ciencias Sociales",
+  "effective_date": "2026-08-27",
+  "archival_complete": false,
+  "ftrl": {
+    "status": "validated",
+    "run_id": "33033136922",
+    "commit": "455e0f21434162c4b77a0b5d52269b65512c486d",
+    "historical_identities": 14,
+    "canonical_processing_objects": 14,
+    "distributed_shards": 8,
+    "page_records": 2414,
+    "global_exact_union": true,
+    "page_partition_complete": true,
+    "page_partition_unique": true,
+    "sqlite_fts_qc_validated_per_shard": true
+  },
+  "persistent_archive": {
+    "provider": "google_drive",
+    "destination_shared": false,
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/W4 — Ciencias Sociales/run_33033136922__455e0f2__2026-08-26",
+    "encrypted_handoffs_preserved": true,
+    "encrypted_handoffs_unique": 8,
+    "redownload_checksum_verification_complete": true,
+    "private_consolidation_validated": false,
+    "restricted_plaintext_publicly_exposed": false,
+    "redundant_session_copies_removed": 8
+  },
+  "handoffs": [
+    {"shard": 0, "actions_artifact_id": 9631053623, "drive_filename": "w4-shard-00-private-encrypted.zip", "sha256": "87caa0985d84702820dbf5e9c4e7ee2e824308b0418fd99f3e8bba5083254bb9"},
+    {"shard": 1, "actions_artifact_id": 9631078587, "drive_filename": "w4-shard-01-private-encrypted.zip", "sha256": "1be071f469a52f9937297d30728cef374081dd55c53d46c92cae19d988061210"},
+    {"shard": 2, "actions_artifact_id": 9631090692, "drive_filename": "w4-shard-02-private-encrypted.zip", "sha256": "077e11378e75942bb5ed539eca3e8d0f15550f7ee5570eec3d6bc3c243ac0c69"},
+    {"shard": 3, "actions_artifact_id": 9631101111, "drive_filename": "w4-shard-03-private-encrypted.zip", "sha256": "41961cdedc95f05df35fb19e0ce8d8ed0fef5ecdaae8ff5370e21b476ad78031"},
+    {"shard": 4, "actions_artifact_id": 9631075115, "drive_filename": "w4-shard-04-private-encrypted.zip", "sha256": "bb42ed6c32e79ef022cb6cb6183a0a5c073e231996a0d6b7c97702df39198d87"},
+    {"shard": 5, "actions_artifact_id": 9631072252, "drive_filename": "w4-shard-05-private-encrypted.zip", "sha256": "f2bb26f553192988ceed3d58794d81584854b46afaabc23fec890603f4be6afd"},
+    {"shard": 6, "actions_artifact_id": 9631096398, "drive_filename": "w4-shard-06-private-encrypted.zip", "sha256": "c2ca23908a1b655ca3e64f53e2324b6b68b17596e2b59cb04706feab1d49ac9f"},
+    {"shard": 7, "actions_artifact_id": 9631074779, "drive_filename": "w4-shard-07-private-encrypted.zip", "sha256": "1ddd98e61da8fba91be06bd1f70940924dd784a6f239731587ae548cbe841645"}
+  ],
+  "next_gate": "Consolidate the eight verified encrypted handoffs into one canonical private W4 corpus representation, preserve its manifest/checksums, redownload and verify it, then and only then set archival_complete=true.",
+  "interpretive_limit": "Computational validation and persistent encrypted preservation do not imply archival closure, text verification, semantic readiness, or historical interpretation.",
+  "text_verified": false,
+  "semantic_ready": false
+}
