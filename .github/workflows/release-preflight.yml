@@ -134,3 +134,9 @@ jobs:
           print(f'Release date alignment: {cff_date}')
           print('Bilingual repository headers: OK')
           PY
+
+      - name: Validate U1 retained-source register
+        run: python scripts/validate_u1_retained_source_register.py
+
+      - name: Validate U1 retained-source research attempts
+        run: python scripts/validate_u1_retained_source_attempts.py

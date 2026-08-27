@@ -29,6 +29,12 @@ Corte de referencia: **23 de agosto de 2026**.
 
 El archivo canónico, una fila por identidad, es [`data/catalog/ltmd_u1_retained_source_register.csv`](../data/catalog/ltmd_u1_retained_source_register.csv).
 
+## Ledger de intentos de investigación
+
+El estado canónico anterior se complementa con [`data/catalog/ltmd_u1_retained_source_attempts.csv`](../data/catalog/ltmd_u1_retained_source_attempts.csv), cuya metodología se documenta en [`docs/LTMD_U1_RETAINED_SOURCE_RESEARCH_LEDGER.md`](LTMD_U1_RETAINED_SOURCE_RESEARCH_LEDGER.md). Ese segundo artefacto registra intentos individuales sin convertir resultados negativos de descubrimiento en evidencia de inexistencia ni permitir que una búsqueda fallida modifique por sí sola el ciclo de vida.
+
+La versión inicial del ledger incorpora las 13 retenciones activas y conserva explícitamente `state_before=state_after=active_retention` cuando la evidencia no satisface la compuerta de fuente. Las cinco excepciones finales quedan fuera de la búsqueda rutinaria y sólo pueden reabrirse ante evidencia primaria o archivística nueva.
+
 ## Estados de ciclo de vida
 
 ### `active_retention`
@@ -94,6 +100,8 @@ No levantan una retención el título, el año, el grado, la cardinalidad, la ce
 ## Regla de sincronización
 
 El número total de filas del registro debe ser igual a `universo U1 - cobertura técnica efectiva` en `data/catalog/ltmd_u1_coverage.md`. La distribución por ola debe coincidir con la columna `restantes`. Además, la versión 0.2 exige exactamente **13 `active_retention`** y **5 `final_exception`**, con las cinco identidades finales explícitamente congeladas. `scripts/validate_u1_retained_source_register.py` convierte estas relaciones en comprobaciones automáticas.
+
+El ledger de investigación añade una segunda invariancia: toda retención activa debe estar representada por al menos un intento y una consolidación de evidencia de partida; los outcomes negativos/de descubrimiento no pueden cambiar el ciclo de vida, y una excepción final sólo puede reabrirse mediante un disparador explícito de evidencia nueva. `scripts/validate_u1_retained_source_attempts.py` automatiza esas reglas.
 
 ## Interpretación
 
