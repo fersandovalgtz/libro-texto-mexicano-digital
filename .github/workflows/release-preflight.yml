@@ -140,3 +140,6 @@ jobs:
 
       - name: Validate U1 retained-source research attempts
         run: python scripts/validate_u1_retained_source_attempts.py
+
+      - name: Validate generated U1 residual reconciliation
+        run: python scripts/generate_u1_residual_reconciliation.py --check
