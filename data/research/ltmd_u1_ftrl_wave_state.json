@@ -29,10 +29,10 @@
       "ftrl_status": "validated",
       "ftrl_run_id": "33033136922",
       "ftrl_commit": "455e0f21434162c4b77a0b5d52269b65512c486d",
-      "archival_status": "in_progress",
-      "preservation_run_id": "private_handoff_preservation_2026-08-27",
-      "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W4 — Ciencias Sociales/run_33033136922__455e0f2__2026-08-26",
-      "preservation_checkpoint_evidence": "data/research/ltmd_u1_w4_preservation_checkpoint.json"
+      "archival_status": "archival_complete",
+      "preservation_run_id": "private_consolidation_2026-08-27",
+      "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W4 — Ciencias Sociales/run_33033136922__455e0f2__2026-08-26/02_CONSOLIDATED_PRIVATE",
+      "archival_closure_evidence": "data/research/ltmd_u1_w4_archival_closure.json"
     },
     "W5": {
       "domain": "historia",
