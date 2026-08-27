@@ -1,0 +1,36 @@
+{
+  "archival_complete": false,
+  "canonical_processing_objects": 14,
+  "domain": "Ciencias Sociales",
+  "epistemic_guards": [
+    "distributed_computationally_validated != archival_complete",
+    "ocr_available != text_verified",
+    "corpus_ready != semantic_ready",
+    "search_hit != historical_claim",
+    "zero_hits != demonstrated_absence"
+  ],
+  "expected_page_records": 2414,
+  "generated_at": "2026-08-27T02:30:14+00:00",
+  "historical_identities": 14,
+  "page_partition_complete": true,
+  "page_partition_unique": true,
+  "page_records": 2414,
+  "same_source_commit_and_workflow_run": true,
+  "schema": "LTMD_FTRL_W4_DISTRIBUTED_GLOBAL_0.1",
+  "semantic_ready": false,
+  "shard_count": 8,
+  "shard_size_distribution": {
+    "301": 2,
+    "302": 6
+  },
+  "source_commits_observed": [
+    "455e0f21434162c4b77a0b5d52269b65512c486d"
+  ],
+  "status": "distributed_computationally_validated",
+  "text_verified": false,
+  "unique_page_records": 2414,
+  "wave": "W4",
+  "workflow_run_ids_observed": [
+    "33033136922"
+  ]
+}
