@@ -63,8 +63,6 @@ jobs:
           cff = (root / 'CITATION.cff').read_text(encoding='utf-8')
 
           def cff_scalar(key: str) -> str:
-              # Accept top-level scalars and scalar fields inside YAML sequence items,
-              # e.g. `  - family-names: "Sandoval Gutierrez"`.
               m = re.search(
                   rf'^\s*(?:-\s+)?{re.escape(key)}:\s*(.+?)\s*$',
                   cff,
@@ -143,3 +141,6 @@ jobs:
 
       - name: Validate generated U1 residual reconciliation
         run: python scripts/generate_u1_residual_reconciliation.py --check
+
+      - name: Validate SEMB03 holdout integrity
+        run: python scripts/validate_semb03_holdout_integrity.py
