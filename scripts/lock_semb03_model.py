@@ -27,6 +27,10 @@ def sha(path: Path) -> str:
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def valid_hex(value: object, n: int) -> bool:
+    return isinstance(value, str) and len(value) == n and all(c in "0123456789abcdef" for c in value.lower())
+
+
 def git_head() -> str | None:
     try:
         return subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
@@ -88,9 +92,15 @@ def main() -> None:
         raise SystemExit("private holdout must exclude all 480 legacy public identities")
     if commitment.get("ids_public") is not False:
         raise SystemExit("private holdout commitment must assert ids_public=false")
-    manifest_digest = str(commitment.get("private_manifest_sha256", ""))
-    if len(manifest_digest) != 64:
+    manifest_digest = commitment.get("private_manifest_sha256")
+    source_manifest_digest = commitment.get("source_manifest_sha256")
+    source_manifest_blob = commitment.get("source_manifest_git_blob_sha")
+    if not valid_hex(manifest_digest, 64):
         raise SystemExit("private holdout commitment lacks a valid manifest SHA-256")
+    if not valid_hex(source_manifest_digest, 64):
+        raise SystemExit("private holdout commitment lacks a valid source-manifest SHA-256")
+    if not valid_hex(source_manifest_blob, 40):
+        raise SystemExit("private holdout commitment lacks a valid source-manifest Git blob SHA")
 
     lock = {
         "lock_version": VERSION,
@@ -111,6 +121,8 @@ def main() -> None:
         "private_holdout_commitment": str(COMMITMENT),
         "private_holdout_commitment_sha256": sha(COMMITMENT),
         "private_holdout_manifest_sha256": manifest_digest,
+        "source_fragment_manifest_sha256": source_manifest_digest,
+        "source_fragment_manifest_git_blob_sha": source_manifest_blob,
         "legacy_public_holdout_admissible": False,
         "locked_validation_accessed_before_lock": False,
         "historical_outputs_used_for_selection": False
