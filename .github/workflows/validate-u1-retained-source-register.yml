@@ -5,17 +5,23 @@ on:
     branches: [main]
     paths:
       - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'data/catalog/ltmd_u1_retained_source_attempts.csv'
       - 'data/catalog/ltmd_u1_coverage.md'
       - 'docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md'
+      - 'docs/LTMD_U1_RETAINED_SOURCE_RESEARCH_LEDGER.md'
       - 'scripts/validate_u1_retained_source_register.py'
+      - 'scripts/validate_u1_retained_source_attempts.py'
       - '.github/workflows/validate-u1-retained-source-register.yml'
   pull_request:
     branches: [main]
     paths:
       - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'data/catalog/ltmd_u1_retained_source_attempts.csv'
       - 'data/catalog/ltmd_u1_coverage.md'
       - 'docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md'
+      - 'docs/LTMD_U1_RETAINED_SOURCE_RESEARCH_LEDGER.md'
       - 'scripts/validate_u1_retained_source_register.py'
+      - 'scripts/validate_u1_retained_source_attempts.py'
       - '.github/workflows/validate-u1-retained-source-register.yml'
   workflow_dispatch:
 
@@ -36,3 +42,6 @@ jobs:
 
       - name: Validate retained-source register against U1 coverage
         run: python scripts/validate_u1_retained_source_register.py
+
+      - name: Validate retained-source research attempts
+        run: python scripts/validate_u1_retained_source_attempts.py
