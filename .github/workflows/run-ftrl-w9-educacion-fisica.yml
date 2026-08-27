@@ -1,0 +1,265 @@
+name: Run FTRL W9 Educacion Fisica
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/research/ltmd_u1_w9_ftrl_run_stamp.json'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/build_ftrl_w9_inputs.py'
+      - 'scripts/run_ftrl_w9_book.py'
+      - 'scripts/validate_ftrl_w9_distributed.py'
+      - '.github/workflows/run-ftrl-w9-educacion-fisica.yml'
+      - 'data/research/ltmd_u1_w9_ftrl_run_stamp.json'
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: ftrl-w9-educacion-fisica-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  config-gate:
+    name: validate-ftrl-w9-config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile W9 FTRL scripts
+        run: python -m py_compile scripts/build_ftrl_w9_inputs.py scripts/run_ftrl_w9_book.py scripts/validate_ftrl_w9_distributed.py
+      - name: Rebuild normalized W9 inputs without network
+        run: |
+          python scripts/build_ftrl_w9_inputs.py \
+            --asset-output /tmp/w9_asset_manifest.csv \
+            --processing-output /tmp/w9_processing_inventory.csv
+          python - <<'PY'
+          import csv
+          from collections import Counter
+          def read(p):
+              with open(p, encoding='utf-8', newline='') as fh: return list(csv.DictReader(fh))
+          a = read('/tmp/w9_asset_manifest.csv'); p = read('/tmp/w9_processing_inventory.csv')
+          assert len(p) == 4
+          assert len(a) == 448
+          assert Counter(r['viewer_key'] for r in a) == Counter({'H2008P1ED252':114,'H2008P2ED260':106,'H2008P5ED280':114,'H2008P6ED287':114})
+          assert all(r['is_canonical_processing_object'] == '1' for r in p)
+          assert all(r['technical_identity_covered'] == '1' for r in p)
+          assert all(r['persistent_internal_source_gaps'] == '0' for r in p)
+          print('W9 config gate: 4 books / 448 pages')
+          PY
+
+  precondition:
+    name: require-w4-archival-closure
+    if: github.event_name != 'pull_request'
+    needs: config-gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require canonical W4 archival closure before W9
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          state = json.loads(Path('data/research/ltmd_u1_ftrl_wave_state.json').read_text(encoding='utf-8'))
+          w4 = state['waves']['W4']
+          assert w4['ftrl_status'] == 'validated', w4
+          assert w4['archival_status'] == 'archival_complete', w4
+          evidence = w4.get('archival_closure_evidence')
+          assert evidence == 'data/research/ltmd_u1_w4_archival_closure.json', w4
+          assert Path(evidence).is_file()
+          PY
+
+  book:
+    name: book-${{ matrix.viewer }}
+    if: github.event_name != 'pull_request'
+    needs: [config-gate, precondition]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        viewer: [H2008P1ED252, H2008P2ED260, H2008P5ED280, H2008P6ED287]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Spanish Tesseract data
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+          tesseract --list-langs | grep -Fx spa
+      - name: Validate private preservation canon
+        run: python scripts/validate_private_corpus_storage_contract.py
+      - name: Execute deterministic W9 book unit
+        run: |
+          python scripts/run_ftrl_w9_book.py \
+            --viewer-key '${{ matrix.viewer }}' \
+            --output-dir local/ftrl-w9
+      - name: Assert public evidence is text-free
+        env:
+          VIEWER: ${{ matrix.viewer }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          viewer = os.environ['VIEWER']
+          p = Path(f'local/ftrl-w9/{viewer}/w9_{viewer}_evidence.json')
+          data = json.loads(p.read_text(encoding='utf-8'))
+          assert data['schema'] == 'LTMD_FTRL_W9_BOOK_UNIT_0.1'
+          assert data['status'] == 'validated'
+          forbidden = {'ocr_text_raw','search_text','snippet','text','normalized_text'}
+          def walk(x):
+              if isinstance(x, dict):
+                  assert not (forbidden & set(x)), forbidden & set(x)
+                  for v in x.values(): walk(v)
+              elif isinstance(x, list):
+                  for v in x: walk(v)
+          walk(data)
+          PY
+      - name: Build and encrypt restricted book archive
+        env:
+          VIEWER: ${{ matrix.viewer }}
+        run: |
+          set -euo pipefail
+          DIR="local/ftrl-w9/${VIEWER}"
+          HANDOFF="local/private-handoff-w9-${VIEWER}"
+          mkdir -p "$HANDOFF"
+          tar -C "$DIR" -czf "$HANDOFF/w9_${VIEWER}_restricted.tar.gz" \
+            "w9_${VIEWER}_page_ocr.jsonl" \
+            "w9_${VIEWER}_ocr_search.sqlite" \
+            "w9_${VIEWER}_qc_queue.json" \
+            "w9_${VIEWER}_asset_manifest.csv" \
+            "w9_${VIEWER}_run_manifest.json" \
+            "w9_${VIEWER}_qc_summary.json"
+          openssl rand -base64 48 > "/tmp/w9-${VIEWER}.pass"
+          openssl enc -aes-256-cbc -salt -pbkdf2 -iter 250000 \
+            -in "$HANDOFF/w9_${VIEWER}_restricted.tar.gz" \
+            -out "$HANDOFF/w9_${VIEWER}_restricted.tar.gz.enc" \
+            -pass file:"/tmp/w9-${VIEWER}.pass"
+          openssl pkeyutl -encrypt \
+            -pubin -inkey security/ltmd_archive_public.pem \
+            -in "/tmp/w9-${VIEWER}.pass" \
+            -out "$HANDOFF/w9_${VIEWER}_passphrase.rsa-oaep.enc" \
+            -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256
+          sha256sum "$HANDOFF/w9_${VIEWER}_restricted.tar.gz.enc" "$HANDOFF/w9_${VIEWER}_passphrase.rsa-oaep.enc" > "$HANDOFF/SHA256SUMS.txt"
+          rm -f "$HANDOFF/w9_${VIEWER}_restricted.tar.gz" "/tmp/w9-${VIEWER}.pass"
+      - name: Write text-free encrypted handoff manifest
+        env:
+          VIEWER: ${{ matrix.viewer }}
+          GH_RUN_ID: ${{ github.run_id }}
+          GH_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          viewer = os.environ['VIEWER']
+          handoff = Path(f'local/private-handoff-w9-{viewer}')
+          evidence = json.loads(Path(f'local/ftrl-w9/{viewer}/w9_{viewer}_evidence.json').read_text(encoding='utf-8'))
+          def desc(name):
+              p = handoff / name
+              h = hashlib.sha256()
+              with p.open('rb') as fh:
+                  for chunk in iter(lambda: fh.read(1024*1024), b''): h.update(chunk)
+              return {'name': name, 'bytes': p.stat().st_size, 'sha256': h.hexdigest()}
+          payload = f'w9_{viewer}_restricted.tar.gz.enc'
+          key = f'w9_{viewer}_passphrase.rsa-oaep.enc'
+          m = {
+              'schema':'LTMD_PRIVATE_FTRL_W9_BOOK_HANDOFF_0.1', 'wave':'W9', 'viewer_key':viewer,
+              'page_records':evidence['page_records'], 'source_commit':os.environ['GH_SHA'],
+              'workflow_run_id':os.environ['GH_RUN_ID'],
+              'encryption':{'payload':'AES-256-CBC + PBKDF2-SHA256, 250000 iterations','key_wrap':'RSA-4096 OAEP SHA-256','public_key_sha256':'78852eafbaa332247f99e23508ac157b5b906c6c3bf3aeb0af1dfe8d57579c2d'},
+              'files':[desc(payload),desc(key),desc('SHA256SUMS.txt')],
+              'plaintext_restricted_outputs_uploaded':False,
+              'destination_policy':'private Google Drive; Actions artifact is temporary encrypted handoff only',
+              'archival_complete':False,
+          }
+          (handoff / f'w9_{viewer}_private_handoff_manifest.json').write_text(json.dumps(m, indent=2, sort_keys=True)+'\n', encoding='utf-8')
+          PY
+      - name: Prove plaintext archive is absent
+        env:
+          VIEWER: ${{ matrix.viewer }}
+        run: |
+          HANDOFF="local/private-handoff-w9-${VIEWER}"
+          test ! -f "$HANDOFF/w9_${VIEWER}_restricted.tar.gz"
+          test -f "$HANDOFF/w9_${VIEWER}_restricted.tar.gz.enc"
+          test -f "$HANDOFF/w9_${VIEWER}_passphrase.rsa-oaep.enc"
+      - name: Upload encrypted private handoff only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w9-${{ matrix.viewer }}-private-encrypted
+          path: local/private-handoff-w9-${{ matrix.viewer }}/
+          if-no-files-found: error
+          retention-days: 3
+      - name: Upload text-free computational evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w9-${{ matrix.viewer }}-text-free-evidence
+          path: |
+            local/ftrl-w9/${{ matrix.viewer }}/w9_${{ matrix.viewer }}_evidence.json
+            local/ftrl-w9/${{ matrix.viewer }}/w9_${{ matrix.viewer }}_run_manifest.json
+            local/ftrl-w9/${{ matrix.viewer }}/w9_${{ matrix.viewer }}_qc_summary.json
+            local/ftrl-w9/${{ matrix.viewer }}/w9_${{ matrix.viewer }}_asset_manifest.csv
+          if-no-files-found: error
+          retention-days: 30
+
+  aggregate:
+    name: validate-global-w9-union
+    if: github.event_name != 'pull_request'
+    needs: book
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download all text-free W9 evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w9-*-text-free-evidence
+          path: local/w9-evidence
+          merge-multiple: false
+      - name: Rebuild canonical W9 inputs
+        run: |
+          mkdir -p local/w9-expected
+          python scripts/build_ftrl_w9_inputs.py \
+            --asset-output local/w9-expected/asset_manifest.csv \
+            --processing-output local/w9-expected/processing_inventory.csv
+      - name: Validate exact exhaustive union
+        run: |
+          python scripts/validate_ftrl_w9_distributed.py \
+            --evidence-root local/w9-evidence \
+            --asset-manifest local/w9-expected/asset_manifest.csv \
+            --processing-inventory local/w9-expected/processing_inventory.csv \
+            --output local/ltmd_u1_w9_global_evidence.json
+      - name: Upload global text-free evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w9-global-text-free-evidence
+          path: local/ltmd_u1_w9_global_evidence.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Report W9 computational validation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment 64 --repo "$GITHUB_REPOSITORY" --body "FTRL W9 Educación Física — validación computacional exhaustiva COMPLETA en run ${GITHUB_RUN_ID}: 4 libros/objetos canónicos, 448/448 páginas, unión única y exacta; SHA fuente, SQLite/FTS5 y QC validados por libro. Productos restringidos únicamente en handoffs cifrados. archival_complete permanece falso hasta consolidación y reverificación privada; text_verified y semantic_ready permanecen falsos."
+
+  report-failure:
+    name: report-w9-failure
+    if: failure() && github.event_name != 'pull_request'
+    needs: [config-gate, precondition, book, aggregate]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report W9 failure
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment 64 --repo "$GITHUB_REPOSITORY" --body "FTRL W9 Educación Física — corrida ${GITHUB_RUN_ID} NO completó todos sus gates. No se promueve W9 ni se declara archival_complete. Los handoffs exitosos son sólo evidencia diagnóstica y no sustituyen la unión exhaustiva 448/448."
