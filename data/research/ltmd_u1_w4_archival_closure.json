@@ -1,0 +1,47 @@
+{
+  "schema": "LTMD_FTRL_ARCHIVAL_CLOSURE_0.5",
+  "archival_complete": true,
+  "domain": "Ciencias Sociales",
+  "effective_date": "2026-08-27",
+  "ftrl": {
+    "canonical_processing_objects": 14,
+    "commit": "455e0f21434162c4b77a0b5d52269b65512c486d",
+    "distributed_shards": 8,
+    "fts_rows": 2414,
+    "global_exact_union": true,
+    "historical_identities": 14,
+    "page_partition_complete": true,
+    "page_partition_unique": true,
+    "page_records": 2414,
+    "run_id": "33033136922",
+    "sqlite_integrity": "ok",
+    "status": "validated"
+  },
+  "interpretive_limit": "Computational and archival closure only; OCR availability does not imply text verification or semantic readiness.",
+  "persistent_archive": {
+    "archive_closure_record_preserved": true,
+    "consolidated_archive_bytes": 4945342,
+    "consolidated_archive_sha256": "1a6546354f94259ffbc3bb8233c405138f01316cfc188a80786af9d7238761d8",
+    "destination_shared": false,
+    "encrypted_handoffs_preserved": true,
+    "encrypted_handoffs_unique": 8,
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/W4 — Ciencias Sociales/run_33033136922__455e0f2__2026-08-26/02_CONSOLIDATED_PRIVATE",
+    "private_consolidation_validated": true,
+    "provider": "google_drive",
+    "redownload_checksum_verification_complete": true,
+    "restricted_plaintext_publicly_exposed": false,
+    "text_free_evidence_preserved": true
+  },
+  "qc": {
+    "page_records": 2414,
+    "pages_flagged_for_technical_review": 484,
+    "pages_unflagged": 1930
+  },
+  "security": {
+    "plaintext_restricted_outputs_published": false,
+    "private_key_stored_outside_public_repository": true
+  },
+  "semantic_ready": false,
+  "text_verified": false,
+  "wave": "W4"
+}
