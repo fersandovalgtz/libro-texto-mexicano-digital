@@ -1,0 +1,48 @@
+{
+  "schema": "LTMD_FTRL_ARCHIVAL_CLOSURE_0.6",
+  "archival_complete": true,
+  "domain": "Educación Física",
+  "effective_date": "2026-08-27",
+  "ftrl": {
+    "canonical_processing_objects": 4,
+    "commit": "ac1cb91220cb09aeb24cce11c1f9a44f303fdacc",
+    "distributed_books": 4,
+    "fts_rows": 448,
+    "global_exact_union": true,
+    "historical_identities": 4,
+    "page_partition_complete": true,
+    "page_partition_unique": true,
+    "page_records": 448,
+    "run_id": "33124903433",
+    "sqlite_integrity": "ok",
+    "status": "validated"
+  },
+  "interpretive_limit": "Computational and archival closure only; OCR availability does not imply text verification or semantic readiness.",
+  "persistent_archive": {
+    "archive_closure_record_preserved": true,
+    "consolidated_archive_bytes": 684934,
+    "consolidated_archive_sha256": "3e34f01c24ebde8f2ad9f7eeac2137234440710f50e04f0d0b62b71b6b9245e3",
+    "destination_shared": false,
+    "encrypted_handoffs_preserved": true,
+    "encrypted_handoffs_unique": 4,
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/W9 — Educación Física/run_33124903433__ac1cb91__2026-08-27/02_CONSOLIDATED_PRIVATE",
+    "private_consolidation_validated": true,
+    "provider": "google_drive",
+    "redownload_checksum_verification_complete": true,
+    "restricted_plaintext_publicly_exposed": false,
+    "text_free_evidence_preserved": true
+  },
+  "qc": {
+    "page_records": 448,
+    "pages_flagged_for_technical_review": 58,
+    "pages_unflagged": 390,
+    "zero_search_text_pages": 20
+  },
+  "security": {
+    "plaintext_restricted_outputs_published": false,
+    "private_key_stored_outside_public_repository": true
+  },
+  "semantic_ready": false,
+  "text_verified": false,
+  "wave": "W9"
+}
