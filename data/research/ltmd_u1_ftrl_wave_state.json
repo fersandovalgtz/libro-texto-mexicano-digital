@@ -56,7 +56,16 @@
     },
     "W7": {"domain": "civica_etica", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
     "W8": {"domain": "artes", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
-    "W9": {"domain": "educacion_fisica", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
+    "W9": {
+      "domain": "educacion_fisica",
+      "ftrl_status": "validated",
+      "ftrl_run_id": "33124903433",
+      "ftrl_commit": "ac1cb91220cb09aeb24cce11c1f9a44f303fdacc",
+      "archival_status": "archival_complete",
+      "preservation_run_id": "private_consolidation_2026-08-27",
+      "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W9 — Educación Física/run_33124903433__ac1cb91__2026-08-27/02_CONSOLIDATED_PRIVATE",
+      "archival_closure_evidence": "data/research/ltmd_u1_w9_archival_closure.json"
+    },
     "W10": {"domain": "integrados_multiarea", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
     "W11": {"domain": "otros_no_clasificados", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""}
   }
