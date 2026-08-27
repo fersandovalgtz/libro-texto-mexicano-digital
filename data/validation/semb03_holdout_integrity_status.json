@@ -1,0 +1,36 @@
+{
+  "integrity_version": "SEMB03_HOLDOUT_INTEGRITY_0.1",
+  "audited_on": "2026-08-27",
+  "legacy_public_sample": {
+    "path": "data/validation/semb03_human_reference_sample.csv",
+    "sample_version": "SEMB03_SAMPLE_0.2",
+    "row_count": 480,
+    "development_rows": 320,
+    "nominal_locked_validation_rows": 160,
+    "current_git_blob_sha": "341493f60779a5fc355235ed0f05aeb576faa96a",
+    "first_public_commit": "ea5a2c2f2da2c245d1ddbedf418732e9f640dfb8",
+    "first_public_at_utc": "2026-08-15T19:38:38Z",
+    "final_validation_admissibility": "invalidated_by_prelock_public_exposure",
+    "permitted_future_role": "development_or_exposed_robustness_audit_only",
+    "public_human_labels_detected": false
+  },
+  "model_lock": {
+    "required_before_final_validation": true,
+    "legacy_subset_may_not_be_rehabilitated_by_retroactive_lock": true,
+    "current_committed_lock_present_at_audit": false
+  },
+  "replacement_private_holdout": {
+    "required": true,
+    "n": 160,
+    "per_generation": 40,
+    "source_pool_must_exclude_all_legacy_480": true,
+    "fragment_ids_must_not_be_committed_before_evaluation": true,
+    "private_storage_prefix": "private/",
+    "public_commitment_path": "data/validation/semb03_private_holdout_commitment.json",
+    "commitment_must_precede_model_lock": true
+  },
+  "semantic_coverage_effect": {
+    "human_reference_labels_created_by_this_audit": 0,
+    "u1_human_semantic_coverage_changed": false
+  }
+}
