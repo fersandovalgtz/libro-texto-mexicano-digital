@@ -1,0 +1,31 @@
+{
+  "schema": "LTMD_U1_W9_FTRL_RUN_STAMP_0.1",
+  "wave": "W9",
+  "domain": "educacion_fisica",
+  "effective_date": "2026-08-27",
+  "mode": "four_canonical_books_parallel",
+  "historical_identities": 4,
+  "canonical_processing_objects": 4,
+  "canonical_source_pages": 448,
+  "expected_pages_by_viewer": {
+    "H2008P1ED252": 114,
+    "H2008P2ED260": 106,
+    "H2008P5ED280": 114,
+    "H2008P6ED287": 114
+  },
+  "source_topology_commit": "95c3ede9b2cb5079f552854eade521fe9b040777",
+  "prior_ocr_metrics_commit": "0255e915170fd5c38b00716b2b30837c7dec0571",
+  "prior_technical_closure": "docs/LTMD_U1_W9_COMPLETION.md",
+  "precondition": "W4 validated and archival_complete",
+  "purpose": "Regenerate restricted page-level FTRL under the current OCR/FTS/QC contract from the already versioned SHA-256 source topology. Prior OCR metrics are continuity evidence only because full historical OCR text was not persisted.",
+  "archival_complete_on_activation": false,
+  "text_verified": false,
+  "semantic_ready": false,
+  "epistemic_guards": [
+    "technical_closure != archival_complete",
+    "ocr_available != text_verified",
+    "corpus_ready != semantic_ready",
+    "search_hit != historical_claim",
+    "zero_hits != demonstrated_absence"
+  ]
+}
