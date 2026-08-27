@@ -1,0 +1,115 @@
+name: Validate FTRL W4 distributed config
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/preflight_ftrl_w4.py'
+      - 'scripts/build_ftrl_w4_inputs.py'
+      - 'scripts/run_ftrl_w4_distributed_shard.py'
+      - 'scripts/validate_ftrl_w4_distributed.py'
+      - 'scripts/consolidate_ftrl_w4_distributed.py'
+      - 'data/research/ltmd_u1_w4_distributed_topology.json'
+      - 'data/research/ltmd_u1_w4_distributed_run_stamp.json'
+      - '.github/workflows/run-ftrl-w4-distributed.yml'
+      - '.github/workflows/validate-ftrl-w4-distributed-config.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-config:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile W4 runtime scripts
+        run: |
+          python -m py_compile \
+            scripts/preflight_ftrl_w4.py \
+            scripts/build_ftrl_w4_inputs.py \
+            scripts/run_ftrl_w4_distributed_shard.py \
+            scripts/validate_ftrl_w4_distributed.py \
+            scripts/consolidate_ftrl_w4_distributed.py
+
+      - name: Execute text-free W4 preflight
+        run: python scripts/preflight_ftrl_w4.py --output /tmp/w4-preflight.json
+
+      - name: Normalize canonical W4 FTRL inputs
+        run: |
+          python scripts/build_ftrl_w4_inputs.py \
+            --asset-output /tmp/w4-assets.csv \
+            --processing-output /tmp/w4-processing.csv
+
+      - name: Assert denominators and distributed topology
+        run: |
+          python - <<'PY'
+          import csv, json
+          from collections import Counter
+          from pathlib import Path
+
+          pre = json.loads(Path('/tmp/w4-preflight.json').read_text(encoding='utf-8'))
+          assert pre['status'] == 'ready_for_ftrl_runtime'
+          assert pre['historical_identities'] == 14
+          assert pre['canonical_processing_objects'] == 14
+          assert pre['canonical_source_pages'] == 2414
+          assert pre['persistent_source_gaps'] == 0
+          assert pre['text_verified'] is False
+          assert pre['semantic_ready'] is False
+
+          proc = list(csv.DictReader(open('/tmp/w4-processing.csv', encoding='utf-8', newline='')))
+          assets = list(csv.DictReader(open('/tmp/w4-assets.csv', encoding='utf-8', newline='')))
+          assert len(proc) == 14
+          assert len({r['viewer_key'] for r in proc}) == 14
+          assert all(r['technical_identity_covered'] == '1' for r in proc)
+          assert all(r['is_canonical_processing_object'] == '1' for r in proc)
+          assert all(r['processing_mode'] == 'direct_canonical' for r in proc)
+          assert len(assets) == 2414
+          assert len({(r['viewer_key'], r['source_image_index']) for r in assets}) == 2414
+
+          topo = json.loads(Path('data/research/ltmd_u1_w4_distributed_topology.json').read_text(encoding='utf-8'))
+          assert topo['historical_identities'] == 14
+          assert topo['canonical_processing_objects'] == 14
+          assert topo['canonical_source_pages'] == 2414
+          assert topo['topology']['shard_count'] == 8
+          assert topo['topology']['max_parallel'] == 8
+          assert topo['topology']['shards_302_pages'] == 6
+          assert topo['topology']['shards_301_pages'] == 2
+          assert 6 * 302 + 2 * 301 == 2414
+
+          stamp = json.loads(Path('data/research/ltmd_u1_w4_distributed_run_stamp.json').read_text(encoding='utf-8'))
+          assert stamp['expected_pages'] == 2414
+          assert stamp['shard_count'] == 8
+          assert stamp['archival_complete'] is False
+          assert stamp['text_verified'] is False
+          assert stamp['semantic_ready'] is False
+          PY
+
+      - name: Assert product workflow safety contract
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('.github/workflows/run-ftrl-w4-distributed.yml').read_text(encoding='utf-8')
+          required = [
+              'data/research/ltmd_u1_w4_distributed_run_stamp.json',
+              'max-parallel: 8',
+              '--shard-count 8',
+              'security/ltmd_archive_public.pem',
+              'openssl enc -aes-256-cbc',
+              'rsa_padding_mode:oaep',
+              'plaintext_restricted_outputs_uploaded',
+              'retention-days: 3',
+              'validate_ftrl_w4_distributed.py',
+              '2,414/2,414',
+          ]
+          for token in required:
+              assert token in text, token
+          forbidden = ['upload-artifact@v4\n        with:\n          name: ltmd-u1-w4-plaintext']
+          for token in forbidden:
+              assert token not in text, token
+          PY
