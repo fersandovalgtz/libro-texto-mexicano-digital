@@ -7,13 +7,43 @@ on:
       - '.github/workflows/test-semb03-infrastructure.yml'
       - 'scripts/validate_semb03_annotations.py'
       - 'scripts/build_semb03_consensus_draft.py'
+      - 'scripts/prepare_semb03_private_holdout.py'
+      - 'scripts/validate_semb03_holdout_integrity.py'
       - 'scripts/lock_semb03_model.py'
       - 'scripts/evaluate_semb03_locked_validation.py'
       - 'scripts/check_semb03_readiness.py'
       - 'scripts/selftest_semb03_infrastructure.py'
       - 'data/validation/semb03_human_reference_sample.csv'
+      - 'data/validation/semb03_human_reference_annotation_template.csv'
+      - 'data/validation/semb03_holdout_integrity_status.json'
+      - 'data/validation/semb03_private_holdout_commitment.json'
+      - 'data/validation/semb03_model_lock.json'
+      - 'data/validation/semb03_locked_validation_result.json'
       - 'data/validation/semb03_acceptance_criteria.json'
       - 'data/validation/semb03_candidate_grid.json'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/test-semb03-infrastructure.yml'
+      - 'scripts/validate_semb03_annotations.py'
+      - 'scripts/build_semb03_consensus_draft.py'
+      - 'scripts/prepare_semb03_private_holdout.py'
+      - 'scripts/validate_semb03_holdout_integrity.py'
+      - 'scripts/lock_semb03_model.py'
+      - 'scripts/evaluate_semb03_locked_validation.py'
+      - 'scripts/check_semb03_readiness.py'
+      - 'scripts/selftest_semb03_infrastructure.py'
+      - 'data/validation/semb03_human_reference_sample.csv'
+      - 'data/validation/semb03_human_reference_annotation_template.csv'
+      - 'data/validation/semb03_holdout_integrity_status.json'
+      - 'data/validation/semb03_private_holdout_commitment.json'
+      - 'data/validation/semb03_model_lock.json'
+      - 'data/validation/semb03_locked_validation_result.json'
+      - 'data/validation/semb03_acceptance_criteria.json'
+      - 'data/validation/semb03_candidate_grid.json'
+
+permissions:
+  contents: read
 
 jobs:
   test:
@@ -25,10 +55,14 @@ jobs:
           python3 -m py_compile \
             scripts/validate_semb03_annotations.py \
             scripts/build_semb03_consensus_draft.py \
+            scripts/prepare_semb03_private_holdout.py \
+            scripts/validate_semb03_holdout_integrity.py \
             scripts/lock_semb03_model.py \
             scripts/evaluate_semb03_locked_validation.py \
             scripts/check_semb03_readiness.py \
             scripts/selftest_semb03_infrastructure.py
+      - name: Validate holdout-integrity invariants
+        run: python3 scripts/validate_semb03_holdout_integrity.py
       - name: Run fake-data stage-gate self-test
         run: python3 scripts/selftest_semb03_infrastructure.py
       - name: Run public readiness invariants
