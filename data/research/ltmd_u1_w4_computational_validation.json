@@ -1,0 +1,52 @@
+{
+  "schema": "LTMD_U1_W4_COMPUTATIONAL_VALIDATION_0.1",
+  "effective_date": "2026-08-26",
+  "wave": "W4",
+  "domain": "Ciencias Sociales",
+  "source_commit": "455e0f21434162c4b77a0b5d52269b65512c486d",
+  "workflow_run_id": "33033136922",
+  "computational_status": "distributed_computationally_validated",
+  "historical_identities": 14,
+  "canonical_processing_objects": 14,
+  "page_records": 2414,
+  "unique_page_records": 2414,
+  "page_partition_complete": true,
+  "page_partition_unique": true,
+  "shard_count": 8,
+  "shard_size_distribution": {
+    "301": 2,
+    "302": 6
+  },
+  "global_text_free_evidence_sha256": "357abe7dabb958ec9261953625a417bc0454d93c75d098f867a8c459b8d1a10e",
+  "encrypted_handoff_persistence": {
+    "status": "persisted_and_redownload_verified",
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/W4 — Ciencias Sociales/run_33033136922__455e0f2__2026-08-26",
+    "files_expected": 8,
+    "files_persisted": 8,
+    "drive_visibility_verified": "not_shared",
+    "redownload_sha256_matches_actions_artifact": true,
+    "plaintext_restricted_outputs_persisted_publicly": false,
+    "shards": [
+      {"shard": 0, "bytes": 340493, "sha256": "87caa0985d84702820dbf5e9c4e7ee2e824308b0418fd99f3e8bba5083254bb9"},
+      {"shard": 1, "bytes": 567283, "sha256": "1be071f469a52f9937297d30728cef374081dd55c53d46c92cae19d988061210"},
+      {"shard": 2, "bytes": 624340, "sha256": "077e11378e75942bb5ed539eca3e8d0f15550f7ee5570eec3d6bc3c243ac0c69"},
+      {"shard": 3, "bytes": 780679, "sha256": "41961cdedc95f05df35fb19e0ce8d8ed0fef5ecdaae8ff5370e21b476ad78031"},
+      {"shard": 4, "bytes": 722432, "sha256": "bb42ed6c32e79ef022cb6cb6183a0a5c073e231996a0d6b7c97702df39198d87"},
+      {"shard": 5, "bytes": 672688, "sha256": "f2bb26f553192988ceed3d58794d81584854b46afaabc23fec890603f4be6afd"},
+      {"shard": 6, "bytes": 710674, "sha256": "c2ca23908a1b655ca3e64f53e2324b6b68b17596e2b59cb04706feab1d49ac9f"},
+      {"shard": 7, "bytes": 578634, "sha256": "1ddd98e61da8fba91be06bd1f70940924dd784a6f239731587ae548cbe841645"}
+    ]
+  },
+  "archival_complete": false,
+  "archival_blocker": "Encrypted handoffs are durably persisted and byte-verified, but private decryption, full-corpus consolidation, SQLite/QC revalidation of the consolidated corpus, canonical package persistence, and final redownload/privacy verification remain required before archival_complete.",
+  "text_verified": false,
+  "semantic_ready": false,
+  "epistemic_guards": [
+    "distributed_computationally_validated != archival_complete",
+    "encrypted_handoff_persisted != private_consolidation_validated",
+    "ocr_available != text_verified",
+    "corpus_ready != semantic_ready",
+    "search_hit != historical_claim",
+    "zero_hits != demonstrated_absence"
+  ]
+}
