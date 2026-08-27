@@ -16,6 +16,7 @@ import hashlib
 import hmac
 import json
 import secrets
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -52,6 +53,19 @@ def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def git_blob_sha(path: Path) -> str:
+    """Return Git's content-addressed blob SHA for the exact source manifest bytes."""
+    try:
+        value = subprocess.check_output(
+            ["git", "hash-object", str(path)], cwd=ROOT, text=True
+        ).strip().lower()
+    except Exception as exc:
+        raise SystemExit(f"cannot derive Git blob SHA for source manifest: {exc}") from exc
+    if len(value) != 40 or any(c not in "0123456789abcdef" for c in value):
+        raise SystemExit("unexpected Git blob SHA returned for source manifest")
+    return value
+
+
 def init_seed(path: Path) -> None:
     if path.exists():
         raise SystemExit(f"refusing to overwrite existing private seed: {path}")
@@ -65,6 +79,7 @@ def build(seed_path: Path, private_path: Path, commitment_path: Path) -> None:
     if len(seed) < 32:
         raise SystemExit("private seed must contain at least 32 bytes")
 
+    manifest_bytes = MANIFEST.read_bytes()
     rows = list(csv.DictReader(MANIFEST.open(encoding="utf-8")))
     legacy = list(csv.DictReader(LEGACY.open(encoding="utf-8")))
     if len(legacy) != 480:
@@ -136,7 +151,8 @@ def build(seed_path: Path, private_path: Path, commitment_path: Path) -> None:
         "ids_public": False,
         "private_manifest_sha256": sha256_bytes(private_bytes),
         "private_manifest_bytes": len(private_bytes),
-        "source_manifest_git_blob_sha": None,
+        "source_manifest_sha256": sha256_bytes(manifest_bytes),
+        "source_manifest_git_blob_sha": git_blob_sha(MANIFEST),
         "notes": "Commit this JSON only. Keep seed and private manifest outside Git until final evaluation is closed.",
     }
     commitment_path.parent.mkdir(parents=True, exist_ok=True)
@@ -144,6 +160,7 @@ def build(seed_path: Path, private_path: Path, commitment_path: Path) -> None:
     print(f"private holdout: {private_path} (160 IDs, not for Git)")
     print(f"public-safe commitment: {commitment_path}")
     print("legacy overlap: 0")
+    print(f"source manifest blob: {commitment['source_manifest_git_blob_sha']}")
 
 
 def main() -> None:
