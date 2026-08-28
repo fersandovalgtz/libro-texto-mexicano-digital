@@ -1,0 +1,1106 @@
+{
+  "aliases_for_withheld_identities": 0,
+  "archival_complete": false,
+  "book_page_records": {
+    "H2008P1CI250": 114,
+    "H2008P1CI251": 82,
+    "H2008P2CI257": 74,
+    "H2008P2CI258": 82,
+    "H2008P3CI264": 74,
+    "H2008P4CI269": 90,
+    "H2008P5CI278": 86,
+    "H2008P6CI286": 90,
+    "H2011P1CI294": 161,
+    "H2011P2CI301": 153,
+    "H2011P3CI308": 113,
+    "H2011P4CI315": 129,
+    "H2011P5CI326": 129,
+    "H2011P6CI336": 129,
+    "H2014P1FCA": 161,
+    "H2014P2FCA": 153,
+    "H2014P3FCA": 113,
+    "H2014P4FCA": 129,
+    "H2014P6FCA": 209,
+    "H2019P1FCA": 161,
+    "H2019P2FCA": 153,
+    "H2019P3FCA": 113,
+    "H2019P4FCA": 129,
+    "H2019P5FCA": 225,
+    "H2019P6FCA": 209
+  },
+  "canonical_processing_objects": 25,
+  "domain": "Formación Cívica y Ética",
+  "epistemic_guards": [
+    "computationally_validated != archival_complete",
+    "ocr_available != text_verified",
+    "corpus_ready != semantic_ready",
+    "retained_source_identity != alias_candidate",
+    "search_hit != historical_claim",
+    "zero_hits != demonstrated_absence"
+  ],
+  "fts_rows": 3261,
+  "historical_identities": 30,
+  "products": [
+    {
+      "bytes": 389120,
+      "class": "restricted_products",
+      "name": "w7_H2008P1CI250_ocr_search.sqlite",
+      "sha256": "02ebbdd5ebb4aa952c9f1a32598cdaecc3c83da9e1af847196eea44cfe7bc8f3",
+      "viewer_key": "H2008P1CI250"
+    },
+    {
+      "bytes": 279859,
+      "class": "restricted_products",
+      "name": "w7_H2008P1CI250_page_ocr.jsonl",
+      "sha256": "80c50c4fc155466089bbaf73a91dc224ec5b1fe6435c898716b7c0f79387bab9",
+      "viewer_key": "H2008P1CI250"
+    },
+    {
+      "bytes": 68366,
+      "class": "restricted_products",
+      "name": "w7_H2008P1CI250_qc_queue.json",
+      "sha256": "b6d36681fcbe37e1884d30da36bf378763d1a86d4c7d232857550b3f8f72ba6d",
+      "viewer_key": "H2008P1CI250"
+    },
+    {
+      "bytes": 35987,
+      "class": "text_free_products",
+      "name": "w7_H2008P1CI250_asset_manifest.csv",
+      "sha256": "a8f0880b85826d879fdf8f38ab0b09c2d64b6f1cbc642f0ef6325cfc6868be0b",
+      "viewer_key": "H2008P1CI250"
+    },
+    {
+      "bytes": 1605,
+      "class": "text_free_products",
+      "name": "w7_H2008P1CI250_qc_summary.json",
+      "sha256": "902e8b6ff264cee26bab6f8cc9053b0fe5c31976bb9b86f26ed3969c21157711",
+      "viewer_key": "H2008P1CI250"
+    },
+    {
+      "bytes": 3287,
+      "class": "text_free_products",
+      "name": "w7_H2008P1CI250_run_manifest.json",
+      "sha256": "97c0cc5de36f014358e38794ad171f7f86b130230e22bc0e1a9084df5b0f9fac",
+      "viewer_key": "H2008P1CI250"
+    },
+    {
+      "bytes": 192512,
+      "class": "restricted_products",
+      "name": "w7_H2008P1CI251_ocr_search.sqlite",
+      "sha256": "00d4f2b0f298a4942c5fc75a5e7ec5d10b1d6a5244c1386353abe33cde73ff40",
+      "viewer_key": "H2008P1CI251"
+    },
+    {
+      "bytes": 128072,
+      "class": "restricted_products",
+      "name": "w7_H2008P1CI251_page_ocr.jsonl",
+      "sha256": "33b56db4f00fa8d4ddb189bd9fc23b615e3c604f224d64498e1c84319cab2e7d",
+      "viewer_key": "H2008P1CI251"
+    },
+    {
+      "bytes": 49554,
+      "class": "restricted_products",
+      "name": "w7_H2008P1CI251_qc_queue.json",
+      "sha256": "2c20655a29b7eda7b0640d0e613f7829bcbc9adc71947e3c8b5e3d7d64a1a649",
+      "viewer_key": "H2008P1CI251"
+    },
+    {
+      "bytes": 27470,
+      "class": "text_free_products",
+      "name": "w7_H2008P1CI251_asset_manifest.csv",
+      "sha256": "0afae88d3fe321bbb1e8366bedaa213d3d965cdb7dc455f7f75af4dd095fd945",
+      "viewer_key": "H2008P1CI251"
+    },
+    {
+      "bytes": 1607,
+      "class": "text_free_products",
+      "name": "w7_H2008P1CI251_qc_summary.json",
+      "sha256": "37b2afaa2133c4787f44b65a704df300d72beb21b06d99315eafed01c4733fb0",
+      "viewer_key": "H2008P1CI251"
+    },
+    {
+      "bytes": 3278,
+      "class": "text_free_products",
+      "name": "w7_H2008P1CI251_run_manifest.json",
+      "sha256": "41cb9a2367fa3d6113fd9a63e22a3a29d4c6e4b041974f7dc31b74627510b79c",
+      "viewer_key": "H2008P1CI251"
+    },
+    {
+      "bytes": 475136,
+      "class": "restricted_products",
+      "name": "w7_H2008P2CI257_ocr_search.sqlite",
+      "sha256": "f95ea47376a9f1b9ccf17ddd25b4ff4bfc1448377d74eae65d8f029270bade4a",
+      "viewer_key": "H2008P2CI257"
+    },
+    {
+      "bytes": 304742,
+      "class": "restricted_products",
+      "name": "w7_H2008P2CI257_page_ocr.jsonl",
+      "sha256": "b4c712f1f97f26e141f84600c277d4dc368cd9c5fc4e066616deccd0443640fe",
+      "viewer_key": "H2008P2CI257"
+    },
+    {
+      "bytes": 44065,
+      "class": "restricted_products",
+      "name": "w7_H2008P2CI257_qc_queue.json",
+      "sha256": "0feabd8bb14e0d8275f38281d67313c5ff853b36f9636097fd3a8532c207c5a2",
+      "viewer_key": "H2008P2CI257"
+    },
+    {
+      "bytes": 23328,
+      "class": "text_free_products",
+      "name": "w7_H2008P2CI257_asset_manifest.csv",
+      "sha256": "bafcd1539890cfb1e7ff5bae72755da4feaabda614807075c4bf8c94b9fbba42",
+      "viewer_key": "H2008P2CI257"
+    },
+    {
+      "bytes": 1610,
+      "class": "text_free_products",
+      "name": "w7_H2008P2CI257_qc_summary.json",
+      "sha256": "663662abb8435b4097ae88acea2daa140c14a44fe2bcf3d52be814ea22c2b210",
+      "viewer_key": "H2008P2CI257"
+    },
+    {
+      "bytes": 3280,
+      "class": "text_free_products",
+      "name": "w7_H2008P2CI257_run_manifest.json",
+      "sha256": "fde572b571fe9b96e5efdb89be46735a4d633c7ca79bf7e0c634abfcf0daad04",
+      "viewer_key": "H2008P2CI257"
+    },
+    {
+      "bytes": 221184,
+      "class": "restricted_products",
+      "name": "w7_H2008P2CI258_ocr_search.sqlite",
+      "sha256": "18032a1a9e57d3b6c3a7b246e1df8ee97bcdc56998b0a70e67d92f87fe9838db",
+      "viewer_key": "H2008P2CI258"
+    },
+    {
+      "bytes": 144945,
+      "class": "restricted_products",
+      "name": "w7_H2008P2CI258_page_ocr.jsonl",
+      "sha256": "47401e17690608b883ae19d9c294b56606b1881b7c50681fdb14ec7a52fbaab0",
+      "viewer_key": "H2008P2CI258"
+    },
+    {
+      "bytes": 49720,
+      "class": "restricted_products",
+      "name": "w7_H2008P2CI258_qc_queue.json",
+      "sha256": "e885edd0ea567a298a4c5a9b8a4ee4fe82617240c75ec286138cf2cbfe1ba84d",
+      "viewer_key": "H2008P2CI258"
+    },
+    {
+      "bytes": 27468,
+      "class": "text_free_products",
+      "name": "w7_H2008P2CI258_asset_manifest.csv",
+      "sha256": "798267ecc0c0d6c51e97820053d344081698d298a072c47f2f2d7c336aa07107",
+      "viewer_key": "H2008P2CI258"
+    },
+    {
+      "bytes": 1615,
+      "class": "text_free_products",
+      "name": "w7_H2008P2CI258_qc_summary.json",
+      "sha256": "0c954d8f1a153652d9e1be09ae8bb3731cb55e9d336caef134e3d6559bbfac5b",
+      "viewer_key": "H2008P2CI258"
+    },
+    {
+      "bytes": 3278,
+      "class": "text_free_products",
+      "name": "w7_H2008P2CI258_run_manifest.json",
+      "sha256": "3400eb794242c707e81e8f1a9d92cc382a90cd79ae0858b6a4878b816796e106",
+      "viewer_key": "H2008P2CI258"
+    },
+    {
+      "bytes": 446464,
+      "class": "restricted_products",
+      "name": "w7_H2008P3CI264_ocr_search.sqlite",
+      "sha256": "217ef9da2958e5ea2d34737149a3fa44b2574457b388ef43e42eec69bc280e1b",
+      "viewer_key": "H2008P3CI264"
+    },
+    {
+      "bytes": 276519,
+      "class": "restricted_products",
+      "name": "w7_H2008P3CI264_page_ocr.jsonl",
+      "sha256": "5f3ffd98230e5693c7459961c4a9afc4c5220ce95e6e045acf812941ceabc713",
+      "viewer_key": "H2008P3CI264"
+    },
+    {
+      "bytes": 44030,
+      "class": "restricted_products",
+      "name": "w7_H2008P3CI264_qc_queue.json",
+      "sha256": "48849a77bd56b37ecad37afe791936e9b4d2f88c9963c7872f26042b93308627",
+      "viewer_key": "H2008P3CI264"
+    },
+    {
+      "bytes": 23326,
+      "class": "text_free_products",
+      "name": "w7_H2008P3CI264_asset_manifest.csv",
+      "sha256": "98faa51177672135b8dc39e8da188c712a31689926886ae3d1fd5fcb3bd8e321",
+      "viewer_key": "H2008P3CI264"
+    },
+    {
+      "bytes": 1601,
+      "class": "text_free_products",
+      "name": "w7_H2008P3CI264_qc_summary.json",
+      "sha256": "3f8d4e7437f97b1be2d671312e9be45a0afa93d3b9b6445cc023df7333d74005",
+      "viewer_key": "H2008P3CI264"
+    },
+    {
+      "bytes": 3279,
+      "class": "text_free_products",
+      "name": "w7_H2008P3CI264_run_manifest.json",
+      "sha256": "b68aa73593c0bd6f32a65f8a09f75ea8945cbd1be5334deb7bc87203116b0441",
+      "viewer_key": "H2008P3CI264"
+    },
+    {
+      "bytes": 557056,
+      "class": "restricted_products",
+      "name": "w7_H2008P4CI269_ocr_search.sqlite",
+      "sha256": "379664c7485f22b408ed4c0b80f9ff6dc6400a1385fcd92101d2b8631f5d2141",
+      "viewer_key": "H2008P4CI269"
+    },
+    {
+      "bytes": 380171,
+      "class": "restricted_products",
+      "name": "w7_H2008P4CI269_page_ocr.jsonl",
+      "sha256": "8f199993b2b385e187bb275dd346832831d1f474042a5a6e3e0c5f3794714095",
+      "viewer_key": "H2008P4CI269"
+    },
+    {
+      "bytes": 53544,
+      "class": "restricted_products",
+      "name": "w7_H2008P4CI269_qc_queue.json",
+      "sha256": "140c92bc2322b5b7c9fab3fda667c3bdecc5f7eed8e88d8d12cc6dd0a74da15e",
+      "viewer_key": "H2008P4CI269"
+    },
+    {
+      "bytes": 28335,
+      "class": "text_free_products",
+      "name": "w7_H2008P4CI269_asset_manifest.csv",
+      "sha256": "91c1929e5f6f896715883b73baa735bfba7f0786c7203d31e2b0b2bb63bead40",
+      "viewer_key": "H2008P4CI269"
+    },
+    {
+      "bytes": 1603,
+      "class": "text_free_products",
+      "name": "w7_H2008P4CI269_qc_summary.json",
+      "sha256": "cb7bf11ec5895aba8996d0c7413f99f3dcd56b0b9110758ba011750facb2e0ed",
+      "viewer_key": "H2008P4CI269"
+    },
+    {
+      "bytes": 3280,
+      "class": "text_free_products",
+      "name": "w7_H2008P4CI269_run_manifest.json",
+      "sha256": "fedd27751cd813cde17b308d5bd008340addf3c55d0c6c8ab35779a6d116dc48",
+      "viewer_key": "H2008P4CI269"
+    },
+    {
+      "bytes": 573440,
+      "class": "restricted_products",
+      "name": "w7_H2008P5CI278_ocr_search.sqlite",
+      "sha256": "f5a4ecfb188e30a072e316fa0df9657743e8e4a15b2c92c835b181596096e2e9",
+      "viewer_key": "H2008P5CI278"
+    },
+    {
+      "bytes": 403999,
+      "class": "restricted_products",
+      "name": "w7_H2008P5CI278_page_ocr.jsonl",
+      "sha256": "fd45bbf99e4b5e1a17e32816e0dc050e6ab7019c86e67dba64d38d22fc64f74f",
+      "viewer_key": "H2008P5CI278"
+    },
+    {
+      "bytes": 51099,
+      "class": "restricted_products",
+      "name": "w7_H2008P5CI278_qc_queue.json",
+      "sha256": "959a39a3fdc13fa94df97b6ab50471cda0af4fa5374cfc2af76de7d84190caed",
+      "viewer_key": "H2008P5CI278"
+    },
+    {
+      "bytes": 27165,
+      "class": "text_free_products",
+      "name": "w7_H2008P5CI278_asset_manifest.csv",
+      "sha256": "9977f03cf87e8f28af75fe52c5bab5d424e8da0a8419ca2aa63e3cdc27eebfda",
+      "viewer_key": "H2008P5CI278"
+    },
+    {
+      "bytes": 1603,
+      "class": "text_free_products",
+      "name": "w7_H2008P5CI278_qc_summary.json",
+      "sha256": "6a239d1c94185f4af7ad5471f4a135f959a06d82aa1e09501f42ea497623c9b5",
+      "viewer_key": "H2008P5CI278"
+    },
+    {
+      "bytes": 3281,
+      "class": "text_free_products",
+      "name": "w7_H2008P5CI278_run_manifest.json",
+      "sha256": "0aa67b2595455c8a5dce86f4bb5370bcc2308b0ebdc6bb8791bb197394e93f8e",
+      "viewer_key": "H2008P5CI278"
+    },
+    {
+      "bytes": 618496,
+      "class": "restricted_products",
+      "name": "w7_H2008P6CI286_ocr_search.sqlite",
+      "sha256": "bbb48a5bba4ddfa17f8a8b51d897238b0f0c66d83cdcdcdbaebbf3d8ff675d67",
+      "viewer_key": "H2008P6CI286"
+    },
+    {
+      "bytes": 430190,
+      "class": "restricted_products",
+      "name": "w7_H2008P6CI286_page_ocr.jsonl",
+      "sha256": "b6461d3b1e2ed33d66eec66b01eed66ff44d7f2054d91963fdab815fb04de67e",
+      "viewer_key": "H2008P6CI286"
+    },
+    {
+      "bytes": 53383,
+      "class": "restricted_products",
+      "name": "w7_H2008P6CI286_qc_queue.json",
+      "sha256": "5b8b76119e017b71eed8d27065869a17c58299ca5cb25284043f84ec215d2c41",
+      "viewer_key": "H2008P6CI286"
+    },
+    {
+      "bytes": 28421,
+      "class": "text_free_products",
+      "name": "w7_H2008P6CI286_asset_manifest.csv",
+      "sha256": "9d9535990466ce8fa96f0ef806d21c49969c39bbdfd88fbf7d289410bbfbac22",
+      "viewer_key": "H2008P6CI286"
+    },
+    {
+      "bytes": 1602,
+      "class": "text_free_products",
+      "name": "w7_H2008P6CI286_qc_summary.json",
+      "sha256": "96dc806b0be67c2da50630485a01bb5aad26c06ea1d3eddb162772b221792dee",
+      "viewer_key": "H2008P6CI286"
+    },
+    {
+      "bytes": 3280,
+      "class": "text_free_products",
+      "name": "w7_H2008P6CI286_run_manifest.json",
+      "sha256": "e51d8a0f5aa6393459b066e3db72b88ff491beca605bd70adb14d2913663908e",
+      "viewer_key": "H2008P6CI286"
+    },
+    {
+      "bytes": 462848,
+      "class": "restricted_products",
+      "name": "w7_H2011P1CI294_ocr_search.sqlite",
+      "sha256": "fc578f1c3be2fcfedc5a0d609613153c9a052b2482fe5656929b1287688b7f2a",
+      "viewer_key": "H2011P1CI294"
+    },
+    {
+      "bytes": 342459,
+      "class": "restricted_products",
+      "name": "w7_H2011P1CI294_page_ocr.jsonl",
+      "sha256": "2d5e6037fcb40e90f869310871344866a2734b8862501197943df20c39c4acab",
+      "viewer_key": "H2011P1CI294"
+    },
+    {
+      "bytes": 95716,
+      "class": "restricted_products",
+      "name": "w7_H2011P1CI294_qc_queue.json",
+      "sha256": "bd14d48a12ec6908d6008755241fdf70e3d643d2f769550587ba756c328473f5",
+      "viewer_key": "H2011P1CI294"
+    },
+    {
+      "bytes": 50698,
+      "class": "text_free_products",
+      "name": "w7_H2011P1CI294_asset_manifest.csv",
+      "sha256": "0ee18e09c73c76816faeb2d98fe5356e3c759e646cf384e4730150d712bf9134",
+      "viewer_key": "H2011P1CI294"
+    },
+    {
+      "bytes": 1606,
+      "class": "text_free_products",
+      "name": "w7_H2011P1CI294_qc_summary.json",
+      "sha256": "54b0825e0e58aae50a41e2093b5819cd8bdafeda164f327ceef03c4075bf566b",
+      "viewer_key": "H2011P1CI294"
+    },
+    {
+      "bytes": 3287,
+      "class": "text_free_products",
+      "name": "w7_H2011P1CI294_run_manifest.json",
+      "sha256": "201e8ea354b90ffcbe2a730c8ef38344731bbbb69423fc9a6a738606dab50f63",
+      "viewer_key": "H2011P1CI294"
+    },
+    {
+      "bytes": 417792,
+      "class": "restricted_products",
+      "name": "w7_H2011P2CI301_ocr_search.sqlite",
+      "sha256": "da31f245a2ad9495eab856170af01ccc773e862496eefc4b69e2b3afae1dbbce",
+      "viewer_key": "H2011P2CI301"
+    },
+    {
+      "bytes": 321617,
+      "class": "restricted_products",
+      "name": "w7_H2011P2CI301_page_ocr.jsonl",
+      "sha256": "01008178d6b76f3c8fe1206c078dde2afa1b5bbf48600d90c60727d5d03829e8",
+      "viewer_key": "H2011P2CI301"
+    },
+    {
+      "bytes": 90857,
+      "class": "restricted_products",
+      "name": "w7_H2011P2CI301_qc_queue.json",
+      "sha256": "1d690579bdecc253b0a2ded79589c5b3d9066f1646073fb338dc73cdc5609d5a",
+      "viewer_key": "H2011P2CI301"
+    },
+    {
+      "bytes": 49841,
+      "class": "text_free_products",
+      "name": "w7_H2011P2CI301_asset_manifest.csv",
+      "sha256": "f9444dcc0063c9777800daf73e44f45e96b32a00746667d1f6571345373bc11d",
+      "viewer_key": "H2011P2CI301"
+    },
+    {
+      "bytes": 1610,
+      "class": "text_free_products",
+      "name": "w7_H2011P2CI301_qc_summary.json",
+      "sha256": "43ef3161594b8eddadc3df43c9e4d2985521bf6646a8b6da7af2011f49804e05",
+      "viewer_key": "H2011P2CI301"
+    },
+    {
+      "bytes": 3286,
+      "class": "text_free_products",
+      "name": "w7_H2011P2CI301_run_manifest.json",
+      "sha256": "0ba19347a1066d2dcaf7be89f558030717293fecd5f969ed00da769a97e4d53c",
+      "viewer_key": "H2011P2CI301"
+    },
+    {
+      "bytes": 499712,
+      "class": "restricted_products",
+      "name": "w7_H2011P3CI308_ocr_search.sqlite",
+      "sha256": "a15c4623ed35134c18d6b9bfff7d70b6a621153950c1b575f12f59b8b969b70f",
+      "viewer_key": "H2011P3CI308"
+    },
+    {
+      "bytes": 334042,
+      "class": "restricted_products",
+      "name": "w7_H2011P3CI308_page_ocr.jsonl",
+      "sha256": "50bb7ef4537f0df4691487dc3ab089932a59e72275b2ee033e2c9c57bf9ef41e",
+      "viewer_key": "H2011P3CI308"
+    },
+    {
+      "bytes": 67289,
+      "class": "restricted_products",
+      "name": "w7_H2011P3CI308_qc_queue.json",
+      "sha256": "50ffb487d62d41ac3c4379e5b4ba81b24642a51c86c28e7ee7bb4997984f5b02",
+      "viewer_key": "H2011P3CI308"
+    },
+    {
+      "bytes": 35671,
+      "class": "text_free_products",
+      "name": "w7_H2011P3CI308_asset_manifest.csv",
+      "sha256": "5dd7c8da25fe65954849d0be581a228fc2ba123d271d7f8476a66f7e3a61dbda",
+      "viewer_key": "H2011P3CI308"
+    },
+    {
+      "bytes": 1604,
+      "class": "text_free_products",
+      "name": "w7_H2011P3CI308_qc_summary.json",
+      "sha256": "fef9c2ddd8f9e24bdb7c4f920366fea81c34e69fc2598ed7a9ff7e27d7ee7ab1",
+      "viewer_key": "H2011P3CI308"
+    },
+    {
+      "bytes": 3286,
+      "class": "text_free_products",
+      "name": "w7_H2011P3CI308_run_manifest.json",
+      "sha256": "a2a909f9260a258d51eb8cb8e77c83fc33c704f3ff28139b206158e247643942",
+      "viewer_key": "H2011P3CI308"
+    },
+    {
+      "bytes": 622592,
+      "class": "restricted_products",
+      "name": "w7_H2011P4CI315_ocr_search.sqlite",
+      "sha256": "93025a9ca31b81570963dc7d6bd0d5ea868a81ac4c060e23330201abc9d05da9",
+      "viewer_key": "H2011P4CI315"
+    },
+    {
+      "bytes": 417110,
+      "class": "restricted_products",
+      "name": "w7_H2011P4CI315_page_ocr.jsonl",
+      "sha256": "2ad906d6cde84236b241798aa77d0ef2b5fdfe369713f28048f546f91f745a70",
+      "viewer_key": "H2011P4CI315"
+    },
+    {
+      "bytes": 76830,
+      "class": "restricted_products",
+      "name": "w7_H2011P4CI315_qc_queue.json",
+      "sha256": "22cb672b0a036e4d903cb467d9d84506343beb5cc986c383f2c419c5cf7fe2c0",
+      "viewer_key": "H2011P4CI315"
+    },
+    {
+      "bytes": 40727,
+      "class": "text_free_products",
+      "name": "w7_H2011P4CI315_asset_manifest.csv",
+      "sha256": "4f84b05a7bdd4bb8559906361b729199395c3eb1e9132d8f8e4d078e7a34dddf",
+      "viewer_key": "H2011P4CI315"
+    },
+    {
+      "bytes": 1606,
+      "class": "text_free_products",
+      "name": "w7_H2011P4CI315_qc_summary.json",
+      "sha256": "b475d1b7f6805119f42570850eb2a2303b18788018c399a69b164d7a57da9313",
+      "viewer_key": "H2011P4CI315"
+    },
+    {
+      "bytes": 3288,
+      "class": "text_free_products",
+      "name": "w7_H2011P4CI315_run_manifest.json",
+      "sha256": "4ac6f7d03ca9c695d4e25eaa5e27aa361bde0f23eb91148e6e8f0c674544ea2f",
+      "viewer_key": "H2011P4CI315"
+    },
+    {
+      "bytes": 614400,
+      "class": "restricted_products",
+      "name": "w7_H2011P5CI326_ocr_search.sqlite",
+      "sha256": "4b335064bfd05e41a9d9e3295bf3d0eb22e2d6276f2b64031f2ecebd29b34cd5",
+      "viewer_key": "H2011P5CI326"
+    },
+    {
+      "bytes": 428162,
+      "class": "restricted_products",
+      "name": "w7_H2011P5CI326_page_ocr.jsonl",
+      "sha256": "5c04e21fc1be7bcb34fe7565e673b4097afdf5f2b76a8b617b6cd37ed493f618",
+      "viewer_key": "H2011P5CI326"
+    },
+    {
+      "bytes": 77060,
+      "class": "restricted_products",
+      "name": "w7_H2011P5CI326_qc_queue.json",
+      "sha256": "6f42ce8a5c8fa64b0eafbf61689c21ae512fbffea7fb95f18384b2e0ae44e606",
+      "viewer_key": "H2011P5CI326"
+    },
+    {
+      "bytes": 40727,
+      "class": "text_free_products",
+      "name": "w7_H2011P5CI326_asset_manifest.csv",
+      "sha256": "b851ac2c1e6a4be5e594f99f512b037c80efbff5197216df67d31a2481bc1d56",
+      "viewer_key": "H2011P5CI326"
+    },
+    {
+      "bytes": 1605,
+      "class": "text_free_products",
+      "name": "w7_H2011P5CI326_qc_summary.json",
+      "sha256": "cd15e80f4de37bf0a511aba1be71648e4fc82b9b85442c57ec28906a066ea48b",
+      "viewer_key": "H2011P5CI326"
+    },
+    {
+      "bytes": 3287,
+      "class": "text_free_products",
+      "name": "w7_H2011P5CI326_run_manifest.json",
+      "sha256": "ec9caa40202a6f09adc1e480194b617939a503d7d73b82955133e884af600dea",
+      "viewer_key": "H2011P5CI326"
+    },
+    {
+      "bytes": 643072,
+      "class": "restricted_products",
+      "name": "w7_H2011P6CI336_ocr_search.sqlite",
+      "sha256": "ae557f1f455a438ca499e38c599f7fd0d4118472d5ebbdb88b15cfac8a5e7bf0",
+      "viewer_key": "H2011P6CI336"
+    },
+    {
+      "bytes": 452371,
+      "class": "restricted_products",
+      "name": "w7_H2011P6CI336_page_ocr.jsonl",
+      "sha256": "2015391278c67b1a32ccd06afedbb76967d8f5fc562488c996baef67ace4d08a",
+      "viewer_key": "H2011P6CI336"
+    },
+    {
+      "bytes": 76867,
+      "class": "restricted_products",
+      "name": "w7_H2011P6CI336_qc_queue.json",
+      "sha256": "deeeeb406774f8e54dfe7d7fff3709b71b36f373684b07a4855fd83be0618704",
+      "viewer_key": "H2011P6CI336"
+    },
+    {
+      "bytes": 40727,
+      "class": "text_free_products",
+      "name": "w7_H2011P6CI336_asset_manifest.csv",
+      "sha256": "f211d545bc33afa5e01a089522fa65edf98105efa72e6e1f1f55dadde86d5bc2",
+      "viewer_key": "H2011P6CI336"
+    },
+    {
+      "bytes": 1605,
+      "class": "text_free_products",
+      "name": "w7_H2011P6CI336_qc_summary.json",
+      "sha256": "60dfe0d9424514283435c7da52bb2d35a9f182391628237f85622cbd55848531",
+      "viewer_key": "H2011P6CI336"
+    },
+    {
+      "bytes": 3287,
+      "class": "text_free_products",
+      "name": "w7_H2011P6CI336_run_manifest.json",
+      "sha256": "2f753261199cb87ca58f232617ab6d80cf858fe69680504ca412ae09a2a3841a",
+      "viewer_key": "H2011P6CI336"
+    },
+    {
+      "bytes": 450560,
+      "class": "restricted_products",
+      "name": "w7_H2014P1FCA_ocr_search.sqlite",
+      "sha256": "bb585dfb619d83a1c39e015481e9bc8bf01360f45955889abe4db7a097d66abe",
+      "viewer_key": "H2014P1FCA"
+    },
+    {
+      "bytes": 339342,
+      "class": "restricted_products",
+      "name": "w7_H2014P1FCA_page_ocr.jsonl",
+      "sha256": "3320a629de21c1b87616d9849a8e04d99194c5dfaefbe0b8c937833b598de3e5",
+      "viewer_key": "H2014P1FCA"
+    },
+    {
+      "bytes": 94674,
+      "class": "restricted_products",
+      "name": "w7_H2014P1FCA_qc_queue.json",
+      "sha256": "e7d2432e8c60e58988c11d9c07d794b9e703711a54dbdf40c478c9cb289f18ac",
+      "viewer_key": "H2014P1FCA"
+    },
+    {
+      "bytes": 50193,
+      "class": "text_free_products",
+      "name": "w7_H2014P1FCA_asset_manifest.csv",
+      "sha256": "be3da97a6f92c0d6b8a8524335442366aa4abe01ff38a89801327488dc6877b3",
+      "viewer_key": "H2014P1FCA"
+    },
+    {
+      "bytes": 1607,
+      "class": "text_free_products",
+      "name": "w7_H2014P1FCA_qc_summary.json",
+      "sha256": "8ac0aad1f69bd0f608d9ce9e940e1226c6f172e230972cbf8b4f332c320c0d1e",
+      "viewer_key": "H2014P1FCA"
+    },
+    {
+      "bytes": 3268,
+      "class": "text_free_products",
+      "name": "w7_H2014P1FCA_run_manifest.json",
+      "sha256": "a8af005eb813c71d2d251dad32ee408d5eac2966d7d2ec18f3477d581106852d",
+      "viewer_key": "H2014P1FCA"
+    },
+    {
+      "bytes": 425984,
+      "class": "restricted_products",
+      "name": "w7_H2014P2FCA_ocr_search.sqlite",
+      "sha256": "795769048dd0f9cda120d544131bd74d6351835c9756faf8bef4a903d2333361",
+      "viewer_key": "H2014P2FCA"
+    },
+    {
+      "bytes": 325339,
+      "class": "restricted_products",
+      "name": "w7_H2014P2FCA_page_ocr.jsonl",
+      "sha256": "1a62ae5456be468c9bb46449165aa600402d2a4f1f9636dd42fbaebdb042d595",
+      "viewer_key": "H2014P2FCA"
+    },
+    {
+      "bytes": 89671,
+      "class": "restricted_products",
+      "name": "w7_H2014P2FCA_qc_queue.json",
+      "sha256": "9d3d3d00c0524d91a36830ebb6d06e4a499d7084f51ad9e7a50734b7340ea294",
+      "viewer_key": "H2014P2FCA"
+    },
+    {
+      "bytes": 47699,
+      "class": "text_free_products",
+      "name": "w7_H2014P2FCA_asset_manifest.csv",
+      "sha256": "eeb45effb54f8f4af9b169b0a4fcafe448090d4d7d77ea30d1bda026dfe21ddd",
+      "viewer_key": "H2014P2FCA"
+    },
+    {
+      "bytes": 1616,
+      "class": "text_free_products",
+      "name": "w7_H2014P2FCA_qc_summary.json",
+      "sha256": "03ab3f79b647eaa93c6f52c6eeed522e137c6c2d2c8ef682ff45193a9dcae3fa",
+      "viewer_key": "H2014P2FCA"
+    },
+    {
+      "bytes": 3269,
+      "class": "text_free_products",
+      "name": "w7_H2014P2FCA_run_manifest.json",
+      "sha256": "e242e8aac118b2ef6119e849eea24d610743810034dab3c47b5bba9152d98550",
+      "viewer_key": "H2014P2FCA"
+    },
+    {
+      "bytes": 516096,
+      "class": "restricted_products",
+      "name": "w7_H2014P3FCA_ocr_search.sqlite",
+      "sha256": "4039d02ecec891f4c8ee2aca11765085788bcd71c1ff62133392d43653b94016",
+      "viewer_key": "H2014P3FCA"
+    },
+    {
+      "bytes": 337777,
+      "class": "restricted_products",
+      "name": "w7_H2014P3FCA_page_ocr.jsonl",
+      "sha256": "199ae7fb48c4d8b564fdbf5a38e0ef47c1f886ce4091464cdb3facae2f19b4de",
+      "viewer_key": "H2014P3FCA"
+    },
+    {
+      "bytes": 66557,
+      "class": "restricted_products",
+      "name": "w7_H2014P3FCA_qc_queue.json",
+      "sha256": "6773ea48b204e64edb8cebeffc4032f87eea11c06f1faf92f55f94182a8aac4d",
+      "viewer_key": "H2014P3FCA"
+    },
+    {
+      "bytes": 35222,
+      "class": "text_free_products",
+      "name": "w7_H2014P3FCA_asset_manifest.csv",
+      "sha256": "73090d33852b08d76d02874b5c6acab9eb2858a6f9dda4d34801845f4a50870e",
+      "viewer_key": "H2014P3FCA"
+    },
+    {
+      "bytes": 1469,
+      "class": "text_free_products",
+      "name": "w7_H2014P3FCA_qc_summary.json",
+      "sha256": "95c3fa5eff226fb2fc70bc7894e6653550ea8c8cc7674ebc62f8f0f91dd08832",
+      "viewer_key": "H2014P3FCA"
+    },
+    {
+      "bytes": 3269,
+      "class": "text_free_products",
+      "name": "w7_H2014P3FCA_run_manifest.json",
+      "sha256": "990b795f4000a81b45cd9ae0fedea2f8e6a0b7dd7ec61a8253c851f3c36d060b",
+      "viewer_key": "H2014P3FCA"
+    },
+    {
+      "bytes": 634880,
+      "class": "restricted_products",
+      "name": "w7_H2014P4FCA_ocr_search.sqlite",
+      "sha256": "f3610cedfd7f3d417d678b48c6ae508913fccd85480a818a8417af5e687d879d",
+      "viewer_key": "H2014P4FCA"
+    },
+    {
+      "bytes": 432703,
+      "class": "restricted_products",
+      "name": "w7_H2014P4FCA_page_ocr.jsonl",
+      "sha256": "508afddd7e328b2992539629ce805785c37f81b01dcd7e35ced0f211377f2438",
+      "viewer_key": "H2014P4FCA"
+    },
+    {
+      "bytes": 76009,
+      "class": "restricted_products",
+      "name": "w7_H2014P4FCA_qc_queue.json",
+      "sha256": "970ffcef9b6471817d75c5754fc9b54edaa38316e4273f1dc6befac89c74fe40",
+      "viewer_key": "H2014P4FCA"
+    },
+    {
+      "bytes": 40212,
+      "class": "text_free_products",
+      "name": "w7_H2014P4FCA_asset_manifest.csv",
+      "sha256": "68569c87b5ae6150e065359c80cafe75674cd0d7b21d86e2ed5347f9c3221c47",
+      "viewer_key": "H2014P4FCA"
+    },
+    {
+      "bytes": 1604,
+      "class": "text_free_products",
+      "name": "w7_H2014P4FCA_qc_summary.json",
+      "sha256": "266c25fb4199dda741494dcf9ec1a4d4edd2daa687dddaeb6592f134dc1d1458",
+      "viewer_key": "H2014P4FCA"
+    },
+    {
+      "bytes": 3270,
+      "class": "text_free_products",
+      "name": "w7_H2014P4FCA_run_manifest.json",
+      "sha256": "f6870f92e93a45e2b6a6788413f9e200540447691b1362bf48dd4fa712dc8c6b",
+      "viewer_key": "H2014P4FCA"
+    },
+    {
+      "bytes": 942080,
+      "class": "restricted_products",
+      "name": "w7_H2014P6FCA_ocr_search.sqlite",
+      "sha256": "88215af60bbbf6630f4775fd29679425e32f11f5aa694b69a9ca9d38924b75ab",
+      "viewer_key": "H2014P6FCA"
+    },
+    {
+      "bytes": 685996,
+      "class": "restricted_products",
+      "name": "w7_H2014P6FCA_page_ocr.jsonl",
+      "sha256": "ef2122df064ecfc4ad258455f8be13e7841e4279c647198973a5c3352b671a61",
+      "viewer_key": "H2014P6FCA"
+    },
+    {
+      "bytes": 123253,
+      "class": "restricted_products",
+      "name": "w7_H2014P6FCA_qc_queue.json",
+      "sha256": "bc91ab9b9f92a114cbe215223199094fdb85e56560c7fb0f3eb09a2be38afd04",
+      "viewer_key": "H2014P6FCA"
+    },
+    {
+      "bytes": 65174,
+      "class": "text_free_products",
+      "name": "w7_H2014P6FCA_asset_manifest.csv",
+      "sha256": "b2b9307264594f3c6a6c40c14dfff703f4d8e0a5a29828488778f3f15e1a8ee1",
+      "viewer_key": "H2014P6FCA"
+    },
+    {
+      "bytes": 1613,
+      "class": "text_free_products",
+      "name": "w7_H2014P6FCA_qc_summary.json",
+      "sha256": "ff348a621a21d02aec5a76e92e4763e1fe5726748e4e603e54952f8520f74c12",
+      "viewer_key": "H2014P6FCA"
+    },
+    {
+      "bytes": 3265,
+      "class": "text_free_products",
+      "name": "w7_H2014P6FCA_run_manifest.json",
+      "sha256": "bf5277dbd29b5d52a97c64465b2458653400ae8c2e0c6f92cfc89c500e769b32",
+      "viewer_key": "H2014P6FCA"
+    },
+    {
+      "bytes": 442368,
+      "class": "restricted_products",
+      "name": "w7_H2019P1FCA_ocr_search.sqlite",
+      "sha256": "904d302187169e1d3c095d61f7e4b4743c64e6a7293c91b2bf97097840320f81",
+      "viewer_key": "H2019P1FCA"
+    },
+    {
+      "bytes": 336723,
+      "class": "restricted_products",
+      "name": "w7_H2019P1FCA_page_ocr.jsonl",
+      "sha256": "ca91217d0b672dff23b907b47934a2edd06172387b2e9f16b9ae2209fee9935c",
+      "viewer_key": "H2019P1FCA"
+    },
+    {
+      "bytes": 94579,
+      "class": "restricted_products",
+      "name": "w7_H2019P1FCA_qc_queue.json",
+      "sha256": "ec9d9731068f5bde02279eb387e708ec73cff8bd7c1f52804155417ded664744",
+      "viewer_key": "H2019P1FCA"
+    },
+    {
+      "bytes": 50125,
+      "class": "text_free_products",
+      "name": "w7_H2019P1FCA_asset_manifest.csv",
+      "sha256": "e234f59c8207019a80e21d42d14e9d884ac306bf4465286869f80e890f7c705a",
+      "viewer_key": "H2019P1FCA"
+    },
+    {
+      "bytes": 1598,
+      "class": "text_free_products",
+      "name": "w7_H2019P1FCA_qc_summary.json",
+      "sha256": "1986948e263eeadc4a4c305b04f73148ae193fa9f714b679958961f144cdfebc",
+      "viewer_key": "H2019P1FCA"
+    },
+    {
+      "bytes": 3263,
+      "class": "text_free_products",
+      "name": "w7_H2019P1FCA_run_manifest.json",
+      "sha256": "72370f0100171d4883325a873412a0a3f7f1acd3e0c6bdae8340b904596d59ab",
+      "viewer_key": "H2019P1FCA"
+    },
+    {
+      "bytes": 421888,
+      "class": "restricted_products",
+      "name": "w7_H2019P2FCA_ocr_search.sqlite",
+      "sha256": "6d9ea28c85615cc12bb2b01fa4651bf6f60608f3237ffa949783658a8bb83c11",
+      "viewer_key": "H2019P2FCA"
+    },
+    {
+      "bytes": 322181,
+      "class": "restricted_products",
+      "name": "w7_H2019P2FCA_page_ocr.jsonl",
+      "sha256": "7c0cd780e7ece6de835a6c2eb374166986abdee3954874a5f9686ba7689c657a",
+      "viewer_key": "H2019P2FCA"
+    },
+    {
+      "bytes": 89724,
+      "class": "restricted_products",
+      "name": "w7_H2019P2FCA_qc_queue.json",
+      "sha256": "408b4fce21ddb22560eb1441c03f963427a61db713d580ba9db6dd87f14e2c6e",
+      "viewer_key": "H2019P2FCA"
+    },
+    {
+      "bytes": 47658,
+      "class": "text_free_products",
+      "name": "w7_H2019P2FCA_asset_manifest.csv",
+      "sha256": "8326beffda86b76ab825bd3b103157260aec9053883a191cdccd76825d088f77",
+      "viewer_key": "H2019P2FCA"
+    },
+    {
+      "bytes": 1471,
+      "class": "text_free_products",
+      "name": "w7_H2019P2FCA_qc_summary.json",
+      "sha256": "059f47e4f72ba2c87fb195eff821e363446158af9e333e0d738bbeed6f73072a",
+      "viewer_key": "H2019P2FCA"
+    },
+    {
+      "bytes": 3269,
+      "class": "text_free_products",
+      "name": "w7_H2019P2FCA_run_manifest.json",
+      "sha256": "18de27828d6b055f38a17a5a35c8006c5821ab96688de7c6fe85f9696891513e",
+      "viewer_key": "H2019P2FCA"
+    },
+    {
+      "bytes": 520192,
+      "class": "restricted_products",
+      "name": "w7_H2019P3FCA_ocr_search.sqlite",
+      "sha256": "9aa76e57147bf3f0271ff4dbd14dd6af27654a680b56c31ced028a447bd361eb",
+      "viewer_key": "H2019P3FCA"
+    },
+    {
+      "bytes": 337767,
+      "class": "restricted_products",
+      "name": "w7_H2019P3FCA_page_ocr.jsonl",
+      "sha256": "3ca1b4f807c6cc7b75d91223999f1f92e0978dfe3bcd6d5df2dca3ac5963cdbc",
+      "viewer_key": "H2019P3FCA"
+    },
+    {
+      "bytes": 66446,
+      "class": "restricted_products",
+      "name": "w7_H2019P3FCA_qc_queue.json",
+      "sha256": "b896ee37bff57225a267239db43f6694d7fdc6daea0b7d094cbf43cb273fc9fa",
+      "viewer_key": "H2019P3FCA"
+    },
+    {
+      "bytes": 35207,
+      "class": "text_free_products",
+      "name": "w7_H2019P3FCA_asset_manifest.csv",
+      "sha256": "35cd43e45c2720a9626f591319dae7a42081f70cc917bb7d2f162870b86da942",
+      "viewer_key": "H2019P3FCA"
+    },
+    {
+      "bytes": 1604,
+      "class": "text_free_products",
+      "name": "w7_H2019P3FCA_qc_summary.json",
+      "sha256": "d0ea8bf1cfcac5e479d61394b40b7fd6ff01c7bd3d89a73dcd77de7ab513ba3d",
+      "viewer_key": "H2019P3FCA"
+    },
+    {
+      "bytes": 3270,
+      "class": "text_free_products",
+      "name": "w7_H2019P3FCA_run_manifest.json",
+      "sha256": "7fb7b6e44bce3c9c318806b8ce45446de65734f0d451b003f999e66f258f196d",
+      "viewer_key": "H2019P3FCA"
+    },
+    {
+      "bytes": 630784,
+      "class": "restricted_products",
+      "name": "w7_H2019P4FCA_ocr_search.sqlite",
+      "sha256": "b031062fc138e3db3b8ad5aa145dffd9443846158d6180c9370bd4980e5086b7",
+      "viewer_key": "H2019P4FCA"
+    },
+    {
+      "bytes": 425466,
+      "class": "restricted_products",
+      "name": "w7_H2019P4FCA_page_ocr.jsonl",
+      "sha256": "40587c1d68c2355180673fbf9067623db19ac2c613f5d913d757dbc7fc92e77f",
+      "viewer_key": "H2019P4FCA"
+    },
+    {
+      "bytes": 76149,
+      "class": "restricted_products",
+      "name": "w7_H2019P4FCA_qc_queue.json",
+      "sha256": "6f01dd80b20e772c3ac7ee4b138eda34db4c3e22c802e496b4e4ca03f970bce3",
+      "viewer_key": "H2019P4FCA"
+    },
+    {
+      "bytes": 40210,
+      "class": "text_free_products",
+      "name": "w7_H2019P4FCA_asset_manifest.csv",
+      "sha256": "7b60969a47c46bd2029dc70b031f0622e39d16feb22b5f229fd68eeb042dd12f",
+      "viewer_key": "H2019P4FCA"
+    },
+    {
+      "bytes": 1605,
+      "class": "text_free_products",
+      "name": "w7_H2019P4FCA_qc_summary.json",
+      "sha256": "dc3f4f91ab61a4dfd88e95ac2da6a1cedb99a779ef511ed22e6a88dbbe7e9d79",
+      "viewer_key": "H2019P4FCA"
+    },
+    {
+      "bytes": 3270,
+      "class": "text_free_products",
+      "name": "w7_H2019P4FCA_run_manifest.json",
+      "sha256": "89a770e44b01f5a1f4babf70b13f3528b2add5abccd71d89f620423bc983b6a3",
+      "viewer_key": "H2019P4FCA"
+    },
+    {
+      "bytes": 999424,
+      "class": "restricted_products",
+      "name": "w7_H2019P5FCA_ocr_search.sqlite",
+      "sha256": "5e7aa5d5919c5e3c22d460894d3b3f7c2bdba61b0e582ab3d70f3603cc635c2f",
+      "viewer_key": "H2019P5FCA"
+    },
+    {
+      "bytes": 729740,
+      "class": "restricted_products",
+      "name": "w7_H2019P5FCA_page_ocr.jsonl",
+      "sha256": "4cb0d342b765e9cdf2bfc8144fa7565e630fbae168e6735577e401bb22715e35",
+      "viewer_key": "H2019P5FCA"
+    },
+    {
+      "bytes": 132931,
+      "class": "restricted_products",
+      "name": "w7_H2019P5FCA_qc_queue.json",
+      "sha256": "42e4d9da063107323ef385162fa06734d49ace2413ddad5cb3943839f5baa603",
+      "viewer_key": "H2019P5FCA"
+    },
+    {
+      "bytes": 70161,
+      "class": "text_free_products",
+      "name": "w7_H2019P5FCA_asset_manifest.csv",
+      "sha256": "5808bdb89dd105dab452008453bd1c4211b3f2be000ccf3b9bc93acf60e63665",
+      "viewer_key": "H2019P5FCA"
+    },
+    {
+      "bytes": 1620,
+      "class": "text_free_products",
+      "name": "w7_H2019P5FCA_qc_summary.json",
+      "sha256": "70a2e786994aa8da657405375cbfa8b9f73323df848df78b1308f1a428e86de9",
+      "viewer_key": "H2019P5FCA"
+    },
+    {
+      "bytes": 3271,
+      "class": "text_free_products",
+      "name": "w7_H2019P5FCA_run_manifest.json",
+      "sha256": "95529fa91e6bcbc19108109be91fc915d098c69153c6378eccedf13ab8e4da0f",
+      "viewer_key": "H2019P5FCA"
+    },
+    {
+      "bytes": 933888,
+      "class": "restricted_products",
+      "name": "w7_H2019P6FCA_ocr_search.sqlite",
+      "sha256": "3fb1883dd7eec9ee0ee77cb4b21386fdcfa94c88a7bfa99d0edccd547cd66d70",
+      "viewer_key": "H2019P6FCA"
+    },
+    {
+      "bytes": 684826,
+      "class": "restricted_products",
+      "name": "w7_H2019P6FCA_page_ocr.jsonl",
+      "sha256": "86cd49eb6fa36d411b1f554f7c7d70c3dadd113461dc4df51fc44ba51e75d47e",
+      "viewer_key": "H2019P6FCA"
+    },
+    {
+      "bytes": 123299,
+      "class": "restricted_products",
+      "name": "w7_H2019P6FCA_qc_queue.json",
+      "sha256": "d55d69860a446453a627e7ca8a7afe0aeb3fc1cd5a77a6455e8b923388544053",
+      "viewer_key": "H2019P6FCA"
+    },
+    {
+      "bytes": 65171,
+      "class": "text_free_products",
+      "name": "w7_H2019P6FCA_asset_manifest.csv",
+      "sha256": "51ea44fbd47d889aa7d42cc20aa0f70f3a22609a7c95363dbed81fd27b990ab8",
+      "viewer_key": "H2019P6FCA"
+    },
+    {
+      "bytes": 1614,
+      "class": "text_free_products",
+      "name": "w7_H2019P6FCA_qc_summary.json",
+      "sha256": "d83f2ebf4c97d978f2e3ea258b3c29f793f0b5c01afdb0711c5adec491f12589",
+      "viewer_key": "H2019P6FCA"
+    },
+    {
+      "bytes": 3266,
+      "class": "text_free_products",
+      "name": "w7_H2019P6FCA_run_manifest.json",
+      "sha256": "92b7cff452ad4bdd5d3d34fb774848ae32abd323947178b774847abdb58cdbc6",
+      "viewer_key": "H2019P6FCA"
+    }
+  ],
+  "qc_page_records": 3261,
+  "schema": "LTMD_FTRL_W7_GLOBAL_EVIDENCE_0.1",
+  "semantic_ready": false,
+  "source_gaps_in_admitted_canonical_objects": 0,
+  "source_pages": 3261,
+  "sqlite_page_rows": 3261,
+  "status": "validated",
+  "text_verified": false,
+  "unique_page_key_hashes": 3261,
+  "wave": "W7",
+  "withheld_source_identities": 5
+}
