@@ -1,0 +1,15 @@
+{
+  "schema": "LTMD_U1_W7_FTRL_RUN_STAMP_0.1",
+  "requested_on": "2026-08-28",
+  "wave": "W7",
+  "domain": "civica_etica",
+  "historical_identities": 30,
+  "source_admitted_canonical_objects": 25,
+  "withheld_source_identities": 5,
+  "admitted_source_pages": 3261,
+  "purpose": "trigger deterministic distributed computational FTRL validation after merge",
+  "archival_complete": false,
+  "text_verified": false,
+  "semantic_ready": false,
+  "note": "The five source-retained identities remain excluded without aliases or imputations. This stamp authorizes computational validation only; private archival closure requires separate preservation evidence."
+}

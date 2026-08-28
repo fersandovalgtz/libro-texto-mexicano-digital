@@ -1,0 +1,200 @@
+name: Run FTRL W7 Formacion Civica y Etica
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/research/ltmd_u1_w7_ftrl_run_stamp.json'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/build_ftrl_w7_inputs.py'
+      - 'scripts/run_ftrl_w7_book.py'
+      - 'scripts/validate_ftrl_w7_distributed.py'
+      - '.github/workflows/run-ftrl-w7-formacion-civica-etica.yml'
+      - 'data/research/ltmd_u1_w7_ftrl_run_stamp.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ftrl-w7-formacion-civica-etica-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  config-gate:
+    name: validate-ftrl-w7-config
+    runs-on: ubuntu-latest
+    outputs:
+      viewers: ${{ steps.matrix.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile W7 FTRL scripts
+        run: python -m py_compile scripts/build_ftrl_w7_inputs.py scripts/run_ftrl_w7_book.py scripts/validate_ftrl_w7_distributed.py
+      - name: Rebuild normalized W7 inputs without network
+        run: |
+          python scripts/build_ftrl_w7_inputs.py \
+            --asset-output /tmp/w7_asset_manifest.csv \
+            --processing-output /tmp/w7_processing_inventory.csv
+      - name: Validate W7 denominator and derive exact matrix
+        id: matrix
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv, json, os
+          from collections import Counter
+
+          def read(path):
+              with open(path, encoding='utf-8', newline='') as fh:
+                  return list(csv.DictReader(fh))
+
+          assets = read('/tmp/w7_asset_manifest.csv')
+          proc = read('/tmp/w7_processing_inventory.csv')
+          gate = read('data/catalog/ltmd_u1_w7_source_admissibility.csv')
+          withheld = {
+              'H2014P5FCA',
+              'H2018P3FCA',
+              'H2018P4FCA',
+              'H2018P5FCA',
+              'H2018P6FCA',
+          }
+          assert len(gate) == 30
+          assert len(proc) == 25
+          assert len(assets) == 3261
+          assert {r['viewer_key'] for r in gate if r['decision'] != 'ocr_source_admitted'} == withheld
+          assert not ({r['viewer_key'] for r in assets} & withheld)
+          assert all(r['is_canonical_processing_object'] == '1' for r in proc)
+          assert all(r['technical_identity_covered'] == '1' for r in proc)
+          assert all(r['persistent_internal_source_gaps'] == '0' for r in proc)
+          expected = Counter({r['viewer_key']: int(r['direct_source_jpegs']) for r in proc})
+          observed = Counter(r['viewer_key'] for r in assets)
+          assert observed == expected
+          viewers = [r['viewer_key'] for r in proc]
+          assert len(viewers) == len(set(viewers)) == 25
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
+              print('viewers=' + json.dumps(viewers, separators=(',', ':')), file=fh)
+          print('W7 config gate: 30 historical / 25 admitted / 5 withheld / 3261 pages')
+          PY
+
+  precondition:
+    name: require-w9-archival-closure
+    if: github.event_name != 'pull_request'
+    needs: config-gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require canonical W9 archival closure before W7
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          state = json.loads(Path('data/research/ltmd_u1_ftrl_wave_state.json').read_text(encoding='utf-8'))
+          w9 = state['waves']['W9']
+          assert w9['ftrl_status'] == 'validated', w9
+          assert w9['archival_status'] == 'archival_complete', w9
+          evidence = w9.get('archival_closure_evidence')
+          assert evidence == 'data/research/ltmd_u1_w9_archival_closure.json', w9
+          assert Path(evidence).is_file()
+          PY
+
+  book:
+    name: book-${{ matrix.viewer }}
+    if: github.event_name != 'pull_request'
+    needs: [config-gate, precondition]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        viewer: ${{ fromJSON(needs.config-gate.outputs.viewers) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Spanish Tesseract data
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+          tesseract --list-langs | grep -Fx spa
+      - name: Validate private preservation canon
+        run: python scripts/validate_private_corpus_storage_contract.py
+      - name: Execute deterministic W7 book unit
+        run: |
+          python scripts/run_ftrl_w7_book.py \
+            --viewer-key '${{ matrix.viewer }}' \
+            --output-dir local/ftrl-w7
+      - name: Assert public evidence is text-free
+        env:
+          VIEWER: ${{ matrix.viewer }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          viewer = os.environ['VIEWER']
+          p = Path(f'local/ftrl-w7/{viewer}/w7_{viewer}_evidence.json')
+          data = json.loads(p.read_text(encoding='utf-8'))
+          assert data['schema'] == 'LTMD_FTRL_W7_BOOK_UNIT_0.1'
+          assert data['status'] == 'validated'
+          forbidden = {'ocr_text_raw','search_text','snippet','text','normalized_text'}
+          def walk(x):
+              if isinstance(x, dict):
+                  assert not (forbidden & set(x)), forbidden & set(x)
+                  for v in x.values(): walk(v)
+              elif isinstance(x, list):
+                  for v in x: walk(v)
+          walk(data)
+          PY
+      - name: Upload text-free computational evidence only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w7-${{ matrix.viewer }}-text-free-evidence
+          path: |
+            local/ftrl-w7/${{ matrix.viewer }}/w7_${{ matrix.viewer }}_evidence.json
+            local/ftrl-w7/${{ matrix.viewer }}/w7_${{ matrix.viewer }}_run_manifest.json
+            local/ftrl-w7/${{ matrix.viewer }}/w7_${{ matrix.viewer }}_qc_summary.json
+            local/ftrl-w7/${{ matrix.viewer }}/w7_${{ matrix.viewer }}_asset_manifest.csv
+          if-no-files-found: error
+          retention-days: 30
+
+  aggregate:
+    name: validate-global-w7-union
+    if: github.event_name != 'pull_request'
+    needs: book
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download all text-free W7 evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w7-*-text-free-evidence
+          path: local/w7-evidence
+          merge-multiple: false
+      - name: Rebuild canonical W7 admitted inputs
+        run: |
+          mkdir -p local/w7-expected
+          python scripts/build_ftrl_w7_inputs.py \
+            --asset-output local/w7-expected/asset_manifest.csv \
+            --processing-output local/w7-expected/processing_inventory.csv
+      - name: Validate exact exhaustive admitted union
+        run: |
+          python scripts/validate_ftrl_w7_distributed.py \
+            --evidence-root local/w7-evidence \
+            --asset-manifest local/w7-expected/asset_manifest.csv \
+            --processing-inventory local/w7-expected/processing_inventory.csv \
+            --output local/ltmd_u1_w7_global_evidence.json
+      - name: Upload global text-free evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w7-global-text-free-evidence
+          path: local/ltmd_u1_w7_global_evidence.json
+          if-no-files-found: error
+          retention-days: 30
