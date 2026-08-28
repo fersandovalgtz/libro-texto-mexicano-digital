@@ -1,0 +1,23 @@
+{
+  "schema": "LTMD_U1_W8_FTRL_RUN_STAMP_0.1",
+  "requested_on": "2026-08-28",
+  "wave": "W8",
+  "domain": "artes",
+  "attempt": 1,
+  "historical_identities": 20,
+  "source_admitted_canonical_objects": 16,
+  "source_retained_identities": 4,
+  "source_pages": 1490,
+  "purpose": "Trigger deterministic distributed computational FTRL validation and encrypted private handoff generation after merge, gated on canonical W7 archival closure.",
+  "retained_viewer_keys": [
+    "H2018P3EAA",
+    "H2018P4EAA",
+    "H2018P5EAA",
+    "H2018P6EAA"
+  ],
+  "aliases_or_imputations_for_retained_identities": 0,
+  "archival_complete": false,
+  "text_verified": false,
+  "semantic_ready": false,
+  "note": "This stamp does not promote W8. It freezes the source-admitted computational denominator only; archival closure requires persistent private preservation, redownload checksum verification, and private consolidation of all 16 encrypted handoffs."
+}
