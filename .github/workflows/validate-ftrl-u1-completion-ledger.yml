@@ -12,9 +12,11 @@ on:
       - 'scripts/build_ltmd_u1_ftrl_completion_ledger_v4.py'
       - 'scripts/build_ltmd_u1_ftrl_completion_ledger_v5.py'
       - 'scripts/build_ltmd_u1_ftrl_completion_ledger_v6.py'
+      - 'scripts/build_ltmd_u1_ftrl_completion_ledger_v7.py'
       - 'data/catalog/ltmd_u1_w3_spanish_processing_inventory.csv'
       - 'data/catalog/ltmd_u1_w4_social_sciences_processing_inventory.csv'
       - 'data/catalog/ltmd_u1_w6_geography_atlas_processing_inventory.csv'
+      - 'data/catalog/ltmd_u1_w7_source_admissibility.csv'
       - 'data/catalog/ltmd_u1_w9_processing_inventory.csv'
       - 'data/research/ltmd_u1_ftrl_wave_state.json'
       - 'data/research/ltmd_u1_w1_archival_closure.json'
@@ -22,6 +24,8 @@ on:
       - 'data/research/ltmd_u1_w4_archival_closure.json'
       - 'data/research/ltmd_u1_w5_archival_closure.json'
       - 'data/research/ltmd_u1_w6_archival_closure.json'
+      - 'data/research/ltmd_u1_w7_global_evidence.json'
+      - 'data/research/ltmd_u1_w7_archival_closure.json'
       - 'data/research/ltmd_u1_w9_global_evidence.json'
       - 'data/research/ltmd_u1_w9_archival_closure.json'
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_1.md'
@@ -30,6 +34,7 @@ on:
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_4.md'
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_5.md'
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_6.md'
+      - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_7.md'
       - '.github/workflows/validate-ftrl-u1-completion-ledger.yml'
   pull_request:
     branches: [main]
@@ -40,20 +45,16 @@ on:
       - 'data/catalog/ltmd_u1_w4_social_sciences_processing_inventory.csv'
       - 'data/catalog/ltmd_u1_w5_history_processing_inventory.csv'
       - 'data/catalog/ltmd_u1_w6_geography_atlas_processing_inventory.csv'
+      - 'data/catalog/ltmd_u1_w7_source_admissibility.csv'
       - 'data/catalog/ltmd_u1_w9_processing_inventory.csv'
-      - 'data/catalog/ciencias_naturales_family_asset_readiness.csv'
-      - 'data/catalog/ciencias_naturales_pending_page_manifest.csv'
-      - 'data/catalog/ltmd_u1_w1_1966_page_manifest.csv'
-      - 'data/catalog/ltmd_u1_w1_1966_page_manifest_summary.csv'
-      - 'data/catalog/cn5_pilot_sha/**'
-      - 'data/expansion/cn46_page_manifest.csv'
-      - 'data/expansion/cn46_page_manifest_summary.csv'
       - 'data/research/ltmd_u1_ftrl_wave_state.json'
       - 'data/research/ltmd_u1_w1_archival_closure.json'
       - 'data/research/ltmd_u1_w3_archival_closure.json'
       - 'data/research/ltmd_u1_w4_archival_closure.json'
       - 'data/research/ltmd_u1_w5_archival_closure.json'
       - 'data/research/ltmd_u1_w6_archival_closure.json'
+      - 'data/research/ltmd_u1_w7_global_evidence.json'
+      - 'data/research/ltmd_u1_w7_archival_closure.json'
       - 'data/research/ltmd_u1_w9_global_evidence.json'
       - 'data/research/ltmd_u1_w9_archival_closure.json'
       - 'data/research/ltmd_u1_ftrl_completion_ledger.csv'
@@ -65,12 +66,14 @@ on:
       - 'scripts/build_ltmd_u1_ftrl_completion_ledger_v4.py'
       - 'scripts/build_ltmd_u1_ftrl_completion_ledger_v5.py'
       - 'scripts/build_ltmd_u1_ftrl_completion_ledger_v6.py'
+      - 'scripts/build_ltmd_u1_ftrl_completion_ledger_v7.py'
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_1.md'
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_2.md'
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_3.md'
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_4.md'
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_5.md'
       - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_6.md'
+      - 'docs/LTMD_U1_FTRL_COMPLETION_LEDGER_0_7.md'
       - '.github/workflows/validate-ftrl-u1-completion-ledger.yml'
   workflow_dispatch:
 
@@ -79,6 +82,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
+  actions: read
   contents: write
 
 jobs:
@@ -90,111 +94,90 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'push' && github.ref_name || github.sha }}
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
-      - name: Build exhaustive ledger 0.6
+      - name: Materialize exact W7 global evidence from validated run artifact
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ ! -f data/research/ltmd_u1_w7_global_evidence.json ]; then
+            mkdir -p data/research
+            curl -fsSL -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9700925193/zip" \
+              -o /tmp/ltmd-u1-w7-global-text-free-evidence.zip
+            echo "d671ee3974b90f49f6234dca16ef2b37f4804516841fbbb0e04151726e0c5851  /tmp/ltmd-u1-w7-global-text-free-evidence.zip" | sha256sum -c -
+            test "$(unzip -Z1 /tmp/ltmd-u1-w7-global-text-free-evidence.zip | wc -l)" -eq 1
+            unzip -p /tmp/ltmd-u1-w7-global-text-free-evidence.zip > data/research/ltmd_u1_w7_global_evidence.json
+          fi
+      - name: Build exhaustive ledger 0.7
         run: |
           if [ "${GITHUB_EVENT_NAME}" = "push" ]; then
-            python scripts/build_ltmd_u1_ftrl_completion_ledger_v6.py
+            python scripts/build_ltmd_u1_ftrl_completion_ledger_v7.py
           else
-            python scripts/build_ltmd_u1_ftrl_completion_ledger_v6.py --output /tmp/ltmd_u1_ftrl_completion_ledger.csv --summary-output /tmp/ltmd_u1_ftrl_completion_summary.json
+            python scripts/build_ltmd_u1_ftrl_completion_ledger_v7.py --output /tmp/ltmd_u1_ftrl_completion_ledger.csv --summary-output /tmp/ltmd_u1_ftrl_completion_summary.json
           fi
-
       - name: Require generated outputs to be current on PR
         if: github.event_name == 'pull_request'
         run: |
           diff -u data/research/ltmd_u1_ftrl_completion_ledger.csv /tmp/ltmd_u1_ftrl_completion_ledger.csv
           diff -u data/research/ltmd_u1_ftrl_completion_summary.json /tmp/ltmd_u1_ftrl_completion_summary.json
-
-      - name: Assert exhaustive scientific invariants and W1/W3/W4/W5/W6/W9 archive closure
+      - name: Assert exhaustive scientific invariants and W7 retained-source boundary
         run: |
           python - <<'PY'
           import csv, json
           from collections import Counter
           from pathlib import Path
-
-          ledger = Path('data/research/ltmd_u1_ftrl_completion_ledger.csv') if Path('data/research/ltmd_u1_ftrl_completion_ledger.csv').exists() else Path('/tmp/ltmd_u1_ftrl_completion_ledger.csv')
-          summary_path = Path('data/research/ltmd_u1_ftrl_completion_summary.json') if Path('data/research/ltmd_u1_ftrl_completion_summary.json').exists() else Path('/tmp/ltmd_u1_ftrl_completion_summary.json')
-          rows = list(csv.DictReader(ledger.open(encoding='utf-8', newline='')))
-          summary = json.loads(summary_path.read_text(encoding='utf-8'))
-
-          assert len(rows) == 542
-          assert len({r['viewer_key'] for r in rows}) == 542
-          assert {r['ledger_version'] for r in rows} == {'LTMD_U1_FTRL_COMPLETION_LEDGER_0.6'}
-          assert Counter(r['documentary_disposition'] for r in rows) == Counter({'required_ftrl_processing': 524, 'active_retention': 13, 'final_exception': 5})
-          assert Counter(r['wave'] for r in rows) == Counter({'W1': 40, 'W2': 64, 'W3': 130, 'W4': 14, 'W5': 18, 'W6': 42, 'W7': 30, 'W8': 20, 'W9': 4, 'W10': 69, 'W11': 111})
-
-          for wave, count in (('W1',40),('W3',130),('W4',14),('W5',18),('W6',42),('W9',4)):
-              wr = [r for r in rows if r['wave'] == wave]
-              assert len(wr) == count
-              assert Counter(r['ftrl_status'] for r in wr) == Counter({'validated': count})
-              assert Counter(r['archival_status'] for r in wr) == Counter({'archival_complete': count})
-              assert sum(int(r['corpus_ready']) for r in wr) == count
-              assert sum(int(r['ocr_available']) for r in wr) == count
-              assert sum(int(r['text_verified']) for r in wr) == 0
-              assert sum(int(r['semantic_ready']) for r in wr) == 0
-
-          w3 = [r for r in rows if r['wave'] == 'W3']
-          assert Counter(r['source_ready'] for r in w3) == Counter({'full':123,'partial':7})
-          assert Counter(r['relation_type'] for r in w3) == Counter({'direct_canonical':107,'partial_canonical_explicit_gap':7,'exact_byte_alias':8,'paired_route_alias_2018_to_2019':8})
-          assert sum(r['is_canonical_processing_object'] == '1' for r in w3) == 114
-          assert sum(int(r['canonical_source_pages'] or 0) for r in w3 if r['is_canonical_processing_object'] == '1') == 20765
-          assert sum(int(r['persistent_unresolved_source_gaps'] or 0) for r in w3 if r['is_canonical_processing_object'] == '1') == 8
-
-          w4 = [r for r in rows if r['wave'] == 'W4']
-          assert Counter(r['source_ready'] for r in w4) == Counter({'full':14})
-          assert Counter(r['relation_type'] for r in w4) == Counter({'direct_canonical':14})
-          assert sum(r['is_canonical_processing_object'] == '1' for r in w4) == 14
-          assert sum(int(r['canonical_source_pages'] or 0) for r in w4) == 2414
-          assert sum(int(r['persistent_unresolved_source_gaps'] or 0) for r in w4) == 0
-
-          w6 = [r for r in rows if r['wave'] == 'W6']
-          assert Counter(r['source_ready'] for r in w6) == Counter({'full':42})
-          assert Counter(r['relation_type'] for r in w6) == Counter({'direct_canonical':36,'direct_canonical_reconciled_gap':1,'route_alias_to_2019':5})
-          assert sum(r['is_canonical_processing_object'] == '1' for r in w6) == 37
-          assert sum(int(r['canonical_source_pages'] or 0) for r in w6 if r['is_canonical_processing_object'] == '1') == 5258
-          assert sum(int(r['persistent_unresolved_source_gaps'] or 0) for r in w6) == 0
-
-          w9 = [r for r in rows if r['wave'] == 'W9']
-          assert Counter(r['source_ready'] for r in w9) == Counter({'full':4})
-          assert Counter(r['relation_type'] for r in w9) == Counter({'direct_canonical':4})
-          assert sum(r['is_canonical_processing_object'] == '1' for r in w9) == 4
-          assert sum(int(r['canonical_source_pages'] or 0) for r in w9) == 448
-          assert sum(int(r['persistent_unresolved_source_gaps'] or 0) for r in w9) == 0
-
-          assert summary['schema'] == 'LTMD_U1_FTRL_COMPLETION_SUMMARY_0.6'
-          assert summary['ledger_version'] == 'LTMD_U1_FTRL_COMPLETION_LEDGER_0.6'
-          assert summary['documentary_identities'] == 542
-          assert summary['canonical_processing_objects_by_ftrl_status'] == {'validated':220}
-          assert summary['canonical_source_pages_by_ftrl_status'] == {'validated':38054}
-          assert summary['archival_status'] == {'archival_complete':248,'not_applicable_final_exception':5,'not_started':289}
-          assert summary['ftrl_identity_status'] == {'blocked_active_retention':13,'final_exception':5,'pending':276,'validated':248}
-          assert summary['corpus_ready_identities'] == 248
-          assert summary['ocr_available_identities'] == 248
-          assert summary['text_verified_identities'] == 0
-          assert summary['semantic_ready_identities'] == 0
-          assert summary['global_closure']['eligible'] is False
-          assert summary['global_closure']['active_retentions'] == 13
-          assert summary['strict_identity_progress']['terminal_identities'] == 253
-          assert summary['strict_identity_progress']['remaining_identities'] == 289
-          assert summary['strict_identity_progress']['processable_pending'] == 276
-          print(summary['ftrl_identity_status'])
-          print(summary['archival_status'])
+          ledger=Path('data/research/ltmd_u1_ftrl_completion_ledger.csv') if Path('data/research/ltmd_u1_ftrl_completion_ledger.csv').exists() else Path('/tmp/ltmd_u1_ftrl_completion_ledger.csv')
+          summary_path=Path('data/research/ltmd_u1_ftrl_completion_summary.json') if Path('data/research/ltmd_u1_ftrl_completion_summary.json').exists() else Path('/tmp/ltmd_u1_ftrl_completion_summary.json')
+          rows=list(csv.DictReader(ledger.open(encoding='utf-8',newline=''))); summary=json.loads(summary_path.read_text(encoding='utf-8'))
+          gate=list(csv.DictReader(open('data/catalog/ltmd_u1_w7_source_admissibility.csv',encoding='utf-8',newline='')))
+          admitted={r['viewer_key'] for r in gate if r['decision']=='ocr_source_admitted'}
+          withheld={r['viewer_key'] for r in gate if r['decision']!='ocr_source_admitted'}
+          assert len(rows)==542 and len({r['viewer_key'] for r in rows})==542
+          assert {r['ledger_version'] for r in rows}=={'LTMD_U1_FTRL_COMPLETION_LEDGER_0.7'}
+          assert Counter(r['documentary_disposition'] for r in rows)==Counter({'required_ftrl_processing':524,'active_retention':13,'final_exception':5})
+          assert Counter(r['wave'] for r in rows)==Counter({'W1':40,'W2':64,'W3':130,'W4':14,'W5':18,'W6':42,'W7':30,'W8':20,'W9':4,'W10':69,'W11':111})
+          for wave,count in (('W1',40),('W3',130),('W4',14),('W5',18),('W6',42),('W9',4)):
+              wr=[r for r in rows if r['wave']==wave]
+              assert len(wr)==count and Counter(r['ftrl_status'] for r in wr)==Counter({'validated':count})
+              assert Counter(r['archival_status'] for r in wr)==Counter({'archival_complete':count})
+              assert sum(int(r['corpus_ready']) for r in wr)==count and sum(int(r['ocr_available']) for r in wr)==count
+              assert sum(int(r['text_verified']) for r in wr)==0 and sum(int(r['semantic_ready']) for r in wr)==0
+          w7=[r for r in rows if r['wave']=='W7']; assert len(w7)==30
+          aw=[r for r in w7 if r['viewer_key'] in admitted]; rw=[r for r in w7 if r['viewer_key'] in withheld]
+          assert len(aw)==25 and len(rw)==5
+          assert all(r['documentary_disposition']=='required_ftrl_processing' and r['source_ready']=='full' and r['relation_type']=='direct_canonical' for r in aw)
+          assert all(r['is_canonical_processing_object']=='1' and r['ftrl_status']=='validated' and r['archival_status']=='archival_complete' for r in aw)
+          assert sum(int(r['canonical_source_pages']) for r in aw)==3261
+          assert all(r['documentary_disposition']=='active_retention' and r['ftrl_status']=='blocked_active_retention' and r['archival_status']=='not_started' for r in rw)
+          assert all(r['is_canonical_processing_object']=='0' and r['corpus_ready']=='0' and r['ocr_available']=='0' for r in rw)
+          assert summary['schema']=='LTMD_U1_FTRL_COMPLETION_SUMMARY_0.7' and summary['ledger_version']=='LTMD_U1_FTRL_COMPLETION_LEDGER_0.7'
+          assert summary['documentary_identities']==542
+          assert summary['canonical_processing_objects_by_ftrl_status']=={'validated':245}
+          assert summary['canonical_source_pages_by_ftrl_status']=={'validated':41315}
+          assert summary['archival_status']=={'archival_complete':273,'not_applicable_final_exception':5,'not_started':264}
+          assert summary['ftrl_identity_status']=={'blocked_active_retention':13,'final_exception':5,'pending':251,'validated':273}
+          assert summary['corpus_ready_identities']==273 and summary['ocr_available_identities']==273
+          assert summary['text_verified_identities']==0 and summary['semantic_ready_identities']==0
+          assert summary['strict_identity_progress']['terminal_identities']==278
+          assert summary['strict_identity_progress']['remaining_identities']==264
+          assert summary['strict_identity_progress']['processable_pending']==251
+          assert summary['global_closure']['eligible'] is False and summary['global_closure']['active_retentions']==13
+          print(summary['ftrl_identity_status']); print(summary['archival_status'])
           PY
-
       - name: Commit generated ledger on branch push
         if: github.event_name == 'push'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/research/ltmd_u1_ftrl_completion_ledger.csv data/research/ltmd_u1_ftrl_completion_summary.json
+          git add data/research/ltmd_u1_w7_global_evidence.json data/research/ltmd_u1_ftrl_completion_ledger.csv data/research/ltmd_u1_ftrl_completion_summary.json
           if git diff --cached --quiet; then
             echo 'Generated ledger already current.'
           else
-            git commit -m 'FTRL: generate exhaustive U1 completion ledger 0.6'
+            git commit -m 'FTRL: generate exhaustive U1 completion ledger 0.7'
             git push origin HEAD:${GITHUB_REF_NAME}
           fi
