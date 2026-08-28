@@ -15,6 +15,7 @@ import shutil
 import sqlite3
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -23,11 +24,56 @@ EXPECTED_CANONICAL = 25
 EXPECTED_WITHHELD = 5
 EXPECTED_TOTAL = 3261
 SCHEMA = "LTMD_FTRL_W7_BOOK_UNIT_0.1"
+NETWORK_RETRY_ATTEMPTS = 4
+NETWORK_RETRY_MARKERS = (
+    "urlerror",
+    "timeouterror",
+    "timed out",
+    "temporary failure",
+    "temporarily unavailable",
+    "connection reset",
+    "remote end closed connection",
+    "http error 429",
+    "http error 500",
+    "http error 502",
+    "http error 503",
+    "http error 504",
+)
 
 
 def run(command: list[str]) -> None:
     print("+", " ".join(command), flush=True)
     subprocess.run(command, check=True)
+
+
+def run_network_resilient(command: list[str]) -> None:
+    """Retry only transient network failures; integrity failures stay hard."""
+    for attempt in range(1, NETWORK_RETRY_ATTEMPTS + 1):
+        print("+", " ".join(command), flush=True)
+        proc = subprocess.run(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+        output = proc.stdout or ""
+        if output:
+            print(output, end="" if output.endswith("\n") else "\n", flush=True)
+        if proc.returncode == 0:
+            return
+
+        lowered = output.lower()
+        transient = any(marker in lowered for marker in NETWORK_RETRY_MARKERS)
+        if not transient or attempt == NETWORK_RETRY_ATTEMPTS:
+            raise subprocess.CalledProcessError(proc.returncode, command, output=output)
+
+        delay = 5 * (2 ** (attempt - 1))
+        print(
+            f"Transient source-network failure; retrying attempt "
+            f"{attempt + 1}/{NETWORK_RETRY_ATTEMPTS} after {delay}s",
+            flush=True,
+        )
+        time.sleep(delay)
 
 
 def sha256_file(path: Path) -> str:
@@ -157,7 +203,7 @@ def main() -> None:
     evidence = unit / f"{prefix}_evidence.json"
     write_csv(unit_asset, rows)
 
-    run([
+    run_network_resilient([
         sys.executable,
         "scripts/build_page_ocr_corpus.py",
         "--asset-manifest",

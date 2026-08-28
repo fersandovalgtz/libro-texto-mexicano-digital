@@ -1,6 +1,7 @@
 {
   "schema": "LTMD_U1_W7_FTRL_RUN_STAMP_0.1",
   "requested_on": "2026-08-28",
+  "attempt": 2,
   "wave": "W7",
   "domain": "civica_etica",
   "historical_identities": 30,
@@ -8,6 +9,8 @@
   "withheld_source_identities": 5,
   "admitted_source_pages": 3261,
   "purpose": "trigger deterministic distributed computational FTRL validation after merge",
+  "retry_reason": "first full run validated 19/25 books; six source-admitted books failed only on transient CONALITEG network timeouts",
+  "network_retry_policy": "up to 4 attempts for recognized transient network failures with bounded exponential backoff; SHA-256 and non-network failures remain hard gates",
   "archival_complete": false,
   "text_verified": false,
   "semantic_ready": false,
