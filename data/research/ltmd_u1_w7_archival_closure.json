@@ -1,0 +1,61 @@
+{
+  "archival_complete": true,
+  "domain": "Formación Cívica y Ética",
+  "effective_date": "2026-08-28",
+  "ftrl": {
+    "canonical_processing_objects": 25,
+    "commit": "02024976ec3d87827460b8b610abe499d870db13",
+    "distributed_books": 25,
+    "fts_rows": 3261,
+    "global_exact_union": true,
+    "historical_identities": 30,
+    "page_partition_complete": true,
+    "page_partition_unique": true,
+    "page_records": 3261,
+    "run_id": "33207787127",
+    "sqlite_integrity": "ok",
+    "status": "validated",
+    "withheld_source_identities": 5
+  },
+  "interpretive_limit": "Computational and archival closure of the 25 source-admitted canonical objects only; five source-retained identities remain excluded. OCR availability does not imply text verification or semantic readiness.",
+  "persistent_archive": {
+    "archive_closure_record_preserved": true,
+    "consolidated_archive_bytes": 6666433,
+    "consolidated_archive_sha256": "f81272e4a86e432dd27cf0d4c769f06f7561a31e22236af74554bb2d024bcbd9",
+    "destination_shared": false,
+    "encrypted_handoffs_preserved": true,
+    "encrypted_handoffs_unique": 25,
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/W7 — Formación Cívica y Ética/run_33207787127__0202497__2026-08-28/02_CONSOLIDATED_PRIVATE",
+    "private_consolidation_validated": true,
+    "provider": "google_drive",
+    "redownload_checksum_verification_complete": true,
+    "restricted_plaintext_publicly_exposed": false,
+    "text_free_evidence_preserved": true,
+    "text_free_evidence_unique": 26
+  },
+  "qc": {
+    "page_records": 3261,
+    "pages_flagged_for_technical_review": 428,
+    "pages_unflagged": 2833,
+    "zero_search_text_pages": 150
+  },
+  "schema": "LTMD_FTRL_ARCHIVAL_CLOSURE_0.7",
+  "security": {
+    "plaintext_restricted_outputs_published": false,
+    "private_key_stored_outside_public_repository": true
+  },
+  "semantic_ready": false,
+  "source_retention": {
+    "aliases_introduced": 0,
+    "count": 5,
+    "viewer_keys": [
+      "H2014P5FCA",
+      "H2018P3FCA",
+      "H2018P4FCA",
+      "H2018P5FCA",
+      "H2018P6FCA"
+    ]
+  },
+  "text_verified": false,
+  "wave": "W7"
+}
