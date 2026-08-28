@@ -1,18 +1,21 @@
 {
   "schema": "LTMD_U1_W7_FTRL_RUN_STAMP_0.1",
   "requested_on": "2026-08-28",
-  "attempt": 2,
+  "attempt": 3,
   "wave": "W7",
   "domain": "civica_etica",
   "historical_identities": 30,
   "source_admitted_canonical_objects": 25,
   "withheld_source_identities": 5,
   "admitted_source_pages": 3261,
-  "purpose": "trigger deterministic distributed computational FTRL validation after merge",
-  "retry_reason": "first full run validated 19/25 books; six source-admitted books failed only on transient CONALITEG network timeouts",
+  "purpose": "trigger deterministic distributed W7 rerun with encrypted private archival handoffs after successful 25/25 computational validation",
+  "previous_computational_run_id": "33204203287",
+  "previous_computational_result": "25/25 source-admitted canonical objects and 3261/3261 pages validated; global exact union status ok",
+  "retry_reason": "attempt 2 intentionally uploaded only text-free evidence, so restricted outputs must be reproducibly regenerated and encrypted before temporary Actions handoff",
   "network_retry_policy": "up to 4 attempts for recognized transient network failures with bounded exponential backoff; SHA-256 and non-network failures remain hard gates",
+  "private_handoff_policy": "AES-256-CBC + PBKDF2-SHA256 payload; RSA-4096 OAEP-SHA256 wrapped passphrase; encrypted Actions handoffs retained 3 days; no plaintext restricted archive uploaded",
   "archival_complete": false,
   "text_verified": false,
   "semantic_ready": false,
-  "note": "The five source-retained identities remain excluded without aliases or imputations. This stamp authorizes computational validation only; private archival closure requires separate preservation evidence."
+  "note": "The five source-retained identities remain excluded without aliases or imputations. Attempt 3 authorizes encrypted private handoff generation only; archival_complete still requires independent private Google Drive preservation, redownload checksum verification, private consolidation validation, and a committed closure record."
 }
