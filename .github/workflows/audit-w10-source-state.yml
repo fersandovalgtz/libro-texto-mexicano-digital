@@ -1,0 +1,60 @@
+name: Audit W10 source state
+
+on:
+  push:
+    branches:
+      - 'ftrl/w10-source-discovery'
+    paths:
+      - 'scripts/audit_w10_source_state.py'
+      - '.github/workflows/audit-w10-source-state.yml'
+      - 'data/research/ltmd_u1_ftrl_completion_ledger.csv'
+      - 'data/catalog/ltmd_u1_coverage.csv'
+      - 'data/catalog/ltmd_u1_retained_source_register.csv'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-w10-source-state:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit script
+        run: python -m py_compile scripts/audit_w10_source_state.py
+      - name: Audit exact W10 metadata state
+        run: python scripts/audit_w10_source_state.py --out-dir /tmp/w10-source-audit
+      - name: Assert audit is metadata-only
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root=Path('/tmp/w10-source-audit')
+          s=json.loads((root/'w10_source_state_audit.json').read_text(encoding='utf-8'))
+          rows=list(csv.DictReader((root/'w10_source_candidates.csv').open(encoding='utf-8',newline='')))
+          assert s['historical_identities']==69
+          assert s['required_ftrl_processing']==68
+          assert s['active_retention']==0
+          assert s['final_exception']==1
+          assert s['final_exception_viewer_keys']==['H2014P1ENA']
+          assert s['aliases_introduced']==0
+          assert len(rows)==68 and len({r['viewer_key'] for r in rows})==68
+          assert all(r['source_url'].startswith('https://historico.conaliteg.gob.mx/') for r in rows)
+          forbidden=('ocr_text','normalized_text','search_text','private_key','drive_id','file_id')
+          blob='\n'.join(p.read_text(encoding='utf-8') for p in root.iterdir())
+          assert not any(x in blob.lower() for x in forbidden)
+          print('W10 metadata audit contract: OK')
+          PY
+      - name: Upload W10 metadata-only audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w10-source-state-audit
+          path: /tmp/w10-source-audit/
+          retention-days: 30
+          if-no-files-found: error
