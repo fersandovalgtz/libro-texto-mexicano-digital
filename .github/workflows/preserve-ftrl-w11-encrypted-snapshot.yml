@@ -37,30 +37,107 @@ jobs:
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
               print(f"source_run_id={data['source_run_id']}", file=fh)
           PY
-      - name: Download available encrypted handoffs from source run
-        uses: actions/download-artifact@v4
-        with:
-          github-token: ${{ github.token }}
-          repository: fersandovalgtz/libro-texto-mexicano-digital
-          run-id: ${{ steps.request.outputs.source_run_id }}
-          pattern: ltmd-u1-w11-*-private-encrypted
-          path: local/w11-private
-          merge-multiple: false
-      - name: Download available text-free evidence from source run
-        uses: actions/download-artifact@v4
-        with:
-          github-token: ${{ github.token }}
-          repository: fersandovalgtz/libro-texto-mexicano-digital
-          run-id: ${{ steps.request.outputs.source_run_id }}
-          pattern: ltmd-u1-w11-*-text-free-evidence
-          path: local/w11-public
-          merge-multiple: false
+      - name: Download paginated W11 book artifacts from source run
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ steps.request.outputs.source_run_id }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, re, shutil, subprocess, tempfile, urllib.request
+          from pathlib import Path
+
+          token = os.environ['GH_TOKEN']
+          repo = os.environ['GITHUB_REPOSITORY']
+          run_id = os.environ['SOURCE_RUN_ID']
+          expected = 106
+          headers = {
+              'Authorization': f'Bearer {token}',
+              'Accept': 'application/vnd.github+json',
+              'X-GitHub-Api-Version': '2022-11-28',
+              'User-Agent': 'ltmd-w11-preservation',
+          }
+
+          artifacts = []
+          page = 1
+          while True:
+              url = f'https://api.github.com/repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100&page={page}'
+              req = urllib.request.Request(url, headers=headers)
+              with urllib.request.urlopen(req) as response:
+                  payload = json.load(response)
+              batch = payload.get('artifacts', [])
+              artifacts.extend(batch)
+              if len(batch) < 100:
+                  break
+              page += 1
+
+          private_re = re.compile(r'^ltmd-u1-w11-(.+)-private-encrypted$')
+          public_re = re.compile(r'^ltmd-u1-w11-(.+)-text-free-evidence$')
+          private = []
+          public = []
+          for artifact in artifacts:
+              name = artifact['name']
+              m = private_re.fullmatch(name)
+              if m:
+                  private.append((m.group(1), artifact))
+                  continue
+              m = public_re.fullmatch(name)
+              if m and m.group(1) != 'global':
+                  public.append((m.group(1), artifact))
+
+          private_keys = {key for key, _ in private}
+          public_keys = {key for key, _ in public}
+          assert len(private) == len(private_keys), 'duplicate private artifact names'
+          assert len(public) == len(public_keys), 'duplicate public artifact names'
+          assert len(private_keys) == expected, (len(private_keys), sorted(private_keys))
+          assert len(public_keys) == expected, (len(public_keys), sorted(public_keys))
+          assert private_keys == public_keys, sorted(private_keys ^ public_keys)
+
+          roots = {
+              'private': Path('local/w11-private'),
+              'public': Path('local/w11-public'),
+          }
+          for root in roots.values():
+              root.mkdir(parents=True, exist_ok=True)
+
+          with tempfile.TemporaryDirectory() as tmpdir:
+              tmpdir = Path(tmpdir)
+              for kind, selected in (('private', private), ('public', public)):
+                  for viewer, artifact in sorted(selected, key=lambda item: item[0]):
+                      name = artifact['name']
+                      artifact_id = str(artifact['id'])
+                      archive = tmpdir / f'{artifact_id}.zip'
+                      api_url = f'https://api.github.com/repos/{repo}/actions/artifacts/{artifact_id}/zip'
+                      subprocess.run([
+                          'curl', '-fLsS',
+                          '-H', f'Authorization: Bearer {token}',
+                          '-H', 'Accept: application/vnd.github+json',
+                          '-H', 'X-GitHub-Api-Version: 2022-11-28',
+                          api_url, '-o', str(archive),
+                      ], check=True)
+                      destination = roots[kind] / name
+                      destination.mkdir(parents=True, exist_ok=True)
+                      shutil.unpack_archive(str(archive), str(destination), 'zip')
+
+          print(json.dumps({
+              'source_run_id': int(run_id),
+              'listed_artifacts': len(artifacts),
+              'private_book_artifacts': len(private_keys),
+              'public_book_artifacts': len(public_keys),
+              'global_evidence_excluded_from_pairing': True,
+          }, sort_keys=True))
+          PY
       - name: Validate snapshot and write text-free manifest
         shell: bash
         run: |
           python - <<'PY'
-          import hashlib, json
+          import json
           from pathlib import Path
+
+          request = json.loads(Path('data/research/ltmd_u1_w11_preservation_request.json').read_text(encoding='utf-8'))
+          expected = request['expected_canonical_objects']
+          allow_partial = request.get('allow_partial_snapshot', True)
 
           private_root = Path('local/w11-private')
           public_root = Path('local/w11-public')
@@ -68,8 +145,11 @@ jobs:
           public_dirs = sorted(p.name for p in public_root.iterdir() if p.is_dir())
           private_viewers = {n.removeprefix('ltmd-u1-w11-').removesuffix('-private-encrypted') for n in private_dirs}
           public_viewers = {n.removeprefix('ltmd-u1-w11-').removesuffix('-text-free-evidence') for n in public_dirs}
-          assert private_viewers == public_viewers, (private_viewers ^ public_viewers)
-          assert 1 <= len(private_viewers) <= 106
+          assert private_viewers == public_viewers, sorted(private_viewers ^ public_viewers)
+          if allow_partial:
+              assert 1 <= len(private_viewers) <= expected
+          else:
+              assert len(private_viewers) == expected, (len(private_viewers), expected)
 
           for d in private_root.iterdir():
               if not d.is_dir():
@@ -82,17 +162,23 @@ jobs:
               assert not any(name.endswith('_restricted.tar.gz') for name in files), (d, files)
 
           manifest = {
-              'schema': 'LTMD_FTRL_W11_ENCRYPTED_SNAPSHOT_0.1',
+              'schema': 'LTMD_FTRL_W11_ENCRYPTED_SNAPSHOT_0.2',
               'wave': 'W11',
-              'source_run_id': 33266902987,
-              'source_commit': 'e46290d5f06b29d7a48a728037816e9f2cfb1bb5',
-              'expected_canonical_objects': 106,
+              'source_run_id': request['source_run_id'],
+              'source_commit': request['source_commit'],
+              'global_evidence_artifact_id': request.get('global_evidence_artifact_id'),
+              'expected_canonical_objects': expected,
+              'expected_source_pages': request.get('expected_source_pages'),
               'captured_canonical_objects': len(private_viewers),
-              'complete_snapshot': len(private_viewers) == 106,
+              'complete_snapshot': len(private_viewers) == expected,
               'private_public_pairing_exact': True,
+              'global_evidence_excluded_from_book_pairing': True,
               'plaintext_restricted_outputs_present': False,
               'viewer_keys': sorted(private_viewers),
+              'computationally_validated': bool(request.get('computationally_validated')),
               'archival_complete': False,
+              'text_verified': False,
+              'semantic_ready': False,
           }
           out = Path('local/snapshot')
           out.mkdir(parents=True, exist_ok=True)
