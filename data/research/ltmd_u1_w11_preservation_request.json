@@ -1,0 +1,15 @@
+{
+  "schema": "LTMD_U1_W11_PRESERVATION_REQUEST_0.1",
+  "effective_date": "2026-08-29",
+  "wave": "W11",
+  "domain": "otros_no_clasificados",
+  "source_run_id": 33266902987,
+  "source_commit": "e46290d5f06b29d7a48a728037816e9f2cfb1bb5",
+  "expected_canonical_objects": 106,
+  "request_mode": "available_encrypted_snapshot_checkpoint",
+  "allow_partial_snapshot": true,
+  "archival_complete": false,
+  "text_verified": false,
+  "semantic_ready": false,
+  "note": "Checkpoint request only. Capture currently available encrypted W11 handoffs and text-free evidence to extend recoverability while the exhaustive source run continues. A partial or complete Actions snapshot is not persistent private archival closure and must not promote W11 wave state or the completion ledger."
+}
