@@ -1,0 +1,125 @@
+name: Close LTMD U1 W10 Ledger 0.9
+
+on:
+  push:
+    paths:
+      - '.github/workflows/close-ltmd-u1-w10-ledger-v09.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  close-w10:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Require verified W10 closure evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          c=json.load(open('data/research/ltmd_u1_w10_archival_closure.json',encoding='utf-8'))
+          g=json.load(open('data/research/ltmd_u1_w10_global_evidence.json',encoding='utf-8'))
+          assert c['schema']=='LTMD_FTRL_ARCHIVAL_CLOSURE_0.9'
+          assert c['wave']=='W10' and c['archival_complete'] is True
+          assert c['ftrl']['run_id']=='33237844420'
+          assert c['ftrl']['commit']=='4d0d9a38b650383e51fa44ddbf62510784281dc2'
+          assert c['ftrl']['canonical_processing_objects']==68
+          assert c['ftrl']['page_records']==11937
+          assert c['persistent_archive']['redownload_checksum_verification_complete'] is True
+          assert c['persistent_archive']['destination_shared'] is False
+          assert c['persistent_archive']['encrypted_handoffs_unique']==68
+          assert c['persistent_archive']['text_free_evidence_unique']==69
+          assert c['source_exception']=={'aliases_introduced':0,'count':1,'disposition':'final_exception','viewer_keys':['H2014P1ENA']}
+          assert g['status']=='validated' and g['source_pages']==11937 and g['canonical_processing_objects']==68
+          PY
+
+      - name: Promote canonical completion ledger 0.8 to 0.9
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/build_ltmd_u1_ftrl_completion_ledger_v9.py
+
+      - name: Synchronize W10 wave state
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('data/research/ltmd_u1_ftrl_wave_state.json')
+          s=json.loads(p.read_text(encoding='utf-8'))
+          s['effective_date']='2026-08-29'
+          s['waves']['W10']={
+            'domain':'integrados_multiarea',
+            'ftrl_status':'validated',
+            'ftrl_run_id':'33237844420',
+            'ftrl_commit':'4d0d9a38b650383e51fa44ddbf62510784281dc2',
+            'archival_status':'archival_complete',
+            'preservation_run_id':'private_consolidation_2026-08-29',
+            'archive_destination_logical':'LTMD-U1 — corpus FTRL privado/W10 — Integrados y Multiarea/run_33237844420__4d0d9a3__2026-08-29/02_CONSOLIDATED_PRIVATE',
+            'archival_closure_evidence':'data/research/ltmd_u1_w10_archival_closure.json'
+          }
+          assert s['waves']['W11']['ftrl_status']=='pending'
+          assert s['waves']['W2']['ftrl_status']=='pending'
+          p.write_text(json.dumps(s,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+
+      - name: Record W10 FTRL closeout in master plan
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('docs/LTMD_U1_MASTER_PLAN_0_3.md')
+          s=p.read_text(encoding='utf-8')
+          marker='## 14. Cierre FTRL exhaustivo W10 — 29 de agosto de 2026'
+          block='''\n\n## 14. Cierre FTRL exhaustivo W10 — 29 de agosto de 2026\n\nLa cohorte fuente-admitida de **W10 — Integrados / Multiarea** quedó procesada y archivísticamente cerrada mediante el run distribuido `33237844420`, anclado al commit `4d0d9a38b650383e51fa44ddbf62510784281dc2`. El cierre comprende **68/68 objetos canónicos fuente-admitidos** y **11,937/11,937 páginas canónicas**, con unión global exacta, partición única y completa, integridad SQLite válida y preservación privada cifrada verificada por redescarga y SHA-256.\n\nLa identidad `H2014P1ENA` **no se imputa ni se procesa por sustitución**: conserva su disposición documental `final_exception`, ya establecida en el registro transversal. En consecuencia, el cierre W10 no altera la taxonomía global de **13 retenciones activas + 5 excepciones finales**. El ledger FTRL canónico se promueve de `LTMD_U1_FTRL_COMPLETION_LEDGER_0.8` a `LTMD_U1_FTRL_COMPLETION_LEDGER_0.9`, con **357 identidades validadas**, **167 pendientes de FTRL**, **13 retenciones activas** y **5 excepciones finales**. La secuencia operacional restante permanece preregistrada como **W11 → W2**.\n\nEste cierre es computacional y archivístico. `ocr_available` no equivale a `text_verified`, y ninguna salida W10 queda promovida a `semantic_ready`.\n'''
+          if marker not in s:
+              s=s.rstrip()+block+'\n'
+          p.write_text(s,encoding='utf-8')
+          PY
+
+      - name: Validate canonical post-W10 state
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,json
+          rows=list(csv.DictReader(open('data/research/ltmd_u1_ftrl_completion_ledger.csv',encoding='utf-8')))
+          s=json.load(open('data/research/ltmd_u1_ftrl_completion_summary.json',encoding='utf-8'))
+          w=json.load(open('data/research/ltmd_u1_ftrl_wave_state.json',encoding='utf-8'))
+          assert len(rows)==542 and len({r['viewer_key'] for r in rows})==542
+          assert {r['ledger_version'] for r in rows}=={'LTMD_U1_FTRL_COMPLETION_LEDGER_0.9'}
+          assert s['ledger_version']=='LTMD_U1_FTRL_COMPLETION_LEDGER_0.9'
+          assert s['ftrl_identity_status']=={'blocked_active_retention':13,'final_exception':5,'pending':167,'validated':357}
+          assert s['documentary_dispositions']=={'active_retention':13,'final_exception':5,'required_ftrl_processing':524}
+          w10=[r for r in rows if r['wave']=='W10']
+          assert len(w10)==69
+          assert sum(r['ftrl_status']=='validated' for r in w10)==68
+          exc=[r for r in w10 if r['viewer_key']=='H2014P1ENA'][0]
+          assert exc['documentary_disposition']=='final_exception'
+          assert exc['ftrl_status']=='final_exception'
+          assert exc['archival_status']=='not_applicable_final_exception'
+          assert w['waves']['W10']['archival_status']=='archival_complete'
+          assert w['waves']['W11']['ftrl_status']=='pending'
+          assert w['waves']['W2']['ftrl_status']=='pending'
+          PY
+
+      - name: Commit canonical W10 closeout
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'Fernando Sandoval'
+          git config user.email 'fernando.sandoval@uacj.mx'
+          git add data/research/ltmd_u1_ftrl_completion_ledger.csv \
+                  data/research/ltmd_u1_ftrl_completion_summary.json \
+                  data/research/ltmd_u1_ftrl_wave_state.json \
+                  docs/LTMD_U1_MASTER_PLAN_0_3.md
+          git commit -m 'ltmd: close W10 Integrados Multiarea and promote exhaustive ledger to 0.9'
+          git pull --rebase origin main
+          git push origin main
