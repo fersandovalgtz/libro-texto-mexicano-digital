@@ -1,0 +1,16 @@
+{
+  "schema": "LTMD_U1_W10_FTRL_RUN_STAMP_0.1",
+  "effective_date": "2026-08-29",
+  "wave": "W10",
+  "domain": "integrados_multiarea",
+  "historical_identities": 69,
+  "canonical_processing_objects": 68,
+  "withheld_source_identities": 1,
+  "withheld_viewer_keys": ["H2014P1ENA"],
+  "source_pages": 11937,
+  "requested_state": "computational_validation_only",
+  "archival_complete": false,
+  "text_verified": false,
+  "semantic_ready": false,
+  "note": "Dispatch stamp only. It must not promote W10 or the exhaustive ledger. Promotion requires successful global FTRL validation plus persistent private archival closure evidence."
+}
