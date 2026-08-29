@@ -28,7 +28,9 @@ jobs:
           p=Path('scripts/build_ltmd_u1_ftrl_completion_ledger_v9.py')
           s=p.read_text(encoding='utf-8')
           replacements={
+            'SHA256 = re.compile(r"^[0-9a-f]{64}$")': 'SHA256 = re.compile(r"^[0-9a-f]{64}$")\nGIT_SHA1 = re.compile(r"^[0-9a-f]{40}$")',
             'H2014P1ENA remains an active source retention and is never aliased,\nimputed, or counted as corpus-ready.': 'H2014P1ENA remains a documented final technical exception and is never aliased,\nimputed, or counted as corpus-ready.',
+            '    assert SHA256.fullmatch(f["commit"])': '    assert GIT_SHA1.fullmatch(f["commit"])',
             '    sr = p["source_retention"]\n    assert sr["count"] == 1\n    assert set(sr["viewer_keys"]) == WITHHELD\n    assert sr["aliases_introduced"] == 0': '    sr = p["source_exception"]\n    assert sr["count"] == 1\n    assert set(sr["viewer_keys"]) == WITHHELD\n    assert sr["disposition"] == "final_exception"\n    assert sr["aliases_introduced"] == 0',
             '    retained = [r for r in w10 if r["viewer_key"] in withheld]\n    assert len(retained) == 1\n    assert retained[0]["documentary_disposition"] == "active_retention"\n    assert retained[0]["ftrl_status"] == "blocked_active_retention"\n    assert retained[0]["archival_status"] == "not_started"\n    assert retained[0]["is_canonical_processing_object"] == "0"\n    assert retained[0]["corpus_ready"] == "0" and retained[0]["ocr_available"] == "0"': '    retained = [r for r in w10 if r["viewer_key"] in withheld]\n    assert len(retained) == 1\n    assert retained[0]["documentary_disposition"] == "final_exception"\n    assert retained[0]["ftrl_status"] == "final_exception"\n    assert retained[0]["archival_status"] == "not_applicable_final_exception"\n    assert retained[0]["is_canonical_processing_object"] == "0"\n    assert retained[0]["corpus_ready"] == "0" and retained[0]["ocr_available"] == "0"',
             'Computational/archival closure of source-admitted W10 only; H2014P1ENA remains retained and excluded; OCR is not human text verification or semantic evidence.': 'Computational/archival closure of source-admitted W10 only; H2014P1ENA remains a documented final exception and is excluded; OCR is not human text verification or semantic evidence.'
@@ -166,7 +168,8 @@ jobs:
           git config user.email 'fernando.sandoval@uacj.mx'
           git add scripts/build_ltmd_u1_ftrl_completion_ledger_v9.py data/research/ltmd_u1_w10_global_evidence.json data/research/ltmd_u1_w10_archival_closure.json
           git commit -m 'ftrl(w10): record verified archival closure evidence'
-          git push
+          git pull --rebase origin main
+          git push origin main
 
       - name: Upload closure record for persistent archive
         uses: actions/upload-artifact@v4
