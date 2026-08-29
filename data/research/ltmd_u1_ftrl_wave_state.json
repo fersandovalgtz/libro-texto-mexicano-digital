@@ -64,7 +64,16 @@
       "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W7 — Formación Cívica y Ética/run_33207787127__0202497__2026-08-28/02_CONSOLIDATED_PRIVATE",
       "archival_closure_evidence": "data/research/ltmd_u1_w7_archival_closure.json"
     },
-    "W8": {"domain": "artes", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
+    "W8": {
+      "domain": "artes",
+      "ftrl_status": "validated",
+      "ftrl_run_id": "33220988830",
+      "ftrl_commit": "cae2bed8ff79b45675ae194a855abfed9b86aca4",
+      "archival_status": "archival_complete",
+      "preservation_run_id": "private_consolidation_2026-08-28",
+      "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W8 — Artes/run_33220988830__cae2bed__2026-08-28/02_CONSOLIDATED_PRIVATE",
+      "archival_closure_evidence": "data/research/ltmd_u1_w8_archival_closure.json"
+    },
     "W9": {
       "domain": "educacion_fisica",
       "ftrl_status": "validated",
