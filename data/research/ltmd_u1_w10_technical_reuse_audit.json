@@ -1,0 +1,31 @@
+{
+  "aliases_introduced": 0,
+  "archival_complete": false,
+  "byte_size_exact": true,
+  "computationally_validated": true,
+  "current_source_admitted": 68,
+  "current_source_global_digest_sha256": "5b703cd00195226597b6255b8eee981b8b29b651c8707cc802c193a6e80d75a7",
+  "current_source_identical_to_prior_topology": true,
+  "current_source_probe_identities": 68,
+  "current_terminal_synthetic_candidates": 68,
+  "domain": "integrados_multiarea",
+  "exact_matched_source_pages": 11937,
+  "exact_matched_source_viewers": 68,
+  "existing_strict_technical_completion_validator_passed": true,
+  "final_exception_viewer_keys": [
+    "H2014P1ENA"
+  ],
+  "historical_identities": 69,
+  "interpretive_limit": "Byte-exact source identity plus a passing strict technical validator authorizes reuse of the existing W10 computational outputs. It does not establish private archival closure, human text verification, semantic readiness, curricular equivalence, or historical interpretation.",
+  "page_identity_index_exact": true,
+  "prior_canonical_processing_objects": 68,
+  "prior_source_global_digest_sha256": "5b703cd00195226597b6255b8eee981b8b29b651c8707cc802c193a6e80d75a7",
+  "recompute_ocr_required": false,
+  "schema": "LTMD_U1_W10_TECHNICAL_REUSE_AUDIT_0.1",
+  "semantic_ready": false,
+  "sha256_exact": true,
+  "source_asset_url_exact": true,
+  "technical_reuse_validated": true,
+  "text_verified": false,
+  "wave": "W10"
+}
