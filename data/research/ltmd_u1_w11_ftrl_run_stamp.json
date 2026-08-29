@@ -1,0 +1,26 @@
+{
+  "schema": "LTMD_U1_W11_FTRL_RUN_STAMP_0.1",
+  "effective_date": "2026-08-29",
+  "wave": "W11",
+  "domain": "otros_no_clasificados",
+  "historical_identities": 111,
+  "admitted_historical_identities": 107,
+  "canonical_processing_objects": 106,
+  "exact_source_aliases": 1,
+  "alias_map": {
+    "H2008P4CI270": "H1993P4CI192"
+  },
+  "withheld_source_identities": 4,
+  "withheld_viewer_keys": [
+    "H2014P1EAM",
+    "H2014P2EAM",
+    "H2014P3COL",
+    "H2014P3MOR"
+  ],
+  "source_pages": 19862,
+  "requested_state": "computational_validation_only",
+  "archival_complete": false,
+  "text_verified": false,
+  "semantic_ready": false,
+  "note": "Dispatch stamp only. It must not promote W11 or the exhaustive ledger. Promotion requires successful global FTRL validation plus persistent private archival closure evidence."
+}
