@@ -4,7 +4,7 @@
 This is a metadata-only promoter. It is deliberately unusable until both the
 text-free global computational evidence and a persistent private archival
 closure record for W10 exist. It promotes only the 68 source-admitted W10
-identities. H2014P1ENA remains an active source retention and is never aliased,
+identities. H2014P1ENA remains a documented final technical exception and is never aliased,
 imputed, or counted as corpus-ready.
 """
 from __future__ import annotations
@@ -29,6 +29,7 @@ EXPECTED_HISTORICAL = 69
 EXPECTED_ADMITTED = 68
 EXPECTED_PAGES = 11937
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
+GIT_SHA1 = re.compile(r"^[0-9a-f]{40}$")
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -126,7 +127,7 @@ def validate_closure(p: dict, global_evidence: dict) -> tuple[str, str, str, str
     assert f["page_partition_complete"] is True and f["page_partition_unique"] is True
     assert f["sqlite_integrity"] == "ok"
     assert str(f["run_id"]).strip()
-    assert SHA256.fullmatch(f["commit"])
+    assert GIT_SHA1.fullmatch(f["commit"])
 
     a = p["persistent_archive"]
     assert a["destination_shared"] is False
@@ -142,9 +143,10 @@ def validate_closure(p: dict, global_evidence: dict) -> tuple[str, str, str, str
     assert SHA256.fullmatch(a["consolidated_archive_sha256"])
     assert str(a["logical_destination"]).startswith("LTMD-U1 — corpus FTRL privado/W10")
 
-    sr = p["source_retention"]
+    sr = p["source_exception"]
     assert sr["count"] == 1
     assert set(sr["viewer_keys"]) == WITHHELD
+    assert sr["disposition"] == "final_exception"
     assert sr["aliases_introduced"] == 0
     assert p["security"]["plaintext_restricted_outputs_published"] is False
     assert p["security"]["private_key_stored_outside_public_repository"] is True
@@ -172,9 +174,9 @@ def validate_base(rows: list[dict[str, str]], admitted: set[str], withheld: set[
     assert {r["viewer_key"] for r in w10} == admitted | withheld
     retained = [r for r in w10 if r["viewer_key"] in withheld]
     assert len(retained) == 1
-    assert retained[0]["documentary_disposition"] == "active_retention"
-    assert retained[0]["ftrl_status"] == "blocked_active_retention"
-    assert retained[0]["archival_status"] == "not_started"
+    assert retained[0]["documentary_disposition"] == "final_exception"
+    assert retained[0]["ftrl_status"] == "final_exception"
+    assert retained[0]["archival_status"] == "not_applicable_final_exception"
     assert retained[0]["is_canonical_processing_object"] == "0"
     assert retained[0]["corpus_ready"] == "0" and retained[0]["ocr_available"] == "0"
 
@@ -216,7 +218,7 @@ def promote(rows: list[dict[str, str]], gate: dict[str, dict[str, str]], pages: 
             row["archival_status"] = "archival_complete"
             row["preservation_run_id"] = f"private_consolidation_{effective_date}"
             row["archive_destination_logical"] = archive
-            row["interpretive_limit"] = "Computational/archival closure of source-admitted W10 only; H2014P1ENA remains retained and excluded; OCR is not human text verification or semantic evidence."
+            row["interpretive_limit"] = "Computational/archival closure of source-admitted W10 only; H2014P1ENA remains a documented final exception and is excluded; OCR is not human text verification or semantic evidence."
         out.append(row)
     return out
 

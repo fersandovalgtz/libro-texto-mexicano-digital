@@ -1,48 +1,39 @@
 {
-  "schema": "LTMD_FTRL_ARCHIVAL_CLOSURE_0.9",
-  "wave": "W10",
+  "archival_complete": true,
   "domain": "Integrados/Multiarea",
   "effective_date": "2026-08-29",
-  "archival_complete": true,
   "ftrl": {
-    "historical_identities": 69,
     "canonical_processing_objects": 68,
-    "withheld_source_identities": 1,
-    "distributed_books": 68,
-    "page_records": 11937,
-    "fts_rows": 11937,
-    "run_id": "33237844420",
     "commit": "4d0d9a38b650383e51fa44ddbf62510784281dc2",
-    "status": "validated",
+    "distributed_books": 68,
+    "fts_rows": 11937,
     "global_exact_union": true,
+    "historical_identities": 69,
     "page_partition_complete": true,
     "page_partition_unique": true,
-    "sqlite_integrity": "ok"
+    "page_records": 11937,
+    "run_id": "33237844420",
+    "sqlite_integrity": "ok",
+    "status": "validated",
+    "withheld_source_identities": 1
   },
+  "interpretive_limit": "Computational and archival closure of the 68 source-admitted W10 canonical objects only; H2014P1ENA remains a documented final technical exception. OCR availability does not imply text verification or semantic readiness.",
   "persistent_archive": {
+    "archive_closure_record_preserved": true,
+    "consolidated_archive_bytes": 23050966,
+    "consolidated_archive_sha256": "fa65159894862ab28de587cec7564b05a899430429d6c0d17beecc65c7a5df80",
     "destination_shared": false,
     "encrypted_handoffs_preserved": true,
     "encrypted_handoffs_unique": 68,
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/W10 — Integrados y Multiarea/run_33237844420__4d0d9a3__2026-08-29/02_CONSOLIDATED_PRIVATE",
     "private_consolidation_validated": true,
-    "archive_closure_record_preserved": true,
+    "provider": "google_drive",
     "redownload_checksum_verification_complete": true,
     "restricted_plaintext_publicly_exposed": false,
     "text_free_evidence_preserved": true,
     "text_free_evidence_unique": 69,
-    "consolidated_archive_bytes": 23028587,
-    "consolidated_archive_sha256": "6c3d31951f14207be656d34bd3fcecba85e8d6024f1563a1e9dcc3734da2edde",
-    "logical_destination": "LTMD-U1 — corpus FTRL privado/W10 — Integrados y Multiarea/run_33237844420__4d0d9a3__2026-08-29/02_CONSOLIDATED_PRIVATE"
-  },
-  "preservation_verification": {
-    "private_wrapper_bytes": 23068560,
-    "private_wrapper_sha256": "2b66dc8a5aea8f9fcb17a8cf057da80cfb09dca5d5cd6347df39c0001a45537f",
-    "public_wrapper_bytes": 1360211,
-    "public_wrapper_sha256": "f119729f7219425514ff2ebd23db4e0afc38edbbde6ec800ab5c53b7d9c676f9",
-    "public_consolidated_archive_bytes": 1328013,
-    "public_consolidated_archive_sha256": "af86f93e6ecb4a2412ce891da857ecb7553f919ec695cfbb48ce61efe498ba30",
-    "drive_copies_not_shared": true,
-    "private_wrapper_redownload_sha256_match": true,
-    "public_wrapper_redownload_sha256_match": true
+    "public_evidence_archive_bytes": 1325199,
+    "public_evidence_archive_sha256": "3cf95d76b7daa08010117acef9857d22da91785dae7d45d05bfbaa07a58f84cb"
   },
   "qc": {
     "page_records": 11937,
@@ -50,17 +41,20 @@
     "pages_unflagged": 9718,
     "zero_search_text_pages": 476
   },
+  "schema": "LTMD_FTRL_ARCHIVAL_CLOSURE_0.9",
   "security": {
     "plaintext_restricted_outputs_published": false,
     "private_key_stored_outside_public_repository": true
   },
-  "text_verified": false,
   "semantic_ready": false,
   "source_exception": {
+    "aliases_introduced": 0,
     "count": 1,
+    "disposition": "final_exception",
     "viewer_keys": [
       "H2014P1ENA"
-    ],
-    "aliases_introduced": 0
-  }
+    ]
+  },
+  "text_verified": false,
+  "wave": "W10"
 }
