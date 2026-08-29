@@ -1,5 +1,5 @@
 {
-  "schema": "LTMD_U1_W11_PRESERVATION_REQUEST_0.2",
+  "schema": "LTMD_U1_W11_PRESERVATION_REQUEST_0.3",
   "effective_date": "2026-08-29",
   "wave": "W11",
   "domain": "otros_no_clasificados",
@@ -9,10 +9,11 @@
   "expected_canonical_objects": 106,
   "expected_source_pages": 19862,
   "request_mode": "final_complete_encrypted_snapshot",
+  "preservation_attempt": 2,
   "allow_partial_snapshot": false,
   "computationally_validated": true,
   "archival_complete": false,
   "text_verified": false,
   "semantic_ready": false,
-  "note": "Final W11 private preservation request after successful exact global union validation. Require all 106 canonical encrypted handoffs and matching text-free evidence. This request authorizes final consolidation only; archival_complete remains false until the resulting private Drive copy is redownloaded and checksum-verified."
+  "note": "Final W11 private preservation request after successful exact global union validation. Attempt 2 uses paginated artifact retrieval and excludes the global evidence artifact from book-pair matching. Require all 106 canonical encrypted handoffs and matching per-book text-free evidence. Archival_complete remains false until the resulting private Drive copy is redownloaded and checksum-verified."
 }
