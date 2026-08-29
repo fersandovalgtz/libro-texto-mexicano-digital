@@ -13,17 +13,31 @@ permissions:
 jobs:
   consolidate:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download all W10 artifacts from source run
-        uses: actions/download-artifact@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: fersandovalgtz/libro-texto-mexicano-digital
-          run-id: 33237844420
-          path: artifacts
+      - name: Download all W10 artifacts from source run with pagination
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          gh api --paginate \
+            -H 'Accept: application/vnd.github+json' \
+            '/repos/fersandovalgtz/libro-texto-mexicano-digital/actions/runs/33237844420/artifacts?per_page=100' \
+            --jq '.artifacts[] | [.id,.name] | @tsv' > artifact-list.tsv
+          test "$(wc -l < artifact-list.tsv)" -eq 137
+          while IFS=$'\t' read -r id name; do
+            mkdir -p "artifacts/$name"
+            gh api \
+              -H 'Accept: application/vnd.github+json' \
+              "/repos/fersandovalgtz/libro-texto-mexicano-digital/actions/artifacts/$id/zip" \
+              > artifact.zip
+            unzip -q artifact.zip -d "artifacts/$name"
+            rm artifact.zip
+          done < artifact-list.tsv
 
       - name: Validate exhaustive artifact inventory
         shell: bash
