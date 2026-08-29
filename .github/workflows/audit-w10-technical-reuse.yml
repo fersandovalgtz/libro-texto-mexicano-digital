@@ -1,0 +1,109 @@
+name: Audit W10 byte-exact technical reuse
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'ftrl/w10-source-discovery'
+    paths:
+      - 'data/research/ltmd_u1_w10_source_probe_evidence.json'
+      - 'data/catalog/ltmd_u1_w10_source_asset_manifest.csv'
+      - 'data/catalog/ltmd_u1_w10_source_admissibility.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ltmd-u1-w10-technical-reuse
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact discovery branch
+        uses: actions/checkout@v4
+        with:
+          ref: ftrl/w10-source-discovery
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile audit and canonical strict validator
+        run: |
+          python -m py_compile \
+            scripts/audit_ltmd_u1_w10_existing_technical_reuse.py \
+            scripts/build_ltmd_u1_w10_completion_report.py
+
+      - name: Revalidate existing W10 technical evidence chain
+        run: python scripts/build_ltmd_u1_w10_completion_report.py
+
+      - name: Compare current official source byte-exactly with prior topology
+        run: python scripts/audit_ltmd_u1_w10_existing_technical_reuse.py
+
+      - name: Enforce scientific state boundaries
+        run: |
+          python - <<'PY'
+          import json
+          p='data/research/ltmd_u1_w10_technical_reuse_audit.json'
+          a=json.load(open(p,encoding='utf-8'))
+          assert a['historical_identities']==69
+          assert a['current_source_probe_identities']==68
+          assert a['current_source_admitted']==68
+          assert a['prior_canonical_processing_objects']==68
+          assert a['final_exception_viewer_keys']==['H2014P1ENA']
+          assert a['aliases_introduced']==0
+          assert a['current_source_identical_to_prior_topology'] is True
+          assert a['existing_strict_technical_completion_validator_passed'] is True
+          assert a['technical_reuse_validated'] is True
+          assert a['computationally_validated'] is True
+          assert a['recompute_ocr_required'] is False
+          assert a['archival_complete'] is False
+          assert a['text_verified'] is False
+          assert a['semantic_ready'] is False
+          print('W10 byte-exact technical reuse gate: PASS')
+          PY
+
+      - name: Upload metadata-only technical reuse evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w10-technical-reuse-audit
+          path: |
+            data/research/ltmd_u1_w10_technical_reuse_audit.json
+            docs/LTMD_U1_W10_TECHNICAL_REUSE_AUDIT.md
+            docs/LTMD_U1_W10_COMPLETION.md
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Commit metadata-only technical reuse audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp data/research/ltmd_u1_w10_technical_reuse_audit.json /tmp/ltmd_u1_w10_technical_reuse_audit.json
+          cp docs/LTMD_U1_W10_TECHNICAL_REUSE_AUDIT.md /tmp/LTMD_U1_W10_TECHNICAL_REUSE_AUDIT.md
+          cp docs/LTMD_U1_W10_COMPLETION.md /tmp/LTMD_U1_W10_COMPLETION.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin ftrl/w10-source-discovery
+            git reset --hard origin/ftrl/w10-source-discovery
+            cp /tmp/ltmd_u1_w10_technical_reuse_audit.json data/research/ltmd_u1_w10_technical_reuse_audit.json
+            cp /tmp/LTMD_U1_W10_TECHNICAL_REUSE_AUDIT.md docs/LTMD_U1_W10_TECHNICAL_REUSE_AUDIT.md
+            cp /tmp/LTMD_U1_W10_COMPLETION.md docs/LTMD_U1_W10_COMPLETION.md
+            git add \
+              data/research/ltmd_u1_w10_technical_reuse_audit.json \
+              docs/LTMD_U1_W10_TECHNICAL_REUSE_AUDIT.md \
+              docs/LTMD_U1_W10_COMPLETION.md
+            if git diff --cached --quiet; then
+              echo 'No W10 technical reuse metadata changed.'
+              exit 0
+            fi
+            git commit -m 'data(w10): publish byte-exact technical reuse audit'
+            if git push origin HEAD:ftrl/w10-source-discovery; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
