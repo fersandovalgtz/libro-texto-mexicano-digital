@@ -1,0 +1,116 @@
+name: Consolidate FTRL W10 Archive
+
+on:
+  push:
+    paths:
+      - '.github/workflows/consolidate-ftrl-w10-archive.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  consolidate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download all W10 artifacts from source run
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: fersandovalgtz/libro-texto-mexicano-digital
+          run-id: 33237844420
+          path: artifacts
+
+      - name: Validate exhaustive artifact inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          root = Path('artifacts')
+          names = sorted(p.name for p in root.iterdir() if p.is_dir())
+          private = [n for n in names if n.endswith('-private-encrypted')]
+          public = [n for n in names if n.endswith('-text-free-evidence') and n != 'ltmd-u1-w10-global-text-free-evidence']
+          global_ev = [n for n in names if n == 'ltmd-u1-w10-global-text-free-evidence']
+          assert len(names) == 137, (len(names), names[:10], names[-10:])
+          assert len(private) == 68, len(private)
+          assert len(public) == 68, len(public)
+          assert len(global_ev) == 1, global_ev
+          pk = {n.removeprefix('ltmd-u1-w10-').removesuffix('-private-encrypted') for n in private}
+          ek = {n.removeprefix('ltmd-u1-w10-').removesuffix('-text-free-evidence') for n in public}
+          assert pk == ek and len(pk) == 68
+          assert 'H2014P1ENA' not in pk
+          print('validated artifact inventory:', len(private), len(public), len(global_ev))
+          PY
+
+      - name: Build encrypted-preservation bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p consolidated/private consolidated/public
+          for d in artifacts/ltmd-u1-w10-*-private-encrypted; do
+            cp -a "$d" consolidated/private/
+          done
+          for d in artifacts/ltmd-u1-w10-*-text-free-evidence; do
+            cp -a "$d" consolidated/public/
+          done
+          cp -a artifacts/ltmd-u1-w10-global-text-free-evidence consolidated/public/
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          def inventory(root):
+              out=[]
+              for p in sorted(Path(root).rglob('*')):
+                  if p.is_file():
+                      b=p.read_bytes()
+                      out.append({'path':str(p.relative_to(root)),'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()})
+              return out
+          priv=inventory('consolidated/private')
+          pub=inventory('consolidated/public')
+          manifest={
+            'schema':'LTMD_FTRL_W10_CONSOLIDATED_PRESERVATION_0.1',
+            'wave':'W10',
+            'source_run_id':'33237844420',
+            'source_commit':'4d0d9a38b650383e51fa44ddbf62510784281dc2',
+            'historical_identities':69,
+            'admitted_processing_objects':68,
+            'retained_identities':['H2014P1ENA'],
+            'private_encrypted_artifact_groups':68,
+            'public_book_evidence_groups':68,
+            'public_global_evidence_groups':1,
+            'private_files':len(priv),
+            'public_files':len(pub),
+            'private_inventory':priv,
+            'public_inventory':pub,
+            'restricted_plaintext_publicly_exposed':False,
+            'status':'validated_for_persistent_preservation'
+          }
+          Path('consolidated/LTMD_W10_PRESERVATION_MANIFEST.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+          tar -C consolidated/private -czf LTMD_U1_W10_PRIVATE_ENCRYPTED_HANDOFFS.tar.gz .
+          tar -C consolidated/public -czf LTMD_U1_W10_PUBLIC_TEXT_FREE_EVIDENCE.tar.gz .
+          sha256sum LTMD_U1_W10_PRIVATE_ENCRYPTED_HANDOFFS.tar.gz LTMD_U1_W10_PUBLIC_TEXT_FREE_EVIDENCE.tar.gz > LTMD_U1_W10_CONSOLIDATED_SHA256.txt
+
+      - name: Upload consolidated private encrypted bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w10-consolidated-private-encrypted
+          path: |
+            LTMD_U1_W10_PRIVATE_ENCRYPTED_HANDOFFS.tar.gz
+            consolidated/LTMD_W10_PRESERVATION_MANIFEST.json
+            LTMD_U1_W10_CONSOLIDATED_SHA256.txt
+          retention-days: 3
+
+      - name: Upload consolidated public evidence bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w10-consolidated-public-evidence
+          path: |
+            LTMD_U1_W10_PUBLIC_TEXT_FREE_EVIDENCE.tar.gz
+            consolidated/LTMD_W10_PRESERVATION_MANIFEST.json
+            LTMD_U1_W10_CONSOLIDATED_SHA256.txt
+          retention-days: 30
