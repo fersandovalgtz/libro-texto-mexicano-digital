@@ -1,15 +1,18 @@
 {
-  "schema": "LTMD_U1_W11_PRESERVATION_REQUEST_0.1",
+  "schema": "LTMD_U1_W11_PRESERVATION_REQUEST_0.2",
   "effective_date": "2026-08-29",
   "wave": "W11",
   "domain": "otros_no_clasificados",
   "source_run_id": 33266902987,
   "source_commit": "e46290d5f06b29d7a48a728037816e9f2cfb1bb5",
+  "global_evidence_artifact_id": 9720213680,
   "expected_canonical_objects": 106,
-  "request_mode": "available_encrypted_snapshot_checkpoint",
-  "allow_partial_snapshot": true,
+  "expected_source_pages": 19862,
+  "request_mode": "final_complete_encrypted_snapshot",
+  "allow_partial_snapshot": false,
+  "computationally_validated": true,
   "archival_complete": false,
   "text_verified": false,
   "semantic_ready": false,
-  "note": "Checkpoint request only. Capture currently available encrypted W11 handoffs and text-free evidence to extend recoverability while the exhaustive source run continues. A partial or complete Actions snapshot is not persistent private archival closure and must not promote W11 wave state or the completion ledger."
+  "note": "Final W11 private preservation request after successful exact global union validation. Require all 106 canonical encrypted handoffs and matching text-free evidence. This request authorizes final consolidation only; archival_complete remains false until the resulting private Drive copy is redownloaded and checksum-verified."
 }
