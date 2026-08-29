@@ -1,6 +1,7 @@
 {
   "schema": "LTMD_U1_W11_CLOSURE_PROMOTION_REQUEST_1.0",
   "effective_date": "2026-08-29",
+  "promotion_attempt": 2,
   "wave": "W11",
   "domain": "otros_no_clasificados",
   "source_run_id": 33266902987,
