@@ -72,13 +72,16 @@ jobs:
           '    retained = [r for r in w10 if r["viewer_key"] in withheld]\n    assert len(retained) == 1\n    assert retained[0]["documentary_disposition"] == "active_retention"\n    assert retained[0]["ftrl_status"] == "blocked_active_retention"\n    assert retained[0]["archival_status"] == "not_started"\n    assert retained[0]["is_canonical_processing_object"] == "0"\n    assert retained[0]["corpus_ready"] == "0" and retained[0]["ocr_available"] == "0"':
           '    exception = [r for r in w10 if r["viewer_key"] in withheld]\n    assert len(exception) == 1\n    assert exception[0]["documentary_disposition"] == "final_exception"\n    assert exception[0]["ftrl_status"] == "final_exception"\n    assert exception[0]["archival_status"] == "not_applicable_final_exception"\n    assert exception[0]["is_canonical_processing_object"] == "0"\n    assert exception[0]["corpus_ready"] == "0" and exception[0]["ocr_available"] == "0"',
           'H2014P1ENA remains retained and excluded; OCR is not human text verification or semantic evidence.':
-          'H2014P1ENA remains a documented final exception and excluded; OCR is not human text verification or semantic evidence.'
+          'H2014P1ENA remains a documented final exception and excluded; OCR is not human text verification or semantic evidence.',
+          '    assert SHA256.fullmatch(f["commit"])':
+          '    assert re.fullmatch(r"^[0-9a-f]{40}$", f["commit"])'
           }
           for old,new in replacements.items():
               assert old in s, f'missing expected promoter block: {old[:80]}'
               s=s.replace(old,new,1)
           assert 'p["source_retention"]' not in s
           assert 'H2014P1ENA remains an active source retention' not in s
+          assert 'SHA256.fullmatch(f["commit"])' not in s
           path.write_text(s,encoding='utf-8')
           PY
 
