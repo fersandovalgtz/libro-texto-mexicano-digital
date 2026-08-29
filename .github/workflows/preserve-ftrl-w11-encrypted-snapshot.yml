@@ -1,0 +1,134 @@
+name: Preserve FTRL W11 Encrypted Snapshot
+
+on:
+  push:
+    branches: [ftrl/w11-otros-no-clasificados]
+    paths:
+      - 'data/research/ltmd_u1_w11_preservation_request.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: preserve-ftrl-w11-encrypted-snapshot-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    name: consolidate-available-w11-encrypted-handoffs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read preservation request
+        id: request
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path('data/research/ltmd_u1_w11_preservation_request.json')
+          data = json.loads(p.read_text(encoding='utf-8'))
+          assert data['wave'] == 'W11'
+          assert data['source_run_id'] == 33266902987
+          assert data['source_commit'] == 'e46290d5f06b29d7a48a728037816e9f2cfb1bb5'
+          assert data['expected_canonical_objects'] == 106
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
+              print(f"source_run_id={data['source_run_id']}", file=fh)
+          PY
+      - name: Download available encrypted handoffs from source run
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: fersandovalgtz/libro-texto-mexicano-digital
+          run-id: ${{ steps.request.outputs.source_run_id }}
+          pattern: ltmd-u1-w11-*-private-encrypted
+          path: local/w11-private
+          merge-multiple: false
+      - name: Download available text-free evidence from source run
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: fersandovalgtz/libro-texto-mexicano-digital
+          run-id: ${{ steps.request.outputs.source_run_id }}
+          pattern: ltmd-u1-w11-*-text-free-evidence
+          path: local/w11-public
+          merge-multiple: false
+      - name: Validate snapshot and write text-free manifest
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+
+          private_root = Path('local/w11-private')
+          public_root = Path('local/w11-public')
+          private_dirs = sorted(p.name for p in private_root.iterdir() if p.is_dir())
+          public_dirs = sorted(p.name for p in public_root.iterdir() if p.is_dir())
+          private_viewers = {n.removeprefix('ltmd-u1-w11-').removesuffix('-private-encrypted') for n in private_dirs}
+          public_viewers = {n.removeprefix('ltmd-u1-w11-').removesuffix('-text-free-evidence') for n in public_dirs}
+          assert private_viewers == public_viewers, (private_viewers ^ public_viewers)
+          assert 1 <= len(private_viewers) <= 106
+
+          for d in private_root.iterdir():
+              if not d.is_dir():
+                  continue
+              files = {p.name for p in d.iterdir() if p.is_file()}
+              assert any(name.endswith('_restricted.tar.gz.enc') for name in files), (d, files)
+              assert any(name.endswith('_passphrase.rsa-oaep.enc') for name in files), (d, files)
+              assert 'SHA256SUMS.txt' in files
+              assert any(name.endswith('_private_handoff_manifest.json') for name in files), (d, files)
+              assert not any(name.endswith('_restricted.tar.gz') for name in files), (d, files)
+
+          manifest = {
+              'schema': 'LTMD_FTRL_W11_ENCRYPTED_SNAPSHOT_0.1',
+              'wave': 'W11',
+              'source_run_id': 33266902987,
+              'source_commit': 'e46290d5f06b29d7a48a728037816e9f2cfb1bb5',
+              'expected_canonical_objects': 106,
+              'captured_canonical_objects': len(private_viewers),
+              'complete_snapshot': len(private_viewers) == 106,
+              'private_public_pairing_exact': True,
+              'plaintext_restricted_outputs_present': False,
+              'viewer_keys': sorted(private_viewers),
+              'archival_complete': False,
+          }
+          out = Path('local/snapshot')
+          out.mkdir(parents=True, exist_ok=True)
+          (out / 'ltmd_u1_w11_encrypted_snapshot_manifest.json').write_text(
+              json.dumps(manifest, indent=2, sort_keys=True) + '\n', encoding='utf-8'
+          )
+          print(json.dumps(manifest, sort_keys=True))
+          PY
+      - name: Build consolidated encrypted snapshot archives
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p local/snapshot
+          (cd local/w11-private && zip -q -r ../snapshot/ltmd-u1-w11-consolidated-private-encrypted.zip .)
+          (cd local/w11-public && zip -q -r ../snapshot/ltmd-u1-w11-public-text-free-evidence.zip .)
+          sha256sum local/snapshot/*.zip > local/snapshot/SHA256SUMS.txt
+      - name: Upload consolidated private encrypted snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w11-consolidated-private-encrypted-snapshot
+          path: local/snapshot/ltmd-u1-w11-consolidated-private-encrypted.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload consolidated public evidence snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w11-consolidated-public-evidence-snapshot
+          path: local/snapshot/ltmd-u1-w11-public-text-free-evidence.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload text-free snapshot manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w11-encrypted-snapshot-manifest
+          path: |
+            local/snapshot/ltmd_u1_w11_encrypted_snapshot_manifest.json
+            local/snapshot/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 30
