@@ -168,6 +168,6 @@ jobs:
             docs/LTMD_U1_MASTER_PLAN_0_3.md
           git diff --cached --check
           git commit -m 'ltmd: close W10 and promote exhaustive ledger to 0.9'
-          BRANCH='automation/ltmd-w10-ledger-v09'
+          BRANCH='ftrl/w10-ledger-v09'
           git push origin HEAD:"${BRANCH}"
           echo "PROMOTION_BRANCH=${BRANCH}" >> "${GITHUB_ENV}"
