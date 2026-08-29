@@ -1,0 +1,82 @@
+name: Promote FTRL W11 Closure
+
+on:
+  push:
+    branches: [ftrl/w11-otros-no-clasificados]
+    paths:
+      - 'data/research/ltmd_u1_w11_closure_promotion_request.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: promote-ftrl-w11-closure-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    name: promote-w11-ledger-wave-and-summary
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ftrl/w11-otros-no-clasificados
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile promotion script
+        run: python -m py_compile scripts/promote_ftrl_w11_closure.py
+      - name: Promote W11 closure deterministically
+        run: python scripts/promote_ftrl_w11_closure.py
+      - name: Validate W11 closure outputs and W2 gate
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          ledger = list(csv.DictReader(Path('data/research/ltmd_u1_ftrl_completion_ledger.csv').open(encoding='utf-8', newline='')))
+          w11 = [r for r in ledger if r['wave'] == 'W11']
+          w2 = [r for r in ledger if r['wave'] == 'W2']
+          assert len(ledger) == 542
+          assert len(w11) == 111 and len(w2) == 64
+          assert sum(r['ftrl_status'] == 'validated' for r in w11) == 107
+          assert sum(r['ftrl_status'] == 'final_exception' for r in w11) == 4
+          assert sum(r['is_canonical_processing_object'] == '1' for r in w11) == 106
+          assert sum(int(r['canonical_source_pages'] or 0) for r in w11 if r['is_canonical_processing_object'] == '1') == 19862
+          assert all(r['ftrl_status'] == 'pending' or r['ftrl_status'] == 'blocked_active_retention' or r['ftrl_status'] == 'final_exception' for r in w2)
+          state = json.loads(Path('data/research/ltmd_u1_ftrl_wave_state.json').read_text(encoding='utf-8'))
+          assert state['waves']['W11']['ftrl_status'] == 'validated'
+          assert state['waves']['W11']['archival_status'] == 'archival_complete'
+          assert state['waves']['W2']['ftrl_status'] == 'pending'
+          assert state['waves']['W2']['archival_status'] == 'not_started'
+          summary = json.loads(Path('data/research/ltmd_u1_ftrl_completion_summary.json').read_text(encoding='utf-8'))
+          assert summary['ftrl_identity_status']['validated'] == 464
+          assert summary['canonical_processing_objects_by_ftrl_status']['validated'] == 435
+          assert summary['canonical_source_pages_by_ftrl_status']['validated'] == 74604
+          assert summary['strict_identity_progress']['terminal_identities'] == 469
+          assert summary['strict_identity_progress']['remaining_identities'] == 73
+          closure = json.loads(Path('data/research/ltmd_u1_w11_archival_closure.json').read_text(encoding='utf-8'))
+          assert closure['archival_complete'] is True
+          assert closure['text_verified'] is False
+          assert closure['semantic_ready'] is False
+          print('W11 promotion validation passed; W2 remains blocked pending merge.')
+          PY
+      - name: Commit canonical W11 closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/research/ltmd_u1_ftrl_completion_ledger.csv \
+                  data/research/ltmd_u1_ftrl_completion_summary.json \
+                  data/research/ltmd_u1_ftrl_wave_state.json \
+                  data/research/ltmd_u1_w11_archival_closure.json
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo 'No closure changes to commit.'
+            exit 0
+          fi
+          git commit -m 'ftrl(w11): close computational and archival wave'
+          git push origin HEAD:ftrl/w11-otros-no-clasificados
