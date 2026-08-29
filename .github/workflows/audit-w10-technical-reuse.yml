@@ -9,6 +9,7 @@ on:
       - 'data/research/ltmd_u1_w10_source_probe_evidence.json'
       - 'data/catalog/ltmd_u1_w10_source_asset_manifest.csv'
       - 'data/catalog/ltmd_u1_w10_source_admissibility.csv'
+      - '.github/workflows/audit-w10-technical-reuse.yml'
 
 permissions:
   contents: write
