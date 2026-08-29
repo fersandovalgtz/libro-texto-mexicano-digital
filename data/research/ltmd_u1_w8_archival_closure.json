@@ -1,0 +1,60 @@
+{
+  "archival_complete": true,
+  "domain": "Artes",
+  "effective_date": "2026-08-28",
+  "ftrl": {
+    "canonical_processing_objects": 16,
+    "commit": "cae2bed8ff79b45675ae194a855abfed9b86aca4",
+    "distributed_books": 16,
+    "fts_rows": 1490,
+    "global_exact_union": true,
+    "historical_identities": 20,
+    "page_partition_complete": true,
+    "page_partition_unique": true,
+    "page_records": 1490,
+    "run_id": "33220988830",
+    "sqlite_integrity": "ok",
+    "status": "validated",
+    "withheld_source_identities": 4
+  },
+  "interpretive_limit": "Computational and archival closure of the 16 source-admitted canonical objects only; four source-retained identities remain excluded. OCR availability does not imply text verification or semantic readiness.",
+  "persistent_archive": {
+    "archive_closure_record_preserved": true,
+    "consolidated_archive_bytes": 3090776,
+    "consolidated_archive_sha256": "92a7dd0f8eb38c28c582954d947ac8c695020ef21118b13566e2702d51b937d4",
+    "destination_shared": false,
+    "encrypted_handoffs_preserved": true,
+    "encrypted_handoffs_unique": 16,
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/W8 — Artes/run_33220988830__cae2bed__2026-08-28/02_CONSOLIDATED_PRIVATE",
+    "private_consolidation_validated": true,
+    "provider": "google_drive",
+    "redownload_checksum_verification_complete": true,
+    "restricted_plaintext_publicly_exposed": false,
+    "text_free_evidence_preserved": true,
+    "text_free_evidence_unique": 17
+  },
+  "qc": {
+    "page_records": 1490,
+    "pages_flagged_for_technical_review": 317,
+    "pages_unflagged": 1173,
+    "zero_search_text_pages": 203
+  },
+  "schema": "LTMD_FTRL_ARCHIVAL_CLOSURE_0.8",
+  "security": {
+    "plaintext_restricted_outputs_published": false,
+    "private_key_stored_outside_public_repository": true
+  },
+  "semantic_ready": false,
+  "source_retention": {
+    "aliases_introduced": 0,
+    "count": 4,
+    "viewer_keys": [
+      "H2018P3EAA",
+      "H2018P4EAA",
+      "H2018P5EAA",
+      "H2018P6EAA"
+    ]
+  },
+  "text_verified": false,
+  "wave": "W8"
+}
