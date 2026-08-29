@@ -169,6 +169,7 @@ path,artifact_class,sha256,byte_size
 .github/workflows/ltmd-u1-w8-processing-topology-publish.yml,automation,f70a25a0fb8ac0d56235f1e5afd58e7756790ed980f27d93ee3a50e0b9fc8b06,2439
 .github/workflows/ltmd-u1-w8-processing-topology.yml,automation,4d4879563534ea7df9ab07948f7c898f8f6d130359ff7816ac1b0952766b546b,2807
 .github/workflows/preflight-ltmd-u1-w10-fragseg.yml,automation,fa28b8fb04d9b762d72322d8a678ed16c739827fe7d60471d24f4e7782c0b2c9,1653
+.github/workflows/preserve-ltmd-u1-w10-encrypted-handoffs.yml,automation,9b6b0152a6c48b2e71b4c71625efdbee906c7f29e8006e770f7940fb1662ddb5,11298
 .github/workflows/prioritize-ltmd-u1-w10.yml,automation,e4f197004cb98309d0786d0b266e2e3f95dc739d7655a1384a078d0c4c1c2b6f,3839
 .github/workflows/probe-ltmd-u1-conaliteg-output-config.yml,automation,3f5628fc98973d1cc32463717ae0c691d45995ab648528390f2f6e8187647a99,1679
 .github/workflows/probe-ltmd-u1-w1-viewers.yml,automation,8b0339c4a7cf8fe26b4b9e735061b090aa3d3849ec96b294dfe4bb6febc7f11f,1548
