@@ -6,8 +6,8 @@ Este control produce un inventario determinista y direccionado por contenido de 
 
 ## Alcance
 
-- Artefactos públicos verificados: **977**.
-- Bytes públicos cubiertos: **397035935**.
+- Artefactos públicos verificados: **979**.
+- Bytes públicos cubiertos: **397055438**.
 - Algoritmo: **SHA-256**.
 - Activos fuente originales descargados o persistidos por este control: **0**.
 - OCR completo persistido por este control: **0**.
@@ -19,10 +19,10 @@ Este control produce un inventario determinista y direccionado por contenido de 
 |---|---:|
 | `automation` | 208 |
 | `derived_data` | 410 |
-| `evidence_report` | 89 |
+| `evidence_report` | 90 |
 | `landing_page` | 2 |
 | `scholarly_metadata` | 2 |
-| `scientific_code` | 266 |
+| `scientific_code` | 267 |
 
 ## Regla de interpretación
 
