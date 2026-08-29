@@ -1,0 +1,120 @@
+name: Promote FTRL W11 Closure
+
+on:
+  push:
+    branches: [ftrl/w11-otros-no-clasificados]
+    paths:
+      - 'data/research/ltmd_u1_w11_closure_promotion_request.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: promote-ftrl-w11-closure-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    name: promote-w11-ledger-wave-and-summary
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ftrl/w11-otros-no-clasificados
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile promotion script
+        run: python -m py_compile scripts/promote_ftrl_w11_closure.py
+      - name: Promote W11 closure deterministically
+        run: python scripts/promote_ftrl_w11_closure.py
+      - name: Validate W11 closure outputs and W2 gate
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          ledger = list(csv.DictReader(Path('data/research/ltmd_u1_ftrl_completion_ledger.csv').open(encoding='utf-8', newline='')))
+          w11 = [r for r in ledger if r['wave'] == 'W11']
+          w2 = [r for r in ledger if r['wave'] == 'W2']
+          assert len(ledger) == 542
+          assert len(w11) == 111 and len(w2) == 64
+          assert sum(r['ftrl_status'] == 'validated' for r in w11) == 107
+          assert sum(r['ftrl_status'] == 'final_exception' for r in w11) == 4
+          assert sum(r['is_canonical_processing_object'] == '1' for r in w11) == 106
+          assert sum(int(r['canonical_source_pages'] or 0) for r in w11 if r['is_canonical_processing_object'] == '1') == 19862
+          assert sum(r['ftrl_status'] == 'pending' for r in w2) == 60
+          assert sum(r['ftrl_status'] == 'blocked_active_retention' for r in w2) == 4
+          state = json.loads(Path('data/research/ltmd_u1_ftrl_wave_state.json').read_text(encoding='utf-8'))
+          assert state['waves']['W11']['ftrl_status'] == 'validated'
+          assert state['waves']['W11']['archival_status'] == 'archival_complete'
+          assert state['waves']['W2']['ftrl_status'] == 'pending'
+          assert state['waves']['W2']['archival_status'] == 'not_started'
+          summary = json.loads(Path('data/research/ltmd_u1_ftrl_completion_summary.json').read_text(encoding='utf-8'))
+          assert summary['ftrl_identity_status']['validated'] == 464
+          assert summary['canonical_processing_objects_by_ftrl_status']['validated'] == 435
+          assert summary['canonical_source_pages_by_ftrl_status']['validated'] == 74604
+          assert summary['strict_identity_progress']['terminal_identities'] == 469
+          assert summary['strict_identity_progress']['remaining_identities'] == 73
+          closure = json.loads(Path('data/research/ltmd_u1_w11_archival_closure.json').read_text(encoding='utf-8'))
+          assert closure['archival_complete'] is True
+          assert closure['text_verified'] is False
+          assert closure['semantic_ready'] is False
+          print('W11 promotion validation passed; W2 remains blocked pending merge.')
+          PY
+      - name: Upload validated canonical W11 closure
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w11-canonical-closure-promotion
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            data/research/ltmd_u1_ftrl_completion_ledger.csv
+            data/research/ltmd_u1_ftrl_completion_summary.json
+            data/research/ltmd_u1_ftrl_wave_state.json
+            data/research/ltmd_u1_w11_archival_closure.json
+      - name: Publish validated closure to staging branch
+        uses: actions/github-script@v7
+        env:
+          SOURCE_BRANCH: ftrl/w11-otros-no-clasificados
+          TARGET_BRANCH: ftrl/w11-canonical-promotion-attempt3
+        with:
+          script: |
+            const fs = require('fs');
+            const { owner, repo } = context.repo;
+            const sourceBranch = process.env.SOURCE_BRANCH;
+            const targetBranch = process.env.TARGET_BRANCH;
+            const sourceRef = await github.rest.git.getRef({ owner, repo, ref: `heads/${sourceBranch}` });
+            const parentSha = sourceRef.data.object.sha;
+            const parentCommit = await github.rest.git.getCommit({ owner, repo, commit_sha: parentSha });
+            const baseTreeSha = parentCommit.data.tree.sha;
+            const paths = [
+              'data/research/ltmd_u1_ftrl_completion_ledger.csv',
+              'data/research/ltmd_u1_ftrl_completion_summary.json',
+              'data/research/ltmd_u1_ftrl_wave_state.json',
+              'data/research/ltmd_u1_w11_archival_closure.json',
+            ];
+            const tree = [];
+            for (const path of paths) {
+              const content = fs.readFileSync(path).toString('base64');
+              const blob = await github.rest.git.createBlob({ owner, repo, content, encoding: 'base64' });
+              tree.push({ path, mode: '100644', type: 'blob', sha: blob.data.sha });
+            }
+            const newTree = await github.rest.git.createTree({ owner, repo, base_tree: baseTreeSha, tree });
+            const commit = await github.rest.git.createCommit({
+              owner,
+              repo,
+              message: 'ftrl(w11): close computational and archival wave',
+              tree: newTree.data.sha,
+              parents: [parentSha],
+            });
+            try {
+              await github.rest.git.getRef({ owner, repo, ref: `heads/${targetBranch}` });
+              await github.rest.git.updateRef({ owner, repo, ref: `heads/${targetBranch}`, sha: commit.data.sha, force: true });
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              await github.rest.git.createRef({ owner, repo, ref: `refs/heads/${targetBranch}`, sha: commit.data.sha });
+            }
+            core.notice(`Canonical W11 closure staged at ${targetBranch}@${commit.data.sha}`);

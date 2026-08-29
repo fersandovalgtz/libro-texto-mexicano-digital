@@ -1,0 +1,46 @@
+{
+  "schema": "LTMD_U1_W11_PRESERVATION_CHECKPOINT_0.1",
+  "effective_date": "2026-08-29",
+  "wave": "W11",
+  "domain": "otros_no_clasificados",
+  "source_run_id": 33266902987,
+  "source_commit": "e46290d5f06b29d7a48a728037816e9f2cfb1bb5",
+  "snapshot_run_id": 33270708985,
+  "expected_canonical_objects": 106,
+  "captured_canonical_objects": 50,
+  "complete_snapshot": false,
+  "private_public_pairing_exact": true,
+  "plaintext_restricted_outputs_present": false,
+  "drive": {
+    "wave_folder_id": "1Mgmx3QqKd__K-JS5uvrfjA6kbe7oRRb6",
+    "wave_folder_name": "W11 — Otros y No clasificados",
+    "run_folder_id": "1T7FYhoMDRmrWg0Vy3iVK_lXkd8AqVTyG",
+    "run_folder_name": "run_33266902987__e46290d__2026-08-29",
+    "consolidated_private_folder_id": "1uX8-5Jlj1bKY9pQHvGvpqFkLdJ5vXK5i",
+    "private_snapshot": {
+      "file_id": "1Q1wnXfdfyyj7EX4dzqAy3uhbNUehquSG",
+      "file_name": "ltmd-u1-w11-consolidated-private-encrypted-snapshot__50-of-106.zip",
+      "size_bytes": 22841581,
+      "sha256_transport_zip": "cb47dd8c7dd35f95b80f89828a864e79a2df15b52e3113697580a5abcc4e05bf",
+      "sha256_inner_snapshot_zip": "8143e729f6031c20843bb2fd837858ec6c1efc0701b947be2a9d92e384f3bc57",
+      "drive_readback_sha256_verified": true
+    },
+    "manifest_bundle": {
+      "file_id": "10C2v0L37ssBRzFO29L17ggtc14P7bdXY",
+      "file_name": "ltmd-u1-w11-encrypted-snapshot-manifest__50-of-106.zip",
+      "size_bytes": 977,
+      "sha256": "acd4a1c9eecc1b9dbc0a38ba7dadeecd6c2c3095b7a58ab35c061615d37019f7",
+      "drive_readback_sha256_verified": true
+    }
+  },
+  "archival_status": "in_progress",
+  "archival_complete": false,
+  "computationally_validated": false,
+  "text_verified": false,
+  "semantic_ready": false,
+  "notes": [
+    "This is a durable private checkpoint of the first 50 canonical W11 objects captured while the exhaustive 106-object source run continues.",
+    "The Drive copies were redownloaded and their SHA-256 transport digests matched the GitHub Actions artifact downloads exactly.",
+    "The checkpoint must not promote W11 in the wave state or completion ledger. A final exact 106-object computational union and persistent private archival closure remain required before W11 can close and W2 can advance."
+  ]
+}
