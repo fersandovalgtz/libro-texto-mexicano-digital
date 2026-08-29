@@ -138,7 +138,11 @@ def main() -> None:
     assert len(w11_canonical) == 106
     assert sum(int(r["canonical_source_pages"] or 0) for r in w11_canonical) == 19862
     assert all(r["persistent_unresolved_source_gaps"] == "0" for r in w11_canonical)
-    assert sum(r["relation_type"] == "exact_source_alias" for r in w11) == 1
+    aliases = [r for r in w11 if r["relation_type"] == "exact_byte_alias"]
+    assert len(aliases) == 1
+    assert aliases[0]["viewer_key"] == "H2008P4CI270"
+    assert aliases[0]["canonical_processing_viewer_key"] == "H1993P4CI192"
+    assert aliases[0]["is_canonical_processing_object"] == "0"
 
     w11_state = state["waves"]["W11"]
     assert w11_state["ftrl_status"] == "validated"
