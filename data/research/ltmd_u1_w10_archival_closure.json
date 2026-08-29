@@ -1,0 +1,66 @@
+{
+  "schema": "LTMD_FTRL_ARCHIVAL_CLOSURE_0.9",
+  "wave": "W10",
+  "domain": "Integrados/Multiarea",
+  "effective_date": "2026-08-29",
+  "archival_complete": true,
+  "ftrl": {
+    "historical_identities": 69,
+    "canonical_processing_objects": 68,
+    "withheld_source_identities": 1,
+    "distributed_books": 68,
+    "page_records": 11937,
+    "fts_rows": 11937,
+    "run_id": "33237844420",
+    "commit": "4d0d9a38b650383e51fa44ddbf62510784281dc2",
+    "status": "validated",
+    "global_exact_union": true,
+    "page_partition_complete": true,
+    "page_partition_unique": true,
+    "sqlite_integrity": "ok"
+  },
+  "persistent_archive": {
+    "destination_shared": false,
+    "encrypted_handoffs_preserved": true,
+    "encrypted_handoffs_unique": 68,
+    "private_consolidation_validated": true,
+    "archive_closure_record_preserved": true,
+    "redownload_checksum_verification_complete": true,
+    "restricted_plaintext_publicly_exposed": false,
+    "text_free_evidence_preserved": true,
+    "text_free_evidence_unique": 69,
+    "consolidated_archive_bytes": 23028587,
+    "consolidated_archive_sha256": "6c3d31951f14207be656d34bd3fcecba85e8d6024f1563a1e9dcc3734da2edde",
+    "logical_destination": "LTMD-U1 — corpus FTRL privado/W10 — Integrados y Multiarea/run_33237844420__4d0d9a3__2026-08-29/02_CONSOLIDATED_PRIVATE"
+  },
+  "preservation_verification": {
+    "private_wrapper_bytes": 23068560,
+    "private_wrapper_sha256": "2b66dc8a5aea8f9fcb17a8cf057da80cfb09dca5d5cd6347df39c0001a45537f",
+    "public_wrapper_bytes": 1360211,
+    "public_wrapper_sha256": "f119729f7219425514ff2ebd23db4e0afc38edbbde6ec800ab5c53b7d9c676f9",
+    "public_consolidated_archive_bytes": 1328013,
+    "public_consolidated_archive_sha256": "af86f93e6ecb4a2412ce891da857ecb7553f919ec695cfbb48ce61efe498ba30",
+    "drive_copies_not_shared": true,
+    "private_wrapper_redownload_sha256_match": true,
+    "public_wrapper_redownload_sha256_match": true
+  },
+  "qc": {
+    "page_records": 11937,
+    "pages_flagged_for_technical_review": 2219,
+    "pages_unflagged": 9718,
+    "zero_search_text_pages": 476
+  },
+  "security": {
+    "plaintext_restricted_outputs_published": false,
+    "private_key_stored_outside_public_repository": true
+  },
+  "text_verified": false,
+  "semantic_ready": false,
+  "source_exception": {
+    "count": 1,
+    "viewer_keys": [
+      "H2014P1ENA"
+    ],
+    "aliases_introduced": 0
+  }
+}
