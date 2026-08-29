@@ -1,0 +1,243 @@
+name: Preserve LTMD U1 W10 encrypted handoffs
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/preserve-ltmd-u1-w10-encrypted-handoffs.yml'
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: preserve-ltmd-u1-w10-encrypted-handoffs
+  cancel-in-progress: false
+
+env:
+  SOURCE_RUN_ID: '33237844420'
+  SOURCE_COMMIT: '4d0d9a38b650383e51fa44ddbf62510784281dc2'
+  EXPECTED_BOOKS: '68'
+  EXPECTED_PAGES: '11937'
+  WITHHELD_VIEWER: 'H2014P1ENA'
+
+jobs:
+  consolidate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download all encrypted W10 handoffs from validated source run
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          pattern: ltmd-u1-w10-*-private-encrypted
+          path: local/w10-private-handoffs
+          merge-multiple: false
+
+      - name: Download all W10 text-free evidence from validated source run
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          pattern: ltmd-u1-w10-*-text-free-evidence
+          path: local/w10-text-free-evidence
+          merge-multiple: false
+
+      - name: Validate exact private handoff set and write manifest
+        env:
+          GH_REPOSITORY: ${{ github.repository }}
+        run: |
+          python - <<'PY'
+          import csv, hashlib, json, os
+          from pathlib import Path
+
+          root = Path('local/w10-private-handoffs')
+          gate_path = Path('data/catalog/ltmd_u1_w10_source_admissibility.csv')
+          with gate_path.open(encoding='utf-8', newline='') as fh:
+              gate = list(csv.DictReader(fh))
+          admitted = {r['viewer_key'] for r in gate if r['ocr_source_admitted'] == '1'}
+          withheld = {r['viewer_key'] for r in gate if r['ocr_source_admitted'] == '0'}
+          assert len(gate) == 69
+          assert len(admitted) == int(os.environ['EXPECTED_BOOKS']) == 68
+          assert withheld == {os.environ['WITHHELD_VIEWER']}
+
+          dirs = sorted(p for p in root.iterdir() if p.is_dir())
+          assert len(dirs) == 68, len(dirs)
+          records = []
+          viewers = set()
+          page_total = 0
+          for d in dirs:
+              prefix = 'ltmd-u1-w10-'
+              suffix = '-private-encrypted'
+              assert d.name.startswith(prefix) and d.name.endswith(suffix), d.name
+              viewer = d.name[len(prefix):-len(suffix)]
+              assert viewer in admitted, viewer
+              assert viewer not in viewers, viewer
+              viewers.add(viewer)
+              manifest_path = d / f'w10_{viewer}_private_handoff_manifest.json'
+              payload = d / f'w10_{viewer}_restricted.tar.gz.enc'
+              wrapped = d / f'w10_{viewer}_passphrase.rsa-oaep.enc'
+              sums = d / 'SHA256SUMS.txt'
+              assert manifest_path.is_file() and payload.is_file() and wrapped.is_file() and sums.is_file(), viewer
+              assert not (d / f'w10_{viewer}_restricted.tar.gz').exists(), viewer
+              m = json.loads(manifest_path.read_text(encoding='utf-8'))
+              assert m['schema'] == 'LTMD_PRIVATE_FTRL_W10_BOOK_HANDOFF_0.1'
+              assert m['wave'] == 'W10' and m['viewer_key'] == viewer
+              assert str(m['workflow_run_id']) == os.environ['SOURCE_RUN_ID']
+              assert m['source_commit'] == os.environ['SOURCE_COMMIT']
+              assert m['plaintext_restricted_outputs_uploaded'] is False
+              assert m['archival_complete'] is False
+              page_total += int(m['page_records'])
+              files = []
+              for p in sorted(d.iterdir()):
+                  if not p.is_file():
+                      continue
+                  h = hashlib.sha256(p.read_bytes()).hexdigest()
+                  files.append({'name': p.name, 'bytes': p.stat().st_size, 'sha256': h})
+              records.append({'viewer_key': viewer, 'page_records': int(m['page_records']), 'files': files})
+          assert viewers == admitted
+          assert page_total == int(os.environ['EXPECTED_PAGES']) == 11937, page_total
+          out = {
+              'schema': 'LTMD_FTRL_W10_PRIVATE_CONSOLIDATION_MANIFEST_0.1',
+              'wave': 'W10',
+              'source_run_id': os.environ['SOURCE_RUN_ID'],
+              'source_commit': os.environ['SOURCE_COMMIT'],
+              'historical_identities': 69,
+              'encrypted_handoffs': 68,
+              'encrypted_handoffs_unique': len(viewers),
+              'page_records': page_total,
+              'withheld_source_identities': sorted(withheld),
+              'plaintext_restricted_outputs_in_consolidation': False,
+              'archival_complete': False,
+              'books': records,
+          }
+          Path('local/w10_private_consolidation_manifest.json').write_text(json.dumps(out, indent=2, sort_keys=True)+'\n', encoding='utf-8')
+          print(f'validated private handoffs: {len(viewers)}; pages: {page_total}')
+          PY
+
+      - name: Validate text-free evidence count and global exact union
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path('local/w10-text-free-evidence')
+          dirs = sorted(p for p in root.iterdir() if p.is_dir())
+          assert len(dirs) == 69, len(dirs)
+          global_dirs = [p for p in dirs if p.name == 'ltmd-u1-w10-global-text-free-evidence']
+          assert len(global_dirs) == 1
+          global_files = list(global_dirs[0].glob('*.json'))
+          assert len(global_files) == 1, global_files
+          g = json.loads(global_files[0].read_text(encoding='utf-8'))
+          assert g['schema'] == 'LTMD_FTRL_W10_GLOBAL_EVIDENCE_0.1'
+          assert g['wave'] == 'W10' and g['status'] == 'validated'
+          assert g['historical_identities'] == 69
+          assert g['canonical_processing_objects'] == 68
+          assert g['withheld_source_identities'] == 1
+          assert g['source_pages'] == int(os.environ['EXPECTED_PAGES']) == 11937
+          assert g['unique_page_key_hashes'] == 11937
+          assert g['sqlite_page_rows'] == 11937 and g['fts_rows'] == 11937 and g['qc_page_records'] == 11937
+          assert g['source_gaps_in_admitted_canonical_objects'] == 0
+          assert g['aliases_for_withheld_identities'] == 0
+          assert g['archival_complete'] is False
+          assert g['text_verified'] is False and g['semantic_ready'] is False
+          forbidden = {'ocr_text_raw','search_text','snippet','text','normalized_text'}
+          def walk(x):
+              if isinstance(x, dict):
+                  assert not (forbidden & set(x)), forbidden & set(x)
+                  for v in x.values(): walk(v)
+              elif isinstance(x, list):
+                  for v in x: walk(v)
+          walk(g)
+          Path('local/ltmd_u1_w10_global_evidence.json').write_text(json.dumps(g, indent=2, sort_keys=True)+'\n', encoding='utf-8')
+          print('validated 68 per-book evidence artifacts + 1 global exact-union artifact')
+          PY
+
+      - name: Build deterministic consolidated archives and checksums
+        run: |
+          set -euo pipefail
+          mkdir -p local/consolidated/private local/consolidated/public
+          cp local/w10_private_consolidation_manifest.json local/consolidated/private/
+          cp local/ltmd_u1_w10_global_evidence.json local/consolidated/public/
+          (
+            cd local/w10-private-handoffs
+            find . -type f -print0 | sort -z | xargs -0 sha256sum > ../consolidated/private/PRIVATE_FILE_SHA256SUMS.txt
+          )
+          (
+            cd local/w10-text-free-evidence
+            find . -type f -print0 | sort -z | xargs -0 sha256sum > ../consolidated/public/PUBLIC_FILE_SHA256SUMS.txt
+          )
+          tar --sort=name --mtime='UTC 2026-08-29' --owner=0 --group=0 --numeric-owner \
+            -C local -czf local/consolidated/private/LTMD_W10_68_ENCRYPTED_HANDOFFS.tar.gz \
+            w10-private-handoffs
+          tar --sort=name --mtime='UTC 2026-08-29' --owner=0 --group=0 --numeric-owner \
+            -C local -czf local/consolidated/public/LTMD_W10_69_TEXT_FREE_EVIDENCE_ARTIFACTS.tar.gz \
+            w10-text-free-evidence
+          sha256sum local/consolidated/private/LTMD_W10_68_ENCRYPTED_HANDOFFS.tar.gz > local/consolidated/private/CONSOLIDATED_SHA256.txt
+          sha256sum local/consolidated/public/LTMD_W10_69_TEXT_FREE_EVIDENCE_ARTIFACTS.tar.gz > local/consolidated/public/CONSOLIDATED_SHA256.txt
+
+      - name: Write archival consolidation report
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          priv = Path('local/consolidated/private/LTMD_W10_68_ENCRYPTED_HANDOFFS.tar.gz')
+          pub = Path('local/consolidated/public/LTMD_W10_69_TEXT_FREE_EVIDENCE_ARTIFACTS.tar.gz')
+          def desc(p):
+              h=hashlib.sha256()
+              with p.open('rb') as f:
+                  for c in iter(lambda:f.read(1024*1024), b''): h.update(c)
+              return {'name':p.name,'bytes':p.stat().st_size,'sha256':h.hexdigest()}
+          report = {
+              'schema':'LTMD_FTRL_W10_ARCHIVAL_CONSOLIDATION_0.1',
+              'wave':'W10',
+              'source_run_id':os.environ['SOURCE_RUN_ID'],
+              'source_commit':os.environ['SOURCE_COMMIT'],
+              'historical_identities':69,
+              'canonical_processing_objects':68,
+              'withheld_source_identities':['H2014P1ENA'],
+              'page_records':11937,
+              'encrypted_handoffs':68,
+              'text_free_evidence_artifacts':69,
+              'private_bundle':desc(priv),
+              'public_bundle':desc(pub),
+              'plaintext_restricted_outputs_published':False,
+              'private_key_stored_outside_public_repository':True,
+              'drive_preservation_verified':False,
+              'redownload_checksum_verification_complete':False,
+              'archival_complete':False,
+          }
+          Path('local/ltmd_u1_w10_archival_consolidation_report.json').write_text(json.dumps(report, indent=2, sort_keys=True)+'\n', encoding='utf-8')
+          PY
+
+      - name: Upload consolidated private encrypted archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w10-consolidated-private-encrypted
+          path: local/consolidated/private/
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Upload consolidated text-free evidence archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w10-consolidated-text-free-evidence
+          path: local/consolidated/public/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload archival consolidation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w10-archival-consolidation-report
+          path: local/ltmd_u1_w10_archival_consolidation_report.json
+          if-no-files-found: error
+          retention-days: 30
