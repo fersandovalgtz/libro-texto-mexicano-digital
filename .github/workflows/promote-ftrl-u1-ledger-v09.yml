@@ -154,7 +154,7 @@ jobs:
           print(json.dumps({'status':'validated','ledger':'0.9','validated':357,'pending':167,'w10_validated':68,'w10_final_exception':'H2014P1ENA','next':['W11','W2']},sort_keys=True))
           PY
 
-      - name: Commit promoted W10 closure state
+      - name: Commit promoted W10 closure state to protected branch
         run: |
           set -euo pipefail
           git config user.name 'Fernando Sandoval'
@@ -168,4 +168,6 @@ jobs:
             docs/LTMD_U1_MASTER_PLAN_0_3.md
           git diff --cached --check
           git commit -m 'ltmd: close W10 and promote exhaustive ledger to 0.9'
-          git push origin HEAD:main
+          BRANCH='automation/ltmd-w10-ledger-v09'
+          git push origin HEAD:"${BRANCH}"
+          echo "PROMOTION_BRANCH=${BRANCH}" >> "${GITHUB_ENV}"
