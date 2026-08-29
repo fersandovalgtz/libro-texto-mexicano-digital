@@ -1,0 +1,168 @@
+name: Promote LTMD U1 FTRL ledger 0.9 after W10 closure
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/promote-ftrl-u1-ledger-v09.yml'
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: promote-ftrl-u1-ledger-v09
+  cancel-in-progress: false
+
+env:
+  CONSOLIDATION_RUN_ID: '33250771176'
+  W10_RUN_ID: '33237844420'
+  W10_COMMIT: '4d0d9a38b650383e51fa44ddbf62510784281dc2'
+  EFFECTIVE_DATE: '2026-08-29'
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download consolidated public W10 evidence
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.CONSOLIDATION_RUN_ID }}
+          name: ltmd-u1-w10-consolidated-text-free-evidence
+          path: local/w10-public
+
+      - name: Publish canonical global text-free evidence
+        run: |
+          set -euo pipefail
+          test -f local/w10-public/ltmd_u1_w10_global_evidence.json
+          cp local/w10-public/ltmd_u1_w10_global_evidence.json data/research/ltmd_u1_w10_global_evidence.json
+          python - <<'PY'
+          import json
+          p=json.load(open('data/research/ltmd_u1_w10_global_evidence.json',encoding='utf-8'))
+          assert p['schema']=='LTMD_FTRL_W10_GLOBAL_EVIDENCE_0.1'
+          assert p['status']=='validated' and p['wave']=='W10'
+          assert p['historical_identities']==69 and p['canonical_processing_objects']==68
+          assert p['withheld_viewer_keys']==['H2014P1ENA']
+          assert p['source_pages']==11937 and p['fts_rows']==11937 and p['qc_page_records']==11937
+          assert p['archival_complete'] is False and p['text_verified'] is False and p['semantic_ready'] is False
+          PY
+
+      - name: Repair W10 final-exception contract in ledger promoter
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path=Path('scripts/build_ltmd_u1_ftrl_completion_ledger_v9.py')
+          s=path.read_text(encoding='utf-8')
+          replacements={
+          'identities. H2014P1ENA remains an active source retention and is never aliased,\nimputed, or counted as corpus-ready.':
+          'identities. H2014P1ENA remains a documented final source exception and is never\naliased, imputed, or counted as corpus-ready.',
+          '    sr = p["source_retention"]\n    assert sr["count"] == 1\n    assert set(sr["viewer_keys"]) == WITHHELD\n    assert sr["aliases_introduced"] == 0':
+          '    se = p["source_exception"]\n    assert se["count"] == 1\n    assert set(se["viewer_keys"]) == WITHHELD\n    assert se["aliases_introduced"] == 0',
+          '    retained = [r for r in w10 if r["viewer_key"] in withheld]\n    assert len(retained) == 1\n    assert retained[0]["documentary_disposition"] == "active_retention"\n    assert retained[0]["ftrl_status"] == "blocked_active_retention"\n    assert retained[0]["archival_status"] == "not_started"\n    assert retained[0]["is_canonical_processing_object"] == "0"\n    assert retained[0]["corpus_ready"] == "0" and retained[0]["ocr_available"] == "0"':
+          '    exception = [r for r in w10 if r["viewer_key"] in withheld]\n    assert len(exception) == 1\n    assert exception[0]["documentary_disposition"] == "final_exception"\n    assert exception[0]["ftrl_status"] == "final_exception"\n    assert exception[0]["archival_status"] == "not_applicable_final_exception"\n    assert exception[0]["is_canonical_processing_object"] == "0"\n    assert exception[0]["corpus_ready"] == "0" and exception[0]["ocr_available"] == "0"',
+          'H2014P1ENA remains retained and excluded; OCR is not human text verification or semantic evidence.':
+          'H2014P1ENA remains a documented final exception and excluded; OCR is not human text verification or semantic evidence.'
+          }
+          for old,new in replacements.items():
+              assert old in s, f'missing expected promoter block: {old[:80]}'
+              s=s.replace(old,new,1)
+          assert 'p["source_retention"]' not in s
+          assert 'H2014P1ENA remains an active source retention' not in s
+          path.write_text(s,encoding='utf-8')
+          PY
+
+      - name: Validate closure and promote canonical ledger
+        run: |
+          python -m py_compile scripts/build_ltmd_u1_ftrl_completion_ledger_v9.py
+          python scripts/build_ltmd_u1_ftrl_completion_ledger_v9.py
+
+      - name: Synchronize W10 wave state
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p=Path('data/research/ltmd_u1_ftrl_wave_state.json')
+          state=json.loads(p.read_text(encoding='utf-8'))
+          closure=json.load(open('data/research/ltmd_u1_w10_archival_closure.json',encoding='utf-8'))
+          state['effective_date']=os.environ['EFFECTIVE_DATE']
+          state['waves']['W10']={
+              'domain':'integrados_multiarea',
+              'ftrl_status':'validated',
+              'ftrl_run_id':str(closure['ftrl']['run_id']),
+              'ftrl_commit':closure['ftrl']['commit'],
+              'archival_status':'archival_complete',
+              'preservation_run_id':f"private_consolidation_{closure['effective_date']}",
+              'archive_destination_logical':closure['persistent_archive']['logical_destination'],
+              'archival_closure_evidence':'data/research/ltmd_u1_w10_archival_closure.json'
+          }
+          assert state['waves']['W11']['ftrl_status']=='pending'
+          assert state['waves']['W2']['ftrl_status']=='pending'
+          p.write_text(json.dumps(state,indent=2,ensure_ascii=False,sort_keys=False)+'\n',encoding='utf-8')
+          PY
+
+      - name: Synchronize master-plan FTRL note
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('docs/LTMD_U1_MASTER_PLAN_0_3.md')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('Fecha de actualización: **2026-08-23**','Fecha de actualización: **2026-08-29**',1)
+          marker='La taxonomía por ola es logística y operacional. No constituye una ontología curricular ni autoriza inferencias históricas por sí sola.\n'
+          note='\n**Cierre FTRL archivístico W10 (29-ago-2026).** Los 68 objetos fuente-admitidos de Integrados / Multiarea quedaron computacionalmente validados y preservados con unión exhaustiva de 11,937 páginas. `H2014P1ENA` conserva su disposición canónica `final_exception`: no se aliasa, no se imputa y no se cuenta como corpus-ready. El ledger FTRL pasa a 357 identidades validadas de 524 que requieren procesamiento, con 167 pendientes; la secuencia operativa restante continúa W11 → W2.\n'
+          if 'Cierre FTRL archivístico W10 (29-ago-2026)' not in s:
+              assert marker in s
+              s=s.replace(marker,marker+note,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+
+      - name: Cross-check promoted invariants
+        run: |
+          python - <<'PY'
+          import csv,json
+          ledger=list(csv.DictReader(open('data/research/ltmd_u1_ftrl_completion_ledger.csv',encoding='utf-8',newline='')))
+          summary=json.load(open('data/research/ltmd_u1_ftrl_completion_summary.json',encoding='utf-8'))
+          wave=json.load(open('data/research/ltmd_u1_ftrl_wave_state.json',encoding='utf-8'))
+          assert len(ledger)==542 and {r['ledger_version'] for r in ledger}=={'LTMD_U1_FTRL_COMPLETION_LEDGER_0.9'}
+          w10=[r for r in ledger if r['wave']=='W10']
+          assert len(w10)==69
+          assert sum(r['ftrl_status']=='validated' for r in w10)==68
+          exc=[r for r in w10 if r['viewer_key']=='H2014P1ENA']
+          assert len(exc)==1 and exc[0]['documentary_disposition']=='final_exception'
+          assert exc[0]['ftrl_status']=='final_exception' and exc[0]['archival_status']=='not_applicable_final_exception'
+          assert summary['ftrl_identity_status']=={'blocked_active_retention':13,'final_exception':5,'pending':167,'validated':357}
+          assert summary['documentary_dispositions']=={'active_retention':13,'final_exception':5,'required_ftrl_processing':524}
+          assert summary['canonical_processing_objects_by_ftrl_status']['validated']==329
+          assert summary['canonical_source_pages_by_ftrl_status']['validated']==54742
+          assert summary['corpus_ready_identities']==357 and summary['ocr_available_identities']==357
+          assert summary['text_verified_identities']==0 and summary['semantic_ready_identities']==0
+          assert wave['waves']['W10']['ftrl_status']=='validated' and wave['waves']['W10']['archival_status']=='archival_complete'
+          assert wave['waves']['W11']['ftrl_status']=='pending' and wave['waves']['W2']['ftrl_status']=='pending'
+          print(json.dumps({'status':'validated','ledger':'0.9','validated':357,'pending':167,'w10_validated':68,'w10_final_exception':'H2014P1ENA','next':['W11','W2']},sort_keys=True))
+          PY
+
+      - name: Commit promoted W10 closure state
+        run: |
+          set -euo pipefail
+          git config user.name 'Fernando Sandoval'
+          git config user.email 'fernando.sandoval@uacj.mx'
+          git add \
+            scripts/build_ltmd_u1_ftrl_completion_ledger_v9.py \
+            data/research/ltmd_u1_w10_global_evidence.json \
+            data/research/ltmd_u1_ftrl_completion_ledger.csv \
+            data/research/ltmd_u1_ftrl_completion_summary.json \
+            data/research/ltmd_u1_ftrl_wave_state.json \
+            docs/LTMD_U1_MASTER_PLAN_0_3.md
+          git diff --cached --check
+          git commit -m 'ltmd: close W10 and promote exhaustive ledger to 0.9'
+          git push origin HEAD:main
