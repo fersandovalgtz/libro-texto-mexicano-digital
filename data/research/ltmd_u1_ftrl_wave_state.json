@@ -1,6 +1,6 @@
 {
   "schema": "LTMD_U1_FTRL_WAVE_STATE_0.1",
-  "effective_date": "2026-08-28",
+  "effective_date": "2026-08-29",
   "note": "Metadata-only operational state. Update only from verified computation and persistent-archive evidence; preservation follows docs/PRESERVATION_CANON_0_2.md. Never infer text or semantic readiness from OCR availability.",
   "waves": {
     "W1": {
@@ -13,7 +13,15 @@
       "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W1 — Ciencias Naturales/run_32807213503__d07d090__2026-08-24/02_CONSOLIDATED_PRIVATE/LTMD_W1_Ciencias_Naturales_corpus_textual_canonico_v1.zip",
       "archival_closure_evidence": "data/research/ltmd_u1_w1_archival_closure.json"
     },
-    "W2": {"domain": "matematicas", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
+    "W2": {
+      "domain": "matematicas",
+      "ftrl_status": "pending",
+      "ftrl_run_id": "",
+      "ftrl_commit": "",
+      "archival_status": "not_started",
+      "preservation_run_id": "",
+      "archive_destination_logical": ""
+    },
     "W3": {
       "domain": "espanol_lengua",
       "ftrl_status": "validated",
@@ -84,7 +92,24 @@
       "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W9 — Educación Física/run_33124903433__ac1cb91__2026-08-27/02_CONSOLIDATED_PRIVATE",
       "archival_closure_evidence": "data/research/ltmd_u1_w9_archival_closure.json"
     },
-    "W10": {"domain": "integrados_multiarea", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""},
-    "W11": {"domain": "otros_no_clasificados", "ftrl_status": "pending", "ftrl_run_id": "", "ftrl_commit": "", "archival_status": "not_started", "preservation_run_id": "", "archive_destination_logical": ""}
+    "W10": {
+      "domain": "integrados_multiarea",
+      "ftrl_status": "validated",
+      "ftrl_run_id": "33237844420",
+      "ftrl_commit": "4d0d9a38b650383e51fa44ddbf62510784281dc2",
+      "archival_status": "archival_complete",
+      "preservation_run_id": "private_consolidation_2026-08-29",
+      "archive_destination_logical": "LTMD-U1 — corpus FTRL privado/W10 — Integrados y Multiarea/run_33237844420__4d0d9a3__2026-08-29/02_CONSOLIDATED_PRIVATE",
+      "archival_closure_evidence": "data/research/ltmd_u1_w10_archival_closure.json"
+    },
+    "W11": {
+      "domain": "otros_no_clasificados",
+      "ftrl_status": "pending",
+      "ftrl_run_id": "",
+      "ftrl_commit": "",
+      "archival_status": "not_started",
+      "preservation_run_id": "",
+      "archive_destination_logical": ""
+    }
   }
 }

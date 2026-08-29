@@ -169,3 +169,12 @@ U1 alcanza cierre técnico cuando las **542 identidades** estén en uno de tres 
 3. excepción técnica final documentada después de una investigación acotada y reproducible.
 
 Ese cierre no implica validación semántica 542/542 ni convierte automáticamente el corpus técnico en evidencia histórica interpretada.
+
+## 14. Cierre FTRL exhaustivo W10 — 29 de agosto de 2026
+
+La cohorte fuente-admitida de **W10 — Integrados / Multiarea** quedó procesada y archivísticamente cerrada mediante el run distribuido `33237844420`, anclado al commit `4d0d9a38b650383e51fa44ddbf62510784281dc2`. El cierre comprende **68/68 objetos canónicos fuente-admitidos** y **11,937/11,937 páginas canónicas**, con unión global exacta, partición única y completa, integridad SQLite válida y preservación privada cifrada verificada por redescarga y SHA-256.
+
+La identidad `H2014P1ENA` **no se imputa ni se procesa por sustitución**: conserva su disposición documental `final_exception`, ya establecida en el registro transversal. En consecuencia, el cierre W10 no altera la taxonomía global de **13 retenciones activas + 5 excepciones finales**. El ledger FTRL canónico se promueve de `LTMD_U1_FTRL_COMPLETION_LEDGER_0.8` a `LTMD_U1_FTRL_COMPLETION_LEDGER_0.9`, con **357 identidades validadas**, **167 pendientes de FTRL**, **13 retenciones activas** y **5 excepciones finales**. La secuencia operacional restante permanece preregistrada como **W11 → W2**.
+
+Este cierre es computacional y archivístico. `ocr_available` no equivale a `text_verified`, y ninguna salida W10 queda promovida a `semantic_ready`.
+
