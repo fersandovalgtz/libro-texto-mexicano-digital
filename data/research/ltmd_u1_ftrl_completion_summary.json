@@ -1,16 +1,16 @@
 {
   "archival_status": {
-    "archival_complete": 357,
+    "archival_complete": 464,
     "not_applicable_final_exception": 5,
-    "not_started": 180
+    "not_started": 73
   },
   "canonical_processing_objects_by_ftrl_status": {
-    "validated": 329
+    "validated": 435
   },
   "canonical_source_pages_by_ftrl_status": {
-    "validated": 54742
+    "validated": 74604
   },
-  "corpus_ready_identities": 357,
+  "corpus_ready_identities": 464,
   "documentary_dispositions": {
     "active_retention": 13,
     "final_exception": 5,
@@ -29,34 +29,34 @@
   "ftrl_identity_status": {
     "blocked_active_retention": 13,
     "final_exception": 5,
-    "pending": 167,
-    "validated": 357
+    "pending": 60,
+    "validated": 464
   },
   "global_closure": {
     "active_retentions": 13,
     "eligible": false,
     "final_exceptions": 5,
-    "reason": "active retentions and unfinished FTRL waves remain; archival completion is incomplete outside validated waves"
+    "reason": "active retentions and unfinished FTRL wave W2 remain; W11 is computationally and archivally complete"
   },
-  "known_processing_topology_identities": 357,
-  "ledger_version": "LTMD_U1_FTRL_COMPLETION_LEDGER_0.9",
-  "ocr_available_identities": 357,
-  "schema": "LTMD_U1_FTRL_COMPLETION_SUMMARY_0.9",
+  "known_processing_topology_identities": 464,
+  "ledger_version": "LTMD_U1_FTRL_COMPLETION_LEDGER_1.0",
+  "ocr_available_identities": 464,
+  "schema": "LTMD_U1_FTRL_COMPLETION_SUMMARY_1.0",
   "semantic_ready_identities": 0,
   "source_readiness": {
-    "full": 392,
+    "full": 499,
     "partial": 7,
-    "unresolved": 143
+    "unresolved": 36
   },
   "status": "valid",
   "strict_identity_progress": {
     "active_retentions": 13,
     "definition": "validated FTRL identities plus documented final exceptions over the fixed 542-identity denominator",
-    "processable_pending": 167,
-    "remaining_fraction": 0.332103,
-    "remaining_identities": 180,
-    "terminal_fraction": 0.667897,
-    "terminal_identities": 362
+    "processable_pending": 60,
+    "remaining_fraction": 0.134686,
+    "remaining_identities": 73,
+    "terminal_fraction": 0.865314,
+    "terminal_identities": 469
   },
   "text_verified_identities": 0,
   "wave_denominators": {

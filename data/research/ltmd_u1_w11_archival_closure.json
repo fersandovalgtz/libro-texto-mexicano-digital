@@ -1,0 +1,77 @@
+{
+  "archival_complete": true,
+  "domain": "otros_no_clasificados",
+  "effective_date": "2026-08-29",
+  "ftrl": {
+    "admitted_historical_identities": 107,
+    "canonical_processing_objects": 106,
+    "computationally_validated": true,
+    "exact_source_aliases": 1,
+    "global_evidence_artifact_id": 9720213680,
+    "global_evidence_artifact_sha256": "67526b876b9058795595002687ab5fdf139b2c32464f0d76757711d2baabfe3e",
+    "historical_identities": 111,
+    "source_commit": "e46290d5f06b29d7a48a728037816e9f2cfb1bb5",
+    "source_pages": 19862,
+    "source_run_id": 33266902987
+  },
+  "interpretive_limit": "Computational/archival closure of source-admitted W11 only; four retained identities remain documented final exceptions and excluded; OCR is not human text verification or semantic evidence.",
+  "persistent_archive": {
+    "all_drive_readbacks_verified": true,
+    "individual_handoff_folder_empty": true,
+    "manifest_bundle": {
+      "drive_file_id": "1n7coYivsle6ogcStH40H3Elcq1BmY9NP",
+      "drive_readback_sha256_verified": true,
+      "file_name": "ltmd-u1-w11-encrypted-snapshot-manifest__106-of-106.zip",
+      "sha256": "2c4c46748d49c35a4ee00b34eea5ba9a9e4c5f68a3b062f0601c2d5f20b873db",
+      "size_bytes": 1267
+    },
+    "partial_checkpoint_removed": true,
+    "private_archive": {
+      "drive_file_id": "1fxV2agYGEa4O_SqsliB5Zm7yFIeCcHwB",
+      "drive_readback_sha256_verified": true,
+      "file_name": "ltmd-u1-w11-consolidated-private-encrypted-snapshot__106-of-106.zip",
+      "inner_archive_sha256": "6b4b56c7f3b3b57a6b396d4b061d3eb61ec4f034cd2d4e326f7eb0e87c2c2be3",
+      "inner_archive_size_bytes": 44899322,
+      "transport_sha256": "dc87e0ba755398a22746d74b5cc35ff0790d4628daaf90fafeaca981bd5b8877",
+      "transport_size_bytes": 44915547
+    },
+    "provider": "google_drive_private",
+    "public_evidence_archive": {
+      "drive_file_id": "1afi4D2EhCrVeTpD1bUawKGqWHRDrTGJD",
+      "drive_readback_sha256_verified": true,
+      "file_name": "ltmd-u1-w11-consolidated-public-evidence-snapshot__106-of-106.zip",
+      "inner_archive_sha256": "e0a559bb116a8f3106c61dabfe3b3439dfa6b768e7a8232f681bddea73111913",
+      "inner_archive_size_bytes": 2322864,
+      "transport_sha256": "551366e12084001e0774b56ebe8c296f712bf0e3187f07444a91b943d3c3f4a8",
+      "transport_size_bytes": 2194545
+    },
+    "run_folder_id": "1T7FYhoMDRmrWg0Vy3iVK_lXkd8AqVTyG"
+  },
+  "qc": {
+    "fts_rows": 19862,
+    "qc_page_records": 19862,
+    "source_gaps_in_admitted_canonical_objects": 0,
+    "source_pages": 19862,
+    "sqlite_page_rows": 19862,
+    "unique_page_key_hashes": 19862
+  },
+  "schema": "LTMD_FTRL_ARCHIVAL_CLOSURE_1.0",
+  "security": {
+    "plaintext_restricted_outputs_present": false,
+    "private_handoffs_encrypted": true,
+    "private_public_pairing_exact": true
+  },
+  "semantic_ready": false,
+  "source_exceptions": {
+    "count": 4,
+    "status": "documented_final_exception",
+    "viewer_keys": [
+      "H2014P1EAM",
+      "H2014P2EAM",
+      "H2014P3COL",
+      "H2014P3MOR"
+    ]
+  },
+  "text_verified": false,
+  "wave": "W11"
+}
