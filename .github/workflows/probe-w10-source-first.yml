@@ -1,0 +1,231 @@
+name: Probe W10 source-first admissibility
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'ftrl/w10-source-discovery'
+    paths:
+      - 'scripts/build_ltmd_u1_w10_integrados_scope.py'
+      - 'scripts/audit_w10_source_state.py'
+      - 'scripts/probe_ltmd_u1_w10_source_architecture.py'
+      - 'scripts/probe_ltmd_u1_w10_source_assets_book.py'
+      - 'scripts/combine_ltmd_u1_w10_source_probe.py'
+      - '.github/workflows/probe-w10-source-first.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ltmd-u1-w10-source-first
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile source-first scripts
+        run: |
+          python -m py_compile \
+            scripts/build_ltmd_u1_w10_integrados_scope.py \
+            scripts/audit_w10_source_state.py \
+            scripts/probe_ltmd_u1_w10_source_architecture.py \
+            scripts/probe_ltmd_u1_w10_source_assets_book.py \
+            scripts/combine_ltmd_u1_w10_source_probe.py
+
+      - name: Reconfirm canonical W10 documentary state
+        run: python scripts/audit_w10_source_state.py --out-dir /tmp/w10-source-state
+
+      - name: Freeze 69 historical / 68 processable / 1 final exception
+        run: python scripts/build_ltmd_u1_w10_integrados_scope.py
+
+      - name: Probe official viewer architecture and declared inventory
+        run: python scripts/probe_ltmd_u1_w10_source_architecture.py
+
+      - name: Build exact 68-viewer asset matrix
+        id: matrix
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv, json, os
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w10_scope.csv',encoding='utf-8',newline='')))
+          keys=[r['viewer_key'] for r in rows if r['documentary_disposition']=='required_ftrl_processing' and r['source_probe_eligible']=='1']
+          assert len(keys)==68 and len(set(keys))==68
+          assert 'H2014P1ENA' not in keys
+          value=json.dumps(keys,separators=(',',':'))
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as fh:
+              fh.write('matrix='+value+'\n')
+          print(value)
+          PY
+
+      - name: Package immutable base source metadata
+        run: |
+          tar -czf w10-source-base.tgz \
+            data/catalog/ltmd_u1_w10_scope.csv \
+            docs/LTMD_U1_W10_FREEZE.md \
+            data/catalog/ltmd_u1_w10_viewer_architecture.csv \
+            data/catalog/ltmd_u1_w10_declared_inventory.csv \
+            docs/LTMD_U1_W10_SOURCE_ARCHITECTURE.md
+
+      - name: Upload base source metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w10-source-base
+          path: w10-source-base.tgz
+          retention-days: 30
+          if-no-files-found: error
+
+  assets:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        viewer_key: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download base source metadata
+        uses: actions/download-artifact@v4
+        with:
+          name: ltmd-u1-w10-source-base
+          path: .
+
+      - name: Restore base source metadata
+        run: tar -xzf w10-source-base.tgz
+
+      - name: Probe exact official assets without persisting source images
+        id: probe
+        continue-on-error: true
+        run: python scripts/probe_ltmd_u1_w10_source_assets_book.py --viewer-key "${{ matrix.viewer_key }}"
+
+      - name: Upload per-viewer hash-only shard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w10-source-${{ matrix.viewer_key }}
+          path: |
+            data/work/ltmd_u1_w10_source_assets/summary_*.csv
+            data/work/ltmd_u1_w10_source_assets/asset_*.csv
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Preserve operational failure signal
+        if: steps.probe.outcome == 'failure'
+        run: echo "Probe error preserved in shard; global gate will fail closed after aggregation."
+
+  combine:
+    needs: [prepare, assets]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact branch revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download base source metadata
+        uses: actions/download-artifact@v4
+        with:
+          name: ltmd-u1-w10-source-base
+          path: .
+
+      - name: Restore base source metadata
+        run: tar -xzf w10-source-base.tgz
+
+      - name: Download all per-viewer shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w10-source-H*
+          path: data/work/ltmd_u1_w10_source_assets
+          merge-multiple: true
+
+      - name: Combine exact source evidence and apply admissibility gate
+        run: python scripts/combine_ltmd_u1_w10_source_probe.py
+
+      - name: Upload combined metadata-only source evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w10-source-probe-evidence
+          path: |
+            data/catalog/ltmd_u1_w10_scope.csv
+            docs/LTMD_U1_W10_FREEZE.md
+            data/catalog/ltmd_u1_w10_viewer_architecture.csv
+            data/catalog/ltmd_u1_w10_declared_inventory.csv
+            docs/LTMD_U1_W10_SOURCE_ARCHITECTURE.md
+            data/catalog/ltmd_u1_w10_source_asset_manifest.csv
+            data/catalog/ltmd_u1_w10_source_asset_summary.csv
+            data/catalog/ltmd_u1_w10_source_admissibility.csv
+            data/research/ltmd_u1_w10_source_probe_evidence.json
+            docs/LTMD_U1_W10_SOURCE_PROBE.md
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Fail closed on operational probe errors
+        run: |
+          python - <<'PY'
+          import csv, json
+          e=json.load(open('data/research/ltmd_u1_w10_source_probe_evidence.json',encoding='utf-8'))
+          rows=list(csv.DictReader(open('data/catalog/ltmd_u1_w10_source_admissibility.csv',encoding='utf-8',newline='')))
+          assert e['historical_identities']==69
+          assert e['required_ftrl_processing']==68
+          assert e['final_exception_viewer_keys']==['H2014P1ENA']
+          assert e['aliases_introduced']==0
+          assert len(rows)==68 and len({r['viewer_key'] for r in rows})==68
+          assert e['source_admissible']+e['source_retained']==68
+          assert e['probe_errors_sum']==0, e
+          assert e['ocr_authorized_for_source_admitted_only'] is True
+          assert e['text_verified'] is False and e['semantic_ready'] is False
+          print('W10 source-first gate: operationally complete')
+          PY
+
+      - name: Commit metadata-only W10 source evidence to discovery branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/catalog/ltmd_u1_w10_scope.csv \
+            docs/LTMD_U1_W10_FREEZE.md \
+            data/catalog/ltmd_u1_w10_viewer_architecture.csv \
+            data/catalog/ltmd_u1_w10_declared_inventory.csv \
+            docs/LTMD_U1_W10_SOURCE_ARCHITECTURE.md \
+            data/catalog/ltmd_u1_w10_source_asset_manifest.csv \
+            data/catalog/ltmd_u1_w10_source_asset_summary.csv \
+            data/catalog/ltmd_u1_w10_source_admissibility.csv \
+            data/research/ltmd_u1_w10_source_probe_evidence.json \
+            docs/LTMD_U1_W10_SOURCE_PROBE.md
+          if git diff --cached --quiet; then
+            echo "No W10 source metadata changed."
+            exit 0
+          fi
+          git commit -m "data(w10): publish source-first admissibility evidence"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin HEAD:"${GITHUB_REF_NAME}"
