@@ -1,0 +1,77 @@
+{
+  "archival_complete": true,
+  "domain": "matematicas",
+  "effective_date": "2026-08-30",
+  "ftrl": {
+    "admitted_historical_identities": 60,
+    "canonical_processing_objects": 57,
+    "computationally_validated": true,
+    "exact_source_aliases": 3,
+    "global_evidence_artifact_id": 9726796962,
+    "global_evidence_artifact_sha256": "f88ebdf89fd6b3b4ecf32835a15e65e02bc98d1c47228b405d137185b6acde69",
+    "historical_identities": 64,
+    "source_commit": "29f31430ab542ed3c9098446e0af9136515dc581",
+    "source_pages": 11945,
+    "source_run_id": 33291984081
+  },
+  "interpretive_limit": "Computational/archival closure of source-admitted W2 only; four DMA 2018 identities remain documented active retentions and excluded; OCR is not human text verification or semantic evidence.",
+  "persistent_archive": {
+    "all_drive_readbacks_verified": true,
+    "individual_handoff_folder_empty": true,
+    "manifest_bundle": {
+      "drive_file_id": "1SOfzSmaZy46khSqjgMT2VGDcj2pjiLSL",
+      "drive_readback_sha256_verified": true,
+      "file_name": "ltmd-u1-w2-encrypted-snapshot-manifest__57-of-57.zip",
+      "sha256": "6f40dcc91da762a4c5a6e3888eb602d81cbee5e5b52dedc42010884337146b3e",
+      "size_bytes": 628
+    },
+    "partial_checkpoint_removed": true,
+    "private_archive": {
+      "drive_file_id": "1V7Ps7XeU--daDY3bKUrwMeP1TJ2gGlvO",
+      "drive_readback_sha256_verified": true,
+      "file_name": "ltmd-u1-w2-consolidated-private-encrypted-snapshot__57-of-57.zip",
+      "inner_archive_sha256": "39d29275324d53faf16d067686982bf4b2884391bef55a81e45daeaef7406995",
+      "inner_archive_size_bytes": 93612555,
+      "transport_sha256": "ab96206b4503de2a2bb902171171a7fab0f203f0665bed72bbf7e7bddd961700",
+      "transport_size_bytes": 93629808
+    },
+    "provider": "google_drive_private",
+    "public_evidence_archive": {
+      "drive_file_id": "1mHkZ0cDej1GwydwER-StSqeE-Uo1RLZ4",
+      "drive_readback_sha256_verified": true,
+      "file_name": "ltmd-u1-w2-consolidated-public-evidence-snapshot__57-of-57.zip",
+      "inner_archive_sha256": "ff88ee7f6420835298871630caae87ca5601c7ccf3cab485f0ae44c2e22ece28",
+      "inner_archive_size_bytes": 1148499,
+      "transport_sha256": "89ab08c2b2e9dba23db66eb20d7afe592ebb12d061551a84556251f987fb752c",
+      "transport_size_bytes": 1145802
+    },
+    "run_folder_id": "1B3gh-dc8C0b18dPREz6AxYPY8WCM6N-x"
+  },
+  "qc": {
+    "fts_rows": 11945,
+    "qc_page_records": 11945,
+    "source_gaps_in_admitted_canonical_objects": 0,
+    "source_pages": 11945,
+    "sqlite_page_rows": 11945,
+    "unique_page_key_hashes": 11945
+  },
+  "schema": "LTMD_FTRL_ARCHIVAL_CLOSURE_1.0",
+  "security": {
+    "plaintext_restricted_outputs_present": false,
+    "private_handoffs_encrypted": true,
+    "private_public_pairing_exact": true
+  },
+  "semantic_ready": false,
+  "source_exceptions": {
+    "count": 4,
+    "status": "documented_active_retention",
+    "viewer_keys": [
+      "H2018P3DMA",
+      "H2018P4DMA",
+      "H2018P5DMA",
+      "H2018P6DMA"
+    ]
+  },
+  "text_verified": false,
+  "wave": "W2"
+}
