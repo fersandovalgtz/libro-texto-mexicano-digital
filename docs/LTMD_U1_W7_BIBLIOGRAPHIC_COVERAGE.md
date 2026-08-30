@@ -1,6 +1,6 @@
 # LTMD-U1 W7 — cobertura bibliográfica y readiness
 
-Versión: `LTMD_U1_W7_BIBLIOGRAPHIC_COVERAGE_0.1`.
+Versión: `LTMD_U1_W7_BIBLIOGRAPHIC_COVERAGE_0.2`.
 
 - Universo histórico preservado: **30/30 identidades**.
 - Fuente admitida: **25/30**; retenida: **5/30**.
@@ -17,6 +17,33 @@ La matriz separa dos ejes de completitud: **fuente** y **cronología bibliográf
 - `source_withheld_partial_gap`: **1**.
 - `source_withheld_subtree_unserved`: **4**.
 - `technical_instance_candidate_available`: **10**.
+
+## Búsqueda bibliográfica externa acotada — 2026-08-30
+
+La versión 0.2 incorpora una pasada documental externa reproducible sobre los **15 objetos** que motivaron la issue #6: los 12 con fuente admitida y observaciones bibliográficas pero sin ciclo fuerte, más los 3 con ciclo observado y sin candidato de instancia.
+
+Artefacto: `data/catalog/ltmd_u1_w7_external_bibliographic_search_2026-08-30.csv`.
+
+Método acotado:
+
+1. abrir el viewer institucional exacto de CONALITEG para cada `viewer_key` y corroborar únicamente identidad del viewer, título, grado y `catalog_generation`;
+2. buscar registros por título/grado en fuentes institucionales o académicas de mayor autoridad disponibles públicamente —SEP, Biblioteca Gregorio Torres Quintero/UPN y SIIA-Humanindex/UNAM— y conservar también hallazgos secundarios sólo como pistas;
+3. clasificar como evidencia de manifestación exacta únicamente aquello que enlace inequívocamente el registro al viewer; título, grado, ISBN de familia o coincidencia de generación no bastan;
+4. detener la búsqueda cuando el conjunto acotado de fuentes queda agotado; no ampliar OCR ni seleccionar una fecha por conveniencia.
+
+Resultado:
+
+- identidad institucional exacta del viewer corroborada: **15/15**;
+- nuevos candidatos técnicos de instancia promovidos: **0**;
+- cambios a `school_cycle_statement`: **0**;
+- cambios a `catalog_generation`: **0**;
+- objetos clasificados al cierre de esta búsqueda como `documented_no_resolution`: **15/15**.
+
+La búsqueda produjo evidencia bibliográfica externa útil a nivel de familia —por ejemplo, registros institucionales que documentan ciclos 2008-2009, 2014-2015 o 2019-2020 para algunas combinaciones título/grado—, pero no encontró un enlace de manifestación suficientemente fuerte para asignar esos ciclos a los viewers pendientes. En varios casos aparecieron además múltiples manifestaciones posibles, lo que refuerza la prohibición de seleccionar automáticamente una edición.
+
+Para `H2011P4CI315` y `H2011P6CI336` se conserva sin alteración la tensión ya documentada: ciclo observado `2013-2014` frente a página legal con `reimpresión 2012`. La búsqueda externa no produjo una nueva página primaria enlazada al viewer con página + SHA que permita crear un candidato compatible. Para `H2008P5CI278` tampoco apareció una nueva declaración primaria enlazada al viewer; su ciclo observado `2008-2009` permanece sin candidato técnico de instancia.
+
+Este resultado **cierra la deuda de búsqueda externa acotada**, no la incertidumbre histórica. Los 15 casos pueden quedar cerrados administrativamente bajo la clase permitida por la issue #6 `ausencia/no resolución documentada`, manteniendo abierta únicamente una futura validación humana/documental si aparece nueva evidencia primaria. No se reabre OCR por defecto.
 
 ## Cobertura por generación de catálogo
 
@@ -66,3 +93,5 @@ La matriz separa dos ejes de completitud: **fuente** y **cronología bibliográf
 ## Límite epistemológico
 
 Readiness no es calidad ni validez histórica. `technical_instance_candidate_available` significa únicamente que el objeto cumple la regla técnica vigente de candidato. No transforma Tier B/C en validación humana ni convierte `catalog_generation` en año editorial. Las cinco retenciones de fuente continúan gobernadas por su gate independiente.
+
+La capa de búsqueda externa 2026-08-30 tampoco transforma un registro de catálogo de familia en evidencia de manifestación. `documented_no_resolution` significa que una búsqueda acotada y reproducible terminó sin evidencia suficiente para promover el objeto; no equivale a demostrar ausencia histórica ni autoriza imputación.
