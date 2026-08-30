@@ -34,13 +34,14 @@
       "preservation_run_id": "private_consolidation_2026-08-29"
     },
     "W2": {
-      "archival_status": "not_started",
-      "archive_destination_logical": "",
+      "archival_closure_evidence": "data/research/ltmd_u1_w2_archival_closure.json",
+      "archival_status": "archival_complete",
+      "archive_destination_logical": "LTMD-U1 \u2014 corpus FTRL privado/W2 \u2014 Matem\u00e1ticas/run_33291984081__29f3143__2026-08-30/02_CONSOLIDATED_PRIVATE",
       "domain": "matematicas",
-      "ftrl_commit": "",
-      "ftrl_run_id": "",
-      "ftrl_status": "pending",
-      "preservation_run_id": ""
+      "ftrl_commit": "29f31430ab542ed3c9098446e0af9136515dc581",
+      "ftrl_run_id": "33291984081",
+      "ftrl_status": "validated",
+      "preservation_run_id": "private_consolidation_2026-08-30"
     },
     "W3": {
       "archival_closure_evidence": "data/research/ltmd_u1_w3_archival_closure.json",

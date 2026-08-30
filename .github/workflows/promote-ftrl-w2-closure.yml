@@ -1,0 +1,136 @@
+name: Promote FTRL W2 Closure
+
+on:
+  push:
+    branches: [ftrl/w2-matematicas]
+    paths:
+      - '.github/workflows/promote-ftrl-w2-closure.yml'
+      - 'scripts/promote_ftrl_w2_closure.py'
+      - 'data/research/ltmd_u1_w2_closure_promotion_request.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: promote-ftrl-w2-closure-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    name: promote-w2-ledger-wave-and-summary
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ftrl/w2-matematicas
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile promotion script
+        run: python -m py_compile scripts/promote_ftrl_w2_closure.py
+      - name: Promote W2 closure deterministically
+        run: python scripts/promote_ftrl_w2_closure.py
+      - name: Validate W2 closure and fixed retentions
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          ledger=list(csv.DictReader(Path('data/research/ltmd_u1_ftrl_completion_ledger.csv').open(encoding='utf-8',newline='')))
+          w2=[r for r in ledger if r['wave']=='W2']
+          assert len(ledger)==542 and len(w2)==64
+          assert sum(r['ftrl_status']=='validated' for r in w2)==60
+          assert sum(r['ftrl_status']=='blocked_active_retention' for r in w2)==4
+          assert {r['viewer_key'] for r in w2 if r['ftrl_status']=='blocked_active_retention'}=={
+              'H2018P3DMA','H2018P4DMA','H2018P5DMA','H2018P6DMA'
+          }
+          assert sum(r['is_canonical_processing_object']=='1' for r in w2)==57
+          assert sum(int(r['canonical_source_pages'] or 0) for r in w2 if r['is_canonical_processing_object']=='1')==11945
+          assert all(r['text_verified']=='0' and r['semantic_ready']=='0' for r in w2)
+
+          state=json.loads(Path('data/research/ltmd_u1_ftrl_wave_state.json').read_text(encoding='utf-8'))
+          assert state['waves']['W2']['ftrl_status']=='validated'
+          assert state['waves']['W2']['archival_status']=='archival_complete'
+          assert all(v['ftrl_status']=='validated' for k,v in state['waves'].items() if k!='W2')
+          assert all(v['archival_status']=='archival_complete' for k,v in state['waves'].items() if k!='W2')
+
+          summary=json.loads(Path('data/research/ltmd_u1_ftrl_completion_summary.json').read_text(encoding='utf-8'))
+          assert summary['ftrl_identity_status']=={
+              'blocked_active_retention':13,'final_exception':5,'validated':524
+          }
+          assert summary['archival_status']=={
+              'archival_complete':524,'not_applicable_final_exception':5,'not_started':13
+          }
+          assert summary['canonical_processing_objects_by_ftrl_status']=={'validated':492}
+          assert summary['canonical_source_pages_by_ftrl_status']=={'validated':86549}
+          assert summary['strict_identity_progress']['processable_pending']==0
+          assert summary['strict_identity_progress']['terminal_identities']==529
+          assert summary['strict_identity_progress']['remaining_identities']==13
+          assert summary['text_verified_identities']==0
+          assert summary['semantic_ready_identities']==0
+          assert summary['global_closure']['eligible'] is False
+
+          closure=json.loads(Path('data/research/ltmd_u1_w2_archival_closure.json').read_text(encoding='utf-8'))
+          assert closure['archival_complete'] is True
+          assert closure['ftrl']['computationally_validated'] is True
+          assert closure['persistent_archive']['all_drive_readbacks_verified'] is True
+          assert closure['source_exceptions']['status']=='documented_active_retention'
+          assert closure['text_verified'] is False
+          assert closure['semantic_ready'] is False
+          print('W2 promotion validation passed; four DMA 2018 identities remain active retentions.')
+          PY
+      - name: Upload validated canonical W2 closure
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w2-canonical-closure-promotion
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            data/research/ltmd_u1_ftrl_completion_ledger.csv
+            data/research/ltmd_u1_ftrl_completion_summary.json
+            data/research/ltmd_u1_ftrl_wave_state.json
+            data/research/ltmd_u1_w2_archival_closure.json
+      - name: Publish validated closure to staging branch
+        uses: actions/github-script@v7
+        env:
+          SOURCE_BRANCH: ftrl/w2-matematicas
+          TARGET_BRANCH: ftrl/w2-canonical-promotion-attempt1
+        with:
+          script: |
+            const fs = require('fs');
+            const { owner, repo } = context.repo;
+            const sourceBranch = process.env.SOURCE_BRANCH;
+            const targetBranch = process.env.TARGET_BRANCH;
+            const sourceRef = await github.rest.git.getRef({ owner, repo, ref: `heads/${sourceBranch}` });
+            const parentSha = sourceRef.data.object.sha;
+            const parentCommit = await github.rest.git.getCommit({ owner, repo, commit_sha: parentSha });
+            const baseTreeSha = parentCommit.data.tree.sha;
+            const paths = [
+              'data/research/ltmd_u1_ftrl_completion_ledger.csv',
+              'data/research/ltmd_u1_ftrl_completion_summary.json',
+              'data/research/ltmd_u1_ftrl_wave_state.json',
+              'data/research/ltmd_u1_w2_archival_closure.json',
+            ];
+            const tree = [];
+            for (const path of paths) {
+              const content = fs.readFileSync(path).toString('base64');
+              const blob = await github.rest.git.createBlob({ owner, repo, content, encoding: 'base64' });
+              tree.push({ path, mode: '100644', type: 'blob', sha: blob.data.sha });
+            }
+            const newTree = await github.rest.git.createTree({ owner, repo, base_tree: baseTreeSha, tree });
+            const commit = await github.rest.git.createCommit({
+              owner, repo,
+              message: 'ftrl(w2): close computational and archival wave',
+              tree: newTree.data.sha,
+              parents: [parentSha],
+            });
+            try {
+              await github.rest.git.getRef({ owner, repo, ref: `heads/${targetBranch}` });
+              await github.rest.git.updateRef({ owner, repo, ref: `heads/${targetBranch}`, sha: commit.data.sha, force: true });
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              await github.rest.git.createRef({ owner, repo, ref: `refs/heads/${targetBranch}`, sha: commit.data.sha });
+            }
+            core.notice(`Canonical W2 closure staged at ${targetBranch}@${commit.data.sha}`);

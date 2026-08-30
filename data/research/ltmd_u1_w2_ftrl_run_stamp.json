@@ -1,0 +1,16 @@
+{
+  "schema": "LTMD_U1_W2_FTRL_RUN_STAMP_0.1",
+  "wave": "W2",
+  "domain": "matematicas",
+  "effective_date": "2026-08-29",
+  "activation_base_main": "a1f8c248966d5210860fce8651a9975a89560f9c",
+  "post_w11_gate": "satisfied",
+  "historical_identities": 64,
+  "admitted_identities": 60,
+  "canonical_processing_objects": 57,
+  "exact_source_aliases": 3,
+  "blocked_active_retentions": 4,
+  "canonical_source_pages": 11945,
+  "promotion_allowed": false,
+  "note": "Execution trigger only; does not promote completion ledger, archival state, text verification, or semantic readiness."
+}

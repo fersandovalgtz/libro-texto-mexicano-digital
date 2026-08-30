@@ -1,0 +1,22 @@
+{
+  "schema": "LTMD_U1_W2_PRESERVATION_STAMP_0.1",
+  "wave": "W2",
+  "domain": "matematicas",
+  "effective_date": "2026-08-30",
+  "source_run_id": 33291984081,
+  "source_commit": "29f31430ab542ed3c9098446e0af9136515dc581",
+  "source_run_status": "completed_success",
+  "historical_identities": 64,
+  "admitted_identities": 60,
+  "canonical_processing_objects": 57,
+  "exact_source_aliases": 3,
+  "blocked_active_retentions": 4,
+  "source_pages": 11945,
+  "global_evidence_artifact_id": 9726796962,
+  "global_evidence_artifact_sha256": "f88ebdf89fd6b3b4ecf32835a15e65e02bc98d1c47228b405d137185b6acde69",
+  "consolidation_attempt": 2,
+  "archival_complete": false,
+  "text_verified": false,
+  "semantic_ready": false,
+  "note": "Preservation consolidation retry with explicit paginated GitHub artifact enumeration. Canonical archival closure still requires persistent private storage and readback checksum verification."
+}

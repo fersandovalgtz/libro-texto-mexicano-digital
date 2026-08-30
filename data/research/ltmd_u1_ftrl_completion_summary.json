@@ -1,16 +1,16 @@
 {
   "archival_status": {
-    "archival_complete": 464,
+    "archival_complete": 524,
     "not_applicable_final_exception": 5,
-    "not_started": 73
+    "not_started": 13
   },
   "canonical_processing_objects_by_ftrl_status": {
-    "validated": 435
+    "validated": 492
   },
   "canonical_source_pages_by_ftrl_status": {
-    "validated": 74604
+    "validated": 86549
   },
-  "corpus_ready_identities": 464,
+  "corpus_ready_identities": 524,
   "documentary_dispositions": {
     "active_retention": 13,
     "final_exception": 5,
@@ -29,18 +29,17 @@
   "ftrl_identity_status": {
     "blocked_active_retention": 13,
     "final_exception": 5,
-    "pending": 60,
-    "validated": 464
+    "validated": 524
   },
   "global_closure": {
     "active_retentions": 13,
     "eligible": false,
     "final_exceptions": 5,
-    "reason": "active retentions and unfinished FTRL wave W2 remain; W11 is computationally and archivally complete"
+    "reason": "all processable FTRL waves are computationally and archivally complete; 13 documented active retentions remain outside source-admitted computation"
   },
-  "known_processing_topology_identities": 464,
+  "known_processing_topology_identities": 524,
   "ledger_version": "LTMD_U1_FTRL_COMPLETION_LEDGER_1.0",
-  "ocr_available_identities": 464,
+  "ocr_available_identities": 524,
   "schema": "LTMD_U1_FTRL_COMPLETION_SUMMARY_1.0",
   "semantic_ready_identities": 0,
   "source_readiness": {
@@ -52,11 +51,11 @@
   "strict_identity_progress": {
     "active_retentions": 13,
     "definition": "validated FTRL identities plus documented final exceptions over the fixed 542-identity denominator",
-    "processable_pending": 60,
-    "remaining_fraction": 0.134686,
-    "remaining_identities": 73,
-    "terminal_fraction": 0.865314,
-    "terminal_identities": 469
+    "processable_pending": 0,
+    "remaining_fraction": 0.023985,
+    "remaining_identities": 13,
+    "terminal_fraction": 0.976015,
+    "terminal_identities": 529
   },
   "text_verified_identities": 0,
   "wave_denominators": {

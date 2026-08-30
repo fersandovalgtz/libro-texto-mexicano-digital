@@ -1,0 +1,290 @@
+name: Consolidate FTRL W2 Preservation
+
+on:
+  push:
+    branches: [ftrl/w2-matematicas]
+    paths:
+      - 'data/research/ltmd_u1_w2_preservation_stamp.json'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: consolidate-ftrl-w2-preservation-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  consolidate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read and validate preservation stamp
+        id: stamp
+        shell: bash
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          p=Path('data/research/ltmd_u1_w2_preservation_stamp.json')
+          d=json.loads(p.read_text(encoding='utf-8'))
+          assert d['schema']=='LTMD_U1_W2_PRESERVATION_STAMP_0.1'
+          assert d['wave']=='W2'
+          assert int(d['source_run_id'])==33291984081
+          assert d['source_commit']=='29f31430ab542ed3c9098446e0af9136515dc581'
+          assert int(d['canonical_processing_objects'])==57
+          assert int(d['source_pages'])==11945
+          print(f"source_run_id={d['source_run_id']}")
+          print(f"source_commit={d['source_commit']}")
+          PY
+
+      - name: Require successful source FTRL run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ steps.stamp.outputs.source_run_id }}
+          SOURCE_COMMIT: ${{ steps.stamp.outputs.source_commit }}
+        run: |
+          python - <<'PY'
+          import json, os, subprocess
+          raw=subprocess.check_output([
+              'gh','api',f"repos/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['RUN_ID']}"
+          ], text=True)
+          d=json.loads(raw)
+          assert d['status']=='completed', d['status']
+          assert d['conclusion']=='success', d['conclusion']
+          assert d['head_sha']==os.environ['SOURCE_COMMIT'], (d['head_sha'], os.environ['SOURCE_COMMIT'])
+          assert d['event']=='push', d['event']
+          PY
+
+      - name: Enumerate all 115 source artifacts with pagination
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ steps.stamp.outputs.source_run_id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}/artifacts?per_page=100&page=1" > /tmp/w2-artifacts-page1.json
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}/artifacts?per_page=100&page=2" > /tmp/w2-artifacts-page2.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          pages=[
+              json.loads(Path('/tmp/w2-artifacts-page1.json').read_text()),
+              json.loads(Path('/tmp/w2-artifacts-page2.json').read_text()),
+          ]
+          total={p['total_count'] for p in pages}
+          assert total=={115}, total
+          artifacts=[]
+          for p in pages:
+              artifacts.extend(p['artifacts'])
+          assert len(artifacts)==115, len(artifacts)
+          assert len({a['id'] for a in artifacts})==115
+          private=[a for a in artifacts if a['name'].startswith('ltmd-u1-w2-') and a['name'].endswith('-private-encrypted')]
+          public=[a for a in artifacts if a['name'].startswith('ltmd-u1-w2-') and a['name'].endswith('-text-free-evidence')]
+          assert len(private)==57, len(private)
+          assert len(public)==58, len(public)
+          assert sum(a['name']=='ltmd-u1-w2-global-text-free-evidence' for a in public)==1
+          payload={'private':private,'public':public,'source_total':len(artifacts)}
+          Path('/tmp/w2-selected-artifacts.json').write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n')
+          print(f"Enumerated source artifacts: total={len(artifacts)}, private={len(private)}, text_free={len(public)}")
+          PY
+
+      - name: Download and verify every selected artifact ZIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, subprocess, zipfile
+          from pathlib import Path
+
+          selected=json.loads(Path('/tmp/w2-selected-artifacts.json').read_text())
+          repo=os.environ['GITHUB_REPOSITORY']
+          token=os.environ['GH_TOKEN']
+          roots={'private':Path('local/w2-private'),'public':Path('local/w2-public')}
+          for root in roots.values(): root.mkdir(parents=True,exist_ok=True)
+
+          def sha256(path):
+              h=hashlib.sha256()
+              with path.open('rb') as fh:
+                  for chunk in iter(lambda:fh.read(1024*1024),b''): h.update(chunk)
+              return h.hexdigest()
+
+          for group in ('private','public'):
+              for a in selected[group]:
+                  name=a['name']; aid=a['id']
+                  zip_path=Path('/tmp')/f'artifact-{aid}.zip'
+                  url=f'https://api.github.com/repos/{repo}/actions/artifacts/{aid}/zip'
+                  subprocess.run([
+                      'curl','-fsSL',
+                      '-H',f'Authorization: Bearer {token}',
+                      '-H','Accept: application/vnd.github+json',
+                      '-H','X-GitHub-Api-Version: 2022-11-28',
+                      url,'-o',str(zip_path)
+                  ],check=True)
+                  observed=sha256(zip_path)
+                  expected=(a.get('digest') or '').removeprefix('sha256:')
+                  if expected:
+                      assert observed==expected,(name,observed,expected)
+                  target=roots[group]/name
+                  target.mkdir(parents=True,exist_ok=False)
+                  with zipfile.ZipFile(zip_path) as z:
+                      z.extractall(target)
+                  zip_path.unlink()
+          print('Downloaded and digest-verified all 57 private + 58 text-free artifacts')
+          PY
+
+      - name: Validate exact 57-of-57 preservation inventory
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          private_root=Path('local/w2-private')
+          public_root=Path('local/w2-public')
+          private_dirs=sorted(p for p in private_root.iterdir() if p.is_dir())
+          public_dirs=sorted(p for p in public_root.iterdir() if p.is_dir())
+          assert len(private_dirs)==57, len(private_dirs)
+          global_dirs=[p for p in public_dirs if p.name=='ltmd-u1-w2-global-text-free-evidence']
+          book_public=[p for p in public_dirs if p.name!='ltmd-u1-w2-global-text-free-evidence']
+          assert len(global_dirs)==1, [p.name for p in global_dirs]
+          assert len(book_public)==57, len(book_public)
+
+          private_viewers=set()
+          for d in private_dirs:
+              assert d.name.endswith('-private-encrypted'), d
+              viewer=d.name.removeprefix('ltmd-u1-w2-').removesuffix('-private-encrypted')
+              private_viewers.add(viewer)
+              manifests=list(d.glob('w2_*_private_handoff_manifest.json'))
+              payloads=list(d.glob('w2_*_restricted.tar.gz.enc'))
+              keys=list(d.glob('w2_*_passphrase.rsa-oaep.enc'))
+              sums=list(d.glob('SHA256SUMS.txt'))
+              assert len(manifests)==len(payloads)==len(keys)==len(sums)==1, d
+              assert not list(d.glob('*.tar.gz')), d
+              m=json.loads(manifests[0].read_text(encoding='utf-8'))
+              assert m['schema']=='LTMD_PRIVATE_FTRL_W2_BOOK_HANDOFF_0.1'
+              assert m['wave']=='W2' and m['viewer_key']==viewer
+              assert m['plaintext_restricted_outputs_uploaded'] is False
+              assert m['archival_complete'] is False
+
+          public_viewers=set()
+          for d in book_public:
+              viewer=d.name.removeprefix('ltmd-u1-w2-').removesuffix('-text-free-evidence')
+              public_viewers.add(viewer)
+              ev=list(d.glob('w2_*_evidence.json'))
+              assert len(ev)==1, d
+              e=json.loads(ev[0].read_text(encoding='utf-8'))
+              assert e['schema']=='LTMD_FTRL_W2_BOOK_UNIT_0.1'
+              assert e['wave']=='W2' and e['viewer_key']==viewer and e['status']=='validated'
+
+          assert private_viewers==public_viewers
+          assert len(private_viewers)==57
+
+          gev=list(global_dirs[0].glob('ltmd_u1_w2_global_evidence.json'))
+          assert len(gev)==1, gev
+          g=json.loads(gev[0].read_text(encoding='utf-8'))
+          assert g['schema']=='LTMD_FTRL_W2_GLOBAL_EVIDENCE_0.1'
+          assert g['status']=='validated' and g['wave']=='W2'
+          assert g['historical_identities']==64
+          assert g['admitted_historical_identities']==60
+          assert g['canonical_processing_objects']==57
+          assert g['exact_source_aliases']==3
+          assert g['withheld_source_identities']==4
+          assert g['source_pages']==11945
+          assert g['unique_page_key_hashes']==11945
+          assert g['sqlite_page_rows']==11945
+          assert g['fts_rows']==11945
+          assert g['qc_page_records']==11945
+          assert g['archival_complete'] is False
+          assert g['text_verified'] is False
+          assert g['semantic_ready'] is False
+          print('W2 preservation inventory validated: 57 private + 57 public + 1 global')
+          PY
+
+      - name: Build consolidated preservation snapshots
+        env:
+          SOURCE_RUN_ID: ${{ steps.stamp.outputs.source_run_id }}
+          SOURCE_COMMIT: ${{ steps.stamp.outputs.source_commit }}
+        run: |
+          set -euo pipefail
+          mkdir -p local/w2-consolidated
+          python - <<'PY'
+          import hashlib, json, os, shutil
+          from pathlib import Path
+
+          out=Path('local/w2-consolidated')
+          private_base=out/'ltmd-u1-w2-consolidated-private-encrypted-snapshot__57-of-57'
+          public_base=out/'ltmd-u1-w2-consolidated-public-evidence-snapshot__57-of-57'
+          shutil.make_archive(str(private_base),'zip',root_dir='local/w2-private')
+          shutil.make_archive(str(public_base),'zip',root_dir='local/w2-public')
+
+          def desc(path):
+              h=hashlib.sha256()
+              with path.open('rb') as fh:
+                  for chunk in iter(lambda:fh.read(1024*1024),b''): h.update(chunk)
+              return {'file_name':path.name,'size_bytes':path.stat().st_size,'sha256':h.hexdigest()}
+
+          private_zip=private_base.with_suffix('.zip')
+          public_zip=public_base.with_suffix('.zip')
+          global_path=next(Path('local/w2-public/ltmd-u1-w2-global-text-free-evidence').glob('ltmd_u1_w2_global_evidence.json'))
+          global_sha=hashlib.sha256(global_path.read_bytes()).hexdigest()
+          manifest={
+              'schema':'LTMD_U1_W2_PRESERVATION_MANIFEST_0.1','wave':'W2','domain':'matematicas',
+              'source_run_id':int(os.environ['SOURCE_RUN_ID']),'source_commit':os.environ['SOURCE_COMMIT'],
+              'historical_identities':64,'admitted_historical_identities':60,
+              'canonical_processing_objects':57,'exact_source_aliases':3,'withheld_source_identities':4,
+              'source_pages':11945,'private_handoffs':57,'public_book_evidences':57,
+              'global_evidence_sha256':global_sha,'private_snapshot':desc(private_zip),
+              'public_snapshot':desc(public_zip),'plaintext_restricted_outputs_present':False,
+              'archival_complete':False,'text_verified':False,'semantic_ready':False,
+          }
+          manifest_path=out/'ltmd-u1-w2-preservation-manifest__57-of-57.json'
+          manifest_path.write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf-8')
+          manifest_bundle=out/'ltmd-u1-w2-encrypted-snapshot-manifest__57-of-57.zip'
+          shutil.make_archive(str(manifest_bundle.with_suffix('')),'zip',root_dir=out,base_dir=manifest_path.name)
+          manifest['manifest_bundle']=desc(manifest_bundle)
+          manifest_path.write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf-8')
+          print(json.dumps({'private':desc(private_zip),'public':desc(public_zip),'manifest_bundle':desc(manifest_bundle)},indent=2,sort_keys=True))
+          PY
+
+      - name: Prove consolidated archive contains no plaintext restricted outputs
+        run: |
+          python - <<'PY'
+          import zipfile
+          from pathlib import Path
+          p=Path('local/w2-consolidated/ltmd-u1-w2-consolidated-private-encrypted-snapshot__57-of-57.zip')
+          with zipfile.ZipFile(p) as z: names=z.namelist()
+          assert any(n.endswith('.tar.gz.enc') for n in names)
+          assert any(n.endswith('_passphrase.rsa-oaep.enc') for n in names)
+          assert not any(n.endswith('.tar.gz') for n in names)
+          assert not any(n.endswith('_page_ocr.jsonl') for n in names)
+          assert not any(n.endswith('_ocr_search.sqlite') for n in names)
+          print(f'validated private snapshot entries={len(names)}')
+          PY
+
+      - name: Upload consolidated private snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w2-consolidated-private-encrypted-snapshot-57-of-57
+          path: local/w2-consolidated/ltmd-u1-w2-consolidated-private-encrypted-snapshot__57-of-57.zip
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload consolidated public evidence snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w2-consolidated-public-evidence-snapshot-57-of-57
+          path: local/w2-consolidated/ltmd-u1-w2-consolidated-public-evidence-snapshot__57-of-57.zip
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload preservation manifest bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w2-preservation-manifest-bundle-57-of-57
+          path: |
+            local/w2-consolidated/ltmd-u1-w2-preservation-manifest__57-of-57.json
+            local/w2-consolidated/ltmd-u1-w2-encrypted-snapshot-manifest__57-of-57.zip
+          if-no-files-found: error
+          retention-days: 7

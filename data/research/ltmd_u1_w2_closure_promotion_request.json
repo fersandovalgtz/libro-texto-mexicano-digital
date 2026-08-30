@@ -1,0 +1,50 @@
+{
+  "schema": "LTMD_U1_W2_CLOSURE_PROMOTION_REQUEST_1.0",
+  "effective_date": "2026-08-30",
+  "promotion_attempt": 1,
+  "wave": "W2",
+  "domain": "matematicas",
+  "source_run_id": 33291984081,
+  "source_commit": "29f31430ab542ed3c9098446e0af9136515dc581",
+  "computationally_validated": true,
+  "archival_complete": true,
+  "historical_identities": 64,
+  "admitted_historical_identities": 60,
+  "canonical_processing_objects": 57,
+  "exact_source_aliases": 3,
+  "active_retentions": 4,
+  "source_pages": 11945,
+  "global_evidence_artifact_id": 9726796962,
+  "global_evidence_artifact_sha256": "f88ebdf89fd6b3b4ecf32835a15e65e02bc98d1c47228b405d137185b6acde69",
+  "drive_run_folder_id": "1B3gh-dc8C0b18dPREz6AxYPY8WCM6N-x",
+  "private_archive": {
+    "drive_file_id": "1V7Ps7XeU--daDY3bKUrwMeP1TJ2gGlvO",
+    "file_name": "ltmd-u1-w2-consolidated-private-encrypted-snapshot__57-of-57.zip",
+    "transport_size_bytes": 93629808,
+    "transport_sha256": "ab96206b4503de2a2bb902171171a7fab0f203f0665bed72bbf7e7bddd961700",
+    "inner_archive_size_bytes": 93612555,
+    "inner_archive_sha256": "39d29275324d53faf16d067686982bf4b2884391bef55a81e45daeaef7406995",
+    "drive_readback_sha256_verified": true
+  },
+  "manifest_bundle": {
+    "drive_file_id": "1SOfzSmaZy46khSqjgMT2VGDcj2pjiLSL",
+    "file_name": "ltmd-u1-w2-encrypted-snapshot-manifest__57-of-57.zip",
+    "size_bytes": 628,
+    "sha256": "6f40dcc91da762a4c5a6e3888eb602d81cbee5e5b52dedc42010884337146b3e",
+    "drive_readback_sha256_verified": true
+  },
+  "public_evidence_archive": {
+    "drive_file_id": "1mHkZ0cDej1GwydwER-StSqeE-Uo1RLZ4",
+    "file_name": "ltmd-u1-w2-consolidated-public-evidence-snapshot__57-of-57.zip",
+    "transport_size_bytes": 1145802,
+    "transport_sha256": "89ab08c2b2e9dba23db66eb20d7afe592ebb12d061551a84556251f987fb752c",
+    "inner_archive_size_bytes": 1148499,
+    "inner_archive_sha256": "ff88ee7f6420835298871630caae87ca5601c7ccf3cab485f0ae44c2e22ece28",
+    "drive_readback_sha256_verified": true
+  },
+  "partial_checkpoint_removed": true,
+  "individual_handoff_folder_empty": true,
+  "text_verified": false,
+  "semantic_ready": false,
+  "remaining_after_promotion": "13 active retentions; zero processable pending identities"
+}
