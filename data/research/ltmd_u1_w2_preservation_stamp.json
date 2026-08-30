@@ -14,8 +14,9 @@
   "source_pages": 11945,
   "global_evidence_artifact_id": 9726796962,
   "global_evidence_artifact_sha256": "f88ebdf89fd6b3b4ecf32835a15e65e02bc98d1c47228b405d137185b6acde69",
+  "consolidation_attempt": 2,
   "archival_complete": false,
   "text_verified": false,
   "semantic_ready": false,
-  "note": "Preservation consolidation trigger only. Canonical archival closure requires persistent private storage and readback checksum verification."
+  "note": "Preservation consolidation retry with explicit paginated GitHub artifact enumeration. Canonical archival closure still requires persistent private storage and readback checksum verification."
 }
