@@ -1,7 +1,7 @@
 # LTMD-U1 W2 — estado técnico de Matemáticas 0.1
 
-Corte: 15 de agosto de 2026.  
-Estado: **OCR técnico completado; PAGESTRUCT/FRAGSEG en ejecución; semántica no abierta**.
+Corte actualizado: 29 de agosto de 2026.  
+Estado: **capa técnica 0.2 completada; gate post-W11 satisfecho; FTRL pendiente de ejecución/archivo; semántica no abierta**.
 
 ## Universo congelado
 
@@ -50,18 +50,43 @@ La capa `LTMD_U1_W2_MATH_OCR_0.2` procesó los 57 contenidos canónicos y repres
 
 El combine final de OCR terminó en `success`; no fue necesario usar el workflow de recuperación preparado como contingencia.
 
-## Pipeline 0.2
+## PAGESTRUCT 0.2 — COMPLETADO
 
-La ejecución W2 se versiona como 0.2 porque la auditoría empírica refutó el supuesto preparatorio de 64/64 directos.
+- **11,945** páginas clasificadas;
+- **10,145** páginas elegibles para FRAGSEG.
 
-`57 canónicos → OCR temporal SHA-verificado ✅ → PAGESTRUCT (en ejecución) → FRAGSEG → 3 aliases heredan sólo cobertura efectiva`
+## FRAGSEG 0.2 — COMPLETADO
 
-Los cuatro DMA 2018 permanecen fuera de esa cadena. SEMB 0.3 de Ciencias Naturales no se aplica a Matemáticas y W2 no produce todavía inferencia pedagógica/histórica.
+- **10,145** páginas con al menos un fragmento;
+- **135,727** fragmentos técnicos.
+
+El cierre técnico está documentado en `docs/LTMD_U1_W2_COMPLETION.md`. Esta capa no constituye por sí misma validación FTRL, cierre archivístico ni validación semántica.
+
+## Reactivación FTRL — 29 de agosto de 2026
+
+W11 cerró en `main` y sus controles post-merge requeridos quedaron verdes. La rama canónica `ftrl/w2-matematicas` fue sincronizada con el `main` resultante (`a1f8c248966d5210860fce8651a9975a89560f9c`). Con ello queda satisfecho el gate secuencial W11 → W2 y puede iniciarse la ejecución FTRL de Matemáticas.
+
+La apertura de W2 **no** promueve todavía estados del completion ledger. Hasta que exista validación distribuida exhaustiva y preservación privada persistente verificada:
+
+- las 60 identidades fuente-admitidas permanecen `pending`;
+- los cuatro DMA 2018 permanecen `blocked_active_retention`;
+- `archival_status` permanece `not_started`;
+- `text_verified=false` y `semantic_ready=false`.
+
+El contrato de activación queda fijado en `docs/LTMD_U1_W2_FTRL_ACTIVATION_0_1.md`.
+
+## Pipeline vigente
+
+`57 canónicos técnicos ✅ → FTRL distribuido → evidencia pública text-free + handoff privado cifrado → validación exhaustiva → preservación persistente verificada → promoción canónica de 60 identidades`
+
+Los tres aliases sólo pueden heredar cobertura FTRL tras conservar la prueba exact-byte ya registrada. Los cuatro DMA 2018 permanecen fuera de esa cadena y no pueden ser sustituidos por ediciones 2019.
 
 ## Regla epistemológica
 
 - `asset_ready` no equivale a `ocr_ready`;
 - `ocr_ready` no equivale a `fragseg_ready`;
-- `fragseg_ready` no equivale a `semantic_ready`;
+- `fragseg_ready` no equivale a `ftrl_validated`;
+- `ftrl_validated` no equivale a `semantic_ready`;
 - un alias exacto permite reutilizar cómputo, pero no elimina la identidad de catálogo;
-- una recuperación puntual de página no demuestra identidad bibliográfica entre libros completos.
+- una recuperación puntual de página no demuestra identidad bibliográfica entre libros completos;
+- ninguna transición del ledger puede inferirse de evidencia temporal o de un job incompleto: requiere cómputo validado y cierre archivístico verificable.
