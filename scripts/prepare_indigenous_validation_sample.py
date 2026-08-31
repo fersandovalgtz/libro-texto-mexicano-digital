@@ -91,6 +91,7 @@ def read_candidates(path: Path) -> list[dict]:
         rows = [dict(row) for row in reader]
 
     seen = {}
+    unique_rows = []
     for row in rows:
         page_id = row["page_id"].strip()
         if not page_id:
@@ -104,11 +105,14 @@ def read_candidates(path: Path) -> list[dict]:
             row["viewer_page"],
         )
         prior = seen.get(page_id)
-        if prior is not None and prior != fingerprint:
-            raise RuntimeError(f"conflicting duplicate page_id: {page_id}")
+        if prior is not None:
+            if prior != fingerprint:
+                raise RuntimeError(f"conflicting duplicate page_id: {page_id}")
+            continue
         seen[page_id] = fingerprint
+        unique_rows.append(row)
 
-    explicit = [row for row in rows if as_bool(row["explicit_general"])]
+    explicit = [row for row in unique_rows if as_bool(row["explicit_general"])]
     explicit.sort(key=lambda row: (
         int(row["generation"]) if str(row["generation"]).isdigit() else str(row["generation"]),
         row["canonical_viewer_key"],
