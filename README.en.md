@@ -37,7 +37,7 @@ The project keeps **document identity**, **asset resolution**, **technical proce
 
 ## Scientific status
 
-Reference cut: **23 August 2026**.
+Reference cut: **31 August 2026**.
 
 | Indicator | Status |
 |---|---:|

@@ -56,7 +56,7 @@ El proyecto no trata un visor de catálogo, un archivo, una generación editoria
 
 ## Estado científico
 
-Corte documental de referencia: **23 de agosto de 2026**.
+Corte documental de referencia: **31 de agosto de 2026**.
 
 | Indicador | Estado |
 |---|---:|
