@@ -7,6 +7,11 @@ The builder reconciles page-level FTRL SQLite databases into one private search 
 It may read OCR-derived search text and source URLs, but those values remain inside the
 private SQLite output. The companion manifest is text-free and suitable for public audit.
 
+Reproducibility rules:
+- source databases are identified in the public manifest by content hash, not local path/name;
+- reconciled pages are inserted in global `page_id` ascending order, independent of input filenames;
+- duplicate page IDs are accepted only when their technical fingerprint is identical.
+
 Scientific boundary:
     ocr_available != text_verified
     search_hit != historical_claim
@@ -17,9 +22,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 import sqlite3
-from collections import Counter
 from pathlib import Path
 from typing import Iterable
 
@@ -107,8 +110,8 @@ def page_fingerprint(row: dict) -> tuple:
 
 
 def iter_source_pages(db_paths: list[Path]):
-    """Yield one canonical row per unique page_id and fail on conflicting duplicates."""
-    seen: dict[str, tuple] = {}
+    """Yield globally page_id-sorted canonical rows; fail on conflicting duplicates."""
+    seen: dict[str, tuple[tuple, dict]] = {}
     duplicate_rows = 0
     for db_path in db_paths:
         connection = sqlite3.connect(str(db_path))
@@ -121,7 +124,7 @@ def iter_source_pages(db_paths: list[Path]):
                     f"{db_path.name}: pages table missing required columns: " + ", ".join(sorted(missing))
                 )
             selected = [name for name in PRIVATE_OUTPUT_COLUMNS if name in columns]
-            sql = "SELECT " + ", ".join(quote_identifier(name) for name in selected) + " FROM pages ORDER BY page_id"
+            sql = "SELECT " + ", ".join(quote_identifier(name) for name in selected) + " FROM pages"
             for source_row in connection.execute(sql):
                 row = {name: source_row[name] if name in source_row.keys() else None for name in PRIVATE_OUTPUT_COLUMNS}
                 page_id = str(row.get("page_id") or "").strip()
@@ -130,18 +133,30 @@ def iter_source_pages(db_paths: list[Path]):
                 fingerprint = page_fingerprint(row)
                 previous = seen.get(page_id)
                 if previous is not None:
-                    if previous != fingerprint:
+                    if previous[0] != fingerprint:
                         raise RuntimeError(f"conflicting duplicate page_id: {page_id} in {db_path.name}")
                     duplicate_rows += 1
                     continue
-                seen[page_id] = fingerprint
-                yield row
+                seen[page_id] = (fingerprint, row)
         finally:
             connection.close()
+
     iter_source_pages.duplicate_rows = duplicate_rows
+    for page_id in sorted(seen):
+        yield seen[page_id][1]
 
 
 iter_source_pages.duplicate_rows = 0
+
+
+def canonical_input_hashes(db_paths: list[Path]) -> list[dict]:
+    """Return content-addressed input identities independent of local filenames and paths."""
+    records = [
+        {"sha256": sha256_file(path), "bytes": path.stat().st_size}
+        for path in db_paths
+    ]
+    records.sort(key=lambda row: (row["sha256"], row["bytes"]))
+    return records
 
 
 def initialize_index(connection: sqlite3.Connection) -> None:
@@ -275,23 +290,13 @@ def build_index(
     if output_path.exists():
         output_path.unlink()
 
-    input_hashes = [
-        {"slot": index + 1, "basename": path.name, "sha256": sha256_file(path)}
-        for index, path in enumerate(db_paths)
-    ]
+    input_hashes = canonical_input_hashes(db_paths)
 
     connection = sqlite3.connect(str(output_path))
     try:
         initialize_index(connection)
-        connection.execute("BEGIN")
-        page_counter = Counter()
-        objects: set[str] = set()
-        inserted = 0
         for row in iter_source_pages(db_paths):
             insert_page(connection, row)
-            inserted += 1
-            page_counter[str(row.get("wave"))] += 1
-            objects.add(str(row.get("canonical_viewer_key")))
         connection.commit()
 
         connection.execute("INSERT INTO pages_fts(pages_fts) VALUES('rebuild')")
@@ -303,6 +308,7 @@ def build_index(
             connection,
             {
                 "builder_version": VERSION,
+                "canonical_row_order": "page_id_ascending",
                 "unique_pages": verification["unique_pages"],
                 "unique_canonical_objects": verification["unique_canonical_objects"],
                 "text_verified": False,
@@ -321,18 +327,21 @@ def build_index(
         "input": {
             "database_count": len(db_paths),
             "database_hashes": input_hashes,
+            "database_hash_order": "sha256_ascending",
             "private_paths_emitted": False,
         },
         "reconciliation": {
             **verification,
             "identical_duplicate_rows_deduplicated": int(iter_source_pages.duplicate_rows),
             "conflicts": 0,
+            "canonical_row_order": "page_id_ascending",
         },
         "dimensions": dimensions,
         "index": {
             "format": "SQLite3 + FTS5",
             "fts_table": "pages_fts",
             "tokenizer": "unicode61 remove_diacritics 2",
+            "canonical_row_order": "page_id_ascending",
             "sha256": index_sha256,
             "private": True,
             "contains_search_text": True,
