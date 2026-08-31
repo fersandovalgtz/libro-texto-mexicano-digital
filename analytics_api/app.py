@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Read-only HTTP adapter for LTMD Analytics 0.1.
 
-The service reads the private Indigenous-language candidate ledger from a filesystem path
-provided through `LTMD_INDIGENOUS_LEDGER_PATH`. The private path and ledger contents are never
-returned by the API. Generation-level denominators may be supplied with
-`LTMD_GENERATION_SUMMARY_PATH`; otherwise the repository's public 0.2 generation summary is used.
+The Indigenous-language vertical preserves its preregistered private candidate ledger.
+Optional corpus-wide reuse/similarity context may be configured with a paired Universal
+Index and reuse/similarity artifact. Private paths and page-level contents are never returned.
 """
 from __future__ import annotations
 
@@ -29,6 +28,7 @@ from scripts.query_indigenous_analytics import (  # noqa: E402
     query,
     sha256_file,
 )
+from scripts.runtime_vertical_reuse_context import runtime_context  # noqa: E402
 
 DEFAULT_GENERATION_SUMMARY = REPO_ROOT / "data" / "research" / "ltmd_u1_indigenous_languages_generation_summary_0_2.csv"
 MAX_FILTER_VALUES = 20
@@ -58,6 +58,28 @@ def _configured_paths() -> tuple[Path, Path]:
     generation_value = os.environ.get("LTMD_GENERATION_SUMMARY_PATH", "").strip()
     generation_path = Path(generation_value).expanduser() if generation_value else DEFAULT_GENERATION_SUMMARY
     return ledger_path, generation_path
+
+
+def _configured_reuse_paths() -> tuple[Path, Path] | None:
+    index_value = os.environ.get("LTMD_UNIVERSAL_INDEX_PATH", "").strip()
+    reuse_value = os.environ.get("LTMD_REUSE_SIMILARITY_PATH", "").strip()
+    if bool(index_value) != bool(reuse_value):
+        raise RuntimeError("LTMD corpus-wide reuse context is partially configured")
+    if not index_value:
+        return None
+    index_path = Path(index_value).expanduser()
+    reuse_path = Path(reuse_value).expanduser()
+    if not index_path.is_file() or not reuse_path.is_file():
+        raise RuntimeError("LTMD corpus-wide reuse context is unavailable")
+    return index_path, reuse_path
+
+
+def _reuse_context_resolver():
+    configured = _configured_reuse_paths()
+    if configured is None:
+        return None
+    index_path, reuse_path = configured
+    return lambda page_ids: runtime_context(index_path, reuse_path, page_ids)
 
 
 def _load_state() -> tuple[list[dict], dict[str, int], str]:
@@ -117,6 +139,7 @@ def _public_error(message: str, status: int):
 def health():
     try:
         rows, denominators, _ = _load_state()
+        reuse_resolver = _reuse_context_resolver()
     except RuntimeError:
         return jsonify({
             "status": "degraded",
@@ -124,6 +147,10 @@ def health():
             "analytics_version": ANALYTICS_VERSION,
             "query_engine_version": ENGINE_VERSION,
             "private_ledger_configured": bool(os.environ.get("LTMD_INDIGENOUS_LEDGER_PATH", "").strip()),
+            "reuse_context_configured": bool(
+                os.environ.get("LTMD_UNIVERSAL_INDEX_PATH", "").strip()
+                and os.environ.get("LTMD_REUSE_SIMILARITY_PATH", "").strip()
+            ),
         }), 503
     return jsonify({
         "status": "ok",
@@ -132,6 +159,7 @@ def health():
         "query_engine_version": ENGINE_VERSION,
         "candidate_rows_loaded": len(rows),
         "generation_denominators_loaded": len(denominators),
+        "reuse_context_configured": reuse_resolver is not None,
         "human_validation_complete": False,
     })
 
@@ -140,6 +168,7 @@ def health():
 def metadata():
     try:
         rows, denominators, _ = _load_state()
+        reuse_resolver = _reuse_context_resolver()
     except RuntimeError:
         return _public_error("analytics data unavailable", 503)
 
@@ -166,6 +195,7 @@ def metadata():
         "result_state": "exploratory_signal",
         "human_validation_complete": False,
         "candidate_rows": len(rows),
+        "reuse_context_configured": reuse_resolver is not None,
         "filters": {
             "generation": generations,
             "grade_code": grades,
@@ -205,6 +235,7 @@ def indigenous_query():
             denominators=denominators,
             group_by=group_by,
             source_ledger_sha256=ledger_sha256,
+            reuse_context_resolver=_reuse_context_resolver(),
         )
     except RuntimeError:
         return _public_error("analytics data unavailable", 503)
