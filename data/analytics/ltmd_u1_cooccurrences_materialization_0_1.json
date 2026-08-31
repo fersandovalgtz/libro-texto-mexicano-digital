@@ -1,0 +1,55 @@
+{
+  "artifact_version": "LTMD_U1_COOCCURRENCES_0.1",
+  "builder_version": "LTMD_U1_COOCCURRENCES_BUILDER_0.1",
+  "counts": {
+    "cooccurrence_rows": 2540432,
+    "public_eligible_rows": 81451,
+    "raw_pair_occurrences": 64208256,
+    "unique_pair_page_relations": 52653670,
+    "unique_pairs_before_private_floor": 10426262
+  },
+  "method": {
+    "bucket_count": 64,
+    "private_retention": {
+      "min_occurrences": 3,
+      "min_pages": 2
+    },
+    "public_suppression": {
+      "each_term_min_objects": 10,
+      "each_term_min_pages": 20,
+      "min_objects": 10,
+      "min_occurrences": 75,
+      "min_pages": 25
+    },
+    "same_page_only": true,
+    "thresholds_preregistered_before_result_inspection": true,
+    "unordered_distinct_terms": true,
+    "window_max_tokens": 5
+  },
+  "privacy": {
+    "ocr_text_emitted_publicly": false,
+    "page_identifiers_emitted_publicly": false,
+    "pair_values_emitted_publicly": false,
+    "rare_pairs_emitted_publicly": false,
+    "term_values_emitted_publicly": false
+  },
+  "private_artifact": {
+    "bytes": 109342720,
+    "gzip_bytes": 37079913,
+    "gzip_sha256": "1694bbec7645821ceaccd9a135e4a1718944c8ab190d6b901930dcf536de488a",
+    "preserved_private": true,
+    "redownload_verified": true,
+    "sha256": "ec6a6126ac425d2fffdcd92732c6abe62ab4f0bd8c360bc32da072674a5eccde"
+  },
+  "scientific_state": {
+    "cooccurrence_is_semantic_relation": false,
+    "default_result_state": "exploratory_signal",
+    "semantic_ready": false,
+    "text_verified": false
+  },
+  "source": {
+    "lexical_reconstruction_sha256": "c57b30bf69acc0f38e406e45d23f37e5de59a4ec90f0fa9294de4c067512fd02",
+    "lexical_version": "LTMD_U1_LEXICAL_POSITIONS_0.1",
+    "universal_index_sha256": "aec55cc7dd83c2e1e22d26e3baf8f7ca2e35e32898827ec84e6222edd4bcf7a2"
+  }
+}

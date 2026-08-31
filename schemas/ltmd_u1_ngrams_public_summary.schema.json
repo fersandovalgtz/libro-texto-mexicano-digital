@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LTMD-U1 n-grams public-safe materialization summary 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["builder_version","artifact_version","source","method","counts","private_artifact","privacy","scientific_state"],
+  "properties": {
+    "builder_version": {"const": "LTMD_U1_NGRAMS_BUILDER_0.1"},
+    "artifact_version": {"const": "LTMD_U1_NGRAMS_0.1"},
+    "source": {"type":"object","additionalProperties":false,"required":["lexical_version","lexical_reconstruction_sha256","universal_index_sha256"],"properties":{"lexical_version":{"const":"LTMD_U1_LEXICAL_POSITIONS_0.1"},"lexical_reconstruction_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},"universal_index_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"}}},
+    "method": {"type":"object","additionalProperties":false,"required":["page_bounded","thresholds_preregistered_before_result_inspection","private_retention","public_suppression"],"properties":{"page_bounded":{"const":true},"thresholds_preregistered_before_result_inspection":{"const":true},"private_retention":{"type":"object"},"public_suppression":{"type":"object"}}},
+    "counts": {"type":"object","additionalProperties":{"type":"integer","minimum":0}},
+    "private_artifact": {"type":"object","additionalProperties":false,"required":["bytes","sha256","gzip_bytes","gzip_sha256","preserved_private","redownload_verified"],"properties":{"bytes":{"type":"integer","minimum":1},"sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},"gzip_bytes":{"type":"integer","minimum":1},"gzip_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},"preserved_private":{"const":true},"redownload_verified":{"const":true}}},
+    "privacy": {"type":"object","additionalProperties":{"type":"boolean"}},
+    "scientific_state": {"type":"object","additionalProperties":true,"required":["text_verified","semantic_ready","default_result_state"],"properties":{"text_verified":{"const":false},"semantic_ready":{"const":false},"default_result_state":{"const":"exploratory_signal"}}}
+  }
+}
