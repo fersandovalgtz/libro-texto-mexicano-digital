@@ -1,0 +1,46 @@
+{
+  "study_id": "LTMD-U1-INDIGENOUS-LANGUAGES-0.1",
+  "study_date": "2026-08-30",
+  "repository_base_commit": "74dc38dac39bb7217481edc179cd9eee6e116547",
+  "scope": {
+    "ftrl_waves": ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11"],
+    "historical_identity_denominator": 542,
+    "validated_technical_identities": 524,
+    "final_exception_identities": 5,
+    "blocked_active_retention_identities": 13,
+    "canonical_objects": 492,
+    "canonical_source_pages": 86549,
+    "generations_observed": [1960, 1966, 1972, 1982, 1988, 1993, 2008, 2011, 2014, 2018, 2019]
+  },
+  "aggregate_results": {
+    "broad_candidate_pages": 1214,
+    "broad_books": 256,
+    "explicit_candidate_pages": 466,
+    "explicit_books": 144,
+    "broad_share_of_corpus_approx_pct": 1.40,
+    "explicit_share_of_corpus_approx_pct": 0.54,
+    "generation_1993_candidate_pages": 383,
+    "generation_1993_books_with_presence": 83,
+    "generation_1993_total_books": 114
+  },
+  "scientific_state": {
+    "result_class": "exploratory_computational",
+    "source_visual_validation_complete": false,
+    "exact_executable_query_syntax_publicly_frozen": false,
+    "text_verified_promotions": 0,
+    "semantic_ready_promotions": 0
+  },
+  "guards": [
+    "ocr_available != text_verified",
+    "corpus_ready != semantic_ready",
+    "search_hit != historical_claim",
+    "zero_hits != demonstrated_absence"
+  ],
+  "rights": {
+    "publishes_full_ocr": false,
+    "publishes_source_page_images": false,
+    "publishes_derived_aggregates": true,
+    "data_license_reference": "DATA_LICENSE.md"
+  },
+  "next_required_step": "freeze exact executable retrieval syntax, rebuild candidate ledger, visually validate source pages, and apply the versioned codebook before inferential publication"
+}
