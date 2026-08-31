@@ -6,98 +6,22 @@ on:
     paths:
       - 'analytics_api/**'
       - 'passenger_wsgi.py'
-      - 'requirements-analytics.txt'
-      - 'requirements-analytics-build.txt'
-      - 'scripts/build_indigenous_analytics_mart.py'
-      - 'scripts/query_indigenous_analytics.py'
-      - 'scripts/build_u1_universal_index.py'
-      - 'scripts/query_u1_universal_index.py'
-      - 'scripts/build_u1_corpus_analytics_manifest.py'
-      - 'scripts/build_u1_lexical_positions.py'
-      - 'scripts/build_u1_lexical_dimensions.py'
-      - 'scripts/build_u1_ngrams.py'
-      - 'scripts/build_u1_cooccurrences.py'
-      - 'scripts/build_u1_reuse_similarity.py'
-      - 'scripts/build_vertical_reuse_context.py'
-      - 'scripts/runtime_vertical_reuse_context.py'
-      - 'schemas/ltmd_analytics_query_response.schema.json'
-      - 'schemas/ltmd_u1_universal_index_manifest.schema.json'
-      - 'schemas/ltmd_u1_corpus_query_response.schema.json'
-      - 'schemas/ltmd_u1_corpus_analytics_manifest.schema.json'
-      - 'schemas/ltmd_u1_lexical_positions_public_summary.schema.json'
-      - 'schemas/ltmd_u1_lexical_dimensions_public_summary.schema.json'
-      - 'schemas/ltmd_u1_ngrams_public_summary.schema.json'
-      - 'schemas/ltmd_u1_cooccurrences_public_summary.schema.json'
-      - 'schemas/ltmd_u1_reuse_similarity_public_summary.schema.json'
-      - 'schemas/ltmd_vertical_reuse_context.schema.json'
-      - 'schemas/ltmd_u1_vertical_registry.schema.json'
-      - 'data/analytics/ltmd_u1_ngrams_materialization_0_1.json'
-      - 'data/analytics/ltmd_u1_cooccurrences_materialization_0_1.json'
-      - 'data/analytics/ltmd_u1_reuse_similarity_materialization_0_1.json'
-      - 'data/analytics/ltmd_u1_indigenous_reuse_context_0_1.json'
-      - 'data/analytics/ltmd_u1_vertical_registry_0_1.json'
-      - 'tests/test_analytics_api.py'
-      - 'tests/test_build_indigenous_analytics_mart.py'
-      - 'tests/test_query_indigenous_analytics.py'
-      - 'tests/test_build_u1_universal_index.py'
-      - 'tests/test_query_u1_universal_index.py'
-      - 'tests/test_build_u1_corpus_analytics_manifest.py'
-      - 'tests/test_build_u1_lexical_positions.py'
-      - 'tests/test_build_u1_lexical_dimensions.py'
-      - 'tests/test_build_u1_ngrams.py'
-      - 'tests/test_build_u1_cooccurrences.py'
-      - 'tests/test_build_u1_reuse_similarity.py'
-      - 'tests/test_build_vertical_reuse_context.py'
-      - 'tests/test_u1_vertical_registry.py'
+      - 'requirements-analytics*.txt'
+      - 'scripts/**'
+      - 'schemas/**'
+      - 'data/analytics/**'
+      - 'tests/**'
       - '.github/workflows/test-ltmd-analytics.yml'
   push:
     branches: [main]
     paths:
       - 'analytics_api/**'
       - 'passenger_wsgi.py'
-      - 'requirements-analytics.txt'
-      - 'requirements-analytics-build.txt'
-      - 'scripts/build_indigenous_analytics_mart.py'
-      - 'scripts/query_indigenous_analytics.py'
-      - 'scripts/build_u1_universal_index.py'
-      - 'scripts/query_u1_universal_index.py'
-      - 'scripts/build_u1_corpus_analytics_manifest.py'
-      - 'scripts/build_u1_lexical_positions.py'
-      - 'scripts/build_u1_lexical_dimensions.py'
-      - 'scripts/build_u1_ngrams.py'
-      - 'scripts/build_u1_cooccurrences.py'
-      - 'scripts/build_u1_reuse_similarity.py'
-      - 'scripts/build_vertical_reuse_context.py'
-      - 'scripts/runtime_vertical_reuse_context.py'
-      - 'schemas/ltmd_analytics_query_response.schema.json'
-      - 'schemas/ltmd_u1_universal_index_manifest.schema.json'
-      - 'schemas/ltmd_u1_corpus_query_response.schema.json'
-      - 'schemas/ltmd_u1_corpus_analytics_manifest.schema.json'
-      - 'schemas/ltmd_u1_lexical_positions_public_summary.schema.json'
-      - 'schemas/ltmd_u1_lexical_dimensions_public_summary.schema.json'
-      - 'schemas/ltmd_u1_ngrams_public_summary.schema.json'
-      - 'schemas/ltmd_u1_cooccurrences_public_summary.schema.json'
-      - 'schemas/ltmd_u1_reuse_similarity_public_summary.schema.json'
-      - 'schemas/ltmd_vertical_reuse_context.schema.json'
-      - 'schemas/ltmd_u1_vertical_registry.schema.json'
-      - 'data/analytics/ltmd_u1_ngrams_materialization_0_1.json'
-      - 'data/analytics/ltmd_u1_cooccurrences_materialization_0_1.json'
-      - 'data/analytics/ltmd_u1_reuse_similarity_materialization_0_1.json'
-      - 'data/analytics/ltmd_u1_indigenous_reuse_context_0_1.json'
-      - 'data/analytics/ltmd_u1_vertical_registry_0_1.json'
-      - 'tests/test_analytics_api.py'
-      - 'tests/test_build_indigenous_analytics_mart.py'
-      - 'tests/test_query_indigenous_analytics.py'
-      - 'tests/test_build_u1_universal_index.py'
-      - 'tests/test_query_u1_universal_index.py'
-      - 'tests/test_build_u1_corpus_analytics_manifest.py'
-      - 'tests/test_build_u1_lexical_positions.py'
-      - 'tests/test_build_u1_lexical_dimensions.py'
-      - 'tests/test_build_u1_ngrams.py'
-      - 'tests/test_build_u1_cooccurrences.py'
-      - 'tests/test_build_u1_reuse_similarity.py'
-      - 'tests/test_build_vertical_reuse_context.py'
-      - 'tests/test_u1_vertical_registry.py'
+      - 'requirements-analytics*.txt'
+      - 'scripts/**'
+      - 'schemas/**'
+      - 'data/analytics/**'
+      - 'tests/**'
       - '.github/workflows/test-ltmd-analytics.yml'
 
 permissions:
@@ -129,11 +53,13 @@ jobs:
           tests/test_build_u1_reuse_similarity.py
           tests/test_build_vertical_reuse_context.py
           tests/test_u1_vertical_registry.py
+          tests/test_materialize_u1_vertical_registry.py
       - name: Validate Analytics JSON schemas and materialization records
         run: |
           python - <<'PY'
           import json
           from jsonschema import Draft202012Validator
+
           paths = [
               'schemas/ltmd_analytics_query_response.schema.json',
               'schemas/ltmd_u1_universal_index_manifest.schema.json',
@@ -146,6 +72,7 @@ jobs:
               'schemas/ltmd_u1_reuse_similarity_public_summary.schema.json',
               'schemas/ltmd_vertical_reuse_context.schema.json',
               'schemas/ltmd_u1_vertical_registry.schema.json',
+              'schemas/ltmd_u1_vertical_materialization.schema.json',
           ]
           for path in paths:
               schema = json.load(open(path, encoding='utf-8'))
@@ -163,6 +90,8 @@ jobs:
                'data/analytics/ltmd_u1_indigenous_reuse_context_0_1.json'),
               ('schemas/ltmd_u1_vertical_registry.schema.json',
                'data/analytics/ltmd_u1_vertical_registry_0_1.json'),
+              ('schemas/ltmd_u1_vertical_materialization.schema.json',
+               'data/analytics/ltmd_u1_vertical_materialization_0_1.json'),
           ]
           for schema_path, data_path in validations:
               schema = json.load(open(schema_path, encoding='utf-8'))

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_u1_vertical_materialization.schema.json",
+  "title": "LTMD-U1 exploratory vertical materialization public record 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["materialization_version","builder_version","registry_version","result_state","corpus","provenance","scientific_state","privacy","full_materialization_sha256","full_materialization_bytes","verticals"],
+  "properties": {
+    "materialization_version": {"const": "LTMD_U1_VERTICAL_MATERIALIZATION_0.1"},
+    "builder_version": {"const": "LTMD_U1_VERTICAL_MATERIALIZER_0.1"},
+    "registry_version": {"const": "LTMD_U1_VERTICAL_REGISTRY_0.1"},
+    "result_state": {"const": "exploratory_signal"},
+    "corpus": {"type":"object","additionalProperties":false,"required":["pages","canonical_objects"],"properties":{"pages":{"const":86549},"canonical_objects":{"const":492}}},
+    "provenance": {"type":"object","additionalProperties":false,"required":["registry_sha256","universal_index_sha256","reuse_similarity_sha256","human_validation_complete"],"properties":{"registry_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},"universal_index_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},"reuse_similarity_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},"human_validation_complete":{"const":false}}},
+    "scientific_state": {"type":"object","additionalProperties":false,"required":["text_verified","semantic_ready","aliases_created"],"properties":{"text_verified":{"const":false},"semantic_ready":{"const":false},"aliases_created":{"const":false}}},
+    "privacy": {"type":"object","additionalProperties":false,"required":["page_identifiers_emitted","object_identifiers_emitted","pair_identifiers_emitted","ocr_text_emitted","source_hash_values_emitted"],"properties":{"page_identifiers_emitted":{"const":false},"object_identifiers_emitted":{"const":false},"pair_identifiers_emitted":{"const":false},"ocr_text_emitted":{"const":false},"source_hash_values_emitted":{"const":false}}},
+    "full_materialization_sha256": {"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "full_materialization_bytes": {"type":"integer","minimum":1},
+    "verticals": {"type":"array","minItems":8,"maxItems":8,"items":{"$ref":"#/$defs/vertical"}}
+  },
+  "$defs": {
+    "metrics": {"type":"object","additionalProperties":false,"required":["candidate_pages","candidate_books","candidate_pages_per_1000","corpus_pages_in_scope","corpus_books_in_scope"],"properties":{"candidate_pages":{"type":"integer","minimum":0},"candidate_books":{"type":"integer","minimum":0},"candidate_pages_per_1000":{"type":"number","minimum":0},"corpus_pages_in_scope":{"type":"integer","minimum":1},"corpus_books_in_scope":{"type":"integer","minimum":1}}},
+    "probe": {"type":"object","additionalProperties":false,"required":["probe_id","label_es","metrics"],"properties":{"probe_id":{"type":"string","minLength":1},"label_es":{"type":"string","minLength":1},"metrics":{"$ref":"#/$defs/metrics"}}},
+    "reuse": {"type":"object","additionalProperties":false,"required":["candidate_pages_with_any_reuse_similarity_signal","share_candidate_pages_with_any_reuse_similarity_signal","candidate_pages_with_cross_generation_reuse_similarity_signal"],"properties":{"candidate_pages_with_any_reuse_similarity_signal":{"type":"integer","minimum":0},"share_candidate_pages_with_any_reuse_similarity_signal":{"type":"number","minimum":0,"maximum":1},"candidate_pages_with_cross_generation_reuse_similarity_signal":{"type":"integer","minimum":0}}},
+    "cardinality": {"type":"object","additionalProperties":false,"required":["generation","grade_code","wave"],"properties":{"generation":{"const":11},"grade_code":{"const":6},"wave":{"const":11}}},
+    "vertical": {"type":"object","additionalProperties":false,"required":["vertical_id","label_es","status","metrics","reuse_context","probes","breakdown_cardinality","interpretation_boundary"],"properties":{"vertical_id":{"type":"string","minLength":1},"label_es":{"type":"string","minLength":1},"status":{"const":"materialized_exploratory"},"metrics":{"$ref":"#/$defs/metrics"},"reuse_context":{"$ref":"#/$defs/reuse"},"probes":{"type":"array","minItems":2,"items":{"$ref":"#/$defs/probe"}},"breakdown_cardinality":{"$ref":"#/$defs/cardinality"},"interpretation_boundary":{"type":"string","minLength":40}}}
+  }
+}
