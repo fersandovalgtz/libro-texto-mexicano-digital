@@ -1,0 +1,55 @@
+{
+  "version": "LTMD_ANALYTICS_INDIGENOUS_0.1",
+  "source_analysis_version": "LTMD_U1_INDIGENOUS_LANGUAGES_RERUN_0.2",
+  "input": {
+    "candidate_ledger_sha256": "efa77793479c8a5d4704aaee77f1047938c84c2aa9b5ea9550131fd09a6531bb",
+    "candidate_rows": 1151,
+    "generation_summary_path": "data/research/ltmd_u1_indigenous_languages_generation_summary_0_2.csv",
+    "generation_summary_sha256": "daceb502140e69bfe03fa8c54ce1369eb07ab998cea8f1badac4bd87a5d613fc"
+  },
+  "privacy": {
+    "page_ids_emitted": false,
+    "source_urls_emitted": false,
+    "source_or_ocr_hashes_emitted": false,
+    "ocr_text_or_snippets_emitted": false
+  },
+  "scientific_state": {
+    "human_validation_complete": false,
+    "semantic_ready_promotions": 0,
+    "allowed_output_states": [
+      "computational_candidate",
+      "exploratory_signal"
+    ],
+    "note": "Public-safe product aggregates. Suitable for exploration and prioritization, not validated historical prevalence claims."
+  },
+  "cardinality": {
+    "candidate_pages": 1151,
+    "generation_rows": 11,
+    "stratum_rows": 140,
+    "language_matrix_rows": 387,
+    "explicit_term_rows": 45,
+    "validation_state_rows": 1
+  },
+  "outputs": {
+    "ltmd_analytics_indigenous_generation_0_1.csv": {
+      "sha256": "f21ea8246735850d6506c39b0f94f2b29da8479fb049444b06714616ad2c1f4d",
+      "rows": 11
+    },
+    "ltmd_analytics_indigenous_strata_0_1.csv": {
+      "sha256": "aa20e546fdf0ffa39b3905d4e63a5ea4f469daf5f5468c3f1da4101634f660a0",
+      "rows": 140
+    },
+    "ltmd_analytics_indigenous_language_matrix_0_1.csv": {
+      "sha256": "38285b1c8c148f2c47850db6f9385da2c4f423a3887afd297271c0486fe2c0f0",
+      "rows": 387
+    },
+    "ltmd_analytics_indigenous_explicit_terms_0_1.csv": {
+      "sha256": "7fbe5ad1097d21ba2226a3648161e3079e4eec8060537d7862a12441f21f6a41",
+      "rows": 45
+    },
+    "ltmd_analytics_indigenous_validation_state_0_1.csv": {
+      "sha256": "8a2b65358e9a755ca86a08e0c7259c44233be0cef3373571f8a93d5de751e532",
+      "rows": 1
+    }
+  }
+}
