@@ -65,25 +65,59 @@ El ledger privado **no debe**:
 ## Ejecución local
 
 ```bash
-python -m pip install -r requirements-analytics.txt
+python3 -m pip install -r requirements-analytics.txt
 export LTMD_INDIGENOUS_LEDGER_PATH=/ruta/privada/ledger.csv
-flask --app analytics_api.app run --host 127.0.0.1 --port 8000
+python3 -m flask --app analytics_api.app run --host 127.0.0.1 --port 8000
 ```
 
-## cPanel / Passenger
+## cPanel / Phusion Passenger
 
-El repositorio incluye `analytics_api/passenger_wsgi.py` como punto de entrada WSGI.
+Esta sección se verificó contra la documentación oficial vigente de cPanel el **30 de agosto de 2026**. cPanel documenta Flask como framework WSGI válido y utiliza Phusion Passenger/Application Manager para registrar aplicaciones Python.
 
-Configuración conceptual:
+El repositorio incluye **`passenger_wsgi.py` en la raíz de la aplicación**, siguiendo la convención documentada por cPanel.
 
-1. crear una aplicación Python separada para LTMD Analytics;
-2. mantener su directorio de aplicación fuera de `public_html` cuando sea posible;
-3. instalar `requirements-analytics.txt` en el entorno virtual de esa aplicación;
-4. configurar el startup WSGI con `analytics_api/passenger_wsgi.py`;
-5. definir `LTMD_INDIGENOUS_LEDGER_PATH` apuntando al ledger privado fuera del árbol público;
-6. reiniciar la aplicación;
-7. verificar `/health`, `/v1/meta` y una consulta acotada;
-8. sólo después conectar una interfaz web.
+### Prerrequisitos del hosting
+
+El proveedor/servidor debe disponer de Python 3, `pip`/entorno virtual y Passenger/Application Manager. En cPanel moderno la disponibilidad exacta depende del sistema operativo y de que el proveedor haya habilitado Application Manager y los módulos Passenger correspondientes.
+
+No modificar paquetes de WHM desde esta aplicación si la cuenta no tiene privilegios administrativos. Si Application Manager o Python App no existe en la cuenta, escalar al proveedor de hosting en lugar de improvisar otro runtime dentro de `public_html`.
+
+### Flujo recomendado
+
+1. clonar o actualizar el repositorio en un directorio de aplicación dentro del home de la cuenta y **fuera de `public_html`**;
+2. usar ese checkout como application root;
+3. crear/seleccionar un entorno Python 3 para la aplicación;
+4. instalar dependencias:
+
+```bash
+python3 -m pip install -r requirements-analytics.txt
+```
+
+5. asegurar que el startup WSGI es `passenger_wsgi.py`;
+6. colocar el ledger privado fuera del checkout Git y fuera de `public_html`;
+7. definir `LTMD_INDIGENOUS_LEDGER_PATH` en el entorno de la aplicación;
+8. opcionalmente definir `LTMD_GENERATION_SUMMARY_PATH`; si se omite se usa la tabla pública del repositorio;
+9. registrar/habilitar la aplicación en cPanel Application Manager o el mecanismo Passenger provisto por el hosting;
+10. reiniciar Passenger;
+11. verificar `/health`, `/v1/meta` y una consulta acotada;
+12. sólo después conectar una interfaz web.
+
+### Reinicio Passenger
+
+Cuando el proveedor use la convención estándar documentada por cPanel, se puede solicitar reinicio creando o actualizando el archivo:
+
+```bash
+mkdir -p tmp
+touch tmp/restart.txt
+```
+
+La operación debe ejecutarse dentro de la raíz de la aplicación. Si el hosting usa una interfaz específica de **Setup Python App**, usar su acción de reinicio cuando esté disponible.
+
+### Referencias oficiales consultadas
+
+- cPanel & WHM: *How to Install a Python WSGI Application*;
+- cPanel & WHM: *Using Passenger Applications*;
+- cPanel & WHM: *Application Manager*.
 
 No se fija todavía un dominio ni un origen CORS. Esa decisión corresponde al despliegue de la interfaz institucional y no debe anticiparse en código.
 
