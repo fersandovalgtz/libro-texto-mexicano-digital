@@ -1,59 +1,104 @@
 # LTMD-U1 — estado técnico derivado por máquina
 
-Versión: `LTMD_U1_TECHNICAL_STATUS_0.3`.
+Versión: `LTMD_U1_TECHNICAL_STATUS_0.1`.
 
-Corte de referencia: **23 de agosto de 2026**.
-
-Este documento resume el estado técnico transversal de LTMD-U1 a partir del tablero canónico `data/catalog/ltmd_u1_coverage.md` y de las actas de cierre por ola. No convierte la disponibilidad de una capa técnica en validación semántica y no sustituye los reportes detallados de cada cohorte.
+Este documento se reconstruye desde los artefactos versionados del repositorio. No convierte la disponibilidad de una capa técnica en validación semántica.
 
 ## Frontera epistemológica vigente
 
-El proyecto opera todavía sin referencia humana incorporada al tablero U1. OCR, PAGESTRUCT, FRAGSEG, hashes exactos, procedencia y dependencia documental pueden cerrar técnicamente una cohorte; CER/WER validado contra referencia, confiabilidad intercodificador, consenso humano y validación semántica permanecen separados. `WAITING_HUMAN_REFERENCE` continúa vigente.
+El proyecto opera temporalmente sin referencia humana. OCR, PAGESTRUCT, FRAGSEG, hashes exactos, provenance y dependencia documental pueden avanzar. CER/WER validado contra referencia, confiabilidad intercodificador, consenso humano y validación SEMB03 permanecen cerrados. `SEMB03` sigue en `WAITING_HUMAN_REFERENCE`.
 
-## Estado agregado
+## W2 — Matemáticas
 
-| indicador | estado |
-|---|---:|
-| Universo histórico operativo | **542/542** |
-| Cobertura técnica efectiva cerrada o resuelta | **524/542 (96.68%)** |
-| Objetos canónicos de procesamiento cerrados | **492/542 (90.77%)** |
-| Residual fuera de cobertura efectiva | **18/542 (3.32%)** |
-| Retenciones activas | **13/542 (2.40%)** |
-| Excepciones técnicas finales | **5/542 (0.92%)** |
-| Validación semántica humana incorporada | **0/542** |
+Estado técnico: **`complete`**. Véase `docs/LTMD_U1_W2_COMPLETION.md` para el cierre congelado.
 
-`effective_technical_identities` puede incluir identidades documentales cubiertas mediante relaciones de fuente o aliases demostrados. `canonical_processing_objects` evita reprocesamiento redundante cuando existe evidencia suficiente, sin borrar identidades históricas.
+## W3 — Español/Lengua
 
-## Estado por ola
+Estado técnico derivado: **`complete`**.
 
-| ola | dominio operacional | plan | efectiva | canónicos | residual | ciclo residual | estado técnico |
-|---|---|---:|---:|---:|---:|---|---|
-| W1 | `ciencias_naturales` | 40 | 40 | 36 | 0 | — | `closed` |
-| W2 | `matematicas` | 64 | 60 | 57 | 4 | 4 activas | `partial_with_preserved_exceptions` |
-| W3 | `espanol_lengua` | 130 | 130 | 114 | 0 | — | `closed` |
-| W4 | `ciencias_sociales` | 14 | 14 | 14 | 0 | — | `closed` |
-| W5 | `historia` | 18 | 18 | 15 | 0 | — | `closed` |
-| W6 | `geografia_atlas` | 42 | 42 | 37 | 0 | — | `closed` |
-| W7 | `civica_etica` | 30 | 25 | 25 | 5 | 5 activas | `source_admitted_cohort_closed_with_retentions` |
-| W8 | `artes` | 20 | 16 | 16 | 4 | 4 activas | `source_admitted_cohort_closed_with_retentions` |
-| W9 | `educacion_fisica` | 4 | 4 | 4 | 0 | — | `closed` |
-| W10 | `integrados_multiarea` | 69 | 68 | 68 | 1 | 1 final | `source_admitted_cohort_closed_with_retentions` |
-| W11 | `otros_no_clasificados` | 111 | 107 | 106 | 4 | 4 finales | `source_admitted_cohort_closed_with_retentions` |
+- Identidades: **130**.
+- Objetos canónicos: **114**.
+- Aliases por provenance: **16**.
+- Páginas fuente canónicas: **20,765**.
+- Huecos internos persistentes: **8**.
+- Páginas OCR: **20,765**.
+- SHA verificados: **20,765**.
+- Texto detectado: **20,588**.
+- Sin texto detectado: **177**.
+- Unresolved: **0**.
+- Páginas elegibles FRAGSEG: **17,337**.
+- Fragmentos técnicos: **222,490**.
+- IDs de fragmento únicos: **222,490**.
+- Unidades textuales exactas únicas: **147,375**.
+- Unidades exactas repetidas: **40,956**.
+- Unidades presentes en ≥2 visores: **40,118**.
+- Pares de visores con solapamiento exacto: **6,387**.
 
-## Residual de fuente
+### PAGESTRUCT
 
-Las **18 identidades** fuera de la cobertura técnica efectiva están consolidadas en `data/catalog/ltmd_u1_retained_source_register.csv` y explicadas en `docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md`.
+- `textual`: 8,309.
+- `mixed_text_image`: 9,028.
+- `visual_only`: 1,498.
+- `front_matter`: 34.
+- `toc_or_navigation`: 409.
+- `bibliography_or_credits`: 411.
+- `unknown`: 1,076.
 
-Trece permanecen como `active_retention` y constituyen trabajo técnico abierto: cuatro W2, cinco W7 y cuatro W8. Las otras cinco ya son `final_exception`: `H2014P1ENA` en W10 y cuatro identidades W11 (`H2014P1EAM`, `H2014P2EAM`, `H2014P3COL`, `H2014P3MOR`). Sus issues especializados #11, #13 y #14 cerraron la investigación disponible de fuente mediante búsquedas acotadas y reproducibles sin recuperación admisible.
+### Tipos FRAGSEG candidatos
 
-Una excepción final no se considera cubierta ni procesada. Permanece en el residual U1 para que la cifra 524/542 no oculte límites de fuente, pero deja de tratarse como trabajo ordinario pendiente. Sólo debe reabrirse si aparece evidencia institucional o archivística nueva con correspondencia suficiente.
+- `activity_candidate`: 4,205.
+- `assessment_candidate`: 605.
+- `experiment_candidate`: 795.
+- `expository_candidate`: 31,149.
+- `instruction_candidate`: 30,694.
+- `project_candidate`: 1,354.
+- `question_candidate`: 26,322.
+- `short_residual_candidate`: 127,366.
 
-## Actas de cierre y evidencia
+## W4 — Ciencias Sociales
 
-Las actas y reportes por ola conservan el detalle de auditoría de activos, admisibilidad, topología canónica, OCR, PAGESTRUCT, FRAGSEG, reutilización exacta y excepciones. La vista agregada autoritativa para numeradores y denominadores es `data/catalog/ltmd_u1_coverage.md`; el plan vigente es `docs/LTMD_U1_MASTER_PLAN_0_3.md`.
+Estado técnico derivado: **`complete`**.
 
-La integridad de la superficie pública derivada se controla adicionalmente mediante `data/catalog/ltmd_u1_evidence_integrity.csv` y `docs/LTMD_U1_EVIDENCE_INTEGRITY.md`, con SHA-256 y tamaño por artefacto.
+- Identidades: **14**.
+- Objetos canónicos: **14**.
+- Aliases por provenance: **0**.
+- Páginas fuente canónicas: **2,414**.
+- Huecos internos persistentes: **0**.
+- Terminales sintéticos excluidos: **14**.
+- Páginas OCR: **2,414**.
+- SHA verificados: **2,414**.
+- Texto detectado: **2,397**.
+- Sin texto detectado: **17**.
+- Unresolved: **0**.
+- Páginas elegibles FRAGSEG: **2,018**.
+- Fragmentos técnicos: **21,380**.
+- IDs de fragmento únicos: **21,380**.
+- Unidades textuales exactas únicas: **17,735**.
+- Unidades exactas repetidas: **2,503**.
+- Unidades presentes en ≥2 visores: **2,454**.
+- Pares de visores con solapamiento exacto: **85**.
+
+### PAGESTRUCT
+
+- `textual`: 1,417.
+- `mixed_text_image`: 601.
+- `visual_only`: 179.
+- `front_matter`: 1.
+- `toc_or_navigation`: 33.
+- `bibliography_or_credits`: 34.
+- `unknown`: 149.
+
+### Tipos FRAGSEG candidatos
+
+- `activity_candidate`: 136.
+- `assessment_candidate`: 5.
+- `experiment_candidate`: 69.
+- `expository_candidate`: 5,450.
+- `instruction_candidate`: 3,145.
+- `project_candidate`: 9.
+- `question_candidate`: 1,707.
+- `short_residual_candidate`: 10,859.
 
 ## Regla de lectura
 
-Los estados técnicos anteriores son controles de infraestructura científica. `text_detected` no equivale a exactitud OCR validada; las clases PAGESTRUCT son estructurales; los tipos FRAGSEG son candidatos técnicos; y la igualdad de hash sólo documenta igualdad dentro de la representación correspondiente. Ninguna de estas capas sustituye por sí misma la referencia humana necesaria para afirmaciones semánticas, pedagógicas o históricas sustantivas.
+Los conteos anteriores son controles de infraestructura científica. `text_detected` no es CER/WER; las clases PAGESTRUCT son estructurales; los tipos FRAGSEG son candidatos técnicos; y la igualdad de hash sólo documenta igualdad dentro de la representación técnica correspondiente.
