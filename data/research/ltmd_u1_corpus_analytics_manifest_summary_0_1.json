@@ -1,0 +1,72 @@
+{
+  "dimension_cardinality": {
+    "generations": 11,
+    "grades": 6,
+    "nonempty_generation_grade_wave_cells": 267,
+    "waves": 11
+  },
+  "full_manifest": {
+    "preserved_private": true,
+    "public_repository_contains_full_manifest": false,
+    "sha256": "0966bba7bdd7410476e0eec42a3a5257a18994e8754666a649243b7fc4dda13a",
+    "version": "LTMD_U1_CORPUS_ANALYTICS_MANIFEST_0.1"
+  },
+  "index": {
+    "private": true,
+    "sha256": "aec55cc7dd83c2e1e22d26e3baf8f7ca2e35e32898827ec84e6222edd4bcf7a2",
+    "sqlite_integrity_check": "ok",
+    "tokenizer": "unicode61 remove_diacritics 2",
+    "version": "LTMD_U1_UNIVERSAL_INDEX_0.1"
+  },
+  "ocr_quality": {
+    "available_pages": 80968,
+    "interpretation": "engine_confidence_only_not_CER_WER_or_human_text_verification",
+    "max": 97.007088,
+    "mean": 88.55164136444027,
+    "median": 92.0614865,
+    "metric": "page_level_ocr_engine_confidence_mean",
+    "min": 0.0,
+    "p10": 79.6217163,
+    "p25": 88.04625374999999,
+    "p75": 94.12816125,
+    "p90": 95.3290431,
+    "unavailable_pages": 5581
+  },
+  "privacy": {
+    "book_identifiers_emitted": false,
+    "full_manifest_private": true,
+    "ocr_or_search_text_emitted": false,
+    "page_ids_emitted": false,
+    "private_storage_location_emitted": false,
+    "public_summary_aggregate_only": true,
+    "source_urls_emitted": false
+  },
+  "scientific_state": {
+    "corpus_ready_for_computational_retrieval": true,
+    "default_result_state": "exploratory_signal",
+    "human_validation_deferred_not_cancelled": true,
+    "ocr_available": true,
+    "semantic_ready": false,
+    "text_verified": false
+  },
+  "summary_version": "LTMD_U1_CORPUS_ANALYTICS_MANIFEST_SUMMARY_0.1",
+  "technical_coverage": {
+    "coverage_version": "LTMD_U1_COVERAGE_0.14",
+    "retained_register_version": "LTMD_U1_RETAINED_SOURCE_REGISTER_0.2",
+    "retention_status_counts": {
+      "active_retention": 13,
+      "final_exception": 5
+    }
+  },
+  "universe": {
+    "active_retentions": 13,
+    "canonical_processing_objects": 492,
+    "effective_technical_identities": 524,
+    "final_exceptions": 5,
+    "fts_rows": 86549,
+    "historical_identities": 542,
+    "human_semantic_validated_identities": 0,
+    "indexed_pages": 86549,
+    "residual_identities": 18
+  }
+}
