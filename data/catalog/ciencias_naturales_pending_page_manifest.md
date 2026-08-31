@@ -3,10 +3,10 @@
 Versión: `CN_PENDING_PAGE_MANIFEST_0.1`.
 
 - Posiciones declaradas: **4,207**.
-- JPEG fuente verificados y hasheados: **3,529**.
+- JPEG fuente verificados y hasheados: **4,181**.
 - Finales declarados sin imagen / terminal sintético: **23**.
-- Huecos internos: **655**.
-- Bytes fuente recorridos: **510,399,339**.
+- Huecos internos: **3**.
+- Bytes fuente recorridos: **667,584,086**.
 - Hashes repetidos dentro de esta ola: **177**.
 
 ## Por objeto
@@ -27,10 +27,10 @@ Versión: `CN_PENDING_PAGE_MANIFEST_0.1`.
 - `LTMD-CN5-G2011`: posiciones=162; JPEG=161; terminal=1; internos ausentes=0; corpus-ready-activos=sí.
 - `LTMD-CN6-G2011`: posiciones=178; JPEG=177; terminal=1; internos ausentes=0; corpus-ready-activos=sí.
 - `LTMD-CN3-G2014`: posiciones=154; JPEG=153; terminal=1; internos ausentes=0; corpus-ready-activos=sí.
-- `LTMD-CN3-G2018`: posiciones=154; JPEG=0; terminal=1; internos ausentes=153; corpus-ready-activos=no.
-- `LTMD-CN4-G2018`: posiciones=162; JPEG=0; terminal=1; internos ausentes=161; corpus-ready-activos=no.
-- `LTMD-CN5-G2018`: posiciones=162; JPEG=0; terminal=1; internos ausentes=161; corpus-ready-activos=no.
-- `LTMD-CN6-G2018`: posiciones=178; JPEG=0; terminal=1; internos ausentes=177; corpus-ready-activos=no.
+- `LTMD-CN3-G2018`: posiciones=154; JPEG=153; terminal=1; internos ausentes=0; corpus-ready-activos=sí.
+- `LTMD-CN4-G2018`: posiciones=162; JPEG=161; terminal=1; internos ausentes=0; corpus-ready-activos=sí.
+- `LTMD-CN5-G2018`: posiciones=162; JPEG=161; terminal=1; internos ausentes=0; corpus-ready-activos=sí.
+- `LTMD-CN6-G2018`: posiciones=178; JPEG=177; terminal=1; internos ausentes=0; corpus-ready-activos=sí.
 - `LTMD-CN3-G2019`: posiciones=154; JPEG=153; terminal=1; internos ausentes=0; corpus-ready-activos=sí.
 - `LTMD-CN4-G2019`: posiciones=162; JPEG=161; terminal=1; internos ausentes=0; corpus-ready-activos=sí.
 - `LTMD-CN5-G2019`: posiciones=162; JPEG=161; terminal=1; internos ausentes=0; corpus-ready-activos=sí.
