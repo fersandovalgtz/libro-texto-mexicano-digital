@@ -1,0 +1,25 @@
+{
+  "audit_version": "LTMD_U1_TECHNICAL_CLOSURE_AUDIT_0.1",
+  "universe": 542,
+  "effective_technical_identities": 524,
+  "effective_percent": 96.68,
+  "canonical_processing_objects": 492,
+  "canonical_percent": 90.77,
+  "preserved_exceptions": 18,
+  "remaining_to_effective": 18,
+  "semantic_human_validated": 0,
+  "wave_remaining": {
+    "W1": 0,
+    "W2": 4,
+    "W3": 0,
+    "W4": 0,
+    "W5": 0,
+    "W6": 0,
+    "W7": 5,
+    "W8": 4,
+    "W9": 0,
+    "W10": 1,
+    "W11": 4
+  },
+  "status": "PASS"
+}
