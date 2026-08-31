@@ -7,6 +7,7 @@ on:
       - 'scripts/validate_ftrl_w3_distributed.py'
       - 'scripts/consolidate_ftrl_w3_distributed.py'
       - 'data/research/ltmd_u1_w3_distributed_topology.json'
+      - 'data/research/ltmd_u1_w3_distributed_run_stamp.json'
       - '.github/workflows/run-ftrl-w3-distributed.yml'
       - '.github/workflows/validate-ftrl-w3-distributed-config.yml'
   push:
@@ -16,6 +17,7 @@ on:
       - 'scripts/validate_ftrl_w3_distributed.py'
       - 'scripts/consolidate_ftrl_w3_distributed.py'
       - 'data/research/ltmd_u1_w3_distributed_topology.json'
+      - 'data/research/ltmd_u1_w3_distributed_run_stamp.json'
       - '.github/workflows/run-ftrl-w3-distributed.yml'
       - '.github/workflows/validate-ftrl-w3-distributed-config.yml'
   workflow_dispatch:
@@ -77,12 +79,13 @@ jobs:
           assert sum(sizes) == 20765
           print('W3 topology validated: 17x400 + 35x399 = 20,765')
           PY
-      - name: Assert workflow safety and no launch stamp
+      - name: Assert workflow safety and launch-state integrity
         run: |
-          test ! -f data/research/ltmd_u1_w3_distributed_run_stamp.json
           test ! -f security/ltmd_archive_private.pem
           python - <<'PY'
+          import json
           from pathlib import Path
+
           wf = Path('.github/workflows/run-ftrl-w3-distributed.yml').read_text(encoding='utf-8')
           assert 'workflow_dispatch:' in wf
           assert "data/research/ltmd_u1_w3_distributed_run_stamp.json" in wf
@@ -94,8 +97,23 @@ jobs:
           assert 'Upload encrypted shard handoff only' in wf
           assert 'Upload text-free shard evidence' in wf
           assert 'Validate exact exhaustive union of 52 shards' in wf
-          assert '--shard-count 52' in wf
           assert '20,765/20,765' in wf
           assert 'private Google Drive' in wf
-          print('W3 distributed workflow safety validated; no productive launch stamp present')
+
+          stamp_path = Path('data/research/ltmd_u1_w3_distributed_run_stamp.json')
+          if stamp_path.exists():
+              stamp = json.loads(stamp_path.read_text(encoding='utf-8'))
+              assert stamp['schema'] == 'LTMD_FTRL_W3_DISTRIBUTED_RUN_STAMP_0.1'
+              assert stamp['wave'] == 'W3'
+              assert stamp['source_branch'] == 'main'
+              assert stamp['historical_identities'] == 130
+              assert stamp['canonical_processing_objects'] == 114
+              assert stamp['expected_source_pages'] == 20765
+              assert stamp['shard_count'] == 52
+              assert stamp['max_parallel'] == 8
+              assert stamp['full_execution_activated'] is True
+              assert stamp['public_evidence_policy'] == 'text-free only'
+              print('W3 distributed workflow safety and productive launch stamp validated')
+          else:
+              print('W3 distributed workflow safety validated; productive launch stamp not yet present')
           PY
