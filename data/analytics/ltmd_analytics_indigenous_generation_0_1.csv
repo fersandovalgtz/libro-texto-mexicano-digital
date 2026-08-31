@@ -1,0 +1,12 @@
+generation,corpus_total_pages,candidate_pages,explicit_general_pages,named_language_contextual_pages,candidate_books,candidate_pages_per_1000_corpus_pages,epistemic_state
+1960,3536,23,2,21,9,6.5045,exploratory_signal
+1966,6680,43,12,34,17,6.4371,exploratory_signal
+1972,7020,28,3,25,12,3.9886,exploratory_signal
+1982,3292,8,5,3,3,2.4301,exploratory_signal
+1988,5274,22,8,16,9,4.1714,exploratory_signal
+1993,21708,367,64,331,78,16.9062,exploratory_signal
+2008,6538,105,67,56,20,16.0600,exploratory_signal
+2011,7611,124,87,51,28,16.2922,exploratory_signal
+2014,13752,280,131,212,55,20.3607,exploratory_signal
+2018,2744,25,4,24,7,9.1108,exploratory_signal
+2019,8394,126,74,86,28,15.0107,exploratory_signal
