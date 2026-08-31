@@ -17,6 +17,7 @@ on:
       - 'scripts/build_u1_lexical_dimensions.py'
       - 'scripts/build_u1_ngrams.py'
       - 'scripts/build_u1_cooccurrences.py'
+      - 'scripts/build_u1_reuse_similarity.py'
       - 'schemas/ltmd_analytics_query_response.schema.json'
       - 'schemas/ltmd_u1_universal_index_manifest.schema.json'
       - 'schemas/ltmd_u1_corpus_query_response.schema.json'
@@ -25,8 +26,10 @@ on:
       - 'schemas/ltmd_u1_lexical_dimensions_public_summary.schema.json'
       - 'schemas/ltmd_u1_ngrams_public_summary.schema.json'
       - 'schemas/ltmd_u1_cooccurrences_public_summary.schema.json'
+      - 'schemas/ltmd_u1_reuse_similarity_public_summary.schema.json'
       - 'data/analytics/ltmd_u1_ngrams_materialization_0_1.json'
       - 'data/analytics/ltmd_u1_cooccurrences_materialization_0_1.json'
+      - 'data/analytics/ltmd_u1_reuse_similarity_materialization_0_1.json'
       - 'tests/test_analytics_api.py'
       - 'tests/test_build_indigenous_analytics_mart.py'
       - 'tests/test_query_indigenous_analytics.py'
@@ -37,6 +40,7 @@ on:
       - 'tests/test_build_u1_lexical_dimensions.py'
       - 'tests/test_build_u1_ngrams.py'
       - 'tests/test_build_u1_cooccurrences.py'
+      - 'tests/test_build_u1_reuse_similarity.py'
       - '.github/workflows/test-ltmd-analytics.yml'
   push:
     branches: [main]
@@ -54,6 +58,7 @@ on:
       - 'scripts/build_u1_lexical_dimensions.py'
       - 'scripts/build_u1_ngrams.py'
       - 'scripts/build_u1_cooccurrences.py'
+      - 'scripts/build_u1_reuse_similarity.py'
       - 'schemas/ltmd_analytics_query_response.schema.json'
       - 'schemas/ltmd_u1_universal_index_manifest.schema.json'
       - 'schemas/ltmd_u1_corpus_query_response.schema.json'
@@ -62,8 +67,10 @@ on:
       - 'schemas/ltmd_u1_lexical_dimensions_public_summary.schema.json'
       - 'schemas/ltmd_u1_ngrams_public_summary.schema.json'
       - 'schemas/ltmd_u1_cooccurrences_public_summary.schema.json'
+      - 'schemas/ltmd_u1_reuse_similarity_public_summary.schema.json'
       - 'data/analytics/ltmd_u1_ngrams_materialization_0_1.json'
       - 'data/analytics/ltmd_u1_cooccurrences_materialization_0_1.json'
+      - 'data/analytics/ltmd_u1_reuse_similarity_materialization_0_1.json'
       - 'tests/test_analytics_api.py'
       - 'tests/test_build_indigenous_analytics_mart.py'
       - 'tests/test_query_indigenous_analytics.py'
@@ -74,6 +81,7 @@ on:
       - 'tests/test_build_u1_lexical_dimensions.py'
       - 'tests/test_build_u1_ngrams.py'
       - 'tests/test_build_u1_cooccurrences.py'
+      - 'tests/test_build_u1_reuse_similarity.py'
       - '.github/workflows/test-ltmd-analytics.yml'
 
 permissions:
@@ -102,6 +110,7 @@ jobs:
           tests/test_build_u1_lexical_dimensions.py
           tests/test_build_u1_ngrams.py
           tests/test_build_u1_cooccurrences.py
+          tests/test_build_u1_reuse_similarity.py
       - name: Validate Analytics JSON schemas and materialization records
         run: |
           python - <<'PY'
@@ -116,6 +125,7 @@ jobs:
               'schemas/ltmd_u1_lexical_dimensions_public_summary.schema.json',
               'schemas/ltmd_u1_ngrams_public_summary.schema.json',
               'schemas/ltmd_u1_cooccurrences_public_summary.schema.json',
+              'schemas/ltmd_u1_reuse_similarity_public_summary.schema.json',
           ]
           for path in paths:
               schema = json.load(open(path, encoding='utf-8'))
@@ -127,6 +137,8 @@ jobs:
                'data/analytics/ltmd_u1_ngrams_materialization_0_1.json'),
               ('schemas/ltmd_u1_cooccurrences_public_summary.schema.json',
                'data/analytics/ltmd_u1_cooccurrences_materialization_0_1.json'),
+              ('schemas/ltmd_u1_reuse_similarity_public_summary.schema.json',
+               'data/analytics/ltmd_u1_reuse_similarity_materialization_0_1.json'),
           ]
           for schema_path, data_path in validations:
               schema = json.load(open(schema_path, encoding='utf-8'))
