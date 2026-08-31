@@ -1,6 +1,7 @@
 import hashlib
 import importlib.util
 import json
+import shutil
 import sqlite3
 from pathlib import Path
 
@@ -101,6 +102,8 @@ def test_build_reconciles_duplicate_and_builds_fts(tmp_path):
     assert manifest["reconciliation"]["unique_canonical_objects"] == 2
     assert manifest["reconciliation"]["identical_duplicate_rows_deduplicated"] == 1
     assert manifest["reconciliation"]["conflicts"] == 0
+    assert manifest["reconciliation"]["canonical_row_order"] == "page_id_ascending"
+    assert manifest["input"]["database_hash_order"] == "sha256_ascending"
     assert manifest["index"]["private"] is True
     assert manifest["scientific_state"]["semantic_ready"] is False
 
@@ -132,7 +135,7 @@ def test_conflicting_duplicate_page_id_fails(tmp_path):
         raise AssertionError("expected conflict gate")
 
 
-def test_manifest_is_text_free_and_path_free(tmp_path):
+def test_manifest_is_text_free_path_free_and_filename_independent(tmp_path):
     db = tmp_path / "private_wave.sqlite"
     make_source_db(db, [row("p1", "B1", 1993, 5, "W3", "secreto rarámuri")])
     output = tmp_path / "private_universal.sqlite"
@@ -144,10 +147,36 @@ def test_manifest_is_text_free_and_path_free(tmp_path):
     assert "secreto" not in payload
     assert "example.invalid" not in payload
     assert str(tmp_path) not in payload
+    assert "private_wave.sqlite" not in payload
     assert "p1" not in payload
     assert saved["privacy"]["ocr_text_in_manifest"] is False
     assert saved["privacy"]["page_ids_in_manifest"] is False
     assert saved["input"]["private_paths_emitted"] is False
+    assert set(saved["input"]["database_hashes"][0]) == {"sha256", "bytes"}
+
+
+def test_binary_index_is_independent_of_input_filenames_and_order(tmp_path):
+    source_a = tmp_path / "source_a.sqlite"
+    source_b = tmp_path / "source_b.sqlite"
+    make_source_db(source_a, [row("p9", "B9", 2014, 6, "W7", "nueve", 9)])
+    make_source_db(source_b, [row("p1", "B1", 1993, 5, "W3", "uno", 1)])
+
+    set1 = tmp_path / "set1"
+    set2 = tmp_path / "set2"
+    set1.mkdir()
+    set2.mkdir()
+    shutil.copyfile(source_a, set1 / "a.sqlite")
+    shutil.copyfile(source_b, set1 / "z.sqlite")
+    shutil.copyfile(source_a, set2 / "z.sqlite")
+    shutil.copyfile(source_b, set2 / "a.sqlite")
+
+    out1, man1 = tmp_path / "one.sqlite", tmp_path / "one.json"
+    out2, man2 = tmp_path / "two.sqlite", tmp_path / "two.json"
+    m1 = mod.build_index(sorted(set1.glob("*.sqlite")), out1, man1, expected_pages=2, expected_objects=2)
+    m2 = mod.build_index(sorted(set2.glob("*.sqlite")), out2, man2, expected_pages=2, expected_objects=2)
+
+    assert m1["index"]["sha256"] == m2["index"]["sha256"]
+    assert man1.read_bytes() == man2.read_bytes()
 
 
 def test_u1_cardinality_gate_rejects_wrong_counts(tmp_path):
