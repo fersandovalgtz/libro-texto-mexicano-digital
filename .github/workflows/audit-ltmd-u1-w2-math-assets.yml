@@ -57,7 +57,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           pattern: ltmd-u1-w2-math-assets-*
           path: data/work/ltmd_u1_w2_math_assets

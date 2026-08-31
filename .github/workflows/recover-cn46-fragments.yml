@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Download nine valid shards from originating FRAGSEG run
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: frag-*
           path: data/work/cn46_fragments

@@ -81,7 +81,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           pattern: ltmd-u1-w7-civics-ethics-fragments-*
           path: data/work/ltmd_u1_w7_civics_ethics_fragments

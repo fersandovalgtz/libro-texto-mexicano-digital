@@ -47,7 +47,7 @@ jobs:
           fetch-depth: 0
       - name: Require published PAGESTRUCT
         run: test -f data/catalog/ltmd_u1_w1_1966_page_structure.csv
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           pattern: ltmd-u1-w1-1966-frag-*
           path: data/work/ltmd_u1_w1_1966_fragments

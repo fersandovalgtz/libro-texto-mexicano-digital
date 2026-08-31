@@ -119,7 +119,7 @@ jobs:
           find /tmp/source-ocr -type f -name 'ocr_*.csv' -exec cp {} data/work/ltmd_u1_w3_spanish_ocr/ \;
       - name: Download current recovery OCR artifacts
         if: needs.inspect.outputs.missing_count != '0'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: ltmd-u1-w3-spanish-ocr-recovery-*
           path: /tmp/recovery-ocr

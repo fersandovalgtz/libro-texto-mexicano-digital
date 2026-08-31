@@ -115,7 +115,7 @@ jobs:
           find /tmp/source-structkw -type f -name 'structkw_*.csv' -exec cp {} data/work/ltmd_u1_w3_spanish_structkw/ \;
       - name: Download recovery structural artifacts
         if: needs.inspect.outputs.missing_count != '0'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: ltmd-u1-w3-spanish-structkw-recovery-*
           path: /tmp/recovery-structkw
