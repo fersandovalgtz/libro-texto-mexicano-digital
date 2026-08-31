@@ -1,0 +1,38 @@
+{
+  "materialization_version": "LTMD_U1_LEXICAL_DIMENSIONS_MATERIALIZATION_0.1",
+  "source": {
+    "version": "LTMD_U1_LEXICAL_POSITIONS_0.1",
+    "sha256": "59340c6f91fb7a2e9763ba84c1c6b9accfcd9f9f369a9a7b9ce2a9eeca9d7e8e"
+  },
+  "counts": {
+    "term_page_stats_rows": 7848708,
+    "term_dimension_stats_rows": 1517473,
+    "generation_term_rows": 598484,
+    "grade_term_rows": 437827,
+    "wave_term_rows": 481162,
+    "dimension_denominator_rows": 28
+  },
+  "private_artifact": {
+    "sqlite_bytes": 158904320,
+    "sqlite_sha256": "018d2bf6520fc8e1cda5aa34c0dfedb39ae9320a07d95e0fe193c17423eeb99b",
+    "gzip_bytes": 50842335,
+    "gzip_sha256": "475941720453781b0ff44c1689a32cc60a976aa95184caf1abd400dfe28e27c8",
+    "quick_check": "ok",
+    "publish": false
+  },
+  "privacy": {
+    "term_values_public": false,
+    "page_identifiers_public": false,
+    "full_term_dimension_matrix_public": false
+  },
+  "scientific_state": {
+    "result_state": "exploratory_signal",
+    "text_verified": false,
+    "semantic_ready": false,
+    "wave_is_operational_not_curricular_ontology": true
+  },
+  "preservation": {
+    "large_artifact_drive_upload_succeeded": false,
+    "reconstructible_from_lexical_positions": true
+  }
+}
