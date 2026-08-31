@@ -2,7 +2,7 @@
 
 Versión: `LTMD_U1_W2_MATH_EXACT_ALIASES_0.1`.
 
-- Visores `direct_asset_ready`: **59**.
+- Visores `direct_asset_ready`: **63**.
 - Grupos con ≥2 objetos byte-idénticos alineados: **3**.
 - Visores alias que pueden heredar procesamiento técnico del canónico: **3**.
 
