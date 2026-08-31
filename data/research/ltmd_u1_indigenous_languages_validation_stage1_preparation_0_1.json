@@ -1,0 +1,70 @@
+{
+  "version": "LTMD_U1_INDIGENOUS_LANGUAGES_VALIDATION_STAGE1_PREPARATION_0.1",
+  "execution_date": "2026-08-30",
+  "repository_base_main": "448d5b382286570f09db441bd9a47935d215e7b2",
+  "dependencies": {
+    "indigenous_languages_rerun_merge_commit": "53129f6688e6568e24df3dbaedc3da2247ab33e7",
+    "validation_stage1_merge_commit": "c5d4a2010bbc9c60a50abc6ee51ee25611ad7744"
+  },
+  "private_corpus_reconstruction": {
+    "sqlite_database_count": 288,
+    "unique_pages": 86549,
+    "unique_canonical_objects": 492,
+    "duplicate_page_ids": 0,
+    "identity_or_hash_conflicts": 0,
+    "database_counts_by_wave": {
+      "W1": 1,
+      "W2": 57,
+      "W3": 1,
+      "W4": 8,
+      "W5": 1,
+      "W6": 1,
+      "W7": 25,
+      "W8": 16,
+      "W9": 4,
+      "W10": 68,
+      "W11": 106
+    }
+  },
+  "rerun_reproduction": {
+    "broad_candidate_pages": 1151,
+    "explicit_general_pages": 457,
+    "named_language_contextual_pages": 859,
+    "overlap_explicit_and_named_pages": 165,
+    "candidate_books": 266,
+    "candidate_ledger_sha256": "efa77793479c8a5d4704aaee77f1047938c84c2aa9b5ea9550131fd09a6531bb",
+    "candidate_ledger_matches_original_0_2_byte_for_byte": true
+  },
+  "validation_queue": {
+    "rows": 457,
+    "double_coded_pages": 57,
+    "selection_method": "generation-stratified deterministic SHA-256 ranking",
+    "selection_rate": 0.1,
+    "minimum_per_generation": 2,
+    "seed": "LTMD_U1_INDIGENOUS_LANGUAGES_VALIDATION_STAGE1_0.1",
+    "queue_sha256": "db9cfd6a9a819fcd55d4f89ff2ec3ecba7f874a681632e48bc7396834b734b46",
+    "queue_manifest_sha256": "9e997bff18498c3369dca151fbd7a439099ba0c442b1cf5b8af138f4b114648c",
+    "double_coded_by_generation": {
+      "1960": 2,
+      "1966": 2,
+      "1972": 2,
+      "1982": 2,
+      "1988": 2,
+      "1993": 7,
+      "2008": 7,
+      "2011": 9,
+      "2014": 14,
+      "2018": 2,
+      "2019": 8
+    }
+  },
+  "privacy_and_scientific_state": {
+    "private_artifacts_archived": true,
+    "private_storage_locations_published": false,
+    "ocr_text_published": false,
+    "source_page_bytes_published": false,
+    "visual_validation_complete": false,
+    "semantic_ready_promotions": 0,
+    "note": "The private preservation corpus reconstructs the original 0.2 candidate ledger exactly. The 457-page validation queue is prepared, but all historical interpretation remains blocked until source-page visual validation and adjudication are complete."
+  }
+}
