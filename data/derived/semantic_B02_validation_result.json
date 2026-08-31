@@ -264,13 +264,13 @@
     {
       "expected": "discuss",
       "rank": 1,
-      "expected_score": 0.866444,
+      "expected_score": 0.866445,
       "top_label": "discuss",
-      "top_score": 0.866444,
+      "top_score": 0.866445,
       "top3": [
         {
           "label": "discuss",
-          "score": 0.866444
+          "score": 0.866445
         },
         {
           "label": "investigate",
@@ -633,7 +633,7 @@
         "predict"
       ],
       "uncertain": 1,
-      "gate_margin": 0.006396,
+      "gate_margin": 0.006395,
       "correct_abstain_or_uncertain": true
     }
   ],
