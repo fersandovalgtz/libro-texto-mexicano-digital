@@ -1,0 +1,63 @@
+name: Datos, procedencia o metodología
+description: Reporte de discrepancia documental, problema de datos o propuesta metodológica.
+title: "[Data/Method] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use este formulario cuando el asunto afecte identidad documental, cobertura, procedencia, hashes, relaciones, denominadores, estados de validación o reglas metodológicas.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área principal
+      options:
+        - Identidad documental / metadatos
+        - Cobertura / denominadores
+        - Procedencia / hashes / manifiestos
+        - OCR / PAGESTRUCT / FRAGSEG / FTRL
+        - Reutilización / similitud documental
+        - Validación humana / estados semánticos
+        - Metodología / contrato de datos
+        - Otro
+    validations:
+      required: true
+  - type: input
+    id: identifiers
+    attributes:
+      label: Identificadores afectados
+      description: viewer_key, book_id, wave, ruta pública, SHA u otro identificador reproducible.
+  - type: textarea
+    id: observation
+    attributes:
+      label: Discrepancia o propuesta
+      description: Explique exactamente qué observa y qué debería revisarse.
+    validations:
+      required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Evidencia y procedencia
+      description: Cite la fuente o artefacto verificable. No adjunte material restringido si no existe base jurídica para redistribuirlo.
+    validations:
+      required: true
+  - type: dropdown
+    id: validation-state
+    attributes:
+      label: Estado epistemológico de la evidencia
+      options:
+        - Evidencia documental/técnica verificable
+        - Señal computacional exploratoria
+        - Validación humana documentada
+        - Hipótesis todavía no verificada
+        - No estoy seguro
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmaciones
+      options:
+        - label: No estoy promoviendo una señal automática a `semantic_ready` sin evidencia humana válida.
+          required: true
+        - label: He distinguido el material fuente del derivado o metadato de LTMD.
+          required: true
