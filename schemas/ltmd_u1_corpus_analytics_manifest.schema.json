@@ -1,0 +1,170 @@
+{
+  "$defs": {
+    "coverageWave": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_processing_objects": {"minimum": 0, "type": "integer"},
+        "effective_technical_identities": {"minimum": 0, "type": "integer"},
+        "operational_domain": {"minLength": 1, "type": "string"},
+        "planned_identities": {"minimum": 0, "type": "integer"},
+        "residual_identities": {"minimum": 0, "type": "integer"},
+        "technical_status": {"minLength": 1, "type": "string"},
+        "wave": {"pattern": "^W[0-9]+$", "type": "string"}
+      },
+      "required": ["wave", "operational_domain", "planned_identities", "effective_technical_identities", "canonical_processing_objects", "residual_identities", "technical_status"],
+      "type": "object"
+    },
+    "denominatorCell": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_objects": {"minimum": 1, "type": "integer"},
+        "generation": {"minimum": 0, "type": "integer"},
+        "grade_code": {"minimum": 0, "type": "integer"},
+        "pages": {"minimum": 1, "type": "integer"},
+        "wave": {"pattern": "^W[0-9]+$", "type": "string"}
+      },
+      "required": ["generation", "grade_code", "wave", "pages", "canonical_objects"],
+      "type": "object"
+    },
+    "dimensionRow": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_objects": {"minimum": 1, "type": "integer"},
+        "pages": {"minimum": 1, "type": "integer"},
+        "value": {"minLength": 1, "type": "string"}
+      },
+      "required": ["value", "pages", "canonical_objects"],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_u1_corpus_analytics_manifest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "denominator_policy": {
+      "additionalProperties": false,
+      "properties": {
+        "filtered_denominators_come_from_same_universal_index": {"const": true},
+        "silent_imputation": {"const": false},
+        "wave_is_operational_not_curricular_ontology": {"const": true},
+        "zero_hits_demonstrate_absence": {"const": false}
+      },
+      "required": ["filtered_denominators_come_from_same_universal_index", "silent_imputation", "wave_is_operational_not_curricular_ontology", "zero_hits_demonstrate_absence"],
+      "type": "object"
+    },
+    "dimensions": {
+      "additionalProperties": false,
+      "properties": {
+        "generation": {"items": {"$ref": "#/$defs/dimensionRow"}, "type": "array"},
+        "grade_code": {"items": {"$ref": "#/$defs/dimensionRow"}, "type": "array"},
+        "nonempty_generation_grade_wave_cells": {"items": {"$ref": "#/$defs/denominatorCell"}, "type": "array"},
+        "wave": {"items": {"$ref": "#/$defs/dimensionRow"}, "type": "array"}
+      },
+      "required": ["generation", "grade_code", "wave", "nonempty_generation_grade_wave_cells"],
+      "type": "object"
+    },
+    "index": {
+      "additionalProperties": false,
+      "properties": {
+        "private": {"const": true},
+        "publish_index_file": {"const": false},
+        "sha256": {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+        "sqlite_integrity_check": {"const": "ok"},
+        "tokenizer": {"const": "unicode61 remove_diacritics 2"},
+        "version": {"const": "LTMD_U1_UNIVERSAL_INDEX_0.1"}
+      },
+      "required": ["version", "sha256", "sqlite_integrity_check", "tokenizer", "private", "publish_index_file"],
+      "type": "object"
+    },
+    "inputs": {
+      "additionalProperties": false,
+      "properties": {
+        "coverage_source": {"const": "data/catalog/ltmd_u1_coverage.md"},
+        "index_sha256": {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+        "private_index_path_emitted": {"const": false},
+        "retained_source_register": {"const": "data/catalog/ltmd_u1_retained_source_register.csv"}
+      },
+      "required": ["index_sha256", "coverage_source", "retained_source_register", "private_index_path_emitted"],
+      "type": "object"
+    },
+    "manifest_version": {"const": "LTMD_U1_CORPUS_ANALYTICS_MANIFEST_0.1"},
+    "ocr_quality": {
+      "additionalProperties": false,
+      "properties": {
+        "available_pages": {"minimum": 0, "type": "integer"},
+        "interpretation": {"const": "engine_confidence_only_not_CER_WER_or_human_text_verification"},
+        "max": {"type": ["number", "null"]},
+        "mean": {"type": ["number", "null"]},
+        "median": {"type": ["number", "null"]},
+        "metric": {"const": "page_level_ocr_engine_confidence_mean"},
+        "min": {"type": ["number", "null"]},
+        "p10": {"type": ["number", "null"]},
+        "p25": {"type": ["number", "null"]},
+        "p75": {"type": ["number", "null"]},
+        "p90": {"type": ["number", "null"]},
+        "unavailable_pages": {"minimum": 0, "type": "integer"}
+      },
+      "required": ["metric", "available_pages", "unavailable_pages", "mean", "min", "p10", "p25", "median", "p75", "p90", "max", "interpretation"],
+      "type": "object"
+    },
+    "privacy": {
+      "additionalProperties": false,
+      "properties": {
+        "aggregate_only_public_surface": {"const": true},
+        "book_identifiers_emitted": {"const": false},
+        "ocr_or_search_text_emitted": {"const": false},
+        "page_ids_emitted": {"const": false},
+        "page_or_ocr_hashes_emitted": {"const": false},
+        "private_storage_paths_emitted": {"const": false},
+        "snippets_emitted": {"const": false},
+        "source_urls_emitted": {"const": false}
+      },
+      "required": ["ocr_or_search_text_emitted", "snippets_emitted", "page_ids_emitted", "book_identifiers_emitted", "source_urls_emitted", "page_or_ocr_hashes_emitted", "private_storage_paths_emitted", "aggregate_only_public_surface"],
+      "type": "object"
+    },
+    "scientific_state": {
+      "additionalProperties": false,
+      "properties": {
+        "corpus_ready_for_computational_retrieval": {"const": true},
+        "default_result_state": {"const": "exploratory_signal"},
+        "human_validation_deferred_not_cancelled": {"const": true},
+        "ocr_available": {"const": true},
+        "semantic_ready": {"const": false},
+        "text_verified": {"const": false}
+      },
+      "required": ["ocr_available", "text_verified", "corpus_ready_for_computational_retrieval", "semantic_ready", "default_result_state", "human_validation_deferred_not_cancelled"],
+      "type": "object"
+    },
+    "technical_coverage": {
+      "additionalProperties": false,
+      "properties": {
+        "by_wave": {"items": {"$ref": "#/$defs/coverageWave"}, "maxItems": 11, "minItems": 11, "type": "array"},
+        "coverage_version": {"minLength": 1, "type": "string"},
+        "retained_register_version": {"minLength": 1, "type": "string"},
+        "retention_by_wave": {"additionalProperties": {"additionalProperties": {"minimum": 0, "type": "integer"}, "type": "object"}, "type": "object"},
+        "retention_status_counts": {"additionalProperties": {"minimum": 0, "type": "integer"}, "type": "object"}
+      },
+      "required": ["coverage_version", "retained_register_version", "by_wave", "retention_status_counts", "retention_by_wave"],
+      "type": "object"
+    },
+    "universe": {
+      "additionalProperties": false,
+      "properties": {
+        "active_retentions": {"minimum": 0, "type": "integer"},
+        "canonical_processing_objects": {"minimum": 1, "type": "integer"},
+        "effective_technical_identities": {"minimum": 0, "type": "integer"},
+        "final_exceptions": {"minimum": 0, "type": "integer"},
+        "fts_rows": {"minimum": 1, "type": "integer"},
+        "historical_identities": {"minimum": 1, "type": "integer"},
+        "human_semantic_validated_identities": {"minimum": 0, "type": "integer"},
+        "indexed_pages": {"minimum": 1, "type": "integer"},
+        "residual_identities": {"minimum": 0, "type": "integer"}
+      },
+      "required": ["historical_identities", "effective_technical_identities", "canonical_processing_objects", "indexed_pages", "fts_rows", "residual_identities", "active_retentions", "final_exceptions", "human_semantic_validated_identities"],
+      "type": "object"
+    }
+  },
+  "required": ["manifest_version", "universe", "index", "dimensions", "technical_coverage", "ocr_quality", "denominator_policy", "scientific_state", "privacy", "inputs"],
+  "title": "LTMD-U1 Corpus Analytics Manifest 0.1",
+  "type": "object"
+}
