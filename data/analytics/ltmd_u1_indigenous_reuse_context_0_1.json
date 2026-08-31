@@ -1,0 +1,40 @@
+{
+  "builder_version": "LTMD_VERTICAL_REUSE_CONTEXT_BUILDER_0.1",
+  "context_version": "LTMD_VERTICAL_REUSE_CONTEXT_0.1",
+  "metrics": {
+    "candidate_pages": 1151,
+    "candidate_pages_with_any_reuse_similarity_signal": 136,
+    "candidate_pages_with_cross_generation_reuse_similarity_signal": 124,
+    "candidate_pages_with_cross_generation_similarity_signal": 90,
+    "candidate_pages_with_exact_source_cross_generation_reuse": 24,
+    "candidate_pages_with_exact_source_cross_object_reuse": 28,
+    "candidate_pages_with_exact_text_cross_generation_reuse": 36,
+    "candidate_pages_with_exact_text_cross_object_reuse": 40,
+    "candidate_pages_with_near_exact_signal": 18,
+    "candidate_pages_with_similarity_signal": 98,
+    "candidate_pages_without_reuse_similarity_signal": 1015,
+    "internal_near_exact_pairs": 9,
+    "internal_similarity_pairs": 49,
+    "mapped_candidate_pages": 1151,
+    "share_candidate_pages_with_any_reuse_similarity_signal": 0.11815812337098175,
+    "unmapped_candidate_pages": 0
+  },
+  "privacy": {
+    "object_identifiers_emitted": false,
+    "ocr_text_emitted": false,
+    "page_identifiers_emitted": false,
+    "pair_identifiers_emitted": false
+  },
+  "provenance": {
+    "candidate_ledger_sha256": "efa77793479c8a5d4704aaee77f1047938c84c2aa9b5ea9550131fd09a6531bb",
+    "human_validation_complete": false,
+    "reuse_similarity_sha256": "4c180f37b287f4c5cc81155aabd8a97e5feb6f40668c3baa296c4733f8063301",
+    "universal_index_sha256": "aec55cc7dd83c2e1e22d26e3baf8f7ca2e35e32898827ec84e6222edd4bcf7a2"
+  },
+  "result_state": "exploratory_signal",
+  "vertical_id": "indigenous_languages",
+  "warnings": [
+    "Reuse/similarity context is computational evidence and does not create aliases or establish semantic equivalence.",
+    "Counts describe candidate pages touched by corpus-wide reuse/similarity signals; they do not invalidate or validate the vertical selection."
+  ]
+}

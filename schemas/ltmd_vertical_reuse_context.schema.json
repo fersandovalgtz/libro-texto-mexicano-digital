@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LTMD vertical reuse/similarity context 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["builder_version","context_version","vertical_id","result_state","metrics","provenance","warnings","privacy"],
+  "properties": {
+    "builder_version": {"const":"LTMD_VERTICAL_REUSE_CONTEXT_BUILDER_0.1"},
+    "context_version": {"const":"LTMD_VERTICAL_REUSE_CONTEXT_0.1"},
+    "vertical_id": {"type":"string","pattern":"^[a-z0-9_]+$"},
+    "result_state": {"const":"exploratory_signal"},
+    "metrics": {
+      "type":"object","additionalProperties":false,
+      "required":[
+        "candidate_pages","mapped_candidate_pages","unmapped_candidate_pages",
+        "candidate_pages_with_exact_source_cross_object_reuse","candidate_pages_with_exact_source_cross_generation_reuse",
+        "candidate_pages_with_exact_text_cross_object_reuse","candidate_pages_with_exact_text_cross_generation_reuse",
+        "candidate_pages_with_similarity_signal","candidate_pages_with_near_exact_signal",
+        "candidate_pages_with_cross_generation_similarity_signal","candidate_pages_with_any_reuse_similarity_signal",
+        "candidate_pages_with_cross_generation_reuse_similarity_signal","candidate_pages_without_reuse_similarity_signal",
+        "internal_similarity_pairs","internal_near_exact_pairs","share_candidate_pages_with_any_reuse_similarity_signal"
+      ],
+      "properties": {
+        "candidate_pages":{"type":"integer","minimum":0},
+        "mapped_candidate_pages":{"type":"integer","minimum":0},
+        "unmapped_candidate_pages":{"type":"integer","minimum":0},
+        "candidate_pages_with_exact_source_cross_object_reuse":{"type":"integer","minimum":0},
+        "candidate_pages_with_exact_source_cross_generation_reuse":{"type":"integer","minimum":0},
+        "candidate_pages_with_exact_text_cross_object_reuse":{"type":"integer","minimum":0},
+        "candidate_pages_with_exact_text_cross_generation_reuse":{"type":"integer","minimum":0},
+        "candidate_pages_with_similarity_signal":{"type":"integer","minimum":0},
+        "candidate_pages_with_near_exact_signal":{"type":"integer","minimum":0},
+        "candidate_pages_with_cross_generation_similarity_signal":{"type":"integer","minimum":0},
+        "candidate_pages_with_any_reuse_similarity_signal":{"type":"integer","minimum":0},
+        "candidate_pages_with_cross_generation_reuse_similarity_signal":{"type":"integer","minimum":0},
+        "candidate_pages_without_reuse_similarity_signal":{"type":"integer","minimum":0},
+        "internal_similarity_pairs":{"type":"integer","minimum":0},
+        "internal_near_exact_pairs":{"type":"integer","minimum":0},
+        "share_candidate_pages_with_any_reuse_similarity_signal":{"oneOf":[{"type":"null"},{"type":"number","minimum":0,"maximum":1}]}
+      }
+    },
+    "provenance": {
+      "type":"object","additionalProperties":false,
+      "required":["candidate_ledger_sha256","universal_index_sha256","reuse_similarity_sha256","human_validation_complete"],
+      "properties": {
+        "candidate_ledger_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+        "universal_index_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+        "reuse_similarity_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+        "human_validation_complete":{"const":false}
+      }
+    },
+    "warnings":{"type":"array","minItems":2,"items":{"type":"string","minLength":1}},
+    "privacy": {
+      "type":"object","additionalProperties":false,
+      "required":["page_identifiers_emitted","object_identifiers_emitted","pair_identifiers_emitted","ocr_text_emitted"],
+      "properties": {
+        "page_identifiers_emitted":{"const":false},
+        "object_identifiers_emitted":{"const":false},
+        "pair_identifiers_emitted":{"const":false},
+        "ocr_text_emitted":{"const":false}
+      }
+    }
+  }
+}
