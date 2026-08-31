@@ -16,7 +16,7 @@ jobs:
   audit:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Audit B labels without source text
         run: python3 scripts/audit_semantic_B02_labels.py
       - name: Publish B audit race-safely

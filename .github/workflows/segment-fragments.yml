@@ -26,7 +26,7 @@ jobs:
     env:
       OMP_THREAD_LIMIT: '1'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Verify PAGESTRUCT 0.2 input
         run: |
           python3 - <<'PY'
@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/download-artifact@v4
         with:
           pattern: fragment-shard-*

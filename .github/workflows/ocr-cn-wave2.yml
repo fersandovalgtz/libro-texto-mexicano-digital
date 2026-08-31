@@ -20,7 +20,7 @@ jobs:
     outputs:
       queue_sha: ${{ steps.check.outputs.queue_sha }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: check
         name: Verify frozen Wave 2 cardinality
         run: |
@@ -66,7 +66,7 @@ jobs:
           - { book_id: LTMD-CN5-G2019, slug: cn5-g2019 }
           - { book_id: LTMD-CN6-G2019, slug: cn6-g2019 }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install Spanish OCR runtime
         run: |
           sudo apt-get update -qq
@@ -86,7 +86,7 @@ jobs:
     needs: [preflight, ocr]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: actions/download-artifact@v4

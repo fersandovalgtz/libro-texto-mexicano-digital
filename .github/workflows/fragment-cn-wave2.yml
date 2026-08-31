@@ -20,7 +20,7 @@ jobs:
     outputs:
       should_run: ${{ steps.check.outputs.should_run }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: main
       - id: check
@@ -71,7 +71,7 @@ jobs:
           - { book_id: LTMD-CN5-G2019, slug: cn5-g2019 }
           - { book_id: LTMD-CN6-G2019, slug: cn6-g2019 }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: main
       - name: Install Spanish OCR runtime
@@ -98,7 +98,7 @@ jobs:
     if: needs.preflight.outputs.should_run == 'true' && needs.segment.result == 'success'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0

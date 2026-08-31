@@ -18,7 +18,7 @@ jobs:
       SOURCE_RUN_ID: '31923111570'
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Download all 64 completed audit artifacts from source run

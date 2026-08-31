@@ -20,7 +20,7 @@ jobs:
         book_id: [LTMD-CN3-G2008, LTMD-CN4-G2008]
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Require published PAGESTRUCT
         run: test -f data/catalog/ltmd_u1_w1_2008_page_structure.csv
       - name: Install Spanish Tesseract
@@ -39,7 +39,7 @@ jobs:
     needs: segment
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Require published PAGESTRUCT

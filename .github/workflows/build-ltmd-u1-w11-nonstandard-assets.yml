@@ -27,7 +27,7 @@ jobs:
     outputs:
       viewers: ${{ steps.make.outputs.viewers }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: make
         shell: bash
         run: |
@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Audit one nonstandard W11 viewer through explicit official config
         run: python3 scripts/audit_ltmd_u1_w11_nonstandard_assets_book.py --viewer-key '${{ matrix.viewer_key }}'
       - uses: actions/upload-artifact@v4
@@ -64,7 +64,7 @@ jobs:
     needs: audit
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: actions/download-artifact@v4

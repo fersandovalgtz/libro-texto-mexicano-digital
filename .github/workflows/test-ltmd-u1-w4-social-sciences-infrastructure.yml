@@ -22,7 +22,7 @@ jobs:
   selftest:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Compile W4 Python infrastructure
         run: |
           python3 -m py_compile \

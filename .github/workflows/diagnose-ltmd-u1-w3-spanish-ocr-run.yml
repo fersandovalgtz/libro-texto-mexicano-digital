@@ -17,7 +17,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       SOURCE_RUN_ID: '31960694824'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Diagnose missing W3 OCR artifacts and jobs

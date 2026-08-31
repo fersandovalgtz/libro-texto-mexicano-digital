@@ -21,7 +21,7 @@ jobs:
     outputs:
       viewers: ${{ steps.make.outputs.viewers }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: make
         shell: bash
         run: |
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 180
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Audit one W4 Social Sciences viewer
         run: python3 scripts/audit_ltmd_u1_w4_social_sciences_assets_book.py --viewer-key '${{ matrix.viewer_key }}'
       - uses: actions/upload-artifact@v4
@@ -62,7 +62,7 @@ jobs:
     needs: audit
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: actions/download-artifact@v4

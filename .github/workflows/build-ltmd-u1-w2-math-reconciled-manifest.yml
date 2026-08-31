@@ -16,7 +16,7 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - run: python3 scripts/build_ltmd_u1_w2_math_reconciled_manifest.py

@@ -30,7 +30,7 @@ jobs:
     outputs:
       viewers: ${{ steps.matrix.outputs.viewers }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -87,7 +87,7 @@ jobs:
     needs: config-gate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Require canonical W9 archival closure before W7
         run: |
           python - <<'PY'
@@ -114,7 +114,7 @@ jobs:
       matrix:
         viewer: ${{ fromJSON(needs.config-gate.outputs.viewers) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -246,7 +246,7 @@ jobs:
     needs: book
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'

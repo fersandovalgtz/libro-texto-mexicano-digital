@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Validate SEMB03 holdout integrity
         run: python3 scripts/validate_semb03_holdout_integrity.py

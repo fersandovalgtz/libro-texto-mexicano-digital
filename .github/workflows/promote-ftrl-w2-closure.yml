@@ -21,7 +21,7 @@ jobs:
     name: promote-w2-ledger-wave-and-summary
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ftrl/w2-matematicas
           fetch-depth: 0

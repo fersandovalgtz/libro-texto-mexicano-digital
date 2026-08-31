@@ -21,7 +21,7 @@ jobs:
       missing: ${{ steps.inspect.outputs.missing }}
       missing_count: ${{ steps.inspect.outputs.missing_count }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: inspect
         env:
           GH_TOKEN: ${{ github.token }}
@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 360
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: sudo apt-get update && sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
       - run: python3 scripts/ocr_ltmd_u1_w4_social_sciences_book.py --viewer-key '${{ matrix.viewer_key }}'
       - uses: actions/upload-artifact@v4
@@ -72,7 +72,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       SOURCE_RUN_ID: ${{ needs.inspect.outputs.source_run_id }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - shell: bash

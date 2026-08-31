@@ -16,7 +16,7 @@ jobs:
   compare:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Verify audit and label coverage
         run: |
           python3 - <<'PY'

@@ -14,7 +14,7 @@ jobs:
   recover:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Download validated shards from original B02 run
         uses: actions/download-artifact@v4
         with:

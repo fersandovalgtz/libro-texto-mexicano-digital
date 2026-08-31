@@ -15,7 +15,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: main
       - name: Verify consolidated Wave 2 OCR
@@ -59,7 +59,7 @@ jobs:
           - { book_id: LTMD-CN5-G2019, slug: cn5-g2019 }
           - { book_id: LTMD-CN6-G2019, slug: cn6-g2019 }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: main
       - name: Install Spanish OCR runtime
@@ -81,7 +81,7 @@ jobs:
     needs: [preflight, flags]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0

@@ -19,7 +19,7 @@ jobs:
     env:
       TOKENIZERS_PARALLELISM: 'false'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Verify frozen development selection and unopened validation
         run: |
           python3 - <<'PY'

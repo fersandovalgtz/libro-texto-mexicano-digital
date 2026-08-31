@@ -20,7 +20,7 @@ jobs:
     name: consolidate-available-w11-encrypted-handoffs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Read preservation request
         id: request
         shell: bash

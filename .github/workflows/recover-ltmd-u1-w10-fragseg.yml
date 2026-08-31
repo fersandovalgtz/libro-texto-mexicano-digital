@@ -24,7 +24,7 @@ jobs:
       TARGET: build-ltmd-u1-w10-integrados-fragseg.yml
       PREFLIGHT: preflight-ltmd-u1-w10-fragseg.yml
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Inspect FRAGSEG run state and dispatch only when needed

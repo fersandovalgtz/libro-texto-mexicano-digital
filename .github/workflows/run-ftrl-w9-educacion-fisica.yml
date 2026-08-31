@@ -28,7 +28,7 @@ jobs:
     name: validate-ftrl-w9-config
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -60,7 +60,7 @@ jobs:
     needs: config-gate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Require canonical W4 archival closure before W9
         run: |
           python - <<'PY'
@@ -87,7 +87,7 @@ jobs:
       matrix:
         viewer: [H2008P1ED252, H2008P2ED260, H2008P5ED280, H2008P6ED287]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -216,7 +216,7 @@ jobs:
     needs: book
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'

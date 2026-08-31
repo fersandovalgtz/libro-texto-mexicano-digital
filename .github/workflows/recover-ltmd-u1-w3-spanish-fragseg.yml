@@ -27,7 +27,7 @@ jobs:
       missing: ${{ steps.inspect.outputs.missing }}
       missing_count: ${{ steps.inspect.outputs.missing_count }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: inspect
         env:
           GH_TOKEN: ${{ github.token }}
@@ -81,7 +81,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 180
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install Spanish Tesseract
         run: |
           sudo apt-get update
@@ -103,7 +103,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       SOURCE_RUN_ID: ${{ needs.inspect.outputs.source_run_id }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Download surviving source FRAGSEG artifacts

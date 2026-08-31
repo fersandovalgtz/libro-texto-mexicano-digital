@@ -19,7 +19,7 @@ jobs:
     name: promote-w11-ledger-wave-and-summary
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ftrl/w11-otros-no-clasificados
           fetch-depth: 0

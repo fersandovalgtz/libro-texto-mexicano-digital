@@ -23,7 +23,7 @@ jobs:
       REPO: ${{ github.repository }}
       CURRENT_RUN: ${{ github.run_id }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Cancel only redundant refresh runs
