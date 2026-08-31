@@ -272,7 +272,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Download all text-free W2 evidence
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: ltmd-u1-w2-*-text-free-evidence
           path: local/w2-evidence

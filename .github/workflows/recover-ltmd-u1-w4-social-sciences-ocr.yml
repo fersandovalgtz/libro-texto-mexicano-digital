@@ -81,7 +81,7 @@ jobs:
           gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern 'ltmd-u1-w4-social-sciences-ocr-*' --dir /tmp/source || true
           find /tmp/source -type f -name 'ocr_*.csv' -exec cp {} data/work/ltmd_u1_w4_social_sciences_ocr/ \;
       - if: needs.inspect.outputs.missing_count != '0'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: ltmd-u1-w4-social-sciences-ocr-recovery-*
           path: /tmp/recovery

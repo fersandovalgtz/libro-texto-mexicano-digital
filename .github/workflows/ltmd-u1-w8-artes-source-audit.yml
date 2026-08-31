@@ -103,7 +103,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download base evidence
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: w8-base-evidence
           path: .
@@ -142,7 +142,7 @@ jobs:
           fetch-depth: 0
 
       - name: Download base evidence
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: w8-base-evidence
           path: .
@@ -151,7 +151,7 @@ jobs:
         run: tar -xzf w8-base-evidence.tgz
 
       - name: Download all viewer audit shards
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: w8-asset-*
           path: data/work/ltmd_u1_w8_artes_assets
