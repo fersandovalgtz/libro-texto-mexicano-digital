@@ -1,45 +1,24 @@
-name: sync-ltmd-u1-technical-status
+name: Retired — sync LTMD-U1 technical status
+
+# Retired on 2026-08-31.
+#
+# This workflow previously rebuilt docs/LTMD_U1_TECHNICAL_STATUS.md from a
+# W2/W3/W4-only generator and pushed the result directly to main. After LTMD
+# became corpus-wide, that behavior could regress the canonical all-wave U1
+# status and bypass pull-request review. The file is preserved as an explicit
+# tombstone so the old automation is not reintroduced accidentally.
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows:
-      - 'build-ltmd-u1-w3-completion-report'
-      - 'build-ltmd-u1-w4-social-sciences-completion-report'
-    types: [completed]
-  push:
-    paths:
-      - '.github/workflows/sync-ltmd-u1-technical-status.yml'
-      - 'scripts/build_ltmd_u1_technical_status.py'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  sync:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
-    runs-on: ubuntu-24.04
+  retired:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Build status from versioned artifacts
-        run: python3 scripts/build_ltmd_u1_technical_status.py
-      - name: Publish machine-derived status
-        shell: bash
+      - name: Explain retirement
         run: |
-          set -euo pipefail
-          cp docs/LTMD_U1_TECHNICAL_STATUS.md /tmp/LTMD_U1_TECHNICAL_STATUS.md
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          for attempt in 1 2 3; do
-            git fetch origin main
-            git reset --hard origin/main
-            cp /tmp/LTMD_U1_TECHNICAL_STATUS.md docs/LTMD_U1_TECHNICAL_STATUS.md
-            git add docs/LTMD_U1_TECHNICAL_STATUS.md
-            if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Sync machine-derived LTMD-U1 technical status'
-            if git push origin HEAD:main; then exit 0; fi
-            sleep $((attempt * 2))
-          done
-          exit 1
+          echo 'This direct-push workflow is retired.'
+          echo 'Canonical LTMD-U1 status must be derived from the all-wave coverage contract and changed through reviewed repository updates.'
