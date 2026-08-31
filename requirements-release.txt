@@ -2,4 +2,4 @@
 # The large OCR/PAGESTRUCT/FRAGSEG pipelines are implemented with the Python
 # standard library and external Tesseract binaries; system dependencies are
 # documented separately in docs/REPRODUCIBILITY_ENVIRONMENT_0_1.md.
-sentence-transformers==5.6.1
+sentence-transformers==6.0.0
