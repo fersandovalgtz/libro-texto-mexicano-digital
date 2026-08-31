@@ -2,9 +2,8 @@
 
 Versión: `LTMD_U1_W2_MATH_INTERNAL_RECOVERY_0.1`.
 
-- Huecos internos auditados: **894**.
+- Huecos internos auditados: **2**.
 - Recuperaciones unívocas: **2**.
-- `insufficient_source_anchors`: **892**.
 - `recovered_unique_cryptographic_alignment`: **2**.
 
 ## Regla
