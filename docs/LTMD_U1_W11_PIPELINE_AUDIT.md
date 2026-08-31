@@ -14,7 +14,7 @@ Esta auditoría valida contratos e invariantes ya publicados; no ejecuta OCR ni 
 - Aliases byte-exactos: **1**.
 - Páginas canónicas: **19,862**.
 - Huecos internos materializados: **5/5**.
-- Cobertura W11 promovida: **no; correctamente bloqueada hasta el cierre**.
+- Cobertura W11 promovida: **sí**.
 - Rasters fuente/transitorios rastreados bajo `data/`: **0**.
 
 ## Estados de fuente
