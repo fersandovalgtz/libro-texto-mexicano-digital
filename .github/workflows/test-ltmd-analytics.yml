@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'analytics_api/**'
+      - 'passenger_wsgi.py'
       - 'requirements-analytics.txt'
       - 'scripts/build_indigenous_analytics_mart.py'
       - 'scripts/query_indigenous_analytics.py'
@@ -17,6 +18,7 @@ on:
     branches: [main]
     paths:
       - 'analytics_api/**'
+      - 'passenger_wsgi.py'
       - 'requirements-analytics.txt'
       - 'scripts/build_indigenous_analytics_mart.py'
       - 'scripts/query_indigenous_analytics.py'
