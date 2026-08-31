@@ -24,6 +24,34 @@ def row(page_id: str, book: str, generation: str, grade: str, wave: str,
     }
 
 
+def fake_reuse_context(page_ids: list[str]) -> dict:
+    n = len(page_ids)
+    touched = 1 if n else 0
+    return {
+        "context_version": "LTMD_VERTICAL_REUSE_CONTEXT_0.1",
+        "result_state": "exploratory_signal",
+        "metrics": {
+            "candidate_pages": n,
+            "mapped_candidate_pages": n,
+            "unmapped_candidate_pages": 0,
+            "candidate_pages_with_exact_source_cross_object_reuse": 0,
+            "candidate_pages_with_exact_source_cross_generation_reuse": 0,
+            "candidate_pages_with_exact_text_cross_object_reuse": 0,
+            "candidate_pages_with_exact_text_cross_generation_reuse": 0,
+            "candidate_pages_with_similarity_signal": touched,
+            "candidate_pages_with_near_exact_signal": 0,
+            "candidate_pages_with_cross_generation_similarity_signal": touched,
+            "candidate_pages_with_any_reuse_similarity_signal": touched,
+            "candidate_pages_with_cross_generation_reuse_similarity_signal": touched,
+            "candidate_pages_without_reuse_similarity_signal": n - touched,
+            "internal_similarity_pairs": 0,
+            "internal_near_exact_pairs": 0,
+            "share_candidate_pages_with_any_reuse_similarity_signal": (touched / n if n else None),
+        },
+        "warnings": ["reuse context warning", "vertical membership unchanged"],
+    }
+
+
 def test_exact_unique_page_and_book_aggregation():
     rows = [
         row("p1", "B1", "1993", "5", "W3", "1", "1", "Náhuatl", "lenguas indigenas"),
@@ -79,6 +107,34 @@ def test_breakdown_uses_unique_books_inside_each_group():
     assert by_generation["2014"]["metrics"]["candidate_books"] == 1
 
 
+def test_reuse_context_is_scoped_to_filtered_rows_and_breakdown_groups():
+    rows = [
+        row("p1", "B1", "1993", "5", "W3", named="1", languages="Náhuatl"),
+        row("p2", "B1", "1993", "5", "W3", named="1", languages="Náhuatl"),
+        row("p3", "B2", "2014", "6", "W7", named="1", languages="Náhuatl"),
+    ]
+    calls = []
+
+    def resolver(page_ids):
+        calls.append(tuple(page_ids))
+        return fake_reuse_context(page_ids)
+
+    response = mod.query(
+        rows,
+        query_label="contextualized",
+        filters={"language_group": ["Náhuatl"]},
+        denominators={"1993": 1000, "2014": 1000},
+        group_by="generation",
+        reuse_context_resolver=resolver,
+    )
+    assert response["reuse_context"]["metrics"]["candidate_pages"] == 3
+    by_generation = {item["value"]: item for item in response["breakdown"]}
+    assert by_generation["1993"]["reuse_context"]["metrics"]["candidate_pages"] == 2
+    assert by_generation["2014"]["reuse_context"]["metrics"]["candidate_pages"] == 1
+    assert calls[0] == ("p1", "p2", "p3")
+    assert set(calls[1:]) == {("p1", "p2"), ("p3",)}
+
+
 def test_response_never_contains_page_level_fields():
     rows = [row("secret-page", "B1", "1993", "5", "W3", "1", "1", "Náhuatl")]
     response = mod.query(rows, query_label="safe", filters={}, denominators={"1993": 1000})
@@ -87,6 +143,21 @@ def test_response_never_contains_page_level_fields():
     assert "page_id" not in rendered
     assert "source_asset_url" not in rendered
     assert "ocr_sha256" not in rendered
+
+
+def test_reuse_context_candidate_count_mismatch_is_rejected():
+    rows = [row("p1", "B1", "1993", "5", "W3")]
+
+    def bad_resolver(_page_ids):
+        context = fake_reuse_context([])
+        return context
+
+    try:
+        mod.query(rows, query_label="bad-context", filters={}, reuse_context_resolver=bad_resolver)
+    except RuntimeError as exc:
+        assert "candidate count mismatch" in str(exc)
+    else:
+        raise AssertionError("expected reuse context mismatch rejection")
 
 
 def test_invalid_group_by_is_rejected():
