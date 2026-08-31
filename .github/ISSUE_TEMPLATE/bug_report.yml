@@ -1,0 +1,55 @@
+name: Error técnico reproducible
+description: Reporte de fallo en código, pipeline, documentación ejecutable o infraestructura.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por documentar el problema. No incluya secretos, credenciales, datos personales ni materiales fuente restringidos.
+  - type: input
+    id: version
+    attributes:
+      label: Versión o commit
+      description: Tag, release o SHA en el que observó el problema.
+      placeholder: v0.1.0-rc.1 o 7b241e7...
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema observado
+      description: Describa el comportamiento actual y el esperado.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Pasos mínimos para reproducir
+      description: Incluya comandos, rutas públicas y entradas mínimas necesarias.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidencia
+      description: Logs no sensibles, hashes, identificadores, mensajes de error o resultados de validadores.
+  - type: dropdown
+    id: scientific-impact
+    attributes:
+      label: ¿Puede afectar resultados científicos o integridad de datos?
+      options:
+        - "No"
+        - "Sí"
+        - "No estoy seguro"
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmaciones
+      options:
+        - label: Busqué issues existentes sobre el mismo problema.
+          required: true
+        - label: El reporte no contiene secretos ni materiales restringidos.
+          required: true

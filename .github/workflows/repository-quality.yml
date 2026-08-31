@@ -1,0 +1,46 @@
+name: Repository quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  repository-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile quality auditor
+        run: python -m py_compile scripts/audit_repository_quality.py
+
+      - name: Audit repository surface
+        run: python scripts/audit_repository_quality.py --json repository-quality-report.json
+
+      - name: Publish job summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "## LTMD repository quality"
+            echo
+            echo '```json'
+            if [ -f repository-quality-report.json ]; then
+              cat repository-quality-report.json
+            else
+              echo '{"status":"audit did not produce a report"}'
+            fi
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
