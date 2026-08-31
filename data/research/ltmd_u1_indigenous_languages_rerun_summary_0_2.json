@@ -1,0 +1,48 @@
+{
+  "analysis_version": "LTMD_U1_INDIGENOUS_LANGUAGES_RERUN_0.2",
+  "execution_date": "2026-08-30",
+  "repository_base_main": "31b453ed7514af4f85deae0cfe82b84f07e233a6",
+  "protocol_commit": "3168a208a8e6d4b89d9e93c605ccc730fc4e6b10",
+  "script_commit": "75134680a1d880631c4b8e0888097f53307331fe",
+  "synthetic_test_commit": "6ae15b49100a270be963fb2506b83d3be6d5ae70",
+  "input": {
+    "sqlite_database_count": 288,
+    "unique_pages": 86549,
+    "unique_canonical_objects": 492,
+    "duplicate_hash_conflicts": 0,
+    "sorted_basename_sha256_inventory_digest": "88715c31b827e604998fd081a3b2918c4b7c05fd042f46e3f931f73982f88ff2"
+  },
+  "results": {
+    "broad_candidate_pages": 1151,
+    "explicit_general_pages": 457,
+    "named_language_contextual_pages": 859,
+    "overlap_explicit_and_named_pages": 165,
+    "candidate_books": 266
+  },
+  "raw_execution_artifacts": {
+    "candidate_ledger_rows": 1151,
+    "candidate_ledger_sha256": "efa77793479c8a5d4704aaee77f1047938c84c2aa9b5ea9550131fd09a6531bb",
+    "candidate_ledger_publication_state": "private_reconstructible_pending_visual_validation",
+    "note": "The complete text-free candidate ledger was generated locally. The repository records its hash and publishes aggregate/indexable summaries; it is not treated as validated evidence."
+  },
+  "repository_summary_artifacts_sha256_lf": {
+    "ltmd_u1_indigenous_languages_generation_summary_0_2.csv": "daceb502140e69bfe03fa8c54ce1369eb07ab998cea8f1badac4bd87a5d613fc",
+    "ltmd_u1_indigenous_languages_named_language_counts_0_2.csv": "3e4856c7147da235f21c407fe04e1ec768d475c91a79089c1e09b52f41b75768",
+    "ltmd_u1_indigenous_languages_named_language_by_generation_0_2.csv": "d3bad3ad060016a9647e720ae9628100c3a88e02e24493406dc3377af32afe87",
+    "ltmd_u1_indigenous_languages_0_1_vs_0_2_generation_comparison.csv": "8ead7147f201adfda4c0f22c19e8fddeb54e257fd24dc3bb8e7280b9b446f6e8",
+    "ltmd_u1_indigenous_languages_0_1_vs_0_2_language_comparison.csv": "a197f4c3ee38dce675dc9ea9cfafd5e0db10c47f4cd9832303ef1a5d3169e0bd"
+  },
+  "diagnostics": {
+    "mayo_yoreme_candidate_pages": 73,
+    "mayo_singular_form_candidate_pages": 64,
+    "mayo_homonym_risk": "high",
+    "diagnostic_note": "Private OCR review identified calendar month, Cinco de Mayo, title/lexical uses and an OCR error among singular-form mayo candidates. Named-language counts remain candidate retrieval, not validated prevalence."
+  },
+  "scientific_state": {
+    "source_visual_validation_complete": false,
+    "text_verified_promotions": 0,
+    "semantic_ready_promotions": 0,
+    "search_hit_is_historical_claim": false,
+    "zero_hits_demonstrate_absence": false
+  }
+}
