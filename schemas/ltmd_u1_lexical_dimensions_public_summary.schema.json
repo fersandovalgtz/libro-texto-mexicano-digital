@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_u1_lexical_dimensions_public_summary.schema.json",
+  "title": "LTMD-U1 lexical dimensions public summary 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["materialization_version", "source", "counts", "private_artifact", "privacy", "scientific_state", "preservation"],
+  "properties": {
+    "materialization_version": {"const": "LTMD_U1_LEXICAL_DIMENSIONS_MATERIALIZATION_0.1"},
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["version", "sha256"],
+      "properties": {
+        "version": {"const": "LTMD_U1_LEXICAL_POSITIONS_0.1"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "counts": {
+      "type": "object", "additionalProperties": false,
+      "required": ["term_page_stats_rows", "term_dimension_stats_rows", "generation_term_rows", "grade_term_rows", "wave_term_rows", "dimension_denominator_rows"],
+      "properties": {
+        "term_page_stats_rows": {"type": "integer", "minimum": 1},
+        "term_dimension_stats_rows": {"type": "integer", "minimum": 1},
+        "generation_term_rows": {"type": "integer", "minimum": 1},
+        "grade_term_rows": {"type": "integer", "minimum": 1},
+        "wave_term_rows": {"type": "integer", "minimum": 1},
+        "dimension_denominator_rows": {"type": "integer", "minimum": 1}
+      }
+    },
+    "private_artifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sqlite_bytes", "sqlite_sha256", "gzip_bytes", "gzip_sha256", "quick_check", "publish"],
+      "properties": {
+        "sqlite_bytes": {"type": "integer", "minimum": 1},
+        "sqlite_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "gzip_bytes": {"type": "integer", "minimum": 1},
+        "gzip_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "quick_check": {"const": "ok"},
+        "publish": {"const": false}
+      }
+    },
+    "privacy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["term_values_public", "page_identifiers_public", "full_term_dimension_matrix_public"],
+      "properties": {
+        "term_values_public": {"const": false},
+        "page_identifiers_public": {"const": false},
+        "full_term_dimension_matrix_public": {"const": false}
+      }
+    },
+    "scientific_state": {
+      "type": "object", "additionalProperties": false,
+      "required": ["result_state", "text_verified", "semantic_ready", "wave_is_operational_not_curricular_ontology"],
+      "properties": {
+        "result_state": {"const": "exploratory_signal"},
+        "text_verified": {"const": false},
+        "semantic_ready": {"const": false},
+        "wave_is_operational_not_curricular_ontology": {"const": true}
+      }
+    },
+    "preservation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["large_artifact_drive_upload_succeeded", "reconstructible_from_lexical_positions"],
+      "properties": {
+        "large_artifact_drive_upload_succeeded": {"const": false},
+        "reconstructible_from_lexical_positions": {"const": true}
+      }
+    }
+  }
+}
