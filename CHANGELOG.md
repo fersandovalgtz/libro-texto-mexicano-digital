@@ -6,6 +6,15 @@ Todos los cambios notables de **Libro de Texto Mexicano Digital (LTMD)** se docu
 
 Cambios acumulados en `main` posteriores a `v0.1.0-rc.1`. Esta sección **no** modifica retrospectivamente el alcance de la release del 15 de agosto de 2026.
 
+### Calidad del repositorio y arquitectura pública
+
+- Definida explícitamente la frontera **LTMD Open / LTMD Research / LTMD Services**, manteniendo este repositorio como superficie canónica abierta de código, metodología, contratos, metadatos, hashes y derivados publicables.
+- Añadidos `SUPPORT.md`, plantilla científica de pull request y formularios diferenciados para errores técnicos, datos/metodología y propuestas de capacidad.
+- Añadido Dependabot para GitHub Actions y dependencias Python con cadencia semanal.
+- Añadido `scripts/audit_repository_quality.py` y el workflow `repository-quality.yml` para verificar la superficie normativa, exclusión de rutas privadas/locales, metadatos básicos y deuda de permisos en workflows.
+- Elevado `SCIENTIFIC_REPOSITORY_STANDARD.md` con controles explícitos de seguridad de automatización, gobernanza de `main`, triage, límites de producto y mantenimiento progresivo.
+- Actualizada la autoevaluación FAIR/FAIR4RS para reflejar la nueva superficie comunitaria y registrar como brechas externas la protección efectiva de `main` y la auditoría gradual de permisos de workflows heredados.
+
 ### Expansión LTMD-U1
 
 - Cerrado el censo operativo en **542/542 identidades** del universo U1.
