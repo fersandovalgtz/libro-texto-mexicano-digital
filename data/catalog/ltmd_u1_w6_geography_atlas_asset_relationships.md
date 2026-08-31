@@ -3,9 +3,9 @@
 Versión: `LTMD_U1_W6_GEOGRAPHY_ATLAS_ASSET_REL_0.1`.
 
 - Visores analizados: **42/42**.
-- `full_direct_source`: **36**.
+- `full_direct_source`: **41**.
 - `partial_internal_unserved`: **1**.
-- `no_source_jpegs`: **5**.
+- `no_source_jpegs`: **0**.
 - Pares con secuencia completa de activos servidos byte-idéntica: **0**.
 - Pares exactos entre generaciones: **0**.
 - Pares exactos entre generaciones y mismo grado: **0**.
@@ -17,11 +17,6 @@ Versión: `LTMD_U1_W6_GEOGRAPHY_ATLAS_ASSET_REL_0.1`.
 ## Excepciones que requieren reconciliación antes de OCR
 
 - `H2008P4GE273`: estado `partial_internal_unserved`, UI=`standard_x_js`, JPEG=159/161, internos no servidos=2, terminales candidatos=0.
-- `H2018P4AMA`: estado `no_source_jpegs`, UI=`standard_x_js`, JPEG=0/130, internos no servidos=129, terminales candidatos=1.
-- `H2018P4GEA`: estado `no_source_jpegs`, UI=`standard_x_js`, JPEG=0/202, internos no servidos=201, terminales candidatos=1.
-- `H2018P5AGA`: estado `no_source_jpegs`, UI=`standard_x_js`, JPEG=0/122, internos no servidos=121, terminales candidatos=1.
-- `H2018P5GEA`: estado `no_source_jpegs`, UI=`standard_x_js`, JPEG=0/210, internos no servidos=209, terminales candidatos=1.
-- `H2018P6GEA`: estado `no_source_jpegs`, UI=`standard_x_js`, JPEG=0/202, internos no servidos=201, terminales candidatos=1.
 
 ## Límite de interpretación
 
