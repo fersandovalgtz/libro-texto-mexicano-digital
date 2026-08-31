@@ -10,7 +10,7 @@
     "input": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["database_count", "database_hashes", "private_paths_emitted"],
+      "required": ["database_count", "database_hashes", "database_hash_order", "private_paths_emitted"],
       "properties": {
         "database_count": {"type": "integer", "minimum": 1},
         "database_hashes": {
@@ -18,21 +18,21 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["slot", "basename", "sha256"],
+            "required": ["sha256", "bytes"],
             "properties": {
-              "slot": {"type": "integer", "minimum": 1},
-              "basename": {"type": "string", "minLength": 1},
-              "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+              "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "bytes": {"type": "integer", "minimum": 1}
             }
           }
         },
+        "database_hash_order": {"const": "sha256_ascending"},
         "private_paths_emitted": {"const": false}
       }
     },
     "reconciliation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["unique_pages", "unique_canonical_objects", "fts_rows", "duplicate_page_ids", "sqlite_integrity_check", "identical_duplicate_rows_deduplicated", "conflicts"],
+      "required": ["unique_pages", "unique_canonical_objects", "fts_rows", "duplicate_page_ids", "sqlite_integrity_check", "identical_duplicate_rows_deduplicated", "conflicts", "canonical_row_order"],
       "properties": {
         "unique_pages": {"type": "integer", "minimum": 1},
         "unique_canonical_objects": {"type": "integer", "minimum": 1},
@@ -40,7 +40,8 @@
         "duplicate_page_ids": {"const": 0},
         "sqlite_integrity_check": {"const": "ok"},
         "identical_duplicate_rows_deduplicated": {"type": "integer", "minimum": 0},
-        "conflicts": {"const": 0}
+        "conflicts": {"const": 0},
+        "canonical_row_order": {"const": "page_id_ascending"}
       }
     },
     "dimensions": {
@@ -56,11 +57,12 @@
     "index": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["format", "fts_table", "tokenizer", "sha256", "private", "contains_search_text", "publish_index_file"],
+      "required": ["format", "fts_table", "tokenizer", "canonical_row_order", "sha256", "private", "contains_search_text", "publish_index_file"],
       "properties": {
         "format": {"const": "SQLite3 + FTS5"},
         "fts_table": {"const": "pages_fts"},
         "tokenizer": {"const": "unicode61 remove_diacritics 2"},
+        "canonical_row_order": {"const": "page_id_ascending"},
         "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
         "private": {"const": true},
         "contains_search_text": {"const": true},
