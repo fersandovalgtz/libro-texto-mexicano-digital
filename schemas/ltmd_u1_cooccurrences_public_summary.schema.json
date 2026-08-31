@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LTMD-U1 co-occurrences public-safe materialization summary 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["builder_version","artifact_version","source","method","counts","private_artifact","privacy","scientific_state"],
+  "properties": {
+    "builder_version": {"const": "LTMD_U1_COOCCURRENCES_BUILDER_0.1"},
+    "artifact_version": {"const": "LTMD_U1_COOCCURRENCES_0.1"},
+    "source": {"type":"object","additionalProperties":false,"required":["lexical_version","lexical_reconstruction_sha256","universal_index_sha256"],"properties":{"lexical_version":{"const":"LTMD_U1_LEXICAL_POSITIONS_0.1"},"lexical_reconstruction_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},"universal_index_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"}}},
+    "method": {"type":"object","additionalProperties":false,"required":["window_max_tokens","same_page_only","unordered_distinct_terms","thresholds_preregistered_before_result_inspection","private_retention","public_suppression","bucket_count"],"properties":{"window_max_tokens":{"const":5},"same_page_only":{"const":true},"unordered_distinct_terms":{"const":true},"thresholds_preregistered_before_result_inspection":{"const":true},"private_retention":{"type":"object"},"public_suppression":{"type":"object"},"bucket_count":{"const":64}}},
+    "counts": {"type":"object","additionalProperties":{"type":"integer","minimum":0}},
+    "private_artifact": {"type":"object","additionalProperties":false,"required":["bytes","sha256","gzip_bytes","gzip_sha256","preserved_private","redownload_verified"],"properties":{"bytes":{"type":"integer","minimum":1},"sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},"gzip_bytes":{"type":"integer","minimum":1},"gzip_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},"preserved_private":{"const":true},"redownload_verified":{"const":true}}},
+    "privacy": {"type":"object","additionalProperties":{"type":"boolean"}},
+    "scientific_state": {"type":"object","additionalProperties":true,"required":["text_verified","semantic_ready","default_result_state","cooccurrence_is_semantic_relation"],"properties":{"text_verified":{"const":false},"semantic_ready":{"const":false},"default_result_state":{"const":"exploratory_signal"},"cooccurrence_is_semantic_relation":{"const":false}}}
+  }
+}

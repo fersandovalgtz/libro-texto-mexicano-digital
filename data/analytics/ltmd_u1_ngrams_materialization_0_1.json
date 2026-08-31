@@ -1,0 +1,58 @@
+{
+  "artifact_version": "LTMD_U1_NGRAMS_0.1",
+  "builder_version": "LTMD_U1_NGRAMS_BUILDER_0.1",
+  "counts": {
+    "bigram_public_eligible_rows": 28886,
+    "bigram_rows": 1008422,
+    "raw_bigram_instances": 13184868,
+    "raw_trigram_instances": 13104392,
+    "trigram_public_eligible_rows": 8096,
+    "trigram_rows": 908179,
+    "unique_bigrams_before_private_floor": 2455883,
+    "unique_trigrams_before_private_floor": 5796137
+  },
+  "method": {
+    "page_bounded": true,
+    "private_retention": {
+      "bigram_min_occurrences": 2,
+      "bigram_min_pages": 2,
+      "trigram_min_occurrences": 3,
+      "trigram_min_pages": 2
+    },
+    "public_suppression": {
+      "bigram_min_objects": 10,
+      "bigram_min_occurrences": 50,
+      "bigram_min_pages": 20,
+      "trigram_min_objects": 10,
+      "trigram_min_occurrences": 75,
+      "trigram_min_pages": 25
+    },
+    "thresholds_preregistered_before_result_inspection": true
+  },
+  "privacy": {
+    "ocr_text_emitted_publicly": false,
+    "page_identifiers_emitted_publicly": false,
+    "rare_sequences_emitted_publicly": false,
+    "sequence_values_emitted_publicly": false,
+    "term_values_emitted_publicly": false
+  },
+  "private_artifact": {
+    "bytes": 91435008,
+    "gzip_bytes": 29732543,
+    "gzip_sha256": "ec5b5c92c65e18cc5a00611c87f1d9620153938b903000a6d72be723c6e95556",
+    "preserved_private": true,
+    "redownload_verified": true,
+    "sha256": "459a69ce856d68855272adfc481bcf631c7631ba2a91410f54edf25c35ad5c9f"
+  },
+  "scientific_state": {
+    "default_result_state": "exploratory_signal",
+    "frequency_is_semantic_claim": false,
+    "semantic_ready": false,
+    "text_verified": false
+  },
+  "source": {
+    "lexical_reconstruction_sha256": "c57b30bf69acc0f38e406e45d23f37e5de59a4ec90f0fa9294de4c067512fd02",
+    "lexical_version": "LTMD_U1_LEXICAL_POSITIONS_0.1",
+    "universal_index_sha256": "aec55cc7dd83c2e1e22d26e3baf8f7ca2e35e32898827ec84e6222edd4bcf7a2"
+  }
+}
