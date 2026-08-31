@@ -30,10 +30,12 @@ on:
       - 'schemas/ltmd_u1_cooccurrences_public_summary.schema.json'
       - 'schemas/ltmd_u1_reuse_similarity_public_summary.schema.json'
       - 'schemas/ltmd_vertical_reuse_context.schema.json'
+      - 'schemas/ltmd_u1_vertical_registry.schema.json'
       - 'data/analytics/ltmd_u1_ngrams_materialization_0_1.json'
       - 'data/analytics/ltmd_u1_cooccurrences_materialization_0_1.json'
       - 'data/analytics/ltmd_u1_reuse_similarity_materialization_0_1.json'
       - 'data/analytics/ltmd_u1_indigenous_reuse_context_0_1.json'
+      - 'data/analytics/ltmd_u1_vertical_registry_0_1.json'
       - 'tests/test_analytics_api.py'
       - 'tests/test_build_indigenous_analytics_mart.py'
       - 'tests/test_query_indigenous_analytics.py'
@@ -46,6 +48,7 @@ on:
       - 'tests/test_build_u1_cooccurrences.py'
       - 'tests/test_build_u1_reuse_similarity.py'
       - 'tests/test_build_vertical_reuse_context.py'
+      - 'tests/test_u1_vertical_registry.py'
       - '.github/workflows/test-ltmd-analytics.yml'
   push:
     branches: [main]
@@ -76,10 +79,12 @@ on:
       - 'schemas/ltmd_u1_cooccurrences_public_summary.schema.json'
       - 'schemas/ltmd_u1_reuse_similarity_public_summary.schema.json'
       - 'schemas/ltmd_vertical_reuse_context.schema.json'
+      - 'schemas/ltmd_u1_vertical_registry.schema.json'
       - 'data/analytics/ltmd_u1_ngrams_materialization_0_1.json'
       - 'data/analytics/ltmd_u1_cooccurrences_materialization_0_1.json'
       - 'data/analytics/ltmd_u1_reuse_similarity_materialization_0_1.json'
       - 'data/analytics/ltmd_u1_indigenous_reuse_context_0_1.json'
+      - 'data/analytics/ltmd_u1_vertical_registry_0_1.json'
       - 'tests/test_analytics_api.py'
       - 'tests/test_build_indigenous_analytics_mart.py'
       - 'tests/test_query_indigenous_analytics.py'
@@ -92,6 +97,7 @@ on:
       - 'tests/test_build_u1_cooccurrences.py'
       - 'tests/test_build_u1_reuse_similarity.py'
       - 'tests/test_build_vertical_reuse_context.py'
+      - 'tests/test_u1_vertical_registry.py'
       - '.github/workflows/test-ltmd-analytics.yml'
 
 permissions:
@@ -122,6 +128,7 @@ jobs:
           tests/test_build_u1_cooccurrences.py
           tests/test_build_u1_reuse_similarity.py
           tests/test_build_vertical_reuse_context.py
+          tests/test_u1_vertical_registry.py
       - name: Validate Analytics JSON schemas and materialization records
         run: |
           python - <<'PY'
@@ -138,6 +145,7 @@ jobs:
               'schemas/ltmd_u1_cooccurrences_public_summary.schema.json',
               'schemas/ltmd_u1_reuse_similarity_public_summary.schema.json',
               'schemas/ltmd_vertical_reuse_context.schema.json',
+              'schemas/ltmd_u1_vertical_registry.schema.json',
           ]
           for path in paths:
               schema = json.load(open(path, encoding='utf-8'))
@@ -153,6 +161,8 @@ jobs:
                'data/analytics/ltmd_u1_reuse_similarity_materialization_0_1.json'),
               ('schemas/ltmd_vertical_reuse_context.schema.json',
                'data/analytics/ltmd_u1_indigenous_reuse_context_0_1.json'),
+              ('schemas/ltmd_u1_vertical_registry.schema.json',
+               'data/analytics/ltmd_u1_vertical_registry_0_1.json'),
           ]
           for schema_path, data_path in validations:
               schema = json.load(open(schema_path, encoding='utf-8'))

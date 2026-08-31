@@ -1,0 +1,109 @@
+{
+  "registry_version": "LTMD_U1_VERTICAL_REGISTRY_0.1",
+  "result_state": "exploratory_signal",
+  "frozen_before_materialization": true,
+  "dimensions": ["generation", "grade_code", "wave"],
+  "scientific_boundaries": [
+    "FTS matches are lexical/OCR-derived exploratory signals, not validated semantic classifications.",
+    "Zero hits do not demonstrate historical absence.",
+    "Vertical membership never creates aliases or bibliographic identity.",
+    "Reuse/similarity context may qualify interpretation but does not validate or invalidate a vertical.",
+    "Human validation remains required before semantic_ready promotion."
+  ],
+  "verticals": [
+    {
+      "vertical_id": "citizenship_democracy_rights",
+      "label_es": "Ciudadanía, democracia y derechos",
+      "status": "preregistered_exploratory",
+      "union_expression": "democracia OR ciudadanía OR ciudadano OR ciudadana OR \"derechos humanos\"",
+      "probes": [
+        {"probe_id": "democracy", "label_es": "Democracia", "fts5_expression": "democracia"},
+        {"probe_id": "citizenship", "label_es": "Ciudadanía", "fts5_expression": "ciudadanía OR ciudadano OR ciudadana"},
+        {"probe_id": "human_rights", "label_es": "Derechos humanos", "fts5_expression": "\"derechos humanos\""}
+      ],
+      "interpretation_boundary": "Describe ocurrencias léxicas asociadas con ciudadanía, democracia y derechos; no equivale a presencia curricular validada de educación cívica o derechos humanos."
+    },
+    {
+      "vertical_id": "gender_women_family",
+      "label_es": "Mujeres, género y familia",
+      "status": "preregistered_exploratory",
+      "union_expression": "mujer OR mujeres OR género OR familia",
+      "probes": [
+        {"probe_id": "women", "label_es": "Mujer/mujeres", "fts5_expression": "mujer OR mujeres"},
+        {"probe_id": "gender", "label_es": "Género", "fts5_expression": "género"},
+        {"probe_id": "family", "label_es": "Familia", "fts5_expression": "familia"}
+      ],
+      "interpretation_boundary": "Describe señales léxicas sobre mujer, género y familia; no identifica por sí sola roles, estereotipos, igualdad, relaciones de género ni modelos familiares."
+    },
+    {
+      "vertical_id": "environment_nature",
+      "label_es": "Medio ambiente y naturaleza",
+      "status": "preregistered_exploratory",
+      "union_expression": "\"medio ambiente\" OR naturaleza OR ecología OR ecológico OR ecológica",
+      "probes": [
+        {"probe_id": "environment_phrase", "label_es": "Medio ambiente", "fts5_expression": "\"medio ambiente\""},
+        {"probe_id": "nature", "label_es": "Naturaleza", "fts5_expression": "naturaleza"},
+        {"probe_id": "ecology", "label_es": "Ecología/ecológico", "fts5_expression": "ecología OR ecológico OR ecológica"}
+      ],
+      "interpretation_boundary": "Describe señales léxicas ambientales; no demuestra educación ambiental, enfoque ecológico ni valoración normativa de la naturaleza."
+    },
+    {
+      "vertical_id": "migration_mobility",
+      "label_es": "Migración y movilidad",
+      "status": "preregistered_exploratory",
+      "union_expression": "migración OR migrante OR migrantes OR inmigración OR emigración",
+      "probes": [
+        {"probe_id": "migration", "label_es": "Migración", "fts5_expression": "migración"},
+        {"probe_id": "migrants", "label_es": "Migrante/migrantes", "fts5_expression": "migrante OR migrantes"},
+        {"probe_id": "immigration_emigration", "label_es": "Inmigración/emigración", "fts5_expression": "inmigración OR emigración"}
+      ],
+      "interpretation_boundary": "Describe señales léxicas de migración y movilidad; no clasifica causas, direcciones, poblaciones, valoración social ni tratamiento histórico."
+    },
+    {
+      "vertical_id": "work_economy",
+      "label_es": "Trabajo y economía",
+      "status": "preregistered_exploratory",
+      "union_expression": "trabajo OR trabajador OR trabajadora OR economía OR empleo",
+      "probes": [
+        {"probe_id": "work", "label_es": "Trabajo", "fts5_expression": "trabajo"},
+        {"probe_id": "workers", "label_es": "Trabajador/trabajadora", "fts5_expression": "trabajador OR trabajadora"},
+        {"probe_id": "economy_employment", "label_es": "Economía/empleo", "fts5_expression": "economía OR empleo"}
+      ],
+      "interpretation_boundary": "Describe ocurrencias léxicas sobre trabajo y economía; no equivale a una clasificación de modelos económicos, clases sociales, condiciones laborales ni educación financiera."
+    },
+    {
+      "vertical_id": "disability_inclusion",
+      "label_es": "Discapacidad e inclusión",
+      "status": "preregistered_exploratory",
+      "union_expression": "discapacidad OR inclusión OR inclusivo OR inclusiva",
+      "probes": [
+        {"probe_id": "disability", "label_es": "Discapacidad", "fts5_expression": "discapacidad"},
+        {"probe_id": "inclusion", "label_es": "Inclusión/inclusivo", "fts5_expression": "inclusión OR inclusivo OR inclusiva"}
+      ],
+      "interpretation_boundary": "Describe señales léxicas; no identifica modelos de discapacidad, prácticas inclusivas, ajustes razonables ni calidad del tratamiento pedagógico."
+    },
+    {
+      "vertical_id": "science_technology",
+      "label_es": "Ciencia y tecnología",
+      "status": "preregistered_exploratory",
+      "union_expression": "ciencia OR científico OR científica OR tecnología OR tecnológico OR tecnológica",
+      "probes": [
+        {"probe_id": "science", "label_es": "Ciencia/científico", "fts5_expression": "ciencia OR científico OR científica"},
+        {"probe_id": "technology", "label_es": "Tecnología/tecnológico", "fts5_expression": "tecnología OR tecnológico OR tecnológica"}
+      ],
+      "interpretation_boundary": "Describe señales léxicas sobre ciencia y tecnología; no demuestra alfabetización científica, enfoque STEM, innovación ni postura frente al cambio tecnológico."
+    },
+    {
+      "vertical_id": "nation_identity_mexico",
+      "label_es": "Nación, identidad y México",
+      "status": "preregistered_exploratory",
+      "union_expression": "México OR mexicano OR mexicana OR nación OR identidad",
+      "probes": [
+        {"probe_id": "mexico", "label_es": "México", "fts5_expression": "México"},
+        {"probe_id": "mexican", "label_es": "Mexicano/mexicana", "fts5_expression": "mexicano OR mexicana"},
+        {"probe_id": "nation_identity", "label_es": "Nación/identidad", "fts5_expression": "nación OR identidad"}
+      ],
+      "interpretation_boundary": "Describe señales léxicas de México, nación e identidad; no equivale a nacionalismo, identidad nacional, ciudadanía, pertenencia ni valoración histórica."
+    }
+  ]
+}
