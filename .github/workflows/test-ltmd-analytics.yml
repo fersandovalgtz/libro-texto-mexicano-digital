@@ -13,11 +13,13 @@ on:
       - 'scripts/query_u1_universal_index.py'
       - 'scripts/build_u1_corpus_analytics_manifest.py'
       - 'scripts/build_u1_lexical_positions.py'
+      - 'scripts/build_u1_lexical_dimensions.py'
       - 'schemas/ltmd_analytics_query_response.schema.json'
       - 'schemas/ltmd_u1_universal_index_manifest.schema.json'
       - 'schemas/ltmd_u1_corpus_query_response.schema.json'
       - 'schemas/ltmd_u1_corpus_analytics_manifest.schema.json'
       - 'schemas/ltmd_u1_lexical_positions_public_summary.schema.json'
+      - 'schemas/ltmd_u1_lexical_dimensions_public_summary.schema.json'
       - 'tests/test_analytics_api.py'
       - 'tests/test_build_indigenous_analytics_mart.py'
       - 'tests/test_query_indigenous_analytics.py'
@@ -25,6 +27,7 @@ on:
       - 'tests/test_query_u1_universal_index.py'
       - 'tests/test_build_u1_corpus_analytics_manifest.py'
       - 'tests/test_build_u1_lexical_positions.py'
+      - 'tests/test_build_u1_lexical_dimensions.py'
       - '.github/workflows/test-ltmd-analytics.yml'
   push:
     branches: [main]
@@ -38,11 +41,13 @@ on:
       - 'scripts/query_u1_universal_index.py'
       - 'scripts/build_u1_corpus_analytics_manifest.py'
       - 'scripts/build_u1_lexical_positions.py'
+      - 'scripts/build_u1_lexical_dimensions.py'
       - 'schemas/ltmd_analytics_query_response.schema.json'
       - 'schemas/ltmd_u1_universal_index_manifest.schema.json'
       - 'schemas/ltmd_u1_corpus_query_response.schema.json'
       - 'schemas/ltmd_u1_corpus_analytics_manifest.schema.json'
       - 'schemas/ltmd_u1_lexical_positions_public_summary.schema.json'
+      - 'schemas/ltmd_u1_lexical_dimensions_public_summary.schema.json'
       - 'tests/test_analytics_api.py'
       - 'tests/test_build_indigenous_analytics_mart.py'
       - 'tests/test_query_indigenous_analytics.py'
@@ -50,6 +55,7 @@ on:
       - 'tests/test_query_u1_universal_index.py'
       - 'tests/test_build_u1_corpus_analytics_manifest.py'
       - 'tests/test_build_u1_lexical_positions.py'
+      - 'tests/test_build_u1_lexical_dimensions.py'
       - '.github/workflows/test-ltmd-analytics.yml'
 
 permissions:
@@ -75,6 +81,7 @@ jobs:
           tests/test_query_u1_universal_index.py
           tests/test_build_u1_corpus_analytics_manifest.py
           tests/test_build_u1_lexical_positions.py
+          tests/test_build_u1_lexical_dimensions.py
       - name: Validate Analytics JSON schemas
         run: |
           python - <<'PY'
@@ -86,6 +93,7 @@ jobs:
               'schemas/ltmd_u1_corpus_query_response.schema.json',
               'schemas/ltmd_u1_corpus_analytics_manifest.schema.json',
               'schemas/ltmd_u1_lexical_positions_public_summary.schema.json',
+              'schemas/ltmd_u1_lexical_dimensions_public_summary.schema.json',
           ]
           for path in paths:
               schema = json.load(open(path, encoding='utf-8'))
