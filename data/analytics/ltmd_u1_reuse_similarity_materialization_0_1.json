@@ -1,0 +1,82 @@
+{
+  "artifact_version": "LTMD_U1_REUSE_SIMILARITY_0.1",
+  "builder_version": "LTMD_U1_REUSE_SIMILARITY_BUILDER_0.1",
+  "counts": {
+    "canonical_objects": 492,
+    "corpus_pages": 86549,
+    "exact_source_cross_generation_groups": 3150,
+    "exact_source_cross_object_groups": 3330,
+    "exact_source_object_pairs": 23,
+    "exact_source_repeated_groups": 3347,
+    "exact_text_cross_generation_groups": 2758,
+    "exact_text_cross_object_groups": 3001,
+    "exact_text_object_pairs": 998,
+    "exact_text_repeated_groups": 3013,
+    "lsh_distinct_nonexact_cross_object_candidates": 13965,
+    "lsh_raw_band_pair_occurrences": 105476,
+    "near_exact_candidates": 2994,
+    "similarity_candidates": 6152,
+    "similarity_cross_generation_pairs": 5138,
+    "similarity_cross_grade_pairs": 2577,
+    "similarity_cross_wave_pairs": 2706,
+    "similarity_object_pairs": 3867,
+    "similarity_shingle_eligible_pages": 65488,
+    "text_admissible_pages": 71274,
+    "text_excluded_low_information_pages": 15275,
+    "verified_similarity_candidates": 9146
+  },
+  "private_artifact": {
+    "bytes": 2101248,
+    "sha256": "4c180f37b287f4c5cc81155aabd8a97e5feb6f40668c3baa296c4733f8063301",
+    "gzip_bytes": 627270,
+    "gzip_sha256": "55deb1d63fd1299dc97f1b241522015ac8e1e11f119d8d43ead0bd9dea66b5f9",
+    "preserved_private": true,
+    "redownload_verified": true
+  },
+  "protocol": {
+    "exact_source_reuse": {
+      "basis": "source_sha256 equality",
+      "low_information_gate": false
+    },
+    "exact_text_representation_reuse": {
+      "basis": "search_text_sha256 equality",
+      "low_information_gate": true
+    },
+    "similarity": {
+      "cross_object_only": true,
+      "exact_jaccard_min": 0.8,
+      "exclude_exact_text_equality": true,
+      "lsh_bands": 12,
+      "lsh_rows": 8,
+      "min_distinct_shingles": 50,
+      "min_shared_shingles": 40,
+      "minhash_components": 96,
+      "near_exact_jaccard_min": 0.95,
+      "shingle_n": 5,
+      "thresholds_preregistered_before_candidate_inspection": true
+    },
+    "text_admissibility": {
+      "min_ocr_chars": 200,
+      "min_ocr_words": 30
+    }
+  },
+  "privacy": {
+    "candidate_pairs_emitted_publicly": false,
+    "object_identifiers_emitted_publicly": false,
+    "ocr_text_emitted_publicly": false,
+    "page_identifiers_emitted_publicly": false,
+    "source_hash_values_emitted_publicly": false,
+    "text_hash_values_emitted_publicly": false
+  },
+  "scientific_state": {
+    "default_result_state": "exploratory_signal",
+    "semantic_ready": false,
+    "similarity_creates_alias": false,
+    "similarity_is_semantic_equivalence": false,
+    "text_verified": false
+  },
+  "sources": {
+    "lexical_positions_sha256": "c57b30bf69acc0f38e406e45d23f37e5de59a4ec90f0fa9294de4c067512fd02",
+    "universal_index_sha256": "aec55cc7dd83c2e1e22d26e3baf8f7ca2e35e32898827ec84e6222edd4bcf7a2"
+  }
+}
