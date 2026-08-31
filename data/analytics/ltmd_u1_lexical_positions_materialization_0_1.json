@@ -1,0 +1,41 @@
+{
+  "materialization_version": "LTMD_U1_LEXICAL_POSITIONS_MATERIALIZATION_0.1",
+  "source_index": {
+    "version": "LTMD_U1_UNIVERSAL_INDEX_0.1",
+    "sha256": "aec55cc7dd83c2e1e22d26e3baf8f7ca2e35e32898827ec84e6222edd4bcf7a2",
+    "tokenizer": "unicode61 remove_diacritics 2"
+  },
+  "counts": {
+    "unique_terms": 239259,
+    "token_instances": 13265844,
+    "term_page_relations": 7848708,
+    "unique_pages": 86549,
+    "unique_objects": 492,
+    "term_stats_rows": 239259
+  },
+  "private_artifact": {
+    "sqlite_bytes": 763662336,
+    "sqlite_sha256": "59340c6f91fb7a2e9763ba84c1c6b9accfcd9f9f369a9a7b9ce2a9eeca9d7e8e",
+    "gzip_bytes": 317808648,
+    "gzip_sha256": "1c8248c040ce4a2fe0464f5d6b98b50f5c8d51c581fa65eb90094756b53bcb1b",
+    "quick_check": "ok",
+    "publish": false
+  },
+  "privacy": {
+    "full_vocabulary_public": false,
+    "token_positions_public": false,
+    "rare_terms_public_by_default": false,
+    "ocr_text_public": false
+  },
+  "scientific_state": {
+    "result_state": "exploratory_signal",
+    "text_verified": false,
+    "semantic_ready": false,
+    "frequency_is_semantic_claim": false
+  },
+  "preservation": {
+    "receipt_preserved_privately": true,
+    "large_artifact_drive_upload_succeeded": false,
+    "reconstructible_from_canonical_index": true
+  }
+}
