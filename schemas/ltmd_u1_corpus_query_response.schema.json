@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_u1_corpus_query_response.schema.json",
+  "title": "LTMD-U1 corpus-wide query response 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["query", "filters", "result_state", "metrics", "provenance", "warnings"],
+  "properties": {
+    "query": {"type": "string", "minLength": 1, "maxLength": 500},
+    "filters": {"$ref": "#/$defs/filters"},
+    "result_state": {"const": "exploratory_signal"},
+    "metrics": {"$ref": "#/$defs/metrics"},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["query_engine_version", "index_version", "index_sha256", "human_validation_complete"],
+      "properties": {
+        "query_engine_version": {"const": "LTMD_U1_CORPUS_QUERY_ENGINE_0.1"},
+        "index_version": {"const": "LTMD_U1_UNIVERSAL_INDEX_0.1"},
+        "index_sha256": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+          ]
+        },
+        "human_validation_complete": {"const": false}
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "group_by": {"enum": ["generation", "grade_code", "wave"]},
+    "breakdown": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["dimension", "value", "result_state", "metrics"],
+        "properties": {
+          "dimension": {"enum": ["generation", "grade_code", "wave"]},
+          "value": {"type": "string", "minLength": 1},
+          "result_state": {"const": "exploratory_signal"},
+          "metrics": {"$ref": "#/$defs/metrics"}
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"required": ["group_by"]},
+      "then": {"required": ["breakdown"]}
+    },
+    {
+      "if": {"required": ["breakdown"]},
+      "then": {"required": ["group_by"]}
+    }
+  ],
+  "$defs": {
+    "filters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generation", "grade_code", "wave"],
+      "properties": {
+        "generation": {"type": "array", "uniqueItems": true, "items": {"type": "integer", "minimum": 0}},
+        "grade_code": {"type": "array", "uniqueItems": true, "items": {"type": "integer", "minimum": 0}},
+        "wave": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^W[0-9]+$"}}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_pages", "candidate_books", "corpus_pages_in_scope", "corpus_books_in_scope", "candidate_pages_per_1000"],
+      "properties": {
+        "candidate_pages": {"type": "integer", "minimum": 0},
+        "candidate_books": {"type": "integer", "minimum": 0},
+        "corpus_pages_in_scope": {"type": "integer", "minimum": 0},
+        "corpus_books_in_scope": {"type": "integer", "minimum": 0},
+        "candidate_pages_per_1000": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "number", "minimum": 0}
+          ]
+        }
+      }
+    }
+  }
+}
