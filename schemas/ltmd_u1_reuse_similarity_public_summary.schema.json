@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LTMD-U1 reuse/similarity public-safe materialization record 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["artifact_version","builder_version","counts","private_artifact","protocol","privacy","scientific_state","sources"],
+  "properties": {
+    "artifact_version": {"const":"LTMD_U1_REUSE_SIMILARITY_0.1"},
+    "builder_version": {"const":"LTMD_U1_REUSE_SIMILARITY_BUILDER_0.1"},
+    "counts": {"type":"object","additionalProperties":{"type":"integer","minimum":0}},
+    "private_artifact": {
+      "type":"object","additionalProperties":false,
+      "required":["bytes","sha256","gzip_bytes","gzip_sha256","preserved_private","redownload_verified"],
+      "properties": {
+        "bytes":{"type":"integer","minimum":1},
+        "sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+        "gzip_bytes":{"type":"integer","minimum":1},
+        "gzip_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+        "preserved_private":{"const":true},
+        "redownload_verified":{"const":true}
+      }
+    },
+    "protocol": {
+      "type":"object","additionalProperties":false,
+      "required":["exact_source_reuse","exact_text_representation_reuse","similarity","text_admissibility"],
+      "properties": {
+        "exact_source_reuse":{"type":"object","additionalProperties":false,"required":["basis","low_information_gate"],"properties":{"basis":{"const":"source_sha256 equality"},"low_information_gate":{"const":false}}},
+        "exact_text_representation_reuse":{"type":"object","additionalProperties":false,"required":["basis","low_information_gate"],"properties":{"basis":{"const":"search_text_sha256 equality"},"low_information_gate":{"const":true}}},
+        "text_admissibility":{"type":"object","additionalProperties":false,"required":["min_ocr_chars","min_ocr_words"],"properties":{"min_ocr_chars":{"const":200},"min_ocr_words":{"const":30}}},
+        "similarity": {
+          "type":"object","additionalProperties":false,
+          "required":["cross_object_only","exact_jaccard_min","exclude_exact_text_equality","lsh_bands","lsh_rows","min_distinct_shingles","min_shared_shingles","minhash_components","near_exact_jaccard_min","shingle_n","thresholds_preregistered_before_candidate_inspection"],
+          "properties": {
+            "cross_object_only":{"const":true},"exact_jaccard_min":{"const":0.8},"exclude_exact_text_equality":{"const":true},
+            "lsh_bands":{"const":12},"lsh_rows":{"const":8},"min_distinct_shingles":{"const":50},"min_shared_shingles":{"const":40},
+            "minhash_components":{"const":96},"near_exact_jaccard_min":{"const":0.95},"shingle_n":{"const":5},
+            "thresholds_preregistered_before_candidate_inspection":{"const":true}
+          }
+        }
+      }
+    },
+    "privacy": {
+      "type":"object","additionalProperties":false,
+      "required":["candidate_pairs_emitted_publicly","object_identifiers_emitted_publicly","ocr_text_emitted_publicly","page_identifiers_emitted_publicly","source_hash_values_emitted_publicly","text_hash_values_emitted_publicly"],
+      "properties": {
+        "candidate_pairs_emitted_publicly":{"const":false},"object_identifiers_emitted_publicly":{"const":false},"ocr_text_emitted_publicly":{"const":false},
+        "page_identifiers_emitted_publicly":{"const":false},"source_hash_values_emitted_publicly":{"const":false},"text_hash_values_emitted_publicly":{"const":false}
+      }
+    },
+    "scientific_state": {
+      "type":"object","additionalProperties":false,
+      "required":["default_result_state","semantic_ready","similarity_creates_alias","similarity_is_semantic_equivalence","text_verified"],
+      "properties": {
+        "default_result_state":{"const":"exploratory_signal"},"semantic_ready":{"const":false},"similarity_creates_alias":{"const":false},
+        "similarity_is_semantic_equivalence":{"const":false},"text_verified":{"const":false}
+      }
+    },
+    "sources": {
+      "type":"object","additionalProperties":false,"required":["lexical_positions_sha256","universal_index_sha256"],
+      "properties":{"lexical_positions_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},"universal_index_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"}}
+    }
+  }
+}
