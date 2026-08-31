@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_u1_vertical_registry.schema.json",
+  "title": "LTMD-U1 exploratory vertical registry 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["registry_version", "result_state", "frozen_before_materialization", "dimensions", "scientific_boundaries", "verticals"],
+  "properties": {
+    "registry_version": {"const": "LTMD_U1_VERTICAL_REGISTRY_0.1"},
+    "result_state": {"const": "exploratory_signal"},
+    "frozen_before_materialization": {"const": true},
+    "dimensions": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {"enum": ["generation", "grade_code", "wave"]},
+      "allOf": [
+        {"contains": {"const": "generation"}},
+        {"contains": {"const": "grade_code"}},
+        {"contains": {"const": "wave"}}
+      ]
+    },
+    "scientific_boundaries": {
+      "type": "array",
+      "minItems": 4,
+      "items": {"type": "string", "minLength": 20}
+    },
+    "verticals": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"$ref": "#/$defs/vertical"}
+    }
+  },
+  "$defs": {
+    "probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["probe_id", "label_es", "fts5_expression"],
+      "properties": {
+        "probe_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "label_es": {"type": "string", "minLength": 2},
+        "fts5_expression": {"type": "string", "minLength": 1, "maxLength": 300}
+      }
+    },
+    "vertical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vertical_id", "label_es", "status", "union_expression", "probes", "interpretation_boundary"],
+      "properties": {
+        "vertical_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "label_es": {"type": "string", "minLength": 3},
+        "status": {"const": "preregistered_exploratory"},
+        "union_expression": {"type": "string", "minLength": 1, "maxLength": 500},
+        "probes": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"$ref": "#/$defs/probe"}
+        },
+        "interpretation_boundary": {"type": "string", "minLength": 40}
+      }
+    }
+  }
+}
