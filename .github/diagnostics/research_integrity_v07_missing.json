@@ -1,11 +1,8 @@
 {
   "integrity_version": "LTMD_INTEGRITY_0.7",
   "critical_count": 264,
-  "critical_present_count": 262,
-  "missing_critical": [
-    "scripts/build_ltmd_u1_w4_completion_report.py",
-    ".github/workflows/build-ltmd-u1-w4-completion-report.yml"
-  ],
+  "critical_present_count": 264,
+  "missing_critical": [],
   "optional_count": 22,
   "optional_present": [
     "data/derived/semb03_sample_coverage.csv",
