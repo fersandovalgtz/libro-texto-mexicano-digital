@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Política de seguridad
+    url: https://github.com/fersandovalgtz/libro-texto-mexicano-digital/blob/main/SECURITY.md
+    about: No publique vulnerabilidades, credenciales o información sensible en un issue público.
+  - name: Guía de soporte
+    url: https://github.com/fersandovalgtz/libro-texto-mexicano-digital/blob/main/SUPPORT.md
+    about: Consulte qué canal corresponde antes de reportar soporte, datos o materiales fuente.
