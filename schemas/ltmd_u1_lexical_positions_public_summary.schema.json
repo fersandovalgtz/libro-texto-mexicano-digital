@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_u1_lexical_positions_public_summary.schema.json",
+  "title": "LTMD-U1 lexical positions public summary 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["materialization_version", "source_index", "counts", "private_artifact", "privacy", "scientific_state", "preservation"],
+  "properties": {
+    "materialization_version": {"const": "LTMD_U1_LEXICAL_POSITIONS_MATERIALIZATION_0.1"},
+    "source_index": {
+      "type": "object", "additionalProperties": false,
+      "required": ["version", "sha256", "tokenizer"],
+      "properties": {
+        "version": {"const": "LTMD_U1_UNIVERSAL_INDEX_0.1"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "tokenizer": {"const": "unicode61 remove_diacritics 2"}
+      }
+    },
+    "counts": {
+      "type": "object", "additionalProperties": false,
+      "required": ["unique_terms", "token_instances", "term_page_relations", "unique_pages", "unique_objects", "term_stats_rows"],
+      "properties": {
+        "unique_terms": {"type": "integer", "minimum": 1},
+        "token_instances": {"type": "integer", "minimum": 1},
+        "term_page_relations": {"type": "integer", "minimum": 1},
+        "unique_pages": {"type": "integer", "minimum": 1},
+        "unique_objects": {"type": "integer", "minimum": 1},
+        "term_stats_rows": {"type": "integer", "minimum": 1}
+      }
+    },
+    "private_artifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sqlite_bytes", "sqlite_sha256", "gzip_bytes", "gzip_sha256", "quick_check", "publish"],
+      "properties": {
+        "sqlite_bytes": {"type": "integer", "minimum": 1},
+        "sqlite_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "gzip_bytes": {"type": "integer", "minimum": 1},
+        "gzip_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "quick_check": {"const": "ok"},
+        "publish": {"const": false}
+      }
+    },
+    "privacy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["full_vocabulary_public", "token_positions_public", "rare_terms_public_by_default", "ocr_text_public"],
+      "properties": {
+        "full_vocabulary_public": {"const": false},
+        "token_positions_public": {"const": false},
+        "rare_terms_public_by_default": {"const": false},
+        "ocr_text_public": {"const": false}
+      }
+    },
+    "scientific_state": {
+      "type": "object", "additionalProperties": false,
+      "required": ["result_state", "text_verified", "semantic_ready", "frequency_is_semantic_claim"],
+      "properties": {
+        "result_state": {"const": "exploratory_signal"},
+        "text_verified": {"const": false},
+        "semantic_ready": {"const": false},
+        "frequency_is_semantic_claim": {"const": false}
+      }
+    },
+    "preservation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["receipt_preserved_privately", "large_artifact_drive_upload_succeeded", "reconstructible_from_canonical_index"],
+      "properties": {
+        "receipt_preserved_privately": {"const": true},
+        "large_artifact_drive_upload_succeeded": {"type": "boolean"},
+        "reconstructible_from_canonical_index": {"const": true}
+      }
+    }
+  }
+}
