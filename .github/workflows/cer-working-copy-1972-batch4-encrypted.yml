@@ -58,7 +58,7 @@ jobs:
           openssl cms -encrypt -binary -aes256 -in working-copy.tar -outform DER -out working-copy.p7m cert.pem
           rm -rf work working-copy.tar cert.pem
       - name: Upload ciphertext and hashes only
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-cer-1972-batch4-encrypted-working-copy
           path: |

@@ -75,7 +75,7 @@ jobs:
         run: python3 scripts/ocr_cn_wave2_book.py --book-id '${{ matrix.book_id }}' --output-dir data/work/cn_wave2_ocr
       - name: Verify shard exists
         run: test -s 'data/work/cn_wave2_ocr/ocr_${{ matrix.slug }}.csv'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ocr-${{ matrix.slug }}
           path: data/work/cn_wave2_ocr/ocr_${{ matrix.slug }}.csv

@@ -64,7 +64,7 @@ jobs:
           print('SELECTED_PSM',{m:sum(r['selected_psm']==m for r in rows) for m in ('3','11','6')})
           PY
       - name: Upload derived metrics only
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ocr-full-pilot-metrics-adaptive
           path: |

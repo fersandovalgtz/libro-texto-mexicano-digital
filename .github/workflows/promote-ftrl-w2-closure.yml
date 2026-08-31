@@ -82,7 +82,7 @@ jobs:
           print('W2 promotion validation passed; four DMA 2018 identities remain active retentions.')
           PY
       - name: Upload validated canonical W2 closure
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w2-canonical-closure-promotion
           if-no-files-found: error

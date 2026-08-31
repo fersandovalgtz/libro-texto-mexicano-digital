@@ -32,7 +32,7 @@ jobs:
           sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
       - name: Extract structural flags from front/end zones
         run: python3 scripts/extract_ltmd_u1_w1_1966_structural_flags_book.py --book-id '${{ matrix.book_id }}'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w1-1966-struct-${{ matrix.book_id }}
           path: data/work/ltmd_u1_w1_1966_structkw/*.csv

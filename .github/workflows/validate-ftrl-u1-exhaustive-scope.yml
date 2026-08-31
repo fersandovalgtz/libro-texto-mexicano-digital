@@ -75,7 +75,7 @@ jobs:
           echo 'Fail-closed global completion gate behaved as expected'
 
       - name: Upload text-free scope evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-exhaustive-scope-text-free
           path: local/ftrl/ltmd_u1_exhaustive_scope_validation.json

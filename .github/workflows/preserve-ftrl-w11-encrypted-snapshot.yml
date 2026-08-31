@@ -196,21 +196,21 @@ jobs:
           (cd local/w11-public && zip -q -r ../snapshot/ltmd-u1-w11-public-text-free-evidence.zip .)
           sha256sum local/snapshot/*.zip > local/snapshot/SHA256SUMS.txt
       - name: Upload consolidated private encrypted snapshot
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w11-consolidated-private-encrypted-snapshot
           path: local/snapshot/ltmd-u1-w11-consolidated-private-encrypted.zip
           if-no-files-found: error
           retention-days: 30
       - name: Upload consolidated public evidence snapshot
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w11-consolidated-public-evidence-snapshot
           path: local/snapshot/ltmd-u1-w11-public-text-free-evidence.zip
           if-no-files-found: error
           retention-days: 30
       - name: Upload text-free snapshot manifest
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w11-encrypted-snapshot-manifest
           path: |

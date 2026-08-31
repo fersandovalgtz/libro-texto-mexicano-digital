@@ -41,7 +41,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Audit one W3 viewer from institutional ag_clave
         run: python3 scripts/audit_ltmd_u1_w3_spanish_assets_book.py --viewer-key '${{ matrix.viewer_key }}'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w3-spanish-assets-${{ matrix.viewer_key }}
           path: data/work/ltmd_u1_w3_spanish_assets/*.csv

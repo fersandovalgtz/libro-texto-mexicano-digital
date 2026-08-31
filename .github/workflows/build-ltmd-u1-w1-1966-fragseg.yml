@@ -31,7 +31,7 @@ jobs:
           sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
       - name: Segment one W1 1966 book
         run: python3 scripts/segment_ltmd_u1_w1_1966_fragments.py --book-id '${{ matrix.book_id }}'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w1-1966-frag-${{ matrix.book_id }}
           path: data/work/ltmd_u1_w1_1966_fragments/*.csv

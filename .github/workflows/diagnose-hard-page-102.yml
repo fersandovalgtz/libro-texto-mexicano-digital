@@ -31,7 +31,7 @@ jobs:
             --page-id LTMD-CN5-G2014-VP102 \
             --url https://historico.conaliteg.gob.mx/c/H2014P5CNA/102.jpg
       - name: Upload metrics only
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: hard-page-102-diagnostic
           path: data/derived/hard_page_ocr_diagnostic.csv

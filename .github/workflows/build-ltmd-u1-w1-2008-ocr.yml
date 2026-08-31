@@ -27,7 +27,7 @@ jobs:
           sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
       - name: OCR one reconciled 2008 book
         run: python3 scripts/ocr_ltmd_u1_w1_2008_book.py --book-id '${{ matrix.book_id }}'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w1-2008-ocr-${{ matrix.book_id }}
           path: data/work/ltmd_u1_w1_2008_ocr/*.csv

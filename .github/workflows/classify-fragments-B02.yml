@@ -73,7 +73,7 @@ jobs:
           PY
         env:
           GEN: '${{ matrix.generation }}'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: labels-B02-${{ matrix.generation }}
           path: data/derived/fragment_labels_B_${{ matrix.generation }}.csv

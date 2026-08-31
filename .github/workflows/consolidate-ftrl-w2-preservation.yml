@@ -264,7 +264,7 @@ jobs:
           PY
 
       - name: Upload consolidated private snapshot
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w2-consolidated-private-encrypted-snapshot-57-of-57
           path: local/w2-consolidated/ltmd-u1-w2-consolidated-private-encrypted-snapshot__57-of-57.zip
@@ -272,7 +272,7 @@ jobs:
           retention-days: 7
 
       - name: Upload consolidated public evidence snapshot
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w2-consolidated-public-evidence-snapshot-57-of-57
           path: local/w2-consolidated/ltmd-u1-w2-consolidated-public-evidence-snapshot__57-of-57.zip
@@ -280,7 +280,7 @@ jobs:
           retention-days: 7
 
       - name: Upload preservation manifest bundle
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w2-preservation-manifest-bundle-57-of-57
           path: |

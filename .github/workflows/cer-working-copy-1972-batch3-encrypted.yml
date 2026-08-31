@@ -61,7 +61,7 @@ jobs:
           rm -rf work working-copy.tar cert.pem
 
       - name: Upload ciphertext and hashes only
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-cer-1972-batch3-encrypted-working-copy
           path: |

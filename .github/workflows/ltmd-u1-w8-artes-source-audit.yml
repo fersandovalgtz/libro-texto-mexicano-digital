@@ -42,7 +42,7 @@ jobs:
             data/catalog/ltmd_u1_w8_declared_inventory.md
 
       - name: Upload base evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: w8-base-evidence
           path: w8-base-evidence.tgz
@@ -118,7 +118,7 @@ jobs:
 
       - name: Upload per-viewer audit shard
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: w8-asset-${{ matrix.viewer_key }}
           path: data/work/ltmd_u1_w8_artes_assets/asset_*.csv
@@ -161,7 +161,7 @@ jobs:
         run: python scripts/combine_ltmd_u1_w8_artes_asset_shards.py
 
       - name: Upload combined source evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: w8-combined-source-evidence
           path: |

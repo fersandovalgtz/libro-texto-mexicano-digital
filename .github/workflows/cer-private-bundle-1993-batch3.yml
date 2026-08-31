@@ -96,7 +96,7 @@ jobs:
           rm -rf private_bundle private_bundle.tar.gz cert.pem version.txt
 
       - name: Upload ciphertext and manifest only
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-cer-1993-batch3-private-bundle-encrypted
           path: |

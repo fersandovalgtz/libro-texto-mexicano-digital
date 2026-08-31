@@ -57,7 +57,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Audit one W6 Geography/Atlas viewer
         run: python3 scripts/audit_ltmd_u1_w6_geography_atlas_assets_book.py --viewer-key '${{ matrix.viewer_key }}'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w6-geography-atlas-assets-${{ matrix.viewer_key }}
           path: data/work/ltmd_u1_w6_geography_atlas_assets/*.csv

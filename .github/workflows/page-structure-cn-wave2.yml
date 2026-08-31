@@ -70,7 +70,7 @@ jobs:
         run: python3 scripts/extract_cn_wave2_structural_flags_book.py --book-id '${{ matrix.book_id }}' --output-dir data/work/cn_wave2_structkw
       - name: Verify structural shard
         run: test -s 'data/work/cn_wave2_structkw/structkw_${{ matrix.slug }}.csv'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: structkw-${{ matrix.slug }}
           path: data/work/cn_wave2_structkw/structkw_${{ matrix.slug }}.csv

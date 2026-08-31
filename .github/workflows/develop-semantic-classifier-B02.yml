@@ -34,7 +34,7 @@ jobs:
           exit $rc
       - name: Upload development diagnostic log
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: semb02-development-diagnostic
           path: |

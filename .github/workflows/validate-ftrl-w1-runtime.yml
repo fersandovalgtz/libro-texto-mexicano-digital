@@ -133,7 +133,7 @@ jobs:
           echo 'Restricted W1 pilot outputs remain ignored: OK'
 
       - name: Upload text-free pilot evidence only
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w1-exhaustive-runtime-pilot-text-free
           path: |

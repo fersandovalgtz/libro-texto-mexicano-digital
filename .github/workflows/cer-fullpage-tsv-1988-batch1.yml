@@ -98,7 +98,7 @@ jobs:
           sha256sum payload.p7m > ciphertext.sha256
           rm -rf private_work private.json cert.pem tesseract-version.txt
       - name: Upload ciphertext and non-text manifest only
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-cer-1988-batch1-fullpage-tsv-encrypted
           path: |

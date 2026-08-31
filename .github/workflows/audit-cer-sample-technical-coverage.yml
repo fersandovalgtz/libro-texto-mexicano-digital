@@ -20,7 +20,7 @@ jobs:
       - name: Audit preregistered 48-page sample
         run: python scripts/audit_cer_sample_technical_coverage.py
       - name: Upload metadata-only audit
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cer-sample-technical-audit
           path: |

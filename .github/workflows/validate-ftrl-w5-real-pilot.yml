@@ -100,7 +100,7 @@ jobs:
           fi
 
       - name: Upload text-free run manifest only
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w5-pilot-10-run-manifest
           path: local/ftrl/ltmd_u1_w5_pilot_10_run_manifest.json

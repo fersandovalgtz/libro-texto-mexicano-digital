@@ -67,7 +67,7 @@ jobs:
           sudo apt-get install -y tesseract-ocr tesseract-ocr-spa
       - name: Scan structural zones for one canonical W9 viewer
         run: python3 scripts/extract_ltmd_u1_w9_educacion_fisica_structural_flags_book.py --viewer-key '${{ matrix.viewer_key }}'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w9-educacion-fisica-structkw-${{ matrix.viewer_key }}
           path: data/work/ltmd_u1_w9_educacion_fisica_structkw/*.csv

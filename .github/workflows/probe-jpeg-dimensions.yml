@@ -28,7 +28,7 @@ jobs:
       - name: Show result
         run: cat data/derived/qc_jpeg_dimensions.csv
       - name: Upload result
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: qc-jpeg-dimensions
           path: data/derived/qc_jpeg_dimensions.csv

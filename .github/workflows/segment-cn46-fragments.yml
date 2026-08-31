@@ -57,7 +57,7 @@ jobs:
       - name: Verify shard is nonempty
         run: |
           test $(wc -l < 'data/work/cn46_fragments/fragment_${{ matrix.slug }}.csv') -gt 1
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: frag-${{ matrix.slug }}
           path: data/work/cn46_fragments/fragment_${{ matrix.slug }}.csv

@@ -84,7 +84,7 @@ jobs:
         run: |
           test -s 'data/work/cn_wave2_fragments/fragment_${{ matrix.slug }}.csv'
           test -f 'data/work/cn_wave2_fragments/fragment_${{ matrix.slug }}_failures.csv'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: frag-${{ matrix.slug }}
           path: |

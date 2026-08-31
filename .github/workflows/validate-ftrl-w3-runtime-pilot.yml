@@ -124,7 +124,7 @@ jobs:
           cp "local/ftrl/ltmd_u1_w3_${label}_qc_summary.json" local/w3-pilot-evidence/
 
       - name: Publish text-free pilot evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w3-runtime-pilot-${{ env.PILOT_PAGES }}-text-free-evidence
           path: local/w3-pilot-evidence/

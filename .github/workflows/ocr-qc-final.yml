@@ -44,7 +44,7 @@ jobs:
               print(g,len(rs),sum(r['ocr_status']=='ok' for r in rs),len(text),sum(r['ocr_class']=='no_text_detected' for r in rs),sum(r['ocr_class']=='unresolved' for r in rs),f'{statistics.mean(conf):.2f}' if conf else '')
           PY
       - name: Upload metrics only
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ocr-qc-40-metrics
           path: data/derived/ocr_qc_40_metrics.csv

@@ -265,7 +265,7 @@ jobs:
           PY
 
       - name: Upload consolidated private encrypted archive
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w10-consolidated-private-encrypted
           path: local/consolidated/private/
@@ -273,7 +273,7 @@ jobs:
           retention-days: 3
 
       - name: Upload consolidated text-free evidence archive
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w10-consolidated-text-free-evidence
           path: local/consolidated/public/
@@ -281,7 +281,7 @@ jobs:
           retention-days: 30
 
       - name: Upload archival consolidation report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w10-archival-consolidation-report
           path: local/ltmd_u1_w10_archival_consolidation_report.json

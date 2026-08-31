@@ -98,7 +98,7 @@ jobs:
           echo 'Fail-closed mutation test behaved as expected'
 
       - name: Upload text-free preflight evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w1-exhaustive-preflight-text-free
           path: |

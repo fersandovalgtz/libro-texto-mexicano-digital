@@ -43,7 +43,7 @@ jobs:
           print('RECOVERED_WORDS',sum(int(r['max_fallback_words'] or 0) for r in rows if r['audit_class']=='recovered_by_fallback'))
           PY
       - name: Upload metrics only
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: no-text-page-audit
           path: data/derived/no_text_page_audit.csv

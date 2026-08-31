@@ -65,7 +65,7 @@ jobs:
           print('W11 promotion validation passed; W2 remains blocked pending merge.')
           PY
       - name: Upload validated canonical W11 closure
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w11-canonical-closure-promotion
           if-no-files-found: error

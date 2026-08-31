@@ -110,7 +110,7 @@ jobs:
           sha256sum LTMD_U1_W10_PRIVATE_ENCRYPTED_HANDOFFS.tar.gz LTMD_U1_W10_PUBLIC_TEXT_FREE_EVIDENCE.tar.gz > LTMD_U1_W10_CONSOLIDATED_SHA256.txt
 
       - name: Upload consolidated private encrypted bundle
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w10-consolidated-private-encrypted
           path: |
@@ -120,7 +120,7 @@ jobs:
           retention-days: 3
 
       - name: Upload consolidated public evidence bundle
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w10-consolidated-public-evidence
           path: |

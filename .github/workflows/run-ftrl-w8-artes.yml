@@ -217,14 +217,14 @@ jobs:
           test -f "$HANDOFF/w8_${VIEWER}_restricted.tar.gz.enc"
           test -f "$HANDOFF/w8_${VIEWER}_passphrase.rsa-oaep.enc"
       - name: Upload encrypted private handoff only
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w8-${{ matrix.viewer }}-private-encrypted
           path: local/private-handoff-w8-${{ matrix.viewer }}/
           if-no-files-found: error
           retention-days: 3
       - name: Upload text-free computational evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w8-${{ matrix.viewer }}-text-free-evidence
           path: |
@@ -265,7 +265,7 @@ jobs:
             --processing-inventory local/w8-expected/processing_inventory.csv \
             --output local/ltmd_u1_w8_global_evidence.json
       - name: Upload global text-free evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w8-global-text-free-evidence
           path: local/ltmd_u1_w8_global_evidence.json

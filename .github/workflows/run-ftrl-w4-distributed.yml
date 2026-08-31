@@ -164,7 +164,7 @@ jobs:
           grep -q 'BEGIN PUBLIC KEY' security/ltmd_archive_public.pem
 
       - name: Upload encrypted shard handoff only
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w4-shard-${{ matrix.shard }}-private-encrypted
           path: local/private-handoff-w4-shard-*/
@@ -172,7 +172,7 @@ jobs:
           retention-days: 3
 
       - name: Upload text-free shard evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w4-shard-${{ matrix.shard }}-text-free-evidence
           path: |
@@ -218,7 +218,7 @@ jobs:
             --output local/ltmd_u1_w4_distributed_global_evidence.json
 
       - name: Upload global text-free distributed evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-u1-w4-distributed-global-text-free-evidence
           path: local/ltmd_u1_w4_distributed_global_evidence.json

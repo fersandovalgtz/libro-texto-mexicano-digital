@@ -76,7 +76,7 @@ jobs:
           test -n "$(git -C /tmp/ltmd-bundle-check rev-list --all --count)"
 
       - name: Upload repository snapshot
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ltmd-repository-snapshot
           path: |
