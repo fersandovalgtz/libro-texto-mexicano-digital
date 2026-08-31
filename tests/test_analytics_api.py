@@ -49,6 +49,11 @@ def configure(monkeypatch, tmp_path):
     return ledger
 
 
+def test_passenger_root_entry_point_exports_flask_application():
+    import passenger_wsgi
+    assert passenger_wsgi.application is api.app
+
+
 def test_health_is_safe_and_configured(monkeypatch, tmp_path):
     configure(monkeypatch, tmp_path)
     client = api.app.test_client()
