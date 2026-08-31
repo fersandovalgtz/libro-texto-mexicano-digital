@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Query the private LTMD Indigenous-language candidate ledger and emit safe aggregates only.
 
-Version: LTMD_ANALYTICS_QUERY_ENGINE_0.1
+Version: LTMD_ANALYTICS_QUERY_ENGINE_0.2
 
-This module is the query core for LTMD Analytics 0.1. It may read a private page-level
-candidate ledger, but its public response contains aggregates and provenance only. It never
-returns page IDs, source URLs, OCR text, snippets, or source/OCR hashes.
+This module preserves the preregistered Indigenous-language candidate selection. When the
+corpus-wide reuse context is configured, filtered candidate sets and breakdown groups are
+contextualized without changing membership or epistemic state.
 """
 from __future__ import annotations
 
@@ -15,32 +15,19 @@ import hashlib
 import json
 from collections import defaultdict
 from pathlib import Path
-from typing import Iterable
+from typing import Callable, Iterable
 
-ENGINE_VERSION = "LTMD_ANALYTICS_QUERY_ENGINE_0.1"
+ENGINE_VERSION = "LTMD_ANALYTICS_QUERY_ENGINE_0.2"
 ANALYTICS_VERSION = "LTMD_ANALYTICS_INDIGENOUS_0.1"
 SOURCE_ANALYSIS_VERSION = "LTMD_U1_INDIGENOUS_LANGUAGES_RERUN_0.2"
 
 REQUIRED_FIELDS = {
-    "page_id",
-    "canonical_viewer_key",
-    "wave",
-    "generation",
-    "grade_code",
-    "explicit_general",
-    "named_language_contextual",
-    "matched_explicit_terms",
-    "matched_language_groups",
-    "validation_status",
+    "page_id", "canonical_viewer_key", "wave", "generation", "grade_code",
+    "explicit_general", "named_language_contextual", "matched_explicit_terms",
+    "matched_language_groups", "validation_status",
 }
-
-ALLOWED_GROUP_BY = {
-    "generation",
-    "grade_code",
-    "wave",
-    "language_group",
-    "explicit_term",
-}
+ALLOWED_GROUP_BY = {"generation", "grade_code", "wave", "language_group", "explicit_term"}
+ReuseContextResolver = Callable[[list[str]], dict]
 
 
 def sha256_file(path: Path) -> str:
@@ -67,7 +54,6 @@ def load_ledger(path: Path) -> list[dict]:
         if missing:
             raise RuntimeError("candidate ledger missing fields: " + ", ".join(sorted(missing)))
         rows = [dict(row) for row in reader]
-
     seen = set()
     for row in rows:
         page_id = row["page_id"].strip()
@@ -115,12 +101,10 @@ def row_matches(row: dict, filters: dict[str, list[str]]) -> bool:
         return False
     if filters.get("wave") and str(row["wave"]) not in filters["wave"]:
         return False
-    if filters.get("language_group"):
-        if not (split_multi(row["matched_language_groups"]) & set(filters["language_group"])):
-            return False
-    if filters.get("explicit_term"):
-        if not (split_multi(row["matched_explicit_terms"]) & set(filters["explicit_term"])):
-            return False
+    if filters.get("language_group") and not (split_multi(row["matched_language_groups"]) & set(filters["language_group"])):
+        return False
+    if filters.get("explicit_term") and not (split_multi(row["matched_explicit_terms"]) & set(filters["explicit_term"])):
+        return False
     return True
 
 
@@ -149,9 +133,7 @@ def corpus_denominator(filters: dict[str, list[str]], denominators: dict[str, in
     generations = filters.get("generation") or sorted(denominators)
     missing = [generation for generation in generations if generation not in denominators]
     if missing:
-        return None, [
-            "Missing corpus denominator for generation(s): " + ", ".join(missing) + "; pages_per_1000 is null."
-        ]
+        return None, ["Missing corpus denominator for generation(s): " + ", ".join(missing) + "; pages_per_1000 is null."]
     return sum(denominators[generation] for generation in generations), []
 
 
@@ -171,25 +153,42 @@ def _sort_dimension_value(value: str) -> tuple[int, int | str, str]:
     return (1, value, value)
 
 
-def build_breakdown(rows: list[dict], group_by: str) -> list[dict]:
+def _resolve_reuse_context(rows: list[dict], resolver: ReuseContextResolver | None) -> dict | None:
+    if resolver is None:
+        return None
+    context = resolver([row["page_id"] for row in rows])
+    metrics = context.get("metrics") if isinstance(context, dict) else None
+    if not isinstance(metrics, dict) or metrics.get("candidate_pages") != len(rows):
+        raise RuntimeError("reuse context candidate count mismatch")
+    if context.get("result_state") != "exploratory_signal":
+        raise RuntimeError("reuse context must remain exploratory_signal")
+    return context
+
+
+def build_breakdown(rows: list[dict], group_by: str, reuse_context_resolver: ReuseContextResolver | None = None) -> list[dict]:
     groups = defaultdict(list)
     for row in rows:
         for value in group_values(row, group_by):
             groups[value].append(row)
     result = []
     for value in sorted(groups, key=_sort_dimension_value):
-        result.append({
+        item = {
             "dimension": group_by,
             "value": value,
             "result_state": "exploratory_signal",
             "metrics": aggregate_metrics(groups[value]),
-        })
+        }
+        context = _resolve_reuse_context(groups[value], reuse_context_resolver)
+        if context is not None:
+            item["reuse_context"] = context
+        result.append(item)
     return result
 
 
 def query(rows: list[dict], *, query_label: str, filters: dict[str, Iterable[str] | None],
           denominators: dict[str, int] | None = None, group_by: str | None = None,
-          source_ledger_sha256: str | None = None) -> dict:
+          source_ledger_sha256: str | None = None,
+          reuse_context_resolver: ReuseContextResolver | None = None) -> dict:
     normalized = normalize_filters(filters)
     if group_by is not None and group_by not in ALLOWED_GROUP_BY:
         raise RuntimeError("group_by must be one of: " + ", ".join(sorted(ALLOWED_GROUP_BY)))
@@ -216,9 +215,12 @@ def query(rows: list[dict], *, query_label: str, filters: dict[str, Iterable[str
             "Results are computational candidates/exploratory signals, not validated historical prevalence claims."
         ],
     }
+    context = _resolve_reuse_context(matched, reuse_context_resolver)
+    if context is not None:
+        response["reuse_context"] = context
     if group_by:
         response["group_by"] = group_by
-        response["breakdown"] = build_breakdown(matched, group_by)
+        response["breakdown"] = build_breakdown(matched, group_by, reuse_context_resolver)
     return response
 
 
@@ -226,6 +228,8 @@ def parse_args(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--candidate-ledger", required=True)
     parser.add_argument("--generation-summary")
+    parser.add_argument("--universal-index")
+    parser.add_argument("--reuse-similarity")
     parser.add_argument("--query", default="LTMD Analytics query")
     parser.add_argument("--generation", action="append")
     parser.add_argument("--grade-code", action="append")
@@ -242,6 +246,14 @@ def main(argv=None):
     ledger = Path(args.candidate_ledger)
     rows = load_ledger(ledger)
     denominators = load_generation_denominators(Path(args.generation_summary)) if args.generation_summary else {}
+    resolver = None
+    if bool(args.universal_index) != bool(args.reuse_similarity):
+        raise RuntimeError("--universal-index and --reuse-similarity must be supplied together")
+    if args.universal_index:
+        from scripts.runtime_vertical_reuse_context import runtime_context
+        index_path = Path(args.universal_index)
+        reuse_path = Path(args.reuse_similarity)
+        resolver = lambda page_ids: runtime_context(index_path, reuse_path, page_ids)
     response = query(
         rows,
         query_label=args.query,
@@ -255,6 +267,7 @@ def main(argv=None):
         denominators=denominators,
         group_by=args.group_by,
         source_ledger_sha256=sha256_file(ledger),
+        reuse_context_resolver=resolver,
     )
     payload = json.dumps(response, ensure_ascii=False, indent=2) + "\n"
     if args.output:
