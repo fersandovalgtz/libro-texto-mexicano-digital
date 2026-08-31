@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_u1_vertical_materialization.schema.json",
+  "title": "LTMD-U1 exploratory vertical materialization 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["materialization_version","builder_version","registry_version","result_state","corpus","provenance","scientific_state","privacy","verticals"],
+  "properties": {
+    "materialization_version": {"const": "LTMD_U1_VERTICAL_MATERIALIZATION_0.1"},
+    "builder_version": {"const": "LTMD_U1_VERTICAL_MATERIALIZER_0.1"},
+    "registry_version": {"const": "LTMD_U1_VERTICAL_REGISTRY_0.1"},
+    "result_state": {"const": "exploratory_signal"},
+    "corpus": {
+      "type":"object","additionalProperties":false,"required":["pages","canonical_objects"],
+      "properties":{"pages":{"type":"integer","minimum":1},"canonical_objects":{"type":"integer","minimum":1}}
+    },
+    "provenance": {
+      "type":"object","additionalProperties":false,
+      "required":["registry_sha256","universal_index_sha256","reuse_similarity_sha256","human_validation_complete"],
+      "properties":{
+        "registry_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+        "universal_index_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+        "reuse_similarity_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+        "human_validation_complete":{"const":false}
+      }
+    },
+    "scientific_state": {
+      "type":"object","additionalProperties":false,"required":["text_verified","semantic_ready","aliases_created"],
+      "properties":{"text_verified":{"const":false},"semantic_ready":{"const":false},"aliases_created":{"const":false}}
+    },
+    "privacy": {
+      "type":"object","additionalProperties":false,
+      "required":["page_identifiers_emitted","object_identifiers_emitted","pair_identifiers_emitted","ocr_text_emitted","source_hash_values_emitted"],
+      "properties":{
+        "page_identifiers_emitted":{"const":false},"object_identifiers_emitted":{"const":false},"pair_identifiers_emitted":{"const":false},
+        "ocr_text_emitted":{"const":false},"source_hash_values_emitted":{"const":false}
+      }
+    },
+    "verticals":{"type":"array","minItems":8,"maxItems":8,"items":{"$ref":"#/$defs/vertical"}}
+  },
+  "$defs": {
+    "metrics": {
+      "type":"object","additionalProperties":false,
+      "required":["candidate_pages","candidate_books","corpus_pages_in_scope","corpus_books_in_scope","candidate_pages_per_1000"],
+      "properties":{
+        "candidate_pages":{"type":"integer","minimum":0},"candidate_books":{"type":"integer","minimum":0},
+        "corpus_pages_in_scope":{"type":"integer","minimum":0},"corpus_books_in_scope":{"type":"integer","minimum":0},
+        "candidate_pages_per_1000":{"oneOf":[{"type":"null"},{"type":"number","minimum":0}]}
+      }
+    },
+    "reuse_metrics": {
+      "type":"object","additionalProperties":false,
+      "required":["candidate_pages","mapped_candidate_pages","unmapped_candidate_pages","candidate_pages_with_exact_source_cross_object_reuse","candidate_pages_with_exact_source_cross_generation_reuse","candidate_pages_with_exact_text_cross_object_reuse","candidate_pages_with_exact_text_cross_generation_reuse","candidate_pages_with_similarity_signal","candidate_pages_with_near_exact_signal","candidate_pages_with_cross_generation_similarity_signal","candidate_pages_with_any_reuse_similarity_signal","candidate_pages_with_cross_generation_reuse_similarity_signal","candidate_pages_without_reuse_similarity_signal","internal_similarity_pairs","internal_near_exact_pairs","share_candidate_pages_with_any_reuse_similarity_signal"],
+      "properties":{
+        "candidate_pages":{"type":"integer","minimum":0},"mapped_candidate_pages":{"type":"integer","minimum":0},"unmapped_candidate_pages":{"type":"integer","minimum":0},
+        "candidate_pages_with_exact_source_cross_object_reuse":{"type":"integer","minimum":0},"candidate_pages_with_exact_source_cross_generation_reuse":{"type":"integer","minimum":0},
+        "candidate_pages_with_exact_text_cross_object_reuse":{"type":"integer","minimum":0},"candidate_pages_with_exact_text_cross_generation_reuse":{"type":"integer","minimum":0},
+        "candidate_pages_with_similarity_signal":{"type":"integer","minimum":0},"candidate_pages_with_near_exact_signal":{"type":"integer","minimum":0},
+        "candidate_pages_with_cross_generation_similarity_signal":{"type":"integer","minimum":0},"candidate_pages_with_any_reuse_similarity_signal":{"type":"integer","minimum":0},
+        "candidate_pages_with_cross_generation_reuse_similarity_signal":{"type":"integer","minimum":0},"candidate_pages_without_reuse_similarity_signal":{"type":"integer","minimum":0},
+        "internal_similarity_pairs":{"type":"integer","minimum":0},"internal_near_exact_pairs":{"type":"integer","minimum":0},
+        "share_candidate_pages_with_any_reuse_similarity_signal":{"oneOf":[{"type":"null"},{"type":"number","minimum":0,"maximum":1}]}
+      }
+    },
+    "reuse_context": {
+      "type":"object","additionalProperties":false,"required":["context_version","result_state","metrics","warnings"],
+      "properties":{
+        "context_version":{"const":"LTMD_VERTICAL_REUSE_CONTEXT_0.1"},"result_state":{"const":"exploratory_signal"},
+        "metrics":{"$ref":"#/$defs/reuse_metrics"},
+        "warnings":{"type":"array","minItems":2,"items":{"type":"string","minLength":1}}
+      }
+    },
+    "breakdown_item": {
+      "type":"object","additionalProperties":false,"required":["dimension","value","result_state","metrics"],
+      "properties":{
+        "dimension":{"enum":["generation","grade_code","wave"]},"value":{"type":"string","minLength":1},"result_state":{"const":"exploratory_signal"},"metrics":{"$ref":"#/$defs/metrics"}
+      }
+    },
+    "probe": {
+      "type":"object","additionalProperties":false,"required":["probe_id","label_es","fts5_expression","result_state","metrics"],
+      "properties":{
+        "probe_id":{"type":"string","pattern":"^[a-z0-9_]+$"},"label_es":{"type":"string","minLength":2},"fts5_expression":{"type":"string","minLength":1},
+        "result_state":{"const":"exploratory_signal"},"metrics":{"$ref":"#/$defs/metrics"}
+      }
+    },
+    "vertical": {
+      "type":"object","additionalProperties":false,
+      "required":["vertical_id","label_es","status","union_expression","interpretation_boundary","result_state","metrics","breakdowns","probes","reuse_context","warnings"],
+      "properties":{
+        "vertical_id":{"type":"string","pattern":"^[a-z0-9_]+$"},"label_es":{"type":"string","minLength":3},"status":{"const":"materialized_exploratory"},
+        "union_expression":{"type":"string","minLength":1},"interpretation_boundary":{"type":"string","minLength":40},"result_state":{"const":"exploratory_signal"},
+        "metrics":{"$ref":"#/$defs/metrics"},
+        "breakdowns":{
+          "type":"object","additionalProperties":false,"required":["generation","grade_code","wave"],
+          "properties":{
+            "generation":{"type":"array","minItems":1,"items":{"$ref":"#/$defs/breakdown_item"}},
+            "grade_code":{"type":"array","minItems":1,"items":{"$ref":"#/$defs/breakdown_item"}},
+            "wave":{"type":"array","minItems":1,"items":{"$ref":"#/$defs/breakdown_item"}}
+          }
+        },
+        "probes":{"type":"array","minItems":2,"items":{"$ref":"#/$defs/probe"}},
+        "reuse_context":{"$ref":"#/$defs/reuse_context"},
+        "warnings":{"type":"array","minItems":2,"items":{"type":"string","minLength":1}}
+      }
+    }
+  }
+}
