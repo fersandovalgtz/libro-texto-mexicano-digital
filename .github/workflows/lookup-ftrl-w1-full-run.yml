@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Locate activated exhaustive W1 run and report to issue 15
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         env:
           TARGET_SHA: d3ad64f789570fb7a2b8557dcb0c69c7a2beca6d
         with:

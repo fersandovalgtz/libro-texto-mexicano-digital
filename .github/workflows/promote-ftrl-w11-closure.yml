@@ -76,7 +76,7 @@ jobs:
             data/research/ltmd_u1_ftrl_wave_state.json
             data/research/ltmd_u1_w11_archival_closure.json
       - name: Publish validated closure to staging branch
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         env:
           SOURCE_BRANCH: ftrl/w11-otros-no-clasificados
           TARGET_BRANCH: ftrl/w11-canonical-promotion-attempt3
