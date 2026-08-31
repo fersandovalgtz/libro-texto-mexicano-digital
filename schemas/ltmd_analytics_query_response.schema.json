@@ -5,6 +5,26 @@
   "type": "object",
   "additionalProperties": false,
   "required": ["query", "filters", "result_state", "metrics", "provenance"],
+  "$defs": {
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_pages",
+        "candidate_books",
+        "explicit_general_pages",
+        "named_language_contextual_pages",
+        "pages_per_1000"
+      ],
+      "properties": {
+        "candidate_pages": {"type": "integer", "minimum": 0},
+        "candidate_books": {"type": "integer", "minimum": 0},
+        "explicit_general_pages": {"type": "integer", "minimum": 0},
+        "named_language_contextual_pages": {"type": "integer", "minimum": 0},
+        "pages_per_1000": {"type": ["number", "null"], "minimum": 0}
+      }
+    }
+  },
   "properties": {
     "query": {
       "type": "string",
@@ -25,36 +45,60 @@
       "type": "string",
       "enum": ["technical_metadata", "computational_candidate", "exploratory_signal", "human_validated", "semantic_ready"]
     },
-    "metrics": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["candidate_pages", "candidate_books"],
-      "properties": {
-        "candidate_pages": {"type": "integer", "minimum": 0},
-        "candidate_books": {"type": "integer", "minimum": 0},
-        "explicit_general_pages": {"type": "integer", "minimum": 0},
-        "named_language_contextual_pages": {"type": "integer", "minimum": 0},
-        "pages_per_1000": {"type": ["number", "null"], "minimum": 0}
-      }
-    },
+    "metrics": {"$ref": "#/$defs/metrics"},
     "provenance": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["analytics_version", "source_analysis_version", "human_validation_complete"],
+      "required": [
+        "analytics_version",
+        "source_analysis_version",
+        "human_validation_complete",
+        "query_engine_version"
+      ],
       "properties": {
         "analytics_version": {"const": "LTMD_ANALYTICS_INDIGENOUS_0.1"},
         "source_analysis_version": {"type": "string", "minLength": 1},
         "human_validation_complete": {"type": "boolean"},
+        "source_ledger_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[a-f0-9]{64}$"
+        },
         "source_manifest_sha256": {
           "type": ["string", "null"],
           "pattern": "^[a-f0-9]{64}$"
-        }
+        },
+        "query_engine_version": {"const": "LTMD_ANALYTICS_QUERY_ENGINE_0.1"}
       }
     },
     "warnings": {
       "type": "array",
       "items": {"type": "string"}
+    },
+    "group_by": {
+      "type": "string",
+      "enum": ["generation", "grade_code", "wave", "language_group", "explicit_term"]
+    },
+    "breakdown": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["dimension", "value", "result_state", "metrics"],
+        "properties": {
+          "dimension": {
+            "type": "string",
+            "enum": ["generation", "grade_code", "wave", "language_group", "explicit_term"]
+          },
+          "value": {"type": "string", "minLength": 1},
+          "result_state": {"const": "exploratory_signal"},
+          "metrics": {"$ref": "#/$defs/metrics"}
+        }
+      }
     }
+  },
+  "dependentRequired": {
+    "group_by": ["breakdown"],
+    "breakdown": ["group_by"]
   },
   "allOf": [
     {

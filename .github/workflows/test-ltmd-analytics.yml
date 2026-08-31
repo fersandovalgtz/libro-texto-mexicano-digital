@@ -1,0 +1,46 @@
+name: LTMD Analytics tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/build_indigenous_analytics_mart.py'
+      - 'scripts/query_indigenous_analytics.py'
+      - 'schemas/ltmd_analytics_query_response.schema.json'
+      - 'tests/test_build_indigenous_analytics_mart.py'
+      - 'tests/test_query_indigenous_analytics.py'
+      - '.github/workflows/test-ltmd-analytics.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/build_indigenous_analytics_mart.py'
+      - 'scripts/query_indigenous_analytics.py'
+      - 'schemas/ltmd_analytics_query_response.schema.json'
+      - 'tests/test_build_indigenous_analytics_mart.py'
+      - 'tests/test_query_indigenous_analytics.py'
+      - '.github/workflows/test-ltmd-analytics.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  analytics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test dependencies
+        run: python -m pip install --disable-pip-version-check pytest jsonschema
+      - name: Run Analytics unit tests
+        run: python -m pytest -q tests/test_build_indigenous_analytics_mart.py tests/test_query_indigenous_analytics.py
+      - name: Validate Analytics JSON schema
+        run: |
+          python - <<'PY'
+          import json
+          from jsonschema import Draft202012Validator
+          schema = json.load(open('schemas/ltmd_analytics_query_response.schema.json', encoding='utf-8'))
+          Draft202012Validator.check_schema(schema)
+          print('LTMD Analytics query response schema: OK')
+          PY
