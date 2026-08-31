@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_analytics_query_response.schema.json",
+  "title": "LTMD Analytics 0.1 query response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["query", "filters", "result_state", "metrics", "provenance"],
+  "properties": {
+    "query": {
+      "type": "string",
+      "minLength": 1
+    },
+    "filters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "generation": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "grade_code": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "wave": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "language_group": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "explicit_term": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    },
+    "result_state": {
+      "type": "string",
+      "enum": ["technical_metadata", "computational_candidate", "exploratory_signal", "human_validated", "semantic_ready"]
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_pages", "candidate_books"],
+      "properties": {
+        "candidate_pages": {"type": "integer", "minimum": 0},
+        "candidate_books": {"type": "integer", "minimum": 0},
+        "explicit_general_pages": {"type": "integer", "minimum": 0},
+        "named_language_contextual_pages": {"type": "integer", "minimum": 0},
+        "pages_per_1000": {"type": ["number", "null"], "minimum": 0}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["analytics_version", "source_analysis_version", "human_validation_complete"],
+      "properties": {
+        "analytics_version": {"const": "LTMD_ANALYTICS_INDIGENOUS_0.1"},
+        "source_analysis_version": {"type": "string", "minLength": 1},
+        "human_validation_complete": {"type": "boolean"},
+        "source_manifest_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "result_state": {"enum": ["human_validated", "semantic_ready"]}
+        },
+        "required": ["result_state"]
+      },
+      "then": {
+        "properties": {
+          "provenance": {
+            "properties": {
+              "human_validation_complete": {"const": true}
+            }
+          }
+        }
+      }
+    }
+  ]
+}
