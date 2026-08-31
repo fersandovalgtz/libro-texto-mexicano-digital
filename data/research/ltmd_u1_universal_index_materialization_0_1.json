@@ -1,0 +1,87 @@
+{
+  "builder_version": "LTMD_U1_UNIVERSAL_INDEX_0.1",
+  "dimensions": {
+    "by_generation": {
+      "1960": 3536,
+      "1966": 6680,
+      "1972": 7020,
+      "1982": 3292,
+      "1988": 5274,
+      "1993": 21708,
+      "2008": 6538,
+      "2011": 7611,
+      "2014": 13752,
+      "2018": 2744,
+      "2019": 8394
+    },
+    "by_grade": {
+      "1": 10459,
+      "2": 10814,
+      "3": 20333,
+      "4": 13059,
+      "5": 12710,
+      "6": 19174
+    },
+    "by_wave": {
+      "W1": 6516,
+      "W10": 11937,
+      "W11": 19862,
+      "W2": 11945,
+      "W3": 20765,
+      "W4": 2414,
+      "W5": 2653,
+      "W6": 5258,
+      "W7": 3261,
+      "W8": 1490,
+      "W9": 448
+    }
+  },
+  "index": {
+    "bytes": 209022976,
+    "canonical_row_order": "page_id_ascending",
+    "format": "SQLite3 + FTS5",
+    "fts_table": "pages_fts",
+    "private": true,
+    "publish_index_file": false,
+    "sha256": "aec55cc7dd83c2e1e22d26e3baf8f7ca2e35e32898827ec84e6222edd4bcf7a2",
+    "tokenizer": "unicode61 remove_diacritics 2"
+  },
+  "input": {
+    "database_count": 288,
+    "database_hash_count": 288,
+    "database_hash_set_encoding": "sorted lowercase SHA-256 values joined with LF, no trailing LF",
+    "database_hash_set_sha256": "bbc63e8b34376d7f92e34183906df244593800180af91748927b932b721ed389",
+    "hash_order": "sha256_ascending",
+    "private_paths_emitted": false
+  },
+  "materialization_version": "LTMD_U1_UNIVERSAL_INDEX_MATERIALIZATION_0.1",
+  "preservation": {
+    "compressed_bytes": 83745081,
+    "compressed_sha256": "8ae9c16b7d31a500b07cbed4084cbc98da72f1630edef136a929ad76176d9c71",
+    "private_archive_redownload_verified": true,
+    "storage_location_publicly_emitted": false
+  },
+  "privacy": {
+    "ocr_text_emitted": false,
+    "page_ids_emitted": false,
+    "private_storage_paths_emitted": false,
+    "source_urls_emitted": false
+  },
+  "reconciliation": {
+    "canonical_row_order": "page_id_ascending",
+    "conflicts": 0,
+    "duplicate_page_ids": 0,
+    "fts_rows": 86549,
+    "identical_duplicate_rows_deduplicated": 0,
+    "sqlite_integrity_check": "ok",
+    "unique_canonical_objects": 492,
+    "unique_pages": 86549
+  },
+  "scientific_state": {
+    "human_validation_required_for_semantic_ready": true,
+    "ocr_available": true,
+    "search_result_state": "computational_candidate",
+    "semantic_ready": false,
+    "text_verified": false
+  }
+}
