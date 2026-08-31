@@ -1,0 +1,51 @@
+name: Propuesta de capacidad
+description: Nueva función para LTMD Open, investigación reproducible o interoperabilidad.
+title: "[Feature] "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema de investigación o mantenimiento
+      description: Describa el problema antes de proponer la solución.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Capacidad propuesta
+      description: Explique qué debería hacer LTMD y para quién.
+    validations:
+      required: true
+  - type: dropdown
+    id: value
+    attributes:
+      label: Valor principal
+      description: La propuesta debe fortalecer al menos una dimensión justificable.
+      options:
+        - Aumenta valor científico verificable
+        - Reduce trabajo del investigador
+        - Mejora trazabilidad o reproducibilidad
+        - Mejora interoperabilidad o reutilización
+        - Fortalece una capacidad operada sostenible
+        - Otro, con justificación
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidencia, caso de uso o estándar relacionado
+      description: Añada ejemplos, referencias, estándares o flujo de investigación que justifiquen la propuesta.
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Riesgos y fronteras
+      description: Considere derechos de terceros, privacidad, costo computacional, compatibilidad y estados de validación.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmaciones
+      options:
+        - label: La propuesta distingue LTMD Open de servicios operados cuando corresponde.
+          required: true
+        - label: La propuesta no depende de publicar materiales fuente restringidos.
+          required: true
