@@ -1,0 +1,4 @@
+# Runtime dependency for the operated LTMD Analytics HTTP layer.
+# Kept separate from requirements-release.txt so the frozen scientific release environment
+# does not silently acquire product-only dependencies.
+Flask==3.1.2
