@@ -139,7 +139,6 @@ def aggregate_metrics(rows: list[dict], denominator: int | None = None) -> dict:
 
 
 def corpus_denominator(filters: dict[str, list[str]], denominators: dict[str, int]) -> tuple[int | None, list[str]]:
-    warnings = []
     if not denominators:
         return None, ["No corpus denominator supplied; pages_per_1000 is null."]
     if filters.get("grade_code") or filters.get("wave"):
@@ -153,7 +152,7 @@ def corpus_denominator(filters: dict[str, list[str]], denominators: dict[str, in
         return None, [
             "Missing corpus denominator for generation(s): " + ", ".join(missing) + "; pages_per_1000 is null."
         ]
-    return sum(denominators[generation] for generation in generations), warnings
+    return sum(denominators[generation] for generation in generations), []
 
 
 def group_values(row: dict, group_by: str) -> set[str]:
@@ -166,13 +165,19 @@ def group_values(row: dict, group_by: str) -> set[str]:
     raise RuntimeError(f"unsupported group_by: {group_by}")
 
 
+def _sort_dimension_value(value: str) -> tuple[int, int | str, str]:
+    if value.isdigit():
+        return (0, int(value), value)
+    return (1, value, value)
+
+
 def build_breakdown(rows: list[dict], group_by: str) -> list[dict]:
     groups = defaultdict(list)
     for row in rows:
         for value in group_values(row, group_by):
             groups[value].append(row)
     result = []
-    for value in sorted(groups, key=lambda item: (int(item) if item.isdigit() else 10**12, item)):
+    for value in sorted(groups, key=_sort_dimension_value):
         result.append({
             "dimension": group_by,
             "value": value,
@@ -204,7 +209,7 @@ def query(rows: list[dict], *, query_label: str, filters: dict[str, Iterable[str
             "analytics_version": ANALYTICS_VERSION,
             "source_analysis_version": SOURCE_ANALYSIS_VERSION,
             "human_validation_complete": False,
-            "source_manifest_sha256": source_ledger_sha256,
+            "source_ledger_sha256": source_ledger_sha256,
             "query_engine_version": ENGINE_VERSION,
         },
         "warnings": warnings + [
