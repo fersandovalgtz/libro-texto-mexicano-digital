@@ -35,7 +35,7 @@ jobs:
           gh issue comment 15 --repo "$GITHUB_REPOSITORY" --body "FTRL W5 integral — corrida ${GITHUB_RUN_ID} iniciada sobre commit ${GITHUB_SHA}. Alcance preregistrado corregido antes de OCR completo: 15 objetos canónicos, 18 identidades históricas y 2,653 páginas fuente admitidas. Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.12'
 

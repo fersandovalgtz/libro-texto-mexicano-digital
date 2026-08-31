@@ -30,7 +30,7 @@ jobs:
       viewers: ${{ steps.matrix.outputs.viewers }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Compile W11 FTRL scripts
@@ -124,7 +124,7 @@ jobs:
         viewer: ${{ fromJSON(needs.config-gate.outputs.viewers) }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Install Spanish Tesseract data
@@ -265,7 +265,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Download all text-free W11 evidence

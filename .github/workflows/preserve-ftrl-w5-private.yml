@@ -30,7 +30,7 @@ jobs:
           gh issue comment 15 --repo "$GITHUB_REPOSITORY" --body "FTRL W5 — preservación privada iniciada. Run ${GITHUB_RUN_ID}; commit ${GITHUB_SHA}; alcance 18 identidades / 15 objetos canónicos / 2,653 páginas. La salida restringida sólo se cargará como handoff cifrado; destino canónico final: Google Drive privado. Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.12'
 
