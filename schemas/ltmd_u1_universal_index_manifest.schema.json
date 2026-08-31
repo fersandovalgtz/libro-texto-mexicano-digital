@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_u1_universal_index_manifest.schema.json",
+  "title": "LTMD-U1 Universal Index 0.1 text-free manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["manifest_version", "input", "reconciliation", "dimensions", "index", "scientific_state", "privacy"],
+  "properties": {
+    "manifest_version": {"const": "LTMD_U1_UNIVERSAL_INDEX_0.1"},
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["database_count", "database_hashes", "private_paths_emitted"],
+      "properties": {
+        "database_count": {"type": "integer", "minimum": 1},
+        "database_hashes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["slot", "basename", "sha256"],
+            "properties": {
+              "slot": {"type": "integer", "minimum": 1},
+              "basename": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+            }
+          }
+        },
+        "private_paths_emitted": {"const": false}
+      }
+    },
+    "reconciliation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unique_pages", "unique_canonical_objects", "fts_rows", "duplicate_page_ids", "sqlite_integrity_check", "identical_duplicate_rows_deduplicated", "conflicts"],
+      "properties": {
+        "unique_pages": {"type": "integer", "minimum": 1},
+        "unique_canonical_objects": {"type": "integer", "minimum": 1},
+        "fts_rows": {"type": "integer", "minimum": 1},
+        "duplicate_page_ids": {"const": 0},
+        "sqlite_integrity_check": {"const": "ok"},
+        "identical_duplicate_rows_deduplicated": {"type": "integer", "minimum": 0},
+        "conflicts": {"const": 0}
+      }
+    },
+    "dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["by_generation", "by_wave", "by_grade"],
+      "properties": {
+        "by_generation": {"$ref": "#/$defs/countMap"},
+        "by_wave": {"$ref": "#/$defs/countMap"},
+        "by_grade": {"$ref": "#/$defs/countMap"}
+      }
+    },
+    "index": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "fts_table", "tokenizer", "sha256", "private", "contains_search_text", "publish_index_file"],
+      "properties": {
+        "format": {"const": "SQLite3 + FTS5"},
+        "fts_table": {"const": "pages_fts"},
+        "tokenizer": {"const": "unicode61 remove_diacritics 2"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "private": {"const": true},
+        "contains_search_text": {"const": true},
+        "publish_index_file": {"const": false}
+      }
+    },
+    "scientific_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ocr_available", "text_verified", "semantic_ready", "search_result_state", "human_validation_required_for_semantic_ready"],
+      "properties": {
+        "ocr_available": {"const": true},
+        "text_verified": {"const": false},
+        "semantic_ready": {"const": false},
+        "search_result_state": {"const": "computational_candidate"},
+        "human_validation_required_for_semantic_ready": {"const": true}
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ocr_text_in_manifest", "source_urls_in_manifest", "page_ids_in_manifest", "private_storage_paths_in_manifest"],
+      "properties": {
+        "ocr_text_in_manifest": {"const": false},
+        "source_urls_in_manifest": {"const": false},
+        "page_ids_in_manifest": {"const": false},
+        "private_storage_paths_in_manifest": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "countMap": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    }
+  }
+}
