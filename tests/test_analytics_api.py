@@ -160,22 +160,24 @@ def test_query_endpoint_adds_scoped_reuse_context_when_configured(monkeypatch, t
     response = client.get(
         "/v1/indigenous/query",
         query_string=[
-            ("q", "all named languages"),
-            ("language_group", "Náhuatl"),
+            ("q", "all candidate pages"),
             ("group_by", "generation"),
         ],
     )
     assert response.status_code == 200
     payload = response.get_json()
-    assert payload["metrics"]["candidate_pages"] == 2
-    assert payload["reuse_context"]["metrics"]["candidate_pages"] == 2
+    assert payload["metrics"]["candidate_pages"] == 3
+    assert payload["reuse_context"]["metrics"]["candidate_pages"] == 3
     assert all("reuse_context" in item for item in payload["breakdown"])
-    assert {item["reuse_context"]["metrics"]["candidate_pages"] for item in payload["breakdown"]} == {1}
-    assert calls[0] == ("p1", "p2")
-    assert set(calls[1:]) == {("p1",), ("p2",)}
+    by_generation = {item["value"]: item for item in payload["breakdown"]}
+    assert by_generation["1993"]["reuse_context"]["metrics"]["candidate_pages"] == 2
+    assert by_generation["2014"]["reuse_context"]["metrics"]["candidate_pages"] == 1
+    assert calls[0] == ("p1", "p2", "p3")
+    assert set(calls[1:]) == {("p1", "p2"), ("p3",)}
     rendered = repr(payload)
     assert "p1" not in rendered
     assert "p2" not in rendered
+    assert "p3" not in rendered
 
     schema_path = Path(__file__).parents[1] / "schemas" / "ltmd_analytics_query_response.schema.json"
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
