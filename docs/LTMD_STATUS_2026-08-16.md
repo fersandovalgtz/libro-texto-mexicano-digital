@@ -151,6 +151,35 @@ Este cero se interpreta sólo como **ausencia de un ciclo fuerte en páginas 13�
 
 Véanse `docs/LTMD_U1_W7_BIBLIOGRAPHIC_COVERAGE.md` y `data/catalog/ltmd_u1_w7_missing_cycle_window_13_20.md`.
 
+### Cobertura bibliográfica W7 y cierre de la ventana 13–20
+
+El run **31996862753** (`success`) publicó `LTMD_U1_W7_BIBLIOGRAPHIC_COVERAGE_0.1`, una matriz de readiness que conserva las **30/30 identidades históricas** y separa completitud de fuente de completitud cronológica:
+
+- fuente admitida: **25/30**;
+- fuente retenida: **5/30**;
+- objetos con observaciones bibliográficas: **26**;
+- candidatos técnicos de instancia: **11** en total;
+- candidatos sobre fuente admitida: **10**;
+- `H2014P5FCA`: candidato bibliográfico disponible pero fuente parcialmente retenida;
+- fuente admitida + observaciones pero sin ciclo: **12**;
+- ciclo observado pero sin candidato: **3**;
+- subárbol de fuente retenido: **4**.
+
+Por generación de catálogo, la cobertura de candidatos es: 2008 **3/8**, 2011 **3/6**, 2014 **2/6** —uno de ellos `H2014P5FCA` con fuente retenida—, 2018 **0/4** por retención de fuente y 2019 **3/6**. Estos conteos son de readiness, no de validez histórica.
+
+Para los **12 objetos fuente-admitidos sin `school_cycle` fuerte**, el run **31996766053** (`success`) ejecutó `LTMD_U1_W7_MISSING_CYCLE_WINDOW_13_20_0.1`:
+
+- targets reproducibles: **12**;
+- ventana adicional: páginas lógicas **13–20**;
+- páginas descargadas temporalmente y verificadas SHA-256+tamaño: **96/96**;
+- OCR independiente: PSM **3, 6, 11**;
+- objetos con ciclo fuerte multímodo encontrado: **0/12**;
+- objetos sin ciclo fuerte en esa ventana: **12/12**.
+
+Este cero se interpreta sólo como **ausencia de un ciclo fuerte en páginas 13–20 bajo el contrato OCR 0.1**. No demuestra que los libros carezcan de ciclo escolar. La ventana queda cerrada; no se continuará un barrido secuencial indefinido por páginas. Nuevos intentos deberán partir de una pista bibliográfica/documental concreta o de una hipótesis de ubicación acotada.
+
+Véanse `docs/LTMD_U1_W7_BIBLIOGRAPHIC_COVERAGE.md` y `data/catalog/ltmd_u1_w7_missing_cycle_window_13_20.md`.
+
 Véanse `docs/LTMD_CATALOG_GENERATION_SEMANTICS_0_1.md`, `docs/DATA_MODEL.md`, `docs/DATA_GOVERNANCE.md`, `docs/HISTORICAL_ANALYSIS_PLAN_0_3.md`, `docs/LTMD_BIBLIOGRAPHIC_INSTANCE_POLICY_0_1.md`, `data/catalog/ltmd_u1_w7_admitted_bibliographic_fingerprints.md`, `data/catalog/ltmd_u1_w7_bibliographic_candidate_support.md`, `data/catalog/ltmd_u1_w7_reprint_ocr_confusion_recovery.md`, `data/catalog/ltmd_bibliographic_observations.md` y `data/catalog/ltmd_bibliographic_instance_candidates.md`.
 
 ## Ciencias Naturales y W2 Matemáticas
