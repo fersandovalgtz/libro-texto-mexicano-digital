@@ -2,7 +2,7 @@
 
 Versión: `LTMD_U1_W7_WITHHELD_VIEWER_PRESENCE_0.1`.
 
-Observado UTC: `2026-08-17T04:32:53.967397+00:00`.
+Observado UTC: `2026-08-31T19:39:23.438705+00:00`.
 
 - Identidades retenidas verificadas: **5/5**.
 - `claves.json` HTTP 200, SHA-256: `7fb55e583ee5190fd2153d95764426114f86946ea93d8545c07d5f03d7674037`.
