@@ -7,8 +7,8 @@
   "files": [
     {
       "path": "docs/LTMD_U1_W2_MATHEMATICS_STATUS_0_1.md",
-      "bytes": 3478,
-      "sha256": "3d89f7b4ac69440032aba45978b306bbb3013ed7bf568c3775befabe0121c22f"
+      "bytes": 4980,
+      "sha256": "f72a16c41714f183772b48ecebd09904552e1254790ccd0f2faa779bf99cab73"
     },
     {
       "path": "docs/LTMD_U1_W2_COMPLETION.md",
@@ -37,13 +37,13 @@
     },
     {
       "path": "data/catalog/ltmd_u1_w2_math_asset_manifest.csv",
-      "bytes": 3743252,
-      "sha256": "47fe54b3d25be302f4ddc30d59fe7f712cf6cd2c8ed3d4314734c8295e44bcd5"
+      "bytes": 3779795,
+      "sha256": "b56c84902831e9979aab6b7e947785f5986b6522579b80ee603e10b59a12bddf"
     },
     {
       "path": "data/catalog/ltmd_u1_w2_math_asset_summary.csv",
-      "bytes": 6325,
-      "sha256": "f157f8c5b3abbe5ea8739cf61a5914cde8d1366d46e7c38f4400aa44fe3acf9f"
+      "bytes": 6361,
+      "sha256": "a59f49c2c2d93b773f9c59190fcf927c2a7f07be9f8171477b0b88a50f3c7c9f"
     },
     {
       "path": "data/catalog/ltmd_u1_w2_math_asset_states.csv",

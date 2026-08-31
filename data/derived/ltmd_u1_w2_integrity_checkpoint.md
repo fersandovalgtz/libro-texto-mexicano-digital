@@ -8,14 +8,14 @@ Versión: `LTMD_U1_W2_INTEGRITY_0.1`.
 
 | archivo | bytes | SHA-256 |
 |---|---:|---|
-| `docs/LTMD_U1_W2_MATHEMATICS_STATUS_0_1.md` | 3,478 | `3d89f7b4ac69440032aba45978b306bbb3013ed7bf568c3775befabe0121c22f` |
+| `docs/LTMD_U1_W2_MATHEMATICS_STATUS_0_1.md` | 4,980 | `f72a16c41714f183772b48ecebd09904552e1254790ccd0f2faa779bf99cab73` |
 | `docs/LTMD_U1_W2_COMPLETION.md` | 1,316 | `bc5fa0d3fb6776da2718b7c580ce496c000b3fb3fa4889ea9947355b3c19e0a2` |
 | `docs/LTMD_U1_W2_DATA_DICTIONARY_0_1.md` | 5,011 | `5499fae34ae7ae71a96b5882bf26c5a2eca5006f2e38dbbc32d59d96e09a9ebf` |
 | `data/catalog/ltmd_u1_w2_scope.csv` | 11,848 | `caef2680942bbe7d9ca7d59da308c60ef168c7f40ca2a00e38f1068bb5612e78` |
 | `data/catalog/ltmd_u1_w2_declared_inventory.csv` | 9,653 | `9e1283ccfff8e5e47d3a03cd3b76c3bb49ffde24f6c163c7134fd6b2df521fd1` |
 | `data/catalog/ltmd_u1_w2_viewer_architecture.md` | 967 | `f5b7dfe2fe33e791c5eb9dd243f73fd2f9dfa1f3b960eeb22178f613953f59df` |
-| `data/catalog/ltmd_u1_w2_math_asset_manifest.csv` | 3,743,252 | `47fe54b3d25be302f4ddc30d59fe7f712cf6cd2c8ed3d4314734c8295e44bcd5` |
-| `data/catalog/ltmd_u1_w2_math_asset_summary.csv` | 6,325 | `f157f8c5b3abbe5ea8739cf61a5914cde8d1366d46e7c38f4400aa44fe3acf9f` |
+| `data/catalog/ltmd_u1_w2_math_asset_manifest.csv` | 3,779,795 | `b56c84902831e9979aab6b7e947785f5986b6522579b80ee603e10b59a12bddf` |
+| `data/catalog/ltmd_u1_w2_math_asset_summary.csv` | 6,361 | `a59f49c2c2d93b773f9c59190fcf927c2a7f07be9f8171477b0b88a50f3c7c9f` |
 | `data/catalog/ltmd_u1_w2_math_asset_states.csv` | 8,465 | `e1cc40cf9f0d6e82e1271c6d97eddb9491af433df83777ffff82554d1ede13b2` |
 | `data/catalog/ltmd_u1_w2_math_internal_recoveries.csv` | 895 | `a0224e9000975d4566f7b49bdae38064ff11d0d3823238022362d1053418e2c4` |
 | `data/catalog/ltmd_u1_w2_math_reconciled_manifest.csv` | 6,352,984 | `8c3ec4026f380c51f9c2b958dfff1eefe9001292e635e570d517a9a28d92833c` |
