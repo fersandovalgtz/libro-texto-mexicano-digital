@@ -6,7 +6,7 @@ Este registro se deriva de artefactos técnicos de las olas y reúne únicamente
 
 - Excepciones técnicas preservadas: **18**.
 - Olas con excepciones: **5**.
-- Reconciliación contra `remaining_to_effective`: **pendiente del cierre técnico W11**; la ola activa aún no debe contarse como cubierta.
+- Remanente total del tablero después del cierre W11: **18**, reconciliado 1:1 con este registro.
 
 ## Por ola
 
