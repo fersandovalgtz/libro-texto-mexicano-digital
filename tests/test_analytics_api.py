@@ -1,5 +1,6 @@
 import csv
 import json
+import sqlite3
 from pathlib import Path
 
 from jsonschema import Draft202012Validator
@@ -81,9 +82,36 @@ def configure(monkeypatch, tmp_path):
     monkeypatch.setenv("LTMD_INDIGENOUS_LEDGER_PATH", str(ledger))
     monkeypatch.setenv("LTMD_GENERATION_SUMMARY_PATH", str(generation))
     monkeypatch.delenv("LTMD_UNIVERSAL_INDEX_PATH", raising=False)
+    monkeypatch.delenv("LTMD_UNIVERSAL_INDEX_SHA256", raising=False)
     monkeypatch.delenv("LTMD_REUSE_SIMILARITY_PATH", raising=False)
     reset_state()
     return ledger
+
+
+def make_corpus_index(path):
+    connection = sqlite3.connect(path)
+    connection.execute("CREATE TABLE index_meta(key TEXT PRIMARY KEY,value TEXT NOT NULL) WITHOUT ROWID")
+    connection.execute(
+        "INSERT INTO index_meta VALUES(?,?)",
+        ("builder_version", json.dumps("LTMD_U1_UNIVERSAL_INDEX_0.1")),
+    )
+    connection.execute(
+        "CREATE TABLE pages(id INTEGER PRIMARY KEY,page_id TEXT,canonical_viewer_key TEXT,wave TEXT,catalog_generation INTEGER,grade_code INTEGER,search_text TEXT)"
+    )
+    connection.execute(
+        "CREATE VIRTUAL TABLE pages_fts USING fts5(search_text,content='pages',content_rowid='id',tokenize='unicode61 remove_diacritics 2')"
+    )
+    connection.executemany(
+        "INSERT INTO pages VALUES(?,?,?,?,?,?,?)",
+        [
+            (1, "cp1", "CB1", "W3", 1993, 5, "democracia y ciudadanía"),
+            (2, "cp2", "CB2", "W7", 2014, 6, "democracia ciencia"),
+            (3, "cp3", "CB3", "W7", 2014, 6, "naturaleza"),
+        ],
+    )
+    connection.execute("INSERT INTO pages_fts(pages_fts) VALUES('rebuild')")
+    connection.commit()
+    connection.close()
 
 
 def test_passenger_root_entry_point_exports_flask_application():
@@ -99,6 +127,7 @@ def test_health_is_safe_and_configured(monkeypatch, tmp_path):
     payload = response.get_json()
     assert payload["status"] == "ok"
     assert payload["candidate_rows_loaded"] == 3
+    assert payload["corpus_query_configured"] is False
     assert payload["reuse_context_configured"] is False
     assert payload["human_validation_complete"] is False
     rendered = repr(payload)
@@ -115,8 +144,70 @@ def test_meta_exposes_filter_vocabulary_not_private_rows(monkeypatch, tmp_path):
     assert payload["filters"]["generation"] == ["1993", "2014"]
     assert "Náhuatl" in payload["filters"]["language_group"]
     assert payload["candidate_rows"] == 3
+    assert payload["corpus_query_configured"] is False
+    assert payload["corpus_index_sha256"] is None
     assert payload["reuse_context_configured"] is False
     assert "page_id" not in repr(payload)
+
+
+def test_corpus_query_endpoint_uses_universal_index_and_schema(monkeypatch, tmp_path):
+    configure(monkeypatch, tmp_path)
+    index = tmp_path / "corpus.sqlite"
+    make_corpus_index(index)
+    expected_sha = api.sha256_file(index)
+    monkeypatch.setenv("LTMD_UNIVERSAL_INDEX_PATH", str(index))
+    monkeypatch.setenv("LTMD_UNIVERSAL_INDEX_SHA256", expected_sha)
+    reset_state()
+
+    client = api.app.test_client()
+    response = client.get(
+        "/v1/corpus/query",
+        query_string=[("q", "democracia"), ("group_by", "generation")],
+    )
+    assert response.status_code == 200
+    payload = response.get_json()
+    assert payload["metrics"]["candidate_pages"] == 2
+    assert payload["metrics"]["candidate_books"] == 2
+    assert payload["metrics"]["corpus_pages_in_scope"] == 3
+    assert payload["metrics"]["corpus_books_in_scope"] == 3
+    assert payload["result_state"] == "exploratory_signal"
+    assert payload["provenance"]["index_sha256"] == expected_sha
+    by_generation = {item["value"]: item["metrics"]["candidate_pages"] for item in payload["breakdown"]}
+    assert by_generation == {"1993": 1, "2014": 1}
+
+    rendered = repr(payload)
+    for forbidden in ("cp1", "cp2", "page_id", "search_text", "source_asset_url", "ocr_sha256"):
+        assert forbidden not in rendered
+
+    schema = json.loads(
+        (Path(__file__).parents[1] / "schemas" / "ltmd_u1_corpus_query_response.schema.json").read_text(encoding="utf-8")
+    )
+    Draft202012Validator(schema).validate(payload)
+
+
+def test_corpus_index_without_reuse_is_valid(monkeypatch, tmp_path):
+    configure(monkeypatch, tmp_path)
+    index = tmp_path / "corpus.sqlite"
+    make_corpus_index(index)
+    monkeypatch.setenv("LTMD_UNIVERSAL_INDEX_PATH", str(index))
+    reset_state()
+    client = api.app.test_client()
+    response = client.get("/health")
+    assert response.status_code == 200
+    payload = response.get_json()
+    assert payload["corpus_query_configured"] is True
+    assert payload["reuse_context_configured"] is False
+
+
+def test_corpus_query_invalid_input_is_400(monkeypatch, tmp_path):
+    configure(monkeypatch, tmp_path)
+    index = tmp_path / "corpus.sqlite"
+    make_corpus_index(index)
+    monkeypatch.setenv("LTMD_UNIVERSAL_INDEX_PATH", str(index))
+    reset_state()
+    client = api.app.test_client()
+    assert client.get("/v1/corpus/query").status_code == 400
+    assert client.get("/v1/corpus/query?q=democracia&group_by=page_id").status_code == 400
 
 
 def test_query_endpoint_uses_exact_unique_counts(monkeypatch, tmp_path):
@@ -159,10 +250,7 @@ def test_query_endpoint_adds_scoped_reuse_context_when_configured(monkeypatch, t
     client = api.app.test_client()
     response = client.get(
         "/v1/indigenous/query",
-        query_string=[
-            ("q", "all candidate pages"),
-            ("group_by", "generation"),
-        ],
+        query_string=[("q", "all candidate pages"), ("group_by", "generation")],
     )
     assert response.status_code == 200
     payload = response.get_json()
@@ -184,18 +272,16 @@ def test_query_endpoint_adds_scoped_reuse_context_when_configured(monkeypatch, t
     Draft202012Validator(schema).validate(payload)
 
 
-def test_partial_reuse_configuration_degrades_service(monkeypatch, tmp_path):
+def test_reuse_without_index_degrades_service(monkeypatch, tmp_path):
     configure(monkeypatch, tmp_path)
-    index = tmp_path / "index.sqlite"
-    index.write_bytes(b"placeholder")
-    monkeypatch.setenv("LTMD_UNIVERSAL_INDEX_PATH", str(index))
-    monkeypatch.delenv("LTMD_REUSE_SIMILARITY_PATH", raising=False)
+    monkeypatch.setenv("LTMD_REUSE_SIMILARITY_PATH", str(tmp_path / "reuse.sqlite"))
     client = api.app.test_client()
     response = client.get("/health")
     assert response.status_code == 503
     payload = response.get_json()
     assert payload["status"] == "degraded"
-    assert payload["reuse_context_configured"] is False
+    assert payload["corpus_query_configured"] is False
+    assert payload["reuse_context_configured"] is True
     assert str(tmp_path) not in repr(payload)
 
 
@@ -213,12 +299,14 @@ def test_service_is_read_only(monkeypatch, tmp_path):
     response = client.post("/v1/indigenous/query")
     assert response.status_code == 405
     assert "read-only" in response.get_json()["error"]
+    assert client.post("/v1/corpus/query").status_code == 405
 
 
 def test_unconfigured_health_does_not_leak_path(monkeypatch):
     monkeypatch.delenv("LTMD_INDIGENOUS_LEDGER_PATH", raising=False)
     monkeypatch.delenv("LTMD_GENERATION_SUMMARY_PATH", raising=False)
     monkeypatch.delenv("LTMD_UNIVERSAL_INDEX_PATH", raising=False)
+    monkeypatch.delenv("LTMD_UNIVERSAL_INDEX_SHA256", raising=False)
     monkeypatch.delenv("LTMD_REUSE_SIMILARITY_PATH", raising=False)
     reset_state()
     client = api.app.test_client()
