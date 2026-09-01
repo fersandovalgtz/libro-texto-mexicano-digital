@@ -4,6 +4,12 @@
 The audit is intentionally conservative: it verifies controls that can be
 established from the checked-out repository and does not claim to certify
 GitHub settings, legal status, scientific validity, or FAIR compliance.
+
+Legacy workflow write capabilities are treated as explicit technical debt:
+existing violations on ``origin/main`` are reported, while any new violation
+or any touched legacy workflow that still retains a violation fails the gate.
+This lets LTMD harden incrementally without normalizing additional direct
+repository writes.
 """
 
 from __future__ import annotations
@@ -16,6 +22,7 @@ import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+BASE_REF = "origin/main"
 
 REQUIRED_FILES = (
     "README.md",
@@ -55,7 +62,7 @@ REQUIRED_GITIGNORE_RULES = (
 FORBIDDEN_TRACKED_PREFIXES = ("local/", "private/")
 FORBIDDEN_TRACKED_NAMES = {".env"}
 CONTENTS_WRITE_RE = re.compile(r"(?m)^\s*contents:\s*write\s*(?:#.*)?$")
-GIT_PUSH_RE = re.compile(r"(?m)^\s*git\s+push(?:\s|$)")
+GIT_PUSH_RE = re.compile(r"(?m)^(?!\s*#).*\bgit\s+push(?:\s|$)")
 
 
 def fail(message: str, failures: list[str]) -> None:
@@ -71,6 +78,33 @@ def tracked_files() -> list[str]:
         stdout=subprocess.PIPE,
     )
     return [item.decode("utf-8") for item in proc.stdout.split(b"\0") if item]
+
+
+def git_text(*args: str) -> str | None:
+    proc = subprocess.run(
+        ["git", *args],
+        cwd=ROOT,
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+    )
+    if proc.returncode != 0:
+        return None
+    try:
+        return proc.stdout.decode("utf-8")
+    except UnicodeDecodeError:
+        return None
+
+
+def base_workflow(relative: str) -> str | None:
+    return git_text("show", f"{BASE_REF}:{relative}")
+
+
+def touched_workflows() -> set[str]:
+    diff = git_text("diff", "--name-only", f"{BASE_REF}...HEAD", "--", ".github/workflows")
+    if diff is None:
+        return set()
+    return {line.strip() for line in diff.splitlines() if line.strip()}
 
 
 def main() -> int:
@@ -127,16 +161,44 @@ def main() -> int:
     workflows_without_permissions: list[str] = []
     workflows_with_contents_write: list[str] = []
     workflows_with_git_push: list[str] = []
+    legacy_contents_write: list[str] = []
+    legacy_git_push: list[str] = []
+    changed = touched_workflows()
+
     if workflows_dir.is_dir():
         for path in sorted(workflows_dir.glob("*.y*ml")):
             text = path.read_text(encoding="utf-8")
             relative = str(path.relative_to(ROOT))
             if "permissions:" not in text:
                 workflows_without_permissions.append(relative)
-            if CONTENTS_WRITE_RE.search(text):
+
+            base_text = base_workflow(relative)
+            has_contents_write = bool(CONTENTS_WRITE_RE.search(text))
+            has_git_push = bool(GIT_PUSH_RE.search(text))
+            base_has_contents_write = bool(base_text and CONTENTS_WRITE_RE.search(base_text))
+            base_has_git_push = bool(base_text and GIT_PUSH_RE.search(base_text))
+
+            if has_contents_write:
                 workflows_with_contents_write.append(relative)
-            if GIT_PUSH_RE.search(text):
+                if base_has_contents_write and relative not in changed:
+                    legacy_contents_write.append(relative)
+                else:
+                    fail(
+                        "new or modified workflow requests contents: write; scientific outputs "
+                        f"must enter main through review: {relative}",
+                        failures,
+                    )
+
+            if has_git_push:
                 workflows_with_git_push.append(relative)
+                if base_has_git_push and relative not in changed:
+                    legacy_git_push.append(relative)
+                else:
+                    fail(
+                        "new or modified workflow contains direct git push; CI must not mutate "
+                        f"repository refs: {relative}",
+                        failures,
+                    )
 
     if workflows_without_permissions:
         warning = (
@@ -145,19 +207,22 @@ def main() -> int:
         )
         warnings.append(warning)
         print(f"WARNING: {warning}")
-        for path in workflows_without_permissions:
-            print(f"  - {path}")
 
-    for path in workflows_with_contents_write:
-        fail(
-            f"workflow requests contents: write; scientific outputs must enter main through review: {path}",
-            failures,
+    if legacy_contents_write:
+        warning = (
+            f"{len(legacy_contents_write)} unchanged legacy workflow(s) retain contents: write; "
+            "they are grandfathered only as migration debt and must not grow"
         )
-    for path in workflows_with_git_push:
-        fail(
-            f"workflow contains direct git push; CI must not mutate repository refs: {path}",
-            failures,
+        warnings.append(warning)
+        print(f"WARNING: {warning}")
+
+    if legacy_git_push:
+        warning = (
+            f"{len(legacy_git_push)} unchanged legacy workflow(s) retain direct git push; "
+            "branch protection is the mandatory external containment until migration"
         )
+        warnings.append(warning)
+        print(f"WARNING: {warning}")
 
     report = {
         "audit": "LTMD repository quality",
@@ -166,11 +231,15 @@ def main() -> int:
         "tracked_files_checked": len(tracked),
         "workflow_contents_write": workflows_with_contents_write,
         "workflow_direct_git_push": workflows_with_git_push,
+        "legacy_workflow_contents_write": legacy_contents_write,
+        "legacy_workflow_direct_git_push": legacy_git_push,
+        "touched_workflows": sorted(changed),
         "failures": failures,
         "warnings": warnings,
         "scope_note": (
-            "Repository-content audit only; branch protection, GitHub security settings, "
-            "legal review, scientific validity and external FAIR certification are out of scope."
+            "Repository-content regression audit only; legacy workflow writes remain migration "
+            "debt and require GitHub branch protection as external containment. Legal review, "
+            "scientific validity and external FAIR certification are out of scope."
         ),
     }
 
