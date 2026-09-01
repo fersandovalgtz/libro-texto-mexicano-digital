@@ -5,6 +5,7 @@
     "u1_universe": 542,
     "u1_effective_technical_coverage": 524,
     "u1_canonical_objects": 492,
+    "u1_corpus_pages": 86549,
     "u1_retained_total": 18,
     "u1_active_retentions": 13,
     "u1_final_exceptions": 5,
@@ -17,7 +18,13 @@
     ],
     "contemporary_cycle": "2026-2027",
     "contemporary_level": "primaria",
-    "contemporary_public_repo_status": "catalog_metadata_only"
+    "contemporary_public_repo_status": "catalog_metadata_only",
+    "reuse_exact_source_cross_generation_groups": 3150,
+    "reuse_exact_source_repeated_groups": 3347,
+    "reuse_exact_text_cross_generation_groups": 2758,
+    "reuse_exact_text_repeated_groups": 3013,
+    "reuse_text_admissible_pages": 71274,
+    "reuse_text_excluded_low_information_pages": 15275
   },
   "epistemic_guards": [
     "ocr_available != text_verified",
@@ -25,5 +32,5 @@
     "computational_candidate != semantic_ready",
     "publicly_accessible != openly_licensed"
   ],
-  "note": "Baseline de integridad y reproducibilidad computacional. No constituye validación humana ni validez de constructo."
+  "note": "Baseline de integridad, genealogía documental y reproducibilidad computacional. No constituye validación humana ni validez de constructo."
 }
