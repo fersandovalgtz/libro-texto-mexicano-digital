@@ -11,6 +11,13 @@ on:
       - 'schemas/**'
       - 'data/analytics/**'
       - 'tests/**'
+      - 'VERSION'
+      - 'CITATION.cff'
+      - 'codemeta.json'
+      - 'CHANGELOG.md'
+      - 'README.md'
+      - 'README.en.md'
+      - 'docs/RELEASE_NOTES_*.md'
       - '.github/workflows/test-ltmd-analytics.yml'
   push:
     branches: [main]
@@ -22,6 +29,13 @@ on:
       - 'schemas/**'
       - 'data/analytics/**'
       - 'tests/**'
+      - 'VERSION'
+      - 'CITATION.cff'
+      - 'codemeta.json'
+      - 'CHANGELOG.md'
+      - 'README.md'
+      - 'README.en.md'
+      - 'docs/RELEASE_NOTES_*.md'
       - '.github/workflows/test-ltmd-analytics.yml'
 
 permissions:
