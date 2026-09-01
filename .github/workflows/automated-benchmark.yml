@@ -1,0 +1,53 @@
+name: LTMD Automated Benchmark
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'VERSION'
+      - 'CITATION.cff'
+      - 'codemeta.json'
+      - 'README.md'
+      - 'DATA_LICENSE.md'
+      - 'docs/AUTOMATED_WORK_CEILING_0_1.md'
+      - 'docs/LTMD_AUTOMATED_BENCHMARK_0_1.md'
+      - 'docs/LTMD_HISTORICAL_CONTEXT_AND_RIGHTS.md'
+      - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'data/catalog/conaliteg_primaria_2026_2027_inventory.csv'
+      - 'data/benchmarks/**'
+      - 'scripts/run_automated_benchmark.py'
+      - '.github/workflows/automated-benchmark.yml'
+  push:
+    branches:
+      - main
+      - 'science/automated-benchmark-*'
+    paths:
+      - 'VERSION'
+      - 'CITATION.cff'
+      - 'codemeta.json'
+      - 'README.md'
+      - 'DATA_LICENSE.md'
+      - 'docs/AUTOMATED_WORK_CEILING_0_1.md'
+      - 'docs/LTMD_AUTOMATED_BENCHMARK_0_1.md'
+      - 'docs/LTMD_HISTORICAL_CONTEXT_AND_RIGHTS.md'
+      - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'data/catalog/conaliteg_primaria_2026_2027_inventory.csv'
+      - 'data/benchmarks/**'
+      - 'scripts/run_automated_benchmark.py'
+      - '.github/workflows/automated-benchmark.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  automated-benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run LTMD Automated Benchmark 0.1
+        run: python scripts/run_automated_benchmark.py --check --output /tmp/ltmd_automated_benchmark_0_1.json
+      - name: Show deterministic benchmark result
+        run: cat /tmp/ltmd_automated_benchmark_0_1.json
