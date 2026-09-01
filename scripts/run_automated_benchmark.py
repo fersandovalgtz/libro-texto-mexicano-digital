@@ -117,6 +117,74 @@ def analytics_contract_audit(root: Path) -> dict[str, Any]:
     }
 
 
+def documentary_genealogy_audit(root: Path, expected: dict[str, Any]) -> dict[str, Any]:
+    path = root / "data" / "analytics" / "ltmd_u1_reuse_similarity_materialization_0_1.json"
+    payload = json.loads(read_text(path))
+    counts = payload["counts"]
+    protocol = payload["protocol"]
+    privacy = payload["privacy"]
+    state = payload["scientific_state"]
+    private = payload["private_artifact"]
+
+    checks = {
+        "canonical_objects": counts["canonical_objects"] == expected["u1_canonical_objects"],
+        "corpus_pages": counts["corpus_pages"] == expected["u1_corpus_pages"],
+        "page_partition": (
+            counts["text_admissible_pages"] + counts["text_excluded_low_information_pages"]
+            == counts["corpus_pages"]
+        ),
+        "exact_source_cross_generation_baseline": (
+            counts["exact_source_cross_generation_groups"]
+            == expected["reuse_exact_source_cross_generation_groups"]
+        ),
+        "exact_source_repeated_baseline": (
+            counts["exact_source_repeated_groups"]
+            == expected["reuse_exact_source_repeated_groups"]
+        ),
+        "exact_text_cross_generation_baseline": (
+            counts["exact_text_cross_generation_groups"]
+            == expected["reuse_exact_text_cross_generation_groups"]
+        ),
+        "exact_text_repeated_baseline": (
+            counts["exact_text_repeated_groups"]
+            == expected["reuse_exact_text_repeated_groups"]
+        ),
+        "text_admissible_baseline": (
+            counts["text_admissible_pages"] == expected["reuse_text_admissible_pages"]
+        ),
+        "low_information_baseline": (
+            counts["text_excluded_low_information_pages"]
+            == expected["reuse_text_excluded_low_information_pages"]
+        ),
+        "source_cross_generation_subset": (
+            counts["exact_source_cross_generation_groups"] <= counts["exact_source_repeated_groups"]
+        ),
+        "text_cross_generation_subset": (
+            counts["exact_text_cross_generation_groups"] <= counts["exact_text_repeated_groups"]
+        ),
+        "shingle_eligible_subset": (
+            counts["similarity_shingle_eligible_pages"] <= counts["text_admissible_pages"]
+        ),
+        "thresholds_preregistered": bool(
+            protocol["similarity"].get("thresholds_preregistered_before_candidate_inspection")
+        ),
+        "similarity_not_alias": state.get("similarity_creates_alias") is False,
+        "similarity_not_semantic_equivalence": state.get("similarity_is_semantic_equivalence") is False,
+        "semantic_ready_false": state.get("semantic_ready") is False,
+        "text_verified_false": state.get("text_verified") is False,
+        "private_artifact_preserved": private.get("preserved_private") is True,
+        "private_artifact_sha256_valid": bool(SHA256_RE.fullmatch(str(private.get("sha256", "")).lower())),
+        "privacy_all_false": all(value is False for value in privacy.values()),
+    }
+
+    return {
+        "path": path.relative_to(root).as_posix(),
+        "counts": counts,
+        "checks": checks,
+        "status": "PASS" if all(checks.values()) else "FAIL",
+    }
+
+
 def benchmark(root: Path) -> dict[str, Any]:
     baseline_path = root / "data" / "benchmarks" / "ltmd_automated_benchmark_0_1_baseline.json"
     baseline = json.loads(read_text(baseline_path))
@@ -146,6 +214,7 @@ def benchmark(root: Path) -> dict[str, Any]:
 
     guard_texts = [automated_ceiling, benchmark_doc, rights_doc, data_license, readme]
     analytics_audit = analytics_contract_audit(root)
+    genealogy_audit = documentary_genealogy_audit(root, expected)
 
     checks: dict[str, bool] = {
         "retained_total": len(retained) == expected["u1_retained_total"],
@@ -180,6 +249,7 @@ def benchmark(root: Path) -> dict[str, Any]:
         "analytics_no_false_semantic_promotion": len(analytics_audit["forbidden_state_true"]) == 0,
         "analytics_sha256_well_formed": len(analytics_audit["invalid_sha256"]) == 0,
         "analytics_private_artifacts_preserved": len(analytics_audit["private_not_preserved"]) == 0,
+        "documentary_genealogy": genealogy_audit["status"] == "PASS",
     }
 
     passed = sum(checks.values())
@@ -190,6 +260,7 @@ def benchmark(root: Path) -> dict[str, Any]:
         baseline_path,
         retained_path,
         contemporary_path,
+        root / "data" / "analytics" / "ltmd_u1_reuse_similarity_materialization_0_1.json",
         root / "VERSION",
         root / "CITATION.cff",
         root / "codemeta.json",
@@ -211,6 +282,7 @@ def benchmark(root: Path) -> dict[str, Any]:
             "u1_universe": expected["u1_universe"],
             "u1_effective_technical_coverage": expected["u1_effective_technical_coverage"],
             "u1_canonical_objects": expected["u1_canonical_objects"],
+            "u1_corpus_pages": expected["u1_corpus_pages"],
             "u1_retained_total": len(retained),
             "u1_active_retentions": retained_status.get("active_retention", 0),
             "u1_final_exceptions": retained_status.get("final_exception", 0),
@@ -218,10 +290,13 @@ def benchmark(root: Path) -> dict[str, Any]:
             "contemporary_unique_viewers": len(set(contemporary_keys)),
             "contemporary_shared_viewers": contemporary_shared,
             "analytics_materialization_files_checked": analytics_audit["files_checked"],
+            "genealogy_exact_source_cross_generation_groups": genealogy_audit["counts"]["exact_source_cross_generation_groups"],
+            "genealogy_exact_text_cross_generation_groups": genealogy_audit["counts"]["exact_text_cross_generation_groups"],
             "engineering_readiness_score": score,
         },
         "checks": checks,
         "analytics_contract_audit": analytics_audit,
+        "documentary_genealogy_audit": genealogy_audit,
         "violations": {
             "public_source_files": forbidden_public_source_files(root),
             "failed_checks": sorted(name for name, ok in checks.items() if not ok),
