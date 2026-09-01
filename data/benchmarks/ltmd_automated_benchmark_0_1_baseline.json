@@ -1,0 +1,29 @@
+{
+  "benchmark_version": "LTMD_AUTOMATED_BENCHMARK_0.1",
+  "expected": {
+    "release_version": "0.2.0-rc.1",
+    "u1_universe": 542,
+    "u1_effective_technical_coverage": 524,
+    "u1_canonical_objects": 492,
+    "u1_retained_total": 18,
+    "u1_active_retentions": 13,
+    "u1_final_exceptions": 5,
+    "contemporary_catalog_entries": 42,
+    "contemporary_unique_viewers": 39,
+    "contemporary_shared_viewers": [
+      "P1LPM",
+      "P3LPM",
+      "P5LPM"
+    ],
+    "contemporary_cycle": "2026-2027",
+    "contemporary_level": "primaria",
+    "contemporary_public_repo_status": "catalog_metadata_only"
+  },
+  "epistemic_guards": [
+    "ocr_available != text_verified",
+    "search_hit != historical_claim",
+    "computational_candidate != semantic_ready",
+    "publicly_accessible != openly_licensed"
+  ],
+  "note": "Baseline de integridad y reproducibilidad computacional. No constituye validación humana ni validez de constructo."
+}
