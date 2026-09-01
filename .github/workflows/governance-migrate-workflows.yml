@@ -1,0 +1,57 @@
+name: Governance migration — remove direct repository writes
+
+on:
+  push:
+    branches:
+      - maintenance/ci-no-direct-main-writes-2026-08-31
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: maintenance/ci-no-direct-main-writes-2026-08-31
+          fetch-depth: 0
+
+      - name: Rewrite legacy workflow permissions and pushes
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path('.github/workflows')
+          changed = []
+          permission_re = re.compile(r'(?m)^(\s*)contents:\s*write\s*(#.*)?$')
+          push_re = re.compile(r'(?m)^(\s*)git\s+push(?:\s.*)?$')
+
+          for path in sorted(root.glob('*.y*ml')):
+              original = path.read_text(encoding='utf-8')
+              text = permission_re.sub(lambda m: f"{m.group(1)}contents: read" + (f" {m.group(2)}" if m.group(2) else ""), original)
+              text = push_re.sub(lambda m: f'{m.group(1)}echo "Direct git push disabled by LTMD governance; publish artifacts and promote through reviewed PR."', text)
+              if text != original:
+                  path.write_text(text, encoding='utf-8')
+                  changed.append(str(path))
+
+          print(f'Migrated {len(changed)} workflow files')
+          for path in changed:
+              print(path)
+          PY
+
+      - name: Commit governance migration to PR branch
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No workflow changes required."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows
+          git commit -m "ci: enforce read-only workflows and disable direct pushes"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
