@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ltmd/schemas/ltmd_automated_benchmark_0_1.schema.json",
+  "title": "LTMD Automated Benchmark 0.1 result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "benchmark_version",
+    "status",
+    "scope",
+    "human_validation",
+    "construct_validity_claimed",
+    "release_version",
+    "metrics",
+    "checks",
+    "analytics_contract_audit",
+    "documentary_genealogy_audit",
+    "violations",
+    "input_sha256",
+    "interpretation_guard"
+  ],
+  "properties": {
+    "benchmark_version": {"const": "LTMD_AUTOMATED_BENCHMARK_0.1"},
+    "status": {"enum": ["PASS", "FAIL"]},
+    "scope": {"const": "automated_integrity_reproducibility_only"},
+    "human_validation": {"const": false},
+    "construct_validity_claimed": {"const": false},
+    "release_version": {"type": "string", "minLength": 1},
+    "metrics": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "u1_universe",
+        "u1_effective_technical_coverage",
+        "u1_canonical_objects",
+        "u1_corpus_pages",
+        "u1_retained_total",
+        "u1_active_retentions",
+        "u1_final_exceptions",
+        "contemporary_catalog_entries",
+        "contemporary_unique_viewers",
+        "analytics_materialization_files_checked",
+        "genealogy_exact_source_cross_generation_groups",
+        "genealogy_exact_text_cross_generation_groups",
+        "engineering_readiness_score"
+      ],
+      "properties": {
+        "u1_universe": {"type": "integer", "minimum": 1},
+        "u1_effective_technical_coverage": {"type": "integer", "minimum": 0},
+        "u1_canonical_objects": {"type": "integer", "minimum": 0},
+        "u1_corpus_pages": {"type": "integer", "minimum": 0},
+        "u1_retained_total": {"type": "integer", "minimum": 0},
+        "u1_active_retentions": {"type": "integer", "minimum": 0},
+        "u1_final_exceptions": {"type": "integer", "minimum": 0},
+        "contemporary_catalog_entries": {"type": "integer", "minimum": 0},
+        "contemporary_unique_viewers": {"type": "integer", "minimum": 0},
+        "contemporary_shared_viewers": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        },
+        "analytics_materialization_files_checked": {"type": "integer", "minimum": 0},
+        "genealogy_exact_source_cross_generation_groups": {"type": "integer", "minimum": 0},
+        "genealogy_exact_text_cross_generation_groups": {"type": "integer", "minimum": 0},
+        "engineering_readiness_score": {"type": "number", "minimum": 0, "maximum": 100}
+      }
+    },
+    "checks": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "boolean"}
+    },
+    "analytics_contract_audit": {
+      "type": "object",
+      "required": ["files_checked", "invalid_json", "forbidden_state_true", "invalid_sha256", "private_not_preserved"],
+      "properties": {
+        "files_checked": {"type": "integer", "minimum": 0},
+        "invalid_json": {"type": "array", "items": {"type": "string"}},
+        "forbidden_state_true": {"type": "array", "items": {"type": "string"}},
+        "invalid_sha256": {"type": "array", "items": {"type": "string"}},
+        "private_not_preserved": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "documentary_genealogy_audit": {
+      "type": "object",
+      "required": ["path", "counts", "checks", "status"],
+      "properties": {
+        "path": {"type": "string"},
+        "counts": {"type": "object"},
+        "checks": {"type": "object", "additionalProperties": {"type": "boolean"}},
+        "status": {"enum": ["PASS", "FAIL"]}
+      },
+      "additionalProperties": false
+    },
+    "violations": {
+      "type": "object",
+      "required": ["public_source_files", "failed_checks"],
+      "properties": {
+        "public_source_files": {"type": "array", "items": {"type": "string"}},
+        "failed_checks": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "input_sha256": {
+      "type": "object",
+      "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+    },
+    "interpretation_guard": {"type": "string", "minLength": 20}
+  }
+}
