@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import pathlib
+import re
 import subprocess
 import sys
 
@@ -53,6 +54,8 @@ REQUIRED_GITIGNORE_RULES = (
 
 FORBIDDEN_TRACKED_PREFIXES = ("local/", "private/")
 FORBIDDEN_TRACKED_NAMES = {".env"}
+CONTENTS_WRITE_RE = re.compile(r"(?m)^\s*contents:\s*write\s*(?:#.*)?$")
+GIT_PUSH_RE = re.compile(r"(?m)^\s*git\s+push(?:\s|$)")
 
 
 def fail(message: str, failures: list[str]) -> None:
@@ -122,11 +125,18 @@ def main() -> int:
 
     workflows_dir = ROOT / ".github" / "workflows"
     workflows_without_permissions: list[str] = []
+    workflows_with_contents_write: list[str] = []
+    workflows_with_git_push: list[str] = []
     if workflows_dir.is_dir():
         for path in sorted(workflows_dir.glob("*.y*ml")):
             text = path.read_text(encoding="utf-8")
+            relative = str(path.relative_to(ROOT))
             if "permissions:" not in text:
-                workflows_without_permissions.append(str(path.relative_to(ROOT)))
+                workflows_without_permissions.append(relative)
+            if CONTENTS_WRITE_RE.search(text):
+                workflows_with_contents_write.append(relative)
+            if GIT_PUSH_RE.search(text):
+                workflows_with_git_push.append(relative)
 
     if workflows_without_permissions:
         warning = (
@@ -138,11 +148,24 @@ def main() -> int:
         for path in workflows_without_permissions:
             print(f"  - {path}")
 
+    for path in workflows_with_contents_write:
+        fail(
+            f"workflow requests contents: write; scientific outputs must enter main through review: {path}",
+            failures,
+        )
+    for path in workflows_with_git_push:
+        fail(
+            f"workflow contains direct git push; CI must not mutate repository refs: {path}",
+            failures,
+        )
+
     report = {
         "audit": "LTMD repository quality",
         "status": "pass" if not failures else "fail",
         "required_files_checked": len(REQUIRED_FILES),
         "tracked_files_checked": len(tracked),
+        "workflow_contents_write": workflows_with_contents_write,
+        "workflow_direct_git_push": workflows_with_git_push,
         "failures": failures,
         "warnings": warnings,
         "scope_note": (
