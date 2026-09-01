@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ltmd.example/schemas/ltmd_documentary_genealogy_benchmark_0_2.schema.json",
+  "title": "LTMD Documentary Genealogy Benchmark 0.2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "benchmark_version",
+    "status",
+    "scope",
+    "parameters",
+    "corpus",
+    "channels",
+    "near_exact_sensitivity",
+    "sources",
+    "privacy",
+    "scientific_state",
+    "interpretation_guard"
+  ],
+  "properties": {
+    "benchmark_version": {"const": "LTMD_DOCUMENTARY_GENEALOGY_BENCHMARK_0.2"},
+    "status": {"const": "PASS"},
+    "scope": {"const": "automated_documentary_genealogy_without_human_validation"},
+    "parameters": {
+      "type": "object",
+      "required": ["bootstrap_reps", "temporal_permutations", "seed", "text_admissibility"],
+      "properties": {
+        "bootstrap_reps": {"type": "integer", "minimum": 0},
+        "temporal_permutations": {"type": "integer", "minimum": 0},
+        "seed": {"type": "integer"},
+        "text_admissibility": {
+          "type": "object",
+          "required": ["min_ocr_chars", "min_ocr_words"],
+          "properties": {
+            "min_ocr_chars": {"const": 200},
+            "min_ocr_words": {"const": 30}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "corpus": {
+      "type": "object",
+      "required": ["pages", "canonical_objects", "generations"],
+      "properties": {
+        "pages": {"type": "integer", "minimum": 1},
+        "canonical_objects": {"type": "integer", "minimum": 1},
+        "generations": {"type": "array", "items": {"type": "integer"}, "uniqueItems": true}
+      },
+      "additionalProperties": false
+    },
+    "channels": {
+      "type": "object",
+      "required": ["source", "text_admissible", "text_all"],
+      "additionalProperties": false,
+      "properties": {
+        "source": {"$ref": "#/$defs/channel"},
+        "text_admissible": {"$ref": "#/$defs/channel"},
+        "text_all": {"$ref": "#/$defs/channel"}
+      }
+    },
+    "near_exact_sensitivity": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "required": ["state", "transitions", "skipped_unknown_tier_rows", "guard"],
+          "properties": {
+            "state": {"const": "sensitivity_signal_only"},
+            "transitions": {"type": "array", "items": {"$ref": "#/$defs/similarity_transition"}},
+            "skipped_unknown_tier_rows": {"type": "integer", "minimum": 0},
+            "guard": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "sources": {
+      "type": "object",
+      "required": ["universal_index_sha256", "reuse_similarity_sha256", "reuse_similarity_version"],
+      "properties": {
+        "universal_index_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "reuse_similarity_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "reuse_similarity_version": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "privacy": {
+      "type": "object",
+      "required": ["hash_values_emitted", "page_identifiers_emitted", "object_identifiers_emitted", "ocr_text_emitted"],
+      "properties": {
+        "hash_values_emitted": {"const": false},
+        "page_identifiers_emitted": {"const": false},
+        "object_identifiers_emitted": {"const": false},
+        "ocr_text_emitted": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "scientific_state": {
+      "type": "object",
+      "required": [
+        "human_validation",
+        "construct_validity_claimed",
+        "text_verified",
+        "semantic_ready",
+        "historical_truth_claimed",
+        "causal_replacement_claimed",
+        "near_exact_is_exact_identity",
+        "similarity_is_semantic_equivalence"
+      ],
+      "properties": {
+        "human_validation": {"const": false},
+        "construct_validity_claimed": {"const": false},
+        "text_verified": {"const": false},
+        "semantic_ready": {"const": false},
+        "historical_truth_claimed": {"const": false},
+        "causal_replacement_claimed": {"const": false},
+        "near_exact_is_exact_identity": {"const": false},
+        "similarity_is_semantic_equivalence": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "interpretation_guard": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "nullable_rate": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "nullable_ci": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "number", "minimum": 0, "maximum": 1}}
+      ]
+    },
+    "distinct_metrics": {
+      "type": "object",
+      "required": [
+        "previous", "current", "shared", "previous_only", "current_only", "union",
+        "persistence_rate", "novelty_rate", "turnover_rate",
+        "persistence_rate_bootstrap_95ci", "novelty_rate_bootstrap_95ci", "turnover_rate_bootstrap_95ci"
+      ],
+      "properties": {
+        "previous": {"type": "integer", "minimum": 0},
+        "current": {"type": "integer", "minimum": 0},
+        "shared": {"type": "integer", "minimum": 0},
+        "previous_only": {"type": "integer", "minimum": 0},
+        "current_only": {"type": "integer", "minimum": 0},
+        "union": {"type": "integer", "minimum": 0},
+        "persistence_rate": {"$ref": "#/$defs/nullable_rate"},
+        "novelty_rate": {"$ref": "#/$defs/nullable_rate"},
+        "turnover_rate": {"$ref": "#/$defs/nullable_rate"},
+        "persistence_rate_bootstrap_95ci": {"$ref": "#/$defs/nullable_ci"},
+        "novelty_rate_bootstrap_95ci": {"$ref": "#/$defs/nullable_ci"},
+        "turnover_rate_bootstrap_95ci": {"$ref": "#/$defs/nullable_ci"}
+      },
+      "additionalProperties": false
+    },
+    "occurrence_metrics": {
+      "type": "object",
+      "required": ["previous", "current", "matched_by_exact_representation", "persistence_rate", "novelty_rate", "turnover_rate"],
+      "properties": {
+        "previous": {"type": "integer", "minimum": 0},
+        "current": {"type": "integer", "minimum": 0},
+        "matched_by_exact_representation": {"type": "integer", "minimum": 0},
+        "persistence_rate": {"$ref": "#/$defs/nullable_rate"},
+        "novelty_rate": {"$ref": "#/$defs/nullable_rate"},
+        "turnover_rate": {"$ref": "#/$defs/nullable_rate"}
+      },
+      "additionalProperties": false
+    },
+    "transition": {
+      "type": "object",
+      "required": ["previous_generation", "current_generation", "generation_gap", "distinct_representations", "page_occurrences"],
+      "properties": {
+        "previous_generation": {"type": "integer"},
+        "current_generation": {"type": "integer"},
+        "generation_gap": {"type": "integer", "minimum": 0},
+        "distinct_representations": {"$ref": "#/$defs/distinct_metrics"},
+        "page_occurrences": {"$ref": "#/$defs/occurrence_metrics"}
+      },
+      "additionalProperties": false
+    },
+    "survival": {
+      "type": "object",
+      "required": ["cohorts", "kaplan_meier", "median_survival_steps", "interpretation"],
+      "properties": {
+        "cohorts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["entry_generation", "distinct_representations"],
+            "properties": {
+              "entry_generation": {"type": "integer"},
+              "distinct_representations": {"type": "integer", "minimum": 0}
+            },
+            "additionalProperties": false
+          }
+        },
+        "kaplan_meier": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["step", "at_risk", "failures", "censored", "survival_probability"],
+            "properties": {
+              "step": {"type": "integer", "minimum": 1},
+              "at_risk": {"type": "integer", "minimum": 0},
+              "failures": {"type": "integer", "minimum": 0},
+              "censored": {"type": "integer", "minimum": 0},
+              "survival_probability": {"type": "number", "minimum": 0, "maximum": 1}
+            },
+            "additionalProperties": false
+          }
+        },
+        "median_survival_steps": {"type": ["integer", "null"], "minimum": 1},
+        "interpretation": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "negative_control": {
+      "type": "object",
+      "required": ["observed_mean_adjacent_persistence", "permutations", "null_mean", "null_95_interval", "upper_tail_p_value"],
+      "properties": {
+        "observed_mean_adjacent_persistence": {"type": "number", "minimum": 0, "maximum": 1},
+        "permutations": {"type": "integer", "minimum": 0},
+        "null_mean": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "null_95_interval": {"$ref": "#/$defs/nullable_ci"},
+        "upper_tail_p_value": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "interpretation": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "channel": {
+      "type": "object",
+      "required": ["generations", "generation_count", "transitions", "survival", "temporal_negative_control"],
+      "properties": {
+        "generations": {"type": "array", "items": {"type": "integer"}, "uniqueItems": true},
+        "generation_count": {"type": "integer", "minimum": 0},
+        "transitions": {"type": "array", "items": {"$ref": "#/$defs/transition"}},
+        "survival": {"$ref": "#/$defs/survival"},
+        "temporal_negative_control": {"$ref": "#/$defs/negative_control"}
+      },
+      "additionalProperties": false
+    },
+    "similarity_transition": {
+      "type": "object",
+      "required": ["previous_generation", "current_generation", "near_exact_candidate_pairs", "similarity_candidate_pairs", "all_verified_nonexact_pairs"],
+      "properties": {
+        "previous_generation": {"type": "integer"},
+        "current_generation": {"type": "integer"},
+        "near_exact_candidate_pairs": {"type": "integer", "minimum": 0},
+        "similarity_candidate_pairs": {"type": "integer", "minimum": 0},
+        "all_verified_nonexact_pairs": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    }
+  }
+}
