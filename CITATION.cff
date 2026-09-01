@@ -1,13 +1,13 @@
 cff-version: 1.2.0
-message: "Si utiliza este proyecto, cite la versión archivada correspondiente. Esta metadata describe la candidata metodológica v0.1.0-rc.1; el DOI se añadirá únicamente después de la publicación real en Zenodo."
+message: "Si utiliza este proyecto, cite la versión archivada correspondiente. Esta metadata describe la candidata científica v0.2.0-rc.1; el DOI se añadirá únicamente después de una publicación real y verificable en Zenodo."
 title: "Libro de Texto Mexicano Digital"
 type: software
 authors:
   - family-names: "Sandoval Gutierrez"
     given-names: "Fernando"
     orcid: "https://orcid.org/0000-0002-3168-6725"
-version: "0.1.0-rc.1"
-date-released: 2026-08-15
+version: "0.2.0-rc.1"
+date-released: 2026-08-31
 repository-code: "https://github.com/fersandovalgtz/libro-texto-mexicano-digital"
 url: "https://github.com/fersandovalgtz/libro-texto-mexicano-digital"
 license: "Apache-2.0"
@@ -18,4 +18,4 @@ keywords:
   - análisis computacional
   - ciencia abierta
   - México
-abstract: "Infraestructura abierta de investigación para el análisis histórico y computacional de libros de texto mexicanos. La candidata v0.1.0-rc.1 congela el corpus técnico y la metodología prehumana, pero no presenta SEMB 0.3 como validado ni resultados históricos semánticos como definitivos."
+abstract: "Infraestructura abierta de investigación para el análisis histórico y computacional de libros de texto mexicanos. La candidata v0.2.0-rc.1 congela el estado corpus-wide LTMD-U1, la Full-Text Research Layer reconstruible, LTMD Analytics 0.1 y la gobernanza reforzada del repositorio. No presenta como validadas las capas que siguen pendientes de referencia humana, no convierte resultados de búsqueda en afirmaciones históricas y no autoriza redistribuir OCR íntegro o imágenes fuente restringidas."

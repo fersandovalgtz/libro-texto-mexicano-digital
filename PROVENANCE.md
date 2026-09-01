@@ -35,9 +35,32 @@ análisis histórico
 - Las excepciones de routing, huecos, fallos de fuente y ambigüedades permanecen visibles.
 - Una release conserva el estado metodológico y científico de su fecha; el avance posterior de `main` no modifica retrospectivamente ese corte.
 
+## Fuentes institucionales CONALITEG
+
+LTMD toma como fuentes primarias de procedencia los catálogos y visores institucionales de la Comisión Nacional de Libros de Texto Gratuitos y conserva el enlace de origen siempre que está disponible.
+
+Fuentes principales:
+
+- portal vigente: https://libros.conaliteg.gob.mx/
+- primaria vigente: https://libros.conaliteg.gob.mx/primaria.html
+- catálogo histórico: https://historico.conaliteg.gob.mx/
+- catálogo oficial en gob.mx: https://www.gob.mx/conaliteg/acciones-y-programas/catalogo-de-libros-de-texto-gratuitos
+
+El contexto histórico y la política de derechos aplicable a estas fuentes se documentan en [`docs/LTMD_HISTORICAL_CONTEXT_AND_RIGHTS.md`](docs/LTMD_HISTORICAL_CONTEXT_AND_RIGHTS.md).
+
 ## Identificadores y evidencia
 
 Los artefactos técnicos deben conservar, cuando aplique, `book_id`, `viewer_key`, ruta o identificador de origen, hashes, fecha o corte de adquisición, versión del pipeline y relaciones documentales. Los scripts y manifiestos son parte de la evidencia reproducible.
+
+Para el catálogo contemporáneo, una `clave` del visor **no se considera por sí sola un identificador global suficiente**, porque puede reaparecer entre ciclos. La identidad de procedencia debe incorporar como mínimo fuente, ciclo, nivel y clave. Para la cohorte de primaria 2026–2027 se utiliza conceptualmente:
+
+```text
+source=CONALITEG + ciclo=2026 + nivel=primaria + clave=<viewer_key>
+```
+
+El inventario inicial se encuentra en [`data/catalog/conaliteg_primaria_2026_2027_inventory.csv`](data/catalog/conaliteg_primaria_2026_2027_inventory.csv). Contiene 42 entradas de catálogo correspondientes a 39 visores únicos; los visores docentes `P1LPM`, `P3LPM` y `P5LPM` aparecen asociados a dos grados cada uno.
+
+Este inventario significa `cataloged`, no `source_admitted`, `ocr_available`, `text_verified` ni `semantic_ready`.
 
 ## Fuentes archivadas
 
