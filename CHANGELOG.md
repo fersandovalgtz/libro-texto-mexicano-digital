@@ -66,14 +66,24 @@ Segunda candidata científica de LTMD. Este corte consolida la expansión corpus
 - Sincronizadas las cifras públicas principales del estado U1 en documentación de cobertura y superficie del repositorio.
 - Separadas como validaciones humanas independientes la exactitud OCR CER/WER (#123), el libro de códigos 0.1 (#124) y la inspección visual de 457 páginas `explicit_general` del estudio de lenguas indígenas (#95).
 
+### Contexto histórico, derechos y cohorte contemporánea
+
+- Añadido `docs/LTMD_HISTORICAL_CONTEXT_AND_RIGHTS.md` para documentar el valor de los Libros de Texto Gratuitos como fuente para la historia de la educación mexicana, con enlaces oficiales a CONALITEG, catálogo histórico y fuentes institucionales de contexto.
+- Explicitado que LTMD **no posee ni reclama derechos de autor sobre los libros fuente** y que “gratuito” no equivale a dominio público o licencia abierta.
+- Fijada la regla `publicly_accessible != openly_licensed`; el acceso mediante un visor institucional no se trata como autorización suficiente para republicar PDF, JPEG, páginas, ilustraciones u OCR completo.
+- Reforzado `DATA_LICENSE.md` para separar con precisión software Apache-2.0, derivados originales CC BY 4.0 y materiales fuente de SEP/CONALITEG o terceros.
+- Incorporado `data/catalog/conaliteg_primaria_2026_2027_inventory.csv` como **capa de catálogo**, con 42 entradas por grado y 39 visores únicos del ciclo oficial 2026–2027, sin redistribuir las obras fuente.
+- Definida para la cohorte contemporánea una identidad de procedencia compuesta por fuente + ciclo + nivel + `viewer_key`, evitando asumir que la `clave` es globalmente única entre ciclos.
+- Abierto #135 para gobernar la admisión técnica de la cohorte 2026–2027 sin confundir `cataloged`, `source_admitted`, `ocr_available`, `text_verified` y `semantic_ready`.
+
 ### Derechos, gobernanza y límites vigentes
 
 - Las **18 retenciones** no se sustituyen por inferencia; requieren evidencia institucional, archivística o criptográfica suficiente, o deben cerrarse posteriormente como excepciones técnicas finales documentadas.
 - No se redistribuyen páginas fuente, JPEG ni OCR íntegro restringido; FTRL mantiene esos artefactos como reconstrucciones locales por defecto.
-- `ocr_available != text_verified`, `search_hit != historical_claim` y `computational_candidate != semantic_ready` permanecen como guardas explícitas.
+- `ocr_available != text_verified`, `search_hit != historical_claim`, `computational_candidate != semantic_ready` y `publicly_accessible != openly_licensed` permanecen como guardas explícitas.
 - El issue #2 continúa gobernando las categorías amarilla/roja de derechos hasta que exista aclaración externa o asesoría jurídica específica.
 - No se declara DOI de LTMD hasta que exista un depósito real y verificable.
-- La publicación de esta candidata requiere que `main` quede protegido y que los metadatos externos de descubrimiento se completen conforme a #119.
+- #119 quedó cerrado después de verificar un ruleset activo sobre `main`, los tres checks obligatorios, ausencia de bypass, descripción canónica y los diez topics de descubrimiento.
 
 ## [0.1.0-rc.1] — 2026-08-15
 
