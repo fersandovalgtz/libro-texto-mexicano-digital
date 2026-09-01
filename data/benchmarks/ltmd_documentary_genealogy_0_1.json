@@ -1,0 +1,47 @@
+{
+  "artifact_version": "LTMD_DOCUMENTARY_GENEALOGY_BENCHMARK_0.1",
+  "source_artifact_version": "LTMD_U1_REUSE_SIMILARITY_0.1",
+  "scope": "descriptive_documentary_reuse_only",
+  "human_validation": false,
+  "semantic_equivalence_claimed": false,
+  "counts": {
+    "canonical_objects": 492,
+    "corpus_pages": 86549,
+    "text_admissible_pages": 71274,
+    "text_excluded_low_information_pages": 15275,
+    "similarity_shingle_eligible_pages": 65488,
+    "exact_source_repeated_groups": 3347,
+    "exact_source_cross_generation_groups": 3150,
+    "exact_text_repeated_groups": 3013,
+    "exact_text_cross_generation_groups": 2758,
+    "similarity_candidates": 6152,
+    "near_exact_candidates": 2994,
+    "similarity_cross_generation_pairs": 5138
+  },
+  "derived_rates": {
+    "technical_text_admissibility_rate": 0.8235103814,
+    "low_information_rate": 0.1764896186,
+    "shingle_eligibility_rate_among_admissible": 0.9188203272,
+    "exact_source_cross_generation_share_of_repeated_groups": 0.9411413206,
+    "exact_text_cross_generation_share_of_repeated_groups": 0.9153667441
+  },
+  "interpretation": {
+    "allowed": [
+      "documentary persistence can be quantified from exact source/text relations",
+      "cross-generation reuse is common among repeated exact groups in this materialization",
+      "the reuse layer is sufficiently populated for descriptive genealogy and robustness studies"
+    ],
+    "not_allowed": [
+      "similarity implies semantic equivalence",
+      "reuse implies pedagogical continuity without historical interpretation",
+      "exact text identity implies identical classroom use",
+      "automated consistency constitutes human semantic validation"
+    ]
+  },
+  "guards": [
+    "similarity_creates_alias = false",
+    "similarity_is_semantic_equivalence = false",
+    "semantic_ready = false",
+    "text_verified = false"
+  ]
+}
