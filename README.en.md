@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.1.0-rc.1"><img src="https://img.shields.io/badge/release-v0.1.0--rc.1-172033?style=flat-square" alt="Release v0.1.0-rc.1"></a>
+  <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0-rc.1"><img src="https://img.shields.io/badge/release-v0.2.0--rc.1-172033?style=flat-square" alt="Release v0.2.0-rc.1"></a>
   <a href="CITATION.cff"><img src="https://img.shields.io/badge/citation-CFF%201.2-4b5563?style=flat-square" alt="CFF 1.2"></a>
   <a href="codemeta.json"><img src="https://img.shields.io/badge/metadata-CodeMeta%203.1-3b5b92?style=flat-square" alt="CodeMeta 3.1"></a>
   <a href="FAIR_ASSESSMENT.md"><img src="https://img.shields.io/badge/FAIR%2FFAIR4RS-self--assessment-2d6a4f?style=flat-square" alt="FAIR FAIR4RS"></a>
@@ -45,7 +45,7 @@ Reference cut: **31 August 2026**.
 | Closed or resolved technical coverage | **524 / 542 (96.68%)** |
 | Canonical processing objects | **492 / 542 (90.77%)** |
 | Human semantic validation | **0 / 542** |
-| Published methodological release | **v0.1.0-rc.1** |
+| Scientific release | **v0.2.0-rc.1** |
 | LTMD DOI | **pending; not pre-declared** |
 
 The current operational plan is [`docs/LTMD_U1_MASTER_PLAN_0_3.md`](docs/LTMD_U1_MASTER_PLAN_0_3.md). The **18 identities** still outside effective technical coverage are consolidated one-by-one in [`data/catalog/ltmd_u1_retained_source_register.csv`](data/catalog/ltmd_u1_retained_source_register.csv), with resolution policy and provenance requirements in [`docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md`](docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md).
@@ -96,7 +96,7 @@ See:
 
 ## Reproducibility and quality
 
-The infrastructure uses versioned scripts, GitHub Actions, manifests, SHA-256 hashes, wave-specific documentation, and integrity reports. The public methodological candidate [`v0.1.0-rc.1`](https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.1.0-rc.1) preserves a reproducible historical cut of the project.
+The infrastructure uses versioned scripts, GitHub Actions, manifests, SHA-256 hashes, wave-specific documentation, and integrity reports. The scientific candidate [`v0.2.0-rc.1`](https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0-rc.1) freezes the current corpus-wide LTMD-U1 state, FTRL, LTMD Analytics 0.1, and reinforced repository governance without promoting pending human validation to confirmed evidence.
 
 The publication standard is defined in [`SCIENTIFIC_REPOSITORY_STANDARD.md`](SCIENTIFIC_REPOSITORY_STANDARD.md), and FAIR/FAIR4RS status is documented in [`FAIR_ASSESSMENT.md`](FAIR_ASSESSMENT.md).
 
@@ -120,9 +120,9 @@ These licenses do **not** automatically apply to source books, PDFs, JPEGs, cove
 
 ## Citation
 
-GitHub can generate citation formats from [`CITATION.cff`](CITATION.cff). For the published methodological candidate:
+GitHub can generate citation formats from [`CITATION.cff`](CITATION.cff). For scientific candidate `v0.2.0-rc.1`:
 
-> Sandoval Gutierrez, Fernando. 2026. *Libro de Texto Mexicano Digital*, version 0.1.0-rc.1. GitHub release. https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.1.0-rc.1
+> Sandoval Gutierrez, Fernando. 2026. *Libro de Texto Mexicano Digital*, version 0.2.0-rc.1. GitHub release. https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0-rc.1
 
 ## Project lead
 

@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.1.0-rc.1"><img src="https://img.shields.io/badge/release-v0.1.0--rc.1-172033?style=flat-square" alt="Release v0.1.0-rc.1"></a>
+  <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0-rc.1"><img src="https://img.shields.io/badge/release-v0.2.0--rc.1-172033?style=flat-square" alt="Release v0.2.0-rc.1"></a>
   <a href="CITATION.cff"><img src="https://img.shields.io/badge/citación-CFF%201.2-4b5563?style=flat-square" alt="CFF 1.2"></a>
   <a href="codemeta.json"><img src="https://img.shields.io/badge/metadatos-CodeMeta%203.1-3b5b92?style=flat-square" alt="CodeMeta 3.1"></a>
   <a href="FAIR_ASSESSMENT.md"><img src="https://img.shields.io/badge/FAIR%2FFAIR4RS-autoevaluación-2d6a4f?style=flat-square" alt="FAIR FAIR4RS"></a>
@@ -64,7 +64,7 @@ Corte documental de referencia: **31 de agosto de 2026**.
 | Cobertura técnica efectiva cerrada o resuelta | **524 / 542 (96.68%)** |
 | Objetos canónicos de procesamiento | **492 / 542 (90.77%)** |
 | Validación semántica humana | **0 / 542** |
-| Release metodológica publicada | **v0.1.0-rc.1** |
+| Release científica | **v0.2.0-rc.1** |
 | DOI de LTMD | **pendiente; no se anticipa** |
 
 ### Cobertura U1
@@ -149,7 +149,7 @@ Documentación y utilidades:
 
 ## Reproducibilidad
 
-La infraestructura utiliza scripts versionados, GitHub Actions, manifiestos, hashes SHA-256, documentación por ola y reportes de integridad. La candidata metodológica pública [`v0.1.0-rc.1`](https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.1.0-rc.1) conserva un corte reproducible anterior a la expansión U1 posterior.
+La infraestructura utiliza scripts versionados, GitHub Actions, manifiestos, hashes SHA-256, documentación por ola y reportes de integridad. La candidata científica [`v0.2.0-rc.1`](https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0-rc.1) congela el estado corpus-wide LTMD-U1, FTRL, LTMD Analytics 0.1 y la gobernanza reforzada descritos en las notas de release, sin promover la deuda de validación humana a evidencia confirmada.
 
 Para reconstrucción de releases se documentan dependencias en [`requirements-release.txt`](requirements-release.txt). Los protocolos, manuales, reportes y planes científicos se encuentran en [`docs/`](docs/).
 
@@ -179,9 +179,9 @@ Las contribuciones son bienvenidas cuando preservan procedencia, reproducibilida
 
 ## Citación
 
-GitHub puede generar citas desde [`CITATION.cff`](CITATION.cff). Para la candidata metodológica publicada:
+GitHub puede generar citas desde [`CITATION.cff`](CITATION.cff). Para la candidata científica `v0.2.0-rc.1`:
 
-> Sandoval Gutierrez, Fernando. 2026. *Libro de Texto Mexicano Digital*, versión 0.1.0-rc.1. GitHub release. https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.1.0-rc.1
+> Sandoval Gutierrez, Fernando. 2026. *Libro de Texto Mexicano Digital*, versión 0.2.0-rc.1. GitHub release. https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0-rc.1
 
 Cuando exista un depósito real en Zenodo u otro archivo con identificador persistente, el DOI deberá incorporarse de forma coherente a `CITATION.cff`, `codemeta.json`, la release y esta sección.
 

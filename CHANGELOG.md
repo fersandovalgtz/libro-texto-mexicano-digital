@@ -2,18 +2,22 @@
 
 Todos los cambios notables de **Libro de Texto Mexicano Digital (LTMD)** se documentan aquí. El proyecto permanece en fase pre-1.0; las releases candidatas pueden cambiar antes de una primera liberación estable.
 
-## [Unreleased] — 2026-08-23
+## [Unreleased]
 
-Cambios acumulados en `main` posteriores a `v0.1.0-rc.1`. Esta sección **no** modifica retrospectivamente el alcance de la release del 15 de agosto de 2026.
+Sin cambios acumulados después de la preparación de `v0.2.0-rc.1`.
+
+## [0.2.0-rc.1] — 2026-08-31
+
+Segunda candidata científica de LTMD. Este corte consolida la expansión corpus-wide de LTMD-U1, la Full-Text Research Layer, LTMD Analytics 0.1 y el endurecimiento de gobernanza del repositorio sin promover validaciones humanas o jurídicas que todavía no existen.
 
 ### Calidad del repositorio y arquitectura pública
 
 - Definida explícitamente la frontera **LTMD Open / LTMD Research / LTMD Services**, manteniendo este repositorio como superficie canónica abierta de código, metodología, contratos, metadatos, hashes y derivados publicables.
 - Añadidos `SUPPORT.md`, plantilla científica de pull request y formularios diferenciados para errores técnicos, datos/metodología y propuestas de capacidad.
 - Añadido Dependabot para GitHub Actions y dependencias Python con cadencia semanal.
-- Añadido `scripts/audit_repository_quality.py` y el workflow `repository-quality.yml` para verificar la superficie normativa, exclusión de rutas privadas/locales, metadatos básicos y deuda de permisos en workflows.
+- Endurecido `scripts/audit_repository_quality.py` y `repository-quality.yml` como regression gate: cualquier workflow nuevo o modificado que introduzca o conserve `contents: write` o `git push` falla CI; la deuda heredada queda inventariada y separada para migración progresiva en #133.
 - Elevado `SCIENTIFIC_REPOSITORY_STANDARD.md` con controles explícitos de seguridad de automatización, gobernanza de `main`, triage, límites de producto y mantenimiento progresivo.
-- Actualizada la autoevaluación FAIR/FAIR4RS para reflejar la nueva superficie comunitaria y registrar como brechas externas la protección efectiva de `main` y la auditoría gradual de permisos de workflows heredados.
+- Actualizada la autoevaluación FAIR/FAIR4RS para reflejar la superficie comunitaria y registrar como brechas externas la protección efectiva de `main` y la auditoría gradual de permisos de workflows heredados.
 
 ### Expansión LTMD-U1
 
@@ -33,21 +37,26 @@ Cambios acumulados en `main` posteriores a `v0.1.0-rc.1`. Esta sección **no** m
 
 ### Full-Text Research Layer (FTRL)
 
-- Iniciada `LTMD_FTRL_0.1`, una capa local y reconstruible de OCR completo por página orientada a concordancias históricas reproducibles.
+- Consolidada `LTMD_FTRL_0.1`, una capa local y reconstruible de OCR completo por página orientada a concordancias históricas reproducibles.
 - Añadido `scripts/build_page_ocr_corpus.py` con recuperación de activos fuente-admitidos, verificación SHA-256, Tesseract TXT+TSV, hashes de OCR y normalización conservadora; la ejecución admite reanudación segura.
 - Añadidos `scripts/build_search_index.py`, `scripts/query_ocr_corpus.py` y `scripts/validate_ocr_corpus.py` para construir SQLite FTS5, consultar por texto/filtros y verificar integridad de corpus e índice.
 - Añadido `schemas/ltmd_page_ocr.schema.json` como contrato de registro canónico por página.
 - Documentadas arquitectura, procedencia y metodología en `docs/LTMD_FULL_TEXT_RESEARCH_LAYER.md`, `docs/LTMD_OCR_PROVENANCE.md` y `docs/LTMD_SEARCH_METHODOLOGY.md`.
-- Añadido CI de humo con corpus sintético para compilar scripts, construir/validar FTS5 y comprobar recuperación textual.
 - Fijadas las reglas `ocr_available != text_verified`, `search_hit != historical_claim` y `zero_hits != demonstrated_absence`.
-- El piloto operativo se inicia con W5 Historia; los OCR íntegros, assets reconstruidos y SQLite permanecen bajo `local/` y no se versionan por defecto.
+- Los OCR íntegros, assets reconstruidos y SQLite permanecen bajo `local/` y no se versionan por defecto.
+
+### LTMD Analytics 0.1
+
+- Incorporada la capa LTMD Analytics 0.1 y su contrato técnico como parte de la arquitectura actual del proyecto.
+- Incorporada una suite de pruebas independiente que forma parte de los gates de la candidata 0.2.0-rc.1.
+- La existencia de una superficie analítica no cambia los estados epistemológicos de los datos: resultados computacionales, búsquedas y candidatos continúan separados de validación humana e interpretación histórica.
 
 ### Excepciones y trazabilidad
 
 - Consolidado `data/catalog/ltmd_u1_retained_source_register.csv` con las **18 identidades** que explican exactamente el residual técnico de U1.
 - Añadido `docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md` con clases de retención, evidencia aceptable y reglas de cierre.
 - Añadido `scripts/validate_u1_retained_source_register.py` y CI para exigir sincronía entre el registro residual y `data/catalog/ltmd_u1_coverage.md`.
-- Cerrado el issue #12 de W11 después de completar PAGESTRUCT, FRAGSEG, reutilización exacta y el acta técnica correspondiente; las cuatro fuentes retenidas continúan separadamente en #13 y #14.
+- Las cuatro excepciones W2 de Matemáticas y las cinco fuentes W7 retenidas permanecen explícitas; no se imputan aliases por similitud.
 
 ### Integridad y documentación científica
 
@@ -55,13 +64,16 @@ Cambios acumulados en `main` posteriores a `v0.1.0-rc.1`. Esta sección **no** m
 - Automatizada la regeneración del ledger de integridad cuando cambia la superficie pública relevante.
 - Publicado `docs/LTMD_U1_MASTER_PLAN_0_3.md`, que reemplaza operativamente la línea base obsoleta del plan 0.2 sin reescribir el documento histórico.
 - Sincronizadas las cifras públicas principales del estado U1 en documentación de cobertura y superficie del repositorio.
+- Separadas como validaciones humanas independientes la exactitud OCR CER/WER (#123), el libro de códigos 0.1 (#124) y la inspección visual de 457 páginas `explicit_general` del estudio de lenguas indígenas (#95).
 
-### Límites vigentes
+### Derechos, gobernanza y límites vigentes
 
 - Las **18 retenciones** no se sustituyen por inferencia; requieren evidencia institucional, archivística o criptográfica suficiente, o deben cerrarse posteriormente como excepciones técnicas finales documentadas.
 - No se redistribuyen páginas fuente, JPEG ni OCR íntegro restringido; FTRL mantiene esos artefactos como reconstrucciones locales por defecto.
-- No se presenta como hallazgo histórico semántico ninguna salida automática que no haya pasado la referencia humana preregistrada o la verificación exigida por su protocolo de consulta.
+- `ocr_available != text_verified`, `search_hit != historical_claim` y `computational_candidate != semantic_ready` permanecen como guardas explícitas.
+- El issue #2 continúa gobernando las categorías amarilla/roja de derechos hasta que exista aclaración externa o asesoría jurídica específica.
 - No se declara DOI de LTMD hasta que exista un depósito real y verificable.
+- La publicación de esta candidata requiere que `main` quede protegido y que los metadatos externos de descubrimiento se completen conforme a #119.
 
 ## [0.1.0-rc.1] — 2026-08-15
 
