@@ -17,6 +17,13 @@ on:
       - 'data/analytics/*materialization*.json'
       - 'data/benchmarks/**'
       - 'scripts/run_automated_benchmark.py'
+      - 'scripts/build_u1_ngrams.py'
+      - 'scripts/build_u1_cooccurrences.py'
+      - 'scripts/build_u1_reuse_similarity.py'
+      - 'tests/test_build_u1_ngrams.py'
+      - 'tests/test_build_u1_cooccurrences.py'
+      - 'tests/test_build_u1_reuse_similarity.py'
+      - 'requirements-analytics-build.txt'
       - '.github/workflows/automated-benchmark.yml'
   push:
     branches:
@@ -36,6 +43,13 @@ on:
       - 'data/analytics/*materialization*.json'
       - 'data/benchmarks/**'
       - 'scripts/run_automated_benchmark.py'
+      - 'scripts/build_u1_ngrams.py'
+      - 'scripts/build_u1_cooccurrences.py'
+      - 'scripts/build_u1_reuse_similarity.py'
+      - 'tests/test_build_u1_ngrams.py'
+      - 'tests/test_build_u1_cooccurrences.py'
+      - 'tests/test_build_u1_reuse_similarity.py'
+      - 'requirements-analytics-build.txt'
       - '.github/workflows/automated-benchmark.yml'
 
 permissions:
@@ -53,3 +67,19 @@ jobs:
         run: python scripts/run_automated_benchmark.py --check --output /tmp/ltmd_automated_benchmark_0_1.json
       - name: Show deterministic benchmark result
         run: cat /tmp/ltmd_automated_benchmark_0_1.json
+
+  synthetic-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install synthetic-contract dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-analytics-build.txt pytest
+      - name: Run production-code synthetic and metamorphic contracts
+        run: >-
+          python -m pytest -q
+          tests/test_build_u1_ngrams.py
+          tests/test_build_u1_cooccurrences.py
+          tests/test_build_u1_reuse_similarity.py
