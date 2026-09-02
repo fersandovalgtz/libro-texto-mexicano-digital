@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_u2_text_access_observation.schema.json",
+  "title": "LTMD-U2 text-access observation record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_object_id",
+    "viewer_key",
+    "observed_at",
+    "pypdf_encrypted",
+    "pypdf_blank_password_result",
+    "pypdf_error_type",
+    "pymupdf_needs_password",
+    "pymupdf_blank_password_result",
+    "pymupdf_error_type",
+    "pikepdf_blank_password_open",
+    "pikepdf_error_type",
+    "text_access_observation_state",
+    "embedded_text_sample_state",
+    "ocr_available_state",
+    "text_verified_state",
+    "source_pdf_persisted",
+    "extracted_text_persisted"
+  ],
+  "properties": {
+    "source_object_id": {
+      "type": "string",
+      "pattern": "^CONALITEG:2026:primaria:[A-Z0-9]+$"
+    },
+    "viewer_key": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]+$"
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "pypdf_encrypted": {"const": true},
+    "pypdf_blank_password_result": {"const": "NOT_DECRYPTED"},
+    "pypdf_error_type": {"const": "FileNotDecryptedError"},
+    "pymupdf_needs_password": {"const": true},
+    "pymupdf_blank_password_result": {"const": 0},
+    "pymupdf_error_type": {"const": "ValueError"},
+    "pikepdf_blank_password_open": {"const": false},
+    "pikepdf_error_type": {"const": "PasswordError"},
+    "text_access_observation_state": {
+      "const": "blocked_by_password_required_encryption"
+    },
+    "embedded_text_sample_state": {
+      "const": "not_assessed_due_to_access_block"
+    },
+    "ocr_available_state": {"const": "not_assessed"},
+    "text_verified_state": {"const": "not_assessed"},
+    "source_pdf_persisted": {"const": false},
+    "extracted_text_persisted": {"const": false}
+  }
+}
