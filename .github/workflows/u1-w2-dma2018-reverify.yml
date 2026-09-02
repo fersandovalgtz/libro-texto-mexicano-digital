@@ -1,0 +1,43 @@
+name: U1 W2 DMA 2018 route reverification
+
+on:
+  push:
+    branches:
+      - science/u1-w2-dma2018-reverify
+    paths:
+      - scripts/reverify_u1_w2_dma2018_routes.py
+      - .github/workflows/u1-w2-dma2018-reverify.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reverify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout exact branch head
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Reverify institutional DMA 2018 routes
+        run: python scripts/reverify_u1_w2_dma2018_routes.py
+
+      - name: Hash technical evidence
+        if: always()
+        run: |
+          sha256sum u1-w2-dma2018-reverification.csv u1-w2-dma2018-reverification.json > u1-w2-dma2018-reverification.sha256
+
+      - name: Upload technical evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: u1-w2-dma2018-reverification
+          path: |
+            u1-w2-dma2018-reverification.csv
+            u1-w2-dma2018-reverification.json
+            u1-w2-dma2018-reverification.sha256
+          if-no-files-found: warn
+          retention-days: 30
