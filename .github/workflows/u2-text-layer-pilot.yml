@@ -1,0 +1,56 @@
+name: LTMD U2 text-layer pilot
+
+on:
+  push:
+    branches: [science/u2-text-layer-pilot]
+    paths:
+      - 'scripts/probe_u2_text_layer_pilot.py'
+      - '.github/workflows/u2-text-layer-pilot.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent PDF implementations
+        run: >-
+          python -m pip install --disable-pip-version-check
+          'pypdf==6.16.2' cryptography PyMuPDF pikepdf
+      - name: Observe bounded text layer without retaining source or text
+        run: >-
+          python scripts/probe_u2_text_layer_pilot.py
+          --observed-at 2026-09-02
+          --timeout 180
+          --output u2-text-layer-pilot.json
+      - name: Assert non-persistence contract
+        run: |
+          python - <<'PY'
+          import json
+          d = json.load(open('u2-text-layer-pilot.json', encoding='utf-8'))
+          assert d['source_pdf_bytes_persisted'] is False
+          assert d['extracted_text_persisted'] is False
+          assert d['ocr_available_state'] == 'not_assessed'
+          assert d['text_verified_state'] == 'not_assessed'
+          assert len(d['objects']) == 3
+          for obj in d['objects']:
+              assert obj['transport_verification']['canonical_body_verified'] is True
+              assert obj['source_pdf_persisted'] is False
+              assert obj['extracted_text_persisted'] is False
+              assert obj['ocr_available_state'] == 'not_assessed'
+              assert obj['text_verified_state'] == 'not_assessed'
+          print('non-persistence and epistemic guards: OK')
+          PY
+      - name: Upload technical observations only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u2-text-layer-pilot-${{ github.sha }}
+          path: u2-text-layer-pilot.json
+          retention-days: 7
