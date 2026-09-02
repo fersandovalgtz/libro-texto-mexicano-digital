@@ -5,6 +5,7 @@ on:
     branches: [science/u2-page-count-probe]
     paths:
       - 'scripts/probe_u2_page_count_range.py'
+      - 'scripts/probe_u2_linearized_page_count.py'
       - '.github/workflows/u2-page-count-range-pilot.yml'
 
 permissions:
@@ -13,28 +14,25 @@ permissions:
 jobs:
   pilot:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install pinned-range pilot parser
-        run: python -m pip install --disable-pip-version-check 'pypdf>=5,<7'
-      - name: Observe one large U2 page count within range budget
+      - name: Observe one large U2 page count from bounded PDF prefix
         run: >-
-          python scripts/probe_u2_page_count_range.py
+          python scripts/probe_u2_linearized_page_count.py
           --viewer-key P0CMA
           --cycle 2026
           --level primaria
-          --chunk-size 32768
-          --max-bytes 8388608
+          --prefix-bytes 65536
           --observed-at 2026-09-02
-          --output u2-page-count-pilot.json
+          --output u2-linearized-page-count-pilot.json
       - name: Upload pilot metadata only
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ltmd-u2-page-count-range-pilot-${{ github.sha }}
-          path: u2-page-count-pilot.json
+          name: ltmd-u2-linearized-page-count-pilot-${{ github.sha }}
+          path: u2-linearized-page-count-pilot.json
           retention-days: 7
