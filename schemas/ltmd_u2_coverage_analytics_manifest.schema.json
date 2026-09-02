@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_u2_coverage_analytics_manifest.schema.json",
+  "title": "LTMD-U2 coverage/Analytics 0.1 manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "cohort",
+    "source_cycle",
+    "observation_cut",
+    "denominators",
+    "source_object_metrics",
+    "catalog_entry_metrics",
+    "separation_guards",
+    "evidence_scope",
+    "materialization"
+  ],
+  "properties": {
+    "schema": {"const": "LTMD_U2_COVERAGE_ANALYTICS_MANIFEST_0.1"},
+    "cohort": {"const": "CONALITEG primaria 2026-2027"},
+    "source_cycle": {"const": "2026"},
+    "observation_cut": {"const": "2026-09-02"},
+    "denominators": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalog_entries", "source_objects"],
+      "properties": {
+        "catalog_entries": {"const": 42},
+        "source_objects": {"const": 39}
+      }
+    },
+    "source_object_metrics": {"$ref": "#/$defs/sourceMetrics"},
+    "catalog_entry_metrics": {"$ref": "#/$defs/entryMetrics"},
+    "separation_guards": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "catalog_entry_is_not_source_object",
+        "u2_denominators_are_separate_from_u1",
+        "content_access_blocked_does_not_imply_no_embedded_text",
+        "content_access_blocked_does_not_imply_ocr_needed",
+        "ocr_available_does_not_imply_text_verified",
+        "source_pdf_bytes_persisted",
+        "extracted_text_persisted"
+      ],
+      "properties": {
+        "catalog_entry_is_not_source_object": {"const": true},
+        "u2_denominators_are_separate_from_u1": {"const": true},
+        "content_access_blocked_does_not_imply_no_embedded_text": {"const": true},
+        "content_access_blocked_does_not_imply_ocr_needed": {"const": true},
+        "ocr_available_does_not_imply_text_verified": {"const": true},
+        "source_pdf_bytes_persisted": {"const": false},
+        "extracted_text_persisted": {"const": false}
+      }
+    },
+    "evidence_scope": {"type": "string", "minLength": 1},
+    "materialization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_csv", "entry_csv", "source_csv_sha256", "entry_csv_sha256"],
+      "properties": {
+        "source_csv": {"const": "data/analytics/ltmd_u2_source_coverage_0_1.csv"},
+        "entry_csv": {"const": "data/analytics/ltmd_u2_catalog_entry_coverage_0_1.csv"},
+        "source_csv_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "entry_csv_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  },
+  "$defs": {
+    "sourceMetrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_observed_pages", "cataloged_state", "reader_shell_state",
+        "asset_resolution_state", "page_count_state", "source_admission_state",
+        "text_access_observation_state", "embedded_text_sample_state",
+        "ocr_available_state", "text_verified_state", "semantic_ready_state"
+      ],
+      "properties": {
+        "total_observed_pages": {"type": "integer", "minimum": 1},
+        "cataloged_state": {"const": {"cataloged": 39}},
+        "reader_shell_state": {"const": {"resolved": 39}},
+        "asset_resolution_state": {"const": {"resolved_pdf": 39}},
+        "page_count_state": {"const": {"observed": 39}},
+        "source_admission_state": {"const": {"admitted_full_body_verified": 39}},
+        "text_access_observation_state": {"const": {"blocked_by_password_required_encryption": 39}},
+        "embedded_text_sample_state": {"const": {"not_assessed_due_to_access_block": 39}},
+        "ocr_available_state": {"const": {"not_assessed": 39}},
+        "text_verified_state": {"const": {"not_assessed": 39}},
+        "semantic_ready_state": {"const": {"not_assessed": 39}}
+      }
+    },
+    "entryMetrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cataloged_state", "reader_shell_state", "asset_resolution_state",
+        "page_count_state", "source_admission_state", "text_access_observation_state",
+        "embedded_text_sample_state", "ocr_available_state", "text_verified_state",
+        "semantic_ready_state"
+      ],
+      "properties": {
+        "cataloged_state": {"const": {"cataloged": 42}},
+        "reader_shell_state": {"const": {"resolved": 42}},
+        "asset_resolution_state": {"const": {"resolved_pdf": 42}},
+        "page_count_state": {"const": {"observed": 42}},
+        "source_admission_state": {"const": {"admitted_full_body_verified": 42}},
+        "text_access_observation_state": {"const": {"blocked_by_password_required_encryption": 42}},
+        "embedded_text_sample_state": {"const": {"not_assessed_due_to_access_block": 42}},
+        "ocr_available_state": {"const": {"not_assessed": 42}},
+        "text_verified_state": {"const": {"not_assessed": 42}},
+        "semantic_ready_state": {"const": {"not_assessed": 42}}
+      }
+    }
+  }
+}
