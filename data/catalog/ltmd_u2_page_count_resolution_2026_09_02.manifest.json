@@ -1,0 +1,33 @@
+{
+  "schema": "LTMD_U2_PAGE_COUNT_RESOLUTION_MANIFEST_0.1",
+  "observed_at": "2026-09-02",
+  "source_objects": "data/catalog/ltmd_u2_source_objects_2026_2027.csv",
+  "asset_resolution": "data/catalog/ltmd_u2_asset_resolution_2026_09_02.csv",
+  "asset_resolution_git_blob_sha": "8d7bd1326ad09f14fcb129abcf7f38584a77772e",
+  "page_count_resolution": "data/catalog/ltmd_u2_page_count_resolution_2026_09_02.csv",
+  "page_count_resolution_sha256": "f08732c0e6cf29654843a2c09b0dac3d2288d3701d7faa98f62c014b1d94a557",
+  "discovery_workflow_run": 33643015731,
+  "discovery_head_sha": "9138e963d0f1f6b3b30d3e985757bafb3a1a77ec",
+  "discovery_artifact_id": 9851660198,
+  "discovery_artifact_sha256": "9a534320c9b77ed2c3a59988bfd7ee04369784772d76a816281337df2ef3d485",
+  "objects": 39,
+  "observed_page_counts": 39,
+  "sum_structural_pages": 10392,
+  "min_structural_pages": 91,
+  "max_structural_pages": 371,
+  "total_network_bytes_fetched": 18950119,
+  "max_network_bytes_fetched_one_object": 2461786,
+  "max_network_budget_per_object": 4194304,
+  "method": "targeted_tail_startxref_classic_xref_catalog_pages_count",
+  "xref_kind_observed": "classic",
+  "source_pdf_bytes_persisted": false,
+  "source_admission_state": "not_assessed",
+  "text_verification_state": "not_assessed",
+  "cross_validation": {
+    "P5LPM": 99,
+    "P4PEA": 363,
+    "P3MLA": 259,
+    "P0CMA": 191
+  },
+  "evidence_scope": "Structural PDF page-tree counts only. No page enumeration, text extraction, OCR, licensing inference, semantic validation, or source admission is established by this layer."
+}
