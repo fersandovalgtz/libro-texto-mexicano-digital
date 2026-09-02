@@ -1,0 +1,64 @@
+name: LTMD U2 text-access observation
+
+on:
+  push:
+    branches: [science/u2-text-layer-pilot]
+    paths:
+      - 'scripts/probe_u2_text_access_batch.py'
+      - '.github/workflows/u2-text-access-batch.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned PDF implementations from pilot
+        run: >-
+          python -m pip install --disable-pip-version-check
+          'pypdf==6.16.2'
+          'cryptography==50.0.1'
+          'PyMuPDF==1.28.2'
+          'pikepdf==10.12.0'
+      - name: Observe all 39 admitted sources sequentially
+        run: >-
+          python scripts/probe_u2_text_access_batch.py
+          --observed-at 2026-09-02
+          --timeout 180
+          --delay 0.20
+          --output-json u2-text-access-all-39.json
+          --output-csv u2-text-access-all-39.csv
+      - name: Assert bounded evidence contract
+        run: |
+          python - <<'PY'
+          import json
+          d = json.load(open('u2-text-access-all-39.json', encoding='utf-8'))
+          assert d['observed_objects'] == 39
+          assert d['failed_objects'] == 0
+          assert d['source_pdf_bytes_persisted'] is False
+          assert d['extracted_text_persisted'] is False
+          assert d['ocr_available_state'] == 'not_assessed'
+          assert d['text_verified_state'] == 'not_assessed'
+          for obj in d['objects']:
+              assert obj['transport_verification']['canonical_body_verified'] is True
+              assert obj['source_pdf_persisted'] is False
+              assert obj['extracted_text_persisted'] is False
+              assert obj['ocr_available_state'] == 'not_assessed'
+              assert obj['text_verified_state'] == 'not_assessed'
+          print('39/39 bounded evidence contract: OK')
+          PY
+      - name: Upload non-substitutive technical observations only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u2-text-access-all-39-${{ github.sha }}
+          path: |
+            u2-text-access-all-39.json
+            u2-text-access-all-39.csv
+          retention-days: 7
