@@ -15,7 +15,7 @@ SOURCE_HOST = "libros.conaliteg.gob.mx"
 DEFAULT_SOURCE_OBJECTS = Path("data/catalog/ltmd_u2_source_objects_2026_2027.csv")
 DEFAULT_OUTPUT = Path("u2-pdf-asset-probe.csv")
 SAMPLE_BYTES = 32
-USER_AGENT = "LTMD-U2-pdf-asset-probe/0.1 (+https://github.com/fersandovalgtz/libro-texto-mexicano-digital)"
+USER_AGENT = "LTMD-U2-pdf-asset-probe/0.2 (+https://github.com/fersandovalgtz/libro-texto-mexicano-digital)"
 
 OUTPUT_FIELDS = [
     "source_object_id",
@@ -43,12 +43,15 @@ OUTPUT_FIELDS = [
 
 def candidate_url(row: dict[str, str]) -> str:
     cycle = row["source_cycle"]
+    level = row["level"]
     key = row["viewer_key"]
     if not (cycle.isdigit() and len(cycle) == 4):
         raise RuntimeError(f"{row['source_object_id']}: invalid source_cycle")
+    if not re.fullmatch(r"[A-Za-z0-9_-]+", level):
+        raise RuntimeError(f"{row['source_object_id']}: invalid level")
     if not re.fullmatch(r"[A-Z0-9]+", key):
         raise RuntimeError(f"{row['source_object_id']}: invalid viewer_key")
-    return f"https://{SOURCE_HOST}/{cycle}/{key}.pdf"
+    return f"https://{SOURCE_HOST}/pdf-reader/assets/{level}/{cycle}/{key}.pdf"
 
 
 def classify(status: int | None, is_pdf: bool) -> str:
@@ -121,7 +124,7 @@ def probe(row: dict[str, str], observed_at: str, timeout: float) -> dict[str, st
 
     notes = [
         "Bounded 32-byte HTTP Range probe only; source PDF bytes are not persisted.",
-        "Candidate URL is derived from the current CONALITEG reader.bundle.js rule: cycle/key -> /<cycle>/<key>.pdf.",
+        "Candidate URL is derived exactly from the current CONALITEG reader.bundle.js: Os=['assets']; nivel, ciclo and encoded clave.pdf are appended; the resulting relative path is resolved against /pdf-reader/reader.html.",
         "resolved_pdf establishes transport-level PDF asset resolution only; it does not establish open licensing, OCR availability, text verification, semantic readiness, or historical validity.",
     ]
     if status == 200:
@@ -133,7 +136,7 @@ def probe(row: dict[str, str], observed_at: str, timeout: float) -> dict[str, st
         "source_object_id": row["source_object_id"],
         "viewer_key": row["viewer_key"],
         "candidate_pdf_url": url,
-        "candidate_basis": "current CONALITEG pdf-reader/reader.bundle.js constructs /<ciclo>/<clave>.pdf when ciclo is present",
+        "candidate_basis": "current CONALITEG pdf-reader/reader.bundle.js constructs assets/<nivel>/<ciclo>/<clave>.pdf relative to /pdf-reader/reader.html",
         "observed_at": observed_at,
         "probe_method": "http_get_range_bytes_0_31_read_max_32",
         "http_status": str(status) if status is not None else "not_exposed",
