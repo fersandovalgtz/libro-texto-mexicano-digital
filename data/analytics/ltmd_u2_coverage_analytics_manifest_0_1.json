@@ -1,0 +1,91 @@
+{
+  "schema": "LTMD_U2_COVERAGE_ANALYTICS_MANIFEST_0.1",
+  "cohort": "CONALITEG primaria 2026-2027",
+  "source_cycle": "2026",
+  "observation_cut": "2026-09-02",
+  "denominators": {
+    "catalog_entries": 42,
+    "source_objects": 39
+  },
+  "source_object_metrics": {
+    "total_observed_pages": 10392,
+    "cataloged_state": {
+      "cataloged": 39
+    },
+    "reader_shell_state": {
+      "resolved": 39
+    },
+    "asset_resolution_state": {
+      "resolved_pdf": 39
+    },
+    "page_count_state": {
+      "observed": 39
+    },
+    "source_admission_state": {
+      "admitted_full_body_verified": 39
+    },
+    "text_access_observation_state": {
+      "blocked_by_password_required_encryption": 39
+    },
+    "embedded_text_sample_state": {
+      "not_assessed_due_to_access_block": 39
+    },
+    "ocr_available_state": {
+      "not_assessed": 39
+    },
+    "text_verified_state": {
+      "not_assessed": 39
+    },
+    "semantic_ready_state": {
+      "not_assessed": 39
+    }
+  },
+  "catalog_entry_metrics": {
+    "cataloged_state": {
+      "cataloged": 42
+    },
+    "reader_shell_state": {
+      "resolved": 42
+    },
+    "asset_resolution_state": {
+      "resolved_pdf": 42
+    },
+    "page_count_state": {
+      "observed": 42
+    },
+    "source_admission_state": {
+      "admitted_full_body_verified": 42
+    },
+    "text_access_observation_state": {
+      "blocked_by_password_required_encryption": 42
+    },
+    "embedded_text_sample_state": {
+      "not_assessed_due_to_access_block": 42
+    },
+    "ocr_available_state": {
+      "not_assessed": 42
+    },
+    "text_verified_state": {
+      "not_assessed": 42
+    },
+    "semantic_ready_state": {
+      "not_assessed": 42
+    }
+  },
+  "separation_guards": {
+    "catalog_entry_is_not_source_object": true,
+    "u2_denominators_are_separate_from_u1": true,
+    "content_access_blocked_does_not_imply_no_embedded_text": true,
+    "content_access_blocked_does_not_imply_ocr_needed": true,
+    "ocr_available_does_not_imply_text_verified": true,
+    "source_pdf_bytes_persisted": false,
+    "extracted_text_persisted": false
+  },
+  "evidence_scope": "non-substitutive metadata/state aggregation only; no source PDF, OCR, extracted text, or semantic promotion",
+  "materialization": {
+    "source_csv": "data/analytics/ltmd_u2_source_coverage_0_1.csv",
+    "entry_csv": "data/analytics/ltmd_u2_catalog_entry_coverage_0_1.csv",
+    "source_csv_sha256": "58c1a4be996224fd593ca990a135ebaac09b36e2240beb645c08e1df4fe5c40b",
+    "entry_csv_sha256": "e37e1eb24a56e0047ba26ff8d2064b419c6a3f106acf6bca83bcbd10becfe55c"
+  }
+}
