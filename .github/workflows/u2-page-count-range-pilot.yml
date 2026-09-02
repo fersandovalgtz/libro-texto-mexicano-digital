@@ -27,11 +27,12 @@ jobs:
           --viewer-key P0CMA
           --cycle 2026
           --level primaria
-          --chunk-size 262144
-          --max-bytes 16777216
+          --chunk-size 32768
+          --max-bytes 8388608
           --observed-at 2026-09-02
           --output u2-page-count-pilot.json
       - name: Upload pilot metadata only
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ltmd-u2-page-count-range-pilot-${{ github.sha }}
