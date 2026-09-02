@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_u2_source_object.schema.json",
+  "title": "LTMD-U2 source object row",
+  "description": "Typed row representation for the LTMD-U2 contemporary CONALITEG source-object registry. The public CSV stores equivalent fields as text.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_object_id",
+    "source",
+    "source_cycle",
+    "cycle_label",
+    "level",
+    "viewer_key",
+    "title",
+    "publisher",
+    "viewer_url",
+    "catalog_entry_count",
+    "catalog_grades",
+    "public_repo_status",
+    "source_checked"
+  ],
+  "properties": {
+    "source_object_id": {
+      "type": "string",
+      "pattern": "^CONALITEG:[0-9]{4}:primaria:[A-Z0-9]+$"
+    },
+    "source": {
+      "const": "CONALITEG"
+    },
+    "source_cycle": {
+      "type": "string",
+      "pattern": "^[0-9]{4}$"
+    },
+    "cycle_label": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{4}$"
+    },
+    "level": {
+      "const": "primaria"
+    },
+    "viewer_key": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "publisher": {
+      "type": "string",
+      "minLength": 1
+    },
+    "viewer_url": {
+      "type": "string",
+      "pattern": "^https://libros\\.conaliteg\\.gob\\.mx/"
+    },
+    "catalog_entry_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "catalog_grades": {
+      "type": "string",
+      "pattern": "^[1-6](\\|[1-6])*$"
+    },
+    "public_repo_status": {
+      "const": "catalog_metadata_only"
+    },
+    "source_checked": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}
