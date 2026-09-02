@@ -60,7 +60,7 @@ jobs:
           BUNDLE_SIZE=$(stat -c%s preservation/repository.bundle)
           TREE_SIZE=$(stat -c%s preservation/repository-tree.zip)
           {
-            echo 'schema=LTMD_REPO_PRESERVATION_ARTIFACT_0.1'
+            echo 'schema=LTMD_REPO_PRESERVATION_ARTIFACT_0.2'
             echo "source_sha=${GITHUB_SHA}"
             echo "source_ref=${GITHUB_REF}"
             echo "bundle_size=${BUNDLE_SIZE}"
@@ -68,14 +68,33 @@ jobs:
             echo "tree_size=${TREE_SIZE}"
             echo "tree_sha256=${TREE_SHA}"
             echo 'bundle_verify=git bundle verify repository.bundle'
+            echo 'transport=separate-artifacts-for-drive-handoff'
           } > preservation/manifest.txt
           git bundle verify preservation/repository.bundle
 
-      - name: Upload preservation snapshot
+      - name: Upload preservation Git bundle
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
-          name: ltmd-repo-preservation-${{ github.sha }}
-          path: preservation/
+          name: ltmd-repo-bundle-${{ github.sha }}
+          path: preservation/repository.bundle
+          retention-days: 14
+          compression-level: 0
+
+      - name: Upload preservation tree
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-repo-tree-${{ github.sha }}
+          path: preservation/repository-tree.zip
+          retention-days: 14
+          compression-level: 0
+
+      - name: Upload preservation manifest
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-repo-manifest-${{ github.sha }}
+          path: preservation/manifest.txt
           retention-days: 14
           compression-level: 0
