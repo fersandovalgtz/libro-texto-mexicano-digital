@@ -1,7 +1,7 @@
 {
   "benchmark_version": "LTMD_AUTOMATED_BENCHMARK_0.1",
   "expected": {
-    "release_version": "0.2.0-rc.1",
+    "release_version": "0.2.0",
     "u1_universe": 542,
     "u1_effective_technical_coverage": 524,
     "u1_canonical_objects": 492,
@@ -32,5 +32,5 @@
     "computational_candidate != semantic_ready",
     "publicly_accessible != openly_licensed"
   ],
-  "note": "Baseline de integridad, genealogía documental y reproducibilidad computacional. No constituye validación humana ni validez de constructo."
+  "note": "Baseline de integridad, genealogía documental y reproducibilidad computacional para la release estable v0.2.0. No constituye validación humana ni validez de constructo."
 }
