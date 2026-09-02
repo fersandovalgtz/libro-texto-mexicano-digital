@@ -131,21 +131,35 @@ jobs:
           python-version: '3.12'
       - name: Run bounded U2 endpoint probe
         run: python scripts/probe_u2_asset_endpoints.py --observed-at 2026-09-02 --output u2-asset-probe.csv
+      - name: Run bounded current-reader infrastructure probe
+        run: python scripts/probe_u2_reader_infrastructure.py --output u2-reader-infrastructure.json
       - name: Publish probe summary
         run: |
           python - <<'PY'
-          import csv
+          import csv, json
           from collections import Counter
           rows = list(csv.DictReader(open('u2-asset-probe.csv', encoding='utf-8')))
+          infra = json.load(open('u2-reader-infrastructure.json', encoding='utf-8'))
           print('states=', dict(Counter(row['endpoint_state'] for row in rows)))
           print('statuses=', dict(Counter(row['http_status'] for row in rows)))
           print('content_types=', dict(Counter(row['content_type'] for row in rows)))
           print('page_candidates=', sum(bool(row['page_count_candidates']) for row in rows))
           print('pdf_links=', sum(bool(row['same_host_pdf_links']) for row in rows))
+          print('reader_status=', infra['reader_shell']['status'])
+          print('same_host_scripts=', infra['same_host_script_urls'])
+          print('same_host_links=', infra['same_host_link_urls'])
+          print('inline_clues=', infra['inline_clues'])
+          print('script_clues=', infra['script_clues'])
           PY
-      - name: Upload bounded U2 asset probe
+      - name: Upload bounded U2 endpoint probe
         uses: actions/upload-artifact@v4
         with:
           name: ltmd-u2-asset-probe-${{ github.sha }}
           path: u2-asset-probe.csv
+          retention-days: 7
+      - name: Upload bounded U2 reader infrastructure probe
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u2-reader-infrastructure-${{ github.sha }}
+          path: u2-reader-infrastructure.json
           retention-days: 7
