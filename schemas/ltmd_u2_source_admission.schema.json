@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_u2_source_admission.schema.json",
+  "title": "LTMD-U2 source-admission record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_object_id",
+    "viewer_key",
+    "asset_url",
+    "observed_at",
+    "expected_bytes",
+    "bytes_received",
+    "size_matches",
+    "http_status",
+    "content_type",
+    "sha256",
+    "pdf_signature",
+    "eof_marker",
+    "startxref_in_tail",
+    "source_admission_state",
+    "page_count",
+    "source_pdf_persisted",
+    "ocr_available_state",
+    "text_verified_state"
+  ],
+  "properties": {
+    "source_object_id": {
+      "type": "string",
+      "pattern": "^CONALITEG:2026:primaria:[A-Z0-9]+$"
+    },
+    "viewer_key": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]+$"
+    },
+    "asset_url": {
+      "type": "string",
+      "pattern": "^https://libros\\.conaliteg\\.gob\\.mx/pdf-reader/assets/primaria/2026/[A-Z0-9]+\\.pdf$"
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "expected_bytes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "bytes_received": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "size_matches": {
+      "const": true
+    },
+    "http_status": {
+      "const": 200
+    },
+    "content_type": {
+      "const": "application/pdf"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "pdf_signature": {
+      "const": true
+    },
+    "eof_marker": {
+      "const": true
+    },
+    "startxref_in_tail": {
+      "const": true
+    },
+    "source_admission_state": {
+      "const": "admitted_full_body_verified"
+    },
+    "page_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "source_pdf_persisted": {
+      "const": false
+    },
+    "ocr_available_state": {
+      "const": "not_assessed"
+    },
+    "text_verified_state": {
+      "const": "not_assessed"
+    }
+  }
+}
