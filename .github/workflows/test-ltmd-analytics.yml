@@ -3,23 +3,6 @@ name: LTMD Analytics tests
 on:
   pull_request:
     branches: [main]
-    paths:
-      - 'analytics_api/**'
-      - 'passenger_wsgi.py'
-      - 'requirements-analytics*.txt'
-      - 'scripts/**'
-      - 'schemas/**'
-      - 'data/analytics/**'
-      - 'data/catalog/**'
-      - 'tests/**'
-      - 'VERSION'
-      - 'CITATION.cff'
-      - 'codemeta.json'
-      - 'CHANGELOG.md'
-      - 'README.md'
-      - 'README.en.md'
-      - 'docs/RELEASE_NOTES_*.md'
-      - '.github/workflows/**'
   push:
     branches: [main]
     paths:
