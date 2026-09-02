@@ -8,6 +8,7 @@ on:
       - 'scripts/probe_u2_linearized_page_count.py'
       - 'scripts/probe_u2_classic_xref_page_count.py'
       - 'scripts/probe_u2_page_counts_batch.py'
+      - 'data/catalog/ltmd_u2_asset_resolution_2026_09_02.csv'
       - '.github/workflows/u2-page-count-range-pilot.yml'
 
 permissions:
