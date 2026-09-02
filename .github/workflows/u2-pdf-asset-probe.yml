@@ -1,0 +1,43 @@
+name: LTMD U2 PDF asset probe
+
+on:
+  push:
+    branches: [science/u2-asset-resolution-probe]
+    paths:
+      - 'scripts/probe_u2_pdf_assets.py'
+      - 'data/catalog/ltmd_u2_source_objects_2026_2027.csv'
+      - '.github/workflows/u2-pdf-asset-probe.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Probe current-reader PDF asset rule
+        run: python scripts/probe_u2_pdf_assets.py --observed-at 2026-09-02 --output u2-pdf-asset-probe.csv
+      - name: Publish bounded summary
+        run: |
+          python - <<'PY'
+          import csv
+          from collections import Counter
+          rows = list(csv.DictReader(open('u2-pdf-asset-probe.csv', encoding='utf-8')))
+          print('total=', len(rows))
+          print('states=', dict(Counter(r['asset_resolution_state'] for r in rows)))
+          print('statuses=', dict(Counter(r['http_status'] for r in rows)))
+          print('content_types=', dict(Counter(r['content_type'] for r in rows)))
+          print('pdf_signatures=', dict(Counter(r['pdf_signature'] for r in rows)))
+          print('content_ranges=', dict(Counter('exposed' if r['content_range'] != 'not_exposed' else 'not_exposed' for r in rows)))
+          PY
+      - name: Upload bounded PDF asset probe
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u2-pdf-asset-probe-${{ github.sha }}
+          path: u2-pdf-asset-probe.csv
+          retention-days: 7
