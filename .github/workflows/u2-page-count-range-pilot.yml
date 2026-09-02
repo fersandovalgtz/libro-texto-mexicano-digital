@@ -28,7 +28,7 @@ jobs:
           --cycle 2026
           --level primaria
           --tail-bytes 65536
-          --xref-window 524288
+          --xref-window 3145728
           --object-window 65536
           --max-bytes 4194304
           --observed-at 2026-09-02
