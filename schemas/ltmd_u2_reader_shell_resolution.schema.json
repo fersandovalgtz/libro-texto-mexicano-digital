@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fersandovalgtz/libro-texto-mexicano-digital/schemas/ltmd_u2_reader_shell_resolution.schema.json",
+  "title": "LTMD-U2 reader-shell resolution row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_object_id",
+    "viewer_key",
+    "viewer_url",
+    "observed_at",
+    "probe_method",
+    "transport_observation",
+    "content_type_observation",
+    "http_status_observation",
+    "observed_title",
+    "reader_shell_state",
+    "asset_resolution_state",
+    "page_count_observation",
+    "source_admission_state",
+    "observation_note"
+  ],
+  "properties": {
+    "source_object_id": {
+      "type": "string",
+      "pattern": "^CONALITEG:[0-9]{4}:primaria:[A-Z0-9]+$"
+    },
+    "viewer_key": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]+$"
+    },
+    "viewer_url": {
+      "type": "string",
+      "pattern": "^https://libros\\.conaliteg\\.gob\\.mx/pdf-reader/reader\\.html\\?ciclo=[0-9]{4}&clave=[A-Z0-9]+&nivel=primaria$"
+    },
+    "observed_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "probe_method": {
+      "type": "string",
+      "enum": ["web_open", "http_get"]
+    },
+    "transport_observation": {
+      "type": "string",
+      "enum": ["fetch_succeeded", "fetch_failed", "ambiguous"]
+    },
+    "content_type_observation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "http_status_observation": {
+      "type": "string",
+      "anyOf": [
+        {"enum": ["not_exposed"]},
+        {"pattern": "^[1-5][0-9]{2}$"}
+      ]
+    },
+    "observed_title": {
+      "type": "string"
+    },
+    "reader_shell_state": {
+      "type": "string",
+      "enum": ["resolved", "unresolved", "ambiguous"]
+    },
+    "asset_resolution_state": {
+      "type": "string",
+      "enum": ["not_observed", "resolved", "unresolved", "ambiguous"]
+    },
+    "page_count_observation": {
+      "type": "string",
+      "anyOf": [
+        {"enum": ["not_observed"]},
+        {"pattern": "^[1-9][0-9]*$"}
+      ]
+    },
+    "source_admission_state": {
+      "type": "string",
+      "enum": ["not_assessed"]
+    },
+    "observation_note": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
