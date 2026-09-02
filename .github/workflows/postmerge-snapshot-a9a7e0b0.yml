@@ -1,0 +1,58 @@
+name: LTMD post-merge snapshot a9a7e0b0
+
+on:
+  push:
+    branches: [ops/postmerge-snapshot-a9a7e0b0]
+    paths:
+      - '.github/workflows/postmerge-snapshot-a9a7e0b0.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact merged commit
+        uses: actions/checkout@v4
+        with:
+          ref: a9a7e0b0ec73b65c3fe7fe1ad8717871a10dc94c
+          path: repo
+          fetch-depth: 1
+      - name: Verify and archive exact tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected='a9a7e0b0ec73b65c3fe7fe1ad8717871a10dc94c'
+          actual="$(git -C repo rev-parse HEAD)"
+          test "$actual" = "$expected"
+          archive='LTMD_postmerge_a9a7e0b0_2026-09-02.zip'
+          manifest='LTMD_postmerge_a9a7e0b0_2026-09-02.manifest.txt'
+          (cd repo && zip -qr "../$archive" . -x '.git/*' '.git/**')
+          sha="$(sha256sum "$archive" | awk '{print $1}')"
+          bytes="$(stat -c '%s' "$archive")"
+          cat > "$manifest" <<EOF
+          LTMD post-merge repository snapshot
+          Repository: fersandovalgtz/libro-texto-mexicano-digital
+          Commit: $actual
+          PR: #150
+          Date: 2026-09-02
+          Archive: $archive
+          SHA256: $sha
+          Bytes: $bytes
+          Scope: exact repository tree at merged commit; .git excluded
+          Scientific layer: LTMD-U2 structural page-count resolution 0.1
+          Observed objects: 39/39
+          Observed structural pages: 10392
+          Source PDFs persisted: false
+          EOF
+          cat "$manifest"
+      - name: Upload immutable snapshot artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-postmerge-a9a7e0b0
+          path: |
+            LTMD_postmerge_a9a7e0b0_2026-09-02.zip
+            LTMD_postmerge_a9a7e0b0_2026-09-02.manifest.txt
+          retention-days: 7
