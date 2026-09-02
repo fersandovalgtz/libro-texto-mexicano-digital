@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0-rc.1"><img src="https://img.shields.io/badge/release-v0.2.0--rc.1-172033?style=flat-square" alt="Release v0.2.0-rc.1"></a>
+  <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0"><img src="https://img.shields.io/badge/release-v0.2.0-172033?style=flat-square" alt="Release v0.2.0"></a>
   <a href="CITATION.cff"><img src="https://img.shields.io/badge/citation-CFF%201.2-4b5563?style=flat-square" alt="CFF 1.2"></a>
   <a href="codemeta.json"><img src="https://img.shields.io/badge/metadata-CodeMeta%203.1-3b5b92?style=flat-square" alt="CodeMeta 3.1"></a>
   <a href="FAIR_ASSESSMENT.md"><img src="https://img.shields.io/badge/FAIR%2FFAIR4RS-self--assessment-2d6a4f?style=flat-square" alt="FAIR FAIR4RS"></a>
@@ -37,7 +37,7 @@ The project keeps **document identity**, **asset resolution**, **technical proce
 
 ## Scientific status
 
-Reference cut: **31 August 2026**.
+Reference corpus cut: **31 August 2026**. Stable software release: **1 September 2026**.
 
 | Indicator | Status |
 |---|---:|
@@ -45,8 +45,8 @@ Reference cut: **31 August 2026**.
 | Closed or resolved technical coverage | **524 / 542 (96.68%)** |
 | Canonical processing objects | **492 / 542 (90.77%)** |
 | Human semantic validation | **0 / 542** |
-| Scientific release | **v0.2.0-rc.1** |
-| LTMD DOI | **pending; not pre-declared** |
+| Scientific release | **v0.2.0** |
+| LTMD DOI | **pending archival deposit; not pre-declared** |
 
 The current operational plan is [`docs/LTMD_U1_MASTER_PLAN_0_3.md`](docs/LTMD_U1_MASTER_PLAN_0_3.md). The **18 identities** still outside effective technical coverage are consolidated one-by-one in [`data/catalog/ltmd_u1_retained_source_register.csv`](data/catalog/ltmd_u1_retained_source_register.csv), with resolution policy and provenance requirements in [`docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md`](docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md).
 
@@ -94,9 +94,15 @@ See:
 - [`docs/LTMD_OCR_PROVENANCE.md`](docs/LTMD_OCR_PROVENANCE.md)
 - [`schemas/ltmd_page_ocr.schema.json`](schemas/ltmd_page_ocr.schema.json)
 
+## Computational benchmark layers
+
+The stable `v0.2.0` release includes the **LTMD Automated Benchmark 0.1** and **Documentary Genealogy Benchmark 0.2**. These layers provide reproducible measures for documentary persistence, novelty, turnover, survival, bootstrap uncertainty, temporal controls, and near-exact sensitivity.
+
+They are deliberately bounded by the project’s epistemic contract: `computational_candidate != semantic_ready`. Similarity, persistence, or novelty scores support reproducible candidate generation and methodological inspection; they do not by themselves constitute historical interpretation or human validation.
+
 ## Reproducibility and quality
 
-The infrastructure uses versioned scripts, GitHub Actions, manifests, SHA-256 hashes, wave-specific documentation, and integrity reports. The scientific candidate [`v0.2.0-rc.1`](https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0-rc.1) freezes the current corpus-wide LTMD-U1 state, FTRL, LTMD Analytics 0.1, and reinforced repository governance without promoting pending human validation to confirmed evidence.
+The infrastructure uses versioned scripts, GitHub Actions, manifests, SHA-256 hashes, wave-specific documentation, and integrity reports. The stable scientific release [`v0.2.0`](https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0) freezes LTMD-U1, FTRL, LTMD Analytics 0.1, Automated Benchmark 0.1, Documentary Genealogy Benchmark 0.2, and reinforced repository governance without promoting pending human validation to confirmed evidence.
 
 The publication standard is defined in [`SCIENTIFIC_REPOSITORY_STANDARD.md`](SCIENTIFIC_REPOSITORY_STANDARD.md), and FAIR/FAIR4RS status is documented in [`FAIR_ASSESSMENT.md`](FAIR_ASSESSMENT.md).
 
@@ -120,9 +126,11 @@ These licenses do **not** automatically apply to source books, PDFs, JPEGs, cove
 
 ## Citation
 
-GitHub can generate citation formats from [`CITATION.cff`](CITATION.cff). For scientific candidate `v0.2.0-rc.1`:
+GitHub can generate citation formats from [`CITATION.cff`](CITATION.cff). For stable scientific release `v0.2.0`:
 
-> Sandoval Gutierrez, Fernando. 2026. *Libro de Texto Mexicano Digital*, version 0.2.0-rc.1. GitHub release. https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0-rc.1
+> Sandoval Gutierrez, Fernando. 2026. *Libro de Texto Mexicano Digital*, version 0.2.0. GitHub release. https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0
+
+Once Zenodo or another archival service assigns a persistent identifier to the real deposit, the DOI will be added consistently to the scholarly metadata and citation surface.
 
 ## Project lead
 

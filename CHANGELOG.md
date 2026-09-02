@@ -1,10 +1,41 @@
 # Changelog
 
-Todos los cambios notables de **Libro de Texto Mexicano Digital (LTMD)** se documentan aquí. El proyecto permanece en fase pre-1.0; las releases candidatas pueden cambiar antes de una primera liberación estable.
+Todos los cambios notables de **Libro de Texto Mexicano Digital (LTMD)** se documentan aquí. El proyecto permanece en fase pre-1.0; cada release constituye un corte histórico reproducible y no atribuye retrospectivamente a versiones anteriores cambios posteriores de `main`.
 
 ## [Unreleased]
 
-Sin cambios acumulados después de la preparación de `v0.2.0-rc.1`.
+Sin cambios acumulados después de la preparación de `v0.2.0`.
+
+## [0.2.0] — 2026-09-01
+
+Primera release científica estable de la serie 0.2. Este corte promueve la candidata `v0.2.0-rc.1` después de integrar y someter a gates obligatorios las capas de benchmark computacional añadidas posteriormente, además de sanear la automatización heredada que intentaba escribir directamente en `main`.
+
+### Estabilización científica
+
+- Sincronizados `VERSION`, `CITATION.cff`, CodeMeta y README bilingües en `0.2.0`.
+- Conservada la separación entre corte documental del corpus y fecha de release: el estado U1 de referencia permanece fechado al 31 de agosto de 2026, mientras la versión estable se publica el 1 de septiembre de 2026.
+- Mantenida la política de **no anticipar DOI**: el identificador persistente se incorporará únicamente después de un depósito real y verificable en Zenodo u otro archivo.
+- Preservadas las guardas epistemológicas `ocr_available != text_verified`, `search_hit != historical_claim`, `zero_hits != demonstrated_absence`, `computational_candidate != semantic_ready` y `publicly_accessible != openly_licensed`.
+
+### Benchmark automatizado y genealogía documental
+
+- Integrado **LTMD Automated Benchmark 0.1** como capa reproducible de evaluación computacional con contratos y pruebas sintéticas.
+- Integrado **Documentary Genealogy Benchmark 0.2** para medir persistencia documental, novedad, turnover, supervivencia, incertidumbre bootstrap, controles temporales y sensibilidad near-exact.
+- Las métricas de similitud y persistencia se mantienen como evidencia computacional candidata; no producen por sí mismas identidad documental, validación humana ni interpretación histórica.
+
+### CI y gobernanza
+
+- Migrado `build-ltmd-u1-evidence-integrity` a ejecución de solo lectura: `contents: read`, sin `git push` directo a `main` y con derivados publicados como artifact revisable.
+- Corregido el disparo del check obligatorio `LTMD Analytics tests` para cambios de workflows, evitando estados `expected` sin ejecución.
+- Confirmados como gates de estabilización `Repository quality`, `Scientific release preflight` y `LTMD Analytics tests`.
+- Se mantiene la protección de `main`; los workflows heredados restantes con permisos de escritura continúan gobernados por la deuda técnica registrada en #133.
+
+### Alcance que permanece abierto
+
+- La validación semántica humana continúa en **0/542**; esta release no convierte cobertura técnica en evidencia semántica validada.
+- Las 18 identidades retenidas de U1 permanecen documentadas y no se sustituyen por inferencia.
+- Las capas OCR completas y los materiales fuente restringidos continúan fuera del repositorio público por defecto.
+- La cohorte CONALITEG 2026–2027 permanece como catálogo y no se promueve automáticamente a `source_admitted` ni a corpus procesado.
 
 ## [0.2.0-rc.1] — 2026-08-31
 
