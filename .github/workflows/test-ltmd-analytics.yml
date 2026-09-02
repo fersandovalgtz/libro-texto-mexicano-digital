@@ -79,6 +79,7 @@ jobs:
           tests/test_validate_u2_source_admission.py
           tests/test_observe_u2_text_access.py
           tests/test_validate_u2_text_access_observation.py
+          tests/test_build_u2_coverage_analytics.py
       - name: Validate Analytics JSON schemas and materialization records
         run: |
           python - <<'PY'
@@ -104,6 +105,7 @@ jobs:
               'schemas/ltmd_u2_page_count_resolution.schema.json',
               'schemas/ltmd_u2_source_admission.schema.json',
               'schemas/ltmd_u2_text_access_observation.schema.json',
+              'schemas/ltmd_u2_coverage_analytics_manifest.schema.json',
           ]
           for path in paths:
               schema = json.load(open(path, encoding='utf-8'))
@@ -123,6 +125,8 @@ jobs:
                'data/analytics/ltmd_u1_vertical_registry_0_1.json'),
               ('schemas/ltmd_u1_vertical_materialization.schema.json',
                'data/analytics/ltmd_u1_vertical_materialization_0_1.json'),
+              ('schemas/ltmd_u2_coverage_analytics_manifest.schema.json',
+               'data/analytics/ltmd_u2_coverage_analytics_manifest_0_1.json'),
           ]
           for schema_path, data_path in validations:
               schema = json.load(open(schema_path, encoding='utf-8'))
