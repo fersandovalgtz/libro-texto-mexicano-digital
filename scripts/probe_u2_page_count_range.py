@@ -5,7 +5,6 @@ import argparse
 import io
 import json
 import re
-import urllib.error
 import urllib.request
 from collections import OrderedDict
 from pathlib import Path
@@ -13,7 +12,7 @@ from pathlib import Path
 from pypdf import PdfReader, __version__ as pypdf_version
 
 SOURCE_HOST = "libros.conaliteg.gob.mx"
-USER_AGENT = "LTMD-U2-page-count-range-probe/0.1 (+https://github.com/fersandovalgtz/libro-texto-mexicano-digital)"
+USER_AGENT = "LTMD-U2-page-count-range-probe/0.2 (+https://github.com/fersandovalgtz/libro-texto-mexicano-digital)"
 
 
 class BudgetExceeded(RuntimeError):
@@ -145,13 +144,24 @@ class HTTPRangeFile(io.RawIOBase):
         return len(data)
 
 
+def structural_page_count(reader: PdfReader) -> int:
+    """Read the declared /Count from the root /Pages node without enumerating reader.pages."""
+    root = reader.root_object
+    pages = root["/Pages"]
+    count = pages["/Count"]
+    value = int(count)
+    if value <= 0:
+        raise RuntimeError(f"invalid root /Pages /Count: {value}")
+    return value
+
+
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Bounded HTTP-range pilot for LTMD-U2 PDF page counts.")
+    parser = argparse.ArgumentParser(description="Bounded HTTP-range pilot for LTMD-U2 structural PDF page counts.")
     parser.add_argument("--viewer-key", default="P0CMA")
     parser.add_argument("--cycle", default="2026")
     parser.add_argument("--level", default="primaria")
-    parser.add_argument("--chunk-size", type=int, default=262144)
-    parser.add_argument("--max-bytes", type=int, default=16777216)
+    parser.add_argument("--chunk-size", type=int, default=32768)
+    parser.add_argument("--max-bytes", type=int, default=8388608)
     parser.add_argument("--timeout", type=float, default=20.0)
     parser.add_argument("--observed-at", required=True)
     parser.add_argument("--output", type=Path, default=Path("u2-page-count-pilot.json"))
@@ -183,7 +193,7 @@ def main() -> int:
     try:
         buffered = io.BufferedReader(remote, buffer_size=65536)
         reader = PdfReader(buffered, strict=False)
-        page_count = len(reader.pages)
+        page_count = structural_page_count(reader)
     except BudgetExceeded as exc:
         state = "budget_exceeded"
         error = str(exc)
@@ -192,7 +202,7 @@ def main() -> int:
         error = f"{type(exc).__name__}: {exc}"
 
     result = {
-        "schema": "LTMD_U2_PAGE_COUNT_RANGE_PILOT_0.1",
+        "schema": "LTMD_U2_PAGE_COUNT_RANGE_PILOT_0.2",
         "source_object_id": f"CONALITEG:{args.cycle}:{args.level}:{args.viewer_key}",
         "asset_url": url,
         "observed_at": args.observed_at,
@@ -200,7 +210,7 @@ def main() -> int:
         "page_count": page_count,
         "parser": "pypdf",
         "parser_version": pypdf_version,
-        "method": "seekable_http_range_reader_no_source_file_persisted",
+        "method": "root_pages_count_via_seekable_http_range_reader_no_source_file_persisted",
         "remote_total_bytes": remote.length,
         "chunk_size": args.chunk_size,
         "max_network_bytes": args.max_bytes,
@@ -210,7 +220,7 @@ def main() -> int:
         "error": error,
         "source_admission_state": "not_assessed",
         "text_verification_state": "not_assessed",
-        "evidence_scope": "page-tree count only; no text or semantic validation",
+        "evidence_scope": "structural root /Pages /Count only; no page enumeration, text extraction, or semantic validation",
     }
     args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False))
