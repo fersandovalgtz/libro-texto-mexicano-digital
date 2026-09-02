@@ -71,6 +71,7 @@ jobs:
           tests/test_u1_vertical_registry.py
           tests/test_materialize_u1_vertical_registry.py
           tests/test_build_u2_source_objects.py
+          tests/test_validate_u2_reader_shell_resolution.py
       - name: Validate Analytics JSON schemas and materialization records
         run: |
           python - <<'PY'
@@ -91,6 +92,7 @@ jobs:
               'schemas/ltmd_u1_vertical_registry.schema.json',
               'schemas/ltmd_u1_vertical_materialization.schema.json',
               'schemas/ltmd_u2_source_object.schema.json',
+              'schemas/ltmd_u2_reader_shell_resolution.schema.json',
           ]
           for path in paths:
               schema = json.load(open(path, encoding='utf-8'))
