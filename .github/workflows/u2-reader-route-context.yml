@@ -1,0 +1,29 @@
+name: LTMD U2 reader route context
+
+on:
+  push:
+    branches: [science/u2-asset-resolution-probe]
+    paths:
+      - 'scripts/extract_u2_reader_route_context.py'
+      - '.github/workflows/u2-reader-route-context.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  route-context:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract bounded reader route context
+        run: python scripts/extract_u2_reader_route_context.py --output u2-reader-route-context.json
+      - name: Upload route context
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u2-reader-route-context-${{ github.sha }}
+          path: u2-reader-route-context.json
+          retention-days: 7
