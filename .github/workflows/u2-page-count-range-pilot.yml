@@ -7,46 +7,52 @@ on:
       - 'scripts/probe_u2_page_count_range.py'
       - 'scripts/probe_u2_linearized_page_count.py'
       - 'scripts/probe_u2_classic_xref_page_count.py'
+      - 'scripts/probe_u2_page_counts_batch.py'
       - '.github/workflows/u2-page-count-range-pilot.yml'
 
 permissions:
   contents: read
 
 jobs:
-  cross-validation:
+  all-objects:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - viewer_key: P5LPM
-            size_class: small
-          - viewer_key: P4PEA
-            size_class: medium
-          - viewer_key: P3MLA
-            size_class: large
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Observe structural U2 page count
+      - name: Observe structural page counts for all 39 U2 assets
         run: >-
-          python scripts/probe_u2_classic_xref_page_count.py
-          --viewer-key ${{ matrix.viewer_key }}
-          --cycle 2026
-          --level primaria
-          --tail-bytes 65536
-          --xref-window 3145728
-          --object-window 65536
-          --max-bytes 4194304
+          python scripts/probe_u2_page_counts_batch.py
           --observed-at 2026-09-02
-          --output u2-classic-xref-page-count-${{ matrix.viewer_key }}.json
-      - name: Upload metadata only
+          --max-bytes 4194304
+          --xref-window 3145728
+          --tail-bytes 65536
+          --object-window 65536
+          --timeout 20
+          --output-csv u2-page-count-resolution-probe.csv
+          --output-json u2-page-count-resolution-probe.json
+      - name: Publish bounded summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path('u2-page-count-resolution-probe.json')
+          if path.exists():
+              data = json.loads(path.read_text(encoding='utf-8'))
+              for key in ['total_objects','states','observed_page_counts','total_network_bytes_fetched','max_network_bytes_per_object','method','source_pdf_bytes_persisted']:
+                  print(f'{key}={data.get(key)}')
+          else:
+              print('batch JSON not produced')
+          PY
+      - name: Upload text-free batch evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ltmd-u2-page-count-${{ matrix.size_class }}-${{ matrix.viewer_key }}-${{ github.sha }}
-          path: u2-classic-xref-page-count-${{ matrix.viewer_key }}.json
+          name: ltmd-u2-page-count-all-39-${{ github.sha }}
+          path: |
+            u2-page-count-resolution-probe.csv
+            u2-page-count-resolution-probe.json
           retention-days: 7
