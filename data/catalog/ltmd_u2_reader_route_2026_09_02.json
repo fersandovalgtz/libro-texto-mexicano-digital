@@ -1,0 +1,21 @@
+{
+  "schema": "LTMD_U2_READER_ROUTE_0.1",
+  "observed_at": "2026-09-02",
+  "reader_example": "https://libros.conaliteg.gob.mx/pdf-reader/reader.html?ciclo=2026&clave=P1MLA&nivel=primaria",
+  "reader_bundle_url": "https://libros.conaliteg.gob.mx/pdf-reader/reader.bundle.js",
+  "reader_bundle_bytes": 337409,
+  "reader_bundle_sha256": "f48a9486b2b0ffbeea70fd4bb80ab373c7fa3b6ef707c6789b1a4d819360206b",
+  "primary_asset_route_template": "pdf-reader/assets/{nivel}/{ciclo}/{clave}.pdf",
+  "primary_route_derivation": "The current reader reads clave, ciclo and nivel from query parameters, appends .pdf to clave when absent, joins assets/nivel/ciclo/clave.pdf, and resolves that relative path against /pdf-reader/reader.html.",
+  "fallback_route_template": "{ciclo}/{clave}.htm",
+  "fallback_role": "Legacy HTML fallback used after primary PDF-route failure; it is not the primary asset route.",
+  "probe_provenance": {
+    "github_actions_run": 33638648887,
+    "probe_branch_head": "c1eb93b4310f44a2959ba4f56d236b625de496a1",
+    "artifact_id": 9849852302,
+    "artifact_sha256": "fe42085b59df47064865f17b7470db18a2ea80d2b8f2b5b37615bd0a0ee28520",
+    "bounded_context_json_sha256": "1c2fb94707230c72a189943be8950886e858bfddaeceea78d6dec117508209d4"
+  },
+  "evidence_scope": "transport routing metadata only",
+  "rights_note": "No source-book body is redistributed. The route record paraphrases only the minimum behavior needed for reproducibility and pins the observed reader bundle by hash."
+}
