@@ -1,0 +1,48 @@
+name: LTMD U2 coverage analytics materialization
+
+on:
+  push:
+    branches: [experiment/u2-coverage-analytics-materialize]
+    paths:
+      - 'scripts/build_u2_coverage_analytics.py'
+      - '.github/workflows/u2-coverage-analytics-materialize.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build deterministic U2 coverage/Analytics layer
+        run: |
+          mkdir -p materialized
+          python scripts/build_u2_coverage_analytics.py \
+            --source-output materialized/ltmd_u2_source_coverage_0_1.csv \
+            --entry-output materialized/ltmd_u2_catalog_entry_coverage_0_1.csv \
+            --manifest-output materialized/ltmd_u2_coverage_analytics_manifest_0_1.json
+      - name: Assert denominators and non-promotion guards
+        run: |
+          python - <<'PY'
+          import csv, json
+          s=list(csv.DictReader(open('materialized/ltmd_u2_source_coverage_0_1.csv', encoding='utf-8')))
+          e=list(csv.DictReader(open('materialized/ltmd_u2_catalog_entry_coverage_0_1.csv', encoding='utf-8')))
+          m=json.load(open('materialized/ltmd_u2_coverage_analytics_manifest_0_1.json', encoding='utf-8'))
+          assert len(s)==39 and len(e)==42
+          assert m['denominators']=={'catalog_entries':42,'source_objects':39}
+          assert all(r['semantic_ready_state']=='not_assessed' for r in s+e)
+          assert all(r['ocr_available_state']=='not_assessed' for r in s+e)
+          assert all(r['text_verified_state']=='not_assessed' for r in s+e)
+          assert m['separation_guards']['source_pdf_bytes_persisted'] is False
+          assert m['separation_guards']['extracted_text_persisted'] is False
+          print('U2 coverage materialization guards: OK')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u2-coverage-analytics-${{ github.sha }}
+          path: materialized/
+          retention-days: 7
