@@ -5,47 +5,49 @@ on:
     branches: [science/u2-source-admission-pilot]
     paths:
       - 'scripts/probe_u2_source_admission.py'
+      - 'scripts/probe_u2_source_admission_batch.py'
       - '.github/workflows/u2-source-admission-pilot.yml'
 
 permissions:
   contents: read
 
 jobs:
-  probe:
+  full-universe:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - key: P5LPM
-            expected_bytes: 4869215
-            expected_pages: 99
-          - key: P4PEA
-            expected_bytes: 33554451
-            expected_pages: 363
-          - key: P0CMA
-            expected_bytes: 281144511
-            expected_pages: 191
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install parser
-        run: python -m pip install --disable-pip-version-check 'pypdf==6.16.2'
-      - name: Probe full-body source admission without persistence
+      - name: Stream and admit all 39 canonical U2 source bodies
         run: >-
-          python scripts/probe_u2_source_admission.py
-          --viewer-key '${{ matrix.key }}'
-          --expected-bytes '${{ matrix.expected_bytes }}'
-          --expected-pages '${{ matrix.expected_pages }}'
+          python scripts/probe_u2_source_admission_batch.py
           --observed-at 2026-09-02
-          --output 'u2-source-admission-${{ matrix.key }}.json'
-      - name: Upload non-substitutive evidence only
+          --timeout 120
+          --delay 0.25
+          --output-csv u2-source-admission-all-39.csv
+          --output-json u2-source-admission-all-39.json
+      - name: Publish bounded summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('u2-source-admission-all-39.json')
+          if not p.exists():
+              print('batch JSON not produced')
+          else:
+              d = json.loads(p.read_text(encoding='utf-8'))
+              for key in ['total_objects','states','admitted_sources','total_source_bytes_streamed','method','source_pdf_bytes_persisted','ocr_available_state','text_verified_state']:
+                  print(f'{key}={d.get(key)}')
+          PY
+      - name: Upload non-substitutive 39-object evidence only
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ltmd-u2-source-admission-${{ matrix.key }}-${{ github.sha }}
-          path: u2-source-admission-${{ matrix.key }}.json
+          name: ltmd-u2-source-admission-all-39-${{ github.sha }}
+          path: |
+            u2-source-admission-all-39.csv
+            u2-source-admission-all-39.json
           retention-days: 7
