@@ -13,18 +13,28 @@ permissions:
   contents: read
 
 jobs:
-  pilot:
+  cross-validation:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - viewer_key: P5LPM
+            size_class: small
+          - viewer_key: P4PEA
+            size_class: medium
+          - viewer_key: P3MLA
+            size_class: large
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Observe one large U2 page count through targeted classic xref
+      - name: Observe structural U2 page count
         run: >-
           python scripts/probe_u2_classic_xref_page_count.py
-          --viewer-key P0CMA
+          --viewer-key ${{ matrix.viewer_key }}
           --cycle 2026
           --level primaria
           --tail-bytes 65536
@@ -32,11 +42,11 @@ jobs:
           --object-window 65536
           --max-bytes 4194304
           --observed-at 2026-09-02
-          --output u2-classic-xref-page-count-pilot.json
-      - name: Upload pilot metadata only
+          --output u2-classic-xref-page-count-${{ matrix.viewer_key }}.json
+      - name: Upload metadata only
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ltmd-u2-classic-xref-page-count-pilot-${{ github.sha }}
-          path: u2-classic-xref-page-count-pilot.json
+          name: ltmd-u2-page-count-${{ matrix.size_class }}-${{ matrix.viewer_key }}-${{ github.sha }}
+          path: u2-classic-xref-page-count-${{ matrix.viewer_key }}.json
           retention-days: 7
