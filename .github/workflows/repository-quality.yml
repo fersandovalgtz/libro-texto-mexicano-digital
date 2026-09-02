@@ -13,7 +13,7 @@ permissions:
 jobs:
   repository-quality:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,3 +46,36 @@ jobs:
             fi
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Build preservation snapshot
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p preservation
+          git bundle create preservation/repository.bundle --all
+          git archive --format=zip --output=preservation/repository-tree.zip HEAD
+          BUNDLE_SHA=$(sha256sum preservation/repository.bundle | awk '{print $1}')
+          TREE_SHA=$(sha256sum preservation/repository-tree.zip | awk '{print $1}')
+          BUNDLE_SIZE=$(stat -c%s preservation/repository.bundle)
+          TREE_SIZE=$(stat -c%s preservation/repository-tree.zip)
+          {
+            echo 'schema=LTMD_REPO_PRESERVATION_ARTIFACT_0.1'
+            echo "source_sha=${GITHUB_SHA}"
+            echo "source_ref=${GITHUB_REF}"
+            echo "bundle_size=${BUNDLE_SIZE}"
+            echo "bundle_sha256=${BUNDLE_SHA}"
+            echo "tree_size=${TREE_SIZE}"
+            echo "tree_sha256=${TREE_SHA}"
+            echo 'bundle_verify=git bundle verify repository.bundle'
+          } > preservation/manifest.txt
+          git bundle verify preservation/repository.bundle
+
+      - name: Upload preservation snapshot
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-repo-preservation-${{ github.sha }}
+          path: preservation/
+          retention-days: 14
+          compression-level: 0
