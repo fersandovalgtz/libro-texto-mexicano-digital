@@ -10,6 +10,7 @@ on:
       - 'scripts/**'
       - 'schemas/**'
       - 'data/analytics/**'
+      - 'data/catalog/**'
       - 'tests/**'
       - 'VERSION'
       - 'CITATION.cff'
@@ -28,6 +29,7 @@ on:
       - 'scripts/**'
       - 'schemas/**'
       - 'data/analytics/**'
+      - 'data/catalog/**'
       - 'tests/**'
       - 'VERSION'
       - 'CITATION.cff'
@@ -68,6 +70,7 @@ jobs:
           tests/test_build_vertical_reuse_context.py
           tests/test_u1_vertical_registry.py
           tests/test_materialize_u1_vertical_registry.py
+          tests/test_build_u2_source_objects.py
       - name: Validate Analytics JSON schemas and materialization records
         run: |
           python - <<'PY'
@@ -87,6 +90,7 @@ jobs:
               'schemas/ltmd_vertical_reuse_context.schema.json',
               'schemas/ltmd_u1_vertical_registry.schema.json',
               'schemas/ltmd_u1_vertical_materialization.schema.json',
+              'schemas/ltmd_u2_source_object.schema.json',
           ]
           for path in paths:
               schema = json.load(open(path, encoding='utf-8'))
