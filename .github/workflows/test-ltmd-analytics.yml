@@ -21,7 +21,7 @@ on:
       - 'docs/RELEASE_NOTES_*.md'
       - '.github/workflows/**'
   push:
-    branches: [main]
+    branches: [main, science/u2-asset-resolution-probe]
     paths:
       - 'analytics_api/**'
       - 'passenger_wsgi.py'
@@ -119,3 +119,33 @@ jobs:
               Draft202012Validator(schema).validate(data)
               print(f'{data_path}: VALID')
           PY
+
+  u2-asset-probe:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/science/u2-asset-resolution-probe'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run bounded U2 endpoint probe
+        run: python scripts/probe_u2_asset_endpoints.py --observed-at 2026-09-02 --output u2-asset-probe.csv
+      - name: Publish probe summary
+        run: |
+          python - <<'PY'
+          import csv
+          from collections import Counter
+          rows = list(csv.DictReader(open('u2-asset-probe.csv', encoding='utf-8')))
+          print('states=', dict(Counter(row['endpoint_state'] for row in rows)))
+          print('statuses=', dict(Counter(row['http_status'] for row in rows)))
+          print('content_types=', dict(Counter(row['content_type'] for row in rows)))
+          print('page_candidates=', sum(bool(row['page_count_candidates']) for row in rows))
+          print('pdf_links=', sum(bool(row['same_host_pdf_links']) for row in rows))
+          PY
+      - name: Upload bounded U2 asset probe
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u2-asset-probe-${{ github.sha }}
+          path: u2-asset-probe.csv
+          retention-days: 7
