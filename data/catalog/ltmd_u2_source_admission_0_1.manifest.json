@@ -1,0 +1,44 @@
+{
+  "schema": "LTMD_U2_SOURCE_ADMISSION_MANIFEST_0.1",
+  "version": "0.1",
+  "observed_at": "2026-09-02",
+  "scope": "CONALITEG primaria 2026-2027 / LTMD-U2",
+  "total_source_objects": 39,
+  "admitted_source_objects": 39,
+  "source_admission_state": "admitted_full_body_verified",
+  "total_source_bytes_streamed": 1861996041,
+  "method": "full_body_streaming_sha256_transport_size_pdf_markers",
+  "source_pdf_bytes_persisted": false,
+  "extracted_text_persisted": false,
+  "ocr_available_state": "not_assessed",
+  "text_verified_state": "not_assessed",
+  "semantic_validation_state": "not_assessed",
+  "rights_state": "third_party_source_not_redistributable_by_default",
+  "inputs": {
+    "asset_registry": "data/catalog/ltmd_u2_asset_resolution_2026_09_02.csv",
+    "page_count_registry": "data/catalog/ltmd_u2_page_count_resolution_2026_09_02.csv"
+  },
+  "materialization": {
+    "canonical_csv": "data/catalog/ltmd_u2_source_admission_2026_09_02.csv",
+    "canonical_csv_sha256": "6d1de2fdd3741b75c7aca761bdf8f838770f53a6f9cc53ca83dfd17c7b903686"
+  },
+  "experimental_provenance": {
+    "full_universe_run_id": 33652358626,
+    "full_universe_head_sha": "5dabbdc5d4023767d0fa4821cd8389f280a75936",
+    "full_universe_artifact_id": 9855311501,
+    "full_universe_artifact_sha256": "6974a83a81d40569ccdaeec2d8b04b4bf3b21ea33ffc054216bc54361fc5c256",
+    "raw_csv_sha256": "91cb342a8786fe1e2de4dbe010619fa994506c22101437cba02e9a3fd9570891",
+    "raw_json_sha256": "0b814e390a0042316e8093739a854eab4be8f68aadad7786d03a0c3bf4bab329",
+    "pilot_run_id": 33651692165,
+    "pilot_head_sha": "0688bb51ecd247a90c42b0b3f0345d8734075403",
+    "pilot_note": "A three-size pilot on P5LPM, P4PEA, and P0CMA observed pdf_encrypted=true and failed blank-password parser access. This is pilot-only evidence and is not generalized to all 39 objects."
+  },
+  "epistemic_guards": [
+    "source_admitted != ocr_available",
+    "source_admitted != text_verified",
+    "source_admitted != openly_licensed",
+    "source_admitted != semantic_ready",
+    "publicly_accessible != openly_licensed"
+  ],
+  "evidence_scope": "Full-body transport verification with SHA-256, exact byte-count reconciliation, HTTP/content-type checks, and basic PDF structural markers. No source PDF, extracted text, OCR output, or semantic content is persisted by this layer."
+}
