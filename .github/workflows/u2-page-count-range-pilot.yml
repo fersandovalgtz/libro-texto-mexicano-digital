@@ -6,6 +6,7 @@ on:
     paths:
       - 'scripts/probe_u2_page_count_range.py'
       - 'scripts/probe_u2_linearized_page_count.py'
+      - 'scripts/probe_u2_classic_xref_page_count.py'
       - '.github/workflows/u2-page-count-range-pilot.yml'
 
 permissions:
@@ -20,19 +21,22 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Observe one large U2 page count from bounded PDF prefix
+      - name: Observe one large U2 page count through targeted classic xref
         run: >-
-          python scripts/probe_u2_linearized_page_count.py
+          python scripts/probe_u2_classic_xref_page_count.py
           --viewer-key P0CMA
           --cycle 2026
           --level primaria
-          --prefix-bytes 65536
+          --tail-bytes 65536
+          --xref-window 524288
+          --object-window 65536
+          --max-bytes 4194304
           --observed-at 2026-09-02
-          --output u2-linearized-page-count-pilot.json
+          --output u2-classic-xref-page-count-pilot.json
       - name: Upload pilot metadata only
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ltmd-u2-linearized-page-count-pilot-${{ github.sha }}
-          path: u2-linearized-page-count-pilot.json
+          name: ltmd-u2-classic-xref-page-count-pilot-${{ github.sha }}
+          path: u2-classic-xref-page-count-pilot.json
           retention-days: 7
