@@ -1,0 +1,54 @@
+{
+  "schema": "LTMD_U2_TEXT_ACCESS_OBSERVATION_MANIFEST_0.1",
+  "version": "0.1",
+  "observed_at": "2026-09-02",
+  "scope": "CONALITEG primaria 2026-2027 / LTMD-U2",
+  "total_source_objects": 39,
+  "observed_source_objects": 39,
+  "failed_source_objects": 0,
+  "text_access_observation_state": "blocked_by_password_required_encryption",
+  "objects_in_state": 39,
+  "embedded_text_sample_state": "not_assessed_due_to_access_block",
+  "ocr_available_state": "not_assessed",
+  "text_verified_state": "not_assessed",
+  "source_pdf_bytes_persisted": false,
+  "extracted_text_persisted": false,
+  "method": "full_body_sha256_reverification_then_three_parser_blank_password_access_probe",
+  "parser_versions": {
+    "pypdf": "6.16.2",
+    "PyMuPDF": "1.28.2",
+    "pikepdf": "10.12.0",
+    "cryptography": "50.0.1"
+  },
+  "parser_consensus": {
+    "pypdf": "39/39 encrypted=true; blank password NOT_DECRYPTED; FileNotDecryptedError",
+    "PyMuPDF": "39/39 needs_password=true; blank authenticate result 0; text access ValueError",
+    "pikepdf": "39/39 blank-password open=false; PasswordError"
+  },
+  "input": "data/catalog/ltmd_u2_source_admission_2026_09_02.csv",
+  "materialization": {
+    "canonical_csv": "data/catalog/ltmd_u2_text_access_observation_2026_09_02.csv",
+    "canonical_csv_sha256": "ee884bef7cfaa6265133a4504f3df34aca9d4d9018e7aa636c5fa76240cfa912"
+  },
+  "experimental_provenance": {
+    "pilot_run_id": 33655284272,
+    "pilot_head_sha": "5af45798a5d1e0cfdeb16d32d14a58f4f016ac8a",
+    "pilot_artifact_id": 9856455028,
+    "pilot_artifact_sha256": "c5cfece4397591400eef56daf2783a7f7eb3e8623946547a6b6c0ae9f6df4ae4",
+    "full_universe_run_id": 33655606562,
+    "full_universe_head_sha": "d81338cae13d2448c420ac00a52e53c936fb83ae",
+    "full_universe_artifact_id": 9856646645,
+    "full_universe_artifact_sha256": "f9f4b1320fec86b0a5ccdb36e699a75dc72b370ac87d9cf9c755811ce44f384c",
+    "raw_csv_sha256": "287d843f3265a6ee456db9544142288f39cbc0c06bf5be571f4157ecd97ad042",
+    "raw_json_sha256": "5cb421edb9d29e3d489dafae0489d4134f5a735e1cdd5092e89e326a57482e89"
+  },
+  "interpretation": "The observation establishes password-required content-access blocking under the pinned parser implementations. It does not establish absence of embedded text, OCR availability, OCR necessity, verified text, open licensing, or semantic readiness.",
+  "rights_state": "third_party_source_not_redistributable_by_default",
+  "epistemic_guards": [
+    "source_admitted != embedded_text_observed",
+    "content_access_blocked != no_embedded_text",
+    "content_access_blocked != ocr_needed",
+    "ocr_available != text_verified",
+    "publicly_accessible != openly_licensed"
+  ]
+}
