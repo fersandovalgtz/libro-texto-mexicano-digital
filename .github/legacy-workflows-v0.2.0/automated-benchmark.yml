@@ -1,0 +1,115 @@
+name: LTMD Automated Benchmark
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'VERSION'
+      - 'CITATION.cff'
+      - 'codemeta.json'
+      - 'README.md'
+      - 'DATA_LICENSE.md'
+      - 'docs/AUTOMATED_WORK_CEILING_0_1.md'
+      - 'docs/LTMD_AUTOMATED_BENCHMARK_0_1.md'
+      - 'docs/LTMD_DOCUMENTARY_GENEALOGY_BENCHMARK_0_2.md'
+      - 'docs/LTMD_HISTORICAL_CONTEXT_AND_RIGHTS.md'
+      - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'data/catalog/conaliteg_primaria_2026_2027_inventory.csv'
+      - 'data/analytics/*materialization*.json'
+      - 'data/benchmarks/**'
+      - 'schemas/ltmd_automated_benchmark_0_1.schema.json'
+      - 'schemas/ltmd_documentary_genealogy_benchmark_0_2.schema.json'
+      - 'scripts/run_automated_benchmark.py'
+      - 'scripts/run_documentary_genealogy_benchmark.py'
+      - 'scripts/build_u1_ngrams.py'
+      - 'scripts/build_u1_cooccurrences.py'
+      - 'scripts/build_u1_reuse_similarity.py'
+      - 'tests/test_build_u1_ngrams.py'
+      - 'tests/test_build_u1_cooccurrences.py'
+      - 'tests/test_build_u1_reuse_similarity.py'
+      - 'tests/test_documentary_genealogy_benchmark.py'
+      - 'tests/test_documentary_genealogy_schema.py'
+      - 'requirements-analytics-build.txt'
+      - '.github/workflows/automated-benchmark.yml'
+  push:
+    branches:
+      - main
+      - 'science/automated-benchmark-*'
+    paths:
+      - 'VERSION'
+      - 'CITATION.cff'
+      - 'codemeta.json'
+      - 'README.md'
+      - 'DATA_LICENSE.md'
+      - 'docs/AUTOMATED_WORK_CEILING_0_1.md'
+      - 'docs/LTMD_AUTOMATED_BENCHMARK_0_1.md'
+      - 'docs/LTMD_DOCUMENTARY_GENEALOGY_BENCHMARK_0_2.md'
+      - 'docs/LTMD_HISTORICAL_CONTEXT_AND_RIGHTS.md'
+      - 'data/catalog/ltmd_u1_retained_source_register.csv'
+      - 'data/catalog/conaliteg_primaria_2026_2027_inventory.csv'
+      - 'data/analytics/*materialization*.json'
+      - 'data/benchmarks/**'
+      - 'schemas/ltmd_automated_benchmark_0_1.schema.json'
+      - 'schemas/ltmd_documentary_genealogy_benchmark_0_2.schema.json'
+      - 'scripts/run_automated_benchmark.py'
+      - 'scripts/run_documentary_genealogy_benchmark.py'
+      - 'scripts/build_u1_ngrams.py'
+      - 'scripts/build_u1_cooccurrences.py'
+      - 'scripts/build_u1_reuse_similarity.py'
+      - 'tests/test_build_u1_ngrams.py'
+      - 'tests/test_build_u1_cooccurrences.py'
+      - 'tests/test_build_u1_reuse_similarity.py'
+      - 'tests/test_documentary_genealogy_benchmark.py'
+      - 'tests/test_documentary_genealogy_schema.py'
+      - 'requirements-analytics-build.txt'
+      - '.github/workflows/automated-benchmark.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  automated-benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install contract validator
+        run: python -m pip install --disable-pip-version-check jsonschema
+      - name: Run LTMD Automated Benchmark 0.1
+        run: python scripts/run_automated_benchmark.py --check --output /tmp/ltmd_automated_benchmark_0_1.json
+      - name: Validate benchmark JSON contract
+        run: |
+          python - <<'PY'
+          import json
+          from jsonschema import Draft202012Validator
+          schema = json.load(open('schemas/ltmd_automated_benchmark_0_1.schema.json', encoding='utf-8'))
+          result = json.load(open('/tmp/ltmd_automated_benchmark_0_1.json', encoding='utf-8'))
+          Draft202012Validator.check_schema(schema)
+          Draft202012Validator(schema).validate(result)
+          assert result['status'] == 'PASS'
+          assert result['human_validation'] is False
+          assert result['construct_validity_claimed'] is False
+          print('LTMD Automated Benchmark contract: VALID')
+          PY
+      - name: Show deterministic benchmark result
+        run: cat /tmp/ltmd_automated_benchmark_0_1.json
+
+  synthetic-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install synthetic-contract dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-analytics-build.txt pytest jsonschema
+      - name: Run production-code synthetic and metamorphic contracts
+        run: >-
+          python -m pytest -q
+          tests/test_build_u1_ngrams.py
+          tests/test_build_u1_cooccurrences.py
+          tests/test_build_u1_reuse_similarity.py
+          tests/test_documentary_genealogy_benchmark.py
+          tests/test_documentary_genealogy_schema.py
