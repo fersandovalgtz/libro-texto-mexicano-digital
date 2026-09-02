@@ -20,7 +20,7 @@
   },
   "materialization": {
     "canonical_csv": "data/catalog/ltmd_u2_source_admission_2026_09_02.csv",
-    "canonical_csv_sha256": "6d1de2fdd3741b75c7aca761bdf8f838770f53a6f9cc53ca83dfd17c7b903686"
+    "canonical_csv_sha256": "c5f70177a4425a1fc7ec45fc5252cd36ef195e60e99de646588ad08382649827"
   },
   "experimental_provenance": {
     "full_universe_run_id": 33652358626,
