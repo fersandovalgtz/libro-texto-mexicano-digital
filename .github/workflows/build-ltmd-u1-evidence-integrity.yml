@@ -25,7 +25,7 @@ on:
     types: [completed]
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: build-ltmd-u1-evidence-integrity
@@ -39,24 +39,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Build and publish deterministic integrity ledger
+
+      - name: Build deterministic integrity ledger
         shell: bash
         run: |
           set -euo pipefail
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          for attempt in 1 2 3; do
-            git fetch origin main
-            git reset --hard origin/main
-            python3 scripts/build_ltmd_u1_evidence_integrity.py
-            git add data/catalog/ltmd_u1_evidence_integrity.csv docs/LTMD_U1_EVIDENCE_INTEGRITY.md
-            if git diff --cached --quiet; then
-              exit 0
-            fi
-            git commit -m 'data: refresh U1 public evidence integrity ledger'
-            if git push origin HEAD:main; then
-              exit 0
-            fi
-            sleep $((attempt * 2))
-          done
-          exit 1
+          python3 scripts/build_ltmd_u1_evidence_integrity.py
+          if git diff --quiet -- data/catalog/ltmd_u1_evidence_integrity.csv docs/LTMD_U1_EVIDENCE_INTEGRITY.md; then
+            echo 'Integrity ledger is already synchronized with the checked-out revision.'
+          else
+            echo '::notice::Generated integrity ledger differs from the checked-out revision; review the uploaded artifact and promote changes through a pull request.'
+            git diff --stat -- data/catalog/ltmd_u1_evidence_integrity.csv docs/LTMD_U1_EVIDENCE_INTEGRITY.md
+          fi
+
+      - name: Upload generated integrity ledger
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-evidence-integrity
+          path: |
+            data/catalog/ltmd_u1_evidence_integrity.csv
+            docs/LTMD_U1_EVIDENCE_INTEGRITY.md
+          if-no-files-found: error
+          retention-days: 14

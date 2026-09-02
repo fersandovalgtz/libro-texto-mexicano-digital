@@ -18,7 +18,7 @@ on:
       - 'README.md'
       - 'README.en.md'
       - 'docs/RELEASE_NOTES_*.md'
-      - '.github/workflows/test-ltmd-analytics.yml'
+      - '.github/workflows/**'
   push:
     branches: [main]
     paths:
@@ -36,7 +36,7 @@ on:
       - 'README.md'
       - 'README.en.md'
       - 'docs/RELEASE_NOTES_*.md'
-      - '.github/workflows/test-ltmd-analytics.yml'
+      - '.github/workflows/**'
 
 permissions:
   contents: read
