@@ -9,6 +9,7 @@
 
 <p align="center">
   <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0"><img src="https://img.shields.io/badge/release-v0.2.0-172033?style=flat-square" alt="Release v0.2.0"></a>
+  <a href="https://doi.org/10.5281/zenodo.22243207"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.22243207-4b5563?style=flat-square" alt="Zenodo concept DOI"></a>
   <a href="CITATION.cff"><img src="https://img.shields.io/badge/citation-CFF%201.2-4b5563?style=flat-square" alt="CFF 1.2"></a>
   <a href="codemeta.json"><img src="https://img.shields.io/badge/metadata-CodeMeta%203.1-3b5b92?style=flat-square" alt="CodeMeta 3.1"></a>
   <a href="FAIR_ASSESSMENT.md"><img src="https://img.shields.io/badge/FAIR%2FFAIR4RS-self--assessment-2d6a4f?style=flat-square" alt="FAIR FAIR4RS"></a>
@@ -46,7 +47,8 @@ Reference corpus cut: **31 August 2026**. Stable software release: **1 September
 | Canonical processing objects | **492 / 542 (90.77%)** |
 | Human semantic validation | **0 / 542** |
 | Scientific release | **v0.2.0** |
-| LTMD DOI | **pending archival deposit; not pre-declared** |
+| Version DOI | **10.5281/zenodo.22243208** |
+| Concept DOI (all versions) | **10.5281/zenodo.22243207** |
 
 The current operational plan is [`docs/LTMD_U1_MASTER_PLAN_0_3.md`](docs/LTMD_U1_MASTER_PLAN_0_3.md). The **18 identities** still outside effective technical coverage are consolidated one-by-one in [`data/catalog/ltmd_u1_retained_source_register.csv`](data/catalog/ltmd_u1_retained_source_register.csv), with resolution policy and provenance requirements in [`docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md`](docs/LTMD_U1_RETAINED_SOURCE_REGISTER.md).
 
@@ -116,7 +118,7 @@ LTMD exposes human- and machine-readable metadata through:
 - GitHub releases and reproducibility records;
 - governance, provenance, contribution, and licensing documentation.
 
-A DOI will only be added after a real and verifiable archival deposit exists.
+Zenodo archived `v0.2.0` under the version DOI **10.5281/zenodo.22243208**. The concept DOI **10.5281/zenodo.22243207** represents the software across all Zenodo versions and resolves to the latest archived version.
 
 ## Rights and licenses
 
@@ -128,9 +130,9 @@ These licenses do **not** automatically apply to source books, PDFs, JPEGs, cove
 
 GitHub can generate citation formats from [`CITATION.cff`](CITATION.cff). For stable scientific release `v0.2.0`:
 
-> Sandoval Gutierrez, Fernando. 2026. *Libro de Texto Mexicano Digital*, version 0.2.0. GitHub release. https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0
+> Sandoval Gutierrez, Fernando. 2026. *Libro de Texto Mexicano Digital*, version 0.2.0. Zenodo. https://doi.org/10.5281/zenodo.22243208
 
-Once Zenodo or another archival service assigns a persistent identifier to the real deposit, the DOI will be added consistently to the scholarly metadata and citation surface.
+For references intended to track **all future versions**, use the concept DOI: https://doi.org/10.5281/zenodo.22243207.
 
 ## Project lead
 
