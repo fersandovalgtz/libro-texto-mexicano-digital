@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "Si utiliza este proyecto, cite la versión archivada correspondiente. Esta metadata describe la versión científica estable v0.2.0; el DOI se añadirá únicamente después de una publicación real y verificable en Zenodo."
+message: "Si utiliza este proyecto, cite la versión archivada correspondiente en Zenodo. Para v0.2.0 utilice el DOI específico de versión indicado abajo."
 title: "Libro de Texto Mexicano Digital"
 type: software
 authors:
@@ -8,8 +8,9 @@ authors:
     orcid: "https://orcid.org/0000-0002-3168-6725"
 version: "0.2.0"
 date-released: 2026-09-01
+doi: "10.5281/zenodo.22243208"
 repository-code: "https://github.com/fersandovalgtz/libro-texto-mexicano-digital"
-url: "https://github.com/fersandovalgtz/libro-texto-mexicano-digital"
+url: "https://doi.org/10.5281/zenodo.22243208"
 license: "Apache-2.0"
 keywords:
   - libros de texto

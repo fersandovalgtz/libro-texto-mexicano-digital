@@ -9,6 +9,7 @@
 
 <p align="center">
   <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0"><img src="https://img.shields.io/badge/release-v0.2.0-172033?style=flat-square" alt="Release v0.2.0"></a>
+  <a href="https://doi.org/10.5281/zenodo.22243207"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.22243207-4b5563?style=flat-square" alt="DOI conceptual de Zenodo"></a>
   <a href="CITATION.cff"><img src="https://img.shields.io/badge/citación-CFF%201.2-4b5563?style=flat-square" alt="CFF 1.2"></a>
   <a href="codemeta.json"><img src="https://img.shields.io/badge/metadatos-CodeMeta%203.1-3b5b92?style=flat-square" alt="CodeMeta 3.1"></a>
   <a href="FAIR_ASSESSMENT.md"><img src="https://img.shields.io/badge/FAIR%2FFAIR4RS-autoevaluación-2d6a4f?style=flat-square" alt="FAIR FAIR4RS"></a>
@@ -66,7 +67,8 @@ Corte documental de referencia: **31 de agosto de 2026**. Release estable de sof
 | Objetos canónicos de procesamiento | **492 / 542 (90.77%)** |
 | Validación semántica humana | **0 / 542** |
 | Release científica | **v0.2.0** |
-| DOI de LTMD | **pendiente de depósito; no se anticipa** |
+| DOI de versión | **10.5281/zenodo.22243208** |
+| DOI conceptual (todas las versiones) | **10.5281/zenodo.22243207** |
 
 ### Cobertura U1
 
@@ -172,7 +174,7 @@ LTMD expone metadatos para humanos y máquinas mediante:
 - releases de GitHub con notas y reportes de reproducibilidad;
 - documentación de procedencia, gobernanza y licencias.
 
-**No se declara DOI de LTMD hasta que exista un depósito real y verificable.** Esta decisión evita crear identificadores ficticios o inconsistentes entre GitHub y un archivo de preservación.
+Zenodo archivó `v0.2.0` con el DOI específico de versión **10.5281/zenodo.22243208**. El DOI conceptual **10.5281/zenodo.22243207** representa el software a través de todas sus versiones depositadas en Zenodo y resuelve a la versión archivada más reciente.
 
 ## Derechos y licencias
 
@@ -188,9 +190,9 @@ Las contribuciones son bienvenidas cuando preservan procedencia, reproducibilida
 
 GitHub puede generar citas desde [`CITATION.cff`](CITATION.cff). Para la release científica estable `v0.2.0`:
 
-> Sandoval Gutierrez, Fernando. 2026. *Libro de Texto Mexicano Digital*, versión 0.2.0. GitHub release. https://github.com/fersandovalgtz/libro-texto-mexicano-digital/releases/tag/v0.2.0
+> Sandoval Gutierrez, Fernando. 2026. *Libro de Texto Mexicano Digital*, versión 0.2.0. Zenodo. https://doi.org/10.5281/zenodo.22243208
 
-Cuando exista un depósito real en Zenodo u otro archivo con identificador persistente, el DOI deberá incorporarse de forma coherente a `CITATION.cff`, `codemeta.json`, la release y esta sección.
+Para referencias que deban seguir **todas las versiones futuras**, utilice el DOI conceptual: https://doi.org/10.5281/zenodo.22243207.
 
 ## Responsable
 
