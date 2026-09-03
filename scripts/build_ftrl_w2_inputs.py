@@ -13,14 +13,18 @@ import re
 from collections import Counter
 from pathlib import Path
 
-VERSION = "LTMD_U1_W2_FTRL_INPUTS_0.1"
+VERSION = "LTMD_U1_W2_FTRL_INPUTS_0.2"
 EXPECTED_HISTORICAL = 64
-EXPECTED_ADMITTED = 60
-EXPECTED_CANONICAL = 57
+EXPECTED_ADMITTED = 64
+EXPECTED_CANONICAL = 61
 EXPECTED_ALIASES = 3
-EXPECTED_WITHHELD = 4
-EXPECTED_PAGES = 11945
-WITHHELD = {"H2018P3DMA", "H2018P4DMA", "H2018P5DMA", "H2018P6DMA"}
+EXPECTED_PAGES = 12837
+DMA_2018_PAGES = {
+    "H2018P3DMA": 225,
+    "H2018P4DMA": 257,
+    "H2018P5DMA": 225,
+    "H2018P6DMA": 185,
+}
 EXPECTED_ALIAS = {
     "H1982P4MA388": "H1972P4MA083",
     "H1982P5MA394": "H1972P5MA089",
@@ -73,11 +77,11 @@ def main() -> None:
     assert set(summary_by) == set(scope_by)
 
     ready = {k for k, r in summary_by.items() if n(r, "effective_asset_ready") == 1}
-    withheld = set(scope_by) - ready
+    unresolved = set(scope_by) - ready
     assert len(ready) == EXPECTED_ADMITTED
-    assert len(withheld) == EXPECTED_WITHHELD
-    assert withheld == WITHHELD
-    assert all(n(summary_by[k], "effective_unresolved") > 0 for k in WITHHELD)
+    assert not unresolved, unresolved
+    assert set(DMA_2018_PAGES) <= ready
+    assert all(n(summary_by[k], "effective_unresolved") == 0 for k in DMA_2018_PAGES)
 
     alias_map = {
         r["viewer_key"]: r["canonical_viewer_key"]
@@ -92,6 +96,7 @@ def main() -> None:
     canonical_keys = ready - set(alias_map)
     assert len(canonical_keys) == EXPECTED_CANONICAL
     assert set(alias_map.values()) <= canonical_keys
+    assert set(DMA_2018_PAGES) <= canonical_keys
 
     pfields = [
         "processing_version", "viewer_key", "catalog_generation", "grade_code", "title_core",
@@ -108,6 +113,8 @@ def main() -> None:
         assert n(s, "effective_unresolved") == 0
         assert n(s, "effective_real_jpeg") > 0
         assert n(s, "declared_rows") == n(s, "effective_real_jpeg") + n(s, "terminal_synthetic")
+        if viewer in DMA_2018_PAGES:
+            assert n(s, "effective_real_jpeg") == DMA_2018_PAGES[viewer]
         pout.append({
             "processing_version": VERSION,
             "viewer_key": viewer,
@@ -123,9 +130,9 @@ def main() -> None:
             "persistent_internal_source_gaps": 0,
             "source_processing_basis": f"{s['reconcile_version']}:effective_asset_ready",
             "interpretive_limit": (
-                "technical FTRL only; four DMA 2018 identities remain active retentions; "
+                "technical FTRL only; DMA 2018 routing is resolved from institutional source evidence; "
                 "three admitted historical identities are exact full-sequence aliases; "
-                "OCR availability does not imply text verification or semantic validation"
+                "OCR availability does not imply human text verification or semantic validation"
             ),
         })
     assert len(pout) == EXPECTED_CANONICAL
@@ -176,7 +183,8 @@ def main() -> None:
     assert counts == expected_counts, (counts - expected_counts, expected_counts - counts)
     assert len(aout) == len(seen) == EXPECTED_PAGES
     assert sum(expected_counts.values()) == EXPECTED_PAGES
-    assert not ({r["viewer_key"] for r in aout} & WITHHELD)
+    assert {k: counts[k] for k in DMA_2018_PAGES} == DMA_2018_PAGES
+    assert sum(counts[k] for k in DMA_2018_PAGES) == 892
     assert not ({r["viewer_key"] for r in aout} & set(EXPECTED_ALIAS))
 
     write(Path(args.processing_output), pout, pfields)
@@ -184,7 +192,8 @@ def main() -> None:
     print(
         "Built W2 FTRL inputs: "
         f"historical={EXPECTED_HISTORICAL}, admitted={EXPECTED_ADMITTED}, "
-        f"canonical={len(pout)}, aliases={len(alias_map)}, withheld={len(withheld)}, pages={len(aout)}"
+        f"canonical={len(pout)}, aliases={len(alias_map)}, pages={len(aout)}, "
+        "dma2018=4/892"
     )
 
 
