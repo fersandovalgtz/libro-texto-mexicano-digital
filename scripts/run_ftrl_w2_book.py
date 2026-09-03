@@ -19,12 +19,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 EXPECTED_HISTORICAL = 64
-EXPECTED_ADMITTED = 60
-EXPECTED_CANONICAL = 57
+EXPECTED_ADMITTED = 64
+EXPECTED_CANONICAL = 61
 EXPECTED_ALIASES = 3
-EXPECTED_WITHHELD = 4
-EXPECTED_TOTAL = 11945
-SCHEMA = "LTMD_FTRL_W2_BOOK_UNIT_0.1"
+EXPECTED_WITHHELD = 0
+EXPECTED_TOTAL = 12837
+SCHEMA = "LTMD_FTRL_W2_BOOK_UNIT_0.2"
 NETWORK_RETRY_ATTEMPTS = 4
 NETWORK_RETRY_MARKERS = (
     "urlerror", "timeouterror", "timed out", "temporary failure",
@@ -258,13 +258,14 @@ def main() -> None:
         "text_free_products": [descriptor(unit_asset), descriptor(run_manifest), descriptor(qc_summary)],
         "execution": rm.get("execution"),
         "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "text_verified": False,
+        "semantic_ready": False,
         "epistemic_guards": [
-            "computationally_validated != archival_complete",
+            "routing_resolved != downstream_processed",
+            "downstream_processed != ftrl_validated",
+            "ftrl_validated != text_verified",
+            "text_verified != semantic_ready",
             "ocr_available != text_verified",
-            "corpus_ready != semantic_ready",
-            "source_alias_requires_full_sequence_byte_identity",
-            "retained_source_identity != alias_candidate",
-            "dma_2018 != dma_2019_without_documentary_or_cryptographic_proof",
             "search_hit != historical_claim",
             "zero_hits != demonstrated_absence",
         ],
