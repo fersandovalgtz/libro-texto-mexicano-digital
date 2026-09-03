@@ -1,0 +1,286 @@
+name: Extend W2 DMA 2018 OCR PAGESTRUCT FRAGSEG
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [science/w2-dma2018-structural-167]
+    paths:
+      - '.github/workflows/extend-w2-dma2018-structural.yml'
+      - 'scripts/ocr_ltmd_u1_w2_math_dma2018_book.py'
+      - 'scripts/extend_ltmd_u1_w2_math_dma2018_layers.py'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: w2-dma2018-structural-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  DMA_JSON: '{"H2018P3DMA":225,"H2018P4DMA":257,"H2018P5DMA":225,"H2018P6DMA":185}'
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      viewers: ${{ steps.matrix.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile incremental scripts
+        run: |
+          python -m py_compile \
+            scripts/ocr_ltmd_u1_w2_math_dma2018_book.py \
+            scripts/extend_ltmd_u1_w2_math_dma2018_layers.py
+      - name: Prove immutable 57-book structural base
+        id: matrix
+        run: |
+          python - <<'PY'
+          import csv,json,os
+          dma=json.loads(os.environ['DMA_JSON'])
+          def read(p):
+              with open(p,encoding='utf-8',newline='') as f:return list(csv.DictReader(f))
+          ocr=read('data/catalog/ltmd_u1_w2_math_ocr_metrics.csv')
+          ps=read('data/catalog/ltmd_u1_w2_math_page_structure.csv')
+          frag=read('data/catalog/ltmd_u1_w2_math_fragment_manifest.csv')
+          assert len(ocr)==11945, len(ocr)
+          assert len(ps)==11945, len(ps)
+          assert len({r['viewer_key'] for r in ocr})==57
+          assert len({r['viewer_key'] for r in ps})==57
+          assert not (set(dma)&{r['viewer_key'] for r in ocr})
+          assert not (set(dma)&{r['viewer_key'] for r in ps})
+          assert not (set(dma)&{r['viewer_key'] for r in frag})
+          assert {r['ocr_version'] for r in ocr}=={'LTMD_U1_W2_MATH_OCR_0.2'}
+          assert {r['classifier_version'] for r in ps}=={'PAGESTRUCT_LTMD_U1_W2_MATH_0.2'}
+          assert {r['segmenter_version'] for r in frag}=={'FRAGSEG_LTMD_U1_W2_MATH_0.2'}
+          viewers=list(dma)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              print('viewers='+json.dumps(viewers,separators=(',',':')),file=f)
+          print('immutable base proven: 57 canonical / 11945 pages; DMA absent')
+          PY
+
+  ocr:
+    needs: gate
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        viewer: ${{ fromJSON(needs.gate.outputs.viewers) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+      - name: Compute text-free OCR metrics for one DMA book
+        run: |
+          python scripts/ocr_ltmd_u1_w2_math_dma2018_book.py \
+            --viewer-key '${{ matrix.viewer }}' \
+            --output-dir data/work/ltmd_u1_w2_math_ocr_dma2018
+      - uses: actions/upload-artifact@v4
+        with:
+          name: w2-dma2018-ocr-${{ matrix.viewer }}
+          path: data/work/ltmd_u1_w2_math_ocr_dma2018/*.csv
+          if-no-files-found: error
+          retention-days: 3
+
+  pagestruct:
+    needs: ocr
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: w2-dma2018-ocr-*
+          path: data/work/ltmd_u1_w2_math_ocr_dma2018
+          merge-multiple: true
+      - name: Merge four OCR shards into immutable base
+        run: |
+          python scripts/extend_ltmd_u1_w2_math_dma2018_layers.py merge-ocr \
+            --input-dir data/work/ltmd_u1_w2_math_ocr_dma2018
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+      - name: Extract structural flags only for DMA 2018
+        run: |
+          for v in H2018P3DMA H2018P4DMA H2018P5DMA H2018P6DMA; do
+            python scripts/extract_ltmd_u1_w2_math_structural_flags_book.py \
+              --viewer-key "$v" \
+              --output-dir data/work/ltmd_u1_w2_math_structkw_dma2018
+          done
+      - name: Extend PAGESTRUCT without recomputing historical 57
+        run: |
+          python scripts/extend_ltmd_u1_w2_math_dma2018_layers.py merge-pagestruct \
+            --input-dir data/work/ltmd_u1_w2_math_structkw_dma2018
+      - name: Stage text-free structural layer
+        run: |
+          mkdir -p local/w2-dma2018-structural
+          cp data/catalog/ltmd_u1_w2_math_ocr_metrics.csv local/w2-dma2018-structural/
+          cp data/catalog/ltmd_u1_w2_math_ocr_summary.csv local/w2-dma2018-structural/
+          cp data/catalog/ltmd_u1_w2_math_ocr.md local/w2-dma2018-structural/
+          cp data/catalog/ltmd_u1_w2_math_structural_keyword_flags.csv local/w2-dma2018-structural/
+          cp data/catalog/ltmd_u1_w2_math_page_structure.csv local/w2-dma2018-structural/
+          cp data/catalog/ltmd_u1_w2_math_page_structure_summary.csv local/w2-dma2018-structural/
+          cp data/catalog/ltmd_u1_w2_math_page_structure.md local/w2-dma2018-structural/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: w2-dma2018-structural-layer
+          path: local/w2-dma2018-structural/
+          if-no-files-found: error
+          retention-days: 7
+
+  fragseg:
+    needs: [gate, pagestruct]
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        viewer: ${{ fromJSON(needs.gate.outputs.viewers) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: w2-dma2018-structural-layer
+          path: /tmp/w2-structural
+      - name: Materialize extended PAGESTRUCT dependency
+        run: cp /tmp/w2-structural/ltmd_u1_w2_math_page_structure.csv data/catalog/
+      - name: Install Spanish Tesseract
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+      - name: Segment only one DMA 2018 book
+        run: |
+          python scripts/segment_ltmd_u1_w2_math_fragments_v02.py \
+            --viewer-key '${{ matrix.viewer }}' \
+            --output-dir data/work/ltmd_u1_w2_math_fragments_dma2018
+      - uses: actions/upload-artifact@v4
+        with:
+          name: w2-dma2018-frag-${{ matrix.viewer }}
+          path: data/work/ltmd_u1_w2_math_fragments_dma2018/*.csv
+          if-no-files-found: error
+          retention-days: 3
+
+  finalize:
+    needs: [pagestruct, fragseg]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: w2-dma2018-structural-layer
+          path: /tmp/w2-structural
+      - name: Restore extended OCR and PAGESTRUCT files
+        run: cp /tmp/w2-structural/* data/catalog/
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: w2-dma2018-frag-*
+          path: data/work/ltmd_u1_w2_math_fragments_dma2018
+          merge-multiple: true
+      - name: Extend FRAGSEG and validate complete W2 topology
+        run: |
+          python scripts/extend_ltmd_u1_w2_math_dma2018_layers.py merge-fragments \
+            --input-dir data/work/ltmd_u1_w2_math_fragments_dma2018
+          python scripts/extend_ltmd_u1_w2_math_dma2018_layers.py validate
+      - name: Write text-free extension evidence
+        env:
+          RUN_ID: ${{ github.run_id }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import csv,hashlib,json,os
+          from pathlib import Path
+          dma={'H2018P3DMA':225,'H2018P4DMA':257,'H2018P5DMA':225,'H2018P6DMA':185}
+          paths=[
+            'data/catalog/ltmd_u1_w2_math_ocr_metrics.csv',
+            'data/catalog/ltmd_u1_w2_math_ocr_summary.csv',
+            'data/catalog/ltmd_u1_w2_math_ocr.md',
+            'data/catalog/ltmd_u1_w2_math_structural_keyword_flags.csv',
+            'data/catalog/ltmd_u1_w2_math_page_structure.csv',
+            'data/catalog/ltmd_u1_w2_math_page_structure_summary.csv',
+            'data/catalog/ltmd_u1_w2_math_page_structure.md',
+            'data/catalog/ltmd_u1_w2_math_fragment_manifest.csv',
+            'data/catalog/ltmd_u1_w2_math_fragment_manifest_summary.csv',
+            'data/catalog/ltmd_u1_w2_math_fragment_sequence_gaps.csv',
+            'data/catalog/ltmd_u1_w2_math_fragment_manifest.md',
+          ]
+          files=[]
+          for raw in paths:
+              p=Path(raw);h=hashlib.sha256(p.read_bytes()).hexdigest()
+              files.append({'path':raw,'bytes':p.stat().st_size,'sha256':h})
+          evidence={
+            'schema':'LTMD_U1_W2_DMA2018_STRUCTURAL_EXTENSION_0.1',
+            'status':'computationally_validated',
+            'workflow_run_id':os.environ['RUN_ID'],
+            'source_commit':os.environ['SOURCE_SHA'],
+            'base_policy':'57 historical canonical objects reused without recomputation',
+            'incremental_viewers':list(dma),
+            'incremental_source_pages':sum(dma.values()),
+            'pages_by_viewer':dma,
+            'current_w2':{'historical_identities':64,'canonical_processing_objects':61,'exact_aliases':3,'source_pages':12837,'routing_withheld':0},
+            'layers':['OCR_METRICS','PAGESTRUCT','FRAGSEG'],
+            'files':files,
+            'human_validation_status':'deferred',
+            'text_verified':False,
+            'semantic_ready':False,
+            'rights_issue':2,
+            'epistemic_guards':['automated_validation != human_validation','ftrl_validated != text_verified','text_verified != semantic_ready','publicly_accessible != openly_licensed'],
+          }
+          out=Path('data/research/ltmd_u1_w2_dma2018_structural_extension.json')
+          out.write_text(json.dumps(evidence,indent=2,ensure_ascii=False,sort_keys=True)+'\n',encoding='utf-8')
+          PY
+      - name: Commit only text-free derived outputs to branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            data/catalog/ltmd_u1_w2_math_ocr_metrics.csv \
+            data/catalog/ltmd_u1_w2_math_ocr_summary.csv \
+            data/catalog/ltmd_u1_w2_math_ocr.md \
+            data/catalog/ltmd_u1_w2_math_structural_keyword_flags.csv \
+            data/catalog/ltmd_u1_w2_math_page_structure.csv \
+            data/catalog/ltmd_u1_w2_math_page_structure_summary.csv \
+            data/catalog/ltmd_u1_w2_math_page_structure.md \
+            data/catalog/ltmd_u1_w2_math_fragment_manifest.csv \
+            data/catalog/ltmd_u1_w2_math_fragment_manifest_summary.csv \
+            data/catalog/ltmd_u1_w2_math_fragment_sequence_gaps.csv \
+            data/catalog/ltmd_u1_w2_math_fragment_manifest.md \
+            data/research/ltmd_u1_w2_dma2018_structural_extension.json
+          git diff --cached --check
+          git commit -m 'data(w2): extend OCR PAGESTRUCT FRAGSEG to DMA 2018 (#167)'
+          git push origin HEAD:${GITHUB_REF_NAME}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: w2-dma2018-structural-extension-evidence
+          path: data/research/ltmd_u1_w2_dma2018_structural_extension.json
+          if-no-files-found: error
+          retention-days: 30
+
+  failure-boundary:
+    if: failure()
+    needs: [gate, ocr, pagestruct, fragseg, finalize]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Structural extension incomplete; do not promote #167 or global completion ledger.'
