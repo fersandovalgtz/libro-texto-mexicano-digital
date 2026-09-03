@@ -1,0 +1,287 @@
+name: Run FTRL W2 DMA 2018 downstream
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [science/w2-dma2018-downstream-167]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ftrl-w2-dma2018-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  DMA_EXPECTED: '{"H2018P3DMA":225,"H2018P4DMA":257,"H2018P5DMA":225,"H2018P6DMA":185}'
+
+jobs:
+  config:
+    name: validate-w2-dma2018-config
+    runs-on: ubuntu-latest
+    outputs:
+      viewers: ${{ steps.matrix.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile and rebuild current W2 inputs
+        run: |
+          python -m py_compile scripts/build_ftrl_w2_inputs.py scripts/run_ftrl_w2_book.py
+          python scripts/build_ftrl_w2_inputs.py \
+            --asset-output /tmp/w2_assets.csv \
+            --processing-output /tmp/w2_processing.csv
+      - name: Validate denominator, DMA routing, and immutable base closure
+        id: matrix
+        run: |
+          python - <<'PY'
+          import csv, json, os
+          from collections import Counter
+          from pathlib import Path
+
+          expected = json.loads(os.environ['DMA_EXPECTED'])
+          def read(path):
+              with open(path, encoding='utf-8', newline='') as fh:
+                  return list(csv.DictReader(fh))
+
+          scope = read('data/catalog/ltmd_u1_w2_scope.csv')
+          summary = read('data/catalog/ltmd_u1_w2_math_reconciled_summary.csv')
+          aliases = read('data/catalog/ltmd_u1_w2_math_reconciled_exact_aliases.csv')
+          proc = read('/tmp/w2_processing.csv')
+          assets = read('/tmp/w2_assets.csv')
+          ready = {r['viewer_key'] for r in summary if r['effective_asset_ready'] == '1'}
+          canonical = {r['viewer_key'] for r in proc}
+          alias_keys = {
+              r['viewer_key'] for r in aliases
+              if r['all_effective_pages_byte_identical_aligned'] == '1'
+          }
+          counts = Counter(r['viewer_key'] for r in assets)
+
+          assert len(scope) == len(summary) == 64
+          assert len(ready) == 64
+          assert len(proc) == 61
+          assert len(alias_keys) == 3
+          assert len(assets) == 12837
+          assert ready == canonical | alias_keys
+          assert canonical.isdisjoint(alias_keys)
+          assert set(expected) <= canonical
+          assert all(r['persistent_internal_source_gaps'] == '0' for r in proc)
+          for viewer, pages in expected.items():
+              s = next(r for r in summary if r['viewer_key'] == viewer)
+              assert s['effective_asset_ready'] == '1'
+              assert int(s['effective_unresolved']) == 0
+              assert counts[viewer] == pages
+
+          state = json.loads(Path('data/research/ltmd_u1_ftrl_wave_state.json').read_text())
+          w2 = state['waves']['W2']
+          assert w2['ftrl_status'] == 'validated'
+          assert w2['archival_status'] == 'archival_complete'
+          closure = json.loads(Path(w2['archival_closure_evidence']).read_text())
+          assert closure['archival_complete'] is True
+          assert closure['ftrl']['admitted_historical_identities'] == 60
+          assert closure['ftrl']['canonical_processing_objects'] == 57
+          assert closure['ftrl']['source_pages'] == 11945
+          assert set(closure['source_exceptions']['viewer_keys']) == set(expected)
+
+          viewers = list(expected)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+              print('viewers=' + json.dumps(viewers, separators=(',', ':')), file=fh)
+          print('current W2: 64 admitted / 61 canonical / 3 aliases / 0 retained / 12837 pages')
+          print('increment: 4 DMA 2018 canonical objects / 892 pages')
+          PY
+
+  book:
+    name: dma-${{ matrix.viewer }}
+    needs: config
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        viewer: ${{ fromJSON(needs.config.outputs.viewers) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install OCR runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+          tesseract --list-langs | grep -Fx spa
+          python scripts/validate_private_corpus_storage_contract.py
+      - name: Run deterministic per-book FTRL
+        run: |
+          python scripts/run_ftrl_w2_book.py \
+            --viewer-key '${{ matrix.viewer }}' \
+            --output-dir local/ftrl-w2-dma2018
+      - name: Validate text-free evidence
+        env:
+          VIEWER: ${{ matrix.viewer }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          expected = json.loads(os.environ['DMA_EXPECTED'])
+          viewer = os.environ['VIEWER']
+          data = json.loads(Path(f'local/ftrl-w2-dma2018/{viewer}/w2_{viewer}_evidence.json').read_text())
+          assert data['schema'] == 'LTMD_FTRL_W2_BOOK_UNIT_0.2'
+          assert data['status'] == 'validated'
+          assert data['page_records'] == expected[viewer]
+          part = data['source_partition']
+          assert part['admitted_historical_identities'] == 64
+          assert part['canonical_processing_objects'] == 61
+          assert part['exact_source_aliases'] == 3
+          assert part['withheld_identities'] == 0
+          assert part['full_admitted_canonical_source_pages'] == 12837
+          forbidden = {'ocr_text_raw','search_text','snippet','text','normalized_text'}
+          def walk(x):
+              if isinstance(x, dict):
+                  assert not (forbidden & set(x))
+                  for value in x.values(): walk(value)
+              elif isinstance(x, list):
+                  for value in x: walk(value)
+          walk(data)
+          PY
+      - name: Encrypt restricted outputs before upload
+        env:
+          VIEWER: ${{ matrix.viewer }}
+        run: |
+          set -euo pipefail
+          DIR="local/ftrl-w2-dma2018/${VIEWER}"
+          OUT="local/private-w2-dma2018-${VIEWER}"
+          mkdir -p "$OUT"
+          tar -C "$DIR" -czf "$OUT/restricted.tar.gz" \
+            "w2_${VIEWER}_page_ocr.jsonl" \
+            "w2_${VIEWER}_ocr_search.sqlite" \
+            "w2_${VIEWER}_qc_queue.json" \
+            "w2_${VIEWER}_asset_manifest.csv" \
+            "w2_${VIEWER}_run_manifest.json" \
+            "w2_${VIEWER}_qc_summary.json"
+          openssl rand -base64 48 > /tmp/archive.pass
+          openssl enc -aes-256-cbc -salt -pbkdf2 -iter 250000 \
+            -in "$OUT/restricted.tar.gz" -out "$OUT/restricted.tar.gz.enc" \
+            -pass file:/tmp/archive.pass
+          openssl pkeyutl -encrypt -pubin -inkey security/ltmd_archive_public.pem \
+            -in /tmp/archive.pass -out "$OUT/passphrase.rsa-oaep.enc" \
+            -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256
+          sha256sum "$OUT/restricted.tar.gz.enc" "$OUT/passphrase.rsa-oaep.enc" > "$OUT/SHA256SUMS.txt"
+          rm -f "$OUT/restricted.tar.gz" /tmp/archive.pass
+          test ! -f "$OUT/restricted.tar.gz"
+      - name: Write encrypted handoff manifest
+        env:
+          VIEWER: ${{ matrix.viewer }}
+          GH_RUN_ID: ${{ github.run_id }}
+          GH_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          viewer = os.environ['VIEWER']
+          out = Path(f'local/private-w2-dma2018-{viewer}')
+          public_key = Path('security/ltmd_archive_public.pem')
+          assert hashlib.sha256(public_key.read_bytes()).hexdigest() == '78852eafbaa332247f99e23508ac157b5b906c6c3bf3aeb0af1dfe8d57579c2d'
+          def desc(name):
+              p = out / name
+              return {'name':name,'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
+          evidence = json.loads(Path(f'local/ftrl-w2-dma2018/{viewer}/w2_{viewer}_evidence.json').read_text())
+          manifest = {
+              'schema':'LTMD_PRIVATE_FTRL_W2_DMA2018_HANDOFF_0.1',
+              'viewer_key':viewer,
+              'page_records':evidence['page_records'],
+              'source_commit':os.environ['GH_SHA'],
+              'workflow_run_id':os.environ['GH_RUN_ID'],
+              'files':[desc('restricted.tar.gz.enc'),desc('passphrase.rsa-oaep.enc'),desc('SHA256SUMS.txt')],
+              'plaintext_restricted_outputs_uploaded':False,
+              'archival_complete':False,
+              'text_verified':False,
+              'semantic_ready':False,
+              'human_validation_status':'deferred',
+          }
+          (out/'handoff_manifest.json').write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w2-dma2018-${{ matrix.viewer }}-private-encrypted
+          path: local/private-w2-dma2018-${{ matrix.viewer }}/
+          if-no-files-found: error
+          retention-days: 3
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w2-dma2018-${{ matrix.viewer }}-text-free-evidence
+          path: |
+            local/ftrl-w2-dma2018/${{ matrix.viewer }}/w2_${{ matrix.viewer }}_evidence.json
+            local/ftrl-w2-dma2018/${{ matrix.viewer }}/w2_${{ matrix.viewer }}_run_manifest.json
+            local/ftrl-w2-dma2018/${{ matrix.viewer }}/w2_${{ matrix.viewer }}_qc_summary.json
+            local/ftrl-w2-dma2018/${{ matrix.viewer }}/w2_${{ matrix.viewer }}_asset_manifest.csv
+          if-no-files-found: error
+          retention-days: 30
+
+  aggregate:
+    name: validate-w2-dma2018-incremental-union
+    needs: book
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w2-dma2018-*-text-free-evidence
+          path: local/evidence
+      - name: Validate exact incremental union
+        env:
+          GH_RUN_ID: ${{ github.run_id }}
+          GH_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          expected = json.loads(os.environ['DMA_EXPECTED'])
+          files = list(Path('local/evidence').rglob('w2_*_evidence.json'))
+          assert len(files) == 4, files
+          rows = [json.loads(p.read_text()) for p in files]
+          by = {r['viewer_key']:r for r in rows}
+          assert set(by) == set(expected)
+          hashes = []
+          for viewer, pages in expected.items():
+              row = by[viewer]
+              assert row['status'] == 'validated'
+              assert row['page_records'] == pages
+              assert len(row['page_key_hashes']) == pages
+              hashes += row['page_key_hashes']
+          assert len(hashes) == len(set(hashes)) == 892
+          out = {
+              'schema':'LTMD_U1_W2_DMA2018_INCREMENTAL_EVIDENCE_0.1',
+              'status':'computationally_validated',
+              'source_commit':os.environ['GH_SHA'],
+              'workflow_run_id':os.environ['GH_RUN_ID'],
+              'incremental_partition':{'canonical_processing_objects':4,'source_pages':892,'pages_by_viewer':expected},
+              'current_w2_source_partition':{'historical_identities':64,'admitted_historical_identities':64,'canonical_processing_objects':61,'exact_source_aliases':3,'withheld_identities':0,'source_pages':12837},
+              'page_key_hash_count':892,
+              'page_key_hashes_unique':True,
+              'archival_complete':False,
+              'text_verified':False,
+              'semantic_ready':False,
+              'human_validation_status':'deferred',
+              'epistemic_guards':['routing_resolved != downstream_processed','downstream_processed != ftrl_validated','computationally_validated != archival_complete','automated_validation != human_validation','ftrl_validated != text_verified','text_verified != semantic_ready'],
+          }
+          Path('local/ltmd_u1_w2_dma2018_incremental_evidence.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'status':'ok','books':4,'pages':892}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w2-dma2018-global-text-free-evidence
+          path: local/ltmd_u1_w2_dma2018_incremental_evidence.json
+          if-no-files-found: error
+          retention-days: 30
+
+  failure-boundary:
+    name: preserve-non-promotion-on-failure
+    if: failure()
+    needs: [config, book, aggregate]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'No completion-ledger promotion is authorized by a failed run.'
