@@ -1,0 +1,292 @@
+name: Run FTRL W2 DMA 2018 delta
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/build_ftrl_w2_inputs.py'
+      - 'scripts/run_ftrl_w2_book.py'
+      - 'scripts/validate_ftrl_w2_dma_2018.py'
+      - '.github/workflows/run-ftrl-w2-dma-2018.yml'
+      - 'data/catalog/ltmd_u1_w2_math_reconciled_summary.csv'
+      - 'data/catalog/ltmd_u1_w2_math_reconciled_manifest.csv'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ftrl-w2-dma-2018-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  config-gate:
+    name: validate-w2-dma-2018-config
+    runs-on: ubuntu-latest
+    outputs:
+      viewers: ${{ steps.matrix.outputs.viewers }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile W2 delta scripts
+        run: python -m py_compile scripts/build_ftrl_w2_inputs.py scripts/run_ftrl_w2_book.py scripts/validate_ftrl_w2_dma_2018.py
+      - name: Rebuild current W2 inputs without network
+        run: |
+          python scripts/build_ftrl_w2_inputs.py \
+            --asset-output /tmp/w2_asset_manifest.csv \
+            --processing-output /tmp/w2_processing_inventory.csv
+      - name: Validate current denominator and exact DMA delta
+        id: matrix
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv, json, os
+          from collections import Counter
+
+          dma = {
+              'H2018P3DMA': 225,
+              'H2018P4DMA': 257,
+              'H2018P5DMA': 225,
+              'H2018P6DMA': 185,
+          }
+          aliases = {
+              'H1982P4MA388': 'H1972P4MA083',
+              'H1982P5MA394': 'H1972P5MA089',
+              'H1982P6MA399': 'H1972P6MA094',
+          }
+          def read(path):
+              with open(path, encoding='utf-8', newline='') as fh:
+                  return list(csv.DictReader(fh))
+
+          assets = read('/tmp/w2_asset_manifest.csv')
+          proc = read('/tmp/w2_processing_inventory.csv')
+          scope = read('data/catalog/ltmd_u1_w2_scope.csv')
+          summary = read('data/catalog/ltmd_u1_w2_math_reconciled_summary.csv')
+          alias_rows = read('data/catalog/ltmd_u1_w2_math_reconciled_exact_aliases.csv')
+          ready = {r['viewer_key'] for r in summary if r['effective_asset_ready'] == '1'}
+          canonical = {r['viewer_key'] for r in proc}
+          observed_aliases = {
+              r['viewer_key']: r['canonical_viewer_key']
+              for r in alias_rows if r['all_effective_pages_byte_identical_aligned'] == '1'
+          }
+          assert len(scope) == 64 and len(summary) == 64
+          assert len(ready) == 64
+          assert observed_aliases == aliases
+          assert len(proc) == 61 and len(assets) == 12837
+          assert ready == canonical | set(aliases)
+          assert canonical.isdisjoint(set(aliases))
+          assert set(dma) <= canonical
+          assert all(r['is_canonical_processing_object'] == '1' for r in proc)
+          assert all(r['technical_identity_covered'] == '1' for r in proc)
+          assert all(r['persistent_internal_source_gaps'] == '0' for r in proc)
+          observed = Counter(r['viewer_key'] for r in assets if r['viewer_key'] in dma)
+          assert dict(observed) == dma, observed
+          assert sum(observed.values()) == 892
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
+              print('viewers=' + json.dumps(list(dma), separators=(',', ':')), file=fh)
+          print('W2 current partition: 64 historical / 64 admitted / 61 canonical / 3 aliases / 0 withheld / 12837 pages')
+          print('DMA 2018 delta: 4 canonical / 892 pages')
+          PY
+
+  book:
+    name: dma-${{ matrix.viewer }}
+    needs: config-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        viewer: ${{ fromJSON(needs.config-gate.outputs.viewers) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Spanish Tesseract data
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-spa
+          tesseract --list-langs | grep -Fx spa
+      - name: Validate private preservation contract
+        run: python scripts/validate_private_corpus_storage_contract.py
+      - name: Execute deterministic W2 DMA book unit
+        run: |
+          python scripts/run_ftrl_w2_book.py \
+            --viewer-key '${{ matrix.viewer }}' \
+            --output-dir local/ftrl-w2
+      - name: Assert public evidence is text-free and non-semantic
+        env:
+          VIEWER: ${{ matrix.viewer }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          viewer = os.environ['VIEWER']
+          p = Path(f'local/ftrl-w2/{viewer}/w2_{viewer}_evidence.json')
+          data = json.loads(p.read_text(encoding='utf-8'))
+          assert data['schema'] == 'LTMD_FTRL_W2_BOOK_UNIT_0.2'
+          assert data['status'] == 'validated'
+          assert data['text_verified'] is False
+          assert data['semantic_ready'] is False
+          forbidden = {'ocr_text_raw','search_text','snippet','text','normalized_text'}
+          def walk(x):
+              if isinstance(x, dict):
+                  assert not (forbidden & set(x)), forbidden & set(x)
+                  for v in x.values(): walk(v)
+              elif isinstance(x, list):
+                  for v in x: walk(v)
+          walk(data)
+          PY
+      - name: Build and encrypt restricted book archive
+        env:
+          VIEWER: ${{ matrix.viewer }}
+        run: |
+          set -euo pipefail
+          DIR="local/ftrl-w2/${VIEWER}"
+          HANDOFF="local/private-handoff-w2-${VIEWER}"
+          mkdir -p "$HANDOFF"
+          tar -C "$DIR" -czf "$HANDOFF/w2_${VIEWER}_restricted.tar.gz" \
+            "w2_${VIEWER}_page_ocr.jsonl" \
+            "w2_${VIEWER}_ocr_search.sqlite" \
+            "w2_${VIEWER}_qc_queue.json" \
+            "w2_${VIEWER}_asset_manifest.csv" \
+            "w2_${VIEWER}_run_manifest.json" \
+            "w2_${VIEWER}_qc_summary.json"
+          openssl rand -base64 48 > "/tmp/w2-${VIEWER}.pass"
+          openssl enc -aes-256-cbc -salt -pbkdf2 -iter 250000 \
+            -in "$HANDOFF/w2_${VIEWER}_restricted.tar.gz" \
+            -out "$HANDOFF/w2_${VIEWER}_restricted.tar.gz.enc" \
+            -pass file:"/tmp/w2-${VIEWER}.pass"
+          openssl pkeyutl -encrypt \
+            -pubin -inkey security/ltmd_archive_public.pem \
+            -in "/tmp/w2-${VIEWER}.pass" \
+            -out "$HANDOFF/w2_${VIEWER}_passphrase.rsa-oaep.enc" \
+            -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256
+          sha256sum "$HANDOFF/w2_${VIEWER}_restricted.tar.gz.enc" "$HANDOFF/w2_${VIEWER}_passphrase.rsa-oaep.enc" > "$HANDOFF/SHA256SUMS.txt"
+          rm -f "$HANDOFF/w2_${VIEWER}_restricted.tar.gz" "/tmp/w2-${VIEWER}.pass"
+      - name: Write text-free encrypted handoff manifest
+        env:
+          VIEWER: ${{ matrix.viewer }}
+          GH_RUN_ID: ${{ github.run_id }}
+          GH_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          viewer = os.environ['VIEWER']
+          handoff = Path(f'local/private-handoff-w2-{viewer}')
+          evidence = json.loads(Path(f'local/ftrl-w2/{viewer}/w2_{viewer}_evidence.json').read_text(encoding='utf-8'))
+          public_key = Path('security/ltmd_archive_public.pem')
+          public_key_sha256 = hashlib.sha256(public_key.read_bytes()).hexdigest()
+          assert public_key_sha256 == '78852eafbaa332247f99e23508ac157b5b906c6c3bf3aeb0af1dfe8d57579c2d'
+          def desc(name):
+              p = handoff / name
+              h = hashlib.sha256()
+              with p.open('rb') as fh:
+                  for chunk in iter(lambda: fh.read(1024*1024), b''): h.update(chunk)
+              return {'name': name, 'bytes': p.stat().st_size, 'sha256': h.hexdigest()}
+          payload = f'w2_{viewer}_restricted.tar.gz.enc'
+          key = f'w2_{viewer}_passphrase.rsa-oaep.enc'
+          manifest = {
+              'schema':'LTMD_PRIVATE_FTRL_W2_DMA_2018_HANDOFF_0.1',
+              'wave':'W2',
+              'viewer_key':viewer,
+              'page_records':evidence['page_records'],
+              'source_commit':os.environ['GH_SHA'],
+              'workflow_run_id':os.environ['GH_RUN_ID'],
+              'encryption':{
+                  'payload':'AES-256-CBC + PBKDF2-SHA256, 250000 iterations',
+                  'key_wrap':'RSA-4096 OAEP SHA-256',
+                  'public_key_sha256':public_key_sha256,
+              },
+              'files':[desc(payload), desc(key), desc('SHA256SUMS.txt')],
+              'plaintext_restricted_outputs_uploaded':False,
+              'destination_policy':'private persistent archive required before archival_complete may be promoted',
+              'archival_complete':False,
+              'text_verified':False,
+              'semantic_ready':False,
+          }
+          (handoff / f'w2_{viewer}_private_handoff_manifest.json').write_text(
+              json.dumps(manifest, indent=2, sort_keys=True)+'\n', encoding='utf-8'
+          )
+          PY
+      - name: Prove plaintext archive is absent
+        env:
+          VIEWER: ${{ matrix.viewer }}
+        run: |
+          HANDOFF="local/private-handoff-w2-${VIEWER}"
+          test ! -f "$HANDOFF/w2_${VIEWER}_restricted.tar.gz"
+          test -f "$HANDOFF/w2_${VIEWER}_restricted.tar.gz.enc"
+          test -f "$HANDOFF/w2_${VIEWER}_passphrase.rsa-oaep.enc"
+      - name: Upload encrypted private handoff only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w2-dma-${{ matrix.viewer }}-private-encrypted
+          path: local/private-handoff-w2-${{ matrix.viewer }}/
+          if-no-files-found: error
+          retention-days: 3
+      - name: Upload text-free computational evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w2-dma-${{ matrix.viewer }}-text-free-evidence
+          path: |
+            local/ftrl-w2/${{ matrix.viewer }}/w2_${{ matrix.viewer }}_evidence.json
+            local/ftrl-w2/${{ matrix.viewer }}/w2_${{ matrix.viewer }}_run_manifest.json
+            local/ftrl-w2/${{ matrix.viewer }}/w2_${{ matrix.viewer }}_qc_summary.json
+            local/ftrl-w2/${{ matrix.viewer }}/w2_${{ matrix.viewer }}_asset_manifest.csv
+          if-no-files-found: error
+          retention-days: 30
+
+  aggregate:
+    name: validate-w2-dma-2018-delta
+    needs: book
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download all text-free DMA evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ltmd-u1-w2-dma-*-text-free-evidence
+          path: local/w2-dma-evidence
+          merge-multiple: false
+      - name: Rebuild current W2 admitted inputs
+        run: |
+          mkdir -p local/w2-expected
+          python scripts/build_ftrl_w2_inputs.py \
+            --asset-output local/w2-expected/asset_manifest.csv \
+            --processing-output local/w2-expected/processing_inventory.csv
+      - name: Validate exact DMA 2018 delta against archived baseline
+        run: |
+          python scripts/validate_ftrl_w2_dma_2018.py \
+            --evidence-root local/w2-dma-evidence \
+            --asset-manifest local/w2-expected/asset_manifest.csv \
+            --processing-inventory local/w2-expected/processing_inventory.csv \
+            --baseline-closure data/research/ltmd_u1_w2_archival_closure.json \
+            --output local/ltmd_u1_w2_dma_2018_delta_evidence.json
+      - name: Upload delta text-free evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w2-dma-2018-delta-text-free-evidence
+          path: local/ltmd_u1_w2_dma_2018_delta_evidence.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: State epistemic result
+        run: |
+          echo 'Success means the 4-book / 892-page DMA 2018 delta is computationally validated.'
+          echo 'It does not mean archival_complete, text_verified, semantic_ready, or human validation.'
+
+  report-failure:
+    name: report-w2-dma-failure
+    if: failure()
+    needs: [config-gate, book, aggregate]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo 'W2 DMA 2018 did not complete every downstream gate.'
+          echo 'Do not promote archival, text, semantic, or completion-ledger state.'
