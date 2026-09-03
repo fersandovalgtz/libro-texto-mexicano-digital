@@ -1,0 +1,226 @@
+name: Consolidate FTRL W2 DMA 2018 preservation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/consolidate-ftrl-w2-dma-2018.yml'
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: consolidate-ftrl-w2-dma-2018-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  consolidate:
+    name: consolidate-w2-dma-2018-preservation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Declare immutable source run and artifact inventory
+        run: |
+          cat > /tmp/source.json <<'JSON'
+          {
+            "source_run_id": 33793062199,
+            "source_commit": "a2b363e4f5770a5222805176ed2a5bb95c9b74c2",
+            "private": {
+              "H2018P3DMA": {"id": 9908240734, "sha256": "1387aff2dad996e587a9e8cb30ffb088644a2272511eafb76f8ec9b73d41665f", "pages": 225},
+              "H2018P4DMA": {"id": 9908255820, "sha256": "2516702a2f954438ee038090837894af64564cc57bc31fe17f3d59bcd824dc6b", "pages": 257},
+              "H2018P5DMA": {"id": 9908262596, "sha256": "0c163f3d7882ba019e87a42eab90bda54f36c24bed6f0009950fa7552df75763", "pages": 225},
+              "H2018P6DMA": {"id": 9908198281, "sha256": "1615926a8a75c51a8140f4381039968af5d594e7aa662e93cd5724cd3fd988ff", "pages": 185}
+            },
+            "public": {
+              "H2018P3DMA": {"id": 9908241489, "sha256": "161ceb8440679194678ad0c1b149e5bae57a68381aefc84250a4483e9ecfbf88", "pages": 225},
+              "H2018P4DMA": {"id": 9908256629, "sha256": "35374d912c875d5b0842c068b93a7b64055db0889ed024814588fc20023e72b0", "pages": 257},
+              "H2018P5DMA": {"id": 9908263399, "sha256": "a0cccbca3d1d5df7eb36d48642423615d9f1d3c6b9c77b673bfae0898067649a", "pages": 225},
+              "H2018P6DMA": {"id": 9908198991, "sha256": "23cfa20af36072f2a14a9d4d85525a1d3d4f4c37b8f8b4c12757f2db33b4a11c", "pages": 185}
+            },
+            "aggregate": {"id": 9908276589, "sha256": "545c8d09a0e979a888e7fe15e8b538dbf93c8203b0da6624c9984b4235e7d0a5"}
+          }
+          JSON
+
+      - name: Require successful immutable source workflow run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json, os, subprocess
+          src=json.load(open('/tmp/source.json'))
+          raw=subprocess.check_output([
+              'gh','api',f"repos/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{src['source_run_id']}"
+          ], text=True)
+          run=json.loads(raw)
+          assert run['status']=='completed', run['status']
+          assert run['conclusion']=='success', run['conclusion']
+          assert run['head_sha']==src['source_commit'], (run['head_sha'],src['source_commit'])
+          PY
+
+      - name: Download exact source artifact ZIPs and verify GitHub digests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          src=json.load(open('/tmp/source.json'))
+          root=Path('local/w2-dma-preservation')
+          (root/'private').mkdir(parents=True)
+          (root/'public').mkdir(parents=True)
+
+          def sha(path):
+              h=hashlib.sha256()
+              with path.open('rb') as fh:
+                  for chunk in iter(lambda:fh.read(1024*1024),b''): h.update(chunk)
+              return h.hexdigest()
+
+          def get(aid, expected, dest):
+              url=f"https://api.github.com/repos/{os.environ['GITHUB_REPOSITORY']}/actions/artifacts/{aid}/zip"
+              subprocess.run([
+                  'curl','-fsSL','-H',f"Authorization: Bearer {os.environ['GH_TOKEN']}",
+                  '-H','Accept: application/vnd.github+json','-H','X-GitHub-Api-Version: 2022-11-28',
+                  url,'-o',str(dest)
+              ],check=True)
+              observed=sha(dest)
+              assert observed==expected,(dest.name,observed,expected)
+
+          for viewer,item in src['private'].items():
+              get(item['id'],item['sha256'],root/'private'/f'{viewer}.zip')
+          for viewer,item in src['public'].items():
+              get(item['id'],item['sha256'],root/'public'/f'{viewer}.zip')
+          get(src['aggregate']['id'],src['aggregate']['sha256'],root/'public'/'aggregate.zip')
+          print('Verified exact 4 private + 4 public + 1 aggregate source artifact ZIPs')
+          PY
+
+      - name: Validate encrypted-only private handoffs and text-free public evidence
+        run: |
+          python - <<'PY'
+          import json, zipfile
+          from pathlib import Path
+          src=json.load(open('/tmp/source.json'))
+          root=Path('local/w2-dma-preservation')
+          forbidden_private=('_page_ocr.jsonl','_ocr_search.sqlite','.tar.gz')
+          for viewer in src['private']:
+              p=root/'private'/f'{viewer}.zip'
+              with zipfile.ZipFile(p) as z:
+                  names=z.namelist()
+              assert any(n.endswith('_restricted.tar.gz.enc') for n in names), (viewer,names)
+              assert any(n.endswith('_passphrase.rsa-oaep.enc') for n in names), (viewer,names)
+              assert any(n.endswith('_private_handoff_manifest.json') for n in names), (viewer,names)
+              assert not any(n.endswith(forbidden_private) for n in names), (viewer,names)
+
+          forbidden_public=('page_ocr.jsonl','ocr_search.sqlite','restricted.tar.gz','restricted.tar.gz.enc','passphrase.rsa-oaep.enc')
+          for viewer in src['public']:
+              p=root/'public'/f'{viewer}.zip'
+              with zipfile.ZipFile(p) as z:
+                  names=z.namelist()
+              assert not any(n.endswith(forbidden_public) for n in names), (viewer,names)
+              evidence=[n for n in names if n.endswith('_evidence.json')]
+              assert len(evidence)==1,(viewer,names)
+              with zipfile.ZipFile(p) as z:
+                  d=json.loads(z.read(evidence[0]).decode())
+              assert d['status']=='validated' and d['viewer_key']==viewer
+              assert d['text_verified'] is False and d['semantic_ready'] is False
+
+          with zipfile.ZipFile(root/'public'/'aggregate.zip') as z:
+              names=z.namelist(); assert len(names)==1
+              d=json.loads(z.read(names[0]).decode())
+          assert d['status']=='validated'
+          assert d['delta']['source_pages']==892
+          assert d['delta']['canonical_processing_objects']==4
+          assert d['current_partition']['canonical_processing_objects']==61
+          assert d['current_partition']['source_pages']==12837
+          assert d['archival_complete'] is False
+          assert d['text_verified'] is False and d['semantic_ready'] is False
+          print('Private handoffs encrypted-only; public evidence text-free; aggregate exact 4/892')
+          PY
+
+      - name: Build consolidated delta snapshots and preservation manifest
+        run: |
+          python - <<'PY'
+          import hashlib, json, shutil, zipfile
+          from pathlib import Path
+          src=json.load(open('/tmp/source.json'))
+          root=Path('local/w2-dma-preservation')
+          out=root/'consolidated'; out.mkdir()
+
+          private=out/'ltmd-u1-w2-dma-2018-consolidated-private-encrypted-snapshot__4-of-4.zip'
+          public=out/'ltmd-u1-w2-dma-2018-consolidated-public-evidence-snapshot__4-of-4.zip'
+          with zipfile.ZipFile(private,'w',compression=zipfile.ZIP_STORED) as z:
+              for viewer in sorted(src['private']):
+                  z.write(root/'private'/f'{viewer}.zip',arcname=f'private/{viewer}.zip')
+          with zipfile.ZipFile(public,'w',compression=zipfile.ZIP_STORED) as z:
+              for viewer in sorted(src['public']):
+                  z.write(root/'public'/f'{viewer}.zip',arcname=f'books/{viewer}.zip')
+              z.write(root/'public'/'aggregate.zip',arcname='aggregate/ltmd-u1-w2-dma-2018-delta-text-free-evidence.zip')
+
+          def desc(path):
+              h=hashlib.sha256()
+              with path.open('rb') as fh:
+                  for chunk in iter(lambda:fh.read(1024*1024),b''): h.update(chunk)
+              return {'file_name':path.name,'size_bytes':path.stat().st_size,'sha256':h.hexdigest()}
+
+          manifest={
+              'schema':'LTMD_U1_W2_DMA_2018_PRESERVATION_MANIFEST_0.1',
+              'wave':'W2','domain':'matematicas','effective_date':'2026-09-03',
+              'source_run_id':src['source_run_id'],'source_commit':src['source_commit'],
+              'baseline':{'canonical_processing_objects':57,'source_pages':11945,'archival_complete':True},
+              'current_partition':{
+                  'historical_identities':64,'admitted_historical_identities':64,
+                  'canonical_processing_objects':61,'exact_source_aliases':3,
+                  'withheld_identities':0,'source_pages':12837
+              },
+              'delta':{
+                  'viewer_keys':sorted(src['private']),'canonical_processing_objects':4,'source_pages':892,
+                  'book_pages':{v:src['private'][v]['pages'] for v in sorted(src['private'])}
+              },
+              'source_artifacts':src,
+              'private_delta_snapshot':desc(private),
+              'public_delta_snapshot':desc(public),
+              'computationally_validated':True,
+              'persistent_archive_verified':False,
+              'archival_complete':False,
+              'text_verified':False,
+              'semantic_ready':False,
+              'interpretive_limit':'Automated technical validation only; no human text or semantic validation. Persistent Drive readback is required before archival_complete may become true.'
+          }
+          mp=out/'ltmd-u1-w2-dma-2018-preservation-manifest.json'
+          mp.write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf-8')
+          bundle=out/'ltmd-u1-w2-dma-2018-preservation-manifest-bundle.zip'
+          with zipfile.ZipFile(bundle,'w',compression=zipfile.ZIP_DEFLATED) as z:
+              z.write(mp,arcname=mp.name)
+          print(json.dumps({'private':desc(private),'public':desc(public),'manifest':desc(mp),'bundle':desc(bundle)},indent=2,sort_keys=True))
+          PY
+
+      - name: Upload consolidated private delta snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w2-dma-2018-consolidated-private-encrypted-snapshot-4-of-4
+          path: local/w2-dma-preservation/consolidated/ltmd-u1-w2-dma-2018-consolidated-private-encrypted-snapshot__4-of-4.zip
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload consolidated public delta snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w2-dma-2018-consolidated-public-evidence-snapshot-4-of-4
+          path: local/w2-dma-preservation/consolidated/ltmd-u1-w2-dma-2018-consolidated-public-evidence-snapshot__4-of-4.zip
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload preservation manifest bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-w2-dma-2018-preservation-manifest-bundle
+          path: |
+            local/w2-dma-preservation/consolidated/ltmd-u1-w2-dma-2018-preservation-manifest.json
+            local/w2-dma-preservation/consolidated/ltmd-u1-w2-dma-2018-preservation-manifest-bundle.zip
+          if-no-files-found: error
+          retention-days: 7
