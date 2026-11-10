@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-SOURCE = Path(__file__).with_name("reconcile_u1_atlas_denominators.py")
+SOURCE = Path(__file__).parents[1] / "scripts" / "reconcile_u1_atlas_denominators.py"
 SPEC = importlib.util.spec_from_file_location("reconcile_u1_atlas_denominators", SOURCE)
 audit = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(audit)
