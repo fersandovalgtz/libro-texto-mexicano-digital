@@ -1,7 +1,5 @@
 """Privacy, scientific integrity and determinism gates for offline atlas preview."""
-import copy
 import csv
-import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -93,3 +91,12 @@ def test_escape_embedded_script_payload():
     txt = mod.render_html({"x": "</script><script>alert(1)</script>"})
     assert "</script><script>alert(1)</script>" not in txt
     assert "\\u003c/script\\u003e" in txt
+
+
+def test_git_lf_checkout_equivalent_to_upstream_crlf_hash(tmp_path):
+    d, manifest = fixture(tmp_path)
+    for name in mod.FILES.values():
+        raw = (d / name).read_bytes()  # synthetic Git LF checkout
+        manifest["outputs"][name]["sha256"] = mod.sha256(d / name) if b"\r" in raw else __import__("hashlib").sha256(raw.replace(b"\n", b"\r\n")).hexdigest()
+    (d / "ltmd_analytics_indigenous_manifest_0_1.json").write_text(json.dumps(manifest), encoding="utf-8")
+    assert mod.build_payload(d)["totals"]["generation_observations"] == 12
