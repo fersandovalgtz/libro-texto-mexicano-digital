@@ -32,7 +32,7 @@ El archivo resultante puede abrirse sin servidor y contiene: serie longitudinal 
 ## Seguridad y gobierno
 
 - Validación estricta de encabezados CSV para impedir inclusión involuntaria de `page_id` o texto OCR.
-- Verificación criptográfica de los insumos frente al manifiesto de `data/analytics`.
+- Verificación criptográfica de los insumos frente al manifiesto de `data/analytics`. Se tolera únicamente normalización de saltos CRLF → LF en el checkout Git (comparación SHA-256 con recodificación exacta); no se admiten modificaciones de contenido.
 - Rechazo de cambios científicos de estado y de tasas incompatibles con denominadores.
 - Sin transferencias a terceros, cookies, pagos, registro de usuarios, archivos fuente ni exportaciones textuales.
 - Regla #2: sólo agregados y derivados no sustitutivos; el archivo HTML no debería publicarse sin la validación de la infraestructura y los derechos del producto.
