@@ -42,6 +42,7 @@ jobs:
           tests/test_build_indigenous_analytics_mart.py
           tests/test_build_ltmd_u1_atlas_preview.py
           tests/test_build_ltmd_u1_longitudinal_dataset.py
+          tests/test_reconcile_u1_atlas_denominators.py
           tests/test_query_indigenous_analytics.py
           tests/test_analytics_api.py
           tests/test_build_u1_universal_index.py
