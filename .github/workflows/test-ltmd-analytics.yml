@@ -70,6 +70,13 @@ jobs:
       - name: Reconcile cohorts, strata and language matrix against public manifest
         run: |
           python scripts/build_ltmd_u1_longitudinal_dataset.py --output /tmp/ltmd_u1_longitudinal_atlas_dataset.json
+      - name: Attach verified atlas-ready longitudinal dataset
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-atlas-longitudinal-dataset-0-2
+          path: /tmp/ltmd_u1_longitudinal_atlas_dataset.json
+          if-no-files-found: error
+          retention-days: 14
       - name: Validate Analytics JSON schemas and materialization records
         run: |
           python - <<'PY'
