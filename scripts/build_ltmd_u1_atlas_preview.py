@@ -62,8 +62,14 @@ def build_payload(data_dir: Path) -> dict:
         raise ValueError("unsupported human validation state; do not relabel results")
     for name in FILES.values():
         expected = manifest["outputs"][name]["sha256"]
-        actual = sha256(data_dir / name)
-        if actual != expected:
+        raw = (data_dir / name).read_bytes()
+        actual = hashlib.sha256(raw).hexdigest()
+        # The upstream manifest hashes CRLF CSV bytes, while GitHub checkout
+        # materializes the same records with LF. Accept *only* that exact
+        # line-ending normalization, never an unchecked semantic change.
+        canonical_crlf = raw.replace(b"\n", b"\r\n") if b"\r" not in raw else raw
+        normalized = hashlib.sha256(canonical_crlf).hexdigest()
+        if actual != expected and normalized != expected:
             raise ValueError(f"SHA-256 mismatch for {name}: expected {expected}, found {actual}")
 
     generation_rows = strict_csv(data_dir / FILES["generations"], GEN_COLUMNS)
