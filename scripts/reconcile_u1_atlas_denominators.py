@@ -10,6 +10,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -194,7 +195,7 @@ def reconcile(private: dict, private_sha: str, public_summary: dict,
             fail("Candidate generation book counts exceed candidate pages")
         observed_rate = float(g["candidate_pages_per_1000_corpus_pages"])
         expected_rate = round(1000 * int(g["candidate_pages"]) / int(g["corpus_total_pages"]), 4)
-        if abs(observed_rate - expected_rate) > 0.00015:
+        if not math.isfinite(observed_rate) or abs(observed_rate - expected_rate) > 0.00015:
             fail("Public generation rate does not use canonical denominator")
     if gen_keys != {int(row["value"]) for row in dims["generation"]}:
         fail("Generation domains do not coincide")
