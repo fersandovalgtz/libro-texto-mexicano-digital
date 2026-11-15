@@ -165,3 +165,60 @@ def test_refuses_nonfinite_generation_rate(tmp_path, invalid_rate):
     refresh_hash(path, manifest)
     with pytest.raises(ValueError, match="Invalid generation denominator/rate"):
         mod.build_dataset(d, coverage=cov)
+
+
+def load_preview():
+    source = Path(__file__).parents[1] / "scripts" / "build_ltmd_u1_atlas_preview.py"
+    spec = importlib.util.spec_from_file_location("ltmd_u1_atlas_preview_integrated", source)
+    preview = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(preview)
+    return preview
+
+
+def integrated_fixture(tmp_path):
+    d, coverage, manifest = fixture(tmp_path)
+    manifest["cardinality"]["generation_rows"] = 11
+    (d / mod.MANIFEST_NAME).write_text(json.dumps(manifest), encoding="utf-8")
+    preview = load_preview()
+    return preview, preview.build_payload(d), mod.build_dataset(d, coverage=coverage)
+
+
+def test_integrated_atlas_projects_only_public_counts(tmp_path):
+    preview, base, dataset = integrated_fixture(tmp_path)
+    dataset["strata"][0]["private_path"] = "must-not-be-embedded"
+    integrated = preview.attach_longitudinal(base, dataset)
+    long = integrated["longitudinal"]
+    assert len(long["cohorts"]) == 5
+    assert len(long["strata"]) == 11
+    assert len(long["languages"]) == 1
+    assert all(r["candidate_pages_per_1000"] is None for r in long["strata"] + long["languages"])
+    assert all(r["corpus_pages_same_stratum"] is None for r in long["strata"] + long["languages"])
+    html = preview.render_html(integrated)
+    assert "must-not-be-embedded" not in html
+    assert "private_path" not in html
+    assert 'id="downloadLongitudinal"' in html
+    assert 'id="longgrade"' in html
+    assert "no equivale a cero histórico" in html
+    assert preview.render_html(integrated) == html
+
+
+@pytest.mark.parametrize("section", ["strata", "language_matrix"])
+def test_integrated_atlas_refuses_private_denominator_or_rate(tmp_path, section):
+    preview, base, dataset = integrated_fixture(tmp_path)
+    dataset[section][0]["corpus_pages_same_stratum"] = 1000
+    with pytest.raises(ValueError, match="Stratum publication gate"):
+        preview.attach_longitudinal(base, dataset)
+
+
+def test_integrated_atlas_refuses_cross_manifest_data(tmp_path):
+    preview, base, dataset = integrated_fixture(tmp_path)
+    dataset["provenance"]["public_source_manifest_sha256"] = "mismatch"
+    with pytest.raises(ValueError, match="provenance or publication gate"):
+        preview.attach_longitudinal(base, dataset)
+
+
+def test_integrated_atlas_refuses_inconsistent_generation(tmp_path):
+    preview, base, dataset = integrated_fixture(tmp_path)
+    dataset["generations"][0]["candidate_pages"] += 1
+    with pytest.raises(ValueError, match="generation mismatch"):
+        preview.attach_longitudinal(base, dataset)
