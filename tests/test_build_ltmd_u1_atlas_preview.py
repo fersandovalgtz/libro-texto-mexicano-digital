@@ -100,3 +100,17 @@ def test_git_lf_checkout_equivalent_to_upstream_crlf_hash(tmp_path):
         manifest["outputs"][name]["sha256"] = mod.sha256(d / name) if b"\r" in raw else __import__("hashlib").sha256(raw.replace(b"\n", b"\r\n")).hexdigest()
     (d / "ltmd_analytics_indigenous_manifest_0_1.json").write_text(json.dumps(manifest), encoding="utf-8")
     assert mod.build_payload(d)["totals"]["generation_observations"] == 12
+
+
+@pytest.mark.parametrize("invalid_rate", ["nan", "inf", "-inf"])
+def test_refuse_nonfinite_generation_rate(tmp_path, invalid_rate):
+    d, manifest = fixture(tmp_path)
+    path = d / mod.FILES["generations"]
+    original = path.read_text(encoding="utf-8")
+    changed = original.replace("1993,1000,2,1,1,1,2.0", f"1993,1000,2,1,1,1,{invalid_rate}")
+    assert changed != original
+    path.write_text(changed, encoding="utf-8")
+    manifest["outputs"][path.name]["sha256"] = mod.sha256(path)
+    (d / "ltmd_analytics_indigenous_manifest_0_1.json").write_text(json.dumps(manifest), encoding="utf-8")
+    with pytest.raises(ValueError, match="rate/denominator mismatch"):
+        mod.build_payload(d)
