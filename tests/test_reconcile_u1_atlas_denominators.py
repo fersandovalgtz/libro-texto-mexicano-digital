@@ -175,3 +175,11 @@ def test_lf_crlf_hash_normalization_is_safe(tmp_path):
     p.write_bytes(original.replace(b"W1", b"W2"))
     with pytest.raises(ValueError, match="checksum mismatch"):
         audit.verified_csv(p, meta, ("generation", "grade_code", "wave"))
+
+
+@pytest.mark.parametrize("invalid_rate", ["nan", "inf", "-inf"])
+def test_rejects_nonfinite_public_generation_rate(invalid_rate):
+    f = valid_fixture()
+    f[4][0]["candidate_pages_per_1000_corpus_pages"] = invalid_rate
+    with pytest.raises(ValueError, match="Public generation rate does not use canonical denominator"):
+        run_fixture(f)
