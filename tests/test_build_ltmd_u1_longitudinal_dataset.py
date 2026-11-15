@@ -152,3 +152,16 @@ def test_lf_crlf_checkout_is_accepted_only_with_matching_hash(tmp_path):
     file.write_bytes(raw.replace(b"1960,1000,1", b"1960,999,1"))
     with pytest.raises(ValueError, match="SHA-256 mismatch"):
         mod.build_dataset(d, coverage=cov)
+
+
+@pytest.mark.parametrize("invalid_rate", ["nan", "inf", "-inf"])
+def test_refuses_nonfinite_generation_rate(tmp_path, invalid_rate):
+    d, cov, manifest = fixture(tmp_path)
+    path = d / mod.FILES["generation"]
+    original = path.read_text(encoding="utf-8")
+    changed = original.replace("1993,1000,2,1,0,1,2.0", f"1993,1000,2,1,0,1,{invalid_rate}")
+    assert changed != original
+    path.write_text(changed, encoding="utf-8")
+    refresh_hash(path, manifest)
+    with pytest.raises(ValueError, match="Invalid generation denominator/rate"):
+        mod.build_dataset(d, coverage=cov)
