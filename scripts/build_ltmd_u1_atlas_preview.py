@@ -134,6 +134,46 @@ def build_payload(data_dir: Path) -> dict:
     }
 
 
+def attach_longitudinal(payload: dict, dataset: dict) -> dict:
+    """Project only the already-public atlas-ready aggregates into the offline UI."""
+    if (dataset["provenance"]["public_source_manifest_sha256"] != payload["source_manifest_sha256"]
+            or dataset["scientific_state"]["human_validation_complete"] is not False
+            or dataset["scientific_state"]["semantic_ready"] is not False
+            or dataset["scope"]["generation_grade_wave_corpus_denominators_public"] is not False):
+        raise ValueError("Longitudinal provenance or publication gate mismatch")
+    expected = {g["year"]: (g["pages"], g["candidates"], g["rate"]) for g in payload["generation_rows"]}
+    received = {g["generation"]: (g["corpus_pages"], g["candidate_pages"], g["candidate_pages_per_1000"])
+                for g in dataset["generations"]}
+    if expected != received or len(received) != len(dataset["generations"]):
+        raise ValueError("Longitudinal generation mismatch")
+    cohorts = []
+    for row in dataset["cohorts"]:
+        if row["epistemic_state"] != "exploratory_signal" or row["distinct_candidate_books_across_generations"] is not None:
+            raise ValueError("Unexpected cohort state")
+        cohorts.append({key: row[key] for key in (
+            "cohort_id", "observed_generations", "corpus_pages", "candidate_pages",
+            "candidate_pages_per_1000", "epistemic_state")})
+    def public_rows(rows, fields, state):
+        result = []
+        for row in rows:
+            if (row["corpus_pages_same_stratum"] is not None or row["candidate_pages_per_1000"] is not None
+                    or row["denominator_state"] != "private_manifest_required" or row["epistemic_state"] != state):
+                raise ValueError("Stratum publication gate mismatch")
+            result.append({key: row[key] for key in fields})
+        return result
+    common = ("generation", "grade_code", "wave", "operational_domain",
+              "corpus_pages_same_stratum", "candidate_pages_per_1000", "denominator_state", "epistemic_state")
+    strata = public_rows(dataset["strata"], common + ("candidate_pages",), "exploratory_signal")
+    languages = public_rows(dataset["language_matrix"], common + (
+        "language_group", "candidate_pages_for_language_in_stratum"), "computational_candidate")
+    return {**payload, "longitudinal": {
+        "dataset_version": dataset["version"],
+        "coverage_sha256": dataset["provenance"]["coverage_sha256"],
+        "cohorts": cohorts, "strata": strata, "languages": languages,
+        "warning": "Tasas estratificadas no divulgadas; las filas ausentes no demuestran ausencia histórica.",
+    }}
+
+
 HTML = r'''<!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LTMD-U1 · Atlas longitudinal exploratorio</title>
@@ -156,6 +196,15 @@ small,.muted{color:#52616b}.legend{display:flex;align-items:center;gap:8px;font-
 <section class="panel" aria-labelledby="serie"><h2 id="serie">Serie de candidatos por 1,000 páginas</h2><p class="muted">Cada punto representa una generación realmente observada. Los años sin medición no se interpolan; las barras no implican continuidad anual.</p><div class="chartwrap"><svg id="chart" viewBox="0 0 980 390" role="img" aria-label="Tasa de páginas candidatas por 1.000 páginas según generación" xmlns="http://www.w3.org/2000/svg"></svg></div><div class="legend"><span class="square"></span>Tasa observada (candidatos por 1,000 páginas)</div><p><small>La unidad es la generación documental, no la población de estudiantes. Se registran posibles reutilizaciones editoriales entre generaciones.</small></p></section>
 <section class="panel" aria-labelledby="comparacion"><h2 id="comparacion">Comparar dos generaciones</h2><div class="controls"><label>Generación A <select id="yearA"></select></label><label>Generación B <select id="yearB"></select></label><label>Término explícito <select id="term"><option value="">Todos los términos — mostrar por separado</option></select></label></div><div id="comparison" aria-live="polite"></div><p><small>Las categorías «explícito general» y «lengua nombrada en contexto» se solapan. No se deben sumar. Los libros candidatos no pueden agregarse entre generaciones para deducir libros únicos.</small></p></section>
 <section class="panel" aria-labelledby="terminos"><h2 id="terminos">Términos explícitos registrados</h2><p class="muted">La selección de un término no modifica la serie general: cada término representa un subconjunto de coincidencias, que puede superponerse con otros.</p><div style="overflow-x:auto"><table><thead><tr><th>Término</th><th>Generación</th><th class="num">Páginas candidatas</th><th class="num">Libros candidatos</th></tr></thead><tbody id="termsbody"></tbody></table></div></section>
+<section class="panel" id="longitudinal" hidden aria-labelledby="longtitle"><h2 id="longtitle">Exploración longitudinal ampliada</h2>
+<p class="muted">Cohortes: conjuntos de generaciones observadas, no series anuales continuas.</p>
+<div style="overflow-x:auto"><table><thead><tr><th>Cohorte</th><th>Cortes observados</th><th>Páginas del corpus</th><th>Candidatas</th><th>Por 1,000</th></tr></thead><tbody id="cohortbody"></tbody></table></div>
+<h3>Filtrar estratos y lenguas detectadas</h3>
+<div class="controls"><label>Generación<select id="longyear"></select></label><label>Grado<select id="longgrade"></select></label><label>Ola operativa<select id="longwave"></select></label><label>Lengua (solo tabla de lenguas)<select id="longlanguage"></select></label></div>
+<p class="muted">Solo conteos de candidatos ya publicados. Las olas son dominios operativos, no asignaturas validadas. Las tasas de estrato no se divulgan. No sumar lenguas superpuestas ni interpretar una fila ausente como cero.</p>
+<h4>Estratos con candidatos <span id="stratacount" aria-live="polite"></span></h4><div style="overflow-x:auto"><table><thead><tr><th>Generación</th><th>Grado</th><th>Ola / dominio operativo</th><th>Candidatas</th></tr></thead><tbody id="stratabody"></tbody></table></div>
+<h4>Lenguas detectadas <span id="languagecount" aria-live="polite"></span></h4><div style="overflow-x:auto"><table><thead><tr><th>Lengua</th><th>Generación</th><th>Grado</th><th>Ola / dominio operativo</th><th>Candidatas</th></tr></thead><tbody id="languagebody"></tbody></table></div>
+<p id="longprovenance"></p><button type="button" id="downloadLongitudinal">Exportar selección longitudinal a JSON</button></section>
 <section class="panel"><h2>Procedencia, límites y descarga</h2><p id="provenance"></p><p><button type="button" id="download">Exportar selección a JSON</button></p><p><small>Fuente original: <a href="https://github.com/fersandovalgtz/libro-texto-mexicano-digital/tree/main/data/analytics">derivados agregados de LTMD-U1</a>. Uso exploratorio; resultado reproducible contra el manifiesto versionado. La exportación no contiene OCR, texto fuente, claves de página ni documentos protegidos.</small></p></section>
 </main><script id="ltmd-data" type="application/json">__DATA_JSON__</script>
 <script>
@@ -166,7 +215,7 @@ const yearA=$('yearA'),yearB=$('yearB'),term=$('term');
 for(const g of generations){for(const select of [yearA,yearB]){const opt=document.createElement('option');opt.value=g.year;opt.textContent=g.year+' · '+g.cohort;select.appendChild(opt)}}
 yearA.value='1993';yearB.value='2014';for(const t of [...new Set(terms.map(t=>t.term))].sort()){const o=document.createElement('option');o.value=t;o.textContent=t;term.appendChild(o)}
 const ns='http://www.w3.org/2000/svg';function node(tag,attrs={},txt){const el=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,String(v));if(txt!==undefined)el.textContent=txt;return el}
-function chart(){const svg=$('chart');svg.replaceChildren();const x0=68,x1=938,y0=32,y1=320,max=Math.ceil(Math.max(...generations.map(g=>g.rate))/5)*5;
+function chart(){const svg=$('chart');svg.replaceChildren();const x0=68,x1=938,y0=32,y1=320,max=Math.max(5,Math.ceil(Math.max(...generations.map(g=>g.rate))/5)*5);
 for(let v=0;v<=max;v+=5){let y=y1-(y1-y0)*v/max;svg.appendChild(node('line',{x1:x0,y1:y,x2:x1,y2:y,stroke:'#d9dee1'}));svg.appendChild(node('text',{x:55,y:y+4,'text-anchor':'end','font-size':13,fill:'#435261'},String(v)))}
 const pts=generations.map((g,i)=>[x0+i*(x1-x0)/(generations.length-1),y1-(y1-y0)*g.rate/max]);
 generations.forEach((g,i)=>{let [x,y]=pts[i];const bar=node('rect',{x:x-15,y,width:30,height:y1-y,fill:'#71192b'});bar.appendChild(node('title',{},`${g.year}: ${g.rate} candidatos por 1,000 páginas`));svg.appendChild(bar);svg.appendChild(node('text',{x,y:345,'text-anchor':'middle','font-size':13,fill:'#12304a'},String(g.year)))});svg.appendChild(node('text',{x:28,y:20,'font-size':12,fill:'#4a5b68'},'Candidatos por 1,000 páginas'))}
@@ -175,13 +224,25 @@ const table=document.createElement('table'),head=document.createElement('thead')
 const selected=terms.filter(t=>(!term.value||t.term===term.value)&&(t.year===a.year||t.year===b.year));const tbody=$('termsbody');tbody.replaceChildren();for(const t of selected.sort((x,y)=>x.term.localeCompare(y.term)||x.year-y.year)){const tr=document.createElement('tr');for(const v of [t.term,t.year,t.candidates,t.books]){const td=document.createElement('td');td.textContent=String(v);tr.append(td)}tbody.append(tr)}if(!selected.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=4;td.textContent='Sin coincidencias registradas para la selección';tr.append(td);tbody.append(tr)}}
 for(const c of [yearA,yearB,term])c.addEventListener('change',compare);$('provenance').textContent=`Versión: ${data.version} · materialización: ${data.source_version} · análisis: ${data.source_analysis_version} · SHA-256 del manifiesto: ${data.source_manifest_sha256}. Validación humana completa: NO. Estados: exploratory_signal / computational_candidate.`;
 $('download').addEventListener('click',()=>{const chosen=new Set([Number(yearA.value),Number(yearB.value)]),payload={version:data.version,source_manifest_sha256:data.source_manifest_sha256,state:data.state,human_validation_complete:false,warnings:[data.warning,'Las sumas de términos o de libros entre generaciones NO son conteos únicos.'],generations:generations.filter(x=>chosen.has(x.year)),terms:terms.filter(x=>chosen.has(x.year)&&(!term.value||x.term===term.value))};const a=document.createElement('a'),u=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}));a.href=u;a.download='ltmd_u1_comparacion_exploratoria.json';a.click();URL.revokeObjectURL(u)});
-chart();compare();
+function longitudinal(){const d=data.longitudinal;if(!d)return;$('longitudinal').hidden=false;
+const y=$('longyear'),g=$('longgrade'),w=$('longwave'),l=$('longlanguage');
+function options(select,values){const all=document.createElement('option');all.value='';all.textContent='Todos';select.append(all);for(const value of values){const o=document.createElement('option');o.value=String(value);o.textContent=String(value);select.append(o)}}
+options(y,generations.map(x=>x.year));options(g,[1,2,3,4,5,6]);options(w,[...new Set(d.strata.map(x=>x.wave))].sort((a,b)=>Number(a.slice(1))-Number(b.slice(1))));options(l,[...new Set(d.languages.map(x=>x.language_group))].sort());
+function rows(id,records,project,columns){const body=$(id);body.replaceChildren();for(const r of records){const tr=document.createElement('tr');for(const v of project(r)){const td=document.createElement('td');td.textContent=String(v);tr.append(td)}body.append(tr)}if(!records.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=columns;td.textContent='Sin filas registradas para esta selección (no equivale a cero histórico).';tr.append(td);body.append(tr)}}
+rows('cohortbody',d.cohorts,r=>[r.cohort_id.replace('_','–'),r.observed_generations.join(', '),fmt(r.corpus_pages),fmt(r.candidate_pages),String(r.candidate_pages_per_1000)],5);
+function selectRows(){const match=r=>(!y.value||String(r.generation)===y.value)&&(!g.value||String(r.grade_code)===g.value)&&(!w.value||r.wave===w.value);return {strata:d.strata.filter(match),languages:d.languages.filter(r=>match(r)&&(!l.value||r.language_group===l.value))}}
+function refresh(){const f=selectRows();rows('stratabody',f.strata,r=>[r.generation,r.grade_code,r.wave+' · '+r.operational_domain,fmt(r.candidate_pages)],4);rows('languagebody',f.languages,r=>[r.language_group,r.generation,r.grade_code,r.wave+' · '+r.operational_domain,fmt(r.candidate_pages_for_language_in_stratum)],5);$('stratacount').textContent='('+f.strata.length+' filas)';$('languagecount').textContent='('+f.languages.length+' filas)'}
+for(const sel of [y,g,w,l])sel.addEventListener('change',refresh);
+$('longprovenance').textContent='Dataset: '+d.dataset_version+' · SHA-256 de cobertura: '+d.coverage_sha256+' · '+d.warning;
+$('downloadLongitudinal').addEventListener('click',()=>{const f=selectRows(),payload={dataset_version:d.dataset_version,source_manifest_sha256:data.source_manifest_sha256,coverage_sha256:d.coverage_sha256,human_validation_complete:false,semantic_ready:false,warning:d.warning+' No sumar categorías superpuestas.',filters:{generation:y.value||null,grade:g.value||null,wave:w.value||null,language:l.value||null},strata:f.strata,languages:f.languages};const a=document.createElement('a'),u=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}));a.href=u;a.download='ltmd_u1_seleccion_longitudinal.json';a.click();URL.revokeObjectURL(u)});
+refresh()}
+chart();compare();longitudinal();
 </script></body></html>'''
 
 
 def render_html(payload: dict) -> str:
     # Keep only allowlisted aggregate structures. JSON escaped for inline script safety.
-    safe = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+    safe = json.dumps(payload, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
     safe = safe.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
     return HTML.replace("__DATA_JSON__", safe)
 
@@ -190,8 +251,16 @@ def main(argv=None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-dir", type=Path, default=Path(__file__).resolve().parents[1] / "data" / "analytics")
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--longitudinal", action="store_true", help="Include verified public cohort/stratum/language tables")
+    parser.add_argument("--coverage", type=Path, default=Path(__file__).resolve().parents[1] / "data" / "catalog" / "ltmd_u1_coverage.md")
     args = parser.parse_args(argv)
     result = build_payload(args.input_dir)
+    if args.longitudinal:
+        if __package__:
+            from .build_ltmd_u1_longitudinal_dataset import build_dataset
+        else:
+            from build_ltmd_u1_longitudinal_dataset import build_dataset
+        result = attach_longitudinal(result, build_dataset(args.input_dir, coverage=args.coverage))
     rendered = render_html(result)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(rendered, encoding="utf-8")
