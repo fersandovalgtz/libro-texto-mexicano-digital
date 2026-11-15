@@ -10,6 +10,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -132,7 +133,8 @@ def build_dataset(data_dir: Path, *, coverage: Path | None = None) -> dict:
         if max(explicit, named, books) > pages or pages > total:
             raise ValueError("Generation totals inconsistent")
         rate = round(pages * 1000 / total, 4)
-        if abs(rate - float(r["candidate_pages_per_1000_corpus_pages"])) > 0.00015:
+        observed_rate = float(r["candidate_pages_per_1000_corpus_pages"])
+        if not math.isfinite(observed_rate) or abs(rate - observed_rate) > 0.00015:
             raise ValueError("Invalid generation denominator/rate")
         generation.append({
             "generation": year, "cohort_id": YEAR_TO_COHORT[year], "corpus_pages": total,
