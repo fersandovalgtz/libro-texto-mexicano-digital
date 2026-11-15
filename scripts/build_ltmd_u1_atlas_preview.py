@@ -10,6 +10,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 from pathlib import Path
 
 VERSION = "LTMD_U1_LONGITUDINAL_ATLAS_PREVIEW_0.1"
@@ -90,7 +91,8 @@ def build_payload(data_dir: Path) -> dict:
         if max(candidates, explicit, named) > pages or explicit > candidates or named > candidates or books > candidates:
             raise ValueError("invalid generation counts")
         rate = round(1000 * candidates / pages, 4)
-        if abs(rate - float(row["candidate_pages_per_1000_corpus_pages"])) > 0.00015:
+        observed_rate = float(row["candidate_pages_per_1000_corpus_pages"])
+        if not math.isfinite(observed_rate) or abs(rate - observed_rate) > 0.00015:
             raise ValueError(f"rate/denominator mismatch in {year}")
         generations.append({"year": year, "cohort": COHORTS[year], "pages": pages, "candidates": candidates,
                             "explicit": explicit, "named": named, "books": books, "rate": rate})
