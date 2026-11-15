@@ -189,6 +189,7 @@ main{max-width:1150px;margin:auto;padding:24px}h2{font-size:1.35rem;color:var(--
 button{background:var(--wine);border-color:var(--wine);color:white;cursor:pointer}button:focus-visible,select:focus-visible{outline:3px solid var(--gold)}
 #chart{width:100%;height:auto;overflow:visible} .chartwrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.92rem}th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left}thead{background:#edf0f2}td.num{text-align:right;font-variant-numeric:tabular-nums}th.num{text-align:right}
 small,.muted{color:#52616b}.legend{display:flex;align-items:center;gap:8px;font-size:.9rem;margin:8px 0}.square{width:13px;height:13px;background:var(--wine)}
+.controls label{min-width:0;max-width:100%}.controls select{min-width:0;max-width:100%}#comparison{overflow-x:auto}#provenance,#longprovenance{overflow-wrap:anywhere}
 @media(max-width:720px){.cards{grid-template-columns:1fr}main{padding:12px}.panel{padding:14px}header{padding:22px}}
 </style></head><body><header><div class="eyebrow">Universidad CEEES · Investigación documental</div><h1>Atlas longitudinal de libros de texto mexicanos</h1><div>LTMD-U1 · Lenguas indígenas · Demostración local de resultados agregados, no despliegue público</div></header>
 <main><div class="note" role="status"><strong>Alcance científico:</strong> resultados computacionales exploratorios, sin validación visual/humana. No inferir ausencia, continuidad histórica ni cambios curriculares verificados. Sin PDF, páginas fuente ni OCR reproducido.</div>
