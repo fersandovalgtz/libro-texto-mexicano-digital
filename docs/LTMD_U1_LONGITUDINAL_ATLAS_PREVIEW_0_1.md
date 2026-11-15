@@ -40,3 +40,14 @@ El archivo resultante puede abrirse sin servidor y contiene: serie longitudinal 
 ## Puertas para cerrar #171
 
 La presente demostración no cierra #171. Para cumplir íntegramente el issue faltan la auditoría de las cohortes comparables y los denominadores de estratos/dominios, el manifiesto longitudinal general y la comprobación bajo CI del repositorio. La interfaz comercial institucional exige además staging de la API y revisión posterior de suscripciones y licencias.
+
+
+## Integración longitudinal opcional (15-nov-2026)
+
+```sh
+python scripts/build_ltmd_u1_atlas_preview.py --longitudinal --output /tmp/ltmd_u1_atlas_preview.html
+```
+
+La bandera integra la salida del constructor reproducible de dataset 0.2, con los cinco CSV admitidos y la cobertura operativa versionada. Comprueba identidad del manifiesto SHA-256, coincidencia de generaciones, estados epistemológicos y ausencia de denominadores/tasas estratificados privados. La vista añade tabla de cinco cohortes observadas, filtros de generación/grado/ola, filtro de lengua limitado a su tabla y exportación JSON de los estratos/lenguas seleccionados con filtros y procedencia. El filtro de lengua no recalcula el total de estrato; la UI no suma categorías solapadas ni transforma una fila ausente en cero. Las tasas de generación y cohorte usan páginas indexadas del mismo conjunto de cortes. Para estratos y lenguas solo se muestran los conteos previamente admitidos; los dos campos de tasa/denominador siguen null en la exportación. La función proyecta una lista cerrada de campos y rechaza datos no finitos al serializar.
+
+CI genera el HTML integrado y lo conserva temporalmente como artefacto `ltmd-u1-atlas-integrated-preview` (14 días). Se añaden cinco casos de prueba sintéticos sobre proyección, no divulgación, procedencia y consistencia longitudinal. No se afirma validación de interacción en navegador sin ejecutarla; no se publica en producción ni se incorpora información privada. Las puertas #171/#2 y staging permanecen abiertas.
