@@ -67,7 +67,14 @@ jobs:
           tests/test_validate_u2_text_access_observation.py
           tests/test_build_u2_coverage_analytics.py
       - name: Build longitudinal atlas preview from published, SHA-checked aggregates
-        run: python scripts/build_ltmd_u1_atlas_preview.py --output /tmp/ltmd_u1_atlas_preview.html
+        run: python scripts/build_ltmd_u1_atlas_preview.py --longitudinal --output /tmp/ltmd_u1_atlas_preview.html
+      - name: Attach offline integrated atlas (public aggregates only)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ltmd-u1-atlas-integrated-preview
+          path: /tmp/ltmd_u1_atlas_preview.html
+          if-no-files-found: error
+          retention-days: 14
       - name: Reconcile cohorts, strata and language matrix against public manifest
         run: |
           python scripts/build_ltmd_u1_longitudinal_dataset.py --output /tmp/ltmd_u1_longitudinal_atlas_dataset.json
